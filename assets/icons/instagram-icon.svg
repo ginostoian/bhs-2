@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
+    <title>Icons/instagram</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Icons/instagram" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons8-instagram" transform="translate(3.000000, 3.000000)" fill="#151515">
+            <path d="M5,0 C2.239,0 0,2.239 0,5 L0,13 C0,15.761 2.239,18 5,18 L13,18 C15.761,18 18,15.761 18,13 L18,5 C18,2.239 15.761,0 13,0 L5,0 Z M15,2 C15.552,2 16,2.448 16,3 C16,3.552 15.552,4 15,4 C14.448,4 14,3.552 14,3 C14,2.448 14.448,2 15,2 Z M9,4 C11.761,4 14,6.239 14,9 C14,11.761 11.761,14 9,14 C6.239,14 4,11.761 4,9 C4,6.239 6.239,4 9,4 Z M9,6 C7.34314575,6 6,7.34314575 6,9 C6,10.6568542 7.34314575,12 9,12 C10.6568542,12 12,10.6568542 12,9 C12,7.34314575 10.6568542,6 9,6 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>
