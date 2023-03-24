@@ -1,26 +1,165 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+/* @font-face {
+  font-family: Satoshi;
+  src: url(../fonts/Satoshi-Regular.otf);
+  font-display: swap;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@font-face {
+  font-family: Satoshi;
+  src: url(../fonts/Satoshi-Medium.otf);
+  font-weight: 500;
+  font-display: swap;
 }
 
-* {
+@font-face {
+  font-family: Satoshi;
+  src: url(../fonts/Satoshi-Bold.otf);
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url(../fonts/Satoshi-Black.otf);
+  font-weight: 900;
+  font-display: swap;
+} */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+:root {
+  --bg-primary: #f6f4ff;
+  --bg-secondary: #34252F;
+  --clr-accent: #7421fc;
+  --text-primary: #100b47;
+  --text-secondary: #676b94;
+
+  --fs-h1-sm: 62px;
+  --fs-h1-lg: 72px;
+  --fs-h2-sm: 52px;
+  --fs-h2-lg: 62px;
+  --fs-h3-sm: 42px;
+  --fs-h3-lg: 52px;
+  --fs-h4-sm: 32px;
+  --fs-h4-lg: 42px;
+  --fs-p-default-sm: 16px;
+  --fs-p-default-lg: 26px;
+  --fs-p-big-sm: 18px;
+  --fs-p-big-lg: 28px;
+  --fs-p-small: 14px;
+
+  --box-shadow: rgba(79, 25, 167, 0.1) 0px 10px 30px 0px;
+
+  --border-radius: 10px;
+}
+
+body {
+  margin: 0;
+  font-family: "Satoshi", sans-serif;
+  color: var(--text-secondary);
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  font-size: var(--fs-p-default-sm);
+  line-height: 20px;
+}
+
+.container {
+  max-width: 80%;
+  margin-inline: auto;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 2px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-primary)
+}
+
+a:hover {
+  color: var(--text-secondary);
+}
+
+.mb-3 {
+  margin-bottom: 2rem;
+}
+
+.accent-word {
+  color: var(--clr-accent);
+}
+
+.standout {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.logo-wrapper {
+  background-color: #fff;
+  opacity: .7;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: .5rem;
+  flex-wrap: wrap;
+  padding: 32px 3%;
+  margin: 40px 0 80px;
+  box-shadow: var(--box-shadow);
+}
+
+.logo-wrapper__brand {
+  width: 80px;
+  height: 80px;
+}
+
+.brand-google {
+  margin: 12px 0%;
+  width: 140px;
+  height: 60px;
+}
+
+.btn {
+  background-color: var(--clr-accent);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 30px;
+  border-radius: 6px;
+  box-shadow: var(--box-shadow);
+  font-size: var(--fs-p-default-sm);
+  line-height: 26px;
+  cursor: pointer;
+  display: inline-block;
+  text-transform: capitalize;
+  transition: background-color 400ms ease;
+}
+
+.btn:hover {
+  background-color: var(--text-primary);
+  color: #fff;
+}
+
+.btn-disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: .8;
+}
+
+.dot-divider {
+  width: 3px;
+  height: 3px;
+  margin-inline: 8px;
+  border-radius: 50%;
+  background-color: #7421fc;
+  color: transparent;
+}
+
+.active-link {
+  border-left: 1px dashed var(--clr-accent);
+  border-right: 1px dashed var(--clr-accent);
 }
