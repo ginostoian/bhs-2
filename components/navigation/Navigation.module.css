@@ -165,3 +165,26 @@
     width: 20px;
     height: 20px;
 }
+
+@media(min-width: 1100px) {
+    .mobile-nav {
+        display: none;
+    }
+
+    .main-nav__menu {
+        display: none;
+    }
+
+    .main-nav__left,
+    .main-nav__right {
+        display: block;
+    }
+
+    .main-nav__logo {
+        margin-left: -30px;
+    }
+
+    .main-nav__logo-text {
+        font-size: 20px;
+    }
+}
