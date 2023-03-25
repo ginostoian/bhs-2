@@ -7,7 +7,7 @@ const SocialProof = () => {
     <section className="container">
       <p className="standout">
         <span className="accent-word">5 star</span> rated and{" "}
-        <span className="accent-word">award</span>
+        <span className="accent-word">award </span>
         winning company
       </p>
 
