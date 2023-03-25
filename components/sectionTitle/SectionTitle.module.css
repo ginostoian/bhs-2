@@ -1,0 +1,30 @@
+.section__header {
+    text-align: center;
+    margin-bottom: 150px;
+}
+
+.section__header-title {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 55px;
+}
+
+.section__header-subtitle {
+    color: #7421fc;
+    font-weight: 500;
+    font-size: 24px;
+    margin-bottom: 60px;
+}
+
+@media(min-width: 480px) {
+    .section__header-title {
+        font-size: 52px;
+    }
+}
+
+@media(min-width: 595px) {
+    .section__header-title {
+        line-height: unset;
+    }
+}
