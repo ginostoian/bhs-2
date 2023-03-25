@@ -1,7 +1,6 @@
 import Navigation from "../components/navigation/Navigation";
-import "../styles/globals.css";
-
 import Footer from "../components/footer/Footer";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
