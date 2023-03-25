@@ -94,6 +94,10 @@ a:hover {
   color: var(--clr-accent);
 }
 
+.main-nav__logo-text-accent {
+  color: #7421fc;
+}
+
 .standout {
   font-size: 20px;
   text-align: center;
