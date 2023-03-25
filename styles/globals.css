@@ -1,29 +1,29 @@
-/* @font-face {
+@font-face {
   font-family: Satoshi;
-  src: url(../fonts/Satoshi-Regular.otf);
+  src: url(/assets/fonts/Satoshi-Regular.otf);
   font-display: swap;
 }
 
 @font-face {
   font-family: Satoshi;
-  src: url(../fonts/Satoshi-Medium.otf);
+  src: url(/assets/fonts/Satoshi-Medium.otf);
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
   font-family: Satoshi;
-  src: url(../fonts/Satoshi-Bold.otf);
+  src: url(/assets/fonts/Satoshi-Bold.otf);
   font-weight: 700;
   font-display: swap;
 }
 
 @font-face {
   font-family: Satoshi;
-  src: url(../fonts/Satoshi-Black.otf);
+  src: url(/assets/fonts/Satoshi-Black.otf);
   font-weight: 900;
   font-display: swap;
-} */
+}
 
 *,
 *::before,
