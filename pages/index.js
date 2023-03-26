@@ -76,7 +76,8 @@ const {
   imgSrc: smartHomeImgSrc,
 } = text.homepage.whatWeDoSection.smartHome;
 
-const { howWeDoItSection } = text.homepage.howWeDoItSection;
+const howWeDoItSection = text.homepage.howWeDoItSection;
+
 export default function Home() {
   return (
     <main>

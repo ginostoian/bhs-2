@@ -7,60 +7,34 @@ const TextGrid = ({ content }) => {
       <div className={classes["how-we-work-container"]}>
         <div className={classes["how-we-work-text"]}>
           <h2 className={classes["how-we-work-title"]}>
-            Easy, transparent and different
-            {console.log(content)}
+            {content.bigGridTitle}
           </h2>
-          <p className={classes["how-we-work-body"]}>
-            From design to refurbishment you can rest assured that your
-            experience with{" "}
-            <span className="accent-word">Better Homes Studio</span> will be
-            second to none.
-          </p>
+          <p className={classes["how-we-work-body"]}>{content.bigGridText}</p>
         </div>
 
         <div className={classes["how-we-work-steps"]}>
           <div className={classes["step"]}>
-            <h3 className={classes["step-number"]}>1.</h3>
-            <h4 className={classes["step-title"]}>Book an appointment</h4>
-            <p className={classes["step-text"]}>
-              Use our quick and easy online form to book a date which suits you
-              best. One of our experienced operators will be in touch to
-              finalise your appointment.
-            </p>
+            <h3 className={classes["step-number"]}>{content.gridOneNum}</h3>
+            <h4 className={classes["step-title"]}>{content.gridOneTitle}</h4>
+            <p className={classes["step-text"]}>{content.gridOneText}</p>
           </div>
 
           <div className={classes["step"]}>
-            <h3 className={classes["step-number"]}>2.</h3>
-            <h4 className={classes["step-title"]}>
-              Receive your free & transparent quote
-            </h4>
-            <p className={classes["step-text"]}>
-              Based on your preferences discussed during the initial meeting,
-              our team of expert estimators will craft a clear and transparent
-              quote.{" "}
-            </p>
+            <h3 className={classes["step-number"]}>{content.gridTwoNum}</h3>
+            <h4 className={classes["step-title"]}>{content.gridTwoTitle}</h4>
+            <p className={classes["step-text"]}>{content.gridTwoText}</p>
           </div>
 
           <div className={classes["step"]}>
-            <h3 className={classes["step-number"]}>3.</h3>
-            <h4 className={classes["step-title"]}>We carry out the work</h4>
-            <p className={classes["step-text"]}>
-              Our friendly team of highly skilled professionals will
-              effortlessly refurbish your home so you won't have to worry about
-              a thing.
-            </p>
+            <h3 className={classes["step-number"]}>{content.gridThreeNum}</h3>
+            <h4 className={classes["step-title"]}>{content.gridThreeTitle}</h4>
+            <p className={classes["step-text"]}>{content.gridThreeText}</p>
           </div>
 
           <div className={classes["step"]}>
-            <h3 className={classes["step-number"]}>4.</h3>
-            <h4 className={classes["step-title"]}>
-              Enjoy your new home + a 2 year guarantee*
-            </h4>
-            <p className={classes["step-text"]}>
-              Now it's time to sit back, relax and marvel at how your vision
-              became a reality. It really is that simple, so what are you
-              waiting for?{" "}
-            </p>
+            <h3 className={classes["step-number"]}>{content.gridFourNum}</h3>
+            <h4 className={classes["step-title"]}>{content.gridFourTitle}</h4>
+            <p className={classes["step-text"]}>{content.gridFourText}</p>
           </div>
         </div>
       </div>

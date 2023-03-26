@@ -67,19 +67,19 @@ const text = {
       bigGridTitle: "Easy, transparent and different",
       bigGridText:
         "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
-      gridOneNum: "1",
+      gridOneNum: "1.",
       gridOneTitle: "Book an appointment",
       gridOneText:
         "Use our quick and easy online form to book a date which suits you best. One of our experienced operators will be in touch to finalise your appointment.",
-      gridTwoNum: "2",
+      gridTwoNum: "2.",
       gridTwoTitle: "Receive your free & transparent quote",
       gridTwoText:
         "Based on your preferences discussed during the initial meeting, our team of expert estimators will craft a clear and transparent quote.",
-      gridThreeNum: "3",
+      gridThreeNum: "3.",
       gridThreeTitle: "We carry out the work",
       gridThreeText:
         "Our friendly team of highly skilled professionals will effortlessly refurbish your home so you won't have to worry about a thing.",
-      gridFourNum: "4",
+      gridFourNum: "4.",
       gridFourTitle: "Enjoy your new home + The BHS Guarantee",
       gridFourText:
         "Now it's time to sit back, relax and marvel at how your vision became a reality. It really is that simple, so what are you waiting for?",

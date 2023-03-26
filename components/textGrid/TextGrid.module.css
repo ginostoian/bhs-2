@@ -41,6 +41,7 @@
     color: var(--text-primary);
     margin-top: 0;
     font-size: 1.25rem;
+    line-height: 28px;
 }
 
 .step-text {
