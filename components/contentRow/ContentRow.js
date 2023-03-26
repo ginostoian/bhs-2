@@ -13,37 +13,36 @@ const ContentRow = ({
   order,
 }) => {
   return (
-    <div class={`${classes["service-wrapper"]} container`}>
-      <div class={classes["service-wrapper-img"]}>
+    <div className={`${classes["service-wrapper"]} container`}>
+      <div className={classes["service-wrapper-img"]}>
         <Image
           src={imgSrc}
           loading="lazy"
           alt="industrial bathroom renovation by better homes studio"
           width={800}
           height={350}
-          maxHeight={600}
         />
       </div>
       <div
-        class={`${classes["service-wrapper-desc"]} ${
+        className={`${classes["service-wrapper-desc"]} ${
           order === true ? classes["order-1"] : null
         }`}
       >
-        <div class={classes["service-desc__header"]}>
-          <h3 class={classes["desc__header-title"]}>{title}</h3>
-          <p class={classes["desc__header-subtitle"]}>
-            {subtitle} <span class="accent-word">{subtitleAccent}</span>
+        <div className={classes["service-desc__header"]}>
+          <h3 className={classes["desc__header-title"]}>{title}</h3>
+          <p className={classes["desc__header-subtitle"]}>
+            {subtitle} <span className="accent-word">{subtitleAccent}</span>
           </p>
         </div>
 
-        <div class={classes["service-desc__body"]}>
-          <p class={classes["desc__body-text"]}>{p1}</p>
+        <div className={classes["service-desc__body"]}>
+          <p className={classes["desc__body-text"]}>{p1}</p>
 
-          <p class={classes["desc__body-text"]}>{p2}</p>
+          <p className={classes["desc__body-text"]}>{p2}</p>
         </div>
         <a
           href="./pages/bathroom-renovation.html"
-          class="service__btn btn"
+          className="service__btn btn"
         >
           {cta}
         </a>

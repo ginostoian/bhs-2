@@ -76,6 +76,7 @@ const {
   imgSrc: smartHomeImgSrc,
 } = text.homepage.whatWeDoSection.smartHome;
 
+const { howWeDoItSection } = text.homepage.howWeDoItSection;
 export default function Home() {
   return (
     <main>
@@ -152,7 +153,7 @@ export default function Home() {
         title={"How we do it"}
         subtitle={"Simple, fast and streamlined process"}
       />
-      <TextGrid />
+      <TextGrid content={howWeDoItSection} />
     </main>
   );
 }
