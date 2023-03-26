@@ -237,7 +237,7 @@ const Footer = () => {
           <div>&copy; 2023 - Better Homes Studio</div>
           <div className="dot-divider"></div>
           <div>
-            Created with &hearts; by{" "}
+            Created with ❤️ by{" "}
             <a
               className={classes["footer__copyright-link"]}
               href="https://ginostoian.com"
