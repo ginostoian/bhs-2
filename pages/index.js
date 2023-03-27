@@ -6,6 +6,7 @@ import SocialProof from "../components/socialProof/SocialProof";
 import SectionTitle from "../components/sectionTitle/SectionTitle";
 import ContentRow from "../components/contentRow/ContentRow";
 import TextGrid from "../components/textGrid/TextGrid";
+import Reviews from "../components/reviews/Reviews";
 
 const {
   title,
@@ -155,6 +156,11 @@ export default function Home() {
         subtitle={"Simple, fast and streamlined process"}
       />
       <TextGrid content={howWeDoItSection} />
+      <SectionTitle
+        title={"You are our priority."}
+        subtitle={"Customer satisfaction is our goal."}
+      />
+      <Reviews />
     </main>
   );
 }
