@@ -80,6 +80,8 @@ const {
 
 const howWeDoItSection = text.homepage.howWeDoItSection;
 
+const reviewsSection = text.homepage.reviewsSection;
+
 export default function Home() {
   return (
     <main>
@@ -161,7 +163,7 @@ export default function Home() {
         title={"You are our priority."}
         subtitle={"Customer satisfaction is our goal."}
       />
-      <TextBlockDark />
+      <TextBlockDark content={reviewsSection} />
       <Reviews />
     </main>
   );

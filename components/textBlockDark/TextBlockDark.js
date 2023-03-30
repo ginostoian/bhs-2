@@ -1,21 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 import classes from "./TextBlockDark.module.css";
 
-const TextBlockDark = () => {
+const TextBlockDark = ({ content }) => {
   return (
     <div className={`${classes["textBlock__main"]} container`}>
       <div className={classes["textBlock__header"]}>
         <h2 className={classes["textBlock__header-title"]}>
-          Take a look at what our clients say.
+          {content.darkBgTextTitle}
         </h2>
         <p className={classes["textBlock__header-subtitle"]}>
-          We've built our business on the back of our clients satisfaction.{" "}
+          {content.darkBgTextSubtitle}
         </p>
         <a
           href="./pages/contact.html"
           className="service__btn btn"
         >
-          Contact us
+          {content.darkBgTextBtn}
         </a>
       </div>
     </div>
