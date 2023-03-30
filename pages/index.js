@@ -7,6 +7,7 @@ import SectionTitle from "../components/sectionTitle/SectionTitle";
 import ContentRow from "../components/contentRow/ContentRow";
 import TextGrid from "../components/textGrid/TextGrid";
 import Reviews from "../components/reviews/Reviews";
+import TextBlockDark from "../components/textBlockDark/TextBlockDark";
 
 const {
   title,
@@ -160,6 +161,7 @@ export default function Home() {
         title={"You are our priority."}
         subtitle={"Customer satisfaction is our goal."}
       />
+      <TextBlockDark />
       <Reviews />
     </main>
   );
