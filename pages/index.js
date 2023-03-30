@@ -8,6 +8,7 @@ import ContentRow from "../components/contentRow/ContentRow";
 import TextGrid from "../components/textGrid/TextGrid";
 import Reviews from "../components/reviews/Reviews";
 import TextBlockDark from "../components/textBlockDark/TextBlockDark";
+import Faq from "../components/faq/Faq";
 
 const {
   title,
@@ -165,6 +166,11 @@ export default function Home() {
       />
       <TextBlockDark content={reviewsSection} />
       <Reviews />
+      <SectionTitle
+        title={"Frequent Questions"}
+        subtitle={"Can't find an answer? Get in touch!"}
+      />
+      <Faq />
     </main>
   );
 }
