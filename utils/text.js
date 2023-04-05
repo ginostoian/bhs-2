@@ -106,6 +106,21 @@ const text = {
         answer:
           "Yes, our work is covered by our workmanship guarantee. Please navigate to 'Our guarantee' section to read more about each type of guarantee we offer.",
       },
+      {
+        question: "Do you just do the build phase?",
+        answer:
+          "Yes, if you provide us with the design, our team will take care of translating your ideas into reality",
+      },
+      {
+        question: "How long will my project take?",
+        answer:
+          "It depends on the size of the project. A bathroom renovation usually takes between 10 and 14 working days. A full flat or home renovation can take from 3 weeks to 1 and a half months and up depending on complexity.",
+      },
+      {
+        question: "Do you offer refferal rewards?",
+        answer:
+          "Yes, we run the BHS Scheme. This allows you to win £150 per every client we end up working with, reffered by you.",
+      },
     ],
   },
 };
