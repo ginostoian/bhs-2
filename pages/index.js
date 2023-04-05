@@ -83,6 +83,8 @@ const howWeDoItSection = text.homepage.howWeDoItSection;
 
 const reviewsSection = text.homepage.reviewsSection;
 
+const faqs = text.homepage.faqs;
+
 export default function Home() {
   return (
     <main>
@@ -170,7 +172,7 @@ export default function Home() {
         title={"Frequent Questions"}
         subtitle={"Can't find an answer? Get in touch!"}
       />
-      <Faq />
+      <Faq faqs={faqs} />
     </main>
   );
 }

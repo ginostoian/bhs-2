@@ -90,6 +90,18 @@ const text = {
         "We've built our business on the back of our clients satisfaction. If you are happy, we are happy. To read even more reviews, scroll to the bottom where you'll find links to different platforms with verified reviews.",
       darkBgTextBtn: "Let's discuss",
     },
+    faqs: [
+      {
+        question: "Who is Better Homes Studio?",
+        answer:
+          "We are a construction and interior renovation and design company. We have been working in London for over 10 years and have established experience in the field.",
+      },
+      {
+        question: "Do you offer free quotes?",
+        answer:
+          "Yes, all our quotes are free and do not carry any obligations on your part.",
+      },
+    ],
   },
 };
 
