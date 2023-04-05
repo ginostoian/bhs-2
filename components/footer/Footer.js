@@ -121,6 +121,20 @@ const Footer = () => {
               </a>
             </div>
           </div>
+          <div className={classes.carbonNeutral}>
+            <a
+              href="https://carbonneutralwebsite.org/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Image
+                src="https://carbonneutralwebsite.org/api/banner/bhstudio.co.uk/30.89mg/dark.svg"
+                width={300}
+                height={150}
+                alt="Carbon impact of this web page"
+              />
+            </a>
+          </div>
         </div>
 
         <div className={classes["footer__quarter-wrapper"]}>

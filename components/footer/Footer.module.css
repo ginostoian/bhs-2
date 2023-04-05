@@ -149,6 +149,12 @@
   color: #7421fc;
 }
 
+/* .carbonNeutral {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
 @media (min-width: 480px) {
   .form {
     position: relative;
