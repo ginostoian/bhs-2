@@ -1,17 +1,16 @@
+import { useState } from "react";
 import Image from "next/image";
 
 import classes from "./Faq.module.css";
 
-const FaqItem = () => {
+const FaqItem = ({ faq }) => {
+  const [isClicked, setIsClicked] = useState(false);
+
+  const { question, answer } = faq;
   return (
-    <div className={classes["faq"]}>
-      <h3 className={classes["faq-title"]}>Do you offer any guarantees?</h3>
-      <p className={classes["faq-answer"]}>
-        We offer a workmanship guarantee, between 1 year and 2 years, on almost
-        all of our projects. To read more about our guarantee and what is
-        covered by it please <a href="./pages/our-guarantee.html">click here</a>
-        .
-      </p>
+    <div className={`${classes["faq"]} ${isClicked ? classes.active : ""}`}>
+      <h3 className={classes["faq-title"]}>{question}</h3>
+      <p className={classes["faq-answer"]}>{answer}</p>
       <button className={classes["faq-toggle"]}>
         <Image
           className={classes["open-faq"]}
@@ -19,6 +18,7 @@ const FaqItem = () => {
           alt="down arrow"
           width={24}
           height={24}
+          onClick={() => setIsClicked(true)}
         />
         <Image
           className={classes["close-faq"]}
@@ -26,6 +26,7 @@ const FaqItem = () => {
           alt="close icon"
           width={24}
           height={24}
+          onClick={() => setIsClicked(false)}
         />
       </button>
     </div>

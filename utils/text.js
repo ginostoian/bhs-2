@@ -101,6 +101,11 @@ const text = {
         answer:
           "Yes, all our quotes are free and do not carry any obligations on your part.",
       },
+      {
+        question: "Is your work guaranteed?",
+        answer:
+          "Yes, our work is covered by our workmanship guarantee. Please navigate to 'Our guarantee' section to read more about each type of guarantee we offer.",
+      },
     ],
   },
 };
