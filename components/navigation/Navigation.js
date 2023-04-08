@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -5,6 +6,18 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import classes from "./Navigation.module.css";
 
 function Navigation() {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownVisible((prevState) => !prevState);
+  };
+
+  const toggleMobileNav = (e) => {
+    e.preventDefault();
+    setIsMobileNavVisible((prevState) => !prevState);
+  };
+
   return (
     <header>
       <nav className={`${classes["main-nav"]} container`}>
@@ -17,15 +30,24 @@ function Navigation() {
               <Link
                 href=""
                 className={classes["dropdown-item"]}
+                onMouseEnter={toggleDropdown}
               >
                 <span>Services</span>
                 <MdOutlineKeyboardArrowDown />
               </Link>
-              <ul className={classes["dropdown-menu"]}>
-                <li className={classes["dropdown__list-item"]}>
-                  <a href="./pages/bathroom-renovation.html">
+              <ul
+                className={`${classes["dropdown-menu"]} ${
+                  isDropdownVisible ? classes["dropdown-menu-visible"] : ""
+                }`}
+                onMouseLeave={toggleDropdown}
+              >
+                <li
+                  className={classes["dropdown__list-item"]}
+                  // onClick={() => setIsDropdownVisible(false)}
+                >
+                  <Link href="./pages/bathroom-renovation.html">
                     Bathroom renovation
-                  </a>
+                  </Link>
                 </li>
                 <li className={classes["dropdown__list-item"]}>
                   <a href="./pages/kitchen-renovation.html">
@@ -54,7 +76,7 @@ function Navigation() {
         <div className={classes["main-nav__center"]}>
           <Image
             className={classes["main-nav__logo"]}
-            src="./assets/logo/bh-logo.svg"
+            src="/assets/logo/bh-logo.svg"
             alt="better homes studio logo"
             width={100}
             height={100}
@@ -75,10 +97,11 @@ function Navigation() {
           role="button"
           tabIndex="0"
           aria-controls="mobile-nav"
+          onClick={toggleMobileNav}
         >
           <Image
             className={classes["main-nav__icon"]}
-            src="./assets/icons/menu.svg"
+            src="/assets/icons/menu.svg"
             alt="better homes studio logo"
             width={100}
             height={100}
@@ -108,22 +131,34 @@ function Navigation() {
 
         {/* { Mobile nav } */}
 
-        <div className={classes["mobile-nav"]}>
+        <div
+          className={`${classes["mobile-nav"]} ${
+            isMobileNavVisible ? classes["mobile-nav--visbile"] : ""
+          }`}
+        >
           <div className={classes["mobile-nav__left"]}>
             <ul className={classes["mobile-nav__list"]}>
               <li className={classes["mobile-nav__list-item"]}>
                 <a href="./pages/portfolio.html">Portfolio</a>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
-                <a
+                <Link
                   href=""
                   className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
+                  onClick={toggleDropdown}
                 >
                   <span>Services</span>
                   <MdOutlineKeyboardArrowDown />
-                </a>
+                </Link>
                 <ul
-                  className={`${classes["dropdown-menu"]} ${classes["dropdown-menu-mobile"]}`}
+                  className={`${classes["dropdown-menu"]} ${
+                    classes["dropdown-menu-mobile"]
+                  } ${
+                    isDropdownVisible
+                      ? classes["dropdown-menu-visible-mobile"]
+                      : ""
+                  }`}
+                  onMouseLeave={toggleDropdown}
                 >
                   <li className={classes["dropdown__list-item"]}>
                     <a href="./pages/bathroom-renovation.html">

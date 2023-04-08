@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import Image from "next/image";
+
 import classes from "./Footer.module.css";
 
 const Footer = () => {
@@ -19,7 +20,7 @@ const Footer = () => {
         <div className={classes["footer__subscribe-right"]}>
           <form
             name="subscribers"
-            netlify
+            netlify="true"
             className={classes["form"]}
           >
             <input
@@ -47,7 +48,7 @@ const Footer = () => {
         <div className={classes["footer__body-half"]}>
           <Image
             className={classes["footer-icon-circle"]}
-            src="./assets/icons/circle.svg"
+            src="/assets/icons/circle.svg"
             width={24}
             height={24}
             alt=""
@@ -55,7 +56,7 @@ const Footer = () => {
           <div className={classes["footer-logo-wrapper"]}>
             <Image
               className={classes["footer__logo"]}
-              src="./assets/logo/bh-logo.svg"
+              src="/assets/logo/bh-logo.svg"
               alt="better homes studio logo"
               width={100}
               height={100}
@@ -83,7 +84,7 @@ const Footer = () => {
               >
                 <Image
                   className={classes["social-icon"]}
-                  src="./assets/icons/twitter-icon.svg"
+                  src="/assets/icons/twitter-icon.svg"
                   alt="twitter"
                   width={24}
                   height={24}
@@ -98,7 +99,7 @@ const Footer = () => {
               >
                 <Image
                   className={classes["social-icon"]}
-                  src="./assets/icons/instagram-icon.svg"
+                  src="/assets/icons/instagram-icon.svg"
                   alt="instagram"
                   width={24}
                   height={24}
@@ -113,7 +114,7 @@ const Footer = () => {
               >
                 <Image
                   className={classes["social-icon"]}
-                  src="./assets/icons/facebook-icon.svg"
+                  src="/assets/icons/facebook-icon.svg"
                   alt="facebook"
                   width={24}
                   height={24}
