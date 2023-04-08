@@ -122,6 +122,33 @@ const text = {
           "Yes, we run the BHS Scheme. This allows you to win £150 per every client we end up working with, reffered by you.",
       },
     ],
+    blogHighlights: [
+      {
+        title: "We won the Best of Houzz Service Award - 2023",
+        date: "23 February 2023",
+        imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
+        slug: "best-of-houzz-winner-2023",
+      },
+      {
+        title: "Top 5 bathroom design trends in 2023",
+        date: "23 January 2023",
+        imgUrl: "/assets/img/bathroom/bathroom-design-trend-terrazzo.jpeg",
+        slug: "top-5-bathroom-design-trends-in-2023",
+      },
+      {
+        title: "Save money and time with a smart home",
+        date: "05 March 2023",
+        imgUrl: "/assets/img/smarthome/smarthome-1.webp",
+        slug: "smart-home-ideas-2023",
+      },
+      {
+        title: "Small bathroom design & renovation ideas",
+        date: "15 February 2023",
+        imgUrl:
+          "/assets/img/bathroom/vertical-layout-in-small-bathroom-design.jpeg",
+        slug: "small-bathroom-design-ideas",
+      },
+    ],
   },
 };
 

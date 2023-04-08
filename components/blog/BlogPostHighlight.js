@@ -2,12 +2,14 @@ import Image from "next/image";
 
 import classes from "./BlogPostHighlight.module.css";
 
-const BlogPostHighlight = () => {
+const BlogPostHighlight = ({ article }) => {
+  const { title, imgUrl, date, slug } = article;
+
   return (
     <div className={classes["article-container"]}>
       <Image
         loading="lazy"
-        src="/assets/img/general/living-room-1.jpeg"
+        src={imgUrl}
         alt=""
         className={classes["article__img"]}
         width={550}
@@ -15,12 +17,10 @@ const BlogPostHighlight = () => {
       />
 
       <div className={classes["article__body"]}>
-        <p className={classes["article__body-date"]}>21 August 2022</p>
-        <h3 className={classes["article__body-title"]}>
-          Top 10 trends for renovating your home in 2022
-        </h3>
+        <p className={classes["article__body-date"]}>{date}</p>
+        <h3 className={classes["article__body-title"]}>{title}</h3>
         <a
-          href="./pages/blogs/top-10-trends-for-renovating-your-home-in-2022.html"
+          href={`/pages/blogs/${slug}`}
           className={`${classes["article__body-btn"]} btn`}
         >
           Read more

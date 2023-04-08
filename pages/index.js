@@ -86,6 +86,7 @@ const reviewsSection = text.homepage.reviewsSection;
 
 const faqs = text.homepage.faqs;
 
+const blogHighlights = text.homepage.blogHighlights;
 export default function Home() {
   return (
     <main>
@@ -178,7 +179,7 @@ export default function Home() {
         title={"The BH Studio Blog"}
         subtitle={"Inspiration, how-to, news and more!"}
       />
-      <BlogHighlight />
+      <BlogHighlight articles={blogHighlights} />
     </main>
   );
 }

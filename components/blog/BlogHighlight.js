@@ -1,10 +1,15 @@
 import classes from "./BlogHighlight.module.css";
 import BlogPostHighlight from "./BlogPostHighlight";
 
-const BlogHighlight = () => {
+const BlogHighlight = ({ articles }) => {
   return (
     <div className={`${classes["blog-wrapper"]} container`}>
-      <BlogPostHighlight />
+      {articles.map((article, index) => (
+        <BlogPostHighlight
+          key={index}
+          article={article}
+        />
+      ))}
     </div>
   );
 };
