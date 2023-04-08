@@ -9,6 +9,7 @@ import TextGrid from "../components/textGrid/TextGrid";
 import Reviews from "../components/reviews/Reviews";
 import TextBlockDark from "../components/textBlockDark/TextBlockDark";
 import Faq from "../components/faq/Faq";
+import BlogHighlight from "../components/blog/BlogHighlight";
 
 const {
   title,
@@ -173,6 +174,11 @@ export default function Home() {
         subtitle={"Can't find an answer? Get in touch!"}
       />
       <Faq faqs={faqs} />
+      <SectionTitle
+        title={"The BH Studio Blog"}
+        subtitle={"Inspiration, how-to, news and more!"}
+      />
+      <BlogHighlight />
     </main>
   );
 }
