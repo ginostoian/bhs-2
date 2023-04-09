@@ -157,6 +157,109 @@ const text = {
       },
     ],
   },
+  bathroomPage: {
+    heroSection: {
+      title: "Bathroom renovation & design with",
+      titleAccent: "Better Homes Studio",
+      subtitle:
+        "Go from complicated and messy to simple and easy with our project management. Refurbishing your bathroom will give your home a new face.",
+      heroCTA: "Get your free quote",
+      heroImgUrl: "bathroom/industrial-bathroom.webp",
+    },
+    whyUsSectionHeader: {
+      title: "Wondering why you'd choose us?",
+      subtitle: "We try to be different.",
+    },
+    whyUsSection: {
+      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridText:
+        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+      gridOneNum: "1.",
+      gridOneTitle: "Expertise through experience",
+      gridOneText:
+        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoText:
+        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We use the best materials",
+      gridThreeText:
+        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+      gridFourNum: "4.",
+      gridFourTitle: "Support and guarantees",
+      gridFourText:
+        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+    },
+    whatWeDoSection: {
+      header: {
+        title: "What we do",
+        subtitle: "From supply to installation.",
+      },
+      bathroomDesign: {
+        title: "Bathroom design",
+        subtitle: "We create outstanding bathrooms.",
+        subtitleAccent: " Design, Supply & Install.",
+        p1: "Renovating your bathroom can be quite the task. There are a lot of big decisions to be made from design and practicality to plumbing and drainage.",
+        p2: "Our team will help you make the best decisions whether you are doing a full Design, Supply & Install or just the installation with us.",
+        CTA: "Get your bathroom designed",
+        imgSrc: "/assets/img/bathroom/bathroom-design.webp",
+        slug: "bathroom-renovation",
+      },
+      smallBathroom: {
+        title: "Small bathrooms",
+        subtitle: "Even a small bathroom can make a huge impact",
+        subtitleAccent: " if renovated properly.",
+        p1: "Combining functionality, practicality with clever storage solutions you can manage to get rid of the chaos that usually comes with a tiny bathroom.",
+        p2: "Our team of bathroom refurbishment experts will guide you through the whole process.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/small-bathroom.webp",
+        slug: "bathroom-renovation",
+      },
+      modernBathroom: {
+        title: "Modern bathrooms",
+        subtitle:
+          "Geometrical shapes, simple colour palettes with sleek bold accents",
+        subtitleAccent: " or tones of neutral colours",
+        p1: "Modern bathrooms are predominantly simplistic. Decorative bathroom tiles add a sort of unmatched charm to the entire space that cranks things up a notch.",
+        p2: "If you really wish to put the X-Factor in extra, don’t, for once, shy away from bold colours encircling a statement bathtub or shower.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/modern-bathroom.webp",
+        slug: "bathroom-renovation",
+      },
+      industrialBathroom: {
+        title: "Industrial bathrooms",
+        subtitle:
+          "Exposed pipes, ducts, tubes, and wires are commonly found in",
+        subtitleAccent: " industrial style bathrooms",
+        p1: "When considering an industrial style bathroom renovation you can go either strong or soft.",
+        p2: "Whichever option you decide to go with, you can use metro tiles, grey colors, bare brick walls, exposed shelving and black shower frames.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/industrial-bathroom.webp",
+        slug: "bathroom-renovation",
+      },
+      traditionalBathroom: {
+        title: "Traditional bathrooms",
+        subtitle: "Traditional style bathrooms are",
+        subtitleAccent: " classic and elegant in design.",
+        p1: "Traditional bathroom designs typically take their cue from what is currently trending in the design world, with materials and decor that are respective of their historical periods.",
+        p2: "Keep your accessories clean and simple, you could consider monogramming for your towels and bath mats.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/bathroom-trad.webp",
+        slug: "bathroom-renovation",
+      },
+      victorianBathroom: {
+        title: "Victorian bathrooms",
+        subtitle: "This design style often features a ",
+        subtitleAccent: "freestanding bath as the center piece",
+        p1: "Victorian bathrooms are characterized by the elegant design elements commonly found in the grand homes of the Victorian era.",
+        p2: "In general, the design for Victorian bathrooms focuses on beauty, elegance, and comfort.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/victorian-bathroom.webp",
+        slug: "bathroom-renovation",
+      },
+    },
+  },
 };
 
 export default text;

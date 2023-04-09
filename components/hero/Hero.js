@@ -41,7 +41,8 @@ const Hero = ({ title, titleAccent, subtitle, heroCTA, heroImgUrl }) => {
             src={`/assets/img/${heroImgUrl}`}
             objectFit="cover"
             fill
-            alt="bathroom"
+            alt="cover photos"
+            priority
           />
         </div>
       </div>

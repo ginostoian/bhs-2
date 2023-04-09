@@ -14,7 +14,7 @@ const FaqItem = ({ faq }) => {
       <button className={classes["faq-toggle"]}>
         <Image
           className={classes["open-faq"]}
-          src="./assets/icons/arrow-down.svg"
+          src="/assets/icons/arrow-down.svg"
           alt="down arrow"
           width={24}
           height={24}
@@ -22,7 +22,7 @@ const FaqItem = ({ faq }) => {
         />
         <Image
           className={classes["close-faq"]}
-          src="./assets/icons/close-icon.svg"
+          src="/assets/icons/close-icon.svg"
           alt="close icon"
           width={24}
           height={24}

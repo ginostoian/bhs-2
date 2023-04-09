@@ -24,8 +24,8 @@
     }
 }
 
-@media(min-width: 595px) {
+/* @media(min-width: 595px) {
     .section__header-title {
-        /* line-height: unset; */
+        line-height: unset;
     }
-}
+} */
