@@ -3,12 +3,12 @@ import Image from "next/image";
 
 import classes from "./Hero.module.css";
 
-const Hero = ({ title, titleAccent, subtitle, heroCTA }) => {
+const Hero = ({ title, titleAccent, subtitle, heroCTA, heroImgUrl }) => {
   return (
     <section className={`${classes["hero"]} container`}>
       <Image
         className={classes["bg-icon-circle"]}
-        src="./assets/icons/circle.svg"
+        src="/assets/icons/circle.svg"
         alt=""
         width={50}
         height={50}
@@ -36,7 +36,14 @@ const Hero = ({ title, titleAccent, subtitle, heroCTA }) => {
         </a>
       </div>
       <div className={classes["hero__right"]}>
-        <div className={classes["hero__right-img-fill"]}></div>
+        <div className={classes["hero__right-img-fill"]}>
+          <Image
+            src={`/assets/img/${heroImgUrl}`}
+            objectFit="cover"
+            fill
+            alt="bathroom"
+          />
+        </div>
       </div>
     </section>
   );

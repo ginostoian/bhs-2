@@ -5,6 +5,7 @@ const text = {
     subtitle:
       "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze.",
     heroCTA: "take the first step",
+    heroImgUrl: "index-hero.webp",
     servicesSectionTitle: "What we do",
     servicesSectionSubtitle: "Full service renovation company",
     whatWeDoSection: {

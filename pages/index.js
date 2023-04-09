@@ -16,6 +16,7 @@ const {
   titleAccent,
   subtitle,
   heroCTA,
+  heroImgUrl,
   servicesSectionTitle,
   servicesSectionSubtitle,
 } = text.homepage;
@@ -101,6 +102,7 @@ export default function Home() {
         titleAccent={titleAccent}
         subtitle={subtitle}
         heroCTA={heroCTA}
+        heroImgUrl={heroImgUrl}
       />
       <SocialProof />
       <SectionTitle

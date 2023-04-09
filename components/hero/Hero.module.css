@@ -79,6 +79,7 @@
 /* check if this works when adding media queries */
 
 .hero__right-img-fill {
+    position: relative;
     width: 100%;
     height: 300px;
     border-radius: 20px;
