@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
 import Image from "next/image";
+import Link from "next/link";
 
 import classes from "./Footer.module.css";
 
@@ -143,54 +144,54 @@ const Footer = () => {
             <h3 className={classes["footer__quarter-title"]}>Navigation</h3>
 
             <div className={classes["footer__quarter-link-wrapper"]}>
-              <a
-                href="./pages/bathroom-renovation.html"
+              <Link
+                href="/pages/bathroom-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Bathrooms
-              </a>
-              <a
-                href="./pages/kitchen-renovation.html"
+              </Link>
+              <Link
+                href="/pages/kitchen-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Kitchens
-              </a>
-              <a
-                href="./pages/general-renovation.html"
+              </Link>
+              <Link
+                href="/pages/general-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Renovation
-              </a>
-              <a
-                href="./pages/about.html"
+              </Link>
+              <Link
+                href="/pages/about"
                 className={classes["footer__quarter-link"]}
               >
                 About us
-              </a>
-              <a
-                href="./pages/blog.html"
+              </Link>
+              <Link
+                href="/pages/blog"
                 className={classes["footer__quarter-link"]}
               >
                 Blog
-              </a>
-              <a
-                href="./pages/faq.html"
+              </Link>
+              <Link
+                href="/pages/faq"
                 className={classes["footer__quarter-link"]}
               >
                 FAQ
-              </a>
-              <a
-                href="./pages/contact.html"
+              </Link>
+              <Link
+                href="/pages/contact"
                 className={classes["footer__quarter-link"]}
               >
                 Contact
-              </a>
-              <a
-                href="./pages/our-guarantee.html"
+              </Link>
+              <Link
+                href="/pages/our-guarantee"
                 className={classes["footer__quarter-link"]}
               >
                 Guarantee
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -201,21 +202,21 @@ const Footer = () => {
               <a
                 href="https://www.houzz.co.uk/pro/betterhomesstudio/better-homes-studio-celli"
                 className={classes["footer__quarter-link"]}
-                target="blank"
+                target="_blank"
               >
                 Houzz
               </a>
               <a
                 href="https://g.page/r/CaGIVAg_unOVEBM/"
                 className={classes["footer__quarter-link"]}
-                target="blank"
+                target="_blank"
               >
                 Google
               </a>
               <a
                 href="https://www.mybuilder.com/profile/view/celli/feedback"
                 className={classes["footer__quarter-link"]}
-                target="blank"
+                target="_blank"
               >
                 MyBuilder
               </a>
@@ -232,18 +233,18 @@ const Footer = () => {
               >
                 Call us
               </a>
-              <a
-                href="privacy-policy.html"
+              <Link
+                href="/pages/privacy-policy"
                 className={classes["footer__quarter-link"]}
               >
                 Privacy policy
-              </a>
-              <a
-                href="terms-and-conditions.html"
+              </Link>
+              <Link
+                href="/pages/terms-and-conditions"
                 className={classes["footer__quarter-link"]}
               >
                 T's & C's
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -256,7 +257,7 @@ const Footer = () => {
             <a
               className={classes["footer__copyright-link"]}
               href="https://ginostoian.com"
-              target="blank"
+              target="_blank"
             >
               Gino Stoian
             </a>
