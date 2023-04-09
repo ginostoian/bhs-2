@@ -16,6 +16,7 @@ const text = {
         p2: "Our team will help you make the best decisions whether you are doing a full Design, Supply & Install or just the installation with us.",
         CTA: "Renovate your bathroom",
         imgSrc: "/assets/img/bathroom/industrial-bathroom.webp",
+        slug: "bathroom-renovation",
       },
       kitchen: {
         title: "Kitchen renovation",
@@ -25,6 +26,7 @@ const text = {
         p2: "Our team of kitchen refurbishment experts will guide you through the whole process to maximise your investment.",
         CTA: "Renovate your kitchen",
         imgSrc: "/assets/img/kitchen/contemporary-kitchen.webp",
+        slug: "kitchen-renovation",
       },
       generalRenovation: {
         title: "Home Renovation",
@@ -34,6 +36,7 @@ const text = {
         p2: "Forever home or not, your home should represent you. A well done house renovation can greatly increase your comfort level and your house's value!",
         CTA: "Renovate your home",
         imgSrc: "/assets/img/general/london-grey-living-room.webp",
+        slug: "general-renovation",
       },
       interiorDesign: {
         title: "Interior Design",
@@ -43,6 +46,7 @@ const text = {
         p2: "Interior spaces are often completely re-imagined beyond the decorative, to eliminate boundaries between the built environment and a better way of life.",
         CTA: "Do your home a favour",
         imgSrc: "/assets/img/general/living-room-1.webp",
+        slug: "interior-design",
       },
       smartHome: {
         title: "Smart Homes",
@@ -52,6 +56,7 @@ const text = {
         p2: "Letting your home deal with menial tasks enables you and your family to focus on what matters most to you.",
         CTA: "Automate your home",
         imgSrc: "/assets/img/smarthome/smarthome-1.webp",
+        slug: "smart-home",
       },
       houseExtension: {
         title: "House Extensions",
@@ -61,6 +66,7 @@ const text = {
         p2: "Our team will help you make the best decisions when planning for your house extension to maximise both space and value.",
         CTA: "Extend your home",
         imgSrc: "/assets/img/extension/extension-1.webp",
+        slug: "house-extension",
       },
     },
     howWeDoItSection: {

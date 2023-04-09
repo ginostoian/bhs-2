@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import classes from "./ContentRow.module.css";
+import Link from "next/link";
 
 const ContentRow = ({
   title,
@@ -11,6 +12,7 @@ const ContentRow = ({
   cta,
   imgSrc,
   order,
+  slug,
 }) => {
   return (
     <div className={`${classes["service-wrapper"]} container`}>
@@ -40,12 +42,12 @@ const ContentRow = ({
 
           <p className={classes["desc__body-text"]}>{p2}</p>
         </div>
-        <a
-          href="./pages/bathroom-renovation.html"
+        <Link
+          href={`/pages/${slug}`}
           className="service__btn btn"
         >
           {cta}
-        </a>
+        </Link>
       </div>
     </div>
   );

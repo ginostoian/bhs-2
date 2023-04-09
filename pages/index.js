@@ -28,6 +28,7 @@ const {
   p2: bathroomP2,
   CTA: bathroomCTA,
   imgSrc: bathroomImgSrc,
+  slug: bathroomSlug,
 } = text.homepage.whatWeDoSection.bathroom;
 
 const {
@@ -38,6 +39,7 @@ const {
   p2: kitchenP2,
   CTA: kitchenCTA,
   imgSrc: kitchenImgSrc,
+  slug: kitchenSlug,
 } = text.homepage.whatWeDoSection.kitchen;
 
 const {
@@ -48,6 +50,7 @@ const {
   p2: generalRenovationP2,
   CTA: generalRenovationCTA,
   imgSrc: generalRenovationImgSrc,
+  slug: generalRenovationSlug,
 } = text.homepage.whatWeDoSection.generalRenovation;
 
 const {
@@ -58,6 +61,7 @@ const {
   p2: interiorDesignP2,
   CTA: interiorDesignCTA,
   imgSrc: interiorDesignImgSrc,
+  slug: interiorDesignSlug,
 } = text.homepage.whatWeDoSection.interiorDesign;
 
 const {
@@ -68,6 +72,7 @@ const {
   p2: houseExtensionP2,
   CTA: houseExtensionCTA,
   imgSrc: houseExtensionImgSrc,
+  slug: houseExtensionSlug,
 } = text.homepage.whatWeDoSection.houseExtension;
 
 const {
@@ -78,6 +83,7 @@ const {
   p2: smartHomeP2,
   CTA: smartHomeCTA,
   imgSrc: smartHomeImgSrc,
+  slug: smartHomeSlug,
 } = text.homepage.whatWeDoSection.smartHome;
 
 const howWeDoItSection = text.homepage.howWeDoItSection;
@@ -110,6 +116,7 @@ export default function Home() {
         cta={bathroomCTA}
         imgSrc={bathroomImgSrc}
         order={false}
+        slug={bathroomSlug}
       />
       <ContentRow
         title={kitchenTitle}
@@ -120,6 +127,7 @@ export default function Home() {
         cta={kitchenCTA}
         imgSrc={kitchenImgSrc}
         order={true}
+        slug={kitchenSlug}
       />
       <ContentRow
         title={generalRenovationTitle}
@@ -129,6 +137,7 @@ export default function Home() {
         p2={generalRenovationP2}
         cta={generalRenovationCTA}
         imgSrc={generalRenovationImgSrc}
+        slug={generalRenovationSlug}
       />
       <ContentRow
         title={interiorDesignTitle}
@@ -139,6 +148,7 @@ export default function Home() {
         cta={interiorDesignCTA}
         imgSrc={interiorDesignImgSrc}
         order={true}
+        slug={interiorDesignSlug}
       />
       <ContentRow
         title={houseExtensionTitle}
@@ -148,6 +158,7 @@ export default function Home() {
         p2={houseExtensionP2}
         cta={houseExtensionCTA}
         imgSrc={houseExtensionImgSrc}
+        slug={houseExtensionSlug}
       />
       <ContentRow
         title={smartHomeTitle}
@@ -158,6 +169,7 @@ export default function Home() {
         cta={smartHomeCTA}
         imgSrc={smartHomeImgSrc}
         order={true}
+        slug={smartHomeSlug}
       />
       <SectionTitle
         title={"How we do it"}
