@@ -24,7 +24,7 @@ function Navigation() {
         <div className={classes["main-nav__left"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <a href="./pages/portfolio.html">Portfolio</a>
+              <Link href="/pages/portfolio">Portfolio</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <Link
@@ -45,30 +45,30 @@ function Navigation() {
                   className={classes["dropdown__list-item"]}
                   // onClick={() => setIsDropdownVisible(false)}
                 >
-                  <Link href="./pages/bathroom-renovation.html">
+                  <Link href="/pages/bathroom-renovation">
                     Bathroom renovation
                   </Link>
                 </li>
                 <li className={classes["dropdown__list-item"]}>
-                  <a href="./pages/kitchen-renovation.html">
+                  <Link href="/pages/kitchen-renovation">
                     Kitchen renovation
-                  </a>
+                  </Link>
                 </li>
                 <li className={classes["dropdown__list-item"]}>
-                  <a href="./pages/general-renovation.html">
+                  <Link href="/pages/general-renovation">
                     General renovation
-                  </a>
+                  </Link>
                 </li>
                 <li className={classes["dropdown__list-item"]}>
-                  <a href="./pages/interior-design.html">Interior design</a>
+                  <Link href="/pages/interior-design">Interior design</Link>
                 </li>
                 <li className={classes["dropdown__list-item"]}>
-                  <a href="./pages/house-extension.html">House extension</a>
+                  <Link href="/pages/house-extension">House extension</Link>
                 </li>
               </ul>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <a href="./pages/contact.html">Contact</a>
+              <Link href="/pages/contact">Contact</Link>
             </li>
           </ul>
         </div>
@@ -110,13 +110,13 @@ function Navigation() {
         <div className={classes["main-nav__right"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <a href="./pages/about.html">About</a>
+              <Link href="/pages/about">About</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <a href="./pages/blog.html">Blog</a>
+              <Link href="/pages/blog">Blog</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <a href="./pages/faq.html">FAQ</a>
+              <Link href="/pages/faq">FAQ</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <a
@@ -139,7 +139,7 @@ function Navigation() {
           <div className={classes["mobile-nav__left"]}>
             <ul className={classes["mobile-nav__list"]}>
               <li className={classes["mobile-nav__list-item"]}>
-                <a href="./pages/portfolio.html">Portfolio</a>
+                <Link href="/pages/portfolio">Portfolio</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
                 <Link
@@ -161,43 +161,43 @@ function Navigation() {
                   onMouseLeave={toggleDropdown}
                 >
                   <li className={classes["dropdown__list-item"]}>
-                    <a href="./pages/bathroom-renovation.html">
+                    <Link href="/pages/bathroom-renovation">
                       Bathroom renovation
-                    </a>
+                    </Link>
                   </li>
                   <li className={classes["dropdown__list-item"]}>
-                    <a href="./pages/kitchen-renovation.html">
+                    <Link href="/pages/kitchen-renovation">
                       Kitchen renovation
-                    </a>
+                    </Link>
                   </li>
                   <li className={classes["dropdown__list-item"]}>
-                    <a href="./pages/general-renovation.html">
+                    <Link href="/pages/general-renovation">
                       General renovation
-                    </a>
+                    </Link>
                   </li>
                   <li className={classes["dropdown__list-item"]}>
-                    <a href="./pages/interior-design.html">Interior design</a>
+                    <Link href="/pages/interior-design">Interior design</Link>
                   </li>
                   <li className={classes["dropdown__list-item"]}>
-                    <a href="./pages/house-extension.html">House extension</a>
+                    <Link href="/pages/house-extension">House extension</Link>
                   </li>
                 </ul>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
-                <a href="./pages/contact.html">Contact</a>
+                <Link href="/pages/contact">Contact</Link>
               </li>
             </ul>
           </div>
           <div className={classes["mobile-nav__right"]}>
             <ul className={classes["mobile-nav__list"]}>
               <li className={classes["mobile-nav__list-item"]}>
-                <a href="./pages/about.html">About</a>
+                <Link href="/pages/about">About</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
-                <a href="./pages/blog.html">Blog</a>
+                <Link href="/pages/blog">Blog</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
-                <a href="./pages/faq.html">FAQ</a>
+                <Link href="/pages/faq">FAQ</Link>
               </li>
             </ul>
           </div>
