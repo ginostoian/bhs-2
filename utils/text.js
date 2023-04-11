@@ -260,6 +260,110 @@ const text = {
       },
     },
   },
+  kitchenPage: {
+    heroSection: {
+      title: "Kitchen renovation & design with",
+      titleAccent: "Better Homes Studio",
+      subtitle:
+        "Go from complicated and messy to simple and easy with our project management. Kitchen renovations make the most impact in a newly purchased home.",
+      heroCTA: "Get your free quote",
+      heroImgUrl: "kitchen/modern-kitchen.webp",
+    },
+    whyUsSectionHeader: {
+      title: "Wondering why you'd choose us?",
+      subtitle: "We try to be different.",
+    },
+    whyUsSection: {
+      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridText:
+        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+      gridOneNum: "1.",
+      gridOneTitle: "Expertise through experience",
+      gridOneText:
+        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoText:
+        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We use the best materials",
+      gridThreeText:
+        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+      gridFourNum: "4.",
+      gridFourTitle: "Support and guarantees",
+      gridFourText:
+        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+    },
+    whatWeDoSection: {
+      header: {
+        title: "What we do",
+        subtitle: "Your kitchen, the heart of your home.",
+      },
+      kitchenDesign: {
+        title: "Kitchen design",
+        subtitle: "We create outstanding kitchens.",
+        subtitleAccent: " Custom built, for you!",
+        p1: "Renovating your kitchen can be quite the task. There are a lot of big decisions to be made from design and practicality to plumbing and drainage.",
+        p2: "Our team will help you make the best decisions whether you are doing a full custom built kitchen or just the kitchen installation with us.",
+        CTA: "Get your kitchen designed",
+        imgSrc: "/assets/img/kitchen/kitchen-design.webp",
+        slug: "kitchen-renovation",
+      },
+      smallKitchen: {
+        title: "Small kitchens",
+        subtitle: "Even a small kitchen can meet your needs",
+        subtitleAccent: " if designed & renovated properly.",
+        p1: "Combining functionality, practicality with clever storage solutions you can manage to get rid of the chaos that usually comes with a tiny kitchen.",
+        p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/small-kitchen.webp",
+        slug: "kitchen-renovation",
+      },
+      modernKitchen: {
+        title: "Modern kitchens",
+        subtitle:
+          "Geometrical shapes, simple colour palettes with sleek bold accents",
+        subtitleAccent: " or tones of neutral colours",
+        p1: "Modern kitchen designs have open floor plans stretching the entire length of the kitchen layout.",
+        p2: "This minimalistic approach to layout is what achieves a simple and elegant look.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/modern-kitchen.webp",
+        slug: "kitchen-renovation",
+      },
+      industrialKitchen: {
+        title: "Industrial kitchens",
+        subtitle:
+          "Exposed pipes, ducts, tubes, and wires are commonly found in",
+        subtitleAccent: " industrial style kitchens",
+        p1: "When considering an industrial style kitchen renovation you can go either strong or soft.",
+        p2: "Whichever option you decide to go with, you can use metro tiles, grey colors, bare brick walls, exposed shelving and black shower frames.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/industrial-kitchen.webp",
+        slug: "kitchen-renovation",
+      },
+      openPlanKitchen: {
+        title: "Open plan kitchens",
+        subtitle: "Open plan style kitchens are",
+        subtitleAccent: " for the free and bold.",
+        p1: "Open plan kitchens are one of the most sought after features of a modern family home, thanks to their light, spacious feel and versatile design.",
+        p2: "In an open plan kitchen, the design hangs on the interaction between the kitchen, especially the island, and dining or living room. This usually involves knocking down a wall.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/open-plan-kitchen.webp",
+        slug: "kitchen-renovation",
+      },
+      kitchenInExtension: {
+        title: "Kitchen in extension",
+        subtitle:
+          "Kitchen extensions don't have to be huge, sprawling design to  ",
+        subtitleAccent: "transform an existing house.",
+        p1: "When designing a kitchen extension, spend time and effort on making sure plenty natural light infiltrates the space.",
+        p2: "Bifold or sliding patio doors are fantastic options that offer views out all year round, while installing a large roof lantern can bring in plenty of natural light to the new space.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/kitchen-extension.webp",
+        slug: "kitchen-renovation",
+      },
+    },
+  },
 };
 
 export default text;
