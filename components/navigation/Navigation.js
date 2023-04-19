@@ -18,7 +18,10 @@ function Navigation() {
     setIsMobileNavVisible((prevState) => !prevState);
   };
 
-  const handleNavLinkClick = () => setIsDropdownVisible(false);
+  const handleNavLinkClick = () => {
+    setIsMobileNavVisible(false);
+    setIsDropdownVisible(false);
+  };
 
   return (
     <header>
