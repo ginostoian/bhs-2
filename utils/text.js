@@ -364,6 +364,108 @@ const text = {
       },
     },
   },
+  generalRenovationPage: {
+    heroSection: {
+      title: "Renovate your home with",
+      titleAccent: "Better Homes Studio",
+      subtitle:
+        "It is a big deal. So go from complicated and messy to simple and easy with our project management. Make your home feel like you.",
+      heroCTA: "Get your free quote",
+      heroImgUrl: "general/living-room-1.webp",
+    },
+    whyUsSectionHeader: {
+      title: "Wondering why you'd choose us?",
+      subtitle: "We try to be different.",
+    },
+    whyUsSection: {
+      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridText:
+        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+      gridOneNum: "1.",
+      gridOneTitle: "Expertise through experience",
+      gridOneText:
+        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoText:
+        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We use the best materials",
+      gridThreeText:
+        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+      gridFourNum: "4.",
+      gridFourTitle: "Support and guarantees",
+      gridFourText:
+        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+    },
+    whatWeDoSection: {
+      header: {
+        title: "What we do",
+        subtitle: "All aspects of home renovation.",
+      },
+      fullHome: {
+        title: "Full home renovation",
+        subtitle: "Full house refurbishment.",
+        subtitleAccent: " Transform your house into a home.",
+        p1: "Renovating your house is a big task. There are a lot of big decisions to be made from design and furnishing to layout and practicality.",
+        p2: "Our team will help you make the best decisions and get the best possible outcome from the renovation.",
+        CTA: "Renovate your house",
+        imgSrc: "/assets/img/general/london-grey-living-room.webp",
+        slug: "general-renovation",
+      },
+      kitchenInstallation: {
+        title: "Kitchen installation & Design",
+        subtitle: "Your kitchen is the hub of your home.",
+        subtitleAccent: " Treat it well.",
+        p1: "Bespoke or designed at one of the big kitchen designers, renovating your kitchen will make a huge difference to your home.",
+        p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/kitchen/contemporary-kitchen.webp",
+        slug: "general-renovation",
+      },
+      bathroomInstallation: {
+        title: "Bathroom installation & Design",
+        subtitle: "One or two, or five, small or big, your bathroom is",
+        subtitleAccent: " important",
+        p1: "Designing and fitting a great bathroom will be a treat for the whole house.",
+        p2: "Know what you want? Go for installation or get your bathroom designed and installed by us.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/bathroom/bathroom-design.webp",
+        slug: "general-renovation",
+      },
+      flooringInstallation: {
+        title: "Flooring installation",
+        subtitle:
+          "Laminate, engineered, tiles, cement, LVT or whatever you might like,",
+        subtitleAccent: " your floor will stand out.",
+        p1: "One of the biggest features of your home is the floor. It's important to consider the look and the long term practicality of your new flooring.",
+        p2: "Whichever option you decide to go with, we will make sure that it's flawlessly installed. We can even help you source it.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/general/flooring-1.webp",
+        slug: "general-renovation",
+      },
+      structuralWork: {
+        title: "Structural work",
+        subtitle: "As great as your home is,",
+        subtitleAccent: " it could do with some layout changes.",
+        p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
+        p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/general/structural-1.webp",
+        slug: "general-renovation",
+      },
+      heating: {
+        title: "Heating & Boilers",
+        subtitle: "Pipework, boiler conversion or installation,",
+        subtitleAccent: " underfloor heating systems.",
+        p1: "Your home should be comfortable and nothing offers more comfort than the perfect temperature.",
+        p2: "Get your home up to date with the perfect heating system for you and your family.",
+        CTA: "Let's discuss your project",
+        imgSrc: "/assets/img/general/heating-1.webp",
+        slug: "general-renovation",
+      },
+    },
+  },
 };
 
 export default text;
