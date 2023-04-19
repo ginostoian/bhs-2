@@ -466,6 +466,108 @@ const text = {
       },
     },
   },
+  houseExtensionPage: {
+    heroSection: {
+      title: "House extensions with",
+      titleAccent: " Better Homes Studio",
+      subtitle:
+        "Starting to feel a little constricted but don't want to move? The best way to maximise your space and grow your homes worth is to extend it.",
+      heroCTA: "Get your free quote",
+      heroImgUrl: "extension/single-storey-extension.webp",
+    },
+    whyUsSectionHeader: {
+      title: "Wondering why you'd choose us?",
+      subtitle: "We try to be different.",
+    },
+    whyUsSection: {
+      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridText:
+        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+      gridOneNum: "1.",
+      gridOneTitle: "Expertise through experience",
+      gridOneText:
+        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoText:
+        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We use the best materials",
+      gridThreeText:
+        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+      gridFourNum: "4.",
+      gridFourTitle: "Support and guarantees",
+      gridFourText:
+        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+    },
+    whatWeDoSection: {
+      header: {
+        title: "What we do",
+        subtitle: "We build the right extension for you.",
+      },
+      singleStoreyExtension: {
+        title: "Single storey extension",
+        subtitle: "The addition of single storey extension can add ",
+        subtitleAccent: "significant value to your home.",
+        p1: "Single storey house extensions are built onto a part of the house whereby one or more sides of the extension is attached to the property, and there is only the ground floor plus any basement built to it.",
+        p2: "Single storey extensions require building control, but they might not need planning permission.",
+        CTA: "Extent your home",
+        imgSrc: "/assets/img/extension/single-storey-extension.webp",
+        slug: "house-extension",
+      },
+      sideReturnExtension: {
+        title: "Side return extension",
+        subtitle: "Perfect for a bit of additional space without causing",
+        subtitleAccent: " too much disruption .",
+        p1: "Side return extension functions similarly to a rear extension, with the difference being that rather than extending do the rear, the property is extended to the side, making use of the side return, or small ‘alleyway’ between yours and your neighbour’s property.",
+        p2: "Simplicity and cost are again the main selling points here, with the side return extension being relatively easy to build, taking less time than some of the other options and consequently also being among the least expensive of all options.",
+        CTA: "Extend your home",
+        imgSrc: "/assets/img/extension/side-return-extension.webp",
+        slug: "house-extension",
+      },
+      doubleStoreyExtension: {
+        title: "Double storey extension",
+        subtitle: "Need to add more than one room to your home?",
+        subtitleAccent:
+          " a double-storey extension is a cost-effective option.",
+        p1: "With this type of extension, you could create a large kitchen with a dining area and easy access to the garden on the lower half. Have an extra bedroom, large family bathroom, office or even a home gym on the second half.",
+        p2: "Double storey home extensions can be built onto the back or the side of the house.",
+        CTA: "Extend your home",
+        imgSrc: "/assets/img/extension/double-storey-extension.webp",
+        slug: "house-extension",
+      },
+      overStructureExtension: {
+        title: "Over structure extension",
+        subtitle: "An extension over the top of an existing",
+        subtitleAccent: " structure such as a garage.",
+        p1: "Many UK properties (detached & semi-detached) built within the last 40 years, usually have a single storey side garage. This creates an opportunity for an additional extension on top of the garage.",
+        p2: "This type of extension on top of the garage offers significant benefits compared to other extension types such as creating a large master bedroom with en-suite.",
+        CTA: "Extend your home",
+        imgSrc: "/assets/img/extension/over-structure-extension.webp",
+        slug: "house-extension",
+      },
+      basementExtension: {
+        title: "Basement extension",
+        subtitle: "Usually used to add a",
+        subtitleAccent: " gym or game room to your home.",
+        p1: "If your property sits on a slope, you could build a semi-basement with a part of the area sitting below the ground. Bringing light and air into half basements is usually straightforward.",
+        p2: "If you are adding a side or rear house extension to your house, you might be able to incorporate a basement extension into the design.",
+        CTA: "Extend your home",
+        imgSrc: "/assets/img/extension/basement.jpeg",
+        slug: "house-extension",
+      },
+      loftConversion: {
+        title: "Loft conversion",
+        subtitle: "Create an extra room or more by simply",
+        subtitleAccent: " converting your loft.",
+        p1: "If you have an attic with sufficient floor to ceiling heights, you could create an extra room by simply converting your loft by adding a couple of Velux or other good quality windows to your roof, creating a roof light loft conversion.",
+        p2: "If your attic is not high enough, you could still add a room by building a dormer loft conversion or a mansard extension",
+        CTA: "Convert your loft",
+        imgSrc: "/assets/img/extension/loft-conversion.png",
+        slug: "house-extension",
+      },
+    },
+  },
 };
 
 export default text;
