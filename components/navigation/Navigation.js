@@ -18,6 +18,8 @@ function Navigation() {
     setIsMobileNavVisible((prevState) => !prevState);
   };
 
+  const handleNavLinkClick = () => setIsDropdownVisible(false);
+
   return (
     <header>
       <nav className={`${classes["main-nav"]} container`}>
@@ -39,30 +41,42 @@ function Navigation() {
                 className={`${classes["dropdown-menu"]} ${
                   isDropdownVisible ? classes["dropdown-menu-visible"] : ""
                 }`}
-                onMouseLeave={toggleDropdown}
+                onMouseLeave={handleNavLinkClick}
               >
                 <li
                   className={classes["dropdown__list-item"]}
-                  // onClick={() => setIsDropdownVisible(false)}
+                  onClick={handleNavLinkClick}
                 >
                   <Link href="/pages/bathroom-renovation">
                     Bathroom renovation
                   </Link>
                 </li>
-                <li className={classes["dropdown__list-item"]}>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
                   <Link href="/pages/kitchen-renovation">
                     Kitchen renovation
                   </Link>
                 </li>
-                <li className={classes["dropdown__list-item"]}>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
                   <Link href="/pages/general-renovation">
                     General renovation
                   </Link>
                 </li>
-                <li className={classes["dropdown__list-item"]}>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
                   <Link href="/pages/interior-design">Interior design</Link>
                 </li>
-                <li className={classes["dropdown__list-item"]}>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
                   <Link href="/pages/house-extension">House extension</Link>
                 </li>
               </ul>
@@ -158,27 +172,42 @@ function Navigation() {
                       ? classes["dropdown-menu-visible-mobile"]
                       : ""
                   }`}
-                  onMouseLeave={toggleDropdown}
+                  onMouseLeave={handleNavLinkClick}
                 >
-                  <li className={classes["dropdown__list-item"]}>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
                     <Link href="/pages/bathroom-renovation">
                       Bathroom renovation
                     </Link>
                   </li>
-                  <li className={classes["dropdown__list-item"]}>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
                     <Link href="/pages/kitchen-renovation">
                       Kitchen renovation
                     </Link>
                   </li>
-                  <li className={classes["dropdown__list-item"]}>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
                     <Link href="/pages/general-renovation">
                       General renovation
                     </Link>
                   </li>
-                  <li className={classes["dropdown__list-item"]}>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
                     <Link href="/pages/interior-design">Interior design</Link>
                   </li>
-                  <li className={classes["dropdown__list-item"]}>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
                     <Link href="/pages/house-extension">House extension</Link>
                   </li>
                 </ul>
