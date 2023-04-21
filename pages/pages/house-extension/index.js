@@ -11,7 +11,7 @@ import Reviews from "../../../components/reviews/Reviews";
 import Faq from "../../../components/faq/Faq";
 import BlogHighlight from "../../../components/blog/BlogHighlight";
 
-const ExtenstionPage = () => {
+const ExtensionPage = () => {
   const { title, titleAccent, subtitle, heroCTA, heroImgUrl } =
     text.houseExtensionPage.heroSection;
 
@@ -207,4 +207,4 @@ const ExtenstionPage = () => {
   );
 };
 
-export default ExtenstionPage;
+export default ExtensionPage;
