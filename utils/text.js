@@ -675,7 +675,7 @@ const text = {
       title: "About",
       titleAccent: " Better Homes Studio",
       subtitle:
-        "Go from complicated and messy to simple and easy with our project management. Renovation and refurbishment made easy.",
+        "Go from complicated and messy to simple and easy with top notch project management. Renovation and refurbishment made easy.",
       heroCTA: "Start your journey. It's free!",
       heroImgUrl: "social/bh-logo.png",
     },
