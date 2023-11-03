@@ -159,16 +159,16 @@ const text = {
   },
   bathroomPage: {
     heroSection: {
-      title: "Bathroom renovation & design with",
-      titleAccent: "Better Homes Studio",
+      title: "Scared of bathroom renovation chaos? ",
+      titleAccent: "Experience hassle free!",
       subtitle:
-        "Go from complicated and messy to simple and easy with our project management. Refurbishing your bathroom will give your home a new face.",
+        "Experience a stress-free all-in-one solution that combines high-quality design, materials, and construction. The anticipated mess, the unforeseen challenges, and the fear of a never-ending bathroom renovation are history with Better Homes Studio.",
       heroCTA: "Get your free quote",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
     },
     whyUsSectionHeader: {
-      title: "Wondering why you'd choose us?",
-      subtitle: "We try to be different.",
+      title: "Everything that can go wrong, usually does.",
+      subtitle: "We are the solution.",
     },
     whyUsSection: {
       bigGridTitle: "Trustworthy, reliable, friendly",

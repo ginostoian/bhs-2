@@ -20,11 +20,11 @@ const Hero = ({ title, titleAccent, subtitle, heroCTA, heroImgUrl }) => {
         <p className={classes["hero__subtitle"]}>{subtitle}</p>
         <div className={classes["hero__left-info"]}>
           <div className={classes["hero__info-1"]}>
-            <p className={classes["hero__info-title"]}>10+</p>
+            <p className={classes["hero__info-title"]}>12+</p>
             <p className={classes["hero__info-subtitle"]}>Years Experience</p>
           </div>
           <div className={classes["hero__info-2"]}>
-            <p className={classes["hero__info-title"]}>300+</p>
+            <p className={classes["hero__info-title"]}>460+</p>
             <p className={classes["hero__info-subtitle"]}>Satisfied Clients</p>
           </div>
         </div>
