@@ -42,6 +42,7 @@
     border-radius: 10px;
     text-align: center;
     margin-bottom: 2.45rem;
+    display: flex;
 }
 
 .hero__info-title {
@@ -64,7 +65,7 @@
 }
 
 .hero__info-2 {
-    border-top: 1px solid #cfd2ec;
+    border-left: 1px solid #cfd2ec;
     padding: .6rem;
     width: 90%;
     margin-inline: auto;
