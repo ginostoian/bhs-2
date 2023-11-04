@@ -162,7 +162,7 @@ const text = {
       title: "Scared of bathroom renovation chaos? ",
       titleAccent: "Experience hassle free!",
       subtitle:
-        "Experience a stress-free all-in-one solution that combines high-quality design, materials, and construction. The anticipated mess, the unforeseen challenges, and the fear of a never-ending bathroom renovation are history with Better Homes Studio.",
+        "Skip the mess, challenges and fear of a never ending bathroom renovation. Experience a stress-free all-in-one solution that combines high-quality design, materials, and construction with Better Homes Studio. ",
       heroCTA: "Get your free quote",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
     },

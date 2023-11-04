@@ -1,7 +1,7 @@
 /* Hero */
 
 .hero {
-    margin-top: 7rem;
+    margin-top: 3rem;
     margin-bottom: 3rem;
 }
 
@@ -21,8 +21,9 @@
     font-size: var(--fs-h3-sm);
     line-height: 3rem;
     margin-bottom: 0;
-    text-align: left;
+    text-align: center;
     font-weight: 900;
+    margin-inline: -3rem;
 }
 
 .hero__subtitle {
@@ -30,7 +31,8 @@
     line-height: 28px;
     letter-spacing: .2px;
     margin-bottom: 2.45rem;
-    /* text-align: center; */
+    margin-inline: -3rem;
+    text-align: center;
 
 }
 
@@ -117,6 +119,11 @@
 }
 
 @media (min-width: 768px) {
+
+    .hero {
+        margin-top: 7rem;
+    }
+
     .hero__left-info {
         display: flex;
     }
@@ -145,7 +152,7 @@
     }
 
     .hero__right {
-        width: 45%;
+        width: 40%;
         height: 100%;
         display: flex;
         align-items: center;
@@ -156,6 +163,12 @@
         height: 600px;
         object-fit: cover;
         /* object-position: 50% 50%; */
+    }
+
+    .hero__title,
+    .hero__subtitle {
+        text-align: left;
+        margin-inline: initial;
     }
 
     /* .hero__right img {
