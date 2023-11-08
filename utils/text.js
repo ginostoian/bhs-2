@@ -173,7 +173,7 @@ const text = {
     whyUsSection: {
       bigGridTitle: "Trustworthy, reliable, friendly",
       bigGridText:
-        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+        "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
       gridOneNum: "1.",
       gridOneTitle: "Expertise through experience",
       gridOneText:
@@ -181,11 +181,11 @@ const text = {
       gridTwoNum: "2.",
       gridTwoTitle: "Free, transparent & detailed quote",
       gridTwoText:
-        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+        "Worried about 'the actual' price of your bathroom renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
       gridThreeNum: "3.",
-      gridThreeTitle: "We use the best materials",
+      gridThreeTitle: "Your bathroom. Professionaly designed.",
       gridThreeText:
-        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+        "Skip the tens of hours spent researching Pinterest for inspiration and for what you need to purchase. Let our proffesional bathroom designers do all the heavy lifting. Relax, approve and visualise your bathroom in 3D from the comfort of your house. Piece of cake.",
       gridFourNum: "4.",
       gridFourTitle: "Support and guarantees",
       gridFourText:
