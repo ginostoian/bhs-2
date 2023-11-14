@@ -168,28 +168,28 @@ const text = {
     },
     whyUsSectionHeader: {
       title: "Everything that can go wrong, usually does.",
-      subtitle: "We are the solution.",
+      subtitle: "We are your solution.",
     },
     whyUsSection: {
-      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridTitle: "Trustworthy, reliable, friendly.",
       bigGridText:
         "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
       gridOneNum: "1.",
-      gridOneTitle: "Expertise through experience",
+      gridOneTitle: "Expertise through experience.",
       gridOneText:
-        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+        "We have been designing and renovating bathrooms in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
       gridTwoNum: "2.",
-      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoTitle: "Detailed, transparent, no fluff quotes.",
       gridTwoText:
         "Worried about 'the actual' price of your bathroom renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
       gridThreeNum: "3.",
       gridThreeTitle: "Your bathroom. Professionaly designed.",
       gridThreeText:
-        "Skip the tens of hours spent researching Pinterest for inspiration and for what you need to purchase. Let our proffesional bathroom designers do all the heavy lifting. Relax, approve and visualise your bathroom in 3D from the comfort of your house. Piece of cake.",
+        "Skip the tens of hours spent scouring Pinterest and Google for inspiration and for what you need to purchase. Let our proffesional bathroom designers do all the heavy lifting. Relax, approve and visualise your bathroom in 3D from the comfort of your house. Piece of cake.",
       gridFourNum: "4.",
-      gridFourTitle: "Support and guarantees",
+      gridFourTitle: "After care and guarantees.",
       gridFourText:
-        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+        "Our industry leading 2 year workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty.",
     },
     whatWeDoSection: {
       header: {
