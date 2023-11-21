@@ -12,6 +12,8 @@ import Faq from "../../../components/faq/Faq";
 import BlogHighlight from "../../../components/blog/BlogHighlight";
 
 const BathroomRenovationPage = () => {
+  const { ctaTallyFormLink } = text.bathroomPage;
+
   const { title, titleAccent, subtitle, heroCTA, heroImgUrl } =
     text.bathroomPage.heroSection;
 
@@ -105,6 +107,7 @@ const BathroomRenovationPage = () => {
         subtitle={subtitle}
         heroCTA={heroCTA}
         heroImgUrl={heroImgUrl}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <SocialProof />
       <SectionTitle

@@ -158,6 +158,8 @@ const text = {
     ],
   },
   bathroomPage: {
+    ctaTallyFormLink:
+      "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
     heroSection: {
       title: "Scared of bathroom renovation chaos? ",
       titleAccent: "Experience hassle free!",

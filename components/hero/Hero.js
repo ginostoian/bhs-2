@@ -3,7 +3,14 @@ import Image from "next/image";
 
 import classes from "./Hero.module.css";
 
-const Hero = ({ title, titleAccent, subtitle, heroCTA, heroImgUrl }) => {
+const Hero = ({
+  title,
+  titleAccent,
+  subtitle,
+  heroCTA,
+  heroImgUrl,
+  ctaTallyFormLink,
+}) => {
   return (
     <section className={`${classes["hero"]} container`}>
       <Image
@@ -29,7 +36,7 @@ const Hero = ({ title, titleAccent, subtitle, heroCTA, heroImgUrl }) => {
           </div>
         </div>
         <a
-          href="./pages/contact.html"
+          href={ctaTallyFormLink}
           className={`${classes["hero__btn"]} btn`}
         >
           {heroCTA}
