@@ -189,7 +189,7 @@ const text = {
       gridFourNum: "4.",
       gridFourTitle: "After care and guarantees.",
       gridFourText:
-        "Our industry leading 2 year workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty.",
+        "Our industry leading 2 year workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
     },
     whatWeDoSection: {
       header: {
