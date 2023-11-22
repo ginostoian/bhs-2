@@ -1,4 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
+import Link from "next/link";
+
 import classes from "./TextBlockDark.module.css";
 
 const TextBlockDark = ({ content }) => {
@@ -11,12 +13,12 @@ const TextBlockDark = ({ content }) => {
         <p className={classes["textBlock__header-subtitle"]}>
           {content.darkBgTextSubtitle}
         </p>
-        <a
-          href="./pages/contact.html"
+        <Link
+          href="/pages/contact"
           className="service__btn btn"
         >
           {content.darkBgTextBtn}
-        </a>
+        </Link>
       </div>
     </div>
   );

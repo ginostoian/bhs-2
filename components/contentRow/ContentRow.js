@@ -13,6 +13,7 @@ const ContentRow = ({
   imgSrc,
   order,
   slug,
+  ctaTallyFormLink,
 }) => {
   return (
     <div className={`${classes["service-wrapper"]} container`}>
@@ -43,7 +44,7 @@ const ContentRow = ({
           <p className={classes["desc__body-text"]}>{p2}</p>
         </div>
         <Link
-          href={`/pages/${slug}`}
+          href={`${ctaTallyFormLink}`}
           className="service__btn btn"
         >
           {cta}

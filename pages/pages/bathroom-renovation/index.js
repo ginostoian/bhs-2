@@ -129,6 +129,7 @@ const BathroomRenovationPage = () => {
         imgSrc={bathroomDesignImgSrc}
         order={false}
         slug={bathroomDesignSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <ContentRow
         title={smallBathroomTitle}
@@ -140,6 +141,7 @@ const BathroomRenovationPage = () => {
         imgSrc={smallBathroomImgSrc}
         order={true}
         slug={smallBathroomSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <ContentRow
         title={modernBathroomTitle}
@@ -151,6 +153,7 @@ const BathroomRenovationPage = () => {
         imgSrc={modernBathroomImgSrc}
         order={false}
         slug={modernBathroomSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <ContentRow
         title={industrialBathroomTitle}
@@ -162,6 +165,7 @@ const BathroomRenovationPage = () => {
         imgSrc={industrialBathroomImgSrc}
         order={true}
         slug={industrialBathroomSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <ContentRow
         title={traditionalBathroomTitle}
@@ -173,6 +177,7 @@ const BathroomRenovationPage = () => {
         imgSrc={traditionalBathroomImgSrc}
         order={false}
         slug={traditionalBathroomSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <ContentRow
         title={victorianBathroomTitle}
@@ -184,6 +189,7 @@ const BathroomRenovationPage = () => {
         imgSrc={victorianBathroomImgSrc}
         order={true}
         slug={victorianBathroomSlug}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <SectionTitle
         title={"How we do it"}
