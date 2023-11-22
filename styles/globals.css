@@ -63,14 +63,14 @@ body {
   color: var(--text-secondary);
   overflow-x: hidden;
   /* background-color: var(--bg-primary);*/
-  /* old one #ddecfa */
+  /*  old one #ddecfa */
   background-color: #cde3fa;
   font-size: var(--fs-p-default-sm);
   line-height: 20px;
 }
 
 .container {
-  max-width: 80%;
+  max-width: 85%;
   margin-inline: auto;
 }
 

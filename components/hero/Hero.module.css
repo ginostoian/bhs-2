@@ -18,12 +18,12 @@
 
 .hero__title {
     color: var(--text-primary);
-    font-size: var(--fs-h3-sm);
+    font-size: calc(var(--fs-h3-sm) - 5px);
     line-height: 3rem;
     margin-bottom: 0;
     text-align: center;
     font-weight: 900;
-    margin-inline: -3rem;
+    margin-inline: -2.3rem;
 }
 
 .hero__subtitle {
@@ -31,7 +31,7 @@
     line-height: 28px;
     letter-spacing: .2px;
     margin-bottom: 2.45rem;
-    margin-inline: -2.5rem;
+    margin-inline: -2.1rem;
     text-align: center;
 
 }
