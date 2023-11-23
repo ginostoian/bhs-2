@@ -250,16 +250,16 @@ const Footer = () => {
         </div>
 
         <div className={classes["footer__body-copyright"]}>
-          <div>&copy; 2023 - Better Homes Studio</div>
+          <div>&copy; {new Date().getFullYear()} - Better Homes Studio</div>
           <div className="dot-divider"></div>
           <div>
-            Created with ❤️ by{" "}
+            made by{" "}
             <a
               className={classes["footer__copyright-link"]}
               href="https://ginostoian.com"
               target="_blank"
             >
-              Gino Stoian
+              gnst_o
             </a>
           </div>
         </div>
