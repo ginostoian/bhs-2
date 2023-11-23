@@ -784,6 +784,62 @@ const text = {
         "Now it's time to sit back, relax and marvel at how your vision became a reality. It really is that simple, so what are you waiting for?",
     },
   },
+  contactPage: {
+    heroSection: {
+      title: "Get in touch with us",
+      titleAccent: " about anything",
+      subtitle:
+        "Want to discuss your project, ask questions about our services and how we can help you? Or maybe you'd like to work for us. Reach out to us below and we'll happily answer any query.",
+      heroCTA: "Fill out the form below",
+      heroImgUrl: "general/happy-couple-bhs.WEBP",
+    },
+    whyUsSectionHeader: {
+      title: "Wondering why you'd choose us?",
+      subtitle: "We try to be different.",
+    },
+    whyUsSection: {
+      bigGridTitle: "Trustworthy, reliable, friendly",
+      bigGridText:
+        "From planning to completion you can rely that the Better Homes Studio team will be there to guide and support you through the renovation process.",
+      gridOneNum: "1.",
+      gridOneTitle: "Expertise through experience",
+      gridOneText:
+        "We have been renovating and refurbishing bathrooms in London for over 10 years. We have encountered all possible scenarios and all types of clients. This enabled us to learn to manage anything that comes our way.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Free, transparent & detailed quote",
+      gridTwoText:
+        "All initial estimates and quotes are free, transparent and detailed. We believe you have a right to know exactly how much your bathroom renovation will cost you before making any type of commitment.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We use the best materials",
+      gridThreeText:
+        "Building materials are included in the price we'll give you, and we won't cheap out. From screws and copper to white paint, we source the best possible materials so that the project will be finished to the highest standard.",
+      gridFourNum: "4.",
+      gridFourTitle: "Support and guarantees",
+      gridFourText:
+        "The project has come to an end and you are happy with your new bathroom. Our support does not end here. We offer a 2 year workmanship guarantee with every bathroom renovation in case anything goes wrong.",
+    },
+    howWeDoItSection: {
+      bigGridTitle: "Easy, transparent and different",
+      bigGridText:
+        "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+      gridOneNum: "1.",
+      gridOneTitle: "Book an appointment",
+      gridOneText:
+        "Use our quick and easy online form to book a date which suits you best. One of our experienced operators will be in touch to finalise your appointment.",
+      gridTwoNum: "2.",
+      gridTwoTitle: "Receive your free & transparent quote",
+      gridTwoText:
+        "Based on your preferences discussed during the initial meeting, our team of expert estimators will craft a clear and transparent quote.",
+      gridThreeNum: "3.",
+      gridThreeTitle: "We carry out the work",
+      gridThreeText:
+        "Our friendly team of highly skilled professionals will effortlessly refurbish your home so you won't have to worry about a thing.",
+      gridFourNum: "4.",
+      gridFourTitle: "Enjoy your new home + The BHS Guarantee",
+      gridFourText:
+        "Now it's time to sit back, relax and marvel at how your vision became a reality. It really is that simple, so what are you waiting for?",
+    },
+  },
 };
 
 export default text;
