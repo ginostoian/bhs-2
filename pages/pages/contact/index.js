@@ -1,3 +1,4 @@
+import Script from "next/script";
 import ContentRow from "../../../components/contentRow/ContentRow";
 import Hero from "../../../components/hero/Hero";
 import SocialProof from "../../../components/socialProof/SocialProof";
@@ -21,15 +22,21 @@ const ContactPage = () => {
 
       <iframe
         data-tally-src="https://tally.so/embed/wQEoXw?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-        loading="lazy"
         width="100%"
-        height="200"
-        frameborder="0"
-        marginheight="0"
-        marginwidth="0"
+        height="300"
+        frameBorder="0"
+        marginHeight="0"
+        marginWidth="0"
         title="Contact us"
         className="contact-iframe"
       ></iframe>
+      <Script
+        id="tally-js"
+        src="https://tally.so/widgets/embed.js"
+        onLoad={() => {
+          Tally.loadEmbeds();
+        }}
+      />
     </main>
   );
 };
