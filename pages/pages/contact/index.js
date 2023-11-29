@@ -27,8 +27,8 @@ const ContactPage = () => {
         frameborder="0"
         marginheight="0"
         marginwidth="0"
-        title="Contact us
-"
+        title="Contact us"
+        className="contact-iframe"
       ></iframe>
     </main>
   );

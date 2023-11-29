@@ -202,7 +202,7 @@ a:hover {
   top: 150px;
 }
 
-iframe {
+.contact-iframe {
   max-width: 85%;
   display: block;
   margin-inline: auto;
