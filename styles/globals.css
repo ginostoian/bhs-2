@@ -57,6 +57,10 @@
   --border-radius: 10px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Satoshi", sans-serif;

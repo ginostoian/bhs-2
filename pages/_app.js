@@ -9,7 +9,11 @@ function MyApp({ Component, pageProps }) {
     <>
       <Script
         async
+        id="tally-js"
         src="https://tally.so/widgets/embed.js"
+        onLoad={() => {
+          Tally.loadEmbeds();
+        }}
       />
       <Navigation />
       <Component {...pageProps} />

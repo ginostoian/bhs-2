@@ -17,6 +17,7 @@ const ContactPage = () => {
         subtitle={subtitle}
         heroCTA={heroCTA}
         heroImgUrl={heroImgUrl}
+        ctaTallyFormLink="#contactForm"
       />
       <SocialProof />
 
@@ -29,6 +30,7 @@ const ContactPage = () => {
         marginWidth="0"
         title="Contact us"
         className="contact-iframe"
+        id="contactForm"
       ></iframe>
       <Script
         id="tally-js"
