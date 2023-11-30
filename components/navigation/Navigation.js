@@ -155,7 +155,10 @@ function Navigation() {
         >
           <div className={classes["mobile-nav__left"]}>
             <ul className={classes["mobile-nav__list"]}>
-              <li className={classes["mobile-nav__list-item"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
                 <Link href="/pages/portfolio">Portfolio</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
@@ -215,20 +218,32 @@ function Navigation() {
                   </li>
                 </ul>
               </li>
-              <li className={classes["mobile-nav__list-item"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
                 <Link href="/pages/contact">Contact</Link>
               </li>
             </ul>
           </div>
           <div className={classes["mobile-nav__right"]}>
             <ul className={classes["mobile-nav__list"]}>
-              <li className={classes["mobile-nav__list-item"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
                 <Link href="/pages/about">About</Link>
               </li>
-              <li className={classes["mobile-nav__list-item"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
                 <Link href="/pages/blog">Blog</Link>
               </li>
-              <li className={classes["mobile-nav__list-item"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
                 <Link href="/pages/faq">FAQ</Link>
               </li>
             </ul>
