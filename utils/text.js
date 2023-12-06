@@ -161,7 +161,7 @@ const text = {
     ctaTallyFormLink:
       "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
     heroSection: {
-      title: "Scared of bathroom renovation chaos? ",
+      title: "Bathroom renovation chaos? ",
       titleAccent: "Experience hassle free!",
       subtitle:
         "Skip the mess, challenges and fear of a never ending bathroom renovation. Experience a stress-free all-in-one solution that combines high-quality design, materials, and construction with Better Homes Studio. ",

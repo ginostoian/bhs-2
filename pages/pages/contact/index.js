@@ -4,10 +4,18 @@ import Hero from "../../../components/hero/Hero";
 import SocialProof from "../../../components/socialProof/SocialProof";
 import TextBlockDark from "../../../components/textBlockDark/TextBlockDark";
 import text from "../../../utils/text";
+import { useEffect } from "react";
+import Head from "next/head";
 
 const ContactPage = () => {
   const { title, titleAccent, subtitle, heroCTA, heroImgUrl } =
     text.contactPage.heroSection;
+
+  useEffect(() => {
+    // assign variable to window.Tally as nextjs does not recognize the Tally object as it is a third party script object
+    let Tally = window.Tally;
+    Tally.loadEmbeds();
+  }, []);
 
   return (
     <main>
