@@ -1,20 +1,27 @@
+import Head from "next/head";
 import Script from "next/script";
+import { useEffect } from "react";
+import { useState } from "react";
+
 import ContentRow from "../../../components/contentRow/ContentRow";
 import Hero from "../../../components/hero/Hero";
 import SocialProof from "../../../components/socialProof/SocialProof";
 import TextBlockDark from "../../../components/textBlockDark/TextBlockDark";
 import text from "../../../utils/text";
-import { useEffect } from "react";
-import Head from "next/head";
 
 const ContactPage = () => {
   const { title, titleAccent, subtitle, heroCTA, heroImgUrl } =
     text.contactPage.heroSection;
 
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
-    // assign variable to window.Tally as nextjs does not recognize the Tally object as it is a third party script object
-    let Tally = window.Tally;
-    Tally.loadEmbeds();
+    const scriptTag = document.createElement("script");
+
+    scriptTag.src = "https://tally.so/widgets/embed.js";
+    scriptTag.addEventListener("load", () => setLoaded(true));
+
+    document.body.appendChild(scriptTag);
   }, []);
 
   return (
@@ -40,13 +47,6 @@ const ContactPage = () => {
         className="contact-iframe"
         id="contactForm"
       ></iframe>
-      <Script
-        id="tally-js"
-        src="https://tally.so/widgets/embed.js"
-        onLoad={() => {
-          Tally.loadEmbeds();
-        }}
-      />
     </main>
   );
 };
