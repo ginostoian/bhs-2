@@ -3,10 +3,8 @@ import Script from "next/script";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import ContentRow from "../../../components/contentRow/ContentRow";
 import Hero from "../../../components/hero/Hero";
 import SocialProof from "../../../components/socialProof/SocialProof";
-import TextBlockDark from "../../../components/textBlockDark/TextBlockDark";
 import text from "../../../utils/text";
 
 const ContactPage = () => {
