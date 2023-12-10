@@ -71,7 +71,7 @@ const Footer = () => {
           </div>
 
           <p className={classes["footer__body-desc"]}>
-            We are inspired by change. That is why we are trying to disrupt the
+            We are inspired by change. That is why we are trying to change the
             way people renovate their homes. Our team takes care of your
             refurbishment project: home renovation, bathroom fitting, kitchen
             fitting and any aspect of general refurbishment you can think of.
@@ -95,7 +95,7 @@ const Footer = () => {
 
             <div className={classes["social-media"]}>
               <a
-                href="http://instagram.com"
+                href="https://www.instagram.com/better.homes.studio"
                 target="_blank"
               >
                 <Image
@@ -110,7 +110,7 @@ const Footer = () => {
 
             <div className={classes["social-media"]}>
               <a
-                href="http://facebook.com"
+                href="https://www.facebook.com/bhomes.studio"
                 target="_blank"
               >
                 <Image
