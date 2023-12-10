@@ -44,7 +44,7 @@ const ContentRow = ({
           <p className={classes["desc__body-text"]}>{p2}</p>
         </div>
         <Link
-          href={`${ctaTallyFormLink}`}
+          href={`${ctaTallyFormLink || slug} `}
           className="service__btn btn"
         >
           {cta}

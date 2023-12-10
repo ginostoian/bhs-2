@@ -12,6 +12,7 @@ import Faq from "../../../components/faq/Faq";
 import BlogHighlight from "../../../components/blog/BlogHighlight";
 
 const GeneralRenovationPage = () => {
+  const { ctaTallyFormLink } = text.generalRenovationPage;
   const { title, titleAccent, subtitle, heroCTA, heroImgUrl } =
     text.generalRenovationPage.heroSection;
 
@@ -105,6 +106,7 @@ const GeneralRenovationPage = () => {
         subtitle={subtitle}
         heroCTA={heroCTA}
         heroImgUrl={heroImgUrl}
+        ctaTallyFormLink={ctaTallyFormLink}
       />
       <SocialProof />
       <SectionTitle

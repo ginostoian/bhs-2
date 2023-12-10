@@ -1,6 +1,6 @@
 import Hero from "../../components/hero/Hero";
 
-const RenovationFormSubmittedPage = () => {
+const KitchenFormSubmittedPage = () => {
   return (
     <Hero
       title={"Thank you for submitting"}
@@ -15,4 +15,4 @@ const RenovationFormSubmittedPage = () => {
   );
 };
 
-export default RenovationFormSubmittedPage;
+export default KitchenFormSubmittedPage;

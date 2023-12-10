@@ -2,6 +2,7 @@
 import Image from "next/image";
 
 import classes from "./Hero.module.css";
+import Link from "next/link";
 
 const Hero = ({
   title,
@@ -35,12 +36,12 @@ const Hero = ({
             <p className={classes["hero__info-subtitle"]}>Satisfied Clients</p>
           </div>
         </div>
-        <a
-          href={ctaTallyFormLink}
+        <Link
+          href={ctaTallyFormLink || "/pages/contact"}
           className={`${classes["hero__btn"]} btn`}
         >
           {heroCTA}
-        </a>
+        </Link>
       </div>
       <div className={classes["hero__right"]}>
         <div className={classes["hero__right-img-fill"]}>
