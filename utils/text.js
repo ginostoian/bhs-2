@@ -263,7 +263,8 @@ const text = {
     },
   },
   kitchenPage: {
-    ctaTallyFormLink: "",
+    ctaTallyFormLink:
+      "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
     heroSection: {
       title: "Kitchen renovation & design with",
       titleAccent: "Better Homes Studio",
@@ -310,7 +311,7 @@ const text = {
         p2: "Our team will help you make the best decisions whether you are doing a full custom built kitchen or just the kitchen installation with us.",
         CTA: "Get your kitchen designed",
         imgSrc: "/assets/img/kitchen/kitchen-design.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       smallKitchen: {
         title: "Small kitchens",
@@ -320,7 +321,7 @@ const text = {
         p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/small-kitchen.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       modernKitchen: {
         title: "Modern kitchens",
@@ -331,7 +332,7 @@ const text = {
         p2: "This minimalistic approach to layout is what achieves a simple and elegant look.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/modern-kitchen.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       industrialKitchen: {
         title: "Industrial kitchens",
@@ -342,7 +343,7 @@ const text = {
         p2: "Whichever option you decide to go with, you can use metro tiles, grey colors, bare brick walls, exposed shelving and black shower frames.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/industrial-kitchen.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       openPlanKitchen: {
         title: "Open plan kitchens",
@@ -352,7 +353,7 @@ const text = {
         p2: "In an open plan kitchen, the design hangs on the interaction between the kitchen, especially the island, and dining or living room. This usually involves knocking down a wall.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/open-plan-kitchen.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       kitchenInExtension: {
         title: "Kitchen in extension",
@@ -363,7 +364,7 @@ const text = {
         p2: "Bifold or sliding patio doors are fantastic options that offer views out all year round, while installing a large roof lantern can bring in plenty of natural light to the new space.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/kitchen-extension.webp",
-        slug: "pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
     },
   },
@@ -426,7 +427,7 @@ const text = {
         p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/kitchen/contemporary-kitchen.webp",
-        slug: "/pages/kitchen-renovation",
+        slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       bathroomInstallation: {
         title: "Bathroom installation & Design",
@@ -436,7 +437,7 @@ const text = {
         p2: "Know what you want? Go for installation or get your bathroom designed and installed by us.",
         CTA: "Let's discuss your project",
         imgSrc: "/assets/img/bathroom/bathroom-design.webp",
-        slug: "/pages/bathroom-renovation",
+        slug: "#tally-open=3x6L5n&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
       },
       flooringInstallation: {
         title: "Flooring installation",
@@ -518,7 +519,7 @@ const text = {
         p2: "Single storey extensions require building control, but they might not need planning permission.",
         CTA: "Extent your home",
         imgSrc: "/assets/img/extension/single-storey-extension.webp",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
       sideReturnExtension: {
         title: "Side return extension",
@@ -528,7 +529,7 @@ const text = {
         p2: "Simplicity and cost are again the main selling points here, with the side return extension being relatively easy to build, taking less time than some of the other options and consequently also being among the least expensive of all options.",
         CTA: "Extend your home",
         imgSrc: "/assets/img/extension/side-return-extension.webp",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
       doubleStoreyExtension: {
         title: "Double storey extension",
@@ -539,7 +540,7 @@ const text = {
         p2: "Double storey home extensions can be built onto the back or the side of the house.",
         CTA: "Extend your home",
         imgSrc: "/assets/img/extension/double-storey-extension.webp",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
       overStructureExtension: {
         title: "Over structure extension",
@@ -549,7 +550,7 @@ const text = {
         p2: "This type of extension on top of the garage offers significant benefits compared to other extension types such as creating a large master bedroom with en-suite.",
         CTA: "Extend your home",
         imgSrc: "/assets/img/extension/over-structure-extension.webp",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
       basementExtension: {
         title: "Basement extension",
@@ -559,7 +560,7 @@ const text = {
         p2: "If you are adding a side or rear house extension to your house, you might be able to incorporate a basement extension into the design.",
         CTA: "Extend your home",
         imgSrc: "/assets/img/extension/basement.jpeg",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
       loftConversion: {
         title: "Loft conversion",
@@ -569,7 +570,7 @@ const text = {
         p2: "If your attic is not high enough, you could still add a room by building a dormer loft conversion or a mansard extension",
         CTA: "Convert your loft",
         imgSrc: "/assets/img/extension/loft-conversion.png",
-        slug: "pages/house-extension",
+        slug: "contact",
       },
     },
   },
