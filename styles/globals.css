@@ -68,7 +68,10 @@ body {
   overflow-x: hidden;
   /* background-color: var(--bg-primary);*/
   /*  old one #ddecfa */
-  background-color: #cde3fa;
+  /* cde3fa; */
+  /* efdece */
+
+  background-color: #DEDBD2;
   font-size: var(--fs-p-default-sm);
   line-height: 20px;
 }
