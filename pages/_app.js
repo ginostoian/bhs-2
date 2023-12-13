@@ -11,7 +11,10 @@ function MyApp({ Component, pageProps }) {
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-79F5GFQ1GP"
       ></Script>
-      <Script id="google-analytics">
+      <Script
+        async
+        id="google-analytics"
+      >
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
@@ -20,7 +23,10 @@ function MyApp({ Component, pageProps }) {
           gtag('config', 'G-79F5GFQ1GP');
         `}
       </Script>
-      <Script id="hotjar">
+      <Script
+        async
+        id="hotjar"
+      >
         {`
           (function(h,o,t,j,a,r){
               h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
