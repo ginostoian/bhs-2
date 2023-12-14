@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 5rem;
+    border-radius: 20px;
 }
 
 .service-wrapper-img {
@@ -15,6 +16,7 @@
     background-color: #fff;
     padding: 30px 20px;
     border-radius: 20px;
+    box-shadow: var(--box-shadow-2);
 }
 
 .desc__header-title {
