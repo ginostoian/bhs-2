@@ -26,6 +26,8 @@
 
 .how-we-work-title {
     font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
     color: #fff;
     line-height: 42px;
 }
@@ -41,7 +43,9 @@
 .step-title {
     color: var(--text-primary);
     margin-top: 0;
+    margin-bottom: 1rem;
     font-size: 1.25rem;
+    font-weight: 700;
     line-height: 28px;
 }
 

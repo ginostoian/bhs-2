@@ -21,7 +21,7 @@ const BlogPostHighlight = ({ article }) => {
         <h3 className={classes["article__body-title"]}>{title}</h3>
         <a
           href={`/pages/blogs/${slug}`}
-          className={`${classes["article__body-btn"]} btn`}
+          className={`${classes["article__body-btn"]} btn border-none`}
         >
           Read more
         </a>

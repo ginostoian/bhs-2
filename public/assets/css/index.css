@@ -130,6 +130,7 @@ a:hover {
     font-weight: 700;
     padding: 12px 30px;
     border-radius: 6px;
+    border-color: #7421fc;
     box-shadow: var(--box-shadow);
     font-size: var(--fs-p-default-sm);
     line-height: 26px;
@@ -591,6 +592,7 @@ a:hover {
 
 .service__btn {
     margin-top: 20px;
+    border-color: #7421fc;
 }
 
 @media(min-width: 480px) {
@@ -617,7 +619,7 @@ a:hover {
         object-fit: cover;
     }
 
-    .service-wrapper-img>img {
+    .service-wrapper-img > img {
         height: 450px;
         /* display: none; */
         object-fit: cover;

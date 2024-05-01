@@ -145,49 +145,49 @@ const Footer = () => {
 
             <div className={classes["footer__quarter-link-wrapper"]}>
               <Link
-                href="/pages/bathroom-renovation"
+                href="/bathroom-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Bathrooms
               </Link>
               <Link
-                href="/pages/kitchen-renovation"
+                href="/kitchen-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Kitchens
               </Link>
               <Link
-                href="/pages/general-renovation"
+                href="/general-renovation"
                 className={classes["footer__quarter-link"]}
               >
                 Renovation
               </Link>
               <Link
-                href="/pages/about"
+                href="/about"
                 className={classes["footer__quarter-link"]}
               >
                 About us
               </Link>
               <Link
-                href="/pages/blog"
+                href="/blog"
                 className={classes["footer__quarter-link"]}
               >
                 Blog
               </Link>
               <Link
-                href="/pages/faq"
+                href="/faq"
                 className={classes["footer__quarter-link"]}
               >
                 FAQ
               </Link>
               <Link
-                href="/pages/contact"
+                href="/contact"
                 className={classes["footer__quarter-link"]}
               >
                 Contact
               </Link>
               <Link
-                href="/pages/our-guarantee"
+                href="/our-guarantee"
                 className={classes["footer__quarter-link"]}
               >
                 Guarantee
@@ -234,13 +234,13 @@ const Footer = () => {
                 Call us
               </a>
               <Link
-                href="/pages/privacy-policy"
+                href="/privacy-policy"
                 className={classes["footer__quarter-link"]}
               >
                 Privacy policy
               </Link>
               <Link
-                href="/pages/terms-and-conditions"
+                href="/terms-and-conditions"
                 className={classes["footer__quarter-link"]}
               >
                 T's & C's
@@ -250,7 +250,10 @@ const Footer = () => {
         </div>
 
         <div className={classes["footer__body-copyright"]}>
-          <div>&copy; {new Date().getFullYear()} - Better Homes Studio</div>
+          <div>
+            &copy; {new Date().getFullYear()} - Better Homes Studio (The
+            Wisehome Group Limited)
+          </div>
           <div className="dot-divider"></div>
           <div>
             made by{" "}

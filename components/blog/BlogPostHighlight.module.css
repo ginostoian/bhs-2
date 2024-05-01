@@ -8,17 +8,21 @@
 
 .article__img {
     border-radius: 10px;
+    margin-bottom: .5rem;
 }
 
 .article__body-date {
     color: var(--bg-primary);
     font-size: 14px;
+    margin-bottom: 1rem;
 }
 
 .article__body-title {
     font-size: var(--fs-p-big-lg);
+    font-weight: 700;
     line-height: 35px;
     margin-top: 0;
+    padding-bottom: 1.8rem;
 }
 
 @media(min-width: 699px) {
@@ -29,6 +33,7 @@
 
     .article__img {
         width: 40%;
+        max-height: 300px;
         object-fit: cover;
     }
 

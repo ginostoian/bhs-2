@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -29,7 +31,7 @@ function Navigation() {
         <div className={classes["main-nav__left"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/pages/portfolio">Portfolio</Link>
+              <Link href="/portfolio">Portfolio</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <Link
@@ -50,42 +52,36 @@ function Navigation() {
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/pages/bathroom-renovation">
-                    Bathroom renovation
-                  </Link>
+                  <Link href="/bathroom-renovation">Bathroom renovation</Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/pages/kitchen-renovation">
-                    Kitchen renovation
-                  </Link>
+                  <Link href="/kitchen-renovation">Kitchen renovation</Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/pages/general-renovation">
-                    General renovation
-                  </Link>
+                  <Link href="/general-renovation">General renovation</Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/pages/interior-design">Interior design</Link>
+                  <Link href="/interior-design">Interior design</Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/pages/house-extension">House extension</Link>
+                  <Link href="/house-extension">House extension</Link>
                 </li>
               </ul>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/pages/contact">Contact</Link>
+              <Link href="/contact">Contact</Link>
             </li>
           </ul>
         </div>
@@ -127,13 +123,13 @@ function Navigation() {
         <div className={classes["main-nav__right"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/pages/about">About</Link>
+              <Link href="/about">About</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/pages/blog">Blog</Link>
+              <Link href="/blog">Knowledge</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/pages/faq">FAQ</Link>
+              <Link href="/faq">FAQ</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <a
@@ -159,7 +155,7 @@ function Navigation() {
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/pages/portfolio">Portfolio</Link>
+                <Link href="/portfolio">Portfolio</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
                 <Link
@@ -184,37 +180,31 @@ function Navigation() {
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/pages/bathroom-renovation">
-                      Bathroom renovation
-                    </Link>
+                    <Link href="/bathroom-renovation">Bathroom renovation</Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/pages/kitchen-renovation">
-                      Kitchen renovation
-                    </Link>
+                    <Link href="/kitchen-renovation">Kitchen renovation</Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/pages/general-renovation">
-                      General renovation
-                    </Link>
+                    <Link href="/general-renovation">General renovation</Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/pages/interior-design">Interior design</Link>
+                    <Link href="/interior-design">Interior design</Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/pages/house-extension">House extension</Link>
+                    <Link href="/house-extension">House extension</Link>
                   </li>
                 </ul>
               </li>
@@ -222,7 +212,7 @@ function Navigation() {
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/pages/contact">Contact</Link>
+                <Link href="/contact">Contact</Link>
               </li>
             </ul>
           </div>
@@ -232,19 +222,19 @@ function Navigation() {
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/pages/about">About</Link>
+                <Link href="/about">About</Link>
               </li>
               <li
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/pages/blog">Blog</Link>
+                <Link href="/blog">Knowledge</Link>
               </li>
               <li
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/pages/faq">FAQ</Link>
+                <Link href="/faq">FAQ</Link>
               </li>
             </ul>
           </div>

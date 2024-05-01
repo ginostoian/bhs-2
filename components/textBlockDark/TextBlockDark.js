@@ -14,8 +14,8 @@ const TextBlockDark = ({ content }) => {
           {content.darkBgTextSubtitle}
         </p>
         <Link
-          href="/pages/contact"
-          className="service__btn btn"
+          href="/contact"
+          className="service__btn btn border-none"
         >
           {content.darkBgTextBtn}
         </Link>

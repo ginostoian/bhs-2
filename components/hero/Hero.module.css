@@ -20,10 +20,10 @@
     color: var(--text-primary);
     font-size: calc(var(--fs-h3-sm) - 5px);
     line-height: 3rem;
-    margin-bottom: 0;
+    margin-bottom: 2rem;
     text-align: center;
     font-weight: 900;
-    margin-inline: -2.3rem;
+    margin-inline: -1rem;
 }
 
 .hero__subtitle {
@@ -43,6 +43,7 @@
     text-align: center;
     margin-bottom: 2.45rem;
     display: flex;
+    padding-block: 1.2rem;
 }
 
 .hero__info-title {
@@ -62,6 +63,12 @@
     padding: .6rem;
     width: 90%;
     margin-inline: auto;
+    height: 100px;
+    margin-block: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero__info-2 {
@@ -69,6 +76,12 @@
     padding: .6rem;
     width: 90%;
     margin-inline: auto;
+    height: 100px;
+    margin-block: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero__btn {
@@ -93,7 +106,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     object-fit: cover;
-    z-index: -100;
+    /* z-index: -100; */
 }
 
 @media (min-width: 525px) {

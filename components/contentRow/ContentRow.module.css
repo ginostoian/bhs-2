@@ -23,6 +23,7 @@
     color: var(--text-primary);
     font-size: var(--fs-h3-sm);
     line-height: 36px;
+    font-weight: 700;
     margin-top: 0;
     margin-bottom: 20px;
 }
@@ -31,6 +32,7 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 32px;
+    margin-bottom: 20px;
 }
 
 .desc__body-text {
@@ -38,10 +40,12 @@
     color: var(--text-primary);
     line-height: 24px;
     letter-spacing: .5px;
+    margin-bottom: 1.3em;
 }
 
 .service__btn {
     margin-top: 20px;
+    padding: 9px 30px;
 }
 
 @media(min-width: 480px) {
@@ -85,7 +89,7 @@
     }
 }
 
-@media(min-width: 1680px) {
+@media(min-width: 1980px) {
     .service-wrapper {
         justify-content: center;
     }

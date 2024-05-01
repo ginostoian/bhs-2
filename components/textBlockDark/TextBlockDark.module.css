@@ -15,8 +15,10 @@
 
 .textBlock__header-title {
     font-size: 38px;
+    font-weight: 900;
     line-height: 40px;
     margin-top: 20px;
+    margin-bottom: 2.5rem;
     /* max-width: 50%; */
 }
 

@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import classes from "./Hero.module.css";
 import Link from "next/link";
+import TestimonialsAvatars from "../TestimonialsAvatars";
 
 const Hero = ({
   title,
@@ -37,11 +38,12 @@ const Hero = ({
           </div>
         </div>
         <Link
-          href={ctaTallyFormLink || "/pages/contact"}
+          href={ctaTallyFormLink || "/contact"}
           className={`${classes["hero__btn"]} btn`}
         >
           {heroCTA}
         </Link>
+        <TestimonialsAvatars />
       </div>
       <div className={classes["hero__right"]}>
         <div className={classes["hero__right-img-fill"]}>

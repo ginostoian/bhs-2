@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  scroll-behavior: smooth !important;
+  background: #f0f0f0 !important;
+}
+
+/* It makes the HTML progress bar filling smooth when value change. */
+progress::-webkit-progress-value {
+  transition: 0.6s width ease-out;
+}
+
+/* @layer base {
+  .btn-gradient {
+    @apply !bg-gradient !bg-[length:300%_300%] hover:saturate-[1.2] shadow duration-100 !border-0 !border-transparent !bg-transparent animate-shimmer disabled: !bg-none disabled: !bg-gray-500/30 !text-white;
+  }
+
+  .btn {
+    @apply !capitalize;
+  }
+} */
+
+@font-face {
+  font-family: Satoshi;
+  src: url(/assets/fonts/Satoshi-Regular.otf);
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url(/assets/fonts/Satoshi-Medium.otf);
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url(/assets/fonts/Satoshi-Bold.otf);
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Satoshi;
+  src: url(/assets/fonts/Satoshi-Black.otf);
+  font-weight: 900;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #f6f4ff;
+  --bg-secondary: #34252f;
+  --clr-accent: #7421fc;
+  --text-primary: #100b47;
+  --text-secondary: #676b94;
+
+  --fs-h1-sm: 62px;
+  --fs-h1-lg: 72px;
+  --fs-h2-sm: 52px;
+  --fs-h2-lg: 62px;
+  --fs-h3-sm: 42px;
+  --fs-h3-lg: 52px;
+  --fs-h4-sm: 32px;
+  --fs-h4-lg: 42px;
+  --fs-p-default-sm: 16px;
+  --fs-p-default-lg: 26px;
+  --fs-p-big-sm: 18px;
+  --fs-p-big-lg: 28px;
+  --fs-p-small: 14px;
+
+  --box-shadow: rgba(79, 25, 167, 0.1) 0px 10px 30px 0px;
+  --box-shadow-2: 10px 17px 28px 6px rgba(79, 25, 167, 0.1),
+    -10px -17px 28px 6px rgba(79, 25, 167, 0.1);
+
+  --border-radius: 10px;
+}
+
+body {
+  margin: 0;
+  font-family: "Satoshi", sans-serif;
+  color: var(--text-secondary);
+  overflow-x: hidden;
+  /* background-color: var(--bg-primary);*/
+  /*  old one #ddecfa */
+  /* cde3fa; */
+  /* efdece */
+  background-color: #f0f0f0;
+  font-size: var(--fs-p-default-sm);
+  line-height: 20px;
+}
+
+.container {
+  max-width: 85%;
+  margin-inline: auto;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 2px;
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+a:hover {
+  color: var(--text-secondary);
+}
+
+.mb-3 {
+  margin-bottom: 2rem;
+}
+
+.box-shadow {
+  box-shadow: var(--box-shadow-2);
+}
+
+.accent-word {
+  color: var(--clr-accent);
+}
+
+.main-nav__logo-text-accent {
+  color: #7421fc;
+}
+
+.standout {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.logo-wrapper {
+  background-color: #fff;
+  opacity: 0.7;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: .5rem;
+  flex-wrap: wrap;
+  padding: 32px 3%;
+  margin: 40px 3% 80px;
+  box-shadow: var(--box-shadow-2);
+}
+
+.logo-wrapper__brand {
+  width: 80px;
+  height: 80px;
+}
+
+.brand-google {
+  margin: 12px 0%;
+  width: 140px;
+  height: 60px;
+}
+
+.btn {
+  background-color: var(--clr-accent);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 30px;
+  border-radius: 6px;
+  box-shadow: var(--box-shadow-2);
+  font-size: var(--fs-p-default-sm);
+  line-height: 26px;
+  cursor: pointer;
+  display: inline-block;
+  text-transform: capitalize;
+  transition: background-color 400ms ease;
+}
+
+.btn:hover {
+  background-color: var(--text-primary);
+  color: #fff;
+}
+
+.btn-disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.dot-divider {
+  width: 3px;
+  height: 3px;
+  margin-inline: 8px;
+  border-radius: 50%;
+  background-color: #7421fc;
+  color: transparent;
+}
+
+.active-link {
+  border-left: 1px dashed var(--clr-accent);
+  border-right: 1px dashed var(--clr-accent);
+}
+
+/* Dropdown */
+
+.dropdown-menu {
+  display: none;
+  flex-direction: column;
+  width: 220px;
+  gap: 1rem;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px 5px;
+  box-shadow: var(--box-shadow-2);
+  position: absolute;
+  top: 60px;
+  left: -20px;
+  list-style-type: none;
+}
+
+.dropdown__list-item {
+  padding-inline: 1rem;
+  font-size: var(--fs-p-default-sm);
+  font-weight: 500;
+}
+
+.dropdown-menu-visible {
+  display: flex;
+}
+
+.dropdown-menu-visible-mobile {
+  display: flex;
+  top: 150px;
+}
+
+.contact-iframe {
+  max-width: 85%;
+  display: block;
+  margin-inline: auto;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 32px 3%;
+  margin-bottom: 4rem;
+  box-shadow: var(--box-shadow-2);
+}

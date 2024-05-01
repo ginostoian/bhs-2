@@ -1,7 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import classes from "./ContentRow.module.css";
-import Link from "next/link";
 
 const ContentRow = ({
   title,
@@ -24,6 +24,7 @@ const ContentRow = ({
           alt="industrial bathroom renovation by better homes studio"
           width={800}
           height={350}
+          className="h-[350px]"
         />
       </div>
       <div
