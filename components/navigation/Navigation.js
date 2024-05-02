@@ -133,10 +133,10 @@ function Navigation() {
             </li>
             <li className={classes["main-nav__list-item"]}>
               <a
-                href="tel:07922391591"
+                href="tel:02080504707"
                 className="btn"
               >
-                Call us
+                0208 050 4707
               </a>
             </li>
           </ul>
