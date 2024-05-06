@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import classes from "./Footer.module.css";
+import SubscribeForm from "./SubscribeForm";
 
 const Footer = () => {
   return (
@@ -19,24 +20,7 @@ const Footer = () => {
         </div>
 
         <div className={classes["footer__subscribe-right"]}>
-          <form
-            name="subscribers"
-            netlify="true"
-            className={classes["form"]}
-          >
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email address"
-              required
-              className={`${classes["form-input"]} ${classes["form-input__email"]}`}
-            />
-            <input
-              type="submit"
-              className={`btn ${classes["form-input"]} ${classes["form-input__btn"]}`}
-              value="Subscribe"
-            />
-          </form>
+          <SubscribeForm />
           <div className={classes["form-info"]}>
             <div>Never Spam</div>
             <div className="dot-divider"></div>
