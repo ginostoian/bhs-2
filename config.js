@@ -296,7 +296,7 @@ const config = {
       titleAccent: "Experience hassle free",
       subtitle:
         "Bathroom design, supply and renovation. From 0 to 100 and you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes Studio way.",
-      heroCTA: "take the first step - it's free",
+      heroCTA: "Get your quote now - it's free",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
@@ -492,7 +492,7 @@ const config = {
       titleAccent: "Renovate with the best.",
       subtitle:
         "Kitchen fitting and renovation done right - On Time, On Budget, 5-Star Guarantee. From 0 to 100 without you having to lift a finger. Renovate smarter and easier - The Better Homes Studio way.",
-      heroCTA: "take the first step - it's free",
+      heroCTA: "Get your quote now - it's free",
       heroImgUrl: "kitchen/modern-kitchen.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
@@ -689,7 +689,7 @@ const config = {
       titleAccent: "Hello, dream home!",
       subtitle:
         "Tired of unreliable contractors and surprise costs? Say goodbye to renovation nightmares and endless contractor headaches. Our streamlined process, transparent communication, and skilled team will take you from 0 to 100 in no time.",
-      heroCTA: "take the first step - it's free",
+      heroCTA: "Get your quote now - it's free",
       heroImgUrl: "general/living-room-1.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
@@ -884,7 +884,7 @@ const config = {
       titleAccent: "It's hard but we make it easier.",
       subtitle:
         "Looking to create an inviting space bathed in natural light? Need extra space for a growing family? Want to experience the ease and functionality of open-plan living? Our team will work with you to bring your dream extension to life.",
-      heroCTA: "take the first step - it's free",
+      heroCTA: "Get your quote now - it's free",
       heroImgUrl: "extension/single-storey-extension.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
@@ -1079,7 +1079,7 @@ const config = {
       titleAccent: "See you soon",
       subtitle:
         "Tired of unreliable contractors and surprise costs? Say goodbye to renovation nightmares and endless contractor headaches. Our streamlined process, transparent communication, and skilled team will take you from 0 to 100 in no time.",
-      heroCTA: "take the first step - it's free",
+      heroCTA: "Get your quote now - it's free",
       heroImgUrl: "general/living-room-1.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
