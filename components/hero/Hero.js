@@ -29,7 +29,7 @@ const Hero = ({
         <p className={classes["hero__subtitle"]}>{subtitle}</p>
         <div className={classes["hero__left-info"]}>
           <div className={classes["hero__info-1"]}>
-            <p className={classes["hero__info-title"]}>16+</p>
+            <p className={classes["hero__info-title"]}>12+</p>
             <p className={classes["hero__info-subtitle"]}>Years Experience</p>
           </div>
           <div className={classes["hero__info-2"]}>
