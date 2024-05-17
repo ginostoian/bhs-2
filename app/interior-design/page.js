@@ -2,6 +2,7 @@ import FAQ from "@/components/FAQ";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
+import Testimonials3 from "@/components/Testimonials3";
 import WithWithout from "@/components/WithWithout";
 import BlogHighlight from "@/components/blog/BlogHighlight";
 import ContentRow from "@/components/contentRow/ContentRow";
@@ -42,6 +43,7 @@ export default function Page() {
         <SocialProof />
         <Problem />
         <FeaturesListicle />
+        <Testimonials3 />
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"

@@ -5,23 +5,23 @@ import config from "@/config";
 const list = [
   {
     // Optional, use for social media like Twitter. Does not link anywhere but cool to display
-    username: "marclou",
+    username: "jack_rob",
     // REQUIRED
-    name: "Marc Lou",
+    name: "Jack Robertson",
     // REQUIRED
-    text: "Really easy to use. The tutorials are really useful and explains how everything works. Hope to ship my next project really fast!",
+    text: "Better Homes did a fantastic job carrying out a complete renovation of our 1930s ‘chalet bungalow’ in Chingford. Many thanks to the project managers - Gino, Celli and Elena - and to their entire team of craft workers",
     // Optional, a statically imported image (usually from your public folder—recommended) or a link to the person's avatar. Shows a fallback letter if not provided
-    img: "https://pbs.twimg.com/profile_images/1514863683574599681/9k7PqDTA_400x400.jpg",
+    img: "",
   },
   {
-    username: "the_mcnaveen",
-    name: "Naveen",
-    text: "Setting up everything from the ground up is a really hard, and time consuming process. What you pay for will save your time for sure.",
+    username: "hunter_u",
+    name: "Hunter",
+    text: "I couldn't recommend Celino and his team more highly. They were extremely professional, hardworking and have great attention to detail.",
   },
   {
-    username: "wahab",
-    name: "Wahab Shaikh",
-    text: "Easily saves 15+ hrs for me setting up trivial stuff. Now, I can directly focus on shipping features rather than hours of setting up the same technologies from scratch. Feels like a super power! :D",
+    username: "ali_buch",
+    name: "Alice Buchanan",
+    text: "I had our kitchen redone and couldn’t be happier! Celino’s team were amazing from start to finish. They worked so incredibly hard to get everything completed within time and at a high standard",
   },
 ];
 
@@ -33,7 +33,7 @@ const Testimonial = ({ i }) => {
 
   return (
     <li key={i}>
-      <figure className="relative max-w-lg h-full p-6 md:p-10 bg-base-200 rounded-2xl max-md:text-sm flex flex-col">
+      <figure className="relative max-w-lg h-full p-6 md:p-10 bg-[#fff] rounded-2xl max-md:text-sm flex flex-col">
         <blockquote className="relative flex-1">
           <p className="text-base-content/80 leading-relaxed">
             {testimonial.text}
@@ -81,12 +81,12 @@ const Testimonials3 = () => {
         <div className="flex flex-col text-center w-full mb-20">
           <div className="mb-8">
             <h2 className="sm:text-5xl text-4xl font-extrabold text-base-content">
-              212 makers are already shipping faster!
+              500+ clients happy they chose us!
             </h2>
           </div>
           <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-base-content/80">
             Don&apos;t take our word for it. Here&apos;s what they have to say
-            about ShipFast.
+            about Better Homes Studio.
           </p>
         </div>
 
@@ -95,7 +95,10 @@ const Testimonials3 = () => {
           className="flex flex-col items-center lg:flex-row lg:items-stretch gap-6 lg:gap-8"
         >
           {[...Array(3)].map((e, i) => (
-            <Testimonial key={i} i={i} />
+            <Testimonial
+              key={i}
+              i={i}
+            />
           ))}
         </ul>
       </div>
