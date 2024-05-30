@@ -1,3 +1,4 @@
+import ButtonGradient from "@/components/ButtonGradient";
 import FAQ from "@/components/FAQ";
 import Testimonials11 from "@/components/Testimonials11";
 import WithWithout from "@/components/WithWithout";
@@ -18,12 +19,12 @@ export default function Page() {
     <>
       <main>
         <Hero
-          title="Thank you for getting filling out the form "
+          title="Thank you for getting filling out the form. "
           titleAccent="We'll be in touch"
-          subtitle="One of our team members will be in touch via email or phone shortly to either discuss further or send you an accurate estimate"
-          heroCTA="Go home"
+          subtitle="One of our team members will be in touch via email or phone shortly to further discuss your project. If you'd like to give us more information, click on the button bellow to fill out a detailed form."
+          heroCTA="Detailed quote form"
           heroImgUrl={contactPageCopy.heroImgUrl}
-          ctaTallyFormLink="/"
+          ctaTallyFormLink="https://tally.so/r/3x6L5n"
         />
         <SocialProof />
         <WithWithout />

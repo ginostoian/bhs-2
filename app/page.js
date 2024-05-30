@@ -1,4 +1,5 @@
 import FAQ from "@/components/FAQ";
+import FeaturesGrid from "@/components/FeaturesGrid";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
@@ -43,6 +44,7 @@ export default function Page() {
         <Problem />
         <FeaturesListicle />
         <Testimonials3 />
+        {/* <FeaturesGrid /> */}
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"

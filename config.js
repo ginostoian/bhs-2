@@ -291,7 +291,7 @@ const config = {
     },
     bathroomPage: {
       ctaTallyFormLink:
-        "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
       title: "Bathroom renovation chaos? ",
       titleAccent: "Experience hassle free",
       subtitle:
@@ -309,7 +309,7 @@ const config = {
           p2: "Our team will help you make the best decisions whether you are doing a full Design, Supply & Install or just the installation with us.",
           CTA: "Get your bathroom designed",
           imgSrc: "/assets/img/bathroom/bathroom-design.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
         smallBathroom: {
           title: "Small bathrooms",
@@ -319,7 +319,7 @@ const config = {
           p2: "Our team of bathroom refurbishment experts will guide you through the whole process.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/small-bathroom.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
         modernBathroom: {
           title: "Modern bathrooms",
@@ -330,7 +330,7 @@ const config = {
           p2: "If you really wish to put the X-Factor in extra, don’t, for once, shy away from bold colours encircling a statement bathtub or shower.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/modern-bathroom.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
         industrialBathroom: {
           title: "Industrial bathrooms",
@@ -341,7 +341,7 @@ const config = {
           p2: "Whichever option you decide to go with, you can use metro tiles, grey colors, bare brick walls, exposed shelving and black shower frames.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/industrial-bathroom.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
         traditionalBathroom: {
           title: "Traditional bathrooms",
@@ -351,7 +351,7 @@ const config = {
           p2: "Keep your accessories clean and simple, you could consider monogramming for your towels and bath mats.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/bathroom-trad.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
         victorianBathroom: {
           title: "Victorian bathrooms",
@@ -361,7 +361,7 @@ const config = {
           p2: "In general, the design for Victorian bathrooms focuses on beauty, elegance, and comfort.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/victorian-bathroom.webp",
-          slug: "#tally-open=3x6L5n&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
         },
       },
       howWeDoItSection: {
