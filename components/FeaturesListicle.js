@@ -337,7 +337,7 @@ const FeaturesListicle = () => {
             {/* 💡 COPY TIP: Remind visitors about the value of your product. Why do they need it? */}
             Don&apos;t be a statistic! Get your project on track now.
           </h2>
-          <div className="text-base-content/90 leading-relaxed mb-8 lg:text-lg lg:pl-20 lg:pr-20">
+          <div className="text-base-content/90 leading-relaxed mb-8 lg:text-lg lg:pl-20 lg:pr-20 lg:max-w-6xl lg:mx-auto">
             {/* 💡 COPY TIP: Explain how your product delivers what you promise in the headline. */}
             Construction and renovation projects are inherently complex and
             prone to delays and errors. However, with careful planning and
