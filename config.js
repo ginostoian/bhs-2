@@ -1856,7 +1856,7 @@ const config = {
       ctaTallyFormLink:
         "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
       title: "A picture is worth a thousand words. ",
-      titleAccent: "Take a peak at what your home could look like.",
+      titleAccent: "Take a peek at what your home could look like.",
       subtitle:
         "12 years of experience in the field and proud winners of the Best of Houzz Award two years in a row. We've completed hundreds of projects, from bathroom renovations to home extensions. Below are just a couple of examples to give you a taste.",
       heroCTA: "Start your project with us",
