@@ -1852,6 +1852,201 @@ const config = {
         },
       ],
     },
+    portfolioPage: {
+      ctaTallyFormLink:
+        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+      title: "A picture is worth a thousand words. ",
+      titleAccent: "Take a peak at what your home could look like.",
+      subtitle:
+        "12 years of experience in the field and proud winners of the Best of Houzz Award two years in a row. We've completed hundreds of projects, from bathroom renovations to home extensions. Below are just a couple of examples to give you a taste.",
+      heroCTA: "Start your project with us",
+      heroImgUrl: "social/bh-logo.png",
+      servicesSectionTitle: "What we do",
+      servicesSectionSubtitle: "Full service renovation company",
+      whatWeDoSection: {
+        fullHome: {
+          title: "Full home renovation",
+          subtitle: "Full house refurbishment.",
+          subtitleAccent: " Transform your house into a home.",
+          p1: "Renovating your house is a big task. There are a lot of big decisions to be made from design and furnishing to layout and practicality.",
+          p2: "Our team will help you make the best decisions and get the best possible outcome from the renovation.",
+          CTA: "Renovate your house",
+          imgSrc: "/assets/img/general/london-grey-living-room.webp",
+          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+        },
+        kitchenInstallation: {
+          title: "Kitchen installation & Design",
+          subtitle: "Your kitchen is the hub of your home.",
+          subtitleAccent: " Treat it well.",
+          p1: "Bespoke or designed at one of the big kitchen designers, renovating your kitchen will make a huge difference to your home.",
+          p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process",
+          CTA: "Let's discuss your project",
+          imgSrc: "/assets/img/kitchen/contemporary-kitchen.webp",
+          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+        },
+        bathroomInstallation: {
+          title: "Bathroom installation & Design",
+          subtitle: "One or two, or five, small or big, your bathroom is",
+          subtitleAccent: " important",
+          p1: "Designing and fitting a great bathroom will be a treat for the whole house.",
+          p2: "Know what you want? Go for installation or get your bathroom designed and installed by us.",
+          CTA: "Let's discuss your project",
+          imgSrc: "/assets/img/bathroom/bathroom-design.webp",
+          slug: "#tally-open=3x6L5n&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+        },
+        flooringInstallation: {
+          title: "Flooring installation",
+          subtitle:
+            "Laminate, engineered, tiles, cement, LVT or whatever you might like,",
+          subtitleAccent: " your floor will stand out.",
+          p1: "One of the biggest features of your home is the floor. It's important to consider the look and the long term practicality of your new flooring.",
+          p2: "Whichever option you decide to go with, we will make sure that it's flawlessly installed. We can even help you source it.",
+          CTA: "Let's discuss your project",
+          imgSrc: "/assets/img/general/flooring-1.webp",
+          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+        },
+        structuralWork: {
+          title: "Structural work",
+          subtitle: "As great as your home is,",
+          subtitleAccent: " it could do with some layout changes.",
+          p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
+          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          CTA: "Let's discuss your project",
+          imgSrc: "/assets/img/general/structural-1.webp",
+          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+        },
+        heating: {
+          title: "Heating & Boilers",
+          subtitle: "Pipework, boiler conversion or installation,",
+          subtitleAccent: " underfloor heating systems.",
+          p1: "Your home should be comfortable and nothing offers more comfort than the perfect temperature.",
+          p2: "Get your home up to date with the perfect heating system for you and your family.",
+          CTA: "Let's discuss your project",
+          imgSrc: "/assets/img/general/heating-1.webp",
+          slug: "/contact",
+        },
+      },
+      howWeDoItSection: {
+        bigGridTitle: "Trustworthy, reliable, friendly.",
+        bigGridText:
+          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+        gridOneNum: "1.",
+        gridOneTitle: "Expertise through experience.",
+        gridOneText:
+          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+        gridTwoNum: "2.",
+        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoText:
+          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+        gridThreeNum: "3.",
+        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeText:
+          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+        gridFourNum: "4.",
+        gridFourTitle: "After care and guarantees.",
+        gridFourText:
+          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+      },
+      reviewsSection: {
+        darkBgTextTitle:
+          "You are our top priority. Your satisfaction is our goal.",
+        darkBgTextSubtitle:
+          "We've built our business on the back of our clients satisfaction. If you are happy, we are happy. To read even more reviews, scroll to the bottom where you'll find links to different platforms with verified reviews.",
+        darkBgTextBtn: "Let's discuss",
+      },
+      faqs: [
+        {
+          question: "Who is Better Homes Studio?",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              We are a full service renovation company based in London. We do
+              everything from interior design to building extensions and
+              converting lofts. We bet there is nothing you can throw at us that
+              we can&apos;t do.
+            </div>
+          ),
+        },
+        {
+          question: "Are your quotes free?",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              Yes, our quotes are 100% free, detailed and transparent.
+            </div>
+          ),
+        },
+        {
+          question: "Do you offer a work guarantee?",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              Yes. The BH Studio workmanship guarantee covers our work from 1
+              year to 10 years depending on the project. You can read more about{" "}
+              <Link href="/our-guarantee">our guarantee here.</Link>
+            </div>
+          ),
+        },
+        {
+          question: "Can I use BHS just for the build phase?",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              Yes, if you provide us with the design, our team will take care of
+              translating your ideas into reality
+            </div>
+          ),
+        },
+        {
+          question: "How long will my project take?",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              It depends on the size of your project. A bathroom renovation
+              usually takes between 10 and 14 working days. A full flat or home
+              renovation can take from 3 weeks to 1 and a half months and up
+              depending on complexity. For a more specific answer, reach out to
+              us.
+            </div>
+          ),
+        },
+        {
+          question: "Do you offer refferal rewards?",
+          answer:
+            "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
+        },
+        {
+          question: "I have another question",
+          answer: (
+            <div className="space-y-2 leading-relaxed">
+              Great, give us a call or fill our form.
+            </div>
+          ),
+        },
+      ],
+      blogHighlights: [
+        {
+          title: "We won the Best of Houzz Service Award - 2023",
+          date: "23 February 2023",
+          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
+          slug: "best-of-houzz-winner-2023",
+        },
+        {
+          title: "Top 5 bathroom design trends in 2023",
+          date: "23 January 2023",
+          imgUrl: "/assets/img/bathroom/bathroom-design-trend-terrazzo.jpeg",
+          slug: "top-5-bathroom-design-trends-in-2023",
+        },
+        {
+          title: "Save money and time with a smart home",
+          date: "05 March 2023",
+          imgUrl: "/assets/img/smarthome/smarthome-1.webp",
+          slug: "smart-home-ideas-2023",
+        },
+        {
+          title: "Small bathroom design & renovation ideas",
+          date: "15 February 2023",
+          imgUrl:
+            "/assets/img/bathroom/vertical-layout-in-small-bathroom-design.jpeg",
+          slug: "small-bathroom-design-ideas",
+        },
+      ],
+    },
   },
 };
 
