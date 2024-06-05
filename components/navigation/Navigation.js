@@ -31,7 +31,7 @@ function Navigation() {
         <div className={classes["main-nav__left"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/portfolio">Portfolio</Link>
+              <Link href="/portfolio">Our work</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <Link
@@ -155,7 +155,7 @@ function Navigation() {
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
               >
-                <Link href="/portfolio">Portfolio</Link>
+                <Link href="/portfolio">Our work</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
                 <Link
