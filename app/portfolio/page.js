@@ -1,6 +1,6 @@
 import FAQ from "@/components/FAQ";
 import FeaturesListicle from "@/components/FeaturesListicle";
-import PortfolioCard from "@/components/PortfolioCard";
+import PortfolioCardContainer from "@/components/PortfolioCardContainer";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
 import Testimonials3 from "@/components/Testimonials3";
@@ -40,13 +40,9 @@ export default function Page() {
           heroImgUrl={portfolioCopy.heroImgUrl}
           ctaTallyFormLink={portfolioCopy.ctaTallyFormLink}
         />
-
         <SocialProof />
+        <PortfolioCardContainer />
         <Testimonials3 />
-        <div className="container flex flex-row flex-wrap gap-12">
-          <PortfolioCard />
-          <PortfolioCard />
-        </div>
         <WithWithout />
         <SectionTitle
           title="How we do it"
