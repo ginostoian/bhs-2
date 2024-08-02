@@ -292,8 +292,8 @@ const config = {
     bathroomPage: {
       ctaTallyFormLink:
         "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
-      title: "Renovate your bathroom with BH Studio ",
-      titleAccent: "Hassle free experience.",
+      title: "Renovate your bathroom with BHS. ",
+      titleAccent: "A hassle free experience.",
       subtitle:
         "Bathroom design, supply and renovation. We take care of every aspect of the project so you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes Studio way.",
       heroCTA: "Get your quote now - it's free",
