@@ -34,7 +34,7 @@
 :root {
   --bg-primary: #f6f4ff;
   --bg-secondary: #34252f;
-  --clr-accent: #7421fc;
+  --clr-accent: #266bf1;
   --text-primary: #100b47;
   --text-secondary: #676b94;
 
@@ -106,7 +106,7 @@ a:hover {
 }
 
 .main-nav__logo-text-accent {
-  color: #7421fc;
+  color: #266bf1;
 }
 
 .standout {
