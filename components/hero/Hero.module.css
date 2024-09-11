@@ -38,7 +38,7 @@
 
 .hero__left-info {
     background-color: #fff;
-    box-shadow: var(--box-shadow-2);
+    box-shadow: var(--box-shadow);
     border-radius: 10px;
     text-align: center;
     margin-bottom: 2.45rem;

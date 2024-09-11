@@ -24,7 +24,7 @@ const Hero = ({
       />
       <div className={classes["hero__left"]}>
         <h1 className={classes["hero__title"]}>
-          {title} <span className="accent-word">{titleAccent}</span>
+          {title} <span className="text-[#266bf1]">{titleAccent}</span>
         </h1>
         <p className={classes["hero__subtitle"]}>{subtitle}</p>
         <div className={classes["hero__left-info"]}>
@@ -40,7 +40,7 @@ const Hero = ({
         <Link
           href={ctaTallyFormLink || "/contact"}
           // className={`${classes["hero__btn"]}`}
-          className="w-full mb-10 flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white! border-transparent hover:bg-[#1449B0] active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] px-[20px] min-h-[64px] lg:min-h-[72px] lg:px-[24px] lg:w-[245px]! rounded-[16px] btn-shadow"
+          className="w-full mb-10 flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] px-[20px] min-h-[64px] lg:min-h-[72px] lg:px-[24px] lg:w-[245px]! rounded-[16px]"
         >
           {heroCTA}
         </Link>

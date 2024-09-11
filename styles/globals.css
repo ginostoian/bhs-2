@@ -93,7 +93,7 @@ a {
 }
 
 a:hover {
-  color: var(--text-secondary);
+  color: white;
 }
 
 .mb-3 {
