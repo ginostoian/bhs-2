@@ -35,6 +35,7 @@
   --bg-primary: #f6f4ff;
   --bg-secondary: #34252f;
   --clr-accent: #266bf1;
+  --accent-color: #266bf1;
   --text-primary: #100b47;
   --text-secondary: #676b94;
 
@@ -100,7 +101,7 @@ a:hover {
 }
 
 .accent-word {
-  color: var(--clr-accent);
+  color: #266bf1;
 }
 
 .main-nav__logo-text-accent {
@@ -138,7 +139,7 @@ a:hover {
 }
 
 .btn {
-  background-color: var(--clr-accent);
+  background-color: #266bf1;
   color: #fff;
   font-weight: 700;
   padding: 9px 30px;

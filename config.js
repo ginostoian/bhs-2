@@ -102,7 +102,7 @@ const config = {
       titleAccent: "Better Homes Studio",
       subtitle:
         "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze. Test",
-      heroCTA: "take the first step",
+      heroCTA: "Get your free estimate now",
       heroImgUrl: "misc/best-of-houzz-winner.png",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
