@@ -6,8 +6,8 @@ const SocialProof = () => {
   return (
     <section className="container">
       <p className="standout">
-        <span className="accent-word">5 star</span> rated and{" "}
-        <span className="accent-word">award </span>
+        <span className="text-[#266bf1]">5 star</span> rated and{" "}
+        <span className="text-[#266bf1]">award </span>
         winning company
       </p>
 
