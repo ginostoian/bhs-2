@@ -41,7 +41,7 @@ export default function Page() {
           heroImgUrl={homepageCopy.heroImgUrl}
         />
         <SocialProof />
-        <Problem />
+        {/* <Problem /> */}
         <FeaturesListicle />
         <Testimonials3 />
         {/* <FeaturesGrid /> */}

@@ -18,7 +18,7 @@ const features = [
             "Honest timelines",
             "Willingness to address client concerns",
             "Minimizing disruption to clients' lives, when possible",
-            "Excellent workmanship guarantees - up to 10 years",
+            "Excellent workmanship guarantees - up to 20 years",
           ].map((item) => (
             <li
               key={item}
@@ -68,7 +68,7 @@ const features = [
           {[
             "Dedicated project manager",
             "Full office staff",
-            "Automated sitemap generation to fasten Google indexing",
+            "Comprehensive Schedule of Works",
             "Project Management Tools",
             "Professional help and advice when needed",
             "In-house interior designers",
@@ -117,18 +117,18 @@ const features = [
     name: "Services",
     description: (
       <>
-        <ul className="space-y-1 flex flex-wrap gap-5 justify-center">
+        <ul className="space-y-2">
           {[
             "Interior design",
             "Bathroom renovation",
             "Kitchen renovation",
-            "Home renovation",
+            "Full Home renovation",
             "House extension",
             "Loft conversion",
           ].map((item) => (
             <li
               key={item}
-              className="flex items-center gap-1 max-w-[40%]"
+              className="flex items-center gap-3"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +146,7 @@ const features = [
               {item}
             </li>
           ))}
-          <li className="flex items-center gap-3 text-accent font-medium">
+          <li className="flex items-center gap-3 text-[#266bf1] font-medium">
             Being a full service renovation company, we will save you the time
             and hassle of managing multiple contractors on one project.
           </li>
@@ -330,12 +330,13 @@ const FeaturesListicle = () => {
     >
       <div className="text-center w-full mx-auto">
         <div className="max-md:px-8 mx-4">
-          <p className="text-accent font-medium text-sm font-mono mb-3">
-            There is a better way
+          <p className="text-[#266bf1] font-medium text-sm font-mono mb-3">
+            What you get
           </p>
           <h2 className="text-base-content/90 font-extrabold text-3xl lg:text-5xl mb-8">
             {/* 💡 COPY TIP: Remind visitors about the value of your product. Why do they need it? */}
-            Don&apos;t be a statistic! Get your project on track now.
+            We have refined our processes with you in mind! Choose the{" "}
+            <span className="text-[#266bf1]">better way</span> to renovate.
           </h2>
           <div className="text-base-content/90 leading-relaxed mb-8 lg:text-lg lg:pl-20 lg:pr-20 lg:max-w-6xl lg:mx-auto">
             {/* 💡 COPY TIP: Explain how your product delivers what you promise in the headline. */}
@@ -361,7 +362,7 @@ const FeaturesListicle = () => {
               <span
                 className={`duration-100 ${
                   featureSelected === feature.name
-                    ? "text-primary"
+                    ? "text-[#266bf1]"
                     : "text-base-content/50 group-hover:text-base-content/80"
                 }`}
               >
@@ -370,7 +371,7 @@ const FeaturesListicle = () => {
               <span
                 className={`font-semibold text-sm ${
                   featureSelected === feature.name
-                    ? "text-primary"
+                    ? "text-[#266bf1]"
                     : "text-base-content/60"
                 }`}
               >
