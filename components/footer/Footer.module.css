@@ -1,6 +1,6 @@
 .footer__subscribe {
   background-color: #fff;
-  box-shadow: var(--box-shadow-2);
+  box-shadow: var(--box-shadow);
   border-radius: 20px;
   margin-bottom: 20px;
   padding: 20px;
@@ -50,7 +50,7 @@
 .footer__body-half {
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: var(--box-shadow-2);
+  box-shadow: var(--box-shadow);
   padding: 20px;
   margin-bottom: 2rem;
   position: relative;
@@ -98,7 +98,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: var(--box-shadow-2);
+  box-shadow: var(--box-shadow);
 }
 
 .social-icon {
@@ -116,7 +116,7 @@
 
 .footer__body-quarter {
   background-color: #fff;
-  box-shadow: var(--box-shadow-2);
+  box-shadow: var(--box-shadow);
   padding: 20px;
   margin-bottom: 2rem;
   border-radius: 20px;
@@ -153,7 +153,7 @@
 }
 
 .footer__copyright-link {
-  color: #7421fc;
+  color: #266bf1;
 }
 
 /* .carbonNeutral {

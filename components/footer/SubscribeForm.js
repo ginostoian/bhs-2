@@ -51,7 +51,7 @@ const SubscribeForm = () => {
       <button
         type="submit"
         disabled={isDisabled}
-        className={`btn ${classes["form-input"]} ${classes["form-input__btn"]}`}
+        className={`w-max mb-10 flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] px-[20px] min-h-[48px] lg:min-h-[50px] lg:px-[24px] lg:w-[245px]! rounded-[16px] ${classes["form-input"]} ${classes["form-input__btn"]}`}
         value="Subscribe"
       >
         Subscribe
