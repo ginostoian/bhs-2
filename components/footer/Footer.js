@@ -31,13 +31,13 @@ const Footer = () => {
 
       <div className={classes["footer__body"]}>
         <div className={classes["footer__body-half"]}>
-          <Image
+          {/* <Image
             className={classes["footer-icon-circle"]}
             src="/assets/icons/circle.svg"
             width={24}
             height={24}
             alt=""
-          />
+          /> */}
           <div className={classes["footer-logo-wrapper"]}>
             <Image
               className={classes["footer__logo"]}
