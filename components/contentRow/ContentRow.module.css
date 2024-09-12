@@ -16,7 +16,7 @@
     background-color: #fff;
     padding: 30px 20px;
     border-radius: 20px;
-    box-shadow: var(--box-shadow-2);
+    box-shadow: var(--box-shadow);
 }
 
 .desc__header-title {
