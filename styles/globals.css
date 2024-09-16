@@ -35,8 +35,8 @@
   --bg-primary: #f6f4ff;
   --bg-secondary: #34252f;
   --clr-accent: #266bf1;
-  --accent-color: #266bf1;
-  --text-primary: #100b47;
+  --accent-color: #010611;
+  --text-primary: #080708;
   --text-secondary: #676b94;
 
   --fs-h1-sm: 62px;
@@ -68,7 +68,7 @@ body {
   font-family: "Satoshi", sans-serif;
   color: var(--text-secondary);
   overflow-x: hidden;
-  /* background-color: var(--bg-primary);*/
+  /* background-color: var(--bg-primary); */
   /*  old one #ddecfa */
   /* cde3fa; */
   /* efdece */
