@@ -134,7 +134,7 @@ function Navigation() {
             <li className={classes["main-nav__list-item"]}>
               <a
                 href="tel:02080504707"
-                className="w-full flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] leading-[140%] px-[20px] min-h-[64px] lg:min-h-[48px] lg:px-[24px] lg:w-[245px]! rounded-[16px] btn-shadow"
+                className="w-max flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-transparent text-[#266bf1] border-[#266bf1] hover:bg-[#1449B0] hover:border-transparent hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] leading-[140%] px-[20px] min-h-[64px] lg:min-h-[48px] lg:px-[24px] lg:w-[245px]! rounded-[20px] btn-shadow"
               >
                 0208 050 4707
               </a>
