@@ -16,7 +16,7 @@ const ContentRow = ({
   ctaTallyFormLink,
 }) => {
   return (
-    <div className={`${classes["service-wrapper"]} container`}>
+    <div className={`${classes["service-wrapper"]} container shadow-xl`}>
       <div className={classes["service-wrapper-img"]}>
         <Image
           src={imgSrc}
