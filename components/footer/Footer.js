@@ -8,7 +8,7 @@ import SubscribeForm from "./SubscribeForm";
 
 const Footer = () => {
   return (
-    <footer className="container shadow-xl">
+    <footer className="container">
       <div className={classes["footer__subscribe"]}>
         <div className={classes["footer__subscribe-left"]}>
           <p className={classes["subscribe-left__subtitle"]}>
