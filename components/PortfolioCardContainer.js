@@ -4,7 +4,7 @@ const PortfolioCardContainer = () => {
   return (
     <div className="container flex flex-row flex-wrap gap-12 justify-center">
       <PortfolioCard
-        imgURL="/assets/img/bathroom/dark-bold-colours-in-small-bathroom.jpeg"
+        imgURL="/assets/portfolio/textile-building-blue-bathroom/textile-building-bathroom-renovation-blue-terrazzo-13-cover.webp"
         imgAlt="black and gold luxury bathroom"
         title="Rosa's bathroom renovation"
         desc="A stunning refurbishment of a bathroom in SW15. Bold colours for a bold personality"
