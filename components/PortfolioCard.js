@@ -2,13 +2,14 @@ import Image from "next/image";
 
 const PortfolioCard = ({ imgURL, imgAlt, title, desc, tags, link }) => {
   return (
-    <div className="card max-h-[650px] lg:w-96 bg-base-100 shadow-xl">
-      <figure>
+    <div className="card max-h-[650px] lg:w-1/3 bg-base-100 shadow-xl">
+      <figure className="max-h-96">
         <Image
           src={imgURL}
           alt={imgAlt}
           width={500}
           height={500}
+          className="w-full"
         />
       </figure>
       <div className="card-body gap-4">
