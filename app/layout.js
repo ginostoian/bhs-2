@@ -8,6 +8,7 @@ import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 import "./globals.css";
+import Announcement from "@/components/Announcement";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
       <body>
         {/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
         <ClientLayout>
+          <Announcement />
           <Header />
           {children}
           <Footer />
