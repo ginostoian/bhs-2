@@ -4,7 +4,7 @@ import Link from "next/link";
 const Announcement = () => {
   return (
     <Link
-      class="max-w-[98%] mx-auto mt-2 group block bg-white hover:bg-gray-200 focus:outline-none focus:bg-gray-200 p-4 rounded-lg text-center transition duration-300"
+      class="max-w-[95%] mx-auto mt-2 group block bg-white hover:bg-gray-200 focus:outline-none focus:bg-gray-200 p-4 rounded-lg text-center transition duration-300"
       href="#"
     >
       <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
