@@ -1,4 +1,5 @@
 import FAQ from "@/components/FAQ";
+import Features from "@/components/Features";
 import FeaturesGrid from "@/components/FeaturesGrid";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import PortfolioCardContainer from "@/components/PortfolioCardContainer";
@@ -42,8 +43,11 @@ export default function Page() {
           heroImgUrl={homepageCopy.heroImgUrl}
         />
         <SocialProof />
-        {/* <Problem /> */}
-        <FeaturesListicle />
+        <SectionTitle
+          title="Why choose us"
+          subtitle="Our values are our promises to you"
+        />
+        <Features />
         <Testimonials3 />
         {/* <FeaturesGrid /> */}
         <SectionTitle
