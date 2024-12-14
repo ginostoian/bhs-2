@@ -1,4 +1,5 @@
 import FAQ from "@/components/FAQ";
+import Features from "@/components/Features";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
@@ -39,8 +40,9 @@ export default function Page() {
           heroImgUrl={homepageCopy.heroImgUrl}
         />
         <SocialProof />
-        <Problem />
-        <FeaturesListicle />
+        <Features />
+        {/* <Problem />
+        <FeaturesListicle /> */}
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"

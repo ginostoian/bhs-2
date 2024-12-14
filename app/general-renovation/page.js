@@ -1,4 +1,5 @@
 import FAQ from "@/components/FAQ";
+import Features from "@/components/Features";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
@@ -41,8 +42,9 @@ export default function Page() {
           ctaTallyFormLink={renovationPageCopy.ctaTallyFormLink}
         />
         <SocialProof />
-        <Problem />
-        <FeaturesListicle />
+        <Features />
+        {/* <Problem /> */}
+        {/* <FeaturesListicle /> */}
         <Testimonials3 />
         <SectionTitle
           title="What we do"
