@@ -104,7 +104,7 @@ const config = {
       subtitle:
         "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze.",
       heroCTA: "Get your free estimate now",
-      heroImgUrl: "misc/best-of-houzz-winner.png",
+      heroImgUrl: "modern-living-room-trustworthy.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
       whatWeDoSection: {
