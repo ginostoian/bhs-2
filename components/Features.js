@@ -6,21 +6,25 @@ const Features = () => {
     <div>
       {/* <!-- Features --> */}
       <div className="max-w-[90%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-        <div className="aspect-w-16 aspect-h-7">
+        <div className="aspect-w-16 aspect-h-7 relative">
           <Image
-            className="w-full object-cover rounded-xl max-h-[400px] bg-center"
-            src="/assets/img/happy-better-homes-studio-clients.webp"
+            className="w-full object-cover bg-contain rounded-xl max-h-[400px] bg-center"
+            src="/assets/img/happy-couple-high-five.jpg"
             alt="Features Image"
             width={500}
             height={500}
           />
+          <h1 className="absolute bottom-8 left-12 font-bold text-white text-3xl md:text-6xl lg:text-8xl bg-opacity-20 drop-shadow-md">
+            Our values <br />
+            are aligned with you!
+          </h1>
         </div>
 
         {/* <!-- Grid --> */}
-        <div className="mt-5 lg:mt-16 grid lg:grid-cols-3 gap-8 lg:gap-12 bg-white px-7 py-14 rounded-xl">
+        <div className=" grid mt-2 lg:grid-cols-3 gap-8 lg:gap-12 bg-white px-7 py-14 rounded-xl">
           <div className="lg:col-span-1">
             <h2 className="font-bold text-2xl md:text-4xl text-gray-800">
-              Our values are aligned with you!
+              Do not fret. We got you covered!
             </h2>
             <p className="mt-2 md:mt-4 text-gray-500 leading-relaxed tracking-wide">
               Construction and renovation projects are inherently complex and
