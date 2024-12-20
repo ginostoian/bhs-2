@@ -366,6 +366,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -562,6 +563,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -756,6 +758,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -950,6 +953,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -1144,6 +1148,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -1338,6 +1343,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -1532,6 +1538,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -1726,6 +1733,7 @@ const config = {
         },
       },
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
@@ -1857,6 +1865,7 @@ const config = {
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
       howWeDoItSection: {
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
