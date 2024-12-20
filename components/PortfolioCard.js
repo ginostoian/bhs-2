@@ -10,7 +10,7 @@ const PortfolioCard = ({
   projectURL,
 }) => {
   return (
-    <div className="card max-h-[650px] lg:w-1/3 bg-base-100 shadow-xl">
+    <div className="card max-h-[650px] lg:w-[25%] bg-base-100 shadow-xl">
       <figure className="max-h-96">
         <Image
           src={imgURL}

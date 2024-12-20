@@ -1,9 +1,7 @@
 import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
-import FeaturesGrid from "@/components/FeaturesGrid";
-import FeaturesListicle from "@/components/FeaturesListicle";
+import Approach from "@/components/Approach";
 import PortfolioCardContainer from "@/components/PortfolioCardContainer";
-import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
 import Testimonials3 from "@/components/Testimonials3";
 import WithWithout from "@/components/WithWithout";
@@ -70,6 +68,7 @@ export default function Page() {
             />
           );
         })}
+        <Approach />
         <SectionTitle
           title="Recent projects"
           subtitle="Simple, fast and streamlined process"

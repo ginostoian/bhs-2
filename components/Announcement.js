@@ -9,8 +9,8 @@ const Announcement = () => {
     >
       <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
         <p className="me-2 inline-block text-md text-gray-800">
-          Book a call now and unlock a{" "}
-          <span className="font-bold text-base">£1,000 discount</span> in
+          Book a call now and unlock an up to{" "}
+          <span className="font-bold text-base">£3,000 discount</span> in
           January
         </p>
         <span className="group-hover:underline group-focus:underline decoration-2 inline-flex justify-center items-center gap-x-2 font-semibold text-blue-600 text-sm">
