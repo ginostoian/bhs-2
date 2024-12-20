@@ -13,6 +13,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import PortfolioCardContainer2 from "@/components/PortfolioCardContainer";
 
 export default function Page() {
   const homepageCopy = config.copy.homepage;
@@ -68,11 +69,6 @@ export default function Page() {
           );
         })}
         <Approach />
-        <SectionTitle
-          title="Recent projects"
-          subtitle="Simple, fast and streamlined process"
-        />
-        <PortfolioCardContainer />
         <WithWithout />
         <SectionTitle
           title="Our build approach"
@@ -81,6 +77,7 @@ export default function Page() {
         <TextGrid content={howWeDoItCopy} />
         <Testimonials11 />
         <TextBlockDark content={reviewsCtaCopy} />
+        <PortfolioCardContainer />
         <FAQ content={faqCopy} />
         <SectionTitle
           title="The Knowledge Center"

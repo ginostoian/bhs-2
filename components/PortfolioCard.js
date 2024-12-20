@@ -1,51 +1,30 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const PortfolioCard = ({
-  imgURL,
-  imgAlt,
-  title,
-  desc,
-  tags = ["Renovation"],
-  projectURL,
-}) => {
+const PortfolioCard2 = ({ imgURL, imgAlt, title, tag }) => {
   return (
-    <div className="card max-h-[650px] lg:w-[25%] bg-base-100 shadow-xl">
-      <figure className="max-h-96">
+    <Link
+      class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md focus:outline-none focus:shadow-md transition"
+      href="#"
+    >
+      <div class="aspect-w-16 aspect-h-9">
         <Image
+          class="w-full max-h-[250px] object-cover rounded-t-xl"
           src={imgURL}
           alt={imgAlt}
           width={500}
           height={500}
-          className="w-full"
         />
-      </figure>
-      <div className="card-body gap-4">
-        <div className="card-actions justify-start">
-          {tags.map((tag, i) => {
-            return (
-              <div
-                key={i}
-                className="badge badge-outline"
-              >
-                {tag}
-              </div>
-            );
-          })}
-        </div>
-        <h2 className="card-title text-black text-2xl">{title}</h2>
-        <p>{desc}</p>
-
-        <div className="card-actions justify-start">
-          <Link href={projectURL || ""}>
-            <button className="w-max mt-2 flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-transparent capitalize text-[#266bf1] border-[#266bf1] hover:bg-[#1449B0] hover:text-gray-50 hover:border-transparent active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[16px] px-[20px] min-h-[46px] lg:min-h-[46px] lg:px-[24px] lg:w-[245px]! rounded-[20px]">
-              See more
-            </button>
-          </Link>
-        </div>
       </div>
-    </div>
+      <div class="p-4 md:p-5">
+        <p class="mt-2 text-xs uppercase text-gray-600">{tag}</p>
+        <h3 class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600">
+          {title}
+        </h3>
+      </div>
+    </Link>
   );
 };
 
-export default PortfolioCard;
+export default PortfolioCard2;
