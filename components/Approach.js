@@ -10,15 +10,14 @@ const Approach = () => {
         <div className="max-w-5xl px-4 xl:px-0 py-10 lg:pt-20 lg:pb-20 mx-auto">
           {/* <!-- Title --> */}
           <div className="max-w-3xl mb-10 lg:mb-14">
-            <h2 className="text-white font-semibold text-4xl md:text-6xl md:leading-tight">
+            <h2 className="text-white font-semibold text-6xl md:leading-tight mb-6 md:mb-0">
               Our pre-build approach
             </h2>
             <p className="mt-1 text-xl text-neutral-400">
-              We refined our processes with you in mind. Our pre-build approach
-              is designed to ensure that you feel confident and informed every
-              step of the way. With a customer-first mindset, we work together
-              to shape your vision into a detailed plan—keeping things simple,
-              clear, and hassle-free.
+              We have refined our process with you in mind. Our pre-build
+              approach ensures you feel confident and informed at every step.
+              With a customer-first mindset, we turn your vision into a clear,
+              comprehensive, hassle-free plan.
             </p>
           </div>
           {/* <!-- End Title --> */}
