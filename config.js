@@ -170,25 +170,25 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Easy, transparent and different",
+        bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
           "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Book an appointment",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "Use our quick and easy online form to book a date which suits you best. One of our experienced operators will be in touch to finalise your appointment.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Receive your free & transparent quote",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Based on your preferences discussed during the initial meeting, our team of expert estimators will craft a clear and transparent quote.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "We carry out the work",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Our friendly team of highly skilled professionals will effortlessly refurbish your home so you won't have to worry about a thing.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "Enjoy your new home + The BHS Guarantee",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Now it's time to sit back, relax and marvel at how your vision became a reality. It really is that simple, so what are you waiting for?",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -366,25 +366,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating bathrooms in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your bathroom renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your bathroom. Professionaly designed.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent scouring Pinterest and Google for inspiration and for what you need to purchase. Let our proffesional bathroom designers do all the heavy lifting. Relax, approve and visualise your bathroom in 3D from the comfort of your house. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading 2 year workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -563,25 +562,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating kitchens in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your kitchen fitting and renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your kitchen. Professionaly designed & fitted.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent scouring Pinterest and Google for inspiration and for what you need to purchase. If the big vendors are not cutting it out for you, let our proffesional designers do all the heavy lifting. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading 2 year workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -758,25 +756,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -953,25 +950,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been extending houses in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your extension? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your bathroom. Professionaly designed.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantee is designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1148,25 +1144,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1343,25 +1338,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1538,25 +1532,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1733,25 +1726,24 @@ const config = {
         },
       },
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1865,25 +1857,24 @@ const config = {
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full service renovation company",
       howWeDoItSection: {
-        bigGridTitle: "Trustworthy, reliable, friendly.",
         bigGridText:
-          "When things get messy, and they do, you'll be happy we're by your side, taking care of all the issues. Design, supply and build. All taken care of.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
         gridOneNum: "1.",
-        gridOneTitle: "Expertise through experience.",
+        gridOneTitle: "Project Kickoff",
         gridOneText:
-          "We have been designing and renovating homes in London for over 12 years. We have encountered all possible scenarios and all types of clients. This means we know how to manage anything that comes our way.",
+          "We start by reviewing the plan together, double-checking timelines, and ensuring every detail is perfectly aligned before the first tool is lifted.",
         gridTwoNum: "2.",
-        gridTwoTitle: "Detailed, transparent, no fluff quotes.",
+        gridTwoTitle: "Dedicated Team on Site",
         gridTwoText:
-          "Worried about 'the actual' price of your renovation? All our estimates and quotes are free, transparent and detailed. What you see is what you get. No more hidden costs that take the cost up by 50% more than initially quoted.",
+          "Our skilled team works efficiently and professionally, treating your home with the utmost care while keeping the site well-organized and safe.",
         gridThreeNum: "3.",
-        gridThreeTitle: "Your home. Professionaly refurbished.",
+        gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "Skip the tens of hours spent research and dealing with hard to work with contractors. Let our team of proffesionals do all the heavy lifting for you. Relax, approve and see your dreams come true in front of your eyes. Piece of cake.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
         gridFourNum: "4.",
-        gridFourTitle: "After care and guarantees.",
+        gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Our industry leading workmanship guarantees are designed to offer you peace of mind. On the off chance that something goes wrong, we come out and fix it for free. Simple like that. For item faults, we are more than happy to replace them while under warranty (labour costs may apply)",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
