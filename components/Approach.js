@@ -116,7 +116,7 @@ const Approach = () => {
                 <div className="grow pt-0.5 pb-8 sm:pb-12">
                   <p className="text-base lg:text-xl text-neutral-400">
                     <span className="text-white">On-Site Meeting:{"  "}</span>
-                    Once you’re happy with the initial discussions, we schedule
+                    Once you are happy with the initial discussions, we schedule
                     an on-site meeting to finalize details, assess your space,
                     and align with your expectations.
                   </p>
