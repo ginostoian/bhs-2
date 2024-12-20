@@ -47,7 +47,6 @@ export default function Page() {
         />
         <Features />
         <Testimonials3 />
-        {/* <FeaturesGrid /> */}
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"
@@ -76,7 +75,7 @@ export default function Page() {
         <PortfolioCardContainer />
         <WithWithout />
         <SectionTitle
-          title="How we do it"
+          title="Our build approach"
           subtitle="Simple, fast and streamlined process"
         />
         <TextGrid content={howWeDoItCopy} />

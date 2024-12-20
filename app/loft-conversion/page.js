@@ -1,7 +1,6 @@
+import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
-import FeaturesListicle from "@/components/FeaturesListicle";
-import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
 import WithWithout from "@/components/WithWithout";
 import BlogHighlight from "@/components/blog/BlogHighlight";
@@ -41,8 +40,6 @@ export default function Page() {
         />
         <SocialProof />
         <Features />
-        {/* <Problem />
-        <FeaturesListicle /> */}
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"
@@ -63,9 +60,10 @@ export default function Page() {
             />
           );
         })}
+        <Approach />
         <WithWithout />
         <SectionTitle
-          title="How we do it"
+          title="Our build approach"
           subtitle="Simple, fast and streamlined process"
         />
         <TextGrid content={howWeDoItCopy} />

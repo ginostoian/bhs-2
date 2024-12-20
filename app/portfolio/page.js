@@ -1,7 +1,7 @@
+import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
-import FeaturesListicle from "@/components/FeaturesListicle";
+import Features from "@/components/Features";
 import PortfolioCardContainer from "@/components/PortfolioCardContainer";
-import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
 import Testimonials3 from "@/components/Testimonials3";
 import WithWithout from "@/components/WithWithout";
@@ -43,9 +43,11 @@ export default function Page() {
         <SocialProof />
         <PortfolioCardContainer />
         <Testimonials3 />
+        <Features />
+        <Approach />
         <WithWithout />
         <SectionTitle
-          title="How we do it"
+          title="Our build approach"
           subtitle="Simple, fast and streamlined process"
         />
         <TextGrid content={howWeDoItCopy} />

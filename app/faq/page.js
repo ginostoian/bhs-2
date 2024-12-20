@@ -1,4 +1,6 @@
+import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
+import Features from "@/components/Features";
 import FeaturesListicle from "@/components/FeaturesListicle";
 import Problem from "@/components/Problem";
 import Testimonials11 from "@/components/Testimonials11";
@@ -40,11 +42,11 @@ export default function Page() {
         />
         <SocialProof />
         <FAQ content={faqCopy} />
-        <Problem />
-        <FeaturesListicle />
+        <Features />
+        <Approach />
         <WithWithout />
         <SectionTitle
-          title="How we do it"
+          title="Our build approach"
           subtitle="Simple, fast and streamlined process"
         />
         <TextGrid content={howWeDoItCopy} />
