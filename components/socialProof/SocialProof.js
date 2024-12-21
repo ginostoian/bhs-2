@@ -4,7 +4,7 @@ import classes from "./SocialProof.module.css";
 
 const SocialProof = () => {
   return (
-    <section className="container">
+    <section className="max-w-[90%] mx-auto">
       <p className="standout">
         <span className="text-[#266bf1]">5 star</span> rated and{" "}
         <span className="text-[#266bf1]">award </span>

@@ -5,7 +5,8 @@ const Announcement = () => {
   return (
     <Link
       className="max-w-[100%] mx-auto group block bg-white hover:bg-gray-300 focus:outline-none focus:bg-gray-200 p-4 rounded-lg text-center transition duration-300"
-      href="#"
+      href="https://cal.com/bhstudio/discovery"
+      target="_blank"
     >
       <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto">
         <p className="me-2 inline-block text-md text-gray-800">

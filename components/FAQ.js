@@ -93,7 +93,7 @@ const FAQ = ({ content }) => {
   faqList = content;
   return (
     <section
-      className="bg-base-200 container"
+      className="bg-base-100 container rounded-xl my-28"
       id="faq"
     >
       <div className="py-24 px-8 max-w-7xl mx-auto flex flex-col md:flex-row gap-12">

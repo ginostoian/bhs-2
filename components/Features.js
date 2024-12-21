@@ -5,7 +5,7 @@ const Features = () => {
   return (
     <div>
       {/* <!-- Features --> */}
-      <div className="max-w-[90%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
         <div className="aspect-w-16 aspect-h-7 relative">
           <Image
             className="w-full object-cover bg-contain rounded-xl max-h-[400px] bg-center"

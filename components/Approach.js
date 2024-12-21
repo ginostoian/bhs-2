@@ -5,7 +5,7 @@ const Approach = () => {
   return (
     <section className="max-w-[85%] mx-auto mb-20">
       {/* <!-- Approach --> */}
-      <div className="bg-neutral-900 rounded-3xl">
+      <div className="bg-gray-900 rounded-3xl">
         {/* <!-- Approach --> */}
         <div className="max-w-5xl px-4 xl:px-0 py-10 lg:pt-20 lg:pb-20 mx-auto">
           {/* <!-- Title --> */}

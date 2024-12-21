@@ -4,7 +4,6 @@ import Approach from "@/components/Approach";
 import PortfolioCardContainer from "@/components/PortfolioCardContainer";
 import Testimonials11 from "@/components/Testimonials11";
 import Testimonials3 from "@/components/Testimonials3";
-import WithWithout from "@/components/WithWithout";
 import BlogHighlight from "@/components/blog/BlogHighlight";
 import ContentRow from "@/components/contentRow/ContentRow";
 import Hero from "@/components/hero/Hero";
@@ -13,7 +12,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
-import PortfolioCardContainer2 from "@/components/PortfolioCardContainer";
+import Guarantee from "@/components/Guarantee";
 
 export default function Page() {
   const homepageCopy = config.copy.homepage;
@@ -69,7 +68,6 @@ export default function Page() {
           );
         })}
         <Approach />
-        <WithWithout />
         <SectionTitle
           title="Our build approach"
           subtitle="Simple, fast and streamlined process"
@@ -78,6 +76,7 @@ export default function Page() {
         <Testimonials11 />
         <TextBlockDark content={reviewsCtaCopy} />
         <PortfolioCardContainer />
+        <Guarantee />
         <FAQ content={faqCopy} />
         <SectionTitle
           title="The Knowledge Center"

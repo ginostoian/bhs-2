@@ -6,7 +6,7 @@ import PortfolioCard from "./PortfolioCard";
 const PortfolioCardContainer2 = () => {
   return (
     // <!-- Container-->
-    <div class="max-w-[90%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       {/* <!-- Title --> */}
       <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
         <h2 class="text-4xl text-[#100b47] font-black md:text-6xl md:leading-tight">
