@@ -10,7 +10,7 @@ const PortfolioCard2 = ({ imgURL, imgAlt, title, tag }) => {
     >
       <div class="aspect-w-16 aspect-h-9">
         <Image
-          class="w-full max-h-[250px] object-cover rounded-t-xl"
+          class="w-full max-h-[300px] object-cover rounded-t-xl"
           src={imgURL}
           alt={imgAlt}
           width={500}

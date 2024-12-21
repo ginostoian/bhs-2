@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-import PortfolioCard2 from "./PortfolioCard";
+import PortfolioCard from "./PortfolioCard";
 
 const PortfolioCardContainer2 = () => {
   return (
@@ -9,7 +9,7 @@ const PortfolioCardContainer2 = () => {
     <div class="max-w-[90%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       {/* <!-- Title --> */}
       <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
-        <h2 class="text-2xl text-[#100b47] font-black md:text-4xl md:leading-tight">
+        <h2 class="text-4xl text-[#100b47] font-black md:text-6xl md:leading-tight">
           Recent projects
         </h2>
         <p class="text-xl mt-2 text-gray-600">
@@ -21,25 +21,25 @@ const PortfolioCardContainer2 = () => {
       {/* <!-- Grid --> */}
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 lg:mb-14">
         {/* <!-- Card --> */}
-        <PortfolioCard2
+        <PortfolioCard
           imgURL="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-room.webp"
           imgAlt="House extension London N19"
           title="Daniel's stunning home extension & renovation"
           tag="Extension"
         />
-        <PortfolioCard2
+        <PortfolioCard
           imgURL="/assets/img/bathroom/bathroom-photo.webp"
           imgAlt="House extension London N19"
           title="Daniel's stunning home extension & renovation"
           tag="Extension"
         />
-        <PortfolioCard2
+        <PortfolioCard
           imgURL="/assets/img/bathroom/industrial-bathroom.webp"
           imgAlt="House extension London N19"
           title="Daniel's stunning home extension & renovation"
           tag="Extension"
         />
-        <PortfolioCard2
+        <PortfolioCard
           imgURL="/assets/img/bathroom/contemporary-bathroom.webp"
           imgAlt="House extension London N19"
           title="Daniel's stunning home extension & renovation"
