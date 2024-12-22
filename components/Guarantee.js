@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const Guarantee = () => {
   const stats = [
@@ -47,6 +48,7 @@ const Guarantee = () => {
           </ul>
         </div>
       </div>
+
       <div
         className="absolute inset-0 max-w-md mx-auto h-80 blur-[118px] sm:h-72"
         style={{
@@ -54,6 +56,34 @@ const Guarantee = () => {
             "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.26) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)",
         }}
       ></div>
+
+      <div class="md:text-center mt-20 px-4">
+        <div class="inline-block bg-white border shadow-sm rounded-full">
+          <div class="py-3 px-4 flex items-center gap-x-2">
+            <p class="text-gray-600">Want to read more?</p>
+            <Link
+              class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+              href="/our-guarantee"
+            >
+              Go here
+              <svg
+                class="shrink-0 size-4"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
