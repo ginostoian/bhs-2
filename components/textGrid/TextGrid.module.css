@@ -1,98 +1,98 @@
 /* How we work section */
 
 .how-we-work {
-    margin-bottom: 5rem;
-    text-align: left;
+  margin-bottom: 5rem;
+  text-align: left;
 }
 
 .how-we-work-text {
-    background-color: var(--text-primary);
-    color: #e3e3e3;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
+  background-color: rgb(17 24 39);
+  color: #e3e3e3;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .step {
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 .how-we-work-body {
-    line-height: 1.7rem;
+  line-height: 1.7rem;
 }
 
 .how-we-work-title {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #fff;
-    line-height: 42px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+  line-height: 42px;
 }
 
 .step-number {
-    font-size: 1.5rem;
-    color: #266bf1;
-    margin-bottom: 0;
-    line-height: 3rem;
-    font-weight: 400;
+  font-size: 1.5rem;
+  color: #266bf1;
+  margin-bottom: 0;
+  line-height: 3rem;
+  font-weight: 400;
 }
 
 .step-title {
-    color: var(--text-primary);
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-    line-height: 28px;
+  color: var(--text-primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 28px;
 }
 
 .step-text {
-    line-height: 1.5rem;
-    font-size: 0.92rem;
+  line-height: 1.5rem;
+  font-size: 0.92rem;
 }
 
-@media screen and (min-width:768px) {
-    .how-we-work-steps {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5%;
-        text-align: left;
-        justify-content: space-evenly;
-    }
+@media screen and (min-width: 768px) {
+  .how-we-work-steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5%;
+    text-align: left;
+    justify-content: space-evenly;
+  }
 
-    .step {
-        width: 45%;
-    }
+  .step {
+    width: 45%;
+  }
 }
 
-@media screen and (min-width:1200px) {
-    .how-we-work-container {
-        display: flex;
-    }
+@media screen and (min-width: 1200px) {
+  .how-we-work-container {
+    display: flex;
+  }
 
-    .how-we-work-steps {
-        width: 70%;
-    }
+  .how-we-work-steps {
+    width: 70%;
+  }
 
-    .how-we-work-text {
-        width: 30%;
-        align-self: flex-end;
-    }
+  .how-we-work-text {
+    width: 30%;
+    align-self: flex-end;
+  }
 
-    .how-we-work-title {
-        font-size: 2.6rem;
-        text-align: right;
-        line-height: 48px;
-    }
+  .how-we-work-title {
+    font-size: 2.6rem;
+    text-align: right;
+    line-height: 48px;
+  }
 
-    .how-we-work-body {
-        text-align: right;
-    }
+  .how-we-work-body {
+    text-align: right;
+  }
 
-    .step {
-        width: 40%;
-    }
+  .step {
+    width: 40%;
+  }
 }
