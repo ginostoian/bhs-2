@@ -21,10 +21,10 @@ const Guarantee = () => {
     },
   ];
   return (
-    <section className="max-w-[85%] mx-auto mt-6 rounded-xl py-28 bg-gray-900 relative">
-      <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
+    <section className="relative mx-auto mb-24 mt-6 max-w-[85%] rounded-xl bg-gray-900 py-28">
+      <div className="relative z-10 mx-auto max-w-screen-xl px-4 md:px-8">
         <div className="max-w-2xl xl:mx-auto xl:text-center">
-          <h3 className="text-white text-3xl font-semibold sm:text-5xl">
+          <h3 className="text-3xl font-semibold text-white sm:text-5xl">
             The best workmanship guarantee on the market?
           </h3>
           <p className="mt-6 text-lg text-gray-300">
@@ -33,16 +33,13 @@ const Guarantee = () => {
           </p>
         </div>
         <div className="mt-12">
-          <ul className="flex-wrap gap-x-12 gap-y-10 items-center space-y-8 sm:space-y-0 sm:flex xl:justify-center">
+          <ul className="flex-wrap items-center gap-x-12 gap-y-10 space-y-8 sm:flex sm:space-y-0 xl:justify-center">
             {stats.map((item, idx) => (
-              <li
-                key={idx}
-                className="sm:max-w-[15rem]"
-              >
-                <h4 className="text-4xl text-white font-semibold">
+              <li key={idx} className="sm:max-w-[15rem]">
+                <h4 className="text-4xl font-semibold text-white">
                   {item.data}
                 </h4>
-                <p className="mt-3 text-gray-400 font-medium">{item.desc}</p>
+                <p className="mt-3 font-medium text-gray-400">{item.desc}</p>
               </li>
             ))}
           </ul>
@@ -50,24 +47,24 @@ const Guarantee = () => {
       </div>
 
       <div
-        className="absolute inset-0 max-w-md mx-auto h-80 blur-[118px] sm:h-72"
+        className="absolute inset-0 mx-auto h-80 max-w-md blur-[118px] sm:h-72"
         style={{
           background:
             "linear-gradient(152.92deg, rgba(192, 132, 252, 0.2) 4.54%, rgba(232, 121, 249, 0.26) 34.2%, rgba(192, 132, 252, 0.1) 77.55%)",
         }}
       ></div>
 
-      <div class="md:text-center mt-20 px-4">
-        <div class="inline-block bg-white border shadow-sm rounded-full">
-          <div class="py-3 px-4 flex items-center gap-x-2">
+      <div class="mt-20 px-4 md:text-center">
+        <div class="inline-block rounded-full border bg-white shadow-sm">
+          <div class="flex items-center gap-x-2 px-4 py-3">
             <p class="text-gray-600">Want to read more?</p>
             <Link
-              class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+              class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
               href="/our-guarantee"
             >
               Go here
               <svg
-                class="shrink-0 size-4"
+                class="size-4 shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"

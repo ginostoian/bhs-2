@@ -13,6 +13,7 @@ import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
 import Guarantee from "@/components/Guarantee";
+import CustomCTA from "@/components/CustomCTA";
 
 export default function Page() {
   const homepageCopy = config.copy.homepage;
@@ -77,6 +78,7 @@ export default function Page() {
         <TextBlockDark content={reviewsCtaCopy} />
         <PortfolioCardContainer />
         <Guarantee />
+        <CustomCTA />
         <FAQ content={faqCopy} />
         <SectionTitle
           title="The Knowledge Center"

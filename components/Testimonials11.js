@@ -16,7 +16,7 @@ const refTypes = {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-6 h-6"
+        className="h-6 w-6"
       >
         <path
           strokeLinecap="round"
@@ -31,7 +31,7 @@ const refTypes = {
     ariaLabel: "See user post on Twitter",
     svg: (
       <svg
-        className="w-3 h-3 fill-[#00aCee]"
+        className="h-3 w-3 fill-[#00aCee]"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
       >
@@ -102,16 +102,6 @@ The better homes studio managed to bring my vision to life, I still can’t beli
     link: "https://www.houzz.co.uk/viewReview/2006566/better-homes-studio-review",
   },
   {
-    name: "Marc Lou",
-    text: "This team is exactly what I didn't even know I needed.",
-    videoPoster: "https://d1wkquwg5s1b04.cloudfront.net/demo/marcPoster.jpg",
-    videoSrc: "https://d1wkquwg5s1b04.cloudfront.net/demo/marcVideo.mp",
-    videoHeight: 250,
-    videoWidth: 500,
-    videoType: "video/mp4",
-    type: refTypes.video,
-  },
-  {
     name: "HU-36197023",
     username: "HU-36197023",
     text: "We have now worked with Celli, Gino and the team twice, once for a major renovation and once for some minor but important work, and both times we have been absolutely delighted with the service that they have provided.",
@@ -147,27 +137,27 @@ const Testimonial = ({ i }) => {
 
   return (
     <li key={i}>
-      <figure className="relative h-full p-6 bg-base-100 rounded-lg">
+      <figure className="relative h-full rounded-lg bg-base-100 p-6">
         <blockquote className="relative">
           <p className="text-sm text-base-content/80">{testimonial.text}</p>
         </blockquote>
-        <figcaption className="relative flex items-center justify-start gap-4 pt-4 mt-4 border-t border-base-content/5">
-          <div className="overflow-hidden rounded-full bg-base-300 shrink-0">
+        <figcaption className="relative mt-4 flex items-center justify-start gap-4 border-t border-base-content/5 pt-4">
+          <div className="shrink-0 overflow-hidden rounded-full bg-base-300">
             {testimonial.img ? (
               <Image
-                className="w-10 h-10 rounded-full object-cover"
+                className="h-10 w-10 rounded-full object-cover"
                 src={list[i].img}
                 alt={`${list[i].name}'s testimonial for ${config.appName}`}
                 width={48}
                 height={48}
               />
             ) : (
-              <span className="w-10 h-10 rounded-full flex justify-center items-center text-lg font-medium bg-base-300">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-base-300 text-lg font-medium">
                 {testimonial.name.charAt(0)}
               </span>
             )}
           </div>
-          <div className="w-full flex items-end justify-between gap-2">
+          <div className="flex w-full items-end justify-between gap-2">
             <div>
               <div className="text-sm font-medium text-base-content">
                 {testimonial.name}
@@ -183,7 +173,7 @@ const Testimonial = ({ i }) => {
               <a
                 href={testimonial.link}
                 target="_blank"
-                className="shrink-0 "
+                className="shrink-0"
                 aria-label={testimonial.type?.ariaLabel}
               >
                 {testimonial.type?.svg}
@@ -227,11 +217,11 @@ const VideoTestimonial = ({ i }) => {
   return (
     <li
       key={i}
-      className="break-inside-avoid max-md:flex justify-center bg-base-100 rounded-lg overflow-hidden flex flex-col"
+      className="flex break-inside-avoid flex-col justify-center overflow-hidden rounded-lg bg-base-100 max-md:flex"
     >
       <div className="relative w-full">
         {isLoading && (
-          <span className="z-40 !h-24 !w-24 !bg-gray-50 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 loading loading-ring"></span>
+          <span className="loading loading-ring absolute left-1/2 top-1/2 z-40 !h-24 !w-24 -translate-x-1/2 -translate-y-1/2 !bg-gray-50"></span>
         )}
         <video
           className="w-full"
@@ -254,11 +244,11 @@ const VideoTestimonial = ({ i }) => {
         </video>
 
         {!isPlaying && (
-          <div className="absolute bottom-0 -inset-x-4 bg-gray-900/50 blur-lg h-24 translate-y-1/4 animate-opacity"></div>
+          <div className="absolute -inset-x-4 bottom-0 h-24 translate-y-1/4 animate-opacity bg-gray-900/50 blur-lg"></div>
         )}
 
-        <div className="absolute w-full bottom-0 z-20">
-          <div className="flex justify-between items-end p-4">
+        <div className="absolute bottom-0 z-20 w-full">
+          <div className="flex items-end justify-between p-4">
             <button
               className="group cursor-pointer"
               type="button"
@@ -272,7 +262,7 @@ const VideoTestimonial = ({ i }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className=" w-14 h-14 fill-gray-50 group-hover:scale-[1.05] duration-100 ease-in drop-shadow-lg animate-opacity"
+                  className="h-14 w-14 animate-opacity fill-gray-50 drop-shadow-lg duration-100 ease-in group-hover:scale-[1.05]"
                 >
                   <path
                     fillRule="evenodd"
@@ -286,7 +276,7 @@ const VideoTestimonial = ({ i }) => {
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="w-14 h-14 fill-gray-50 group-hover:scale-[1.05] duration-100 ease-in drop-shadow-lg animate-opacity"
+                  className="h-14 w-14 animate-opacity fill-gray-50 drop-shadow-lg duration-100 ease-in group-hover:scale-[1.05]"
                 >
                   <path
                     fillRule="evenodd"
@@ -299,7 +289,7 @@ const VideoTestimonial = ({ i }) => {
 
             {!isPlaying && (
               <div className="animate-opacity text-right">
-                <p className="text-gray-50 font-medium drop-shadow">
+                <p className="font-medium text-gray-50 drop-shadow">
                   {testimonial.name}
                 </p>
                 <div className="rating">
@@ -308,7 +298,7 @@ const VideoTestimonial = ({ i }) => {
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
-                      className="w-5 h-5 text-accent drop-shadow"
+                      className="h-5 w-5 text-accent drop-shadow"
                       key={i}
                     >
                       <path
@@ -325,7 +315,7 @@ const VideoTestimonial = ({ i }) => {
         </div>
       </div>
 
-      <div className="relative z-20 bg-accent text-accent-content text-base leading-tight font-medium p-4 select-none">
+      <div className="relative z-20 select-none bg-accent p-4 text-base font-medium leading-tight text-accent-content">
         <p>&quot;{testimonial.text}&quot;</p>
       </div>
     </li>
@@ -334,18 +324,15 @@ const VideoTestimonial = ({ i }) => {
 
 const Testimonials11 = () => {
   return (
-    <section
-      className="bg-base-200"
-      id="testimonials"
-    >
-      <div className="py-24 px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col text-center w-full mb-20">
+    <section className="bg-base-200" id="testimonials">
+      <div className="mx-auto max-w-7xl px-8 py-24">
+        <div className="mb-20 flex w-full flex-col text-center">
           <div className="mb-8">
-            <h2 className="sm:text-5xl text-4xl font-extrabold text-[#100b47]">
+            <h2 className="text-4xl font-extrabold text-[#100b47] sm:text-5xl">
               Hundreds of clients are thrilled about their new homes!
             </h2>
           </div>
-          <p className="lg:w-2/3 mx-auto leading-relaxed text-base text-base-content/80">
+          <p className="mx-auto text-base leading-relaxed text-base-content/80 lg:w-2/3">
             Don&apos;t take our word for it. Here&apos;s what they have to say
             about {config.appName}.
           </p>
@@ -353,37 +340,31 @@ const Testimonials11 = () => {
 
         <ul
           role="list"
-          className="grid max-w-2xl grid-cols-1 gap-6 mx-auto sm:gap-8 md:grid-cols-2 lg:max-w-none lg:grid-cols-4"
+          className="mx-auto grid max-w-2xl grid-cols-1 gap-6 sm:gap-8 md:grid-cols-2 lg:max-w-none lg:grid-cols-4"
         >
           <li>
-            <ul
-              role="list"
-              className="flex flex-col gap-y-6 sm:gap-y-8"
-            >
+            <ul role="list" className="flex flex-col gap-y-6 sm:gap-y-8">
               {[...Array(3)].map((e, i) => (
-                <Testimonial
-                  key={i}
-                  i={i}
-                />
+                <Testimonial key={i} i={i} />
               ))}
             </ul>
           </li>
 
-          <li className="hidden md:grid order-none md:order-first lg:order-none col-span-2 grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+          <li className="order-none col-span-2 hidden grid-cols-1 gap-6 sm:gap-8 md:order-first md:grid md:grid-cols-2 lg:order-none">
             {/* BIG FEATURED TESTIMONIAL — THE LAST ONE IN THE LIST (11th) */}
             <ul className="col-span-2">
               <li>
-                <figure className="relative h-full p-6 bg-base-100 rounded-lg">
+                <figure className="relative h-full rounded-lg bg-base-100 p-6">
                   <blockquote className="relative p-4">
                     <p className="text-lg font-medium text-base-content">
                       {list[list.length - 1].text}
                     </p>
                   </blockquote>
-                  <figcaption className="relative flex items-center justify-start gap-4 pt-4 mt-4 border-t border-base-content/5">
-                    <div className="overflow-hidden rounded-full bg-base-300 shrink-0">
+                  <figcaption className="relative mt-4 flex items-center justify-start gap-4 border-t border-base-content/5 pt-4">
+                    <div className="shrink-0 overflow-hidden rounded-full bg-base-300">
                       {list[list.length - 1].img ? (
                         <Image
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="h-12 w-12 rounded-full object-cover"
                           src={list[list.length - 1].img}
                           alt={`${
                             list[list.length - 1].name
@@ -392,7 +373,7 @@ const Testimonials11 = () => {
                           height={48}
                         />
                       ) : (
-                        <span className="w-12 h-12 rounded-full flex justify-center items-center text-xl font-medium bg-base-300">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-base-300 text-xl font-medium">
                           {list[list.length - 1].name.charAt(0)}
                         </span>
                       )}
@@ -411,39 +392,21 @@ const Testimonials11 = () => {
                 </figure>
               </li>
             </ul>
-            <ul
-              role="list"
-              className="flex flex-col gap-y-6 sm:gap-y-8"
-            >
+            <ul role="list" className="flex flex-col gap-y-6 sm:gap-y-8">
               {[...Array(2)].map((e, i) => (
-                <Testimonial
-                  key={i}
-                  i={i + 3}
-                />
+                <Testimonial key={i} i={i + 3} />
               ))}
             </ul>
-            <ul
-              role="list"
-              className="flex flex-col gap-y-6 sm:gap-y-8"
-            >
+            <ul role="list" className="flex flex-col gap-y-6 sm:gap-y-8">
               {[...Array(2)].map((e, i) => (
-                <Testimonial
-                  key={i}
-                  i={i + 5}
-                />
+                <Testimonial key={i} i={i + 5} />
               ))}
             </ul>
           </li>
           <li>
-            <ul
-              role="list"
-              className="flex flex-col gap-y-6 sm:gap-y-8"
-            >
+            <ul role="list" className="flex flex-col gap-y-6 sm:gap-y-8">
               {[...Array(3)].map((e, i) => (
-                <Testimonial
-                  key={i}
-                  i={i + 7}
-                />
+                <Testimonial key={i} i={i + 7} />
               ))}
             </ul>
           </li>

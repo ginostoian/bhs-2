@@ -10,12 +10,14 @@ const TextBlockDark = ({ content }) => {
         <h2 className={classes["textBlock__header-title"]}>
           {content.darkBgTextTitle}
         </h2>
-        <p className={classes["textBlock__header-subtitle"]}>
+        <p
+          className={`${classes["textBlock__header-subtitle"]} mx-auto max-w-3xl`}
+        >
           {content.darkBgTextSubtitle}
         </p>
         <Link
           href="/contact"
-          className="w-max flex items-center justify-center mx-auto transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] px-[20px] min-h-[64px] lg:min-h-[64px] lg:px-[24px] lg:w-[245px]! rounded-full"
+          className="lg:w-[245px]! mx-auto flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[64px] lg:px-[24px]"
         >
           {content.darkBgTextBtn}
         </Link>
