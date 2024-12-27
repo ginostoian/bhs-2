@@ -52,9 +52,6 @@
   --fs-p-big-sm: 18px;
   --fs-p-big-lg: 28px;
   --fs-p-small: 14px;
-
-  --box-shadow: rgba(3, 106, 196, 0.5) 0px 7px 20px 0px;
-
   --border-radius: 10px;
 }
 
@@ -120,11 +117,10 @@ a:hover {
   border-radius: 20px;
   display: flex;
   justify-content: space-evenly;
-  gap: .5rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
   padding: 32px 3%;
   margin: 40px 3% 80px;
-  box-shadow: rgba(79, 25, 167, 0.1) 0px 10px 30px 0px;
 }
 
 .logo-wrapper__brand {
@@ -144,7 +140,6 @@ a:hover {
   font-weight: 700;
   padding: 9px 30px;
   border-radius: 6px;
-  box-shadow: var(--box-shadow);
   font-size: var(--fs-p-default-sm);
   line-height: 26px;
   cursor: pointer;
@@ -188,7 +183,6 @@ a:hover {
   background-color: #fff;
   border-radius: 10px;
   padding: 20px 5px;
-  box-shadow: var(--box-shadow);
   position: absolute;
   top: 60px;
   left: -20px;
@@ -218,5 +212,4 @@ a:hover {
   border-radius: 20px;
   padding: 32px 3%;
   margin-bottom: 4rem;
-  box-shadow: var(--box-shadow);
 }

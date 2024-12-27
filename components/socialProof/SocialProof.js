@@ -1,10 +1,8 @@
 import Image from "next/image";
 
-import classes from "./SocialProof.module.css";
-
 const SocialProof = () => {
   return (
-    <section className="max-w-[90%] mx-auto">
+    <section className="mx-auto max-w-[90%]">
       <p className="standout">
         <span className="text-[#266bf1]">5 star</span> rated and{" "}
         <span className="text-[#266bf1]">award </span>
