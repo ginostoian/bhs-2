@@ -16,7 +16,7 @@ const Guarantee = () => {
       desc: "Painting and decorating guarantee",
     },
     {
-      data: "15 years",
+      data: "10 years",
       desc: "Extension and loft conversion guarantee",
     },
   ];
