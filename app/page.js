@@ -14,6 +14,7 @@ import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
 import Guarantee from "@/components/Guarantee";
 import CustomCTA from "@/components/CustomCTA";
+import Stats from "@/components/Stats";
 
 export default function Page() {
   const homepageCopy = config.copy.homepage;
@@ -48,6 +49,7 @@ export default function Page() {
         />
         <Features />
         <Testimonials3 />
+        <Stats />
         <SectionTitle
           title="What we do"
           subtitle="Full service renovation company"
