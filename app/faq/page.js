@@ -1,10 +1,12 @@
 import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
-import FeaturesListicle from "@/components/FeaturesListicle";
-import Problem from "@/components/Problem";
+import CustomCTA from "@/components/CustomCTA";
+import Stats from "@/components/Stats";
 import Testimonials11 from "@/components/Testimonials11";
-import WithWithout from "@/components/WithWithout";
+import Guarantee from "@/components/Guarantee";
+import PortfolioCardContainer from "@/components/PortfolioCardContainer";
+import Testimonials3 from "@/components/Testimonials3";
 import BlogHighlight from "@/components/blog/BlogHighlight";
 import Hero from "@/components/hero/Hero";
 import SectionTitle from "@/components/sectionTitle/SectionTitle";
@@ -42,15 +44,25 @@ export default function Page() {
         />
         <SocialProof />
         <FAQ content={faqCopy} />
+        <SectionTitle
+          title="Why choose us"
+          subtitle="Our values are our promises to you"
+        />
         <Features />
+        <Testimonials3 />
+        <Stats />
+        <SectionTitle />
         <Approach />
-        <WithWithout />
         <SectionTitle
           title="Our build approach"
           subtitle="Simple, fast and streamlined process"
         />
         <TextGrid content={howWeDoItCopy} />
         <Testimonials11 />
+        <PortfolioCardContainer />
+        <Guarantee />
+        <CustomCTA />
+        <SectionTitle />
         <TextBlockDark content={reviewsCtaCopy} />
         <SectionTitle
           title="The Knowledge Center"
