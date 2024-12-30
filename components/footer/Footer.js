@@ -140,6 +140,12 @@ const Footer = () => {
               >
                 Renovation
               </Link>
+              <Link
+                href="/partner-with-us"
+                className={classes["footer__quarter-link"]}
+              >
+                Partner with us
+              </Link>
               <Link href="/about" className={classes["footer__quarter-link"]}>
                 About us
               </Link>

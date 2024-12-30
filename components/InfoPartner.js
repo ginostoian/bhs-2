@@ -4,14 +4,15 @@ import Link from "next/link";
 
 const InfoPartner = () => {
   return (
-    <section className="mx-auto my-20 flex max-w-[85%] flex-col flex-wrap rounded-xl bg-white px-4 py-10 lg:flex-row lg:items-center lg:justify-around">
-      <div className="mb-3 lg:max-w-[10%]">
+    <section className="mx-auto my-20 flex max-w-[85%] flex-col gap-4 rounded-xl bg-white px-4 py-10 lg:flex-row lg:items-center lg:justify-around lg:gap-10">
+      <div className="mb-3 flex flex-col items-center justify-center">
         <Image
           src="/assets/logo/bh-logo.svg"
           width={100}
           height={100}
           alt="Better Homes Studio Logo"
-        />
+        />{" "}
+        <p className="text-xl text-black">Better Homes Studio</p>
       </div>
       <div className="mb-3 lg:max-w-[60%]">
         <p className="mb-[12px] text-xs tracking-widest">
@@ -24,7 +25,7 @@ const InfoPartner = () => {
           your clients along the way.
         </p>
       </div>
-      <div className="lg:max-w-[10%]">
+      <div className="">
         <Link
           href="https://cal.com/bhstudio/discovery"
           target="_blank"
