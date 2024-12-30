@@ -123,6 +123,9 @@ function Navigation() {
         <div className={classes["main-nav__right"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
+              <Link href="/partner-with-us">Partner with us</Link>
+            </li>
+            <li className={classes["main-nav__list-item"]}>
               <Link href="/about">About</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
@@ -218,6 +221,12 @@ function Navigation() {
           </div>
           <div className={classes["mobile-nav__right"]}>
             <ul className={classes["mobile-nav__list"]}>
+              <li
+                className={classes["mobile-nav__list-item"]}
+                onClick={handleNavLinkClick}
+              >
+                <Link href="/partner-with-us">Partner with us</Link>
+              </li>
               <li
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
