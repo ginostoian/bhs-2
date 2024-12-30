@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const CustomCTA = () => {
   return (
-    <section className="mx-auto flex max-w-[85%] flex-col justify-center gap-10 rounded-xl bg-white px-10 py-10 xl:flex-row xl:items-center 2xl:gap-32">
+    <section className="mx-auto flex max-w-[85%] flex-col justify-around gap-10 rounded-xl bg-white px-10 py-10 xl:flex-row xl:items-center 2xl:gap-32">
       <div className="">
         <h2 className="mb-8 max-w-2xl text-2xl font-extrabold text-[#100b47] md:text-4xl lg:mx-auto">
           Stress-Free Renovations: On Time, On Budget, and Exceeding
