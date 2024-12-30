@@ -134,7 +134,7 @@ export default function Page() {
           subtitle="Refer your clients to our trusted renovation services, and we will reward you for every successful project—ensuring both you and your clients benefit from our expertise. It is a simple, rewarding partnership designed for mutual success."
           heroCTA="Start Application - Start earning more"
           heroImgUrl="professionals-hero.webp"
-          ctaTallyFormLink="/contact"
+          ctaTallyFormLink="https://tally.so/r/nPvjxV"
         />
         <InfoPartner />
         <WhoCanPartner />
