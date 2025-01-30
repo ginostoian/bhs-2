@@ -57,7 +57,7 @@ const PortfolioCardContainer2 = () => {
             <p class="text-gray-600">Want to see more?</p>
             <a
               class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
-              href="../docs/index.html"
+              href="/portfolio"
             >
               Go here
               <svg
