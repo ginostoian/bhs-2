@@ -6,20 +6,20 @@ import PortfolioCard from "./PortfolioCard";
 const PortfolioCardContainer2 = () => {
   return (
     // <!-- Container-->
-    <div class="max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
       {/* <!-- Title --> */}
-      <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
-        <h2 class="text-4xl text-[#100b47] font-black md:text-6xl md:leading-tight">
+      <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+        <h2 class="text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
           Recent projects
         </h2>
-        <p class="text-xl mt-2 text-gray-600">
+        <p class="mt-2 text-xl text-gray-600">
           A showcase of the quality you can expect in your own home.
         </p>
       </div>
       {/* <!-- End Title --> */}
 
       {/* <!-- Grid --> */}
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 lg:mb-14">
+      <div class="lg:grid-cols-2, mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14 2xl:grid-cols-3">
         {/* <!-- Card --> */}
         <PortfolioCard
           imgURL="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-room.webp"
@@ -52,16 +52,16 @@ const PortfolioCardContainer2 = () => {
 
       {/* <!-- Card --> */}
       <div class="text-center">
-        <div class="inline-block bg-white border shadow-sm rounded-full">
-          <div class="py-3 px-4 flex items-center gap-x-2">
+        <div class="inline-block rounded-full border bg-white shadow-sm">
+          <div class="flex items-center gap-x-2 px-4 py-3">
             <p class="text-gray-600">Want to see more?</p>
             <a
-              class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline focus:outline-none focus:underline font-medium"
+              class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
               href="../docs/index.html"
             >
               Go here
               <svg
-                class="shrink-0 size-4"
+                class="size-4 shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
