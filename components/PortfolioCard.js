@@ -2,15 +2,15 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const PortfolioCard2 = ({ imgURL, imgAlt, title, tag }) => {
+const PortfolioCard2 = ({ imgURL, imgAlt, title, tag, projectUrl }) => {
   return (
     <Link
-      class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md focus:outline-none focus:shadow-md transition"
-      href="#"
+      class="group flex flex-col rounded-xl border bg-white shadow-sm transition hover:shadow-md focus:shadow-md focus:outline-none"
+      href={projectUrl}
     >
       <div class="aspect-w-16 aspect-h-9">
         <Image
-          class="w-full max-h-[300px] object-cover rounded-t-xl"
+          class="max-h-[300px] w-full rounded-t-xl object-cover"
           src={imgURL}
           alt={imgAlt}
           width={500}

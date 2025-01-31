@@ -22,28 +22,32 @@ const PortfolioCardContainer2 = () => {
       <div class="lg:grid-cols-2, mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14 2xl:grid-cols-3">
         {/* <!-- Card --> */}
         <PortfolioCard
-          imgURL="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-room.webp"
+          imgURL="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp"
           imgAlt="House extension London N19"
           title="Daniel's stunning home extension & renovation"
           tag="Extension"
+          projectUrl="/portfolio/daniel-n19"
         />
         <PortfolioCard
-          imgURL="/assets/img/bathroom/bathroom-photo.webp"
+          imgURL="/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp"
           imgAlt="House extension London N19"
-          title="Daniel's stunning home extension & renovation"
-          tag="Extension"
+          title="Lawrence's kitchen renovation and installation"
+          tag="Kitchen"
+          projectUrl="/portfolio/lawrence-e3"
         />
         <PortfolioCard
-          imgURL="/assets/img/bathroom/industrial-bathroom.webp"
-          imgAlt="House extension London N19"
-          title="Daniel's stunning home extension & renovation"
-          tag="Extension"
+          imgURL="/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp"
+          imgAlt="Kitchen renovation and installation in E4"
+          title="Alice's modern kitchen renovation and installation"
+          tag="Kitchen"
+          projectUrl="/portfolio/alice-e4"
         />
         <PortfolioCard
-          imgURL="/assets/img/bathroom/contemporary-bathroom.webp"
-          imgAlt="House extension London N19"
-          title="Daniel's stunning home extension & renovation"
-          tag="Extension"
+          imgURL="/assets/portfolio/kitchen-george-n16/kitchen-renovation-n16-3.webp"
+          imgAlt="Kitchen renovation and installation in N16"
+          title="George's kitchen renovation and installation"
+          tag="Kitchen"
+          projectUrl="/portfolio/george-n16"
         />
 
         {/* <!-- End Card --> */}
