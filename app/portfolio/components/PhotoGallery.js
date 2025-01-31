@@ -5,7 +5,7 @@ const PhotoGallery = ({ projectData }) => {
   const photos = projectData.images;
 
   return (
-    <div class="mx-auto grid max-w-[85%] grid-cols-1 place-items-center gap-2 border md:grid-cols-2">
+    <div class="mx-auto mb-12 grid max-w-[85%] grid-cols-1 place-items-center gap-2 md:grid-cols-2">
       {photos.map((photo, i) => {
         return (
           <div key={i}>
