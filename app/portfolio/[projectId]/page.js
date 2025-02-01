@@ -90,6 +90,22 @@ async function getProjectData(projectId) {
         "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-6.webp",
       ],
     },
+    "ava-e7": {
+      title: "Side return kitchen extension in E7",
+      subtitle: "Kitchen extension, renovation and installation in E7",
+      description:
+        "Lorem ipusm solo dorlr amet hamish unu doi 3 cinci si dupa am fost la piata si mi s-a facut foame tare de tot.",
+      images: [
+        "/assets/portfolio/extension-ava-e7/side-return-extension-1.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-2.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-3.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-4.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-5.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-6.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-7.webp",
+        "/assets/portfolio/extension-ava-e7/side-return-extension-8.webp",
+      ],
+    },
   };
 
   return projects[projectId] || null;

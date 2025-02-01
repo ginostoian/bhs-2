@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import PortfolioCard from "./PortfolioCard";
 
-const PortfolioCardContainer2 = () => {
+const PortfolioPageContainer = () => {
   const projects = [
     {
       imgURL:
@@ -22,6 +22,13 @@ const PortfolioCardContainer2 = () => {
       projectUrl: "/portfolio/lawrence-e3",
     },
     {
+      imgURL: "/assets/portfolio/extension-ava-e7/side-return-extension-6.webp",
+      imgAlt: "Kitchen side return extension in E7",
+      title: "Ava's side return kitchen extension in E7",
+      tag: "Extension",
+      projectUrl: "/portfolio/ava-e7",
+    },
+    {
       imgURL: "/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp",
       imgAlt: "Kitchen renovation and installation in E4",
       title: "Alice's modern kitchen renovation and installation",
@@ -29,11 +36,12 @@ const PortfolioCardContainer2 = () => {
       projectUrl: "/portfolio/alice-e4",
     },
     {
-      imgURL: "/assets/portfolio/extension-ava-e7/side-return-extension-6.webp",
-      imgAlt: "Kitchen side return extension in E7",
-      title: "Ava's side return kitchen extension in E7",
-      tag: "Extension",
-      projectUrl: "/portfolio/ava-e7",
+      imgURL:
+        "/assets/portfolio/kitchen-george-n16/kitchen-renovation-n16-3.webp",
+      imgAlt: "Kitchen renovation and installation in N16",
+      title: "George's kitchen renovation and installation",
+      tag: "Kitchen",
+      projectUrl: "/portfolio/george-n16",
     },
   ];
 
@@ -74,10 +82,10 @@ const PortfolioCardContainer2 = () => {
       <div class="text-center">
         <div class="inline-block rounded-full border bg-white shadow-sm">
           <div class="flex items-center gap-x-2 px-4 py-3">
-            <p class="text-gray-600">Want to see more?</p>
+            <p class="text-gray-600">Want to work with us?</p>
             <a
               class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
-              href="/portfolio"
+              href="/contact"
             >
               Go here
               <svg
@@ -104,4 +112,4 @@ const PortfolioCardContainer2 = () => {
   );
 };
 
-export default PortfolioCardContainer2;
+export default PortfolioPageContainer;

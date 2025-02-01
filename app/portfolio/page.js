@@ -3,7 +3,7 @@ import Link from "next/link";
 import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
-import PortfolioCardContainer from "@/components/PortfolioCardContainer";
+
 import Testimonials11 from "@/components/Testimonials11";
 import Testimonials3 from "@/components/Testimonials3";
 import WithWithout from "@/components/WithWithout";
@@ -14,6 +14,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import PortfolioPageContainer from "@/components/PortfolioPageContainer";
 
 export default function Page() {
   const portfolioCopy = config.copy.portfolioPage;
@@ -136,7 +137,7 @@ export default function Page() {
           ctaTallyFormLink={portfolioCopy.ctaTallyFormLink}
         />
         <SocialProof />
-        <PortfolioCardContainer />
+        <PortfolioPageContainer />
         <Testimonials3 />
         <Features />
         <Approach />
