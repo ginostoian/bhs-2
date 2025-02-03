@@ -43,6 +43,13 @@ const PortfolioPageContainer = () => {
       tag: "Kitchen",
       projectUrl: "/portfolio/george-n16",
     },
+    {
+      imgURL: "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-3.webp",
+      imgAlt: "Kitchen renovation and installation in E10",
+      title: "Phil's kitchen renovation and installation",
+      tag: "Kitchen",
+      projectUrl: "/portfolio/phil-e10",
+    },
   ];
 
   return (

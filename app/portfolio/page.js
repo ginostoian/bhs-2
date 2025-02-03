@@ -15,6 +15,7 @@ import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
 import PortfolioPageContainer from "@/components/PortfolioPageContainer";
+import Stats from "@/components/Stats";
 
 export default function Page() {
   const portfolioCopy = config.copy.portfolioPage;
@@ -140,6 +141,8 @@ export default function Page() {
         <PortfolioPageContainer />
         <Testimonials3 />
         <Features />
+        <Stats />
+        <SectionTitle />
         <Approach />
         <WithWithout />
         <SectionTitle

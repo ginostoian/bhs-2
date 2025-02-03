@@ -106,6 +106,23 @@ async function getProjectData(projectId) {
         "/assets/portfolio/extension-ava-e7/side-return-extension-8.webp",
       ],
     },
+    "phil-e10": {
+      title: "Kitchen renovation in E10",
+      subtitle: "Kitchen renovation and installation in E10",
+      description:
+        "Lorem ipusm solo dorlr amet hamish unu doi 3 cinci si dupa am fost la piata si mi s-a facut foame tare de tot.",
+      images: [
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-1.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-2.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-3.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-4.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-5.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-6.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-7.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-8.webp",
+        "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-9.webp",
+      ],
+    },
   };
 
   return projects[projectId] || null;
