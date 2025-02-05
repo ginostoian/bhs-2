@@ -123,6 +123,21 @@ async function getProjectData(projectId) {
         "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-9.webp",
       ],
     },
+    "melina-e7": {
+      title: "Bathroom design & renovation in E7",
+      subtitle: "Bathroom design & renovation in E7",
+      description:
+        "Lorem ipusm solo dorlr amet hamish unu doi 3 cinci si dupa am fost la piata si mi s-a facut foame tare de tot.",
+      images: [
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-2.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-3.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-4.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-5.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-6.webp",
+        "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-7.webp",
+      ],
+    },
   };
 
   return projects[projectId] || null;

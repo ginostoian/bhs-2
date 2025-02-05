@@ -50,6 +50,13 @@ const PortfolioPageContainer = () => {
       tag: "Kitchen",
       projectUrl: "/portfolio/phil-e10",
     },
+    {
+      imgURL: "/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp",
+      imgAlt: "Bathroom design & renovation in E7",
+      title: "Melina's bathroom design and renovation",
+      tag: "Bathroom",
+      projectUrl: "/portfolio/melina-e7",
+    },
   ];
 
   return (
