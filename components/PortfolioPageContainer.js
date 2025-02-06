@@ -57,6 +57,21 @@ const PortfolioPageContainer = () => {
       tag: "Bathroom",
       projectUrl: "/portfolio/melina-e7",
     },
+    {
+      imgURL: "/assets/portfolio/extension-james-n8/extension-james-1.webp",
+      imagAlt: "Kitchen extension and renovation in N8",
+      title: "James's kitchen extension and renovation",
+      tag: "Extension",
+      projectUrl: "/portfolio/james-n8",
+    },
+    {
+      imgURL:
+        "/assets/portfolio/textile-building-bathrooms/bathroom-renovation-green-11.webp",
+      imagAlt: "Two bathroom renovations in E9",
+      title: "Karim's bathroom renovations",
+      tag: "Bathroom",
+      projectUrl: "/portfolio/karim-e9",
+    },
   ];
 
   return (
