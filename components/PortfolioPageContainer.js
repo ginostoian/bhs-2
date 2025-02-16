@@ -59,7 +59,7 @@ const PortfolioPageContainer = () => {
     },
     {
       imgURL: "/assets/portfolio/extension-james-n8/extension-james-1.webp",
-      imagAlt: "Kitchen extension and renovation in N8",
+      imgAlt: "Kitchen extension and renovation in N8",
       title: "James's kitchen extension and renovation",
       tag: "Extension",
       projectUrl: "/portfolio/james-n8",
@@ -67,7 +67,7 @@ const PortfolioPageContainer = () => {
     {
       imgURL:
         "/assets/portfolio/textile-building-bathrooms/bathroom-renovation-green-11.webp",
-      imagAlt: "Two bathroom renovations in E9",
+      imgAlt: "Two bathroom renovations in E9",
       title: "Karim's bathroom renovations",
       tag: "Bathroom",
       projectUrl: "/portfolio/karim-e9",
@@ -76,20 +76,20 @@ const PortfolioPageContainer = () => {
 
   return (
     // <!-- Container-->
-    <div class="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
       {/* <!-- Title --> */}
-      <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-        <h2 class="text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
+      <div className="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
+        <h2 className="text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
           Recent projects
         </h2>
-        <p class="mt-2 text-xl text-gray-600">
+        <p className="mt-2 text-xl text-gray-600">
           A showcase of the quality you can expect in your own home.
         </p>
       </div>
       {/* <!-- End Title --> */}
 
       {/* <!-- Grid --> */}
-      <div class="lg:grid-cols-2, mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14 2xl:grid-cols-3">
+      <div className="mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14 lg:grid-cols-2 2xl:grid-cols-3">
         {/* <!-- Card --> */}
         {projects.map((project, i) => {
           return (
@@ -108,17 +108,17 @@ const PortfolioPageContainer = () => {
       {/* <!-- End Grid --> */}
 
       {/* <!-- Card --> */}
-      <div class="text-center">
-        <div class="inline-block rounded-full border bg-white shadow-sm">
-          <div class="flex items-center gap-x-2 px-4 py-3">
-            <p class="text-gray-600">Want to work with us?</p>
+      <div className="text-center">
+        <div className="inline-block rounded-full border bg-white shadow-sm">
+          <div className="flex items-center gap-x-2 px-4 py-3">
+            <p className="text-gray-600">Want to work with us?</p>
             <a
-              class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
+              className="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
               href="/contact"
             >
               Go here
               <svg
-                class="size-4 shrink-0"
+                className="size-4 shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
