@@ -379,9 +379,10 @@ export const articles = [
     // The unique slug to use in the URL. It's also used to generate the canonical URL.
     slug: "how-to-choose-a-bathroom-fitter",
     // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
-    title: "How to choose a bathroom fitter",
+    title: "How to choose your bathroom fitter/renovation company",
     // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
-    description: "Tips and trick on how to find and hire a bathroom fitter.",
+    description:
+      "Tips and trick on how to find and hire a reliable bathroom fitter or renovation company.",
     // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.bathroom),
@@ -389,20 +390,20 @@ export const articles = [
     // The author of the article. It's used to generate a link to the author's bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
     // The date of the article. It's used to generate the meta date.
-    publishedAt: "2023-02-23",
+    publishedAt: "2025-02-22",
     image: {
       // The image to display in <CardArticle /> components.
-      src: bestOfHouzzImg,
+      src: howToChooseBathroomFitter,
       // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
       urlRelative: "/assets/img/misc/best-of-houzz-winner.png",
-      alt: "Best of Houzz Winner Image",
+      alt: "Bathroom renovation in London",
     },
     // The actual content of the article that will be shown under the <h1> title in the article page.
     content: (
       <>
         <Image
           src={howToChooseBathroomFitter}
-          alt="Best of Houzz 2023 Image"
+          alt="Bathroom renovation in london"
           width={700}
           height={500}
           priority={true}
