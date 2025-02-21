@@ -2,13 +2,14 @@ import Image from "next/image";
 import marcImg from "@/app/blog/_assets/images/authors/marc.png";
 import introducingSupabaseImg from "@/public/blog/introducing-supabase/header.png";
 import bestOfHouzzImg from "/public/assets/img/misc/best-of-houzz-winner.png";
+import howToChooseBathroomFitter from "/public/assets/img/bathroom/bathroom-design.webp";
 import Link from "next/link";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
 // ==================================================================================================================================================================
 
-// These slugs are used to generate pages in the /blog/category/[categoryI].js. It's a way to group articles by category.
+// These slugs are used to generate pages in the /blog/category/[categoryI].js. It&apos;s a way to group articles by category.
 const categorySlugs = {
   bathroom: "bathroom",
   kitchen: "kitchen",
@@ -186,95 +187,6 @@ const styles = {
 export const articles = [
   {
     // The unique slug to use in the URL. It's also used to generate the canonical URL.
-    slug: "introducing-supabase",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
-    title: "Introducing Supabase to ShipFast",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
-    description:
-      "Supabase is an open-source Firebase alternative. It's a great tool for building a backend for your app. It's now integrated with ShipFast!",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
-    categories: [
-      categories.find((category) => category.slug === categorySlugs.kitchen),
-    ],
-    // The author of the article. It's used to generate a link to the author's bio page.
-    author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
-    publishedAt: "2023-11-20",
-    image: {
-      // The image to display in <CardArticle /> components.
-      src: introducingSupabaseImg,
-      // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
-      urlRelative: "/blog/introducing-supabase/header.jpg",
-      alt: "Supabase and ShipFast logo combined",
-    },
-    // The actual content of the article that will be shown under the <h1> title in the article page.
-    content: (
-      <>
-        <Image
-          src={introducingSupabaseImg}
-          alt="Supabase and ShipFast logo combined"
-          width={700}
-          height={500}
-          priority={true}
-          className="rounded-box"
-          placeholder="blur"
-        />
-        <section>
-          <h2 className={styles.h2}>Introduction</h2>
-          <p className={styles.p}>
-            Supabase is an open-source Firebase alternative. It&apos;s a great
-            tool for building a backend for your app. It&apos;s now integrated
-            with ShipFast!
-          </p>
-        </section>
-
-        <section>
-          <h3 className={styles.h3}>1. Create a supabase account</h3>
-          <p className={styles.p}>
-            First, go to{" "}
-            <a href="https://supabase.com/" className="link-primary link">
-              Supabase
-            </a>{" "}
-            and create an account. It&apos;s free for up to 10,000 rows per
-            table.
-            <br />
-            Then create a new project and a new table. You can use the following
-            SQL schema:
-          </p>
-
-          <pre className={styles.code}>
-            <code>
-              {`CREATE TABLE public.users (
-  id bigint NOT NULL DEFAULT nextval('users_id_seq'::regclass),
-  email text NOT NULL,
-  password text NOT NULL,
-  created_at timestamp with time zone NOT NULL DEFAULT now(),
-  updated_at timestamp with time zone NOT NULL DEFAULT now(),
-  CONSTRAINT users_pkey PRIMARY KEY (id)
-);`}
-            </code>
-          </pre>
-        </section>
-
-        <section>
-          <h3 className={styles.h3}>2. Add your credentials to ShipFast</h3>
-          <p className={styles.p}>
-            Copy the <span className={styles.codeInline}>API URL</span> and{" "}
-            <span className={styles.codeInline}>API Key</span> from your
-            Supabase project settings and add them to your ShipFast project
-            settings. Add these files to your project:
-          </p>
-
-          <ul className={styles.ul}>
-            <li className={styles.li}>.env.local</li>
-            <li className={styles.li}>.env.production</li>
-          </ul>
-        </section>
-      </>
-    ),
-  },
-  {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
     slug: "best-of-houzz-2023",
     // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
     title: "Better Homes Studio wins Best of Houzz 2023",
@@ -446,6 +358,452 @@ export const articles = [
             Thank you again for this award, we are honoured and delighted, and
             this recognition makes us even more motivated to offer the most
             spectacular results.
+          </p>
+          <a
+            href="/contact"
+            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
+            data-tally-open="wQEoXw"
+            data-tally-align-left="1"
+            data-tally-overlay="1"
+            data-tally-emoji-text="📋"
+            data-tally-emoji-animation="rubber-band"
+            data-tally-auto-close="2000"
+          >
+            Contact us now!
+          </a>
+        </section>
+      </>
+    ),
+  },
+  {
+    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    slug: "how-to-choose-a-bathroom-fitter",
+    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    title: "How to choose a bathroom fitter",
+    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    description: "Tips and trick on how to find and hire a bathroom fitter.",
+    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.bathroom),
+    ],
+    // The author of the article. It's used to generate a link to the author's bio page.
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    // The date of the article. It's used to generate the meta date.
+    publishedAt: "2023-02-23",
+    image: {
+      // The image to display in <CardArticle /> components.
+      src: bestOfHouzzImg,
+      // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
+      urlRelative: "/assets/img/misc/best-of-houzz-winner.png",
+      alt: "Best of Houzz Winner Image",
+    },
+    // The actual content of the article that will be shown under the <h1> title in the article page.
+    content: (
+      <>
+        <Image
+          src={howToChooseBathroomFitter}
+          alt="Best of Houzz 2023 Image"
+          width={700}
+          height={500}
+          priority={true}
+          className="rounded-box"
+          placeholder="blur"
+        />
+        <section>
+          <h2 className={styles.h2}>
+            Dreaming of a Sparkling New Bathroom in London? Finding the Right
+            Fitter is Key!
+          </h2>
+
+          <p className={styles.p}>
+            A <b className={styles.accent}>bathroom renovation</b> can transform
+            your London home, adding value, comfort, and a touch of luxury. But
+            let&apos;s be honest, the thought of finding a reliable, skilled
+            bathroom fitter can be daunting. London is a vast city, and the
+            sheer number of options can feel overwhelming. This guide will walk
+            you through the process, helping you navigate the search and find
+            the perfect professional to bring your bathroom dreams to life.
+          </p>
+
+          <h2 className={styles.h2}>
+            Why is Choosing the Right Bathroom Fitter So Important? (And Why
+            This Article is for You)
+          </h2>
+
+          <p className={styles.p}>
+            A bathroom isn&apos;t just a functional space; it&apos;s a
+            sanctuary. A poorly executed renovation can lead to endless
+            headaches, costly repairs, and a bathroom that&apos;s more
+            stress-inducing than serene. Choosing the right fitter ensures a
+            smooth process, a high-quality finish, and a bathroom you&apos;ll
+            love for years to come. This article focuses on the specific
+            challenges and opportunities of finding a bathroom fitter in London,
+            addressing your concerns and providing actionable advice.
+          </p>
+
+          <h2 className={styles.h2}>
+            Understanding Your Needs: Before You Start Searching
+          </h2>
+
+          <p className={styles.p}>
+            Before diving into directories and review sites, take some time to
+            define your project. This will help you narrow your search and
+            communicate effectively with potential fitters. Consider the
+            following:
+          </p>
+
+          <ul>
+            <li className={styles.p}>
+              <b className={styles.accent}>Scope of Work:</b> Are you planning a
+              complete <b className={styles.accent}>bathroom remodel</b>, a
+              simple <b className={styles.accent}>bathroom refurbishment</b>, or
+              just replacing a few fixtures (like a new{" "}
+              <b className={styles.accent}>shower installation</b> or{" "}
+              <b className={styles.accent}>toilet installation</b>)? A full
+              renovation requires a different skillset (and often a larger team)
+              than a smaller update.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Budget:</b> Be realistic about your{" "}
+              <b className={styles.accent}>bathroom renovation cost</b>. London
+              prices can vary significantly. Having a clear budget upfront will
+              help you filter out fitters who are outside your price range. Get
+              quotes for various levels of finish to understand the potential
+              costs.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Style and Design:</b> Do you have a
+              specific design in mind (e.g., modern, traditional, minimalist)?
+              Look for fitters who have experience with the style you&apos;re
+              envisioning. Gathering inspiration from magazines, websites like
+              Houzz, or Pinterest can be incredibly helpful.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Timeline:</b> When do you need the
+              project completed? Be upfront about your timeline expectations,
+              but also be realistic about potential delays (which are common in
+              construction).
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Specific Requirements:</b> Do you
+              need a fitter who specializes in{" "}
+              <b className={styles.accent}>wet room installation</b>,{" "}
+              <b className={styles.accent}>accessible bathrooms</b>, or working
+              with specific materials (e.g.,{" "}
+              <b className={styles.accent}>marble tiling</b>,{" "}
+              <b className={styles.accent}>underfloor heating</b>)?
+            </li>
+          </ul>
+
+          <h2 className={styles.h2}>
+            Where to Find Reputable Bathroom Fitters in London: Your Search
+            Toolkit
+          </h2>
+
+          <p className={styles.p}>
+            London offers a wealth of resources for finding qualified bathroom
+            fitters. Here are some of the best places to start your search:
+          </p>
+
+          <ul>
+            <li className={styles.p}>
+              <b>Online Platforms:</b>
+              <ul>
+                <li className={styles.p}>
+                  <b className={styles.accent}>MyBuilder:</b> A popular platform
+                  where you can post your job details and receive quotes from
+                  interested tradespeople. You can read reviews from previous
+                  clients, view profiles, and compare prices. Be sure to check
+                  the feedback carefully and look for fitters with a strong
+                  track record of positive reviews.
+                </li>
+                <li className={styles.p}>
+                  <b className={styles.accent}>Houzz:</b> Houzz is excellent for
+                  finding design inspiration and connecting with professionals.
+                  You can browse portfolios, read reviews, and contact fitters
+                  directly. Houzz often features higher-end designers and
+                  renovators, so it&apos;s a good option if you&apos;re looking
+                  for a premium finish. Search for{" "}
+                  <b className={styles.accent}>bathroom designers London</b> or{" "}
+                  <b className={styles.accent}>bathroom fitters London</b> to
+                  find local professionals.
+                </li>
+                <li className={styles.p}>
+                  <b className={styles.accent}>Checkatrade:</b> Checkatrade is
+                  another well-established platform that vets tradespeople and
+                  provides customer reviews. They perform background checks and
+                  verify insurance, giving you added peace of mind.
+                </li>
+                <li className={styles.p}>
+                  <b className={styles.accent}>TrustATrader:</b> Similar to
+                  Checkatrade, TrustATrader offers a directory of vetted and
+                  reviewed tradespeople. You can search by location and trade,
+                  making it easy to find{" "}
+                  <b className={styles.accent}>bathroom fitters near me</b>.
+                </li>
+                <li className={styles.p}>
+                  <b className={styles.accent}>Rated People:</b> Another
+                  platform connecting homeowners with local tradespeople. You
+                  can post your job and receive quotes, then compare profiles
+                  and reviews.
+                </li>
+              </ul>
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Word-of-Mouth Recommendations:</b>{" "}
+              Ask friends, family, neighbors, and colleagues in London if
+              they&apos;ve had positive experiences with bathroom renovation
+              companies. Personal recommendations are often the most reliable
+              source of information.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Local Trade Directories:</b> Check
+              local newspapers, community websites, and notice boards for
+              advertisements from bathroom renovation specialists in your area.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Bathroom Showrooms:</b> Visit local
+              bathroom showrooms. They often have partnerships with reputable
+              installers and can provide recommendations. This also allows you
+              to see the quality of materials and fixtures firsthand.
+            </li>
+          </ul>
+
+          <h2 className={styles.h2}>
+            Red Flags and Green Lights: How to Spot a Good (and Bad) Bathroom
+            Fitter
+          </h2>
+
+          <p className={styles.p}>
+            Once you&apos;ve shortlisted some potential fitters, it&apos;s
+            crucial to assess their suitability. Here are some key indicators to
+            look for:
+          </p>
+
+          <h3 className={styles.h3}>
+            Green Lights (Signs of a Reputable Fitter):
+          </h3>
+
+          <ul>
+            <li className={styles.p}>
+              <b className={styles.accent}>Professionalism:</b> They respond
+              promptly to your inquiries, provide clear and detailed quotes, and
+              communicate effectively throughout the process.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Experience and Qualifications:</b>{" "}
+              They have relevant experience in bathroom renovations and can
+              provide proof of qualifications (e.g., City & Guilds, NVQ). Ask
+              about their specific experience with projects similar to yours.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Insurance:</b> They have adequate
+              public liability insurance (this is essential to protect you in
+              case of accidents or damage). Ask to see a copy of their insurance
+              certificate.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>References and Reviews:</b> They are
+              willing to provide references from previous clients, and they have
+              positive reviews online (on platforms like MyBuilder, Houzz,
+              Checkatrade, etc.). Don&apos;t just rely on the overall rating;
+              read the individual reviews carefully.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Detailed Quotation:</b> They provide
+              a written quotation that breaks down the costs of labor,
+              materials, and any other expenses. The quote should be clear,
+              comprehensive, and easy to understand. Avoid vague or overly
+              simplistic quotes.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Contract:</b> They are willing to
+              sign a written contract that outlines the scope of work, payment
+              schedule, timeline, and any other relevant details. A contract
+              protects both you and the fitter.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Portfolio:</b> They can show you
+              examples of their previous work, either through photos or by
+              arranging a visit to a completed project (if possible).
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Membership of Trade Associations:</b>{" "}
+              While not mandatory, membership of a trade association (e.g., The
+              Guild of Master Craftsmen, Federation of Master Builders) can
+              indicate a commitment to quality and professionalism.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>VAT Registration:</b> If their
+              turnover exceeds the VAT threshold, they should be VAT registered.
+              This is a good sign of a legitimate business.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Good Communication:</b> They listen
+              to your needs, answer your questions thoroughly, and keep you
+              informed throughout the project.
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Red Flags (Signs to Avoid):</h3>
+
+          <ul>
+            <li className={styles.p}>
+              <b className={styles.accent}>
+                Unwillingness to Provide References or Insurance Details:
+              </b>{" "}
+              This is a major red flag. A reputable fitter should be happy to
+              provide this information.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Pressure Tactics:</b> Beware of
+              fitters who pressure you to make a quick decision or sign a
+              contract without giving you time to consider your options.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Cash-Only Payments:</b> Avoid fitters
+              who insist on cash payments without providing a proper invoice or
+              receipt. This can make it difficult to track payments and resolve
+              disputes.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Unrealistic Quotes:</b> Be wary of
+              quotes that are significantly lower than others. This could
+              indicate that the fitter is cutting corners or using inferior
+              materials.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Lack of a Contract:</b> Never proceed
+              with a renovation without a written contract. This protects you
+              from potential disputes and misunderstandings.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Poor Communication:</b> If a fitter
+              is difficult to reach or doesn&apos;t respond to your questions
+              promptly, this could be a sign of problems to come.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Negative Reviews:</b> Pay close
+              attention to negative reviews online, especially if there are
+              recurring themes (e.g., poor workmanship, unreliability, hidden
+              costs).
+            </li>
+          </ul>
+
+          <h2 className={styles.h2}>
+            The Importance of a Detailed Quotation and Contract
+          </h2>
+
+          <p className={styles.p}>
+            A detailed quotation and a comprehensive contract are essential for
+            a successful bathroom renovation. The quotation should include:
+          </p>
+
+          <ul>
+            <li className={styles.p}>
+              <b className={styles.accent}>Itemized Breakdown of Costs:</b> This
+              should include the cost of labor, materials (with specific product
+              details), and any other expenses (e.g., waste disposal, permits).
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Payment Schedule:</b> A clear payment
+              schedule, typically with staged payments tied to project
+              milestones. Avoid paying a large upfront deposit.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>VAT:</b> If the fitter is VAT
+              registered, the VAT should be clearly stated.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Validity Period:</b> The quote should
+              specify how long it is valid for.
+            </li>
+          </ul>
+
+          <p className={styles.p}>The contract should cover:</p>
+
+          <ul>
+            <li className={styles.p}>
+              <b className={styles.accent}>Scope of Work:</b> A detailed
+              description of the work to be performed, including specific
+              materials and fixtures.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Payment Schedule:</b> As outlined in
+              the quotation.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Timeline:</b> Start and completion
+              dates, with allowances for potential delays.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Warranties and Guarantees:</b>{" "}
+              Details of any warranties on workmanship and materials.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Dispute Resolution:</b> A process for
+              resolving any disputes that may arise.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Insurance:</b> Confirmation that the
+              fitter has adequate public liability insurance.
+            </li>
+            <li className={styles.p}>
+              <b className={styles.accent}>Changes and Variations:</b> A
+              procedure of agreeing to any changes before additional work is
+              done, and costed accordingly.
+            </li>
+          </ul>
+
+          <p className={styles.p}>
+            Before signing a contract, read it carefully and make sure you
+            understand all the terms and conditions. If you have any doubts,
+            seek legal advice.
+          </p>
+
+          <h2 className={styles.h2}>
+            During the Renovation: Communication is Key
+          </h2>
+
+          <p className={styles.p}>
+            Once the work begins, maintain open communication with your fitter.
+            Regular site meetings, phone calls, and emails will help ensure that
+            the project stays on track and that any issues are addressed
+            promptly. Don&apos;t be afraid to ask questions or raise concerns. A
+            good fitter will be happy to keep you informed and involved in the
+            process.
+          </p>
+
+          <h2 className={styles.h2}>
+            After the Renovation: Snagging and Aftercare
+          </h2>
+
+          <p className={styles.p}>
+            Once the renovation is complete, conduct a thorough inspection
+            (snagging) to identify any minor defects or unfinished work. Create
+            a snagging list and discuss it with your fitter. They should be
+            willing to rectify any issues to your satisfaction. Also be sure to
+            ask for the warranty period, and get it in writing. Good fitters
+            will often have a 12 month workmanship guarantee as standard.
+          </p>
+          <p className={styles.p}>
+            Finally, ask your fitter for advice on maintaining your new
+            bathroom. Proper cleaning and maintenance will help ensure that it
+            stays looking its best for years to come. Consider asking for advice
+            specific cleaning products for items such as{" "}
+            <b className={styles.accent}>tiles, grout,</b> and the{" "}
+            <b className={styles.accent}>shower screen.</b>
+          </p>
+
+          <h2 className={styles.h2}>Conclusion: Your Dream Bathroom Awaits!</h2>
+
+          <p className={styles.p}>
+            Finding the right bathroom fitter in London can seem like a
+            challenge, but by following these steps, you can confidently
+            navigate the process and find a professional who will deliver a
+            high-quality renovation. Remember to do your research, ask the right
+            questions, and trust your instincts. Your dream bathroom is within
+            reach!
           </p>
           <a
             href="/contact"
