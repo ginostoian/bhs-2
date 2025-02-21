@@ -39,8 +39,8 @@ export default async function Article({ params }) {
       (a) =>
         a.slug !== params.articleId &&
         a.categories.some((c) =>
-          article.categories.map((c) => c.slug).includes(c.slug)
-        )
+          article.categories.map((c) => c.slug).includes(c.slug),
+        ),
     )
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .slice(0, 3);
@@ -74,17 +74,17 @@ export default async function Article({ params }) {
       />
 
       {/* GO BACK LINK */}
-      <div className="container">
+      <div className="mx-auto max-w-[90%]">
         <Link
           href="/blog"
-          className="link !no-underline text-base-content/80 hover:text-base-content inline-flex items-center gap-1"
+          className="link inline-flex items-center gap-1 text-base-content/80 !no-underline hover:text-base-content"
           title="Back to Blog"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="w-5 h-5"
+            className="h-5 w-5"
           >
             <path
               fillRule="evenodd"
@@ -96,10 +96,10 @@ export default async function Article({ params }) {
         </Link>
       </div>
 
-      <article className="container">
+      <article className="mx-auto max-w-[90%]">
         {/* HEADER WITH CATEGORIES AND DATE AND TITLE */}
-        <section className="my-12 md:my-20 max-w-[800px]">
-          <div className="flex items-center gap-4 mb-6">
+        <section className="my-12 max-w-[800px] md:my-20">
+          <div className="mb-6 flex items-center gap-4">
             {article.categories.map((category) => (
               <BadgeCategory
                 category={category}
@@ -107,10 +107,7 @@ export default async function Article({ params }) {
                 extraStyle="!badge-lg"
               />
             ))}
-            <span
-              className="text-base-content/80"
-              itemProp="datePublished"
-            >
+            <span className="text-base-content/80" itemProp="datePublished">
               {new Date(article.publishedAt).toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
@@ -119,45 +116,42 @@ export default async function Article({ params }) {
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 md:mb-8">
+          <h1 className="mb-6 text-4xl font-extrabold tracking-tight md:mb-8 md:text-5xl lg:text-6xl">
             {article.title}
           </h1>
 
-          <p className="text-base-content/80 md:text-lg max-w-[700px]">
+          <p className="max-w-[700px] text-base-content/80 md:text-lg">
             {article.description}
           </p>
         </section>
 
         <div className="flex flex-col md:flex-row">
           {/* SIDEBAR WITH AUTHORS AND 3 RELATED ARTICLES */}
-          <section className="max-md:pb-4 md:pl-12 max-md:border-b md:border-l md:order-last md:w-72 shrink-0 border-base-content/10">
-            <p className="text-base-content/80 text-sm mb-2 md:mb-3">
+          <section className="shrink-0 border-base-content/10 max-md:border-b max-md:pb-4 md:order-last md:w-72 md:border-l md:pl-12">
+            <p className="mb-2 text-sm text-base-content/80 md:mb-3">
               Posted by
             </p>
             <Avatar article={article} />
 
             {articlesRelated.length > 0 && (
-              <div className="hidden md:block mt-12">
-                <p className=" text-base-content/80 text-sm  mb-2 md:mb-3">
+              <div className="mt-12 hidden md:block">
+                <p className="mb-2 text-sm text-base-content/80 md:mb-3">
                   Related reading
                 </p>
                 <div className="space-y-2 md:space-y-5">
                   {articlesRelated.map((article) => (
-                    <div
-                      className=""
-                      key={article.slug}
-                    >
+                    <div className="" key={article.slug}>
                       <p className="mb-0.5">
                         <Link
                           href={`/blog/${article.slug}`}
-                          className="link link-hover hover:link-primary font-medium"
+                          className="link-hover link font-medium hover:link-primary"
                           title={article.title}
                           rel="bookmark"
                         >
                           {article.title}
                         </Link>
                       </p>
-                      <p className="text-base-content/80 max-w-full text-sm">
+                      <p className="max-w-full text-sm text-base-content/80">
                         {article.description}
                       </p>
                     </div>
@@ -168,7 +162,7 @@ export default async function Article({ params }) {
           </section>
 
           {/* ARTICLE CONTENT */}
-          <section className="w-full max-md:pt-4 md:pr-20 space-y-12 md:space-y-20">
+          <section className="w-full space-y-12 max-md:pt-4 md:space-y-20 md:pr-20">
             {article.content}
           </section>
         </div>
