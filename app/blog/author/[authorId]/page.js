@@ -22,37 +22,37 @@ export default async function Author({ params }) {
 
   return (
     <>
-      <section className="container max-w-3xl mx-auto flex flex-col md:flex-row gap-8 mt-12 mb-24 md:mb-32">
+      <section className="container mx-auto mb-24 mt-12 flex max-w-3xl flex-col gap-8 md:mb-32 md:flex-row">
         <div>
-          <p className="text-xs uppercase tracking-wide text-base-content/80 mb-2">
+          <p className="mb-2 text-xs uppercase tracking-wide text-base-content/80">
             Authors
           </p>
-          <h1 className="font-extrabold text-3xl lg:text-5xl tracking-tight mb-2">
+          <h1 className="mb-2 text-3xl font-extrabold tracking-tight lg:text-5xl">
             {author.name}
           </h1>
-          <p className="md:text-lg mb-6 md:mb-10 font-medium">{author.job}</p>
-          <p className="md:text-lg text-base-content/80">
+          <p className="mb-6 font-medium md:mb-10 md:text-lg">{author.job}</p>
+          <p className="text-base-content/80 md:text-lg">
             {author.description}
           </p>
         </div>
 
-        <div className="max-md:order-first flex md:flex-col gap-4 shrink-0">
+        <div className="flex shrink-0 gap-4 max-md:order-first md:flex-col">
           <Image
             src={author.avatar}
             width={256}
             height={256}
             alt={author.name}
             priority={true}
-            className="rounded-box w-[12rem] md:w-[16rem] "
+            className="rounded-box w-[12rem] md:w-[16rem]"
           />
 
           {author.socials?.length > 0 && (
-            <div className="flex flex-col md:flex-row gap-4">
+            <div className="flex flex-col gap-4 md:flex-row">
               {author.socials.map((social) => (
                 <a
                   key={social.name}
                   href={social.url}
-                  className="btn btn-square"
+                  className="mx-auto items-center justify-center align-middle"
                   // Using a dark theme? -> className="btn btn-square btn-neutral"
                   title={`Go to ${author.name} profile on ${social.name}`}
                   target="_blank"
@@ -66,16 +66,13 @@ export default async function Author({ params }) {
       </section>
 
       <section className="container">
-        <h2 className="font-bold text-2xl lg:text-4xl tracking-tight text-center mb-8 md:mb-12">
+        <h2 className="mb-8 text-center text-2xl font-bold tracking-tight md:mb-12 lg:text-4xl">
           Most recent articles by {author.name}
         </h2>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid gap-8 lg:grid-cols-2">
           {articlesByAuthor.map((article) => (
-            <CardArticle
-              key={article.slug}
-              article={article}
-            />
+            <CardArticle key={article.slug} article={article} />
           ))}
         </div>
       </section>

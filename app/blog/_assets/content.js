@@ -1,6 +1,5 @@
 import Image from "next/image";
-import marcImg from "@/app/blog/_assets/images/authors/marc.png";
-import introducingSupabaseImg from "@/public/blog/introducing-supabase/header.png";
+import ginoImg from "@/app/blog/_assets/images/authors/ginoImg.webp";
 import bestOfHouzzImg from "/public/assets/img/misc/best-of-houzz-winner.png";
 import howToChooseBathroomFitter from "/public/assets/img/bathroom/bathroom-design.webp";
 import Link from "next/link";
@@ -145,7 +144,7 @@ export const authors = [
     description:
       "Gino is a developer and an entrepreneur. He is the co founder of Better Homes Studio and is commited to change the way people renovate by creating the thing that the industry lacks most - trust.",
     // The avatar of the author to display in the author's bio and avatar badge. It's better to use a local image, but you can also use an external image (https://...)
-    avatar: marcImg,
+    avatar: ginoImg,
     // A list of social links to display in the author's bio.
     socials: [
       {
@@ -476,8 +475,23 @@ export const articles = [
               <b className={styles.accent}>Style and Design:</b> Do you have a
               specific design in mind (e.g., modern, traditional, minimalist)?
               Look for fitters who have experience with the style you&apos;re
-              envisioning. Gathering inspiration from magazines, websites like
-              Houzz, or Pinterest can be incredibly helpful.
+              envisioning. Gathering inspiration from magazines, websites like{" "}
+              <Link
+                className="link-primary link"
+                href="https://houzz.co.uk"
+                target="_blank"
+              >
+                Houzz
+              </Link>
+              , or{" "}
+              <Link
+                className="link-primary link"
+                href="https://pinterest.co.uk"
+                target="_blank"
+              >
+                Pinterest
+              </Link>{" "}
+              can be incredibly helpful.
             </li>
             <li className={styles.p}>
               <b className={styles.accent}>Timeline:</b> When do you need the
@@ -511,42 +525,96 @@ export const articles = [
               <b>Online Platforms:</b>
               <ul>
                 <li className={styles.p}>
-                  <b className={styles.accent}>MyBuilder:</b> A popular platform
-                  where you can post your job details and receive quotes from
-                  interested tradespeople. You can read reviews from previous
-                  clients, view profiles, and compare prices. Be sure to check
-                  the feedback carefully and look for fitters with a strong
-                  track record of positive reviews.
+                  <b className={styles.accent}>
+                    <Link
+                      className="link-primary link"
+                      href="https://mybuilder.com"
+                      target="_blank"
+                    >
+                      MyBuilder
+                    </Link>
+                    :
+                  </b>{" "}
+                  A popular platform where you can post your job details and
+                  receive quotes from interested tradespeople. You can read
+                  reviews from previous clients, view profiles, and compare
+                  prices. Be sure to check the feedback carefully and look for
+                  fitters with a strong track record of positive reviews.
                 </li>
                 <li className={styles.p}>
-                  <b className={styles.accent}>Houzz:</b> Houzz is excellent for
-                  finding design inspiration and connecting with professionals.
-                  You can browse portfolios, read reviews, and contact fitters
-                  directly. Houzz often features higher-end designers and
-                  renovators, so it&apos;s a good option if you&apos;re looking
-                  for a premium finish. Search for{" "}
+                  <b className={styles.accent}>
+                    <Link
+                      className="link-primary link"
+                      href="https://houzz.co.uk"
+                      target="_blank"
+                    >
+                      Houzz
+                    </Link>
+                    :
+                  </b>{" "}
+                  Houzz is excellent for finding design inspiration and
+                  connecting with professionals. You can browse portfolios, read
+                  reviews, and contact fitters directly. Houzz often features
+                  higher-end designers and renovators, so it&apos;s a good
+                  option if you&apos;re looking for a premium finish. Search for{" "}
                   <b className={styles.accent}>bathroom designers London</b> or{" "}
                   <b className={styles.accent}>bathroom fitters London</b> to
                   find local professionals.
                 </li>
                 <li className={styles.p}>
-                  <b className={styles.accent}>Checkatrade:</b> Checkatrade is
-                  another well-established platform that vets tradespeople and
-                  provides customer reviews. They perform background checks and
-                  verify insurance, giving you added peace of mind.
+                  <b className={styles.accent}>
+                    <Link
+                      className="link-primary link"
+                      href="https://checkatrade.com"
+                      target="_blank"
+                    >
+                      Checkatrade
+                    </Link>
+                    :
+                  </b>{" "}
+                  Checkatrade is another well-established platform that vets
+                  tradespeople and provides customer reviews. They perform
+                  background checks and verify insurance, giving you added peace
+                  of mind.
                 </li>
                 <li className={styles.p}>
-                  <b className={styles.accent}>TrustATrader:</b> Similar to
-                  Checkatrade, TrustATrader offers a directory of vetted and
-                  reviewed tradespeople. You can search by location and trade,
-                  making it easy to find{" "}
+                  <b className={styles.accent}>
+                    <Link
+                      className="link-primary link"
+                      href="https://trustatrader.com"
+                      target="_blank"
+                    >
+                      Trustatrader
+                    </Link>
+                    :
+                  </b>{" "}
+                  Similar to{" "}
+                  <Link
+                    className="link-primary link"
+                    href="https://checkatrade.com"
+                    target="_blank"
+                  >
+                    Checkatrade
+                  </Link>
+                  , TrustATrader offers a directory of vetted and reviewed
+                  tradespeople. You can search by location and trade, making it
+                  easy to find{" "}
                   <b className={styles.accent}>bathroom fitters near me</b>.
                 </li>
                 <li className={styles.p}>
-                  <b className={styles.accent}>Rated People:</b> Another
-                  platform connecting homeowners with local tradespeople. You
-                  can post your job and receive quotes, then compare profiles
-                  and reviews.
+                  <b className={styles.accent}>
+                    <Link
+                      className="link-primary link"
+                      href="https://ratedpeople.com"
+                      target="_blank"
+                    >
+                      Rated People
+                    </Link>
+                    :
+                  </b>{" "}
+                  Another platform connecting homeowners with local
+                  tradespeople. You can post your job and receive quotes, then
+                  compare profiles and reviews.
                 </li>
               </ul>
             </li>
@@ -606,9 +674,32 @@ export const articles = [
             <li className={styles.p}>
               <b className={styles.accent}>References and Reviews:</b> They are
               willing to provide references from previous clients, and they have
-              positive reviews online (on platforms like MyBuilder, Houzz,
-              Checkatrade, etc.). Don&apos;t just rely on the overall rating;
-              read the individual reviews carefully.
+              positive reviews online (on platforms like{" "}
+              <Link
+                className="link-primary link"
+                href="https://mybuilder.com"
+                target="_blank"
+              >
+                Mybuilder
+              </Link>
+              ,{" "}
+              <Link
+                className="link-primary link"
+                href="https://houzz.co.uk"
+                target="_blank"
+              >
+                Houzz
+              </Link>
+              ,{" "}
+              <Link
+                className="link-primary link"
+                href="https://checkatrade.com"
+                target="_blank"
+              >
+                Checkatrade
+              </Link>
+              , etc.). Don&apos;t just rely on the overall rating; read the
+              individual reviews carefully.
             </li>
             <li className={styles.p}>
               <b className={styles.accent}>Detailed Quotation:</b> They provide
