@@ -233,7 +233,7 @@ export const articles = [
           </p>
 
           <h2 className={styles.h3}>Table of Contents</h2>
-          <ul className={`${styles.ul} + ${styles.pAccent}`}>
+          <ul className={`${styles.ul} ${styles.pAccent}`}>
             <li className={styles.li}>
               <Link href="#factors-affecting-cost">
                 Factors Affecting Bathroom Renovation Costs in London
