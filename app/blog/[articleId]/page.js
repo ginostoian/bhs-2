@@ -116,7 +116,7 @@ export default async function Article({ params }) {
             </span>
           </div>
 
-          <h1 className="mb-6 text-4xl font-extrabold tracking-tight md:mb-8 md:text-5xl lg:text-6xl">
+          <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-black md:mb-8 md:text-5xl lg:text-6xl">
             {article.title}
           </h1>
 
