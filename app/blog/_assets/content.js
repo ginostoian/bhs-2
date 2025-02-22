@@ -657,7 +657,11 @@ export const articles = [
             <Link href="https://www.houzz.co.uk/">Houzz</Link> to find vetted
             and reviewed tradespeople in London. Request detailed quotes that
             break down the costs of labor, materials, and any other expenses.
-            Always check references and insurance details.
+            Always check references and insurance details. We encourage you to
+            read our article on{" "}
+            <Link href="/blog/how-to-choose-a-bathroom-fitter" target="_blank">
+              finding the perfect bathroom fitter
+            </Link>
           </p>
 
           <h2 className={styles.h2} id="conclusion-budgeting">
