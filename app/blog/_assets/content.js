@@ -443,12 +443,11 @@ export const articles = [
             Based on industry data and current trends, here&apos;s a breakdown
             of average <b>bathroom renovation costs in London in 2025</b>. Keep
             in mind that these are estimates, and your actual costs may vary
-            depending on the factors mentioned above. We are excluding options
-            below £5,800 as requested.
+            depending on the factors mentioned above.
           </p>
 
           <h3 className={styles.h3}>
-            Basic Bathroom Refresh (Starting from £5,800)
+            Basic Bathroom Refresh (Starting from £4,500)
           </h3>
 
           <ul>
@@ -468,13 +467,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £5,800 - £8,000</b>
+                <b>Typical Cost: £5,000 - £6,000</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Mid-Range Bathroom Renovation (Starting from £8,000)
+            Mid-Range Bathroom Renovation (Starting from £6,000)
           </h3>
 
           <ul>
@@ -497,13 +496,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £8,000 - £15,000</b>
+                <b>Typical Cost: £6,000 - £8,000</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Full Bathroom Renovation (Starting from £12,000)
+            Full Bathroom Renovation (Starting from £8,000)
           </h3>
 
           <ul>
@@ -536,13 +535,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £12,000 - £25,000+</b>
+                <b>Typical Cost: £8,000 - £15,000+</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Luxury Bathroom Renovation (Starting from £20,000)
+            Luxury Bathroom Renovation (Starting from £15,000)
           </h3>
 
           <ul>
@@ -574,7 +573,7 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £20,000 - £50,000+</b>
+                <b>Typical Cost: £15,000 - £25,000+</b>
               </p>
             </li>
           </ul>
