@@ -13,11 +13,11 @@ const CardArticle = ({
   const TitleTag = tag;
 
   return (
-    <article className="card bg-base-200 rounded-box overflow-hidden">
+    <article className="`rounded-box card overflow-hidden bg-white">
       {article.image?.src && (
         <Link
           href={`/blog/${article.slug}`}
-          className="link link-hover hover:link-primary"
+          className="link-hover link hover:link-primary"
           title={article.title}
           rel="bookmark"
         >
@@ -29,7 +29,7 @@ const CardArticle = ({
               height={338}
               priority={isImagePriority}
               placeholder="blur"
-              className="aspect-video object-center object-cover hover:scale-[1.03] duration-200 ease-in-out"
+              className="aspect-video object-cover object-center duration-200 ease-in-out hover:scale-[1.03]"
             />
           </figure>
         </Link>
@@ -39,19 +39,16 @@ const CardArticle = ({
         {showCategory && (
           <div className="flex flex-wrap gap-2">
             {article.categories.map((category) => (
-              <BadgeCategory
-                category={category}
-                key={category.slug}
-              />
+              <BadgeCategory category={category} key={category.slug} />
             ))}
           </div>
         )}
 
         {/* TITLE WITH RIGHT TAG */}
-        <TitleTag className="mb-1 text-xl md:text-2xl font-bold">
+        <TitleTag className="mb-1 text-xl font-bold md:text-2xl">
           <Link
             href={`/blog/${article.slug}`}
-            className="link link-hover hover:link-primary"
+            className="link-hover link hover:link-primary"
             title={article.title}
             rel="bookmark"
           >
@@ -59,7 +56,7 @@ const CardArticle = ({
           </Link>
         </TitleTag>
 
-        <div className=" text-base-content/80 space-y-4">
+        <div className="space-y-4 text-base-content/80">
           {/* DESCRIPTION */}
           <p className="">{article.description}</p>
 

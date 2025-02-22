@@ -154,8 +154,8 @@ const HeaderBlog = () => {
   }, [searchParams]);
 
   return (
-    <header className="containaer mt-6">
-      <nav className="mx-auto flex max-w-[90%] items-center justify-between px-8 py-3">
+    <header className="containeer mt-6">
+      <nav className="mx-auto flex max-w-[88%] items-center justify-between px-8 py-3">
         <Image
           src="/assets/logo/bh-logo.svg"
           alt={`${config.appName} logo`}
