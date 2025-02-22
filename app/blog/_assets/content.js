@@ -2,6 +2,7 @@ import Image from "next/image";
 import ginoImg from "@/app/blog/_assets/images/authors/ginoImg.webp";
 import bestOfHouzzImg from "/public/assets/img/misc/best-of-houzz-winner.png";
 import howToChooseBathroomFitter from "/public/assets/img/bathroom/bathroom-design.webp";
+import bathroomCost2025Img from "/public/assets/img/bathroom/industrial-bathroom.webp";
 import Link from "next/link";
 
 // ==================================================================================================================================================================
@@ -137,7 +138,7 @@ export const authors = [
     // The slug to use in the URL, from the authorSlugs object above.
     slug: authorSlugs.gino,
     // The name to display in the author's bio. Up to 60 characters.
-    name: "Gino S",
+    name: "Gino S.",
     // The job to display in the author's bio. Up to 60 characters.
     job: "Founder",
     // The description of the author to display in the author's bio. Up to 160 characters.
@@ -160,7 +161,7 @@ export const authors = [
       {
         name: socialIcons.github.name,
         icon: socialIcons.github.svg,
-        url: "https://github.com/Marc-Lou-Org/ship-fast",
+        url: "https://github.com/ginostoian",
       },
     ],
   },
@@ -184,6 +185,511 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    slug: "bathroom-renovation-cost-2025",
+    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    title: "How Much Does a Bathroom Renovation Cost in London in 2025?",
+    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    description:
+      "This comprehensive guide will break down the costs you can expect in 2025, providing realistic estimates and helping you budget effectively for your dream bathroom.",
+    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.bathroom),
+    ],
+    // The author of the article. It's used to generate a link to the author's bio page.
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    // The date of the article. It's used to generate the meta date.
+    publishedAt: "2025-02-23",
+    image: {
+      // The image to display in <CardArticle /> components.
+      src: bathroomCost2025Img,
+      // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
+      urlRelative: "/assets/img/bathroom/industrial-bathroom.webp",
+      alt: "Bathroom renovation in London",
+    },
+    // The actual content of the article that will be shown under the <h1> title in the article page.
+    content: (
+      <>
+        <Image
+          src={bathroomCost2025Img}
+          alt="Bathroom renovation in london by Better Homes Studio"
+          width={700}
+          height={500}
+          priority={true}
+          className="rounded-box"
+          placeholder="blur"
+        />
+        <section>
+          <p className={styles.p}>
+            Planning a <b>bathroom renovation</b> in London? One of the first
+            questions you&apos;ll likely have is, &apos;How much will it
+            cost?&apos; Bathroom renovation costs in London can vary
+            significantly depending on the scope of the project, the materials
+            you choose, and the <b>bathroom fitter</b> you hire. This
+            comprehensive guide will break down the costs you can expect in
+            2025, providing realistic estimates and helping you budget
+            effectively for your dream bathroom.
+          </p>
+
+          <h2 className={styles.h3}>Table of Contents</h2>
+          <ul className={`${styles.ul} + ${styles.pAccent}`}>
+            <li className={styles.li}>
+              <Link href="#factors-affecting-cost">
+                Factors Affecting Bathroom Renovation Costs in London
+              </Link>
+            </li>
+            <li>
+              <Link href="#average-cost-breakdown">
+                Average Cost Breakdown (2025 Estimates)
+              </Link>
+            </li>
+            <li>
+              <Link href="#cost-saving-tips">
+                Cost-Saving Tips for Your London Bathroom Renovation
+              </Link>
+            </li>
+            <li>
+              <Link href="#finding-reliable-fitters">
+                Finding Reliable Fitters and Getting Quotes
+              </Link>
+            </li>
+            <li>
+              <Link href="#conclusion-budgeting">
+                Conclusion: Budgeting for Your Dream Bathroom
+              </Link>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="factors-affecting-cost">
+            Factors Affecting Bathroom Renovation Costs in London
+          </h2>
+
+          <p className={styles.p}>
+            Several factors influence the overall cost of a{" "}
+            <b>bathroom renovation in London</b>. Understanding these factors
+            will help you create a realistic budget and avoid unexpected
+            expenses.
+          </p>
+
+          <h3 className={styles.h3}>Size of the Bathroom</h3>
+
+          <p className={styles.p}>
+            This one&apos;s fairly obvious: a larger bathroom will generally
+            cost more to renovate than a smaller one. More square footage means
+            more materials (tiles, flooring, paint), and potentially more labor
+            hours. A small cloakroom will be significantly cheaper than a large
+            family bathroom or a master en-suite.
+          </p>
+
+          <h3 className={styles.h3}>Scope of Work</h3>
+
+          <p className={styles.p}>
+            The extent of the renovation has a major impact on cost. Are you
+            simply replacing a few fixtures (like a new toilet and sink), or are
+            you undertaking a complete gut renovation, including moving plumbing
+            and electrical work? Here&apos;s a breakdown of different project
+            scopes:
+          </p>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b>Basic Refresh:</b> This might involve replacing the toilet,
+                sink, and taps, perhaps adding a new coat of paint and some new
+                accessories. This is the most budget-friendly option.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Mid-Range Renovation:</b> This could include replacing the
+                bathtub with a shower, new tiling, and updating the vanity. It
+                offers a significant upgrade without a complete overhaul.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Full Renovation (Gut Renovation):</b> This involves stripping
+                the bathroom down to the studs, potentially reconfiguring the
+                layout, moving plumbing and electrical, and installing all new
+                fixtures and finishes. This is the most expensive option.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Luxury Renovation:</b> This includes everything in a full
+                renovation, but with high-end materials, designer fixtures,
+                bespoke cabinetry, and potentially features like underfloor
+                heating, steam showers, and smart technology.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Materials and Fixtures</h3>
+
+          <p className={styles.p}>
+            The quality and type of materials you choose will significantly
+            impact the price. From budget-friendly ceramic tiles to luxurious
+            marble, the options are vast. Similarly, fixture costs can range
+            from basic models to high-end designer brands. Consider the
+            following:
+          </p>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b>Tiles:</b> Ceramic, porcelain, natural stone (marble,
+                granite, slate), glass, mosaic.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Flooring:</b> Tiles (as above), vinyl, LVT (Luxury Vinyl
+                Tile), waterproof laminate.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Bathtub:</b> Acrylic, steel, cast iron, freestanding.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Shower:</b> Shower enclosure, wet room, shower tray,
+                showerhead (standard, rainfall, power shower).
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Toilet:</b> Close-coupled, wall-hung, back-to-wall, smart
+                toilet.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Sink/Vanity:</b> Pedestal sink, wall-hung vanity, countertop
+                basin, bespoke cabinetry.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Taps:</b> Mixer taps, pillar taps, wall-mounted taps,
+                designer brands.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Lighting:</b> Downlights, spotlights, mirror lights, LED
+                strips.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Accessories:</b> Towel rails, toilet roll holders, mirrors,
+                soap dishes.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Labor Costs</h3>
+
+          <p className={styles.p}>
+            Labor costs in London are generally higher than in other parts of
+            the UK. The complexity of the project and the experience level of
+            the <b>bathroom fitter</b> will also affect labor costs. A highly
+            skilled and experienced fitter will charge more, but they are also
+            more likely to deliver a high-quality finish and avoid costly
+            mistakes.
+          </p>
+
+          <h3 className={styles.h3}>Location Within London</h3>
+
+          <p className={styles.p}>
+            While London is generally more expensive, prices can even fluctuate
+            within the city itself. Renovations in more affluent boroughs (e.g.,
+            Kensington and Chelsea, Westminster) may have slightly higher labor
+            and potentially material costs compared to outer boroughs.
+          </p>
+
+          <h3 className={styles.h3}>Plumbing and Electrical Work</h3>
+          <p className={styles.p}>
+            If your renovation involves moving plumbing (e.g., relocating the
+            toilet or sink) or adding new electrical outlets or lighting, this
+            will add to the cost. These tasks require qualified professionals (a
+            plumber and an electrician) and can be more time-consuming.
+          </p>
+
+          <h3 className={styles.h3}>Waste Disposal</h3>
+          <p className={styles.p}>
+            Don&apos;t forget to factor in the cost of waste disposal. A
+            bathroom renovation generates a significant amount of waste, and
+            you&apos;ll likely need to hire a skip or pay for waste removal
+            services. Skip hire prices can vary in London based on size and
+            location.
+          </p>
+          <h3 className={styles.h3}>Unexpected Issues</h3>
+          <p className={styles.p}>
+            It&apos;s always wise to have a contingency fund (typically 10-20%
+            of the total budget) to cover any unexpected issues that may arise
+            during the renovation. This could include things like discovering
+            hidden water damage, asbestos, or structural problems.
+          </p>
+
+          <h2 className={styles.h2} id="average-cost-breakdown">
+            Average Cost Breakdown (2025 Estimates)
+          </h2>
+
+          <p className={styles.p}>
+            Based on industry data and current trends, here&apos;s a breakdown
+            of average <b>bathroom renovation costs in London in 2025</b>. Keep
+            in mind that these are estimates, and your actual costs may vary
+            depending on the factors mentioned above. We are excluding options
+            below £5,800 as requested.
+          </p>
+
+          <h3 className={styles.h3}>
+            Basic Bathroom Refresh (Starting from £5,800)
+          </h3>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                Replacing like-for-like fixtures (toilet, sink, taps)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>New flooring (e.g., vinyl or LVT)</p>
+            </li>
+            <li>
+              <p className={styles.p}>Painting</p>
+            </li>
+            <li>
+              <p className={styles.p}>New accessories</p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Typical Cost: £5,800 - £8,000</b>
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>
+            Mid-Range Bathroom Renovation (Starting from £8,000)
+          </h3>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                Replacing bathtub with a shower enclosure
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>New tiling (walls and floor)</p>
+            </li>
+            <li>
+              <p className={styles.p}>New vanity unit and sink</p>
+            </li>
+            <li>
+              <p className={styles.p}>New toilet</p>
+            </li>
+            <li>
+              <p className={styles.p}>New lighting and accessories</p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Typical Cost: £8,000 - £15,000</b>
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>
+            Full Bathroom Renovation (Starting from £12,000)
+          </h3>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                Complete gut renovation (stripping down to the studs)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                Potential layout changes (moving plumbing and electrical)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>New bathtub or shower</p>
+            </li>
+            <li>
+              <p className={styles.p}>New tiling (walls and floor)</p>
+            </li>
+            <li>
+              <p className={styles.p}>New vanity unit and sink</p>
+            </li>
+            <li>
+              <p className={styles.p}>New toilet</p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                New lighting, ventilation, and accessories
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Typical Cost: £12,000 - £25,000+</b>
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>
+            Luxury Bathroom Renovation (Starting from £20,000)
+          </h3>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                Everything included in a full renovation
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                High-end materials (e.g., natural stone, bespoke cabinetry)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                Designer fixtures (e.g., freestanding bathtub, rainfall shower)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>Underfloor heating</p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                Smart technology (e.g., smart toilet, digital shower controls)
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>Steam shower or sauna (optional)</p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b>Typical Cost: £20,000 - £50,000+</b>
+              </p>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="cost-saving-tips">
+            Cost-Saving Tips for Your London Bathroom Renovation
+          </h2>
+
+          <p className={styles.p}>
+            While a bathroom renovation can be a significant investment, there
+            are ways to save money without compromising on quality:
+          </p>
+
+          <h3 className={styles.h3}>Keep the Existing Layout</h3>
+
+          <p className={styles.p}>
+            Moving plumbing and electrical work is expensive. If possible, keep
+            the existing layout of your bathroom to avoid these extra costs.
+          </p>
+
+          <h3 className={styles.h3}>Choose Affordable Materials</h3>
+
+          <p className={styles.p}>
+            There are many stylish and durable materials available at affordable
+            prices. Consider ceramic or porcelain tiles instead of natural
+            stone, and opt for LVT or vinyl flooring instead of more expensive
+            options.
+          </p>
+
+          <h3 className={styles.h3}>Shop Around for Fixtures</h3>
+
+          <p className={styles.p}>
+            Don&apos;t settle for the first fixtures you see. Compare prices
+            from different suppliers, both online and in-store. Look for sales
+            and discounts.
+          </p>
+
+          <h3 className={styles.h3}>DIY Where Possible (But Be Realistic)</h3>
+
+          <p className={styles.p}>
+            If you have some DIY skills, you could consider tackling some of the
+            simpler tasks yourself, such as painting or removing old fixtures.
+            However, be realistic about your abilities and avoid taking on tasks
+            that require professional expertise (like plumbing or electrical
+            work).
+          </p>
+
+          <h3 className={styles.h3}>Get Multiple Quotes</h3>
+
+          <p className={styles.p}>
+            Always get quotes from at least three different{" "}
+            <b>bathroom fitters</b> before making a decision. This will give you
+            a better idea of the average cost and help you identify any
+            outliers.
+          </p>
+
+          <h3 className={styles.h3}>Consider Ex-Display Items</h3>
+          <p className={styles.p}>
+            Bathroom showrooms often sell ex-display items (like vanities,
+            sinks, and toilets) at discounted prices. These items are usually in
+            excellent condition and can offer significant savings.
+          </p>
+
+          <h3 className={styles.h3}>Prioritize Your Needs</h3>
+
+          <p className={styles.p}>
+            If your budget is tight, prioritize the most essential elements of
+            the renovation. Focus on functionality and durability, and consider
+            adding luxury features later on.
+          </p>
+
+          <h2 className={styles.h2} id="finding-reliable-fitters">
+            Finding Reliable Fitters and Getting Quotes
+          </h2>
+
+          <p className={styles.p}>
+            Finding a reliable and experienced <b>bathroom fitter</b> is crucial
+            for a successful renovation. Use online platforms like{" "}
+            <Link href="https://www.mybuilder.com/">MyBuilder</Link>,{" "}
+            <Link href="https://www.checkatrade.com/">Checkatrade</Link>, and{" "}
+            <Link href="https://www.houzz.co.uk/">Houzz</Link> to find vetted
+            and reviewed tradespeople in London. Request detailed quotes that
+            break down the costs of labor, materials, and any other expenses.
+            Always check references and insurance details.
+          </p>
+
+          <h2 className={styles.h2} id="conclusion-budgeting">
+            Conclusion: Budgeting for Your Dream Bathroom
+          </h2>
+
+          <p className={styles.p}>
+            A <b>bathroom renovation in London</b> can be a rewarding
+            investment, adding value and comfort to your home. By understanding
+            the factors that affect costs, creating a realistic budget, and
+            following these tips, you can achieve your dream bathroom without
+            breaking the bank. Remember to plan carefully, get multiple quotes,
+            and choose a reputable <b>bathroom fitter</b> to ensure a smooth and
+            successful renovation.
+          </p>
+          <a
+            href="/contact"
+            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
+            data-tally-open="wQEoXw"
+            data-tally-align-left="1"
+            data-tally-overlay="1"
+            data-tally-emoji-text="📋"
+            data-tally-emoji-animation="rubber-band"
+            data-tally-auto-close="2000"
+          >
+            Contact us now!
+          </a>
+        </section>
+      </>
+    ),
+  },
   {
     // The unique slug to use in the URL. It's also used to generate the canonical URL.
     slug: "best-of-houzz-2023",
