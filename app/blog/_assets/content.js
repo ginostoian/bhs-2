@@ -3,6 +3,7 @@ import ginoImg from "@/app/blog/_assets/images/authors/ginoImg.webp";
 import bestOfHouzzImg from "/public/assets/img/misc/best-of-houzz-winner.png";
 import howToChooseBathroomFitter from "/public/assets/img/bathroom/bathroom-design.webp";
 import bathroomCost2025Img from "/public/assets/img/bathroom/industrial-bathroom.webp";
+import extensionGuide2025Img from "/public/assets/img/extension/double-storey-extension.webp";
 import Link from "next/link";
 
 // ==================================================================================================================================================================
@@ -15,6 +16,7 @@ const categorySlugs = {
   kitchen: "kitchen",
   fullHome: "full-home",
   announcement: "announcement",
+  extension: "extension",
 };
 
 // All the blog categories data display in the /blog/category/[categoryI].js pages.
@@ -31,6 +33,19 @@ export const categories = [
       "Everything about bathroom renovation - from design to budgets and planning.",
     // A short version of the description above, only displayed in the <Header /> on mobile. Up to 60 characters.
     descriptionShort: "Everything about bathroom renovation",
+  },
+  {
+    // The slug to use in the URL, from the categorySlugs object above.
+    slug: categorySlugs.extension,
+    // The title to display the category title (h1), the category badge, the category filter, and more. Less than 60 characters.
+    title: "House extension",
+    // A short version of the title above, display in small components like badges. 1 or 2 words
+    titleShort: "Extensions",
+    // The description of the category to display in the category page. Up to 160 characters.
+    description:
+      "Everything about extending your house - from design to budgets and planning.",
+    // A short version of the description above, only displayed in the <Header /> on mobile. Up to 60 characters.
+    descriptionShort: "Everything about house extensions",
   },
   {
     // The slug to use in the URL, from the categorySlugs object above.
@@ -176,8 +191,8 @@ const styles = {
   h2: "text-2xl lg:text-4xl font-bold tracking-tight mb-4 text-black",
   h3: "text-xl lg:text-2xl font-bold tracking-tight mb-2 text-black",
   p: "text-base-content/90 leading-relaxed mb-6",
-  ul: "list-inside list-disc text-base-content/90 leading-relaxed",
-  li: "list-item",
+  ul: "list-inside list-disc text-base-content/90 leading-relaxed mb-6",
+  li: "mb-2",
   // Altnernatively, you can use the library react-syntax-highlighter to display code snippets.
   accent: "text-[#266bf1]",
   pAccent: "mb-6 text-[#266bf1]",
@@ -185,6 +200,906 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    slug: "house-extension-guide-2025",
+    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    title: "Ultimate guide to House Extensions in the UK",
+    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    description:
+      "A comprehensive guide covering everything you need to know about house extensions in the UK, including different types of extensions, planning permission, building regulations, costs, and finding the right builder.",
+    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    // The author of the article. It's used to generate a link to the author's bio page.
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    // The date of the article. It's used to generate the meta date.
+    publishedAt: "2025-02-26",
+    image: {
+      // The image to display in <CardArticle /> components.
+      src: extensionGuide2025Img,
+      // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
+      urlRelative: "/assets/img/extension/double-storey-extension.webp",
+      alt: "House extension in London",
+    },
+    // The actual content of the article that will be shown under the <h1> title in the article page.
+    content: (
+      <>
+        <Image
+          src={extensionGuide2025Img}
+          alt="House extension in London by Better Homes Studio"
+          width={700}
+          height={500}
+          priority={true}
+          className="rounded-box"
+          placeholder="blur"
+        />
+        <section>
+          <p className={styles.p}>
+            Extending your home can be a fantastic way to gain extra living
+            space, increase your property&apos;s value, and avoid the hassle and
+            expense of moving. But navigating the world of house extensions in
+            the UK can be complex. This comprehensive guide will walk you
+            through everything you need to know, from understanding different
+            extension types to securing planning permission, complying with
+            building regulations, managing costs, and finding the right
+            professionals.
+          </p>
+
+          <h2 className={styles.h3}>Table of Contents</h2>
+          <ul className={styles.ul}>
+            <li className={styles.li}>
+              <Link href="#types-of-extensions">Types of House Extensions</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#planning-permission">
+                Planning Permission for Extensions
+              </Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#permitted-development">
+                Permitted Development Rights
+              </Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#building-regulations">Building Regulations</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#party-wall-act">The Party Wall Act</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#extension-costs">House Extension Costs</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#finding-a-builder">Finding a Reputable Builder</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#design-considerations">Design Considerations</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#project-management">Project Management Tips</Link>
+            </li>
+            <li className={styles.li}>
+              <Link href="#conclusion-extending">
+                Conclusion: Extending Your Home Successfully
+              </Link>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="types-of-extensions">
+            Types of House Extensions
+          </h2>
+
+          <p className={styles.p}>
+            Choosing the right type of extension is crucial. It depends on your
+            budget, available space, planning restrictions, and your desired
+            outcome. Here are the most common types of house extensions in the
+            UK:
+          </p>
+
+          <h3 className={styles.h3}>Single-Storey Rear Extension</h3>
+
+          <p className={styles.p}>
+            This is one of the most popular extension types, extending the back
+            of your house into the garden. It&apos;s often used to create a
+            larger kitchen, dining area, or family room. Rear extensions can
+            significantly increase living space and connect your home to the
+            outdoors.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Relatively
+                straightforward to build, adds significant living space, can
+                improve connection to the garden.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Reduces garden space, may
+                require planning permission.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Side Return Extension</h3>
+
+          <p className={styles.p}>
+            Side return extensions utilize the often-unused space to the side of
+            a property (typically found in Victorian and Edwardian terraced
+            houses). They can be used to widen an existing room (like a kitchen)
+            or create a new room altogether.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Makes use of often-wasted
+                space, can significantly improve the layout of existing rooms.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> May not be suitable for
+                all property types, can impact natural light in neighboring
+                properties (planning consideration).
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Wrap-Around Extension</h3>
+
+          <p className={styles.p}>
+            A combination of a rear and side return extension, a wrap-around
+            extension extends around the side and rear of the property, creating
+            a large, L-shaped space. This offers the most significant increase
+            in living area.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Maximizes space, can
+                dramatically transform the ground floor layout.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> More expensive, likely to
+                require planning permission, can significantly reduce garden
+                space.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Double-Storey (Two-Storey) Extension</h3>
+
+          <p className={styles.p}>
+            A double-storey extension adds space to both the ground and first
+            floors, typically at the rear or side of the house. This can provide
+            extra bedrooms, bathrooms, or larger living areas on both levels.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Adds significant space on
+                two floors, can be more cost-effective per square meter than a
+                single-storey extension.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> More complex to build,
+                almost always requires planning permission, can impact the
+                overall appearance of the house.
+              </p>
+            </li>
+          </ul>
+          <h3 className={styles.h3}>Over-Structure Extension</h3>
+          <p className={styles.p}>
+            This involves extending above an existing single-storey structure,
+            such as a garage or kitchen. It&apos;s a great way to add an extra
+            bedroom or bathroom without extending the footprint of the house.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Uses existing structure,
+                can add valuable space without reducing garden area.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Requires careful
+                structural assessment of the existing structure, may require
+                strengthening of foundations.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Loft Conversion</h3>
+
+          <p className={styles.p}>
+            While technically not an &apos;extension&apos; in the sense of
+            increasing the footprint, a loft conversion is a popular way to add
+            living space by utilizing the existing roof space. It can create
+            extra bedrooms, bathrooms, or a home office. Different types of loft
+            conversions include:
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Rooflight/Velux Conversion:</b> The
+                simplest and most cost-effective option, involving adding
+                windows to the existing roofline.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Dormer Conversion:</b> A structural
+                extension that projects vertically from the roof slope, creating
+                additional headroom and floor space.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Mansard Conversion:</b> A more
+                significant alteration to the roof structure, creating a
+                near-vertical rear wall and a flatter roof. Offers the most
+                additional space but is also the most expensive.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Hip-to-Gable Conversion:</b>{" "}
+                Extends the sloping &apos;hip&apos; side of the roof outwards to
+                create a vertical &apos;gable&apos; wall, increasing internal
+                space.
+              </p>
+            </li>
+          </ul>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Adds living space without
+                extending the footprint, can be very cost-effective, often
+                doesn&apos;t require planning permission (under Permitted
+                Development).
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Headroom can be limited
+                (depending on the type of conversion), may require staircase
+                alterations.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Basement Conversion/Extension</h3>
+
+          <p className={styles.p}>
+            Creating or expanding a basement can add significant living space,
+            particularly in urban areas where extending outwards is limited. It
+            can be used for a variety of purposes, from extra bedrooms and
+            bathrooms to home cinemas and gyms.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Adds significant space
+                without altering the external appearance of the house, can be
+                ideal for creating self-contained accommodation.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Very expensive and
+                complex to build, requires specialist expertise, can be
+                disruptive.
+              </p>
+            </li>
+          </ul>
+
+          <h3 className={styles.h3}>Conservatory or Orangery</h3>
+
+          <p className={styles.p}>
+            These glazed extensions add a light-filled space that connects the
+            house to the garden. Conservatories are typically fully glazed,
+            while orangeries have more brickwork and a lantern-style roof.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Creates a bright and airy
+                space, can be less disruptive to build than other extensions.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Can be prone to
+                temperature fluctuations (too hot in summer, too cold in
+                winter), may require planning permission.
+              </p>
+            </li>
+          </ul>
+          <h3 className={styles.h3}>Garage Conversion</h3>
+
+          <p className={styles.p}>
+            Converting an attached garage into living space is a relatively
+            cost-effective way to gain extra room. It can be used for a variety
+            of purposes, such as a home office, playroom, or extra bedroom.
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Pros:</b> Relatively inexpensive
+                and straightforward, makes use of existing space.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Cons:</b> Loss of garage space, may
+                require upgrading of insulation and windows.
+              </p>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="planning-permission">
+            Planning Permission for Extensions
+          </h2>
+
+          <p className={styles.p}>
+            One of the first things you need to determine is whether your
+            extension requires planning permission. Not all extensions need it,
+            thanks to &apos;Permitted Development Rights,&apos; but it&apos;s
+            crucial to check before starting any work. Applying for planning
+            permission typically involves submitting detailed drawings and plans
+            to your local council. The council will assess your application
+            based on factors such as:
+          </p>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Size and Height:</b> There are
+                limits on the size and height of extensions allowed under
+                Permitted Development.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Impact on Neighbors:</b> The
+                council will consider the impact of your extension on
+                neighboring properties, including loss of light, privacy, and
+                overshadowing.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Appearance:</b> The design of your
+                extension should be in keeping with the existing property and
+                the surrounding area.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Materials:</b> The materials used
+                should be appropriate for the location.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Location:</b> If you live in a
+                conservation area, National Park, Area of Outstanding Natural
+                Beauty (AONB), or have a listed building, stricter rules apply.
+              </p>
+            </li>
+          </ul>
+          <p className={styles.p}>
+            You can find detailed guidance on planning permission on the
+            government&apos;s Planning Portal website:{" "}
+            <Link href="https://www.planningportal.co.uk/">
+              Planning Portal
+            </Link>
+            .
+          </p>
+
+          <h2 className={styles.h2} id="permitted-development">
+            <Link
+              href="https://www.planningportal.co.uk/permission/responsibilities/planning-permission/permitted-development-rights"
+              target="_blank"
+            >
+              Permitted Development Rights
+            </Link>
+          </h2>
+
+          <p className={styles.p}>
+            Permitted Development Rights (PDR) allow certain types of extensions
+            and alterations to be carried out without the need for full planning
+            permission. However, these rights are subject to specific limits and
+            conditions, which can be complex. It&apos;s *always* advisable to
+            check with your local planning authority (LPA) before starting any
+            work, even if you believe it falls under Permitted Development. You
+            can apply for a Lawful Development Certificate (LDC) from your LPA,
+            which provides formal confirmation that your proposed project is
+            lawful.
+          </p>
+          <p className={styles.p}>
+            Key limits and conditions for common types of extensions under
+            Permitted Development (as of 2024 - these can change, so always
+            check the latest guidance):
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Single-Storey Rear Extensions:</b>{" "}
+                Limits on depth (e.g., 3 meters for terraced houses, 4 meters
+                for detached houses), height (maximum 4 meters), and the
+                proportion of the garden that can be covered.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Side Extensions:</b> Limited to
+                single-storey, maximum height of 4 meters, and width no more
+                than half the width of the original house.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Two-Storey Extensions:</b>{" "}
+                Generally *not* permitted under PDR, unless they meet very
+                specific criteria (e.g., not extending beyond the rear wall of
+                the original house by more than 3 meters, and being at least 7
+                meters from the rear boundary).
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Loft Conversions:</b> Often
+                permitted, but subject to volume limits (e.g., 40 cubic meters
+                for terraced houses, 50 cubic meters for detached and
+                semi-detached houses) and restrictions on dormer windows.
+              </p>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="building-regulations">
+            Building Regulations
+          </h2>
+
+          <p className={styles.p}>
+            Regardless of whether your extension needs planning permission, it
+            *must* comply with{" "}
+            <Link
+              href="https://www.gov.uk/building-regulations-approval"
+              targe="_blank"
+            >
+              Building Regulations
+            </Link>
+            . These regulations set standards for the design and construction of
+            buildings to ensure the health and safety of people in and around
+            them. Building Regulations cover aspects such as:
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Structure:</b> Ensuring the
+                extension is structurally sound.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Fire Safety:</b> Including escape
+                routes, fire-resistant materials, and smoke alarms.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Insulation:</b> Meeting minimum
+                energy efficiency standards.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Ventilation:</b> Providing adequate
+                ventilation to prevent condensation and ensure good air quality.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Drainage:</b> Ensuring proper
+                drainage of wastewater.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Electrical Safety:</b> Meeting
+                electrical safety standards.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Glazing:</b> Using safety glass in
+                critical locations.
+              </p>
+            </li>
+          </ul>
+
+          <p className={styles.p}>
+            You&apos;ll need to submit a Building Regulations application to
+            your local authority Building Control department (or use an Approved
+            Inspector). Inspections will be carried out at various stages of the
+            build to ensure compliance. Upon completion, you&apos;ll receive a
+            completion certificate, which is essential when selling your
+            property.
+          </p>
+
+          <h2 className={styles.h2} id="party-wall-act">
+            The Party Wall Act
+          </h2>
+
+          <p className={styles.p}>
+            If your extension involves work on or near a shared boundary (party
+            wall) with a neighbor, you&apos;ll need to comply with the{" "}
+            <Link
+              href="https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls/the-party-wall-etc-act-1996-explanatory-booklet"
+              target="_blank"
+            >
+              Party Wall Act 1996
+            </Link>
+            . This act is designed to prevent and resolve disputes related to
+            party walls, boundary walls, and excavations near neighboring
+            buildings.
+          </p>
+
+          <p className={styles.p}>
+            You must serve a Party Wall Notice on your affected neighbors at
+            least two months before starting work. The notice should describe
+            the proposed work and include plans. Your neighbors can either
+            consent to the work, dissent (requiring a Party Wall Surveyor to be
+            appointed), or agree with conditions. It is always a very good idea
+            to speak with your neighbors before serving formal notices.
+          </p>
+
+          <h2 className={styles.h2} id="extension-costs">
+            House Extension Costs
+          </h2>
+
+          <p className={styles.p}>
+            The cost of a house extension in the UK can vary significantly
+            depending on numerous factors, including:
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Type and Size of Extension:</b> A
+                small single-storey extension will be much cheaper than a large
+                two-storey extension or a basement conversion.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Location:</b> Labor costs and
+                material prices can vary across the UK, with London and the
+                South East generally being more expensive.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Materials and Finishes:</b>{" "}
+                Choosing high-end materials and finishes will significantly
+                increase the cost.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Complexity of the Build:</b>{" "}
+                Factors like sloping sites, difficult access, and complex
+                designs will add to the cost.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Professional Fees:</b> Architect
+                fees, structural engineer fees, planning application fees,
+                Building Control fees, and Party Wall Surveyor fees.
+              </p>
+            </li>
+          </ul>
+          <p className={styles.p}>
+            As a *very rough* guide (as of 2025, and these prices can fluctuate
+            significantly):
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Single-Storey Extension:</b> £1,500
+                - £3,000+ per square meter.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Two-Storey Extension:</b> £1,300 -
+                £3,000+ per square meter.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Loft Conversion:</b> £1,500 -
+                £2,500+ per square meter (depending on the type of conversion –
+                rooflight conversions are cheapest, mansard conversions are most
+                expensive).
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Basement Conversion:</b> £3,000 -
+                £5,000+ per square meter (basement conversions are significantly
+                more expensive due to the complexity of excavation and
+                waterproofing).
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Garage Conversion:</b> £1,000 -
+                £2,000+ per square meter.
+              </p>
+            </li>
+          </ul>
+
+          <p className={styles.p}>
+            These figures are *exclusive* of VAT (Value Added Tax), professional
+            fees, and fixtures/fittings. It is essential to get detailed quotes
+            from builders for your specific project.
+          </p>
+
+          <h2 className={styles.h2} id="finding-a-builder">
+            Finding a Reputable Builder
+          </h2>
+
+          <p className={styles.p}>
+            Finding a trustworthy and competent builder is arguably the most
+            critical step in a successful extension project. Here&apos;s how to
+            find the right one:
+          </p>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Get Recommendations:</b> Ask
+                friends, family, neighbors, and colleagues for recommendations.
+                Personal referrals are often the best starting point.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Online Platforms:</b> Use reputable
+                online platforms like{" "}
+                <Link href="https://www.mybuilder.com/">MyBuilder</Link>,{" "}
+                <Link href="https://www.checkatrade.com/">Checkatrade</Link>,{" "}
+                <Link href="https://www.trustatrader.com/">TrustATrader</Link>,
+                and{" "}
+                <Link href="https://www.fmb.org.uk/">
+                  Federation of Master Builders (FMB)
+                </Link>{" "}
+                to find vetted and reviewed builders in your area.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Check References:</b> Always ask
+                for and *follow up* on references from previous clients. Speak
+                to them directly about their experience with the builder.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>View Previous Work:</b> If
+                possible, visit previous projects completed by the builder to
+                assess the quality of their workmanship.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>
+                  Check Insurance and Qualifications:
+                </b>{" "}
+                Ensure the builder has adequate public liability insurance and
+                any relevant qualifications (e.g., for gas or electrical work).
+                Membership of a trade association like the FMB can also be a
+                good indicator of professionalism.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Get Detailed Quotes:</b> Obtain
+                written quotes from at least three different builders. The
+                quotes should be detailed and itemized, breaking down the costs
+                of labor, materials, and any other expenses. Beware of quotes
+                that are significantly lower than others, as this could indicate
+                corner-cutting.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Use a Contract:</b> Always have a
+                written contract with your builder. The contract should clearly
+                outline the scope of work, payment schedule, timelines, and
+                dispute resolution procedures. The JCT (Joint Contracts
+                Tribunal) offers standard form contracts for home building
+                projects.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Trust your Gut:</b> If you have any
+                doubts or concerns about a builder, don&apos;t hire them.
+                It&apos;s essential to have a good working relationship and feel
+                comfortable with the person you choose.
+              </p>
+            </li>
+
+            <li>
+              <p className={styles.p}>
+                Read here our guide on how to{" "}
+                <Link
+                  href="/blog/how-to-choose-a-bathroom-fitter"
+                  target="_blank"
+                >
+                  choose a bathroom fitter
+                </Link>
+                . While the article is geared towards bathroom renovation
+                companies, the same principles apply. We will update this link
+                to a more targeted article once it is up.
+              </p>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="design-considerations">
+            Design Considerations
+          </h2>
+
+          <p className={styles.p}>
+            Thoughtful design is key to a successful extension. Consider the
+            following:
+          </p>
+
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Purpose:</b> What will the new
+                space be used for? How will it integrate with the existing
+                house?
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Natural Light:</b> Maximize natural
+                light through carefully positioned windows, skylights, and
+                glazed doors.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Flow:</b> Ensure a good flow
+                between the existing house and the new extension. Avoid creating
+                awkward or unusable spaces.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Materials:</b> Choose materials
+                that complement the existing property and are appropriate for
+                the location.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Sustainability:</b> Consider
+                incorporating sustainable design features, such as high levels
+                of insulation, energy-efficient windows, and renewable energy
+                sources.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Future-Proofing:</b> Think about
+                your future needs and how the extension could be adapted over
+                time.
+              </p>
+            </li>
+          </ul>
+          <p className={styles.p}>
+            Consider hiring an architect or architectural designer. They can
+            help you develop a design that meets your needs, maximizes space,
+            and complies with planning and building regulations. While adding to
+            the initial cost, a well-designed extension can add significantly
+            more value to your property.
+          </p>
+
+          <h2 className={styles.h2} id="project-management">
+            Project Management Tips
+          </h2>
+          <p className={styles.p}>
+            Even with a good builder, staying involved in the project is
+            crucial. Here are some project management tips:
+          </p>
+          <ul>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Regular Communication:</b> Maintain
+                regular communication with your builder. Schedule site meetings
+                to discuss progress and address any issues.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Keep Records:</b> Keep detailed
+                records of all communication, payments, and changes to the
+                project.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Be Prepared for Disruptions:</b>{" "}
+                Building work is inherently disruptive. Be prepared for noise,
+                dust, and limited access to certain areas of your home.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Make Decisions Promptly:</b> Delays
+                in decision-making can hold up the project and increase costs.
+                Be prepared to make decisions quickly when required.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Contingency Fund:</b> Have a
+                contingency fund (typically 10-20% of the total budget) to cover
+                any unexpected costs.
+              </p>
+            </li>
+            <li>
+              <p className={styles.p}>
+                <b className={styles.accent}>Snagging:</b> At the end of the
+                project, create a snagging list of any minor defects or
+                unfinished work that needs to be addressed.
+              </p>
+            </li>
+          </ul>
+
+          <h2 className={styles.h2} id="conclusion-extending">
+            Conclusion: Extending Your Home Successfully
+          </h2>
+
+          <p className={styles.p}>
+            Extending your home can be a complex but ultimately rewarding
+            project. By carefully planning, choosing the right type of
+            extension, understanding the relevant regulations, finding a
+            reputable builder, and staying actively involved throughout the
+            process, you can successfully create the extra space you need and
+            add significant value to your property. Remember to do your
+            research, get professional advice, and be prepared for some
+            challenges along the way. Good luck!
+          </p>
+          <a
+            href="/contact"
+            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
+            data-tally-open="wQEoXw"
+            data-tally-align-left="1"
+            data-tally-overlay="1"
+            data-tally-emoji-text="📋"
+            data-tally-emoji-animation="rubber-band"
+            data-tally-auto-close="2000"
+          >
+            Contact us now!
+          </a>
+        </section>
+      </>
+    ),
+  },
   {
     // The unique slug to use in the URL. It's also used to generate the canonical URL.
     slug: "bathroom-renovation-cost-2025",
@@ -222,11 +1137,12 @@ export const articles = [
         />
         <section>
           <p className={styles.p}>
-            Planning a <b>bathroom renovation</b> in London? One of the first
-            questions you&apos;ll likely have is, &apos;How much will it
-            cost?&apos; Bathroom renovation costs in London can vary
-            significantly depending on the scope of the project, the materials
-            you choose, and the <b>bathroom fitter</b> you hire. This
+            Planning a <b className={styles.accent}>bathroom renovation</b> in
+            London? One of the first questions you&apos;ll likely have is,
+            &apos;How much will it cost?&apos; Bathroom renovation costs in
+            London can vary significantly depending on the scope of the project,
+            the materials you choose, and the{" "}
+            <b className={styles.accent}>bathroom fitter</b> you hire. This
             comprehensive guide will break down the costs you can expect in
             2025, providing realistic estimates and helping you budget
             effectively for your dream bathroom.
@@ -267,9 +1183,9 @@ export const articles = [
 
           <p className={styles.p}>
             Several factors influence the overall cost of a{" "}
-            <b>bathroom renovation in London</b>. Understanding these factors
-            will help you create a realistic budget and avoid unexpected
-            expenses.
+            <b className={styles.accent}>bathroom renovation in London</b>.
+            Understanding these factors will help you create a realistic budget
+            and avoid unexpected expenses.
           </p>
 
           <h3 className={styles.h3}>Size of the Bathroom</h3>
@@ -295,32 +1211,38 @@ export const articles = [
           <ul>
             <li>
               <p className={styles.p}>
-                <b>Basic Refresh:</b> This might involve replacing the toilet,
-                sink, and taps, perhaps adding a new coat of paint and some new
-                accessories. This is the most budget-friendly option.
+                <b className={styles.accent}>Basic Refresh:</b> This might
+                involve replacing the toilet, sink, and taps, perhaps adding a
+                new coat of paint and some new accessories. This is the most
+                budget-friendly option.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Mid-Range Renovation:</b> This could include replacing the
-                bathtub with a shower, new tiling, and updating the vanity. It
-                offers a significant upgrade without a complete overhaul.
+                <b className={styles.accent}>Mid-Range Renovation:</b> This
+                could include replacing the bathtub with a shower, new tiling,
+                and updating the vanity. It offers a significant upgrade without
+                a complete overhaul.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Full Renovation (Gut Renovation):</b> This involves stripping
-                the bathroom down to the studs, potentially reconfiguring the
-                layout, moving plumbing and electrical, and installing all new
-                fixtures and finishes. This is the most expensive option.
+                <b className={styles.accent}>
+                  Full Renovation (Gut Renovation):
+                </b>{" "}
+                This involves stripping the bathroom down to the studs,
+                potentially reconfiguring the layout, moving plumbing and
+                electrical, and installing all new fixtures and finishes. This
+                is the most expensive option.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Luxury Renovation:</b> This includes everything in a full
-                renovation, but with high-end materials, designer fixtures,
-                bespoke cabinetry, and potentially features like underfloor
-                heating, steam showers, and smart technology.
+                <b className={styles.accent}>Luxury Renovation:</b> This
+                includes everything in a full renovation, but with high-end
+                materials, designer fixtures, bespoke cabinetry, and potentially
+                features like underfloor heating, steam showers, and smart
+                technology.
               </p>
             </li>
           </ul>
@@ -338,55 +1260,57 @@ export const articles = [
           <ul>
             <li>
               <p className={styles.p}>
-                <b>Tiles:</b> Ceramic, porcelain, natural stone (marble,
-                granite, slate), glass, mosaic.
+                <b className={styles.accent}>Tiles:</b> Ceramic, porcelain,
+                natural stone (marble, granite, slate), glass, mosaic.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Flooring:</b> Tiles (as above), vinyl, LVT (Luxury Vinyl
-                Tile), waterproof laminate.
+                <b className={styles.accent}>Flooring:</b> Tiles (as above),
+                vinyl, LVT (Luxury Vinyl Tile), waterproof laminate.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Bathtub:</b> Acrylic, steel, cast iron, freestanding.
+                <b className={styles.accent}>Bathtub:</b> Acrylic, steel, cast
+                iron, freestanding.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Shower:</b> Shower enclosure, wet room, shower tray,
-                showerhead (standard, rainfall, power shower).
+                <b className={styles.accent}>Shower:</b> Shower enclosure, wet
+                room, shower tray, showerhead (standard, rainfall, power
+                shower).
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Toilet:</b> Close-coupled, wall-hung, back-to-wall, smart
-                toilet.
+                <b className={styles.accent}>Toilet:</b> Close-coupled,
+                wall-hung, back-to-wall, smart toilet.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Sink/Vanity:</b> Pedestal sink, wall-hung vanity, countertop
-                basin, bespoke cabinetry.
+                <b className={styles.accent}>Sink/Vanity:</b> Pedestal sink,
+                wall-hung vanity, countertop basin, bespoke cabinetry.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Taps:</b> Mixer taps, pillar taps, wall-mounted taps,
-                designer brands.
+                <b className={styles.accent}>Taps:</b> Mixer taps, pillar taps,
+                wall-mounted taps, designer brands.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Lighting:</b> Downlights, spotlights, mirror lights, LED
-                strips.
+                <b className={styles.accent}>Lighting:</b> Downlights,
+                spotlights, mirror lights, LED strips.
               </p>
             </li>
             <li>
               <p className={styles.p}>
-                <b>Accessories:</b> Towel rails, toilet roll holders, mirrors,
-                soap dishes.
+                <b className={styles.accent}>Accessories:</b> Towel rails,
+                toilet roll holders, mirrors, soap dishes.
               </p>
             </li>
           </ul>
@@ -396,10 +1320,10 @@ export const articles = [
           <p className={styles.p}>
             Labor costs in London are generally higher than in other parts of
             the UK. The complexity of the project and the experience level of
-            the <b>bathroom fitter</b> will also affect labor costs. A highly
-            skilled and experienced fitter will charge more, but they are also
-            more likely to deliver a high-quality finish and avoid costly
-            mistakes.
+            the <b className={styles.accent}>bathroom fitter</b> will also
+            affect labor costs. A highly skilled and experienced fitter will
+            charge more, but they are also more likely to deliver a high-quality
+            finish and avoid costly mistakes.
           </p>
 
           <h3 className={styles.h3}>Location Within London</h3>
@@ -441,9 +1365,12 @@ export const articles = [
 
           <p className={styles.p}>
             Based on industry data and current trends, here&apos;s a breakdown
-            of average <b>bathroom renovation costs in London in 2025</b>. Keep
-            in mind that these are estimates, and your actual costs may vary
-            depending on the factors mentioned above.
+            of average{" "}
+            <b className={styles.accent}>
+              bathroom renovation costs in London in 2025
+            </b>
+            . Keep in mind that these are estimates, and your actual costs may
+            vary depending on the factors mentioned above.
           </p>
 
           <h3 className={styles.h3}>
@@ -467,7 +1394,7 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £5,000 - £6,000</b>
+                <b className={styles.accent}>Typical Cost: £5,000 - £6,000</b>
               </p>
             </li>
           </ul>
@@ -496,7 +1423,7 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £6,000 - £8,000</b>
+                <b className={styles.accent}>Typical Cost: £6,000 - £8,000</b>
               </p>
             </li>
           </ul>
@@ -535,7 +1462,7 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £8,000 - £15,000+</b>
+                <b className={styles.accent}>Typical Cost: £8,000 - £15,000+</b>
               </p>
             </li>
           </ul>
@@ -573,7 +1500,9 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b>Typical Cost: £15,000 - £25,000+</b>
+                <b className={styles.accent}>
+                  Typical Cost: £15,000 - £25,000+
+                </b>
               </p>
             </li>
           </ul>
@@ -625,9 +1554,9 @@ export const articles = [
 
           <p className={styles.p}>
             Always get quotes from at least three different{" "}
-            <b>bathroom fitters</b> before making a decision. This will give you
-            a better idea of the average cost and help you identify any
-            outliers.
+            <b className={styles.accent}>bathroom fitters</b> before making a
+            decision. This will give you a better idea of the average cost and
+            help you identify any outliers.
           </p>
 
           <h3 className={styles.h3}>Consider Ex-Display Items</h3>
@@ -650,8 +1579,9 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            Finding a reliable and experienced <b>bathroom fitter</b> is crucial
-            for a successful renovation. Use online platforms like{" "}
+            Finding a reliable and experienced{" "}
+            <b className={styles.accent}>bathroom fitter</b> is crucial for a
+            successful renovation. Use online platforms like{" "}
             <Link href="https://www.mybuilder.com/">MyBuilder</Link>,{" "}
             <Link href="https://www.checkatrade.com/">Checkatrade</Link>, and{" "}
             <Link href="https://www.houzz.co.uk/">Houzz</Link> to find vetted
@@ -669,13 +1599,14 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            A <b>bathroom renovation in London</b> can be a rewarding
-            investment, adding value and comfort to your home. By understanding
-            the factors that affect costs, creating a realistic budget, and
-            following these tips, you can achieve your dream bathroom without
-            breaking the bank. Remember to plan carefully, get multiple quotes,
-            and choose a reputable <b>bathroom fitter</b> to ensure a smooth and
-            successful renovation.
+            A <b className={styles.accent}>bathroom renovation in London</b> can
+            be a rewarding investment, adding value and comfort to your home. By
+            understanding the factors that affect costs, creating a realistic
+            budget, and following these tips, you can achieve your dream
+            bathroom without breaking the bank. Remember to plan carefully, get
+            multiple quotes, and choose a reputable{" "}
+            <b className={styles.accent}>bathroom fitter</b> to ensure a smooth
+            and successful renovation.
           </p>
           <a
             href="/contact"
@@ -1031,7 +1962,7 @@ export const articles = [
 
           <ul>
             <li className={styles.p}>
-              <b>Online Platforms:</b>
+              <b className={styles.accent}>Online Platforms:</b>
               <ul>
                 <li className={styles.p}>
                   <b className={styles.accent}>
