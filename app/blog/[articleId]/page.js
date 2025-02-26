@@ -170,3 +170,9 @@ export default async function Article({ params }) {
     </>
   );
 }
+
+export async function generateStaticParams() {
+  return articles.map((article) => ({
+    articleId: article.slug,
+  }));
+}
