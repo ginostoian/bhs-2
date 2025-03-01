@@ -20,7 +20,7 @@ const Hero = () => {
           Islington
         </p>
         <Link
-          href="/contact"
+          href="/portfolio"
           className="hidden text-base font-black underline md:block"
         >
           Our portfolio
