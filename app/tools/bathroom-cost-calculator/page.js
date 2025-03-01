@@ -4,7 +4,6 @@ import React from "react";
 import { useState } from "react";
 
 import Hero from "../components/Hero";
-import CalculatedPrice from "../components/CalculatedPrice";
 
 const BathroomCalculator = () => {
   const [renovationCost, setRenovationCost] = useState(0);
