@@ -1,7 +1,28 @@
+"use client";
+
 import React from "react";
+import { useState } from "react";
+
 import Hero from "../components/Hero";
+import CalculatedPrice from "../components/CalculatedPrice";
 
 const BathroomCalculator = () => {
+  const [renovationCost, setRenovationCost] = useState(0);
+  const [formData, setFormData] = useState({
+    bathroomSize: "",
+    layoutChanges: "",
+    bathroomTiling: "",
+    fixtures: "",
+    ufh: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const prices = {
     baseCost: 5000,
     smallSize: 1.2,
@@ -17,6 +38,44 @@ const BathroomCalculator = () => {
     UFH: 1300,
     noUFH: 0,
   };
+
+  const calculateTotalCost = () => {
+    let totalCost = prices.baseCost;
+
+    if (formData.bathroomSize === "Small") {
+      totalCost = totalCost * prices.smallSize;
+    } else if (formData.bathroomSize === "Medium") {
+      totalCost = totalCost * prices.mediumSize;
+    } else if (formData.bathroomSize === "Large") {
+      totalCost = totalCost * prices.largeSize;
+    }
+
+    formData.layoutChanges === "No layout changes"
+      ? (totalCost += prices.noLayoutChange)
+      : (totalCost += prices.layoutChange);
+
+    formData.bathroomTiling === "Splashback tiling"
+      ? (totalCost += prices.tileLevelOne)
+      : formData.bathroomTiling === "Halfway tiling"
+        ? (totalCost += prices.tileLevelTwo)
+        : (totalCost += prices.tileLevelThree);
+
+    formData.fixtures === "Exposed Fixtures"
+      ? (totalCost += prices.exposedFixtures)
+      : (totalCost += prices.concealedFixtures);
+
+    formData.ufh === "Underfloor heating"
+      ? (totalCost += prices.UFH)
+      : (totalCost += prices.noUFH);
+
+    return totalCost;
+  };
+
+  const handleClick = () => {
+    document.getElementById("my_modal_3").showModal();
+    setRenovationCost(calculateTotalCost());
+  };
+
   const sizeRadios = [
     {
       name: "Small",
@@ -86,7 +145,7 @@ const BathroomCalculator = () => {
   return (
     <div>
       <Hero />
-      <div className="mx-auto mb-8 max-w-[70%] rounded-xl bg-white px-6 py-6">
+      <div className="mx-auto mb-8 max-w-[85%] rounded-xl bg-white px-6 py-6 md:max-w-[70%]">
         <div className="mb-6">
           <h2 className="text-2xl font-bold">What size is your bathroom?</h2>
           <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
@@ -94,9 +153,11 @@ const BathroomCalculator = () => {
               <li key={idx}>
                 <label htmlFor={item.name} className="relative block">
                   <input
+                    value={item.name}
                     id={item.name}
                     type="radio"
-                    defaultChecked={idx == 1 ? true : false}
+                    checked={formData.bathroomSize === item.name}
+                    onChange={handleChange}
                     name="bathroomSize"
                     class="peer sr-only"
                   />
@@ -123,9 +184,11 @@ const BathroomCalculator = () => {
               <li key={idx}>
                 <label htmlFor={item.name} className="relative block">
                   <input
+                    value={item.name}
                     id={item.name}
                     type="radio"
-                    defaultChecked={idx == 1 ? true : false}
+                    checked={formData.layoutChanges === item.name}
+                    onChange={handleChange}
                     name="layoutChanges"
                     class="peer sr-only"
                   />
@@ -154,9 +217,11 @@ const BathroomCalculator = () => {
               <li key={idx}>
                 <label htmlFor={item.name} className="relative block">
                   <input
+                    value={item.name}
                     id={item.name}
                     type="radio"
-                    defaultChecked={idx == 1 ? true : false}
+                    checked={formData.bathroomTiling === item.name}
+                    onChange={handleChange}
                     name="bathroomTiling"
                     class="peer sr-only"
                   />
@@ -185,9 +250,11 @@ const BathroomCalculator = () => {
               <li key={idx}>
                 <label htmlFor={item.name} className="relative block">
                   <input
+                    value={item.name}
                     id={item.name}
                     type="radio"
-                    defaultChecked={idx == 1 ? true : false}
+                    checked={formData.fixtures === item.name}
+                    onChange={handleChange}
                     name="fixtures"
                     class="peer sr-only"
                   />
@@ -216,10 +283,12 @@ const BathroomCalculator = () => {
               <li key={idx}>
                 <label htmlFor={item.name} className="relative block">
                   <input
+                    value={item.name}
                     id={item.name}
                     type="radio"
-                    defaultChecked={idx == 1 ? true : false}
-                    name="fixtures"
+                    checked={formData.ufh === item.name}
+                    onChange={handleChange}
+                    name="ufh"
                     class="peer sr-only"
                   />
                   <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2 md:max-w-[350px]">
@@ -237,6 +306,32 @@ const BathroomCalculator = () => {
               </li>
             ))}
           </ul>
+        </div>
+        <div>
+          <button
+            type="submit"
+            onClick={handleClick}
+            className="mb-6 mt-6 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:px-[24px]"
+          >
+            Calculate your price!
+          </button>
+          <dialog id="my_modal_3" className="modal">
+            <div className="modal-box">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn-circle btn-ghost btn-sm absolute right-2 top-2 bg-[#266bf1] text-white">
+                  ✕
+                </button>
+              </form>
+              <h3 className="text-3xl font-bold text-[#266bf1]">
+                Your bathroom renovation will cost you between £{renovationCost}{" "}
+                and £{renovationCost + 2000}
+              </h3>
+              <p className="py-4">
+                Press ESC key or click on ✕ button to close
+              </p>
+            </div>
+          </dialog>
         </div>
       </div>
     </div>
