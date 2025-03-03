@@ -70,6 +70,10 @@ const BathroomCalculator = () => {
     return totalCost;
   };
 
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString("en-US"); // Or your preferred locale
+  };
+
   const handleClick = () => {
     document.getElementById("my_modal_3").showModal();
     setRenovationCost(calculateTotalCost());
@@ -322,12 +326,23 @@ const BathroomCalculator = () => {
                   ✕
                 </button>
               </form>
-              <h3 className="text-3xl font-bold text-[#266bf1]">
-                Your bathroom renovation will cost you between £{renovationCost}{" "}
-                and £{renovationCost + 2000}
+              <h3 className="text-center text-2xl font-bold">
+                Your <span className="text-[#266bf1]">bathroom renovation</span>{" "}
+                cost is between:
               </h3>
-              <p className="py-4">
-                Press ESC key or click on ✕ button to close
+              <p className="py-4 text-center text-2xl">
+                <span className="font-extrabold text-[#266bf1]">
+                  £{formatNumberWithCommas(renovationCost)}
+                </span>{" "}
+                and{" "}
+                <span className="font-extrabold text-[#266bf1]">
+                  £{formatNumberWithCommas(renovationCost + 2000)}
+                </span>
+              </p>
+              <p className="text-sm">
+                *The above cost is an estimate that includes labour, waste
+                removal and building materials (plasterboard, pipes, white
+                paint, etc)
               </p>
             </div>
           </dialog>
