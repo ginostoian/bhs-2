@@ -439,7 +439,7 @@ const BathroomCalculator = () => {
                 removal and building materials (plasterboard, pipes, white
                 paint, etc)
               </p>
-              <ToolsFAQ />
+              <ToolsFAQ faqs={faqs} />
             </div>
           </dialog>
         </div>
