@@ -243,7 +243,7 @@ const BathroomCalculator = () => {
   return (
     <div>
       <Hero />
-      <div className="mx-auto mb-8 max-w-[85%] rounded-xl bg-white px-6 py-6 md:max-w-[70%]">
+      <div className="mx-auto mb-8 max-w-[85%] rounded-xl bg-white px-6 py-6 text-black md:max-w-[70%]">
         <div className="mb-6">
           <h2 className="text-2xl font-bold">What size is your bathroom?</h2>
           <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
@@ -425,7 +425,7 @@ const BathroomCalculator = () => {
                 Your <span className="text-[#266bf1]">bathroom renovation</span>{" "}
                 cost is between:
               </h3>
-              <p className="py-4 text-center text-2xl">
+              <p className="py-4 text-center text-2xl md:text-4xl">
                 <span className="font-extrabold text-[#266bf1]">
                   £{formatNumberWithCommas(renovationCost)}
                 </span>{" "}
@@ -437,8 +437,22 @@ const BathroomCalculator = () => {
               <p className="text-sm">
                 *The above cost is an estimate that includes labour, waste
                 removal and building materials (plasterboard, pipes, white
-                paint, etc)
+                paint, etc) and excludes bathroom fittings and tiles.
               </p>
+              <div className="mt-6 flex justify-center gap-6">
+                <Link
+                  href="/"
+                  className="cursor-pointer rounded-full border border-[#266bf1] bg-white px-8 py-4 text-base text-black"
+                >
+                  Fill out the form
+                </Link>
+                <Link
+                  href="#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000"
+                  className="cursor-pointer rounded-full bg-[#266bf1] px-8 py-4 text-base text-white transition-all duration-200 hover:border-2 hover:border-[#266bf1] hover:bg-white hover:text-black"
+                >
+                  Get a detailed quote
+                </Link>
+              </div>
               <ToolsFAQ faqs={faqs} />
             </div>
           </dialog>
