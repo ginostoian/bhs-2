@@ -6,6 +6,12 @@ import Link from "next/link";
 
 import Hero from "../components/Hero";
 import ToolsFAQ from "../components/ToolsFAQ";
+import Features from "@/components/Features";
+import Testimonials3 from "@/components/Testimonials3";
+import Stats from "@/components/Stats";
+import Guarantee from "@/components/Guarantee";
+import CustomCTA from "@/components/CustomCTA";
+import PortfolioCardContainer from "@/components/PortfolioCardContainer";
 
 const BathroomCalculator = () => {
   const [renovationCost, setRenovationCost] = useState(0);
@@ -119,7 +125,7 @@ const BathroomCalculator = () => {
 
   const prices = {
     baseCost: 5000,
-    smallSize: 1.2,
+    smallSize: 1.1,
     mediumSize: 1.3,
     largeSize: 1.4,
     noLayoutChange: 0,
@@ -441,16 +447,16 @@ const BathroomCalculator = () => {
               </p>
               <div className="mt-6 flex justify-center gap-6">
                 <Link
-                  href="/"
-                  className="cursor-pointer rounded-full border border-[#266bf1] bg-white px-8 py-4 text-base text-black"
+                  href="/portfolio"
+                  className="cursor-pointer rounded-full border border-[#266bf1] bg-white px-4 py-2 text-center text-base text-black md:px-8 md:py-4"
                 >
-                  Fill out the form
+                  View our work
                 </Link>
                 <Link
                   href="#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000"
-                  className="cursor-pointer rounded-full bg-[#266bf1] px-8 py-4 text-base text-white transition-all duration-200 hover:border-2 hover:border-[#266bf1] hover:bg-white hover:text-black"
+                  className="cursor-pointer rounded-full bg-[#266bf1] px-4 py-2 text-center text-base text-white transition-all duration-200 hover:border-2 hover:border-[#266bf1] hover:bg-white hover:text-black md:px-8 md:py-4"
                 >
-                  Get a detailed quote
+                  Get a free detailed quote
                 </Link>
               </div>
               <ToolsFAQ faqs={faqs} />
@@ -458,6 +464,12 @@ const BathroomCalculator = () => {
           </dialog>
         </div>
       </div>
+      <PortfolioCardContainer />
+      <Features />
+      <Testimonials3 />
+      <Stats />
+      <Guarantee />
+      <CustomCTA />
     </div>
   );
 };
