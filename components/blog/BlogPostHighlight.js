@@ -21,8 +21,8 @@ const BlogPostHighlight = ({ article }) => {
         <p className={classes["article__body-date"]}>{date}</p>
         <h3 className={classes["article__body-title"]}>{title}</h3>
         <Link
-          href={`/pages/blogs/${slug}`}
-          className="w-max mb-4 mt-4 flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] px-[20px] min-h-[60px] lg:min-h-[60px] lg:px-[24px] lg:w-[245px]! rounded-full"
+          href={`/blog/${slug}`}
+          className="lg:w-[245px]! mb-4 mt-4 flex min-h-[60px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[60px] lg:px-[24px]"
         >
           Read more
         </Link>
