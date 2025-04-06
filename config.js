@@ -264,10 +264,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -459,10 +460,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -655,10 +657,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -849,10 +852,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1043,10 +1047,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1237,10 +1242,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1431,10 +1437,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1625,10 +1632,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1819,10 +1827,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",
@@ -1950,10 +1959,11 @@ const config = {
       ],
       blogHighlights: [
         {
-          title: "We won the Best of Houzz Service Award - 2023",
-          date: "23 February 2023",
-          imgUrl: "/assets/img/misc/best-of-houzz-winner.png",
-          slug: "best-of-houzz-winner-2023",
+          title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+          date: "7 April 2025",
+          imgUrl:
+            "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
+          slug: "kitchen-renovation-full-guide-2025",
         },
         {
           title: "House extension guide - 2025",

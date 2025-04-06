@@ -326,7 +326,7 @@ export const articles = [
           </p>
 
           <h2 className={styles.h2}>
-            Kitchen Renovation Budget Tiers: What’s Included?
+            Kitchen Renovation Budget Tiers: What&apos;s Included?
           </h2>
 
           <p className={styles.p}>
@@ -496,7 +496,7 @@ export const articles = [
 
           <p className={styles.p}>
             Installation costs can add £20–£60/m² depending on the flooring type
-            and subfloor condition. Don’t forget underfloor heating—often
+            and subfloor condition. Don&apos;t forget underfloor heating—often
             £800–£1,200 extra for a typical kitchen.
           </p>
 
@@ -531,13 +531,13 @@ export const articles = [
 
           <p className={styles.p}>
             Though small on the invoice, these elements heavily influence the
-            kitchen’s ambiance and usability—worth investing in with care.
+            kitchen&apos;s ambiance and usability—worth investing in with care.
           </p>
 
           <p className={styles.p}>
             By understanding where every pound goes, you can better prioritise
-            what matters most to you—whether that’s sleek marble surfaces or
-            clever storage solutions.
+            what matters most to you—whether that&apos;s sleek marble surfaces
+            or clever storage solutions.
           </p>
 
           <h2 className={styles.h2}>
@@ -546,8 +546,8 @@ export const articles = [
 
           <p className={styles.p}>
             When it comes to a kitchen renovation in London, labour can account
-            for up to 50% of your overall costs. That’s why understanding who
-            does what—and what they charge—is key to accurate budgeting.
+            for up to 50% of your overall costs. That&apos;s why understanding
+            who does what—and what they charge—is key to accurate budgeting.
             London&apos;s skilled tradespeople charge a premium, so planning
             ahead ensures you get both quality and value.
           </p>
@@ -617,10 +617,10 @@ export const articles = [
 
           <p className={styles.p}>
             The materials you choose will significantly shape not just your
-            kitchen’s aesthetic—but also its longevity and cost. In London,
+            kitchen&apos;s aesthetic—but also its longevity and cost. In London,
             where quality and design are often non-negotiable for homeowners,
             material choices can elevate both lifestyle and property value.
-            Let’s break down the most important ones.
+            Let&apos;s break down the most important ones.
           </p>
 
           <h3 className={styles.h3}>Cabinets: Pre-Made vs Bespoke</h3>
@@ -721,19 +721,19 @@ export const articles = [
 
           <p className={styles.p}>
             For high-income London homeowners, the kitchen is more than a space
-            for cooking—it’s a lifestyle centrepiece. Investing in luxury
+            for cooking—it&apos;s a lifestyle centrepiece. Investing in luxury
             kitchen features not only enhances comfort and efficiency, but also
-            significantly boosts the wow factor of your home. Let’s explore the
-            features that turn a high-spec kitchen into a showpiece—and what
-            they’ll cost you.
+            significantly boosts the wow factor of your home. Let&apos;s explore
+            the features that turn a high-spec kitchen into a showpiece—and what
+            they&apos;ll cost you.
           </p>
 
           <h3 className={styles.h3}>Smart Kitchen Appliances</h3>
 
           <p className={styles.p}>
-            Smart tech is no longer a novelty—it’s expected in luxury homes.
-            From touchscreen ovens to fridges that sync with your smartphone,
-            automation is redefining convenience. Examples include:
+            Smart tech is no longer a novelty—it&apos;s expected in luxury
+            homes. From touchscreen ovens to fridges that sync with your
+            smartphone, automation is redefining convenience. Examples include:
           </p>
 
           <ul className={styles.p}>
@@ -789,8 +789,8 @@ export const articles = [
           <h3 className={styles.h3}>Custom Storage & Built-In Organisation</h3>
 
           <p className={styles.p}>
-            Gone are the days of cluttered countertops. Today’s luxury kitchens
-            are all about seamless storage:
+            Gone are the days of cluttered countertops. Today&apos;s luxury
+            kitchens are all about seamless storage:
           </p>
 
           <ul className={styles.p}>
@@ -814,9 +814,10 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            If you’re investing in a kitchen that matches your lifestyle and the
-            value of your home, these extras offer both daily joy and long-term
-            return. They’re not just indulgent—they’re intentional.
+            If you&apos;re investing in a kitchen that matches your lifestyle
+            and the value of your home, these extras offer both daily joy and
+            long-term return. They&apos;re not just indulgent—they&apos;re
+            intentional.
           </p>
 
           {/* IMAGE SUGGESTION: Side-by-side comparison visual: "Standard Kitchen vs Luxury Kitchen" with labelled features like boiling tap, smart oven, wine cooler, etc. */}
@@ -825,10 +826,10 @@ export const articles = [
 
           <p className={styles.p}>
             Even the most meticulously planned kitchen renovation can go over
-            budget—often due to costs that weren’t considered at the outset.
-            These hidden expenses can quickly add thousands to your final bill
-            if you&apos;re not prepared. Here&apos;s what to watch for,
-            especially in high-spec London projects.
+            budget—often due to costs that weren&apos;t considered at the
+            outset. These hidden expenses can quickly add thousands to your
+            final bill if you&apos;re not prepared. Here&apos;s what to watch
+            for, especially in high-spec London projects.
           </p>
 
           <h3 className={styles.h3}>Waste Removal and Skip Hire</h3>
@@ -843,13 +844,14 @@ export const articles = [
 
           <p className={styles.p}>
             Tip: Check if your contractor includes disposal in their quote. Some
-            do, others don’t—and it’s a common source of miscommunication.
+            do, others don&apos;t—and it&apos;s a common source of
+            miscommunication.
           </p>
 
           <h3 className={styles.h3}>Unexpected Electrical or Plumbing Work</h3>
 
           <p className={styles.p}>
-            It’s not uncommon to find outdated wiring, insufficient power
+            It&apos;s not uncommon to find outdated wiring, insufficient power
             supply, or leaky pipes once work begins—especially in older London
             properties. Emergency electrical or plumbing updates can cost{" "}
             <strong>£500–£2,000+</strong>.
@@ -895,7 +897,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Understanding these hidden costs upfront means you won’t be
+            Understanding these hidden costs upfront means you won&apos;t be
             blindsided halfway through your project. We recommend building in a{" "}
             <strong>10–15% contingency</strong> on top of your quoted budget to
             stay in control.
@@ -912,8 +914,8 @@ export const articles = [
             the size of the space itself. In London, where homes vary
             dramatically—from compact flats in Islington to sprawling townhouses
             in Kensington—the kitchen footprint can have a direct impact on how
-            much you’ll spend. Let’s explore how size shapes both your budget
-            and your possibilities.
+            much you&apos;ll spend. Let&apos;s explore how size shapes both your
+            budget and your possibilities.
           </p>
 
           <h3 className={styles.h3}>Small Kitchen Renovations (Under 10m²)</h3>
@@ -936,7 +938,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            Labour costs don’t always decrease linearly with size
+            Labour costs don&apos;t always decrease linearly with size
             either—installers still require the same trades and time per job,
             even in tight spaces.
           </p>
@@ -1052,8 +1054,8 @@ export const articles = [
 
           <p className={styles.p}>
             A favourite in luxury renovations, islands offer additional storage,
-            social space, and a visual centrepiece. But they’re also one of the
-            more costly features:
+            social space, and a visual centrepiece. But they&apos;re also one of
+            the more costly features:
           </p>
 
           <ul className={styles.p}>
@@ -1098,8 +1100,8 @@ export const articles = [
             Knowing what to expect—and when—during a kitchen renovation helps
             you plan life around the project and manage expectations. While
             timelines vary depending on complexity, size, and supply chains,
-            here’s a realistic breakdown of how long each phase typically takes
-            for a London renovation.
+            here&apos;s a realistic breakdown of how long each phase typically
+            takes for a London renovation.
           </p>
 
           <h3 className={styles.h3}>
@@ -1172,7 +1174,7 @@ export const articles = [
           </h3>
 
           <p className={styles.p}>
-            Once stripped, it’s time to reroute any electrics, lighting or
+            Once stripped, it&apos;s time to reroute any electrics, lighting or
             plumbing before surfaces are closed up. Adding underfloor heating,
             new sockets, or relocating a sink can extend this stage.
           </p>
@@ -1236,7 +1238,7 @@ export const articles = [
 
           <p className={styles.p}>
             Flat-pack kitchens are pre-cut, ready-to-assemble units often sold
-            by high street retailers like IKEA or B&Q. They’re ideal for:
+            by high street retailers like IKEA or B&Q. They&apos;re ideal for:
           </p>
 
           <ul className={styles.p}>
@@ -1289,8 +1291,8 @@ export const articles = [
             Bespoke kitchens are designed and built entirely to your
             specifications, offering unmatched quality and craftsmanship. London
             specialists like Roundhouse or Plain English are known for creating
-            statement kitchens that perfectly match your home’s architecture and
-            personal taste.
+            statement kitchens that perfectly match your home&apos;s
+            architecture and personal taste.
           </p>
 
           <ul className={styles.p}>
@@ -1317,8 +1319,8 @@ export const articles = [
           <h3 className={styles.h3}>Which Option Is Right for You?</h3>
 
           <p className={styles.p}>
-            If you’re focused on budget and speed, flat-pack kitchens offer a
-            quick fix. Modular kitchens are ideal for design-conscious
+            If you&apos;re focused on budget and speed, flat-pack kitchens offer
+            a quick fix. Modular kitchens are ideal for design-conscious
             homeowners who want more without over-spending. Bespoke is best when
             your goal is luxury, longevity, and a truly one-of-a-kind result.
           </p>
@@ -1340,20 +1342,20 @@ export const articles = [
             a crucial role in your kitchen renovation—especially in London,
             where regulations can vary by borough. Understanding when you need
             planning permission, how building regulations apply, and what VAT
-            you’ll be charged can help you avoid costly setbacks.
+            you&apos;ll be charged can help you avoid costly setbacks.
           </p>
 
           <h3 className={styles.h3}>Do You Need Planning Permission?</h3>
 
           <p className={styles.p}>
             In most cases, you <strong>do not need planning permission</strong>{" "}
-            for a kitchen renovation, especially if you’re simply replacing
+            for a kitchen renovation, especially if you&apos;re simply replacing
             fixtures within the existing layout. However, permission may be
             required if:
           </p>
 
           <ul className={styles.p}>
-            <li>You’re extending your kitchen beyond current walls</li>
+            <li>You&apos;re extending your kitchen beyond current walls</li>
             <li>You live in a listed building or conservation area</li>
             <li>Structural changes affect external walls or rooflines</li>
           </ul>
@@ -1364,7 +1366,9 @@ export const articles = [
             planning laws are stricter.
           </p>
 
-          <h3 className={styles.h3}>Building Regulations: What’s Mandatory</h3>
+          <h3 className={styles.h3}>
+            Building Regulations: What&apos;s Mandatory
+          </h3>
 
           <p className={styles.p}>
             While planning permission isn&apos;t always necessary,{" "}
@@ -1383,16 +1387,17 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            If you’re altering structural walls or installing new electrics,
-            you’ll need to notify Building Control or work with a contractor
-            registered with a competent person scheme like NICEIC or Gas Safe.
+            If you&apos;re altering structural walls or installing new
+            electrics, you&apos;ll need to notify Building Control or work with
+            a contractor registered with a competent person scheme like NICEIC
+            or Gas Safe.
           </p>
 
           <h3 className={styles.h3}>VAT Considerations</h3>
 
           <p className={styles.p}>
             Value Added Tax (VAT) can significantly affect your renovation
-            budget. Here’s how it typically breaks down:
+            budget. Here&apos;s how it typically breaks down:
           </p>
 
           <ul className={styles.p}>
@@ -1435,11 +1440,12 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            Renovating a kitchen in London doesn’t have to mean choosing between
-            style and savings. With clever design decisions and strategic
-            sourcing, you can achieve a high-end look without stretching your
-            budget to breaking point. Here are our top expert-backed tips for
-            saving money—while still delivering the elegant finish you want.
+            Renovating a kitchen in London doesn&apos;t have to mean choosing
+            between style and savings. With clever design decisions and
+            strategic sourcing, you can achieve a high-end look without
+            stretching your budget to breaking point. Here are our top
+            expert-backed tips for saving money—while still delivering the
+            elegant finish you want.
           </p>
 
           <h3 className={styles.h3}>
@@ -1506,7 +1512,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            If you’re hiring a designer, make the most of their product
+            If you&apos;re hiring a designer, make the most of their product
             knowledge. They can often suggest alternatives that offer the same
             aesthetic at a fraction of the cost.
           </p>
@@ -1527,7 +1533,7 @@ export const articles = [
 
           <p className={styles.p}>
             By being intentional, informed and flexible, you can make your
-            budget work harder—and create a kitchen that’s not just
+            budget work harder—and create a kitchen that&apos;s not just
             cost-effective, but genuinely stunning.
           </p>
 
@@ -1540,7 +1546,7 @@ export const articles = [
           <p className={styles.p}>
             Managing a kitchen renovation in London can feel like a full-time
             job. Between coordinating trades, sourcing materials, chasing
-            deliveries, and staying on schedule, it’s no surprise many
+            deliveries, and staying on schedule, it&apos;s no surprise many
             homeowners find the process overwhelming—especially when juggling
             family or work life. So the question becomes: should you go it
             alone, or hire a project manager to run the show?
@@ -1549,8 +1555,8 @@ export const articles = [
           <h3 className={styles.h3}>Going Solo: More Control, More Risk</h3>
 
           <p className={styles.p}>
-            If you’re highly organised and experienced in renovations, managing
-            your own kitchen project may save you{" "}
+            If you&apos;re highly organised and experienced in renovations,
+            managing your own kitchen project may save you{" "}
             <strong>10–15% in costs</strong>. However, it also means taking full
             responsibility for:
           </p>
@@ -1566,9 +1572,9 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            It’s doable—but mistakes in sequencing or communication can result
-            in costly delays, especially in a busy city like London where lead
-            times and availability fluctuate fast.
+            It&apos;s doable—but mistakes in sequencing or communication can
+            result in costly delays, especially in a busy city like London where
+            lead times and availability fluctuate fast.
           </p>
 
           <h3 className={styles.h3}>
@@ -1577,7 +1583,7 @@ export const articles = [
 
           <p className={styles.p}>
             A dedicated project manager handles all the moving parts of your
-            renovation—so you don’t have to. Expect to pay{" "}
+            renovation—so you don&apos;t have to. Expect to pay{" "}
             <strong>10–20% of your total renovation budget</strong> for this
             service, depending on the scale and complexity.
           </p>
@@ -1592,7 +1598,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            It’s not just about convenience—it’s about protecting your
+            It&apos;s not just about convenience—it&apos;s about protecting your
             investment and ensuring your project stays on time, on budget, and
             on brief.
           </p>
@@ -1617,7 +1623,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            Whether you’re renovating a compact city kitchen or crafting a
+            Whether you&apos;re renovating a compact city kitchen or crafting a
             statement space in a period home, we take care of the details—so you
             can focus on enjoying the results.
           </p>
@@ -1631,17 +1637,17 @@ export const articles = [
           <p className={styles.p}>
             For many homeowners, a kitchen renovation isn&apos;t just about
             aesthetics or functionality—it&apos;s a financial decision. In
-            London’s dynamic property market, upgrading your kitchen can yield a
-            substantial return on investment (ROI), making it one of the
+            London&apos;s dynamic property market, upgrading your kitchen can
+            yield a substantial return on investment (ROI), making it one of the
             smartest home improvements you can make.
           </p>
 
-          <h3 className={styles.h3}>The Kitchen: The Home’s MVP</h3>
+          <h3 className={styles.h3}>The Kitchen: The Home&apos;s MVP</h3>
 
           <p className={styles.p}>
             According to property experts and estate agents across London, the
             kitchen is the single most influential room when it comes to resale
-            value. It’s the space that buyers scrutinise most, and where
+            value. It&apos;s the space that buyers scrutinise most, and where
             high-end finishes or poor design can sway decisions.
           </p>
 
@@ -1653,7 +1659,7 @@ export const articles = [
             can be the tipping point in securing top offers.
           </p>
 
-          <h3 className={styles.h3}>Where You’ll See the Most Value</h3>
+          <h3 className={styles.h3}>Where You&apos;ll See the Most Value</h3>
 
           <p className={styles.p}>To maximise ROI, focus on:</p>
 
@@ -1685,7 +1691,7 @@ export const articles = [
           <h3 className={styles.h3}>Renovation vs Relocation</h3>
 
           <p className={styles.p}>
-            In many cases, especially in London’s rising-cost climate,
+            In many cases, especially in London&apos;s rising-cost climate,
             renovating your current space makes more financial sense than
             moving. With stamp duty, legal fees, and the stress of finding a new
             property, investing £30,000–£60,000 into a dream kitchen could be
@@ -1698,10 +1704,11 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Whether you’re looking to increase your property’s value, attract
-            potential buyers, or simply elevate your lifestyle, a high-quality
-            kitchen renovation is rarely a bad investment—especially in one of
-            the world’s most property-driven cities.
+            Whether you&apos;re looking to increase your property&apos;s value,
+            attract potential buyers, or simply elevate your lifestyle, a
+            high-quality kitchen renovation is rarely a bad
+            investment—especially in one of the world&apos;s most
+            property-driven cities.
           </p>
 
           {/* IMAGE SUGGESTION: Bar chart titled “Kitchen Renovation ROI vs Other Home Improvements” – kitchen ranked highest, followed by bathrooms, flooring, etc. */}
@@ -1762,11 +1769,12 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            A kitchen renovation in London isn’t just about upgrading cabinets
-            or swapping out tiles—it’s about enhancing how you live, entertain,
-            cook, and connect. Whether you’re planning a stylish refresh in a
-            cosy flat or a full bespoke transformation in a family townhouse,
-            knowing where your money goes—and how to spend it wisely—is key.
+            A kitchen renovation in London isn&apos;t just about upgrading
+            cabinets or swapping out tiles—it&apos;s about enhancing how you
+            live, entertain, cook, and connect. Whether you&apos;re planning a
+            stylish refresh in a cosy flat or a full bespoke transformation in a
+            family townhouse, knowing where your money goes—and how to spend it
+            wisely—is key.
           </p>
 
           <p className={styles.p}>
@@ -1779,7 +1787,7 @@ export const articles = [
 
           <p className={styles.p}>
             At <strong>Better Home Studio</strong>, we believe that kitchen
-            renovations should be exciting, not overwhelming. That’s why we
+            renovations should be exciting, not overwhelming. That&apos;s why we
             offer an all-in-one, fully managed service—taking care of design,
             sourcing, project management, and installation so you can enjoy the
             process as much as the result.
@@ -1788,12 +1796,12 @@ export const articles = [
           <p className={styles.p}>
             If you&apos;re ready to create a kitchen that looks incredible,
             works beautifully, and fits your lifestyle perfectly,{" "}
-            <Link href="/contact">get in touch</Link> with our team. We’d love
-            to bring your vision to life.
+            <Link href="/contact">get in touch</Link> with our team. We&apos;d
+            love to bring your vision to life.
           </p>
 
           <p className={styles.p}>
-            Your dream kitchen isn’t far away—it starts with a single
+            Your dream kitchen isn&apos;t far away—it starts with a single
             conversation.
           </p>
 
@@ -1813,8 +1821,8 @@ export const articles = [
           </p>
 
           <h3 className={styles.h3}>
-            2. What’s the difference between flat-pack, modular, and bespoke
-            kitchens?
+            2. What&apos;s the difference between flat-pack, modular, and
+            bespoke kitchens?
           </h3>
           <p className={styles.p}>
             Flat-pack kitchens are budget-friendly and DIY-assembled. Modular
@@ -1859,35 +1867,36 @@ export const articles = [
             with your contractor or local authority.
           </p>
 
-          <h2 className={styles.h2}>We’d Love to Hear From You!</h2>
+          <h2 className={styles.h2}>We&apos;d Love to Hear From You!</h2>
 
           <p className={styles.p}>
             We hope this guide has helped you feel more informed and empowered
             as you plan your kitchen renovation. At{" "}
-            <strong>Better Home Studio</strong>, we’re passionate about turning
-            London kitchens into beautiful, functional spaces—tailored to your
-            lifestyle and budget.
+            <strong>Better Home Studio</strong>, we&apos;re passionate about
+            turning London kitchens into beautiful, functional spaces—tailored
+            to your lifestyle and budget.
           </p>
 
           <p className={styles.p}>
-            Now it’s your turn:{" "}
+            Now it&apos;s your turn:{" "}
             <strong>
-              What’s your biggest kitchen renovation goal—or challenge—right
-              now?
+              What&apos;s your biggest kitchen renovation goal—or
+              challenge—right now?
             </strong>{" "}
             Drop us a comment, send us a message, or share this article with a
-            friend who’s planning their own project.
+            friend who&apos;s planning their own project.
           </p>
 
           <p className={styles.p}>
-            And if you found this guide helpful, we’d be thrilled if you shared
-            it on social media or bookmarked it for future reference. Your
-            support helps more homeowners make smarter renovation decisions.
+            And if you found this guide helpful, we&apos;d be thrilled if you
+            shared it on social media or bookmarked it for future reference.
+            Your support helps more homeowners make smarter renovation
+            decisions.
           </p>
 
           <p className={styles.p}>
-            Let’s keep the conversation going—because your dream kitchen starts
-            with a single step.
+            Let&apos;s keep the conversation going—because your dream kitchen
+            starts with a single step.
           </p>
 
           <h2 className={styles.h2}>References</h2>
@@ -3535,7 +3544,7 @@ export const articles = [
           <p className={styles.pAccent}>
             Every satisfied customer is part of our family, which we want to
             grow larger year over year and with your help, become the best in
-            London’s construction and renovation scene.
+            London&apos;s construction and renovation scene.
           </p>
           <p className={styles.p}>
             Thank you again for this award, we are honoured and delighted, and
