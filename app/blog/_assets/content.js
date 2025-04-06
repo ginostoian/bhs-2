@@ -92,7 +92,7 @@ export const categories = [
 // BLOG AUTHORS 📝
 // ==================================================================================================================================================================
 
-// Social icons used in the author's bio.
+// Social icons used in the author&apos;s bio.
 const socialIcons = {
   twitter: {
     name: "Twitter",
@@ -143,7 +143,7 @@ const socialIcons = {
   },
 };
 
-// These slugs are used to generate pages in the /blog/author/[authorId].js. It's a way to show all articles from an author.
+// These slugs are used to generate pages in the /blog/author/[authorId].js. It&apos;s a way to show all articles from an author.
 const authorSlugs = {
   gino: "gino",
 };
@@ -153,16 +153,16 @@ export const authors = [
   {
     // The slug to use in the URL, from the authorSlugs object above.
     slug: authorSlugs.gino,
-    // The name to display in the author's bio. Up to 60 characters.
+    // The name to display in the author&apos;s bio. Up to 60 characters.
     name: "Gino S.",
-    // The job to display in the author's bio. Up to 60 characters.
+    // The job to display in the author&apos;s bio. Up to 60 characters.
     job: "Founder",
-    // The description of the author to display in the author's bio. Up to 160 characters.
+    // The description of the author to display in the author&apos;s bio. Up to 160 characters.
     description:
       "Gino is a developer and an entrepreneur. He is the co founder of Better Homes Studio and is commited to change the way people renovate by creating the thing that the industry lacks most - trust.",
-    // The avatar of the author to display in the author's bio and avatar badge. It's better to use a local image, but you can also use an external image (https://...)
+    // The avatar of the author to display in the author&apos;s bio and avatar badge. It&apos;s better to use a local image, but you can also use an external image (https://...)
     avatar: ginoImg,
-    // A list of social links to display in the author's bio.
+    // A list of social links to display in the author&apos;s bio.
     socials: [
       {
         name: socialIcons.twitter.name,
@@ -202,20 +202,20 @@ const styles = {
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
   {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "kitchen-renovation-full-guide-2025",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "A comprehensive guide covering everything you need to know about kitchen renovation, including different types of kitchens, planning permission, building regulations, costs, and finding the right builder.",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.kitchen),
     ],
-    // The author of the article. It's used to generate a link to the author's bio page.
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
+    // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-04-07",
     image: {
       // The image to display in <CardArticle /> components.
@@ -296,7 +296,8 @@ export const articles = [
             the UK is approximately £20,000 to £30,000. However, in London, due
             to higher labour and material costs, this figure tends to be higher.
             For instance, a standard kitchen renovation in London can cost
-            around £25,000 to £35,000, reflecting the city's premium pricing.
+            around £25,000 to £35,000, reflecting the city&apos;s premium
+            pricing.
           </p>
 
           <h3 className={styles.h3}>Why London is More Expensive</h3>
@@ -330,8 +331,8 @@ export const articles = [
 
           <p className={styles.p}>
             Embarking on a kitchen renovation involves a spectrum of choices,
-            each influencing the overall cost. To assist in your planning, we've
-            delineated the typical budget tiers, detailing what each
+            each influencing the overall cost. To assist in your planning,
+            we&apos;ve delineated the typical budget tiers, detailing what each
             encompasses.
           </p>
 
@@ -357,8 +358,8 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            These enhancements can significantly uplift the kitchen's aesthetics
-            without substantial structural changes.
+            These enhancements can significantly uplift the kitchen&apos;s
+            aesthetics without substantial structural changes.
           </p>
 
           <h3 className={styles.h3}>
@@ -408,7 +409,7 @@ export const articles = [
 
           <p className={styles.p}>
             This tier may also involve significant structural changes, like
-            altering the kitchen's layout or expanding its footprint.
+            altering the kitchen&apos;s layout or expanding its footprint.
           </p>
 
           <p className={styles.p}>
@@ -435,8 +436,8 @@ export const articles = [
             30–40% of your total renovation budget. In London, pre-assembled
             units may start at £2,000–£3,000, while semi-custom designs range
             from £5,000–£12,000. Bespoke cabinetry can easily exceed £20,000,
-            especially if you're opting for hand-painted or integrated storage
-            solutions.
+            especially if you&apos;re opting for hand-painted or integrated
+            storage solutions.
           </p>
 
           <p className={styles.p}>
@@ -449,7 +450,7 @@ export const articles = [
 
           <p className={styles.p}>
             Worktops are not only functional—they define the aesthetic tone.
-            Here's what you can expect to pay:
+            Here&apos;s what you can expect to pay:
           </p>
 
           <ul className={styles.p}>
@@ -525,7 +526,7 @@ export const articles = [
             renovation cost. Premium fixtures such as boiling water taps (e.g.
             Quooker) start around £900. Pendant and under-cabinet lighting
             installations typically range from £250 to £800 depending on the
-            system and electrician's rates.
+            system and electrician&apos;s rates.
           </p>
 
           <p className={styles.p}>
@@ -547,8 +548,8 @@ export const articles = [
             When it comes to a kitchen renovation in London, labour can account
             for up to 50% of your overall costs. That’s why understanding who
             does what—and what they charge—is key to accurate budgeting.
-            London's skilled tradespeople charge a premium, so planning ahead
-            ensures you get both quality and value.
+            London&apos;s skilled tradespeople charge a premium, so planning
+            ahead ensures you get both quality and value.
           </p>
 
           <h3 className={styles.h3}>Kitchen Fitter</h3>
@@ -625,8 +626,8 @@ export const articles = [
           <h3 className={styles.h3}>Cabinets: Pre-Made vs Bespoke</h3>
 
           <p className={styles.p}>
-            Cabinetry is the backbone of your kitchen design. Here's what to
-            expect:
+            Cabinetry is the backbone of your kitchen design. Here&apos;s what
+            to expect:
           </p>
 
           <ul className={styles.p}>
@@ -652,8 +653,8 @@ export const articles = [
           <h3 className={styles.h3}>Countertops: Surface Style vs Substance</h3>
 
           <p className={styles.p}>
-            Countertops do a lot of heavy lifting—literally and visually. Here's
-            a breakdown of average prices in 2025:
+            Countertops do a lot of heavy lifting—literally and visually.
+            Here&apos;s a breakdown of average prices in 2025:
           </p>
 
           <ul className={styles.p}>
@@ -826,18 +827,18 @@ export const articles = [
             Even the most meticulously planned kitchen renovation can go over
             budget—often due to costs that weren’t considered at the outset.
             These hidden expenses can quickly add thousands to your final bill
-            if you're not prepared. Here's what to watch for, especially in
-            high-spec London projects.
+            if you&apos;re not prepared. Here&apos;s what to watch for,
+            especially in high-spec London projects.
           </p>
 
           <h3 className={styles.h3}>Waste Removal and Skip Hire</h3>
 
           <p className={styles.p}>
-            Old kitchens don't disappear on their own. Dismantling, disposing of
-            cabinetry, flooring, tiles, and packaging materials can cost between{" "}
-            <strong>£400–£1,200</strong> depending on the volume and location.
-            In central London, skip permits may be required and can add another{" "}
-            <strong>£70–£150</strong>.
+            Old kitchens don&apos;t disappear on their own. Dismantling,
+            disposing of cabinetry, flooring, tiles, and packaging materials can
+            cost between <strong>£400–£1,200</strong> depending on the volume
+            and location. In central London, skip permits may be required and
+            can add another <strong>£70–£150</strong>.
           </p>
 
           <p className={styles.p}>
@@ -855,8 +856,8 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            If you're moving a sink or major appliances, factor in the cost of
-            rerouting pipes or upgrading fuse boxes to meet modern safety
+            If you&apos;re moving a sink or major appliances, factor in the cost
+            of rerouting pipes or upgrading fuse boxes to meet modern safety
             standards.
           </p>
 
@@ -982,10 +983,10 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            If you're planning to extend or open up your kitchen into a living
-            area, you'll need to factor in additional structural work, planning
-            permissions, and potentially party wall agreements—particularly
-            common in London terraced properties.
+            If you&apos;re planning to extend or open up your kitchen into a
+            living area, you&apos;ll need to factor in additional structural
+            work, planning permissions, and potentially party wall
+            agreements—particularly common in London terraced properties.
           </p>
 
           {/* IMAGE SUGGESTION: Floorplan diagram comparing 3 kitchen sizes (small, standard, large) with typical layout and cost estimates in caption bubbles */}
@@ -1006,7 +1007,7 @@ export const articles = [
 
           <p className={styles.p}>
             Perfect for narrow London flats or terrace homes, galley kitchens
-            have two parallel runs of cabinetry. They're efficient and
+            have two parallel runs of cabinetry. They&apos;re efficient and
             cost-effective, typically ranging from{" "}
             <strong>£12,000–£25,000</strong> depending on finish level.
           </p>
@@ -1037,8 +1038,8 @@ export const articles = [
           <p className={styles.p}>
             More cabinetry equals more cost. U-shaped kitchens, with cabinetry
             on three sides, can run from <strong>£25,000–£40,000+</strong>.
-            They're excellent for cooking enthusiasts who want distinct prep,
-            cook, and cleaning zones.
+            They&apos;re excellent for cooking enthusiasts who want distinct
+            prep, cook, and cleaning zones.
           </p>
 
           <p className={styles.p}>
@@ -1106,8 +1107,8 @@ export const articles = [
           </h3>
 
           <p className={styles.p}>
-            This is where vision meets logistics. You'll work with a designer or
-            architect (if required) to:
+            This is where vision meets logistics. You&apos;ll work with a
+            designer or architect (if required) to:
           </p>
 
           <ul className={styles.p}>
@@ -1118,7 +1119,7 @@ export const articles = [
 
           <p className={styles.p}>
             During this phase, measurements, technical drawings, and kitchen
-            visualisations are finalised. It’s wise to allow 2–4 weeks,
+            visualisations are finalised. It&apos;s wise to allow 2–4 weeks,
             especially if planning permission or structural work is involved.
           </p>
 
@@ -1210,7 +1211,7 @@ export const articles = [
           <p className={styles.p}>
             Altogether, the full renovation timeline for a London kitchen
             typically spans <strong>2–4 weeks</strong> from strip-out to
-            sparkling finish—longer if you're including layout changes or
+            sparkling finish—longer if you&apos;re including layout changes or
             high-end bespoke elements.
           </p>
 
@@ -1221,8 +1222,8 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            One of the biggest decisions you'll make during a kitchen renovation
-            is the type of kitchen you choose—
+            One of the biggest decisions you&apos;ll make during a kitchen
+            renovation is the type of kitchen you choose—
             <strong>flat-pack, modular, or bespoke</strong>. Each offers its own
             balance of cost, quality, and flexibility, and understanding these
             differences is essential to choosing the right fit for your home and
@@ -1366,7 +1367,7 @@ export const articles = [
           <h3 className={styles.h3}>Building Regulations: What’s Mandatory</h3>
 
           <p className={styles.p}>
-            While planning permission isn't always necessary,{" "}
+            While planning permission isn&apos;t always necessary,{" "}
             <strong>
               compliance with Building Regulations is non-negotiable
             </strong>
@@ -1410,9 +1411,9 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            If you're using a VAT-registered contractor, their fees will include
-            this. Always clarify whether the quote is inclusive or exclusive of
-            VAT to avoid unpleasant surprises.
+            If you&apos;re using a VAT-registered contractor, their fees will
+            include this. Always clarify whether the quote is inclusive or
+            exclusive of VAT to avoid unpleasant surprises.
           </p>
 
           <p className={styles.p}>
@@ -1628,9 +1629,9 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            For many homeowners, a kitchen renovation isn't just about
-            aesthetics or functionality—it's a financial decision. In London’s
-            dynamic property market, upgrading your kitchen can yield a
+            For many homeowners, a kitchen renovation isn&apos;t just about
+            aesthetics or functionality—it&apos;s a financial decision. In
+            London’s dynamic property market, upgrading your kitchen can yield a
             substantial return on investment (ROI), making it one of the
             smartest home improvements you can make.
           </p>
@@ -1709,9 +1710,9 @@ export const articles = [
 
           <p className={styles.p}>
             Short on time? Here are the key insights from our ultimate guide to
-            kitchen renovation costs in London. Whether you're planning a small
-            refresh or a full-scale transformation, these bullet points give you
-            the clarity you need to move forward with confidence.
+            kitchen renovation costs in London. Whether you&apos;re planning a
+            small refresh or a full-scale transformation, these bullet points
+            give you the clarity you need to move forward with confidence.
           </p>
 
           <ul className={styles.p}>
@@ -1771,8 +1772,8 @@ export const articles = [
           <p className={styles.p}>
             From understanding labour rates and material costs to choosing the
             right layout, finishes, and team, every decision shapes not only
-            your daily experience but also your property's future value. With
-            the average London renovation ranging from £15,000 to £60,000+,
+            your daily experience but also your property&apos;s future value.
+            With the average London renovation ranging from £15,000 to £60,000+,
             clarity and planning are your most powerful tools.
           </p>
 
@@ -1785,8 +1786,8 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            If you're ready to create a kitchen that looks incredible, works
-            beautifully, and fits your lifestyle perfectly,{" "}
+            If you&apos;re ready to create a kitchen that looks incredible,
+            works beautifully, and fits your lifestyle perfectly,{" "}
             <Link href="/contact">get in touch</Link> with our team. We’d love
             to bring your vision to life.
           </p>
@@ -1851,11 +1852,11 @@ export const articles = [
             5. Do I need planning permission for a kitchen renovation in London?
           </h3>
           <p className={styles.p}>
-            Typically, no—unless you're extending the kitchen, making structural
-            changes, or living in a listed building. However, all work must
-            comply with <strong>Building Regulations</strong>, especially for
-            plumbing, gas, and electrics. When in doubt, consult with your
-            contractor or local authority.
+            Typically, no—unless you&apos;re extending the kitchen, making
+            structural changes, or living in a listed building. However, all
+            work must comply with <strong>Building Regulations</strong>,
+            especially for plumbing, gas, and electrics. When in doubt, consult
+            with your contractor or local authority.
           </p>
 
           <h2 className={styles.h2}>We’d Love to Hear From You!</h2>
@@ -1944,20 +1945,20 @@ export const articles = [
     ),
   },
   {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "house-extension-guide-2025",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "Ultimate guide to House Extensions in the UK",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "A comprehensive guide covering everything you need to know about house extensions in the UK, including different types of extensions, planning permission, building regulations, costs, and finding the right builder.",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
     ],
-    // The author of the article. It's used to generate a link to the author's bio page.
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
+    // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-02-26",
     image: {
       // The image to display in <CardArticle /> components.
@@ -2844,20 +2845,20 @@ export const articles = [
     ),
   },
   {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "bathroom-renovation-cost-2025",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "How Much Does a Bathroom Renovation Cost in London in 2025?",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "This comprehensive guide will break down the costs you can expect in 2025, providing realistic estimates and helping you budget effectively for your dream bathroom.",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.bathroom),
     ],
-    // The author of the article. It's used to generate a link to the author's bio page.
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
+    // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-02-23",
     image: {
       // The image to display in <CardArticle /> components.
@@ -3368,22 +3369,22 @@ export const articles = [
     ),
   },
   {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "best-of-houzz-2023",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "Better Homes Studio wins Best of Houzz 2023",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "We are excited to be one of the few winners of the prestigious industry award - Best of Houzz Service 2023. Customer satisfaction is our core principle!",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find(
         (category) => category.slug === categorySlugs.announcement,
       ),
     ],
-    // The author of the article. It's used to generate a link to the author's bio page.
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
+    // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2023-02-23",
     image: {
       // The image to display in <CardArticle /> components.
@@ -3558,20 +3559,20 @@ export const articles = [
     ),
   },
   {
-    // The unique slug to use in the URL. It's also used to generate the canonical URL.
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "how-to-choose-a-bathroom-fitter",
-    // The title to display in the article page (h1). Less than 60 characters. It's also used to generate the meta title.
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "How to choose your bathroom fitter/renovation company",
-    // The description of the article to display in the article page. Up to 160 characters. It's also used to generate the meta description.
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "Tips and trick on how to find and hire a reliable bathroom fitter or renovation company.",
-    // An array of categories of the article. It's used to generate the category badges, the category filter, and more.
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.bathroom),
     ],
-    // The author of the article. It's used to generate a link to the author's bio page.
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
-    // The date of the article. It's used to generate the meta date.
+    // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-02-22",
     image: {
       // The image to display in <CardArticle /> components.
