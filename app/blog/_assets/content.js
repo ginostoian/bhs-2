@@ -328,11 +328,11 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Whether you're building a bespoke showstopper in Hampstead or
+            Whether you&apos;re building a bespoke showstopper in Hampstead or
             refreshing a high-spec flat in Kensington, selecting the right
             kitchen provider can make all the difference. From handcrafted
             cabinetry to cutting-edge appliances and white-glove installation
-            services, the UK's leading kitchen brands each offer something
+            services, the UK&apos;s leading kitchen brands each offer something
             unique.
           </p>
 
@@ -357,9 +357,9 @@ export const articles = [
             Choosing the right kitchen provider isn&apos;t just about who has
             the flashiest showroom or slickest catalogue. For London homeowners
             investing in a high-end renovation, the criteria go much deeper.
-            Whether you're after timeless elegance or cutting-edge modernism,
-            these are the core pillars that distinguish the top-tier providers
-            from the rest.
+            Whether you&apos;re after timeless elegance or cutting-edge
+            modernism, these are the core pillars that distinguish the top-tier
+            providers from the rest.
           </p>
 
           <h3 className={styles.h3}>Quality of Materials and Craftsmanship</h3>
@@ -1001,7 +1001,7 @@ export const articles = [
             Benchmarx is a part of the Travis Perkins Group and has been
             supplying kitchens to trade professionals since 2006. With over 150
             branches across the UK—including locations in Wimbledon, Fulham, and
-            Hackney—it&apos;s well-positioned to serve London's fast-moving
+            Hackney—it&apos;s well-positioned to serve London&apos;s fast-moving
             renovation scene. While not a consumer-facing brand per se, more
             homeowners are beginning to work with builders to access
             Benchmarx&apos;s catalogue directly.
@@ -1475,8 +1475,8 @@ export const articles = [
               >
                 Howdens Kitchen Review by Fifi McGee
               </Link>
-              – A comprehensive review detailing a homeowner's experience with
-              Howdens kitchens over two years.
+              – A comprehensive review detailing a homeowner&apos;s experience
+              with Howdens kitchens over two years.
             </li>
             <li>
               <Link
