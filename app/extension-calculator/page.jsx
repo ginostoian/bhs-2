@@ -36,12 +36,16 @@ const ExtensionCalculator = () => {
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+      // Scroll to top when moving to next step
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       // Calculate cost
       try {
         const result = costEngine.calculateTotalCost(formData);
         setCalculationResult(result);
         setShowResults(true);
+        // Scroll to top when showing results
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
         console.error("Calculation error:", error);
         alert("There was an error calculating your cost. Please try again.");
@@ -52,6 +56,8 @@ const ExtensionCalculator = () => {
   const handleBack = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+      // Scroll to top when going back
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -59,16 +65,22 @@ const ExtensionCalculator = () => {
     setShowResults(false);
     setCurrentStep(0);
     setCalculationResult(null);
+    // Scroll to top when starting over
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleModifySelections = () => {
     setShowResults(false);
     // Go back to the last step (review step)
     setCurrentStep(steps.length - 1);
+    // Scroll to top when modifying selections
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleStepClick = (stepIndex) => {
     setCurrentStep(stepIndex);
+    // Scroll to top when jumping to a step
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const renderStep = () => {
