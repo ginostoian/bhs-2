@@ -61,6 +61,16 @@ const ExtensionCalculator = () => {
     setCalculationResult(null);
   };
 
+  const handleModifySelections = () => {
+    setShowResults(false);
+    // Go back to the last step (review step)
+    setCurrentStep(steps.length - 1);
+  };
+
+  const handleStepClick = (stepIndex) => {
+    setCurrentStep(stepIndex);
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 0:
@@ -115,10 +125,34 @@ const ExtensionCalculator = () => {
     return (
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4">
+          {/* Back to Calculator Button */}
+          <div className="mb-6">
+            <button
+              onClick={handleModifySelections}
+              className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              Modify Selections
+            </button>
+          </div>
+
           <ResultCard
             calculationResult={calculationResult}
             formData={formData}
             onRecalculate={handleRecalculate}
+            onModifySelections={handleModifySelections}
           />
         </div>
       </div>
@@ -145,6 +179,7 @@ const ExtensionCalculator = () => {
           currentStep={currentStep}
           totalSteps={steps.length}
           steps={steps}
+          onStepClick={handleStepClick}
         />
 
         {/* Main Content */}

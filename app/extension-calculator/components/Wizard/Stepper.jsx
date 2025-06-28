@@ -2,7 +2,14 @@
 
 import React from "react";
 
-const Stepper = ({ currentStep, totalSteps, steps }) => {
+const Stepper = ({ currentStep, totalSteps, steps, onStepClick }) => {
+  const handleStepClick = (stepIndex) => {
+    // Only allow clicking on completed steps or the current step
+    if (stepIndex <= currentStep && onStepClick) {
+      onStepClick(stepIndex);
+    }
+  };
+
   return (
     <div className="mx-auto mb-8 w-full max-w-4xl">
       <div className="flex items-center justify-between">
@@ -10,13 +17,14 @@ const Stepper = ({ currentStep, totalSteps, steps }) => {
           <div key={index} className="flex items-center">
             {/* Step circle */}
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
+              className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
                 index < currentStep
-                  ? "border-blue-600 bg-blue-600 text-white"
+                  ? "cursor-pointer border-blue-600 bg-blue-600 text-white hover:bg-blue-700"
                   : index === currentStep
                     ? "border-blue-600 bg-blue-600 text-white"
                     : "border-gray-300 bg-white text-gray-500"
               }`}
+              onClick={() => handleStepClick(index)}
             >
               {index < currentStep ? (
                 <svg

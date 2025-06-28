@@ -3,7 +3,12 @@
 import React from "react";
 import Link from "next/link";
 
-const ResultCard = ({ calculationResult, formData, onRecalculate }) => {
+const ResultCard = ({
+  calculationResult,
+  formData,
+  onRecalculate,
+  onModifySelections,
+}) => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -125,7 +130,7 @@ const ResultCard = ({ calculationResult, formData, onRecalculate }) => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="mb-6 grid gap-4 md:grid-cols-2">
+          <div className="mb-6 grid gap-4 md:grid-cols-3">
             <Link
               href="/contact"
               className="rounded-lg bg-blue-600 px-6 py-3 text-center font-medium text-white transition-colors hover:bg-blue-700"
@@ -137,6 +142,12 @@ const ResultCard = ({ calculationResult, formData, onRecalculate }) => {
               className="rounded-lg border border-gray-300 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
             >
               Recalculate Cost
+            </button>
+            <button
+              onClick={onModifySelections}
+              className="rounded-lg border border-blue-300 px-6 py-3 font-medium text-blue-700 transition-colors hover:bg-blue-50"
+            >
+              Modify Selections
             </button>
           </div>
 
