@@ -13,11 +13,50 @@ const leadSchema = mongoose.Schema(
       private: true,
       required: true,
     },
+    source: {
+      type: String,
+      trim: true,
+      default: "landing-page",
+    },
+    projectType: {
+      type: String,
+      trim: true,
+    },
+    projectDetails: {
+      propertyType: String,
+      location: String,
+      extensionType: String,
+      size: Number,
+      complexity: String,
+      additionalFeatures: [String],
+      planningServices: [String],
+    },
+    costEstimate: {
+      total: Number,
+      costPerSqm: Number,
+      breakdown: {
+        baseCost: Number,
+        sizeMultiplier: Number,
+        locationMultiplier: Number,
+        propertyMultiplier: Number,
+        complexityMultiplier: Number,
+        adjustedCost: Number,
+        featuresCost: Number,
+        planningCost: Number,
+        contingency: Number,
+        vat: Number,
+      },
+    },
+    status: {
+      type: String,
+      enum: ["new", "contacted", "qualified", "converted", "lost"],
+      default: "new",
+    },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
-  }
+  },
 );
 
 // add plugin that converts mongoose to json

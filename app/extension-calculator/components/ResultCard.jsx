@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import PDFDownload from "./PDFDownload";
 
 const ResultCard = ({
   calculationResult,
@@ -149,6 +150,14 @@ const ResultCard = ({
             >
               Modify Selections
             </button>
+          </div>
+
+          {/* PDF Download Section */}
+          <div className="mb-6">
+            <PDFDownload
+              calculationResult={calculationResult}
+              formData={formData}
+            />
           </div>
 
           {/* Additional Information */}
