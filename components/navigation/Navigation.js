@@ -9,10 +9,15 @@ import classes from "./Navigation.module.css";
 
 function Navigation() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isCostsDropdownVisible, setIsCostsDropdownVisible] = useState(false);
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownVisible((prevState) => !prevState);
+  };
+
+  const toggleCostsDropdown = () => {
+    setIsCostsDropdownVisible((prevState) => !prevState);
   };
 
   const toggleMobileNav = (e) => {
@@ -23,6 +28,7 @@ function Navigation() {
   const handleNavLinkClick = () => {
     setIsMobileNavVisible(false);
     setIsDropdownVisible(false);
+    setIsCostsDropdownVisible(false);
   };
 
   return (
@@ -30,6 +36,37 @@ function Navigation() {
       <nav className={`${classes["main-nav"]} container`}>
         <div className={classes["main-nav__left"]}>
           <ul className={classes["main-nav__list"]}>
+            <li className={classes["main-nav__list-item"]}>
+              <Link
+                href=""
+                className={classes["dropdown-item"]}
+                onMouseEnter={toggleCostsDropdown}
+              >
+                <span>Costs</span>
+                <MdOutlineKeyboardArrowDown />
+              </Link>
+              <ul
+                className={`${classes["dropdown-menu"]} ${
+                  isCostsDropdownVisible ? classes["dropdown-menu-visible"] : ""
+                }`}
+                onMouseLeave={handleNavLinkClick}
+              >
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/extension-calculator">Extension Calculator</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/tools/bathroom-cost-calculator">
+                    Bathroom Calculator
+                  </Link>
+                </li>
+              </ul>
+            </li>
             <li className={classes["main-nav__list-item"]}>
               <Link href="/portfolio">Our work</Link>
             </li>
@@ -154,6 +191,43 @@ function Navigation() {
         >
           <div className={classes["mobile-nav__left"]}>
             <ul className={classes["mobile-nav__list"]}>
+              <li className={classes["mobile-nav__list-item"]}>
+                <Link
+                  href=""
+                  className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
+                  onClick={toggleCostsDropdown}
+                >
+                  <span>Costs</span>
+                  <MdOutlineKeyboardArrowDown />
+                </Link>
+                <ul
+                  className={`${classes["dropdown-menu"]} ${
+                    classes["dropdown-menu-mobile"]
+                  } ${
+                    isCostsDropdownVisible
+                      ? classes["dropdown-menu-visible-mobile"]
+                      : ""
+                  }`}
+                  onMouseLeave={handleNavLinkClick}
+                >
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/extension-calculator">
+                      Extension Calculator
+                    </Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/tools/bathroom-cost-calculator">
+                      Bathroom Calculator
+                    </Link>
+                  </li>
+                </ul>
+              </li>
               <li
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}
