@@ -13,6 +13,19 @@ progress::-webkit-progress-value {
   transition: 0.6s width ease-out;
 }
 
+/* Hide scrollbar for mobile horizontal scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
+
 /* @layer base {
   .btn-gradient {
     @apply !bg-gradient !bg-[length:300%_300%] hover:saturate-[1.2] shadow duration-100 !border-0 !border-transparent !bg-transparent animate-shimmer disabled: !bg-none disabled: !bg-gray-500/30 !text-white;
