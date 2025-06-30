@@ -42,7 +42,7 @@ function Navigation() {
                 className={classes["dropdown-item"]}
                 onMouseEnter={toggleCostsDropdown}
               >
-                <span>Costs</span>
+                <span>Free Tools</span>
                 <MdOutlineKeyboardArrowDown />
               </Link>
               <ul
@@ -56,6 +56,14 @@ function Navigation() {
                   onClick={handleNavLinkClick}
                 >
                   <Link href="/extension-calculator">Extension Calculator</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/renovation-calculator">
+                    Renovation Calculator
+                  </Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
@@ -197,7 +205,7 @@ function Navigation() {
                   className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
                   onClick={toggleCostsDropdown}
                 >
-                  <span>Costs</span>
+                  <span>Free Tools</span>
                   <MdOutlineKeyboardArrowDown />
                 </Link>
                 <ul
@@ -216,6 +224,14 @@ function Navigation() {
                   >
                     <Link href="/extension-calculator">
                       Extension Calculator
+                    </Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/renovation-calculator">
+                      Renovation Calculator
                     </Link>
                   </li>
                   <li
