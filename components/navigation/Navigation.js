@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
+import { useSession, signIn } from "next-auth/react";
 
 import classes from "./Navigation.module.css";
 
@@ -11,6 +12,7 @@ function Navigation() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isCostsDropdownVisible, setIsCostsDropdownVisible] = useState(false);
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
+  const { data: session } = useSession();
 
   const toggleDropdown = () => {
     setIsDropdownVisible((prevState) => !prevState);
@@ -185,6 +187,20 @@ function Navigation() {
             <li className={classes["main-nav__list-item"]}>
               <Link href="/faq">FAQ</Link>
             </li>
+            {session ? (
+              <li className={classes["main-nav__list-item"]}>
+                <Link href="/dashboard">Dashboard</Link>
+              </li>
+            ) : (
+              <li className={classes["main-nav__list-item"]}>
+                <button
+                  onClick={() => signIn()}
+                  className="lg:w-[245px]! btn-shadow flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-[#266bf1] bg-[#266bf1] px-[20px] text-[18px] font-bold leading-[140%] text-white transition duration-200 hover:border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[48px] lg:px-[24px]"
+                >
+                  Sign In
+                </button>
+              </li>
+            )}
             <li className={classes["main-nav__list-item"]}>
               <a
                 href="tel:07922391591"
@@ -347,6 +363,23 @@ function Navigation() {
               >
                 <Link href="/faq">FAQ</Link>
               </li>
+              {session ? (
+                <li
+                  className={classes["mobile-nav__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/dashboard">Dashboard</Link>
+                </li>
+              ) : (
+                <li
+                  className={classes["mobile-nav__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <button onClick={() => signIn()} className="w-full text-left">
+                    Sign In
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
         </div>

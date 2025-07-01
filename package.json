@@ -7,7 +7,8 @@
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "create-admin": "node scripts/create-admin.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^1.0.0",
@@ -15,6 +16,7 @@
     "@next/third-parties": "^14.2.3",
     "axios": "^1.4.0",
     "crisp-sdk-web": "^1.0.21",
+    "dotenv": "^17.0.0",
     "eslint": "8.47.0",
     "eslint-config-next": "^14.2.3",
     "form-data": "^4.0.0",
