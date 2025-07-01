@@ -47,11 +47,11 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="mb-4 text-2xl font-semibold">1. Introduction</h2>
             <p>
-              These Terms and Conditions ("Terms") govern your use of Better
-              Homes Studio's services and website. By accessing our services or
-              using our website, you agree to be bound by these Terms. If you
-              disagree with any part of these terms, you may not access our
-              services.
+              These Terms and Conditions (&quot;Terms&quot;) govern your use of
+              Better Homes Studio&apos;s services and website. By accessing our
+              services or using our website, you agree to be bound by these
+              Terms. If you disagree with any part of these terms, you may not
+              access our services.
             </p>
           </section>
 
@@ -223,7 +223,7 @@ export default function TermsAndConditions() {
             <ul className="mt-4 list-disc pl-6">
               <li>Use the website for lawful purposes only</li>
               <li>Not attempt to gain unauthorised access to our systems</li>
-              <li>Not interfere with the website's functionality</li>
+              <li>Not interfere with the website&apos;s functionality</li>
               <li>Respect our intellectual property rights</li>
             </ul>
           </section>
