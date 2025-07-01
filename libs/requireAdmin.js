@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth/next";
+import { getToken } from "next-auth/jwt";
 import { authOptions } from "./next-auth";
 
 /**
@@ -10,20 +10,27 @@ import { authOptions } from "./next-auth";
  * @throws {Error} If user is not authenticated or not admin
  */
 export async function requireAdmin(req) {
-  // Get user session from NextAuth
-  const session = await getServerSession(req, authOptions);
+  // Get user token from NextAuth JWT
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   // Check if user is authenticated
-  if (!session) {
+  if (!token) {
     throw new Error("Authentication required");
   }
 
   // Check if user has admin role
-  if (session.user.role !== "admin") {
+  if (token.role !== "admin") {
     throw new Error("Admin access required");
   }
 
-  return session;
+  return {
+    user: {
+      id: token.sub,
+      email: token.email,
+      name: token.name,
+      role: token.role,
+    },
+  };
 }
 
 /**
@@ -35,13 +42,20 @@ export async function requireAdmin(req) {
  * @throws {Error} If user is not authenticated
  */
 export async function requireAuth(req) {
-  // Get user session from NextAuth
-  const session = await getServerSession(req, authOptions);
+  // Get user token from NextAuth JWT
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   // Check if user is authenticated
-  if (!session) {
+  if (!token) {
     throw new Error("Authentication required");
   }
 
-  return session;
+  return {
+    user: {
+      id: token.sub,
+      email: token.email,
+      name: token.name,
+      role: token.role,
+    },
+  };
 }

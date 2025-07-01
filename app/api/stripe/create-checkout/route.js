@@ -14,12 +14,12 @@ export async function POST(req) {
   if (!body.priceId) {
     return NextResponse.json(
       { error: "Price ID is required" },
-      { status: 400 }
+      { status: 400 },
     );
   } else if (!body.successUrl || !body.cancelUrl) {
     return NextResponse.json(
       { error: "Success and cancel URLs are required" },
-      { status: 400 }
+      { status: 400 },
     );
   } else if (!body.mode) {
     return NextResponse.json(
@@ -27,7 +27,7 @@ export async function POST(req) {
         error:
           "Mode is required (either 'payment' for one-time payments or 'subscription' for recurring subscription)",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -46,7 +46,7 @@ export async function POST(req) {
       successUrl,
       cancelUrl,
       // If user is logged in, it will pass the user ID to the Stripe Session so it can be retrieved in the webhook later
-      clientReferenceId: user?._id?.toString(),
+      clientReferenceId: user?.id?.toString(),
       // If user is logged in, this will automatically prefill Checkout data like email and/or credit card for faster checkout
       user,
       // If you send coupons from the frontend, you can pass it here

@@ -9,14 +9,18 @@ import { requireAdmin } from "@/libs/requireAdmin";
  */
 export async function PUT(req, { params }) {
   try {
+    console.log("PUT /api/users/[id] - Starting update for ID:", params.id);
+
     // Verify admin access
     await requireAdmin(req);
 
     // Get user ID from params
     const { id } = params;
+    console.log("User ID from params:", id);
 
     // Parse request body
     const { email, name, role } = await req.json();
+    console.log("Request body:", { email, name, role });
 
     // Connect to MongoDB
     await connectMongoose();
@@ -24,8 +28,10 @@ export async function PUT(req, { params }) {
     // Check if user exists
     const existingUser = await User.findById(id);
     if (!existingUser) {
+      console.log("User not found for ID:", id);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
+    console.log("Existing user found:", existingUser.email);
 
     // Check if email is being changed and if it's already taken
     if (email && email !== existingUser.email) {
@@ -34,6 +40,7 @@ export async function PUT(req, { params }) {
         _id: { $ne: id }, // Exclude current user
       });
       if (emailExists) {
+        console.log("Email already in use:", email);
         return NextResponse.json(
           { error: "Email already in use" },
           { status: 409 },
@@ -41,20 +48,25 @@ export async function PUT(req, { params }) {
       }
     }
 
+    // Prepare update object
+    const updateData = {};
+    if (email) updateData.email = email.toLowerCase();
+    if (name !== undefined) updateData.name = name;
+    if (role) updateData.role = role;
+
+    console.log("Update data:", updateData);
+
     // Update user
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      {
-        ...(email && { email: email.toLowerCase() }),
-        ...(name !== undefined && { name }),
-        ...(role && { role }),
-      },
-      { new: true, runValidators: true },
-    );
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    console.log("User updated successfully:", updatedUser.email);
 
     return NextResponse.json({
       user: {
-        id: updatedUser._id,
+        id: updatedUser.id,
         email: updatedUser.email,
         name: updatedUser.name,
         role: updatedUser.role,
@@ -63,6 +75,7 @@ export async function PUT(req, { params }) {
     });
   } catch (error) {
     console.error("PUT /api/users/[id] error:", error);
+    console.error("Error stack:", error.stack);
     return NextResponse.json(
       { error: error.message || "Failed to update user" },
       { status: 500 },

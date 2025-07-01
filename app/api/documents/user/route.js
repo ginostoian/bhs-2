@@ -85,7 +85,7 @@ export async function POST(req) {
     return NextResponse.json(
       {
         document: {
-          id: document._id,
+          id: document.id,
           type: document.type,
           content: document.content,
           status: document.status,

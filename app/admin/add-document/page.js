@@ -15,14 +15,23 @@ export default async function AddDocumentPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch all users for the dropdown
+  // Fetch all users for the dropdown and convert to plain objects
   const users = await User.find(
     {},
     {
       email: 1,
       name: 1,
     },
-  ).sort({ name: 1 });
+  )
+    .sort({ name: 1 })
+    .lean()
+    .then((users) =>
+      users.map((user) => ({
+        ...user,
+        id: user._id.toString(),
+        _id: undefined,
+      })),
+    );
 
   return (
     <div>

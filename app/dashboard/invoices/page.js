@@ -15,13 +15,28 @@ export default async function InvoicesPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's invoices
+  // Fetch user's invoices and convert to plain objects
   const invoices = await Document.find({
     user: session.user.id,
     type: "invoice",
   })
     .sort({ createdAt: -1 })
-    .populate("user", "name email");
+    .populate("user", "name email")
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        user: doc.user
+          ? {
+              ...doc.user,
+              id: doc.user._id.toString(),
+              _id: undefined,
+            }
+          : doc.user,
+      })),
+    );
 
   return (
     <div>

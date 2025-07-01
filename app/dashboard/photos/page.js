@@ -15,13 +15,28 @@ export default async function PhotosPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's photos
+  // Fetch user's photos and convert to plain objects
   const photos = await Document.find({
     user: session.user.id,
     type: "photo",
   })
     .sort({ createdAt: -1 })
-    .populate("user", "name email");
+    .populate("user", "name email")
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        user: doc.user
+          ? {
+              ...doc.user,
+              id: doc.user._id.toString(),
+              _id: undefined,
+            }
+          : doc.user,
+      })),
+    );
 
   return (
     <div>

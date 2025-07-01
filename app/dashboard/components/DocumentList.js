@@ -51,7 +51,7 @@ export default function DocumentList({ documents, type }) {
     <div className="space-y-4">
       {documents.map((doc) => (
         <div
-          key={doc._id}
+          key={doc.id}
           className="rounded-lg border border-gray-200 bg-white p-6 shadow"
         >
           <div className="flex items-start justify-between">

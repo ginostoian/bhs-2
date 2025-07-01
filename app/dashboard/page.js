@@ -15,13 +15,28 @@ export default async function DashboardPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's quotes
+  // Fetch user's quotes and convert to plain objects
   const quotes = await Document.find({
     user: session.user.id,
     type: "quote",
   })
     .sort({ createdAt: -1 })
-    .populate("user", "name email");
+    .populate("user", "name email")
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        user: doc.user
+          ? {
+              ...doc.user,
+              id: doc.user._id.toString(),
+              _id: undefined,
+            }
+          : doc.user,
+      })),
+    );
 
   return (
     <div>

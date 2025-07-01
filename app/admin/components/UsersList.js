@@ -96,7 +96,7 @@ export default function UsersList({ users }) {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {users.map((user) => (
-              <tr key={user._id}>
+              <tr key={user.id}>
                 <td className="whitespace-nowrap px-6 py-4">
                   <div>
                     <div className="text-sm font-medium text-gray-900">
@@ -128,7 +128,7 @@ export default function UsersList({ users }) {
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDeleteUser(user._id)}
+                      onClick={() => handleDeleteUser(user.id)}
                       className="text-red-600 hover:text-red-900"
                     >
                       Delete
@@ -154,7 +154,7 @@ export default function UsersList({ users }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   const formData = new FormData(e.target);
-                  handleUpdateUser(editingUser._id, {
+                  handleUpdateUser(editingUser.id, {
                     name: formData.get("name"),
                     email: formData.get("email"),
                     role: formData.get("role"),

@@ -15,13 +15,28 @@ export default async function CommentsPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's comments
+  // Fetch user's comments and convert to plain objects
   const comments = await Document.find({
     user: session.user.id,
     type: "comment",
   })
     .sort({ createdAt: -1 })
-    .populate("user", "name email");
+    .populate("user", "name email")
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        ...doc,
+        id: doc._id.toString(),
+        _id: undefined,
+        user: doc.user
+          ? {
+              ...doc.user,
+              id: doc.user._id.toString(),
+              _id: undefined,
+            }
+          : doc.user,
+      })),
+    );
 
   return (
     <div>
@@ -54,7 +69,7 @@ export default async function CommentsPage() {
         <div className="space-y-4">
           {comments.map((comment) => (
             <div
-              key={comment._id}
+              key={comment.id}
               className="rounded-lg border border-gray-200 bg-white p-6 shadow"
             >
               <div className="flex items-start space-x-3">

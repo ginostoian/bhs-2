@@ -16,7 +16,7 @@ export default async function AdminUsersPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch all users
+  // Fetch all users and convert to plain objects
   const users = await User.find(
     {},
     {
@@ -26,7 +26,16 @@ export default async function AdminUsersPage() {
       createdAt: 1,
       hasAccess: 1,
     },
-  ).sort({ createdAt: -1 });
+  )
+    .sort({ createdAt: -1 })
+    .lean()
+    .then((users) =>
+      users.map((user) => ({
+        ...user,
+        id: user._id.toString(),
+        _id: undefined,
+      })),
+    );
 
   return (
     <div>
