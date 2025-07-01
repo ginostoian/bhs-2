@@ -69,6 +69,12 @@ function Navigation() {
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
+                  <Link href="/kitchen-calculator">Kitchen Calculator</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
                   <Link href="/tools/bathroom-cost-calculator">
                     Bathroom Calculator
                   </Link>
@@ -233,6 +239,12 @@ function Navigation() {
                     <Link href="/renovation-calculator">
                       Renovation Calculator
                     </Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/kitchen-calculator">Kitchen Calculator</Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
