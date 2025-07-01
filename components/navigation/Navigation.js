@@ -38,7 +38,7 @@ function Navigation() {
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
               <Link
-                href=""
+                href="/tools"
                 className={classes["dropdown-item"]}
                 onMouseEnter={toggleCostsDropdown}
               >
@@ -207,7 +207,7 @@ function Navigation() {
             <ul className={classes["mobile-nav__list"]}>
               <li className={classes["mobile-nav__list-item"]}>
                 <Link
-                  href=""
+                  href="/tools"
                   className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
                   onClick={toggleCostsDropdown}
                 >
