@@ -214,10 +214,7 @@ const Footer = () => {
               >
                 Privacy policy
               </Link>
-              <Link
-                href="/terms-and-conditions"
-                className={classes["footer__quarter-link"]}
-              >
+              <Link href="/tos" className={classes["footer__quarter-link"]}>
                 T's & C's
               </Link>
             </div>
