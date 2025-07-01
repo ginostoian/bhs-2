@@ -26,21 +26,20 @@ export const authOptions = {
     }),
     // Follow the "Login with Email" tutorial to set up your email server
     // Requires a MongoDB database. Set MONOGODB_URI env variable.
-    // Temporarily disabled to focus on OAuth
-    // ...(connectMongo
-    //   ? [
-    //       EmailProvider({
-    //         server: process.env.EMAIL_SERVER,
-    //         from: config.mailgun.fromNoReply,
-    //       }),
-    //     ]
-    //   : []),
+    ...(connectMongo
+      ? [
+          EmailProvider({
+            server: process.env.EMAIL_SERVER,
+            from: config.mailgun.fromNoReply,
+          }),
+        ]
+      : []),
   ],
   // New users will be saved in Database (MongoDB Atlas). Each user (model) has some fields like name, email, image, etc..
   // Requires a MongoDB database. Set MONOGODB_URI env variable.
   // Learn more about the model type: https://next-auth.js.org/v3/adapters/models
-  // Temporarily disable adapter to use custom user management
-  // ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
+  // Re-enable adapter for production stability
+  ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
 
   callbacks: {
     // JWT callback - runs when JWT is created/updated
@@ -88,7 +87,8 @@ export const authOptions = {
         return true;
       } catch (error) {
         console.error("❌ Sign in callback error:", error);
-        return false;
+        // Don't block sign in on error, just log it
+        return true;
       }
     },
   },
