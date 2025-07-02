@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import DocumentList from "../../../../dashboard/components/DocumentList";
+import Modal from "@/components/Modal";
 
 /**
  * User Detail Client Component
@@ -17,13 +18,15 @@ export default function UserDetailClient({
   );
   const [activeTab, setActiveTab] = useState("all");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    documentId: null,
+    documentType: "",
+    documentContent: "",
+  });
 
   // Handle document deletion
   const handleDeleteDocument = async (documentId, documentType) => {
-    if (!confirm("Are you sure you want to delete this document?")) {
-      return;
-    }
-
     setIsDeleting(true);
 
     try {
@@ -44,10 +47,32 @@ export default function UserDetailClient({
       }));
     } catch (error) {
       console.error("Error deleting document:", error);
-      alert("Failed to delete document. Please try again.");
+      // Show error modal
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to delete document. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  // Open delete confirmation modal
+  const openDeleteModal = (documentId, documentType, documentContent) => {
+    setModalState({
+      isOpen: true,
+      documentId,
+      documentType,
+      documentContent,
+      title: "Delete Document",
+      message: `Are you sure you want to delete this ${documentType}? This action cannot be undone.`,
+      type: "confirm",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
   };
 
   // Format date for display
@@ -230,7 +255,9 @@ export default function UserDetailClient({
 
                 <div className="ml-4 flex flex-col space-y-2">
                   <button
-                    onClick={() => handleDeleteDocument(doc.id, doc.type)}
+                    onClick={() =>
+                      openDeleteModal(doc.id, doc.type, doc.content)
+                    }
                     disabled={isDeleting}
                     className="rounded-md border border-red-300 bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -257,6 +284,32 @@ export default function UserDetailClient({
           ))}
         </div>
       )}
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            documentId: null,
+            documentType: "",
+            documentContent: "",
+          })
+        }
+        onConfirm={() => {
+          if (modalState.documentId && modalState.type === "confirm") {
+            handleDeleteDocument(
+              modalState.documentId,
+              modalState.documentType,
+            );
+          }
+        }}
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        cancelText={modalState.cancelText}
+        type={modalState.type}
+      />
     </div>
   );
 }

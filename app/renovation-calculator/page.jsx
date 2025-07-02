@@ -12,12 +12,20 @@ import StepFinishing from "./components/Wizard/StepFinishing";
 import StepFinish from "./components/Wizard/StepFinish";
 import ResultCard from "./components/ResultCard";
 import FAQ from "./components/FAQ";
+import Modal from "@/components/Modal";
 import { costEngine } from "./lib/costEngine";
 
 const RenovationCalculator = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [calculationResult, setCalculationResult] = useState(null);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "alert",
+    confirmText: "OK",
+  });
   const [formData, setFormData] = useState({
     propertyType: "",
     location: "",
@@ -68,7 +76,14 @@ const RenovationCalculator = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (error) {
         console.error("Calculation error:", error);
-        alert("There was an error calculating your cost. Please try again.");
+        setModalState({
+          isOpen: true,
+          title: "Calculation Error",
+          message:
+            "There was an error calculating your cost. Please try again.",
+          type: "alert",
+          confirmText: "OK",
+        });
       }
     }
   };
@@ -214,6 +229,24 @@ const RenovationCalculator = () => {
             onModifySelections={handleModifySelections}
           />
         </div>
+
+        {/* Modal */}
+        <Modal
+          isOpen={modalState.isOpen}
+          onClose={() =>
+            setModalState({
+              isOpen: false,
+              title: "",
+              message: "",
+              type: "alert",
+              confirmText: "OK",
+            })
+          }
+          title={modalState.title}
+          message={modalState.message}
+          confirmText={modalState.confirmText}
+          type={modalState.type}
+        />
       </div>
     );
   }
@@ -304,6 +337,24 @@ const RenovationCalculator = () => {
           <FAQ />
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            title: "",
+            message: "",
+            type: "alert",
+            confirmText: "OK",
+          })
+        }
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        type={modalState.type}
+      />
     </div>
   );
 };

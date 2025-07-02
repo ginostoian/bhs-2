@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Modal from "@/components/Modal";
 
 /**
  * Users List Component
@@ -10,17 +11,14 @@ import Link from "next/link";
 export default function UsersList({ users: initialUsers }) {
   const [users, setUsers] = useState(initialUsers);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    userId: null,
+    userName: "",
+  });
 
   // Handle user deletion
   const handleDeleteUser = async (userId) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this user? This action cannot be undone.",
-      )
-    ) {
-      return;
-    }
-
     setIsDeleting(true);
 
     try {
@@ -36,10 +34,31 @@ export default function UsersList({ users: initialUsers }) {
       setUsers(users.filter((user) => user.id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
-      alert("Failed to delete user. Please try again.");
+      // Show error modal
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to delete user. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  // Open delete confirmation modal
+  const openDeleteModal = (userId, userName) => {
+    setModalState({
+      isOpen: true,
+      userId,
+      userName,
+      title: "Delete User",
+      message: `Are you sure you want to delete ${userName || "this user"}? This action cannot be undone.`,
+      type: "confirm",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
   };
 
   // Format date for display
@@ -112,7 +131,9 @@ export default function UsersList({ users: initialUsers }) {
                     View Details
                   </Link>
                   <button
-                    onClick={() => handleDeleteUser(user.id)}
+                    onClick={() =>
+                      openDeleteModal(user.id, user.name || user.email)
+                    }
                     disabled={isDeleting}
                     className="rounded-md border border-red-300 bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -149,6 +170,24 @@ export default function UsersList({ users: initialUsers }) {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({ isOpen: false, userId: null, userName: "" })
+        }
+        onConfirm={() => {
+          if (modalState.userId && modalState.type === "confirm") {
+            handleDeleteUser(modalState.userId);
+          }
+        }}
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        cancelText={modalState.cancelText}
+        type={modalState.type}
+      />
     </div>
   );
 }

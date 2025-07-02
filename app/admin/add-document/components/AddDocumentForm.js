@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Modal from "@/components/Modal";
 
 /**
  * Add Document Form Component
@@ -14,6 +15,13 @@ export default function AddDocumentForm({ users }) {
     status: "pending",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "alert",
+    confirmText: "OK",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +35,13 @@ export default function AddDocumentForm({ users }) {
     e.preventDefault();
 
     if (!formData.userId || !formData.content) {
-      alert("Please fill in all required fields");
+      setModalState({
+        isOpen: true,
+        title: "Validation Error",
+        message: "Please fill in all required fields",
+        type: "alert",
+        confirmText: "OK",
+      });
       return;
     }
 
@@ -73,20 +87,37 @@ export default function AddDocumentForm({ users }) {
         status: "pending",
       });
 
-      alert("Document created successfully!");
+      // Show success modal
+      setModalState({
+        isOpen: true,
+        title: "Success",
+        message: "Document created successfully!",
+        type: "alert",
+        confirmText: "OK",
+      });
     } catch (error) {
       console.error("Error creating document:", error);
-      alert(error.message || "Failed to create document. Please try again.");
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message:
+          error.message || "Failed to create document. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
-      <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Create New Document
-      </h3>
+    <div>
+      <div className="mb-8">
+        <h2 className="mb-2 text-2xl font-bold text-gray-900">
+          Add New Document
+        </h2>
+        <p className="text-gray-600">Create a new document for a user</p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* User Selection */}
@@ -95,7 +126,7 @@ export default function AddDocumentForm({ users }) {
             htmlFor="userId"
             className="mb-2 block text-sm font-medium text-gray-700"
           >
-            User *
+            Select User *
           </label>
           <select
             id="userId"
@@ -105,10 +136,10 @@ export default function AddDocumentForm({ users }) {
             required
             className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
           >
-            <option value="">Select a user</option>
+            <option value="">Choose a user...</option>
             {users.map((user) => (
               <option key={user.id} value={user.id}>
-                {user.name || "No name"} ({user.email})
+                {user.name || user.email} ({user.role || "user"})
               </option>
             ))}
           </select>
@@ -214,6 +245,24 @@ export default function AddDocumentForm({ users }) {
           </button>
         </div>
       </form>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            title: "",
+            message: "",
+            type: "alert",
+            confirmText: "OK",
+          })
+        }
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        type={modalState.type}
+      />
     </div>
   );
 }

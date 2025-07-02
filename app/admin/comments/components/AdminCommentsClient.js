@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Modal from "@/components/Modal";
 
 /**
  * Admin Comments Client Component
@@ -9,13 +10,14 @@ import { useState } from "react";
 export default function AdminCommentsClient({ comments: initialComments }) {
   const [comments, setComments] = useState(initialComments);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    commentId: null,
+    commentContent: "",
+  });
 
   // Handle comment deletion
   const handleDeleteComment = async (commentId) => {
-    if (!confirm("Are you sure you want to delete this comment?")) {
-      return;
-    }
-
     setIsDeleting(true);
 
     try {
@@ -31,10 +33,32 @@ export default function AdminCommentsClient({ comments: initialComments }) {
       setComments(comments.filter((comment) => comment.id !== commentId));
     } catch (error) {
       console.error("Error deleting comment:", error);
-      alert("Failed to delete comment. Please try again.");
+      // Show error modal
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to delete comment. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsDeleting(false);
     }
+  };
+
+  // Open delete confirmation modal
+  const openDeleteModal = (commentId, commentContent) => {
+    setModalState({
+      isOpen: true,
+      commentId,
+      commentContent,
+      title: "Delete Comment",
+      message:
+        "Are you sure you want to delete this comment? This action cannot be undone.",
+      type: "confirm",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+    });
   };
 
   // Format date for display
@@ -111,7 +135,7 @@ export default function AdminCommentsClient({ comments: initialComments }) {
 
                 <div className="ml-4 flex flex-col space-y-2">
                   <button
-                    onClick={() => handleDeleteComment(comment.id)}
+                    onClick={() => openDeleteModal(comment.id, comment.content)}
                     disabled={isDeleting}
                     className="rounded-md border border-red-300 bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
@@ -148,6 +172,24 @@ export default function AdminCommentsClient({ comments: initialComments }) {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({ isOpen: false, commentId: null, commentContent: "" })
+        }
+        onConfirm={() => {
+          if (modalState.commentId && modalState.type === "confirm") {
+            handleDeleteComment(modalState.commentId);
+          }
+        }}
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        cancelText={modalState.cancelText}
+        type={modalState.type}
+      />
     </div>
   );
 }

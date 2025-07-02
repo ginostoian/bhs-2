@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/Modal";
 
 /**
  * Request Quote Form Component
@@ -18,6 +19,13 @@ export default function RequestQuoteForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "alert",
+    confirmText: "OK",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,9 +38,15 @@ export default function RequestQuoteForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!formData.projectType || !formData.description) {
-      alert("Please fill in all required fields");
+    // Validate required fields
+    if (!formData.projectType || !formData.description || !formData.budget) {
+      setModalState({
+        isOpen: true,
+        title: "Validation Error",
+        message: "Please fill in all required fields",
+        type: "alert",
+        confirmText: "OK",
+      });
       return;
     }
 
@@ -72,11 +86,24 @@ export default function RequestQuoteForm() {
         contactPhone: "",
       });
 
-      alert("Quote request submitted successfully!");
-      router.push("/dashboard");
+      // Show success modal
+      setModalState({
+        isOpen: true,
+        title: "Success",
+        message:
+          "Quote request submitted successfully! We'll get back to you soon.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } catch (error) {
       console.error("Error submitting quote request:", error);
-      alert("Failed to submit quote request. Please try again.");
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to submit quote request. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -84,6 +111,10 @@ export default function RequestQuoteForm() {
 
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
+      <h3 className="mb-4 text-lg font-medium text-gray-900">
+        Request a Quote
+      </h3>
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Project Type */}
         <div>
@@ -230,6 +261,24 @@ export default function RequestQuoteForm() {
           </button>
         </div>
       </form>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            title: "",
+            message: "",
+            type: "alert",
+            confirmText: "OK",
+          })
+        }
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        type={modalState.type}
+      />
     </div>
   );
 }

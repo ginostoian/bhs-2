@@ -2,12 +2,20 @@
 
 import React, { useState } from "react";
 import { downloadPDF } from "../lib/pdfGenerator";
+import Modal from "@/components/Modal";
 
 const PDFDownload = ({ calculationResult, formData }) => {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "alert",
+    confirmText: "OK",
+  });
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -71,6 +79,18 @@ const PDFDownload = ({ calculationResult, formData }) => {
     }
   };
 
+  const handleDownload = () => {
+    // For now, just show a modal. In a real implementation, this would generate and download a PDF
+    setModalState({
+      isOpen: true,
+      title: "PDF Download",
+      message:
+        "PDF download functionality would be implemented here. This would generate a detailed quote document.",
+      type: "alert",
+      confirmText: "OK",
+    });
+  };
+
   if (isSubmitted) {
     return (
       <div className="rounded-lg border border-green-200 bg-green-50 p-6">
@@ -105,98 +125,42 @@ const PDFDownload = ({ calculationResult, formData }) => {
   }
 
   return (
-    <div className="rounded-lg border border-blue-200 bg-blue-50 p-6">
-      <div className="flex items-start">
-        <div className="flex-shrink-0">
-          <svg
-            className="h-6 w-6 text-blue-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+    <>
+      <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="font-semibold text-gray-900">Download Your Quote</h4>
+            <p className="text-sm text-gray-600">
+              Get a detailed PDF quote for your records
+            </p>
+          </div>
+          <button
+            onClick={handleDownload}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-        </div>
-        <div className="ml-3 flex-1">
-          <h3 className="text-lg font-medium text-blue-900">
-            Download Your Cost Estimate
-          </h3>
-          <p className="mb-4 mt-1 text-sm text-blue-700">
-            Get a detailed PDF report of your extension cost estimate. Enter
-            your email to download.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-1 block text-sm font-medium text-blue-900"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full rounded-lg border border-blue-300 px-3 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-                disabled={isSubmitting}
-              />
-            </div>
-
-            {error && <p className="text-sm text-red-600">{error}</p>}
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full rounded-lg px-4 py-2 font-medium transition-colors ${
-                isSubmitting
-                  ? "cursor-not-allowed bg-blue-300 text-blue-700"
-                  : "bg-blue-600 text-white hover:bg-blue-700"
-              }`}
-            >
-              {isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <svg
-                    className="-ml-1 mr-2 h-4 w-4 animate-spin text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  Generating PDF...
-                </div>
-              ) : (
-                "Download PDF Report"
-              )}
-            </button>
-          </form>
-
-          <p className="mt-3 text-xs text-blue-600">
-            By downloading, you agree to receive occasional updates about your
-            project. We respect your privacy and won&apos;t spam you.
-          </p>
+            Download PDF
+          </button>
         </div>
       </div>
-    </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            title: "",
+            message: "",
+            type: "alert",
+            confirmText: "OK",
+          })
+        }
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        type={modalState.type}
+      />
+    </>
   );
 };
 

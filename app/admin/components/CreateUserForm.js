@@ -1,18 +1,26 @@
 "use client";
 
 import { useState } from "react";
+import Modal from "@/components/Modal";
 
 /**
  * Create User Form Component
- * Allows admins to create new user accounts
+ * Allows admins to create new users
  */
-export default function CreateUserForm() {
+export default function CreateUserForm({ onUserCreated }) {
   const [formData, setFormData] = useState({
-    email: "",
     name: "",
+    email: "",
     role: "user",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "alert",
+    confirmText: "OK",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +34,13 @@ export default function CreateUserForm() {
     e.preventDefault();
 
     if (!formData.email) {
-      alert("Email is required");
+      setModalState({
+        isOpen: true,
+        title: "Validation Error",
+        message: "Email is required",
+        type: "alert",
+        confirmText: "OK",
+      });
       return;
     }
 
@@ -46,18 +60,37 @@ export default function CreateUserForm() {
         throw new Error(error.error || "Failed to create user");
       }
 
+      const newUser = await response.json();
+
       // Reset form
       setFormData({
-        email: "",
         name: "",
+        email: "",
         role: "user",
       });
 
-      // Refresh the page to show new user
-      window.location.reload();
+      // Callback to parent component
+      if (onUserCreated) {
+        onUserCreated(newUser);
+      }
+
+      // Show success modal
+      setModalState({
+        isOpen: true,
+        title: "Success",
+        message: "User created successfully!",
+        type: "alert",
+        confirmText: "OK",
+      });
     } catch (error) {
       console.error("Error creating user:", error);
-      alert(error.message || "Failed to create user. Please try again.");
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: error.message || "Failed to create user. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -70,62 +103,60 @@ export default function CreateUserForm() {
       </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div>
-            <label
-              htmlFor="email"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >
-              Email *
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              placeholder="user@example.com"
-            />
-          </div>
+        <div>
+          <label
+            htmlFor="name"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            placeholder="Enter user name"
+          />
+        </div>
 
-          <div>
-            <label
-              htmlFor="name"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              placeholder="Full name"
-            />
-          </div>
+        <div>
+          <label
+            htmlFor="email"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Email *
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            placeholder="Enter user email"
+          />
+        </div>
 
-          <div>
-            <label
-              htmlFor="role"
-              className="mb-2 block text-sm font-medium text-gray-700"
-            >
-              Role
-            </label>
-            <select
-              id="role"
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-            >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
+        <div>
+          <label
+            htmlFor="role"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Role
+          </label>
+          <select
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+          >
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
         </div>
 
         <div className="flex justify-end">
@@ -138,6 +169,24 @@ export default function CreateUserForm() {
           </button>
         </div>
       </form>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalState.isOpen}
+        onClose={() =>
+          setModalState({
+            isOpen: false,
+            title: "",
+            message: "",
+            type: "alert",
+            confirmText: "OK",
+          })
+        }
+        title={modalState.title}
+        message={modalState.message}
+        confirmText={modalState.confirmText}
+        type={modalState.type}
+      />
     </div>
   );
 }
