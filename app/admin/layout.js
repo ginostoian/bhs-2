@@ -21,9 +21,9 @@ export default async function AdminLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen pt-6">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="mx-auto max-w-[85%] rounded-2xl bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-6">
             <div>

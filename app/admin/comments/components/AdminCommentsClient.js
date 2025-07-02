@@ -66,7 +66,7 @@ export default function AdminCommentsClient({ comments: initialComments }) {
             No comments yet
           </h3>
           <p className="text-gray-600">
-            Users haven't submitted any comments yet.
+            Users haven&apos;t submitted any comments yet.
           </p>
         </div>
       ) : (
