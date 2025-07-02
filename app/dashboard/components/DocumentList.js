@@ -5,26 +5,6 @@
  * Displays a list of documents with appropriate formatting for each type
  */
 export default function DocumentList({ documents, type }) {
-  // Convert Google Drive sharing URL to direct image URL
-  const convertGoogleDriveUrl = (url) => {
-    console.log("Converting URL:", url);
-
-    if (url.includes("drive.google.com/file/d/")) {
-      // Extract file ID from Google Drive sharing URL
-      const fileId = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/)?.[1];
-      console.log("Extracted file ID:", fileId);
-
-      if (fileId) {
-        const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-        console.log("Converted to direct URL:", directUrl);
-        return directUrl;
-      }
-    }
-
-    console.log("No conversion needed, returning original URL:", url);
-    return url;
-  };
-
   // Format date for display
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
@@ -115,60 +95,27 @@ export default function DocumentList({ documents, type }) {
 
               {doc.type === "photo" && typeof doc.content === "string" && (
                 <div className="ml-4">
-                  {doc.content.includes("drive.google.com/file/d/") ? (
-                    // Use iframe for Google Drive images to avoid CORS issues
-                    <div className="h-[500px] w-[500px] overflow-hidden rounded border border-gray-200">
-                      <iframe
-                        src={doc.content}
-                        title="Document photo"
-                        className="h-full w-full"
-                        frameBorder="0"
-                        onError={(e) => {
-                          console.log("Iframe failed to load:", doc.content);
-                          e.target.style.display = "none";
-                          e.target.nextSibling.style.display = "flex";
-                        }}
-                      />
-                      <div
-                        className="flex hidden h-[500px] w-[500px] items-center justify-center rounded border border-gray-200 bg-gray-100 text-xs text-gray-400"
-                        style={{ display: "none" }}
-                      >
-                        <span>Image unavailable</span>
-                      </div>
-                    </div>
-                  ) : (
-                    // Use regular img tag for other URLs
-                    <>
-                      <img
-                        src={convertGoogleDriveUrl(doc.content)}
-                        alt="Document photo"
-                        className="h-auto max-w-[500px] rounded border border-gray-200 object-cover"
-                        onError={(e) => {
-                          console.log("Image failed to load:", doc.content);
-                          console.log(
-                            "Converted URL:",
-                            convertGoogleDriveUrl(doc.content),
-                          );
-                          console.log("Error details:", e);
-                          e.target.style.display = "none";
-                          e.target.nextSibling.style.display = "flex";
-                        }}
-                        onLoad={(e) => {
-                          console.log(
-                            "Image loaded successfully:",
-                            doc.content,
-                          );
-                          console.log("Image element:", e.target);
-                        }}
-                      />
-                      <div
-                        className="flex hidden h-auto max-w-[500px] items-center justify-center rounded border border-gray-200 bg-gray-100 text-xs text-gray-400"
-                        style={{ display: "none" }}
-                      >
-                        <span>Image unavailable</span>
-                      </div>
-                    </>
-                  )}
+                  <img
+                    src={doc.content}
+                    alt="Document photo"
+                    className="h-auto max-w-[500px] rounded border border-gray-200 object-cover"
+                    onError={(e) => {
+                      console.log("Image failed to load:", doc.content);
+                      console.log("Error details:", e);
+                      e.target.style.display = "none";
+                      e.target.nextSibling.style.display = "flex";
+                    }}
+                    onLoad={(e) => {
+                      console.log("Image loaded successfully:", doc.content);
+                      console.log("Image element:", e.target);
+                    }}
+                  />
+                  <div
+                    className="flex hidden h-auto max-w-[500px] items-center justify-center rounded border border-gray-200 bg-gray-100 text-xs text-gray-400"
+                    style={{ display: "none" }}
+                  >
+                    <span>Image unavailable</span>
+                  </div>
                 </div>
               )}
             </div>

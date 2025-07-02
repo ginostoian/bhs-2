@@ -1,12 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
 
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useSession, signIn } from "next-auth/react";
 
 import classes from "./Footer.module.css";
 import SubscribeForm from "./SubscribeForm";
 
 const Footer = () => {
+  const { data: session } = useSession();
+
   return (
     <footer className="container">
       <div className={classes["footer__subscribe"]}>
@@ -195,6 +200,36 @@ const Footer = () => {
               >
                 MyBuilder
               </a>
+            </div>
+
+            <h3 className={classes["footer__quarter-title"]}>Platform</h3>
+
+            <div className={`${classes["footer__quarter-link-wrapper"]} mb-3`}>
+              {session ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className={classes["footer__quarter-link"]}
+                  >
+                    Dashboard
+                  </Link>
+                  {session.user?.role === "admin" && (
+                    <Link
+                      href="/admin"
+                      className={classes["footer__quarter-link"]}
+                    >
+                      Admin Panel
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <button
+                  onClick={() => signIn()}
+                  className={`${classes["footer__quarter-link"]} cursor-pointer border-none bg-transparent p-0 text-left`}
+                >
+                  Sign In
+                </button>
+              )}
             </div>
 
             <h3 className={classes["footer__quarter-title"]}>

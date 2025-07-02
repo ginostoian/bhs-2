@@ -195,7 +195,7 @@ function Navigation() {
               <li className={classes["main-nav__list-item"]}>
                 <button
                   onClick={() => signIn()}
-                  className="lg:w-[245px]! btn-shadow flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-[#266bf1] bg-[#266bf1] px-[20px] text-[18px] font-bold leading-[140%] text-white transition duration-200 hover:border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[48px] lg:px-[24px]"
+                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
                 >
                   Sign In
                 </button>

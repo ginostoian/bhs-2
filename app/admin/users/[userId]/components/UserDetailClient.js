@@ -242,22 +242,15 @@ export default function UserDetailClient({
               {/* Show image for photos */}
               {doc.type === "photo" && typeof doc.content === "string" && (
                 <div className="mt-4">
-                  {doc.content.includes("drive.google.com/file/d/") ? (
-                    <div className="h-[300px] w-[300px] overflow-hidden rounded border border-gray-200">
-                      <iframe
-                        src={doc.content}
-                        title="Document photo"
-                        className="h-full w-full"
-                        frameBorder="0"
-                      />
-                    </div>
-                  ) : (
-                    <img
-                      src={doc.content}
-                      alt="Document photo"
-                      className="h-auto max-w-[300px] rounded border border-gray-200 object-cover"
-                    />
-                  )}
+                  <img
+                    src={doc.content}
+                    alt="Document photo"
+                    className="h-auto max-w-[300px] rounded border border-gray-200 object-cover"
+                    onError={(e) => {
+                      console.log("Image failed to load:", doc.content);
+                      e.target.style.display = "none";
+                    }}
+                  />
                 </div>
               )}
             </div>
