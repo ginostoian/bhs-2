@@ -659,7 +659,7 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
             >
               <option value="">
                 {users.length === 0
-                  ? "No users with 'On Going' status available"
+                  ? "No users with &quot;On Going&quot; status available"
                   : "Select user..."}
               </option>
               {users.map((user) => (
@@ -670,8 +670,8 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
             </select>
             {users.length === 0 && (
               <p className="mt-1 text-sm text-amber-600">
-                Only users with "On Going" project status can have payments.{" "}
-                <br />
+                Only users with &quot;On Going&quot; project status can have
+                payments. <br />
                 Update user status in the Users section first.
               </p>
             )}
@@ -864,7 +864,7 @@ function BulkCreatePaymentModal({
             >
               <option value="">
                 {users.length === 0
-                  ? "No users with 'On Going' status available"
+                  ? "No users with &quot;On Going&quot; status available"
                   : "Select user..."}
               </option>
               {users.map((user) => (
@@ -875,8 +875,8 @@ function BulkCreatePaymentModal({
             </select>
             {users.length === 0 && (
               <p className="mt-1 text-sm text-amber-600">
-                Only users with "On Going" project status can have payments.{" "}
-                <br />
+                Only users with &quot;On Going&quot; project status can have
+                payments. <br />
                 Update user status in the Users section first.
               </p>
             )}
