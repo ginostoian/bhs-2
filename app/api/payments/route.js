@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
 import { requireAuth } from "@/libs/requireAdmin";
+import Notification from "@/models/Notification";
 
 /**
  * GET /api/payments
@@ -82,10 +83,22 @@ export async function POST(req) {
     }
 
     // Parse request body
-    const { userId, name, dueDate, amount, status } = await req.json();
+    const requestBody = await req.json();
+    console.log("Payment creation request body:", requestBody);
+
+    const { userId, user, name, dueDate, amount, status } = requestBody;
+
+    // Handle both userId and user field names
+    const targetUserId = userId || user;
 
     // Validate required fields
-    if (!userId || !name || !dueDate || amount === undefined) {
+    if (!targetUserId || !name || !dueDate || amount === undefined) {
+      console.log("Validation failed:", {
+        targetUserId,
+        name,
+        dueDate,
+        amount,
+      });
       return NextResponse.json(
         { error: "userId, name, dueDate, and amount are required" },
         { status: 400 },
@@ -112,7 +125,7 @@ export async function POST(req) {
 
     // Create payment
     const payment = await Payment.create({
-      user: userId,
+      user: targetUserId,
       name,
       dueDate: new Date(dueDate),
       amount: parsedAmount,
@@ -121,6 +134,51 @@ export async function POST(req) {
 
     // Populate user info for response
     await payment.populate("user", "name email");
+
+    // Create notification for the user
+    try {
+      const dueDateObj = new Date(dueDate);
+      const daysUntilDue = Math.ceil(
+        (dueDateObj - new Date()) / (1000 * 60 * 60 * 24),
+      );
+
+      if (daysUntilDue <= 7) {
+        // If payment is due within 7 days, create a due notification
+        await Notification.createNotification({
+          user: targetUserId,
+          type: "payment_due",
+          title: "Payment Due Soon",
+          message: `Payment "${name}" is due in ${daysUntilDue} day${daysUntilDue !== 1 ? "s" : ""}.`,
+          relatedId: payment._id,
+          relatedModel: "Payment",
+          priority: "high",
+          metadata: {
+            paymentName: name,
+            dueDate: dueDateObj.toISOString(),
+            isOverdue: false,
+            daysUntilDue,
+          },
+        });
+      }
+
+      // Also create a payment plan updated notification
+      await Notification.createNotification({
+        user: targetUserId,
+        type: "payment_plan_updated",
+        title: "Payment Plan Updated",
+        message: "A new payment plan has been created for your project.",
+        relatedId: payment._id,
+        relatedModel: "Payment",
+        priority: "medium",
+        metadata: {
+          planName: name,
+          changeType: "created",
+        },
+      });
+    } catch (notificationError) {
+      console.error("Failed to create notification:", notificationError);
+      // Don't fail the payment creation if notification fails
+    }
 
     return NextResponse.json(
       {

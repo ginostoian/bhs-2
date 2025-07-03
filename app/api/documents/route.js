@@ -3,6 +3,7 @@ import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
 import User from "@/models/User";
 import { requireAdmin } from "@/libs/requireAdmin";
+import Notification from "@/models/Notification";
 
 /**
  * POST /api/documents
@@ -60,6 +61,35 @@ export async function POST(req) {
 
     // Populate user info for response
     await document.populate("user", "name email");
+
+    // Create notification for the user
+    try {
+      const documentName =
+        type === "photo"
+          ? "Photo"
+          : type === "comment"
+            ? "Comment"
+            : type === "invoice"
+              ? "Invoice"
+              : "Quote";
+
+      await Notification.createNotification({
+        user: userId,
+        type: "document_added",
+        title: `New ${documentName} Added`,
+        message: `A new ${type} "${documentName}" has been added to your project.`,
+        relatedId: document._id,
+        relatedModel: "Document",
+        priority: "medium",
+        metadata: {
+          documentType: type,
+          documentName,
+        },
+      });
+    } catch (notificationError) {
+      console.error("Failed to create notification:", notificationError);
+      // Don't fail the document creation if notification fails
+    }
 
     return NextResponse.json(
       {

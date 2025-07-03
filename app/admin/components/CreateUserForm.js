@@ -5,9 +5,10 @@ import Modal from "@/components/Modal";
 
 /**
  * Create User Form Component
- * Allows admins to create new users
+ * Allows admins to create new users with collapsible interface
  */
 export default function CreateUserForm({ onUserCreated }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -71,6 +72,9 @@ export default function CreateUserForm({ onUserCreated }) {
         projectStatus: "Lead",
       });
 
+      // Collapse form after successful creation
+      setIsExpanded(false);
+
       // Callback to parent component
       if (onUserCreated) {
         onUserCreated(newUser);
@@ -99,98 +103,151 @@ export default function CreateUserForm({ onUserCreated }) {
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
-      <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Create New User
-      </h3>
+    <div className="rounded-lg border border-gray-200 bg-white shadow">
+      {/* Header with toggle button */}
+      <div className="flex items-center justify-between p-6">
+        <h3 className="text-lg font-medium text-gray-900">Create New User</h3>
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          {isExpanded ? (
+            <>
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 15l7-7 7 7"
+                />
+              </svg>
+              Hide Form
+            </>
+          ) : (
+            <>
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+              Create New User
+            </>
+          )}
+        </button>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="name"
-            className="mb-2 block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-            placeholder="Enter user name"
-          />
-        </div>
+      {/* Collapsible form content */}
+      {isExpanded && (
+        <div className="border-t border-gray-200 p-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="name"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="Enter user name"
+              />
+            </div>
 
-        <div>
-          <label
-            htmlFor="email"
-            className="mb-2 block text-sm font-medium text-gray-700"
-          >
-            Email *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-            placeholder="Enter user email"
-          />
-        </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                Email *
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="Enter user email"
+              />
+            </div>
 
-        <div>
-          <label
-            htmlFor="role"
-            className="mb-2 block text-sm font-medium text-gray-700"
-          >
-            Role
-          </label>
-          <select
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-          >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-        </div>
+            <div>
+              <label
+                htmlFor="role"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                Role
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
 
-        <div>
-          <label
-            htmlFor="projectStatus"
-            className="mb-2 block text-sm font-medium text-gray-700"
-          >
-            Project Status
-          </label>
-          <select
-            id="projectStatus"
-            name="projectStatus"
-            value={formData.projectStatus}
-            onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-          >
-            <option value="Lead">Lead</option>
-            <option value="On Going">On Going</option>
-            <option value="Finished">Finished</option>
-          </select>
-        </div>
+            <div>
+              <label
+                htmlFor="projectStatus"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                Project Status
+              </label>
+              <select
+                id="projectStatus"
+                name="projectStatus"
+                value={formData.projectStatus}
+                onChange={handleChange}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+              >
+                <option value="Lead">Lead</option>
+                <option value="On Going">On Going</option>
+                <option value="Finished">Finished</option>
+              </select>
+            </div>
 
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isSubmitting || !formData.email}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isSubmitting ? "Creating..." : "Create User"}
-          </button>
+            <div className="flex justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => setIsExpanded(false)}
+                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting || !formData.email}
+                className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSubmitting ? "Creating..." : "Create User"}
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      )}
 
       {/* Modal */}
       <Modal

@@ -3,6 +3,8 @@ import { authOptions } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
 import DashboardNav from "./components/DashboardNav";
 import SignOutButton from "./components/SignOutButton";
+import ProfileImage from "./components/ProfileImage";
+import NotificationBell from "./components/NotificationBell";
 
 /**
  * Dashboard Layout
@@ -29,9 +31,12 @@ export default async function DashboardLayout({ children }) {
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-500">
-                Role: {session.user.role}
-              </span>
+              {/* Notification Bell */}
+              <NotificationBell />
+
+              {/* Profile Image */}
+              <ProfileImage user={session.user} />
+
               <SignOutButton />
             </div>
           </div>
