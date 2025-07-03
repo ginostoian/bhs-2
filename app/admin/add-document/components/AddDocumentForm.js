@@ -51,13 +51,39 @@ export default function AddDocumentForm({ users }) {
       // Prepare content based on document type
       let content = formData.content;
 
-      if (formData.type === "quote" || formData.type === "invoice") {
-        // Try to parse as JSON for structured data
-        try {
-          content = JSON.parse(formData.content);
-        } catch {
-          // If not valid JSON, use as plain text
+      if (formData.type === "quote") {
+        // For quotes, check if it's a PDF URL or JSON
+        if (
+          formData.content.startsWith("http") &&
+          formData.content.toLowerCase().includes(".pdf")
+        ) {
+          // It's a PDF URL, store as string
           content = formData.content;
+        } else {
+          // Try to parse as JSON for structured data
+          try {
+            content = JSON.parse(formData.content);
+          } catch {
+            // If not valid JSON, use as plain text
+            content = formData.content;
+          }
+        }
+      } else if (formData.type === "invoice") {
+        // For invoices, check if it's a PDF URL or JSON
+        if (
+          formData.content.startsWith("http") &&
+          formData.content.toLowerCase().includes(".pdf")
+        ) {
+          // It's a PDF URL, store as string
+          content = formData.content;
+        } else {
+          // Try to parse as JSON for structured data
+          try {
+            content = JSON.parse(formData.content);
+          } catch {
+            // If not valid JSON, use as plain text
+            content = formData.content;
+          }
         }
       }
 
@@ -108,6 +134,11 @@ export default function AddDocumentForm({ users }) {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Check if content is a PDF URL
+  const isPdfUrl = (url) => {
+    return url.startsWith("http") && url.toLowerCase().includes(".pdf");
   };
 
   return (
@@ -209,17 +240,74 @@ export default function AddDocumentForm({ users }) {
               className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
               placeholder="https://example.com/image.jpg"
             />
-          ) : formData.type === "quote" || formData.type === "invoice" ? (
-            <textarea
-              id="content"
-              name="content"
-              rows={6}
-              value={formData.content}
-              onChange={handleChange}
-              required
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              placeholder={`Enter ${formData.type} details as JSON or plain text. Example JSON: {"amount": 5000, "description": "Kitchen renovation"}`}
-            />
+          ) : formData.type === "invoice" ? (
+            <div className="space-y-2">
+              <textarea
+                id="content"
+                name="content"
+                rows={6}
+                value={formData.content}
+                onChange={handleChange}
+                required
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder='Enter invoice details as JSON or paste a PDF URL.&#10;&#10;JSON Example: {"amount": 5000, "description": "Kitchen renovation"}&#10;PDF URL Example: https://example.com/invoice.pdf'
+              />
+              {formData.content && isPdfUrl(formData.content) && (
+                <div className="rounded-md bg-blue-50 p-3">
+                  <div className="flex items-center">
+                    <svg
+                      className="h-5 w-5 text-blue-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="ml-2 text-sm text-blue-700">
+                      PDF detected! This invoice will display as an embedded PDF
+                      for the customer.
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : formData.type === "quote" ? (
+            <div className="space-y-2">
+              <textarea
+                id="content"
+                name="content"
+                rows={6}
+                value={formData.content}
+                onChange={handleChange}
+                required
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder='Enter quote details as JSON or paste a PDF URL.&#10;&#10;JSON Example: {"amount": 5000, "description": "Kitchen renovation"}&#10;PDF URL Example: https://example.com/quote.pdf'
+              />
+              {formData.content && isPdfUrl(formData.content) && (
+                <div className="rounded-md bg-blue-50 p-3">
+                  <div className="flex items-center">
+                    <svg
+                      className="h-5 w-5 text-blue-400"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span className="ml-2 text-sm text-blue-700">
+                      PDF detected! This quote will display as an embedded PDF
+                      for the customer.
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <textarea
               id="content"

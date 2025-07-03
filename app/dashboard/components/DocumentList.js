@@ -14,12 +14,29 @@ export default function DocumentList({ documents, type }) {
     });
   };
 
+  // Check if content is a PDF URL
+  const isPdfUrl = (content) => {
+    return (
+      typeof content === "string" &&
+      content.startsWith("http") &&
+      content.toLowerCase().includes(".pdf")
+    );
+  };
+
   // Format content based on document type
   const formatContent = (content, docType) => {
     if (typeof content === "string") {
       if (docType === "photo") {
         // Don't display URL for photos, just return empty or a simple label
         return "Project photo";
+      }
+      if (docType === "invoice" && isPdfUrl(content)) {
+        // Don't display PDF URL, just return a label
+        return "PDF Invoice";
+      }
+      if (docType === "quote" && isPdfUrl(content)) {
+        // Don't display PDF URL, just return a label
+        return "PDF Quote";
       }
       return content;
     }
@@ -93,6 +110,7 @@ export default function DocumentList({ documents, type }) {
                 </div>
               </div>
 
+              {/* Show image for photos */}
               {doc.type === "photo" && typeof doc.content === "string" && (
                 <div className="ml-4">
                   <img
@@ -119,6 +137,148 @@ export default function DocumentList({ documents, type }) {
                 </div>
               )}
             </div>
+
+            {/* Show embedded PDF for invoices */}
+            {doc.type === "invoice" &&
+              typeof doc.content === "string" &&
+              isPdfUrl(doc.content) && (
+                <div className="mt-4">
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        PDF Invoice
+                      </h4>
+                      <a
+                        href={doc.content}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                      >
+                        <svg
+                          className="mr-1 h-3 w-3"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Download PDF
+                      </a>
+                    </div>
+                    <iframe
+                      src={doc.content}
+                      className="h-[600px] w-full rounded border border-gray-200"
+                      title="Invoice PDF"
+                      onError={(e) => {
+                        console.log("PDF failed to load:", doc.content);
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    <div
+                      className="flex hidden h-[600px] w-full items-center justify-center rounded border border-gray-200 bg-gray-100 text-sm text-gray-500"
+                      style={{ display: "none" }}
+                    >
+                      <div className="text-center">
+                        <svg
+                          className="mx-auto mb-2 h-8 w-8 text-gray-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <p>PDF unavailable</p>
+                        <a
+                          href={doc.content}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 text-blue-600 hover:text-blue-800"
+                        >
+                          Open in new tab
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            {/* Show embedded PDF for quotes */}
+            {doc.type === "quote" &&
+              typeof doc.content === "string" &&
+              isPdfUrl(doc.content) && (
+                <div className="mt-4">
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h4 className="text-sm font-medium text-gray-900">
+                        PDF Quote
+                      </h4>
+                      <a
+                        href={doc.content}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                      >
+                        <svg
+                          className="mr-1 h-3 w-3"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Download PDF
+                      </a>
+                    </div>
+                    <iframe
+                      src={doc.content}
+                      className="h-[600px] w-full rounded border border-gray-200"
+                      title="Quote PDF"
+                      onError={(e) => {
+                        console.log("PDF failed to load:", doc.content);
+                        e.target.style.display = "none";
+                        e.target.nextSibling.style.display = "flex";
+                      }}
+                    />
+                    <div
+                      className="flex hidden h-[600px] w-full items-center justify-center rounded border border-gray-200 bg-gray-100 text-sm text-gray-500"
+                      style={{ display: "none" }}
+                    >
+                      <div className="text-center">
+                        <svg
+                          className="mx-auto mb-2 h-8 w-8 text-gray-400"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v8H4V6z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        <p>PDF unavailable</p>
+                        <a
+                          href={doc.content}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-2 text-blue-600 hover:text-blue-800"
+                        >
+                          Open in new tab
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
         );
       })}
