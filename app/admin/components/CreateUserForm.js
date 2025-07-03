@@ -12,6 +12,7 @@ export default function CreateUserForm({ onUserCreated }) {
     name: "",
     email: "",
     role: "user",
+    projectStatus: "Lead",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -67,6 +68,7 @@ export default function CreateUserForm({ onUserCreated }) {
         name: "",
         email: "",
         role: "user",
+        projectStatus: "Lead",
       });
 
       // Callback to parent component
@@ -156,6 +158,26 @@ export default function CreateUserForm({ onUserCreated }) {
           >
             <option value="user">User</option>
             <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="projectStatus"
+            className="mb-2 block text-sm font-medium text-gray-700"
+          >
+            Project Status
+          </label>
+          <select
+            id="projectStatus"
+            name="projectStatus"
+            value={formData.projectStatus}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+          >
+            <option value="Lead">Lead</option>
+            <option value="On Going">On Going</option>
+            <option value="Finished">Finished</option>
           </select>
         </div>
 

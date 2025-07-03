@@ -23,19 +23,29 @@ export default async function AdminUsersPage() {
       email: 1,
       name: 1,
       role: 1,
+      projectStatus: 1,
       createdAt: 1,
       hasAccess: 1,
     },
   )
     .sort({ createdAt: -1 })
     .lean()
-    .then((users) =>
-      users.map((user) => ({
+    .then((users) => {
+      const mappedUsers = users.map((user) => ({
         ...user,
         id: user._id.toString(),
         _id: undefined,
-      })),
-    );
+      }));
+      console.log(
+        "Fetched users with project status:",
+        mappedUsers.map((u) => ({
+          id: u.id,
+          name: u.name,
+          projectStatus: u.projectStatus,
+        })),
+      );
+      return mappedUsers;
+    });
 
   return (
     <div>

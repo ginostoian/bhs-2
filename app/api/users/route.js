@@ -22,6 +22,7 @@ export async function GET(req) {
         email: 1,
         name: 1,
         role: 1,
+        projectStatus: 1,
         createdAt: 1,
         hasAccess: 1,
       },
@@ -47,7 +48,12 @@ export async function POST(req) {
     await requireAdmin(req);
 
     // Parse request body
-    const { email, name, role = "user" } = await req.json();
+    const {
+      email,
+      name,
+      role = "user",
+      projectStatus = "Lead",
+    } = await req.json();
 
     // Validate required fields
     if (!email) {
@@ -71,6 +77,7 @@ export async function POST(req) {
       email: email.toLowerCase(),
       name,
       role,
+      projectStatus,
     });
 
     return NextResponse.json(
@@ -80,6 +87,7 @@ export async function POST(req) {
           email: user.email,
           name: user.name,
           role: user.role,
+          projectStatus: user.projectStatus,
           createdAt: user.createdAt,
         },
       },

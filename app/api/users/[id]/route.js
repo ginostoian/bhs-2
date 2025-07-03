@@ -19,8 +19,17 @@ export async function PUT(req, { params }) {
     console.log("User ID from params:", id);
 
     // Parse request body
-    const { email, name, role } = await req.json();
-    console.log("Request body:", { email, name, role });
+    const body = await req.json();
+    console.log("Full request body:", body);
+
+    const { email, name, role, projectStatus } = body;
+    console.log("Extracted fields:", { email, name, role, projectStatus });
+    console.log(
+      "Project status type:",
+      typeof projectStatus,
+      "value:",
+      projectStatus,
+    );
 
     // Connect to MongoDB
     await connectMongoose();
@@ -32,6 +41,12 @@ export async function PUT(req, { params }) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
     console.log("Existing user found:", existingUser.email);
+    console.log("Current user data:", {
+      email: existingUser.email,
+      name: existingUser.name,
+      role: existingUser.role,
+      projectStatus: existingUser.projectStatus,
+    });
 
     // Check if email is being changed and if it's already taken
     if (email && email !== existingUser.email) {
@@ -48,21 +63,39 @@ export async function PUT(req, { params }) {
       }
     }
 
-    // Prepare update object
+    // Prepare update object - allow partial updates
     const updateData = {};
-    if (email) updateData.email = email.toLowerCase();
+    if (email !== undefined) updateData.email = email.toLowerCase();
     if (name !== undefined) updateData.name = name;
-    if (role) updateData.role = role;
+    if (role !== undefined) updateData.role = role;
+    if (projectStatus !== undefined) updateData.projectStatus = projectStatus;
 
-    console.log("Update data:", updateData);
+    console.log("Update data being applied:", updateData);
 
     // Update user
+    console.log("Attempting to update user with data:", updateData);
+
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
       runValidators: true,
     });
 
+    if (!updatedUser) {
+      console.log("Failed to update user - no user returned");
+      return NextResponse.json(
+        { error: "Failed to update user" },
+        { status: 500 },
+      );
+    }
+
     console.log("User updated successfully:", updatedUser.email);
+    console.log("Updated user data:", {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      name: updatedUser.name,
+      role: updatedUser.role,
+      projectStatus: updatedUser.projectStatus,
+    });
 
     return NextResponse.json({
       user: {
@@ -70,16 +103,29 @@ export async function PUT(req, { params }) {
         email: updatedUser.email,
         name: updatedUser.name,
         role: updatedUser.role,
+        projectStatus: updatedUser.projectStatus,
         createdAt: updatedUser.createdAt,
       },
     });
   } catch (error) {
     console.error("PUT /api/users/[id] error:", error);
     console.error("Error stack:", error.stack);
-    return NextResponse.json(
-      { error: error.message || "Failed to update user" },
-      { status: 500 },
-    );
+
+    // Provide more specific error messages
+    let errorMessage = "Failed to update user";
+    if (error.name === "ValidationError") {
+      errorMessage =
+        "Validation error: " +
+        Object.values(error.errors)
+          .map((e) => e.message)
+          .join(", ");
+    } else if (error.name === "CastError") {
+      errorMessage = "Invalid user ID format";
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
 

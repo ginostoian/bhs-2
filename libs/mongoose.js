@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
-import User from "@/models/User";
+// Use relative import for Node.js compatibility
+import User from "../models/User.js";
 
 const connectMongo = async () => {
   if (!process.env.MONGODB_URI) {
     throw new Error(
-      "Add the MONGODB_URI environment variable inside .env.local to use mongoose"
+      "Add the MONGODB_URI environment variable inside .env.local to use mongoose",
     );
   }
   return mongoose

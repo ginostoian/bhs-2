@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
 
 /**
  * User Schema
@@ -55,6 +55,12 @@ const userSchema = mongoose.Schema(
     hasAccess: {
       type: Boolean,
       default: false,
+    },
+    // Project status for filtering and organization
+    projectStatus: {
+      type: String,
+      enum: ["Lead", "On Going", "Finished"],
+      default: "Lead",
     },
   },
   {
