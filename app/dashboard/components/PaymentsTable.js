@@ -83,6 +83,27 @@ export default function PaymentsTable({ payments }) {
               </tr>
             ))}
           </tbody>
+          {/* Totals Row */}
+          <tfoot className="bg-gray-50">
+            <tr>
+              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                Total
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-600">
+                {payments.length} payment{payments.length !== 1 ? "s" : ""}
+              </td>
+              <td className="px-6 py-4 text-sm font-bold text-gray-900">
+                {formatAmount(
+                  payments.reduce(
+                    (sum, payment) => sum + parseFloat(payment.amount || 0),
+                    0,
+                  ),
+                )}
+              </td>
+              <td className="px-6 py-4 text-sm text-gray-600">-</td>
+              <td className="px-6 py-4 text-sm text-gray-600">-</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>

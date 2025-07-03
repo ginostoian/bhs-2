@@ -67,7 +67,25 @@ export default function AdminPaymentsClient({
     );
   };
 
-  // Handle drag and drop reordering
+  // Group payments by user
+  const groupedPayments = payments.reduce((groups, payment) => {
+    const userId = payment.user?.id || payment.user?._id || "unknown";
+    const userName =
+      payment.user?.name || payment.user?.email || "Unknown User";
+
+    if (!groups[userId]) {
+      groups[userId] = {
+        user: payment.user,
+        userName,
+        payments: [],
+      };
+    }
+
+    groups[userId].payments.push(payment);
+    return groups;
+  }, {});
+
+  // Handle drag and drop reordering within a user group
   const handleDragEnd = async (result) => {
     console.log("Drag end result:", result);
 
@@ -76,12 +94,26 @@ export default function AdminPaymentsClient({
       return;
     }
 
-    const items = Array.from(payments);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const { source, destination } = result;
+    const sourceUserId = source.droppableId;
+    const destUserId = destination.droppableId;
+
+    // Only allow reordering within the same user group
+    if (sourceUserId !== destUserId) {
+      console.log("Cannot move payments between users");
+      return;
+    }
+
+    const userGroup = groupedPayments[sourceUserId];
+    if (!userGroup) return;
+
+    const items = Array.from(userGroup.payments);
+    const [reorderedItem] = items.splice(source.index, 1);
+    items.splice(destination.index, 0, reorderedItem);
 
     console.log(
-      "Reordered items:",
+      "Reordered items for user:",
+      sourceUserId,
       items.map((item) => ({
         id: item.id,
         name: item.name,
@@ -89,7 +121,19 @@ export default function AdminPaymentsClient({
       })),
     );
 
-    setPayments(items);
+    // Update local state
+    setPayments((prevPayments) =>
+      prevPayments.map((payment) => {
+        if (
+          payment.user?.id === sourceUserId ||
+          payment.user?._id === sourceUserId
+        ) {
+          const newPayment = items.find((item) => item.id === payment.id);
+          return newPayment || payment;
+        }
+        return payment;
+      }),
+    );
 
     // Update order in database
     try {
@@ -99,7 +143,7 @@ export default function AdminPaymentsClient({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          newOrder: result.destination.index + 1,
+          newOrder: destination.index + 1,
         }),
       });
 
@@ -333,8 +377,8 @@ export default function AdminPaymentsClient({
         </div>
       </div>
 
-      {/* Payments Table */}
-      {payments.length === 0 ? (
+      {/* Payments Grouped by User */}
+      {Object.keys(groupedPayments).length === 0 ? (
         <div className="py-12 text-center">
           <div className="mb-4 text-6xl">💳</div>
           <h3 className="mb-2 text-lg font-medium text-gray-900">
@@ -346,119 +390,173 @@ export default function AdminPaymentsClient({
         </div>
       ) : (
         <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="payments">
-            {(provided) => (
+          <div className="space-y-6">
+            {Object.entries(groupedPayments).map(([userId, userGroup]) => (
               <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
+                key={userId}
                 className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow"
               >
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Payment #
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          User
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Payment Name
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Amount
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Due Date
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {payments.map((payment, index) => (
-                        <Draggable
-                          key={payment.id}
-                          draggableId={payment.id}
-                          index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <tr
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              className={`hover:bg-gray-50 ${
-                                snapshot.isDragging ? "bg-blue-50" : ""
-                              }`}
-                            >
-                              <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                <div className="flex items-center">
-                                  <div
-                                    {...provided.dragHandleProps}
-                                    className="mr-2 cursor-move text-gray-400 hover:text-gray-600"
+                {/* User Header */}
+                <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {userGroup.userName}
+                  </h3>
+                  <p className="text-sm text-gray-600">
+                    {userGroup.payments.length} payment
+                    {userGroup.payments.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+
+                {/* User's Payments */}
+                <Droppable droppableId={userId}>
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="min-h-[100px]"
+                    >
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-gray-50">
+                            <tr>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Payment #
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Payment Name
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Amount
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Due Date
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Status
+                              </th>
+                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Actions
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200 bg-white">
+                            {userGroup.payments.map((payment, index) => (
+                              <Draggable
+                                key={payment.id}
+                                draggableId={payment.id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <tr
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    className={`hover:bg-gray-50 ${
+                                      snapshot.isDragging ? "bg-blue-50" : ""
+                                    }`}
                                   >
-                                    <svg
-                                      className="h-4 w-4"
-                                      fill="currentColor"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
-                                    </svg>
-                                  </div>
-                                  {payment.paymentNumber}
-                                </div>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                                      <div className="flex items-center">
+                                        <div
+                                          {...provided.dragHandleProps}
+                                          className="mr-2 cursor-move text-gray-400 hover:text-gray-600"
+                                        >
+                                          <svg
+                                            className="h-4 w-4"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                          >
+                                            <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
+                                          </svg>
+                                        </div>
+                                        {payment.paymentNumber}
+                                      </div>
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                      {payment.name}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                                      {formatAmount(payment.amount)}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                      {formatDate(payment.dueDate)}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                      {getStatusBadge(payment.status)}
+                                    </td>
+                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                      <div className="flex space-x-2">
+                                        <button
+                                          onClick={() =>
+                                            setEditModal({
+                                              isOpen: true,
+                                              payment,
+                                            })
+                                          }
+                                          className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
+                                        >
+                                          Edit
+                                        </button>
+                                        <button
+                                          onClick={() =>
+                                            openDeleteModal(payment)
+                                          }
+                                          disabled={isDeleting}
+                                          className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                          {isDeleting
+                                            ? "Deleting..."
+                                            : "Delete"}
+                                        </button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </tbody>
+                          {/* Totals Row */}
+                          <tfoot className="bg-gray-50">
+                            <tr>
+                              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                                Total
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                {payment.user?.name ||
-                                  payment.user?.email ||
-                                  "Unknown"}
+                              <td className="px-6 py-4 text-sm text-gray-600">
+                                {userGroup.payments.length} payment
+                                {userGroup.payments.length !== 1 ? "s" : ""}
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                {payment.name}
+                              <td className="px-6 py-4 text-sm font-bold text-gray-900">
+                                £
+                                {userGroup.payments
+                                  .reduce(
+                                    (sum, payment) =>
+                                      sum + parseFloat(payment.amount || 0),
+                                    0,
+                                  )
+                                  .toLocaleString("en-GB", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                  })}
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                {formatAmount(payment.amount)}
+                              <td className="px-6 py-4 text-sm text-gray-600">
+                                -
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                {formatDate(payment.dueDate)}
+                              <td className="px-6 py-4 text-sm text-gray-600">
+                                -
                               </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                {getStatusBadge(payment.status)}
-                              </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                <div className="flex space-x-2">
-                                  <button
-                                    onClick={() =>
-                                      setEditModal({ isOpen: true, payment })
-                                    }
-                                    className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() => openDeleteModal(payment)}
-                                    disabled={isDeleting}
-                                    className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                                  >
-                                    {isDeleting ? "Deleting..." : "Delete"}
-                                  </button>
-                                </div>
+                              <td className="px-6 py-4 text-sm text-gray-600">
+                                -
                               </td>
                             </tr>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </tbody>
-                  </table>
-                </div>
+                          </tfoot>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </Droppable>
               </div>
-            )}
-          </Droppable>
+            ))}
+          </div>
         </DragDropContext>
       )}
 
