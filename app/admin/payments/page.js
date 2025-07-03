@@ -42,6 +42,7 @@ export default async function AdminPaymentsPage() {
     {
       email: 1,
       name: 1,
+      projectStatus: 1,
     },
   )
     .sort({ name: 1 })

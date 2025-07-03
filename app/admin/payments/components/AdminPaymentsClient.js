@@ -33,6 +33,11 @@ export default function AdminPaymentsClient({
     isOpen: false,
   });
 
+  // Filter users to only show "On Going" users for payment creation
+  const onGoingUsers = users.filter(
+    (user) => user.projectStatus === "On Going",
+  );
+
   // Format date for display
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-GB", {
@@ -563,7 +568,7 @@ export default function AdminPaymentsClient({
       {/* Create Payment Modal */}
       {createModal.isOpen && (
         <CreatePaymentModal
-          users={users}
+          users={onGoingUsers}
           onClose={() => setCreateModal({ isOpen: false })}
           onSubmit={handleCreatePayment}
           isSubmitting={isSubmitting}
@@ -583,7 +588,7 @@ export default function AdminPaymentsClient({
       {/* Bulk Create Payment Modal */}
       {bulkCreateModal.isOpen && (
         <BulkCreatePaymentModal
-          users={users}
+          users={onGoingUsers}
           onClose={() => setBulkCreateModal({ isOpen: false })}
           onSubmit={handleCreatePayment}
           isSubmitting={isSubmitting}
@@ -652,13 +657,24 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
               required
               className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
-              <option value="">Select user...</option>
+              <option value="">
+                {users.length === 0
+                  ? "No users with 'On Going' status available"
+                  : "Select user..."}
+              </option>
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name || user.email}
                 </option>
               ))}
             </select>
+            {users.length === 0 && (
+              <p className="mt-1 text-sm text-amber-600">
+                Only users with "On Going" project status can have payments.{" "}
+                <br />
+                Update user status in the Users section first.
+              </p>
+            )}
           </div>
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -732,7 +748,7 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || users.length === 0}
               className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? "Creating..." : "Create"}
@@ -846,13 +862,24 @@ function BulkCreatePaymentModal({
               required
               className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
-              <option value="">Select user...</option>
+              <option value="">
+                {users.length === 0
+                  ? "No users with 'On Going' status available"
+                  : "Select user..."}
+              </option>
               {users.map((user) => (
                 <option key={user.id} value={user.id}>
                   {user.name || user.email}
                 </option>
               ))}
             </select>
+            {users.length === 0 && (
+              <p className="mt-1 text-sm text-amber-600">
+                Only users with "On Going" project status can have payments.{" "}
+                <br />
+                Update user status in the Users section first.
+              </p>
+            )}
           </div>
 
           <div className="space-y-4">
@@ -949,10 +976,10 @@ function BulkCreatePaymentModal({
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || users.length === 0}
               className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isSubmitting ? "Creating..." : "Create All Payments"}
+              {isSubmitting ? "Creating..." : "Create Payments"}
             </button>
           </div>
         </form>
