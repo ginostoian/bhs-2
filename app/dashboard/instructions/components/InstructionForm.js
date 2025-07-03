@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 
 /**
- * Comment Form Component
- * Allows users to add new comments
+ * Instructions Form Component
+ * Allows users to add new instructions
  */
-export default function CommentForm({ onCommentAdded }) {
+export default function InstructionForm({ onInstructionAdded }) {
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -27,7 +27,7 @@ export default function CommentForm({ onCommentAdded }) {
       setModalState({
         isOpen: true,
         title: "Validation Error",
-        message: "Please enter a comment",
+        message: "Please enter instructions",
         type: "alert",
         confirmText: "OK",
       });
@@ -37,7 +37,7 @@ export default function CommentForm({ onCommentAdded }) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/documents", {
+      const response = await fetch("/api/documents/user", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function CommentForm({ onCommentAdded }) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add comment");
+        throw new Error("Failed to add instructions");
       }
 
       const newComment = await response.json();
@@ -58,15 +58,15 @@ export default function CommentForm({ onCommentAdded }) {
       setComment("");
 
       // Callback to parent component
-      if (onCommentAdded) {
-        onCommentAdded(newComment);
+      if (onInstructionAdded) {
+        onInstructionAdded(newComment);
       }
 
       // Show success modal
       setModalState({
         isOpen: true,
         title: "Success",
-        message: "Comment added successfully!",
+        message: "Instructions added successfully!",
         type: "alert",
         confirmText: "OK",
       });
@@ -78,7 +78,7 @@ export default function CommentForm({ onCommentAdded }) {
       setModalState({
         isOpen: true,
         title: "Error",
-        message: "Failed to add comment. Please try again.",
+        message: "Failed to add instructions. Please try again.",
         type: "alert",
         confirmText: "OK",
       });
@@ -90,7 +90,7 @@ export default function CommentForm({ onCommentAdded }) {
   return (
     <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
       <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Add New Comment
+        Add New Instructions
       </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -99,7 +99,7 @@ export default function CommentForm({ onCommentAdded }) {
             htmlFor="comment"
             className="mb-2 block text-sm font-medium text-gray-700"
           >
-            Your Comment
+            Your Instructions
           </label>
           <textarea
             id="comment"
@@ -107,7 +107,7 @@ export default function CommentForm({ onCommentAdded }) {
             onChange={(e) => setComment(e.target.value)}
             rows={4}
             className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-            placeholder="Share your thoughts, questions, or feedback about your project..."
+            placeholder="Share your instructions, questions, or feedback about your project..."
             disabled={isSubmitting}
           />
         </div>
@@ -118,7 +118,7 @@ export default function CommentForm({ onCommentAdded }) {
             disabled={isSubmitting || !comment.trim()}
             className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isSubmitting ? "Adding..." : "Add Comment"}
+            {isSubmitting ? "Adding..." : "Add Instructions"}
           </button>
         </div>
       </form>

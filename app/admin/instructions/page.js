@@ -2,21 +2,21 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
-import AdminCommentsClient from "./components/AdminCommentsClient";
+import AdminInstructionsClient from "./components/AdminInstructionsClient";
 
 /**
- * Admin Comments Page
- * Server component that fetches comments data
+ * Admin Instructions Page
+ * Server component that fetches instructions data
  */
-export default async function AdminCommentsPage() {
+export default async function AdminInstructionsPage() {
   // Get admin session
   const session = await getServerSession(authOptions);
 
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch all comments with user information
-  const comments = await Document.find({ type: "comment" })
+  // Fetch all instructions with user information
+  const instructions = await Document.find({ type: "comment" })
     .sort({ createdAt: -1 })
     .populate("user", "name email")
     .lean()
@@ -35,5 +35,5 @@ export default async function AdminCommentsPage() {
       })),
     );
 
-  return <AdminCommentsClient comments={comments} />;
+  return <AdminInstructionsClient instructions={instructions} />;
 }
