@@ -32,7 +32,9 @@ export default async function DashboardLayout({ children }) {
             </div>
             <div className="flex items-center space-x-4">
               {/* Notification Bell */}
-              <NotificationBell />
+              <NotificationBell
+                userProjectStatus={session.user.projectStatus}
+              />
 
               {/* Profile Image */}
               <ProfileImage user={session.user} />

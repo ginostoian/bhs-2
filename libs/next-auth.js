@@ -50,15 +50,16 @@ export const authOptions = {
         session.user.id = token.sub;
         session.user.role = token.role;
 
-        // Fetch user data from database to get the image
+        // Fetch user data from database to get the image and project status
         try {
           await connectMongoose();
           const user = await User.findOne({ email: session.user.email }).lean();
           if (user) {
             session.user.image = user.image;
+            session.user.projectStatus = user.projectStatus;
           }
         } catch (error) {
-          console.error("Error fetching user image:", error);
+          console.error("Error fetching user data:", error);
         }
       }
       return session;

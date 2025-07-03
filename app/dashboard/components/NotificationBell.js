@@ -16,18 +16,25 @@ import {
  *
  * Features:
  * - Real-time notification display with optimized polling
- * - Polls every 5 minutes when tab is visible
+ * - Polls every 5 minutes when tab is visible (only for active users)
  * - Stops polling when tab is hidden to save resources
  * - Fetches immediately when tab becomes visible
  * - Shows last updated time for transparency
+ * - Only polls for users with "Lead" or "On Going" project status
  */
-const NotificationBell = () => {
+const NotificationBell = ({ userProjectStatus }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
   const dropdownRef = useRef(null);
+
+  // Check if user should receive real-time notifications
+  const shouldPollForNotifications = () => {
+    const activeStatuses = ["Lead", "On Going"];
+    return userProjectStatus && activeStatuses.includes(userProjectStatus);
+  };
 
   // Fetch notifications
   const fetchNotifications = async () => {
@@ -165,18 +172,20 @@ const NotificationBell = () => {
     }
   }, [isOpen]);
 
-  // Fetch notifications on initial mount
+  // Fetch notifications on initial mount (only for active users)
   useEffect(() => {
-    fetchNotifications();
+    if (shouldPollForNotifications()) {
+      fetchNotifications();
+    }
   }, []);
 
-  // Poll for new notifications every 5 minutes, only when tab is visible
+  // Poll for new notifications every 5 minutes, only when tab is visible and user is active
   useEffect(() => {
     let interval;
 
     const startPolling = () => {
-      // Only start polling if the tab is visible
-      if (!document.hidden) {
+      // Only start polling if the tab is visible AND user has active project status
+      if (!document.hidden && shouldPollForNotifications()) {
         interval = setInterval(() => {
           fetchNotifications();
         }, 300000); // 5 minutes (300,000 ms)
@@ -194,9 +203,11 @@ const NotificationBell = () => {
       if (document.hidden) {
         stopPolling();
       } else {
-        // When tab becomes visible, fetch immediately and start polling
-        fetchNotifications();
-        startPolling();
+        // When tab becomes visible, fetch immediately and start polling (if user is active)
+        if (shouldPollForNotifications()) {
+          fetchNotifications();
+          startPolling();
+        }
       }
     };
 
@@ -233,9 +244,16 @@ const NotificationBell = () => {
         <div className="absolute right-0 z-50 mt-2 max-h-96 w-80 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-900">
-              Notifications
-            </h3>
+            <div>
+              <h3 className="text-sm font-semibold text-gray-900">
+                Notifications
+              </h3>
+              {!shouldPollForNotifications() && (
+                <p className="mt-1 text-xs text-gray-500">
+                  Real-time updates disabled (inactive project)
+                </p>
+              )}
+            </div>
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
@@ -318,6 +336,9 @@ const NotificationBell = () => {
             {lastUpdated && (
               <div className="text-center text-xs text-gray-500">
                 Last updated: {lastUpdated.toLocaleTimeString()}
+                {shouldPollForNotifications() && (
+                  <span className="ml-2 text-green-600">• Live</span>
+                )}
               </div>
             )}
           </div>
