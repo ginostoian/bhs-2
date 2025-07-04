@@ -1,0 +1,456 @@
+import config from "@/config";
+
+/**
+ * Email Template System
+ * Provides professional HTML email templates for various system events
+ */
+
+// Base template wrapper
+const baseTemplate = (content, title = "Better Homes Studio") => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #266bf1 0%, #1449B0 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .footer p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #266bf1 0%, #1449B0 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background: linear-gradient(135deg, #1449B0 0%, #0C5AC8 100%);
+        }
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .alert-urgent {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .document-card {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .document-title {
+            font-weight: 600;
+            color: #266bf1;
+            margin-bottom: 8px;
+        }
+        .document-meta {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            .header, .content, .footer {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Better Homes Studio</h1>
+            <p>Your trusted partner in home renovation</p>
+        </div>
+        <div class="content">
+            ${content}
+        </div>
+        <div class="footer">
+            <p>&copy; ${new Date().getFullYear()} Better Homes Studio. All rights reserved.</p>
+            <p>${config.domainName} | ${config.resend.supportEmail || "info@betterhomesstudio.com"}</p>
+        </div>
+    </div>
+</body>
+</html>
+`;
+
+/**
+ * Welcome Email Template
+ * Sent to new users when they are created by admin
+ */
+export const welcomeEmailTemplate = (userName, userEmail) => {
+  const content = `
+    <h2>Welcome to Better Homes Studio! 🏠</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>Welcome to Better Homes Studio! Your account has been successfully created and you're now part of our community of homeowners transforming their spaces.</p>
+    
+    <div class="alert alert-success">
+        <strong>Your Account Details:</strong><br>
+        Email: ${userEmail}<br>
+        Status: Active
+    </div>
+    
+    <h3>What's Next?</h3>
+    <ul>
+        <li><strong>Access Your Dashboard:</strong> Log in to view your project documents, quotes, and invoices</li>
+        <li><strong>Request a Quote:</strong> Get started with your renovation project</li>
+        <li><strong>Track Progress:</strong> Monitor your project status and payments</li>
+        <li><strong>Stay Updated:</strong> Receive notifications about important updates</li>
+    </ul>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard" class="button">Access Your Dashboard</a>
+    </div>
+    
+    <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: "Welcome to Better Homes Studio!",
+    html: baseTemplate(content, "Welcome to Better Homes Studio"),
+    text: `Welcome to Better Homes Studio! Your account has been created successfully. Access your dashboard at https://${config.domainName}/dashboard`,
+  };
+};
+
+/**
+ * Document Added Email Template
+ * Sent when admin adds a new document (quote, invoice, photo, comment)
+ */
+export const documentAddedEmailTemplate = (
+  userName,
+  documentType,
+  documentName,
+  documentContent,
+  documentId,
+) => {
+  const typeLabels = {
+    quote: "Quote",
+    invoice: "Invoice",
+    photo: "Photo",
+    comment: "Comment",
+    instruction: "Instruction",
+  };
+
+  const typeLabel = typeLabels[documentType] || "Document";
+  const typeIcon =
+    {
+      quote: "📋",
+      invoice: "💰",
+      photo: "📸",
+      comment: "💬",
+      instruction: "📝",
+    }[documentType] || "📄";
+
+  const content = `
+    <h2>New ${typeLabel} Added ${typeIcon}</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>A new ${documentType} has been added to your project. Here are the details:</p>
+    
+    <div class="document-card">
+        <div class="document-title">${documentName}</div>
+        <div class="document-meta">
+            Type: ${typeLabel}<br>
+            Added: ${new Date().toLocaleDateString("en-GB")}
+        </div>
+        ${
+          documentContent
+            ? `<div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e9ecef;">
+            <strong>Details:</strong><br>
+            ${typeof documentContent === "string" ? documentContent : JSON.stringify(documentContent, null, 2)}
+        </div>`
+            : ""
+        }
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard" class="button">View in Dashboard</a>
+    </div>
+    
+    <p>You can view all your project documents, track payments, and stay updated on your renovation progress through your dashboard.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `New ${typeLabel} Added - ${documentName}`,
+    html: baseTemplate(content, `New ${typeLabel} Added`),
+    text: `A new ${documentType} "${documentName}" has been added to your project. View it in your dashboard at https://${config.domainName}/dashboard`,
+  };
+};
+
+/**
+ * Payment Due Email Template
+ * Sent when payment is due soon or overdue
+ */
+export const paymentDueEmailTemplate = (
+  userName,
+  paymentName,
+  amount,
+  dueDate,
+  isOverdue = false,
+) => {
+  const daysUntilDue = Math.ceil(
+    (new Date(dueDate) - new Date()) / (1000 * 60 * 60 * 24),
+  );
+  const isPastDue = daysUntilDue < 0;
+
+  const alertClass = isOverdue ? "alert-urgent" : "alert-warning";
+  const alertIcon = isOverdue ? "🚨" : "⚠️";
+  const statusText = isOverdue
+    ? "OVERDUE"
+    : isPastDue
+      ? "DUE NOW"
+      : `DUE IN ${daysUntilDue} DAY${daysUntilDue !== 1 ? "S" : ""}`;
+
+  const content = `
+    <h2>Payment ${isOverdue ? "Overdue" : "Due Soon"} ${alertIcon}</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>This is a reminder about an upcoming payment for your renovation project.</p>
+    
+    <div class="alert ${alertClass}">
+        <strong>Payment Details:</strong><br>
+        Payment: ${paymentName}<br>
+        Amount: £${amount.toFixed(2)}<br>
+        Status: ${statusText}<br>
+        Due Date: ${new Date(dueDate).toLocaleDateString("en-GB")}
+    </div>
+    
+    ${
+      isOverdue
+        ? `
+    <div class="alert alert-urgent">
+        <strong>Action Required:</strong> This payment is overdue. Please contact us immediately to arrange payment and avoid any delays to your project.
+    </div>
+    `
+        : ""
+    }
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard/payments" class="button">View Payment Details</a>
+    </div>
+    
+    <p>If you have any questions about this payment or need to discuss payment arrangements, please don't hesitate to contact us.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Payment ${isOverdue ? "Overdue" : "Due Soon"} - ${paymentName}`,
+    html: baseTemplate(
+      content,
+      `Payment ${isOverdue ? "Overdue" : "Due Soon"}`,
+    ),
+    text: `Payment "${paymentName}" (£${amount.toFixed(2)}) is ${isOverdue ? "overdue" : `due in ${daysUntilDue} day${daysUntilDue !== 1 ? "s" : ""}`}. View details at https://${config.domainName}/dashboard/payments`,
+  };
+};
+
+/**
+ * Project Status Update Email Template
+ * Sent when project status changes
+ */
+export const projectStatusUpdateEmailTemplate = (
+  userName,
+  oldStatus,
+  newStatus,
+) => {
+  const content = `
+    <h2>Project Status Updated 📊</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>Your renovation project status has been updated. Here are the details:</p>
+    
+    <div class="alert alert-success">
+        <strong>Status Change:</strong><br>
+        From: ${oldStatus}<br>
+        To: ${newStatus}<br>
+        Updated: ${new Date().toLocaleDateString("en-GB")}
+    </div>
+    
+    <h3>What This Means:</h3>
+    <ul>
+        <li><strong>Lead:</strong> Initial consultation and planning phase</li>
+        <li><strong>On Going:</strong> Active construction and renovation work</li>
+        <li><strong>Finished:</strong> Project completed and ready for handover</li>
+    </ul>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard" class="button">View Project Details</a>
+    </div>
+    
+    <p>You can track your project progress, view documents, and manage payments through your dashboard.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Project Status Updated - ${newStatus}`,
+    html: baseTemplate(content, "Project Status Updated"),
+    text: `Your project status has changed from "${oldStatus}" to "${newStatus}". View details at https://${config.domainName}/dashboard`,
+  };
+};
+
+/**
+ * Admin Notification Email Template
+ * Sent to admin when new user is created
+ */
+export const adminNewUserNotificationTemplate = (
+  userName,
+  userEmail,
+  createdBy,
+) => {
+  const content = `
+    <h2>New User Created 👤</h2>
+    
+    <p>Hello Admin,</p>
+    
+    <p>A new user has been created in the Better Homes Studio system.</p>
+    
+    <div class="alert alert-success">
+        <strong>New User Details:</strong><br>
+        Name: ${userName || "Not provided"}<br>
+        Email: ${userEmail}<br>
+        Created: ${new Date().toLocaleDateString("en-GB")}<br>
+        Created By: ${createdBy || "System"}
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/admin/users" class="button">Manage Users</a>
+    </div>
+    
+    <p>You can manage this user's account, add documents, and track their project progress through the admin panel.</p>
+    
+    <p>Best regards,<br>
+    Better Homes Studio System</p>
+  `;
+
+  return {
+    subject: `New User Created - ${userEmail}`,
+    html: baseTemplate(content, "New User Created"),
+    text: `New user created: ${userName || "Unknown"} (${userEmail}). Manage at https://${config.domainName}/admin/users`,
+  };
+};
+
+/**
+ * System Announcement Email Template
+ * Sent for system-wide announcements
+ */
+export const announcementEmailTemplate = (
+  userName,
+  title,
+  message,
+  priority = "medium",
+) => {
+  const priorityIcons = {
+    low: "📢",
+    medium: "📢",
+    high: "⚠️",
+    urgent: "🚨",
+  };
+
+  const priorityColors = {
+    low: "alert-success",
+    medium: "alert-success",
+    high: "alert-warning",
+    urgent: "alert-urgent",
+  };
+
+  const content = `
+    <h2>${title} ${priorityIcons[priority]}</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <div class="alert ${priorityColors[priority]}">
+        ${message}
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard" class="button">Visit Dashboard</a>
+    </div>
+    
+    <p>Thank you for choosing Better Homes Studio.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Better Homes Studio - ${title}`,
+    html: baseTemplate(content, title),
+    text: `${title}: ${message}. Visit https://${config.domainName}/dashboard for more information.`,
+  };
+};

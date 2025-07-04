@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
+import EmailPreference from "@/models/EmailPreference";
 import Notification from "@/models/Notification";
+import { sendPaymentDueEmail } from "@/libs/emailService";
 
 /**
  * POST /api/cron/check-overdue-payments
@@ -47,6 +49,33 @@ export async function POST(req) {
             isOverdue: true,
           },
         });
+
+        // Send overdue payment email notification
+        try {
+          const emailEnabled = await EmailPreference.isEmailEnabled(
+            payment.user._id,
+            "payments",
+          );
+
+          if (emailEnabled) {
+            await sendPaymentDueEmail(
+              payment.user.email,
+              payment.user.name,
+              payment.name,
+              payment.amount,
+              payment.dueDate,
+              true, // overdue
+            );
+            console.log(
+              `✅ Overdue payment email sent to ${payment.user.email}`,
+            );
+          }
+        } catch (emailError) {
+          console.error(
+            `Failed to send overdue payment email to ${payment.user.email}:`,
+            emailError,
+          );
+        }
 
         notificationsCreated.push({
           paymentId: payment._id.toString(),

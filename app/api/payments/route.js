@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
+import EmailPreference from "@/models/EmailPreference";
 import { requireAuth } from "@/libs/requireAdmin";
 import Notification from "@/models/Notification";
+import { sendPaymentDueEmail } from "@/libs/emailService";
 
 /**
  * GET /api/payments
@@ -178,6 +180,38 @@ export async function POST(req) {
     } catch (notificationError) {
       console.error("Failed to create notification:", notificationError);
       // Don't fail the payment creation if notification fails
+    }
+
+    // Send email notification to the user (async, don't wait for it)
+    try {
+      // Check if user has email notifications enabled for payments
+      const emailEnabled = await EmailPreference.isEmailEnabled(
+        targetUserId,
+        "payments",
+      );
+
+      if (emailEnabled) {
+        const dueDateObj = new Date(dueDate);
+        const daysUntilDue = Math.ceil(
+          (dueDateObj - new Date()) / (1000 * 60 * 60 * 24),
+        );
+
+        // Send payment due email if payment is due within 7 days
+        if (daysUntilDue <= 7) {
+          await sendPaymentDueEmail(
+            payment.user.email,
+            payment.user.name,
+            name,
+            parsedAmount,
+            dueDateObj,
+            false, // not overdue
+          );
+          console.log(`✅ Payment due email sent to ${payment.user.email}`);
+        }
+      }
+    } catch (emailError) {
+      console.error("Failed to send payment notification email:", emailError);
+      // Don't fail the payment creation if email fails
     }
 
     return NextResponse.json(

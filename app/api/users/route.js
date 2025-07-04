@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
+import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
+import {
+  sendWelcomeEmail,
+  sendAdminNewUserNotification,
+} from "@/libs/emailService";
 
 /**
  * GET /api/users
@@ -79,6 +84,46 @@ export async function POST(req) {
       role,
       projectStatus,
     });
+
+    // Create email preferences for the new user
+    await EmailPreference.create({
+      user: user._id,
+      enabled: true,
+      preferences: {
+        welcome: true,
+        documents: true,
+        payments: true,
+        projectStatus: true,
+        announcements: true,
+        marketing: false,
+      },
+    });
+
+    // Send welcome email to the new user (async, don't wait for it)
+    try {
+      await sendWelcomeEmail(user.email, user.name);
+      console.log(`✅ Welcome email sent to ${user.email}`);
+    } catch (error) {
+      console.error(
+        `❌ Failed to send welcome email to ${user.email}:`,
+        error.message,
+      );
+    }
+
+    // Send admin notification (async, don't wait for it)
+    try {
+      await sendAdminNewUserNotification(
+        user.email,
+        user.name,
+        session?.user?.email || "Admin",
+      );
+      console.log(`✅ Admin notification sent for new user ${user.email}`);
+    } catch (error) {
+      console.error(
+        `❌ Failed to send admin notification for ${user.email}:`,
+        error.message,
+      );
+    }
 
     return NextResponse.json(
       {

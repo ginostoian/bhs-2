@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
+import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
+import { sendProjectStatusUpdateEmail } from "@/libs/emailService";
 
 /**
  * PUT /api/users/[id]
@@ -72,6 +74,11 @@ export async function PUT(req, { params }) {
 
     console.log("Update data being applied:", updateData);
 
+    // Check if project status is being changed
+    const oldStatus = existingUser.projectStatus;
+    const newStatus = updateData.projectStatus;
+    const statusChanged = oldStatus && newStatus && oldStatus !== newStatus;
+
     // Update user
     console.log("Attempting to update user with data:", updateData);
 
@@ -96,6 +103,34 @@ export async function PUT(req, { params }) {
       role: updatedUser.role,
       projectStatus: updatedUser.projectStatus,
     });
+
+    // Send project status update email if status changed
+    if (statusChanged) {
+      try {
+        const emailEnabled = await EmailPreference.isEmailEnabled(
+          id,
+          "projectStatus",
+        );
+
+        if (emailEnabled) {
+          await sendProjectStatusUpdateEmail(
+            updatedUser.email,
+            updatedUser.name,
+            oldStatus,
+            newStatus,
+          );
+          console.log(
+            `✅ Project status update email sent to ${updatedUser.email}`,
+          );
+        }
+      } catch (emailError) {
+        console.error(
+          "Failed to send project status update email:",
+          emailError,
+        );
+        // Don't fail the user update if email fails
+      }
+    }
 
     return NextResponse.json({
       user: {

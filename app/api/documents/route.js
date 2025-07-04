@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
 import User from "@/models/User";
+import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
 import Notification from "@/models/Notification";
+import { sendDocumentAddedEmail } from "@/libs/emailService";
 
 /**
  * POST /api/documents
@@ -89,6 +91,39 @@ export async function POST(req) {
     } catch (notificationError) {
       console.error("Failed to create notification:", notificationError);
       // Don't fail the document creation if notification fails
+    }
+
+    // Send email notification to the user (async, don't wait for it)
+    try {
+      // Check if user has email notifications enabled for documents
+      const emailEnabled = await EmailPreference.isEmailEnabled(
+        userId,
+        "documents",
+      );
+
+      if (emailEnabled) {
+        const documentName =
+          type === "photo"
+            ? "Photo"
+            : type === "comment"
+              ? "Comment"
+              : type === "invoice"
+                ? "Invoice"
+                : "Quote";
+
+        await sendDocumentAddedEmail(
+          user.email,
+          user.name,
+          type,
+          documentName,
+          content,
+          document._id.toString(),
+        );
+        console.log(`✅ Document notification email sent to ${user.email}`);
+      }
+    } catch (emailError) {
+      console.error("Failed to send document notification email:", emailError);
+      // Don't fail the document creation if email fails
     }
 
     return NextResponse.json(

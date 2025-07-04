@@ -17,6 +17,7 @@ export default function AdminSidebar() {
     { name: "Payments", href: "/admin/payments", icon: "💳" },
     { name: "Add Document", href: "/admin/add-document", icon: "📄" },
     { name: "Notifications", href: "/admin/notifications", icon: "🔔" },
+    { name: "Email Analytics", href: "/admin/email-analytics", icon: "📊" },
   ];
 
   return (

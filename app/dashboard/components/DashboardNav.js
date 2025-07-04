@@ -18,6 +18,11 @@ export default function DashboardNav() {
     { name: "Instructions", href: "/dashboard/instructions", icon: "📋" },
     { name: "Photos", href: "/dashboard/photos", icon: "📸" },
     { name: "Request Quote", href: "/dashboard/request-quote", icon: "➕" },
+    {
+      name: "Email Preferences",
+      href: "/dashboard/email-preferences",
+      icon: "✉️",
+    },
   ];
 
   return (
