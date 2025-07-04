@@ -140,7 +140,7 @@ const config = {
           title: "Interior Design",
           subtitle: "Our team does more than design homes. ",
           subtitleAccent: "The create living experiences.",
-          p1: "Our team of designers interpret each client’s passions and style to provide innovative and exquisite interiors, curating furniture, textiles, even art and antiques.",
+          p1: "Our team of designers interpret each client's passions and style to provide innovative and exquisite interiors, curating furniture, textiles, even art and antiques.",
           p2: "Interior spaces are often completely re-imagined beyond the decorative, to eliminate boundaries between the built environment and a better way of life.",
           CTA: "Do your home a favour",
           imgSrc: "/assets/img/general/living-room-1.webp",
@@ -182,7 +182,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -326,7 +326,7 @@ const config = {
             "Geometrical shapes, simple colour palettes with sleek bold accents",
           subtitleAccent: " or tones of neutral colours",
           p1: "Modern bathrooms are predominantly simplistic. Decorative bathroom tiles add a sort of unmatched charm to the entire space that cranks things up a notch.",
-          p2: "If you really wish to put the X-Factor in extra, don’t, for once, shy away from bold colours encircling a statement bathtub or shower.",
+          p2: "If you really wish to put the X-Factor in extra, don't, for once, shy away from bold colours encircling a statement bathtub or shower.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/bathroom/modern-bathroom.webp",
           slug: "#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000",
@@ -378,7 +378,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -575,7 +575,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -770,7 +770,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -902,7 +902,7 @@ const config = {
           title: "Side return extension",
           subtitle: "Perfect for a bit of additional space without causing",
           subtitleAccent: " too much disruption .",
-          p1: "Side return extension functions similarly to a rear extension, with the difference being that rather than extending do the rear, the property is extended to the side, making use of the side return, or small ‘alleyway’ between yours and your neighbour’s property.",
+          p1: "Side return extension functions similarly to a rear extension, with the difference being that rather than extending do the rear, the property is extended to the side, making use of the side return, or small 'alleyway' between yours and your neighbour's property.",
           p2: "Simplicity and cost are again the main selling points here, with the side return extension being relatively easy to build, taking less time than some of the other options and consequently also being among the least expensive of all options.",
           CTA: "Extend your home",
           imgSrc: "/assets/img/extension/side-return-extension.webp",
@@ -965,7 +965,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -1160,7 +1160,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -1355,7 +1355,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -1550,7 +1550,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -1745,7 +1745,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
@@ -1877,7 +1877,7 @@ const config = {
         gridThreeNum: "3.",
         gridThreeTitle: "Regular Updates",
         gridThreeText:
-          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you’re always fully in the loop.",
+          "We keep you informed every step of the way with regular progress updates and check-ins, ensuring you're always fully in the loop.",
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:

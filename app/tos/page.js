@@ -254,7 +254,7 @@ export default function TermsAndConditions() {
               </p>
               <p>
                 Email:{" "}
-                {config.mailgun.supportEmail || "info@betterhomesstudio.com"}
+                {config.resend.supportEmail || "info@betterhomesstudio.com"}
               </p>
               <p>Website: {config.domainName}</p>
             </div>

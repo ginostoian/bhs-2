@@ -12,6 +12,7 @@ export default function UsersList({ users: initialUsers }) {
   const [users, setUsers] = useState(initialUsers);
   const [filteredUsers, setFilteredUsers] = useState(initialUsers);
   const [statusFilter, setStatusFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const [modalState, setModalState] = useState({
     isOpen: false,
@@ -34,12 +35,12 @@ export default function UsersList({ users: initialUsers }) {
       })),
     );
     setUsers(initialUsers);
-    setFilteredUsers(initialUsers);
-  }, [initialUsers]);
+    filterUsers(statusFilter, searchTerm);
+  }, [initialUsers, statusFilter, searchTerm]);
 
-  // Filter users based on status
-  const filterUsers = (status) => {
-    console.log("Filtering users by status:", status);
+  // Filter users based on status and search term
+  const filterUsers = (status, search = searchTerm) => {
+    console.log("Filtering users by status:", status, "and search:", search);
     console.log(
       "Available users:",
       users.map((u) => ({
@@ -49,26 +50,46 @@ export default function UsersList({ users: initialUsers }) {
       })),
     );
 
-    if (status === "All") {
-      setFilteredUsers(users);
-    } else {
-      const filtered = users.filter((user) => user.projectStatus === status);
-      console.log(
-        "Filtered users:",
-        filtered.map((u) => ({
-          id: u.id,
-          name: u.name,
-          projectStatus: u.projectStatus,
-        })),
-      );
-      setFilteredUsers(filtered);
+    let filtered = users;
+
+    // Filter by status
+    if (status !== "All") {
+      filtered = filtered.filter((user) => user.projectStatus === status);
     }
+
+    // Filter by search term
+    if (search) {
+      const searchLower = search.toLowerCase();
+      filtered = filtered.filter((user) => {
+        const nameMatch = (user.name || "").toLowerCase().includes(searchLower);
+        const emailMatch = (user.email || "")
+          .toLowerCase()
+          .includes(searchLower);
+        return nameMatch || emailMatch;
+      });
+    }
+
+    console.log(
+      "Filtered users:",
+      filtered.map((u) => ({
+        id: u.id,
+        name: u.name,
+        projectStatus: u.projectStatus,
+      })),
+    );
+    setFilteredUsers(filtered);
   };
 
   // Handle status filter change
   const handleStatusFilterChange = (status) => {
     setStatusFilter(status);
-    filterUsers(status);
+    filterUsers(status, searchTerm);
+  };
+
+  // Handle search term change
+  const handleSearchChange = (newSearchTerm) => {
+    setSearchTerm(newSearchTerm);
+    filterUsers(statusFilter, newSearchTerm);
   };
 
   // Handle status update
@@ -203,27 +224,45 @@ export default function UsersList({ users: initialUsers }) {
       </div>
 
       {/* Filter Controls */}
-      <div className="mb-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-gray-700">
-            Filter by status:
-          </span>
-          {["All", "Lead", "On Going", "Finished"].map((status) => (
-            <button
-              key={status}
-              onClick={() => handleStatusFilterChange(status)}
-              className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-                statusFilter === status
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              }`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-        <div className="mt-2 text-sm text-gray-600">
-          Showing {filteredUsers.length} of {users.length} users
+      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Filter by Status
+              </label>
+              <div className="mt-1 flex flex-wrap items-center gap-2">
+                {["All", "Lead", "On Going", "Finished"].map((status) => (
+                  <button
+                    key={status}
+                    onClick={() => handleStatusFilterChange(status)}
+                    className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                      statusFilter === status
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Search
+              </label>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search by name or email..."
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-64"
+              />
+            </div>
+          </div>
+          <div className="text-sm text-gray-600">
+            Showing {filteredUsers.length} of {users.length} users
+          </div>
         </div>
       </div>
 
@@ -231,9 +270,15 @@ export default function UsersList({ users: initialUsers }) {
         <div className="py-12 text-center">
           <div className="mb-4 text-6xl">👥</div>
           <h3 className="mb-2 text-lg font-medium text-gray-900">
-            No users found
+            {users.length === 0
+              ? "No users found"
+              : "No users match your filters"}
           </h3>
-          <p className="text-gray-600">No users have registered yet.</p>
+          <p className="text-gray-600">
+            {users.length === 0
+              ? "No users have registered yet."
+              : "Try adjusting your search or filter criteria."}
+          </p>
         </div>
       ) : (
         <div className="space-y-4">

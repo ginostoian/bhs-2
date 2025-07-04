@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Modal from "@/components/Modal";
 
@@ -32,6 +32,13 @@ export default function AdminPaymentsClient({
   const [bulkCreateModal, setBulkCreateModal] = useState({
     isOpen: false,
   });
+
+  // New state for filtering, pagination, and collapsible tables
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Show 5 user groups per page
+  const [collapsedUsers, setCollapsedUsers] = useState(new Set()); // All users start collapsed
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Filter users to only show "On Going" users for payment creation
   const onGoingUsers = users.filter(
@@ -89,6 +96,76 @@ export default function AdminPaymentsClient({
     groups[userId].payments.push(payment);
     return groups;
   }, {});
+
+  // Initialize all users as collapsed if collapsedUsers is empty
+  useEffect(() => {
+    if (collapsedUsers.size === 0 && Object.keys(groupedPayments).length > 0) {
+      const allUserIds = Object.keys(groupedPayments);
+      setCollapsedUsers(new Set(allUserIds));
+    }
+  }, [groupedPayments, collapsedUsers.size]);
+
+  // Filter and search logic
+  const filteredGroupedPayments = Object.entries(groupedPayments)
+    .filter(([userId, userGroup]) => {
+      // Filter by user status
+      if (filterStatus !== "all") {
+        const userStatus = userGroup.user?.projectStatus || "Lead";
+        if (filterStatus === "lead" && userStatus !== "Lead") return false;
+        if (filterStatus === "onGoing" && userStatus !== "On Going")
+          return false;
+        if (filterStatus === "finished" && userStatus !== "Finished")
+          return false;
+      }
+
+      // Filter by search term
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        const userNameMatch = userGroup.userName
+          .toLowerCase()
+          .includes(searchLower);
+        const paymentNameMatch = userGroup.payments.some((payment) =>
+          payment.name.toLowerCase().includes(searchLower),
+        );
+        if (!userNameMatch && !paymentNameMatch) return false;
+      }
+
+      return true;
+    })
+    .sort(([, a], [, b]) => a.userName.localeCompare(b.userName));
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredGroupedPayments.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedGroupedPayments = filteredGroupedPayments.slice(
+    startIndex,
+    endIndex,
+  );
+
+  // Toggle collapse state for a user
+  const toggleUserCollapse = (userId) => {
+    setCollapsedUsers((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(userId)) {
+        newSet.delete(userId);
+      } else {
+        newSet.add(userId);
+      }
+      return newSet;
+    });
+  };
+
+  // Reset pagination when filters change
+  const handleFilterChange = (newFilter) => {
+    setFilterStatus(newFilter);
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (newSearch) => {
+    setSearchTerm(newSearch);
+    setCurrentPage(1);
+  };
 
   // Handle drag and drop reordering within a user group
   const handleDragEnd = async (result) => {
@@ -382,187 +459,326 @@ export default function AdminPaymentsClient({
         </div>
       </div>
 
+      {/* Filters and Search */}
+      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6">
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Filter by Status
+              </label>
+              <select
+                value={filterStatus}
+                onChange={(e) => handleFilterChange(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-auto"
+              >
+                <option value="all">All Users</option>
+                <option value="lead">Lead</option>
+                <option value="onGoing">On Going</option>
+                <option value="finished">Finished</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Search
+              </label>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                placeholder="Search by user name or payment name..."
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-64"
+              />
+            </div>
+          </div>
+          <div className="text-sm text-gray-600">
+            Showing {filteredGroupedPayments.length} of{" "}
+            {Object.keys(groupedPayments).length} users
+          </div>
+        </div>
+      </div>
+
       {/* Payments Grouped by User */}
-      {Object.keys(groupedPayments).length === 0 ? (
+      {filteredGroupedPayments.length === 0 ? (
         <div className="py-12 text-center">
           <div className="mb-4 text-6xl">💳</div>
           <h3 className="mb-2 text-lg font-medium text-gray-900">
-            No payments found
+            {Object.keys(groupedPayments).length === 0
+              ? "No payments found"
+              : "No users match your filters"}
           </h3>
           <p className="text-gray-600">
-            Create the first payment to get started.
+            {Object.keys(groupedPayments).length === 0
+              ? "Create the first payment to get started."
+              : "Try adjusting your search or filter criteria."}
           </p>
         </div>
       ) : (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <div className="space-y-6">
-            {Object.entries(groupedPayments).map(([userId, userGroup]) => (
-              <div
-                key={userId}
-                className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow"
-              >
-                {/* User Header */}
-                <div className="border-b border-gray-200 bg-gray-50 px-6 py-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {userGroup.userName}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {userGroup.payments.length} payment
-                    {userGroup.payments.length !== 1 ? "s" : ""}
-                  </p>
-                </div>
+        <>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <div className="space-y-6">
+              {paginatedGroupedPayments.map(([userId, userGroup]) => {
+                const isCollapsed = collapsedUsers.has(userId);
+                const userStatus = userGroup.user?.projectStatus || "Lead";
 
-                {/* User's Payments */}
-                <Droppable droppableId={userId}>
-                  {(provided) => (
+                return (
+                  <div
+                    key={userId}
+                    className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow"
+                  >
+                    {/* User Header - Clickable to toggle collapse */}
                     <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="min-h-[100px]"
+                      className="cursor-pointer border-b border-gray-200 bg-gray-50 px-6 py-4 transition-colors hover:bg-gray-100"
+                      onClick={() => toggleUserCollapse(userId)}
                     >
-                      <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                          <thead className="bg-gray-50">
-                            <tr>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Payment #
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Payment Name
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Amount
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Due Date
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Status
-                              </th>
-                              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Actions
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-gray-200 bg-white">
-                            {userGroup.payments.map((payment, index) => (
-                              <Draggable
-                                key={payment.id}
-                                draggableId={payment.id}
-                                index={index}
-                              >
-                                {(provided, snapshot) => (
-                                  <tr
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    className={`hover:bg-gray-50 ${
-                                      snapshot.isDragging ? "bg-blue-50" : ""
-                                    }`}
-                                  >
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                      <div className="flex items-center">
-                                        <div
-                                          {...provided.dragHandleProps}
-                                          className="mr-2 cursor-move text-gray-400 hover:text-gray-600"
-                                        >
-                                          <svg
-                                            className="h-4 w-4"
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                          >
-                                            <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
-                                          </svg>
-                                        </div>
-                                        {payment.paymentNumber}
-                                      </div>
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                      {payment.name}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
-                                      {formatAmount(payment.amount)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                      {formatDate(payment.dueDate)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                      {getStatusBadge(payment.status)}
-                                    </td>
-                                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                                      <div className="flex space-x-2">
-                                        <button
-                                          onClick={() =>
-                                            setEditModal({
-                                              isOpen: true,
-                                              payment,
-                                            })
-                                          }
-                                          className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
-                                        >
-                                          Edit
-                                        </button>
-                                        <button
-                                          onClick={() =>
-                                            openDeleteModal(payment)
-                                          }
-                                          disabled={isDeleting}
-                                          className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                                        >
-                                          {isDeleting
-                                            ? "Deleting..."
-                                            : "Delete"}
-                                        </button>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </tbody>
-                          {/* Totals Row */}
-                          <tfoot className="bg-gray-50">
-                            <tr>
-                              <td className="px-6 py-4 text-sm font-semibold text-gray-900">
-                                Total
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-600">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <button className="text-gray-400 hover:text-gray-600">
+                            <svg
+                              className={`h-5 w-5 transform transition-transform ${
+                                isCollapsed ? "rotate-90" : ""
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </svg>
+                          </button>
+                          <div>
+                            <h3 className="text-lg font-semibold text-gray-900">
+                              {userGroup.userName}
+                            </h3>
+                            <div className="flex items-center space-x-2">
+                              <span className="text-sm text-gray-600">
                                 {userGroup.payments.length} payment
                                 {userGroup.payments.length !== 1 ? "s" : ""}
-                              </td>
-                              <td className="px-6 py-4 text-sm font-bold text-gray-900">
-                                £
-                                {userGroup.payments
-                                  .reduce(
-                                    (sum, payment) =>
-                                      sum + parseFloat(payment.amount || 0),
-                                    0,
-                                  )
-                                  .toLocaleString("en-GB", {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })}
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-600">
-                                -
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-600">
-                                -
-                              </td>
-                              <td className="px-6 py-4 text-sm text-gray-600">
-                                -
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
+                              </span>
+                              <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-800">
+                                {userStatus}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {isCollapsed
+                            ? "Click to expand"
+                            : "Click to collapse"}
+                        </div>
                       </div>
                     </div>
-                  )}
-                </Droppable>
+
+                    {/* User's Payments - Collapsible */}
+                    {!isCollapsed && (
+                      <Droppable droppableId={userId}>
+                        {(provided) => (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            className="min-h-[100px]"
+                          >
+                            <div className="overflow-x-auto">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                  <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Payment #
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Payment Name
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Amount
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Due Date
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Status
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                      Actions
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 bg-white">
+                                  {userGroup.payments.map((payment, index) => (
+                                    <Draggable
+                                      key={payment.id}
+                                      draggableId={payment.id}
+                                      index={index}
+                                    >
+                                      {(provided, snapshot) => (
+                                        <tr
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          className={`hover:bg-gray-50 ${
+                                            snapshot.isDragging
+                                              ? "bg-blue-50"
+                                              : ""
+                                          }`}
+                                        >
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                                            <div className="flex items-center">
+                                              <div
+                                                {...provided.dragHandleProps}
+                                                className="mr-2 cursor-move text-gray-400 hover:text-gray-600"
+                                              >
+                                                <svg
+                                                  className="h-4 w-4"
+                                                  fill="currentColor"
+                                                  viewBox="0 0 20 20"
+                                                >
+                                                  <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
+                                                </svg>
+                                              </div>
+                                              {payment.paymentNumber}
+                                            </div>
+                                          </td>
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            {payment.name}
+                                          </td>
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                                            {formatAmount(payment.amount)}
+                                          </td>
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            {formatDate(payment.dueDate)}
+                                          </td>
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            {getStatusBadge(payment.status)}
+                                          </td>
+                                          <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                                            <div className="flex space-x-2">
+                                              <button
+                                                onClick={() =>
+                                                  setEditModal({
+                                                    isOpen: true,
+                                                    payment,
+                                                  })
+                                                }
+                                                className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
+                                              >
+                                                Edit
+                                              </button>
+                                              <button
+                                                onClick={() =>
+                                                  openDeleteModal(payment)
+                                                }
+                                                disabled={isDeleting}
+                                                className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                              >
+                                                {isDeleting
+                                                  ? "Deleting..."
+                                                  : "Delete"}
+                                              </button>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      )}
+                                    </Draggable>
+                                  ))}
+                                  {provided.placeholder}
+                                </tbody>
+                                {/* Totals Row */}
+                                <tfoot className="bg-gray-50">
+                                  <tr>
+                                    <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                                      Total
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                      {userGroup.payments.length} payment
+                                      {userGroup.payments.length !== 1
+                                        ? "s"
+                                        : ""}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm font-bold text-gray-900">
+                                      £
+                                      {userGroup.payments
+                                        .reduce(
+                                          (sum, payment) =>
+                                            sum +
+                                            parseFloat(payment.amount || 0),
+                                          0,
+                                        )
+                                        .toLocaleString("en-GB", {
+                                          minimumFractionDigits: 2,
+                                          maximumFractionDigits: 2,
+                                        })}
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                      -
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                      -
+                                    </td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">
+                                      -
+                                    </td>
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                          </div>
+                        )}
+                      </Droppable>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </DragDropContext>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-between">
+              <div className="text-sm text-gray-700">
+                Showing {startIndex + 1} to{" "}
+                {Math.min(endIndex, filteredGroupedPayments.length)} of{" "}
+                {filteredGroupedPayments.length} users
               </div>
-            ))}
-          </div>
-        </DragDropContext>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <div className="flex space-x-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`rounded-md px-3 py-2 text-sm font-medium ${
+                          currentPage === page
+                            ? "bg-blue-600 text-white"
+                            : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ),
+                  )}
+                </div>
+                <button
+                  onClick={() =>
+                    setCurrentPage(Math.min(totalPages, currentPage + 1))
+                  }
+                  disabled={currentPage === totalPages}
+                  className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
 
       {/* Create Payment Modal */}
@@ -840,132 +1056,142 @@ function BulkCreatePaymentModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-2xl transform rounded-lg bg-white p-6 shadow-xl">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">
-          Bulk Create Payments
-        </h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              User
-            </label>
-            <select
-              value={formData.userId}
-              onChange={(e) =>
-                setFormData({ ...formData, userId: e.target.value })
-              }
-              required
-              className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-            >
-              <option value="">
-                {users.length === 0
-                  ? "No users with &quot;On Going&quot; status available"
-                  : "Select user..."}
-              </option>
-              {users.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.name || user.email}
-                </option>
-              ))}
-            </select>
-            {users.length === 0 && (
-              <p className="mt-1 text-sm text-amber-600">
-                Only users with &quot;On Going&quot; project status can have
-                payments. <br />
-                Update user status in the Users section first.
-              </p>
-            )}
-          </div>
+      <div className="relative flex max-h-[90vh] w-full max-w-2xl transform flex-col rounded-lg bg-white shadow-xl">
+        {/* Header */}
+        <div className="border-b border-gray-200 px-6 py-4">
+          <h3 className="text-lg font-semibold text-gray-900">
+            Bulk Create Payments
+          </h3>
+        </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h4 className="text-sm font-medium text-gray-700">Payments</h4>
-              <button
-                type="button"
-                onClick={addPayment}
-                className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700"
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto px-6 py-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                User
+              </label>
+              <select
+                value={formData.userId}
+                onChange={(e) =>
+                  setFormData({ ...formData, userId: e.target.value })
+                }
+                required
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
               >
-                + Add Payment
-              </button>
+                <option value="">
+                  {users.length === 0
+                    ? "No users with &quot;On Going&quot; status available"
+                    : "Select user..."}
+                </option>
+                {users.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.name || user.email}
+                  </option>
+                ))}
+              </select>
+              {users.length === 0 && (
+                <p className="mt-1 text-sm text-amber-600">
+                  Only users with &quot;On Going&quot; project status can have
+                  payments. <br />
+                  Update user status in the Users section first.
+                </p>
+              )}
             </div>
 
-            {formData.payments.map((payment, index) => (
-              <div
-                key={index}
-                className="rounded-lg border border-gray-200 p-4"
-              >
-                <div className="mb-3 flex items-center justify-between">
-                  <span className="text-sm font-medium text-gray-700">
-                    Payment {index + 1}
-                  </span>
-                  {formData.payments.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removePayment(index)}
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      Remove
-                    </button>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                  <div>
-                    <label className="mb-1 block text-xs font-medium text-gray-700">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      value={payment.name}
-                      onChange={(e) =>
-                        updatePayment(index, "name", e.target.value)
-                      }
-                      required
-                      className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                      placeholder="e.g., 1st Instalment"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-medium text-gray-700">
-                      Amount (£)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      value={payment.amount}
-                      onChange={(e) =>
-                        updatePayment(index, "amount", e.target.value)
-                      }
-                      required
-                      className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                      placeholder="0.00"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs font-medium text-gray-700">
-                      Due Date
-                    </label>
-                    <input
-                      type="date"
-                      value={payment.dueDate}
-                      onChange={(e) =>
-                        updatePayment(index, "dueDate", e.target.value)
-                      }
-                      required
-                      className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                    />
-                  </div>
-                </div>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-medium text-gray-700">Payments</h4>
+                <button
+                  type="button"
+                  onClick={addPayment}
+                  className="rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700"
+                >
+                  + Add Payment
+                </button>
               </div>
-            ))}
-          </div>
 
+              {formData.payments.map((payment, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg border border-gray-200 p-4"
+                >
+                  <div className="mb-3 flex items-center justify-between">
+                    <span className="text-sm font-medium text-gray-700">
+                      Payment {index + 1}
+                    </span>
+                    {formData.payments.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removePayment(index)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-gray-700">
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        value={payment.name}
+                        onChange={(e) =>
+                          updatePayment(index, "name", e.target.value)
+                        }
+                        required
+                        className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                        placeholder="e.g., 1st Instalment"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-gray-700">
+                        Amount (£)
+                      </label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={payment.amount}
+                        onChange={(e) =>
+                          updatePayment(index, "amount", e.target.value)
+                        }
+                        required
+                        className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                        placeholder="0.00"
+                      />
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-xs font-medium text-gray-700">
+                        Due Date
+                      </label>
+                      <input
+                        type="date"
+                        value={payment.dueDate}
+                        onChange={(e) =>
+                          updatePayment(index, "dueDate", e.target.value)
+                        }
+                        required
+                        className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </form>
+        </div>
+
+        {/* Fixed Footer with Buttons */}
+        <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
           <div className="flex justify-end space-x-3">
             <button
               type="button"
@@ -977,12 +1203,13 @@ function BulkCreatePaymentModal({
             <button
               type="submit"
               disabled={isSubmitting || users.length === 0}
+              onClick={handleSubmit}
               className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? "Creating..." : "Create Payments"}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

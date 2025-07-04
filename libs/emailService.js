@@ -41,7 +41,7 @@ export const sendEmailWithTracking = async (emailData) => {
 
     // Add default reply-to if not provided
     if (!emailData.replyTo) {
-      emailData.replyTo = config.mailgun.supportEmail;
+      emailData.replyTo = config.resend.supportEmail;
     }
 
     // Send email via Resend
