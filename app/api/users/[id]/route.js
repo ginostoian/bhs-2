@@ -132,6 +132,35 @@ export async function PUT(req, { params }) {
       }
     }
 
+    // Create Project record if status changed to "On Going"
+    if (statusChanged && newStatus === "On Going") {
+      try {
+        const Project = mongoose.model("Project");
+        const existingProject = await Project.findOne({ user: id });
+
+        if (!existingProject) {
+          const projectData = {
+            user: id,
+            name: `${updatedUser.name || "Project"} - ${newStatus}`,
+            description: `Project for ${updatedUser.name || updatedUser.email}`,
+            type: "renovation", // Default type
+            status: "On Going",
+            startDate: new Date(),
+            location: "Not specified",
+            priority: "medium",
+            progress: 0,
+            tags: ["auto-created"],
+          };
+
+          await Project.create(projectData);
+          console.log(`✅ Created project for user ${updatedUser.email}`);
+        }
+      } catch (projectError) {
+        console.error("Failed to create project:", projectError);
+        // Don't fail the user update if project creation fails
+      }
+    }
+
     return NextResponse.json({
       user: {
         id: updatedUser.id,

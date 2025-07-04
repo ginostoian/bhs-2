@@ -31,10 +31,10 @@ const userSchema = mongoose.Schema(
     image: {
       type: String,
     },
-    // User role for access control (user = regular user, admin = administrator)
+    // User role for access control (user = regular user, admin = administrator, employee = restricted access)
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["user", "admin", "employee"],
       default: "user",
     },
     // Stripe customer ID for payment processing

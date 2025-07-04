@@ -13,6 +13,8 @@ export default function AdminSidebar() {
   // Navigation items configuration
   const navItems = [
     { name: "Users", href: "/admin", icon: "👥" },
+    { name: "Projects", href: "/admin/projects", icon: "🏗️" },
+    { name: "Employees", href: "/admin/employees", icon: "👷" },
     { name: "Instructions", href: "/admin/instructions", icon: "📋" },
     { name: "Payments", href: "/admin/payments", icon: "💳" },
     { name: "Add Document", href: "/admin/add-document", icon: "📄" },
