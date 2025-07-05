@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route.js";
+import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Milestone from "../../../../models/Milestone.js";
 import Project from "../../../../models/Project.js";

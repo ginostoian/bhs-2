@@ -649,8 +649,8 @@ export default function UserDetailClient({
           </h3>
           <p className="text-gray-600">
             {activeTab === "all"
-              ? "This user hasn't created any documents yet."
-              : `This user hasn't created any ${activeTab}s yet.`}
+              ? "This user hasn&apos;t created any documents yet."
+              : `This user hasn&apos;t created any ${activeTab}s yet.`}
           </p>
         </div>
       ) : (
