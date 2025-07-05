@@ -62,6 +62,34 @@ const userSchema = mongoose.Schema(
       enum: ["Lead", "On Going", "Finished"],
       default: "Lead",
     },
+    // User address
+    address: {
+      type: String,
+      trim: true,
+    },
+    // User phone number
+    phone: {
+      type: String,
+      trim: true,
+    },
+    // Source (how user found us)
+    source: {
+      type: String,
+      enum: [
+        "Organic",
+        "Google Ads",
+        "Meta Ads",
+        "Houzz",
+        "MyBuilder",
+        "Returning Customer",
+        "Referral",
+      ],
+    },
+    // Has the user left a review?
+    leftReview: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

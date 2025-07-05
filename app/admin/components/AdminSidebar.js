@@ -14,6 +14,7 @@ export default function AdminSidebar() {
   const navItems = [
     { name: "Users", href: "/admin", icon: "👥" },
     { name: "Projects", href: "/admin/projects", icon: "🏗️" },
+    { name: "Finished Projects", href: "/admin/finished-projects", icon: "✅" },
     { name: "Employees", href: "/admin/employees", icon: "👷" },
     { name: "Instructions", href: "/admin/instructions", icon: "📋" },
     { name: "Payments", href: "/admin/payments", icon: "💳" },

@@ -49,6 +49,26 @@ export default async function AdminProjectsPage() {
         <p className="text-gray-600">
           Manage ongoing renovation projects and track progress
         </p>
+        <div className="mt-4 rounded-lg bg-blue-50 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <span className="text-blue-400">ℹ️</span>
+            </div>
+            <div className="ml-3">
+              <p className="text-sm text-blue-700">
+                <strong>Note:</strong> Finished projects are moved to the{" "}
+                <a
+                  href="/admin/finished-projects"
+                  className="font-medium underline hover:text-blue-600"
+                >
+                  Finished Projects
+                </a>{" "}
+                section where you can review completed work and project
+                outcomes.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Projects List */}

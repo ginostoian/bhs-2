@@ -5,6 +5,7 @@ import Link from "next/link";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import DocumentList from "../../../../dashboard/components/DocumentList";
 import Modal from "@/components/Modal";
+import UserInfoModal from "./UserInfoModal";
 
 /**
  * User Detail Client Component
@@ -40,43 +41,67 @@ export default function UserDetailClient({
   const [createModal, setCreateModal] = useState({
     isOpen: false,
   });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(user);
 
-  // Handle document deletion
-  const handleDeleteDocument = async (documentId, documentType) => {
-    setIsDeleting(true);
-
-    try {
-      const response = await fetch(`/api/documents/${documentId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete document");
-      }
-
-      // Remove document from state
-      setDocumentsByType((prev) => ({
-        ...prev,
-        [documentType]: prev[documentType].filter(
-          (doc) => doc.id !== documentId,
-        ),
-      }));
-    } catch (error) {
-      console.error("Error deleting document:", error);
-      // Show error modal
-      setModalState({
-        isOpen: true,
-        title: "Error",
-        message: "Failed to delete document. Please try again.",
-        type: "alert",
-        confirmText: "OK",
-      });
-    } finally {
-      setIsDeleting(false);
-    }
+  // Helper functions
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
   };
 
-  // Open delete confirmation modal
+  const formatAmount = (amount) => {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(amount);
+  };
+
+  const isPdfUrl = (content) => {
+    return (
+      typeof content === "string" &&
+      content.startsWith("http") &&
+      content.toLowerCase().includes(".pdf")
+    );
+  };
+
+  const getStatusBadge = (status) => {
+    const styles = {
+      Lead: "bg-blue-100 text-blue-800",
+      "On Going": "bg-yellow-100 text-yellow-800",
+      Finished: "bg-green-100 text-green-800",
+    };
+
+    return (
+      <span
+        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+          styles[status] || "bg-gray-100 text-gray-800"
+        }`}
+      >
+        {status || "Unknown"}
+      </span>
+    );
+  };
+
+  const getAllDocuments = () => {
+    return [
+      ...documentsByType.photo,
+      ...documentsByType.comment,
+      ...documentsByType.quote,
+      ...documentsByType.invoice,
+    ];
+  };
+
+  const getCurrentDocuments = () => {
+    if (activeTab === "all") {
+      return getAllDocuments();
+    }
+    return documentsByType[activeTab] || [];
+  };
+
   const openDeleteModal = (documentId, documentType, documentContent) => {
     setModalState({
       isOpen: true,
@@ -91,126 +116,38 @@ export default function UserDetailClient({
     });
   };
 
-  // Format date for display
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
-
-  // Format amount for display
-  const formatAmount = (amount) => {
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    }).format(amount);
-  };
-
-  // Check if content is a PDF URL
-  const isPdfUrl = (content) => {
-    return (
-      typeof content === "string" &&
-      content.startsWith("http") &&
-      content.toLowerCase().includes(".pdf")
-    );
-  };
-
-  // Get status badge styling
-  const getStatusBadge = (status) => {
-    const styles = {
-      Scheduled: "bg-blue-100 text-blue-800",
-      Due: "bg-yellow-100 text-yellow-800",
-      Paid: "bg-green-100 text-green-800",
-    };
-
-    return (
-      <span
-        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status]}`}
-      >
-        {status}
-      </span>
-    );
-  };
-
-  // Get all documents for display
-  const getAllDocuments = () => {
-    return Object.values(documentsByType).flat();
-  };
-
-  // Get documents for current tab
-  const getCurrentDocuments = () => {
-    if (activeTab === "all") {
-      return getAllDocuments();
-    }
-    return documentsByType[activeTab] || [];
-  };
-
-  // Handle drag and drop reordering for payments
-  const handleDragEnd = async (result) => {
-    if (!result.destination || !payments) return;
-
-    const { source, destination } = result;
-    const items = Array.from(payments);
-    const [reorderedItem] = items.splice(source.index, 1);
-    items.splice(destination.index, 0, reorderedItem);
-
-    // Update local state
-    setPayments(items);
-
-    // Update order in database
-    try {
-      const response = await fetch(`/api/payments/${reorderedItem.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          newOrder: destination.index + 1,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to reorder payment");
-      }
-    } catch (error) {
-      console.error("Error reordering payment:", error);
-      setModalState({
-        isOpen: true,
-        title: "Error",
-        message: "Failed to reorder payment. Please try again.",
-        type: "alert",
-        confirmText: "OK",
-      });
-    }
-  };
-
-  // Handle payment deletion
-  const handleDeletePayment = async (paymentId) => {
+  const handleDeleteDocument = async (documentId, documentType) => {
     setIsDeleting(true);
-
     try {
-      const response = await fetch(`/api/payments/${paymentId}`, {
+      const response = await fetch(`/api/documents/${documentId}`, {
         method: "DELETE",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to delete payment");
-      }
+      if (response.ok) {
+        // Remove from local state
+        setDocumentsByType((prev) => ({
+          ...prev,
+          [documentType]: prev[documentType].filter(
+            (doc) => doc.id !== documentId,
+          ),
+        }));
 
-      // Remove payment from state
-      setPayments((prevPayments) =>
-        (prevPayments || []).filter((payment) => payment.id !== paymentId),
-      );
+        setModalState({
+          isOpen: true,
+          title: "Success",
+          message: `${documentType} deleted successfully.`,
+          type: "alert",
+          confirmText: "OK",
+        });
+      } else {
+        throw new Error("Failed to delete document");
+      }
     } catch (error) {
-      console.error("Error deleting payment:", error);
+      console.error("Error deleting document:", error);
       setModalState({
         isOpen: true,
         title: "Error",
-        message: "Failed to delete payment. Please try again.",
+        message: "Failed to delete document. Please try again.",
         type: "alert",
         confirmText: "OK",
       });
@@ -219,33 +156,75 @@ export default function UserDetailClient({
     }
   };
 
-  // Handle payment update
-  const handleUpdatePayment = async (paymentId, updatedData) => {
+  const handleCreatePayment = async (paymentData) => {
     setIsSubmitting(true);
-
     try {
-      const response = await fetch(`/api/payments/${paymentId}`, {
+      const response = await fetch("/api/payments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...paymentData,
+          user: user.id,
+        }),
+      });
+
+      if (response.ok) {
+        const newPayment = await response.json();
+        setPayments((prev) => [...prev, newPayment]);
+        setCreateModal({ isOpen: false });
+        setModalState({
+          isOpen: true,
+          title: "Success",
+          message: "Payment created successfully.",
+          type: "alert",
+          confirmText: "OK",
+        });
+      } else {
+        throw new Error("Failed to create payment");
+      }
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to create payment. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdatePayment = async (paymentData) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`/api/payments/${paymentData.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(paymentData),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        const updatedPayment = await response.json();
+        setPayments((prev) =>
+          prev.map((p) => (p.id === paymentData.id ? updatedPayment : p)),
+        );
+        setEditModal({ isOpen: false, payment: null });
+        setModalState({
+          isOpen: true,
+          title: "Success",
+          message: "Payment updated successfully.",
+          type: "alert",
+          confirmText: "OK",
+        });
+      } else {
         throw new Error("Failed to update payment");
       }
-
-      const { payment } = await response.json();
-
-      // Update payment in state
-      setPayments((prevPayments) =>
-        prevPayments.map((p) =>
-          p.id === paymentId ? { ...p, ...payment } : p,
-        ),
-      );
-
-      setEditModal({ isOpen: false, payment: null });
     } catch (error) {
       console.error("Error updating payment:", error);
       setModalState({
@@ -260,47 +239,64 @@ export default function UserDetailClient({
     }
   };
 
-  // Handle payment creation
-  const handleCreatePayment = async (paymentData) => {
-    setIsSubmitting(true);
-
+  const handleDeletePayment = async (paymentId) => {
+    setIsDeleting(true);
     try {
-      const response = await fetch("/api/payments", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...paymentData,
-          user: user.id,
-        }),
+      const response = await fetch(`/api/payments/${paymentId}`, {
+        method: "DELETE",
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to create payment");
+      if (response.ok) {
+        setPayments((prev) => prev.filter((p) => p.id !== paymentId));
+        setModalState({
+          isOpen: true,
+          title: "Success",
+          message: "Payment deleted successfully.",
+          type: "alert",
+          confirmText: "OK",
+        });
+      } else {
+        throw new Error("Failed to delete payment");
       }
-
-      const responseData = await response.json();
-
-      // Add payment to state - the API returns { payment: { ... } }
-      setPayments((prevPayments) => [
-        ...(prevPayments || []),
-        responseData.payment,
-      ]);
-
-      setCreateModal({ isOpen: false });
     } catch (error) {
-      console.error("Error creating payment:", error);
+      console.error("Error deleting payment:", error);
       setModalState({
         isOpen: true,
         title: "Error",
-        message: "Failed to create payment. Please try again.",
+        message: "Failed to delete payment. Please try again.",
         type: "alert",
         confirmText: "OK",
       });
     } finally {
-      setIsSubmitting(false);
+      setIsDeleting(false);
+    }
+  };
+
+  const handleDragEnd = async (result) => {
+    if (!result.destination) return;
+
+    const items = Array.from(payments);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setPayments(items);
+
+    // Update order in database
+    try {
+      await fetch("/api/payments/update-statuses", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          payments: items.map((item, index) => ({
+            id: item.id,
+            order: index + 1,
+          })),
+        }),
+      });
+    } catch (error) {
+      console.error("Error updating payment order:", error);
     }
   };
 
@@ -319,19 +315,40 @@ export default function UserDetailClient({
           </Link>
         </div>
 
-        <div className="mt-4 flex items-center space-x-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-xl font-medium text-white">
-            {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
+        <div className="mt-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-500 text-xl font-medium text-white">
+              {currentUser.name?.charAt(0) ||
+                currentUser.email?.charAt(0) ||
+                "U"}
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                {currentUser.name || "Unknown User"}
+              </h1>
+              <p className="text-lg text-gray-600">{currentUser.email}</p>
+              <div className="mt-1 space-y-1 text-sm text-gray-500">
+                {currentUser.phone && <p>📞 {currentUser.phone}</p>}
+                {currentUser.address && <p>📍 {currentUser.address}</p>}
+                {currentUser.source && <p>🎯 Source: {currentUser.source}</p>}
+                <p>⭐ Left Review: {currentUser.leftReview ? "Yes" : "No"}</p>
+                <p>
+                  Role:{" "}
+                  <span className="font-medium">
+                    {currentUser.role || "user"}
+                  </span>{" "}
+                  • Joined: {formatDate(currentUser.createdAt)}
+                </p>
+              </div>
+            </div>
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              {user.name || "Unknown User"}
-            </h1>
-            <p className="text-lg text-gray-600">{user.email}</p>
-            <p className="text-sm text-gray-500">
-              Role: <span className="font-medium">{user.role || "user"}</span> •
-              Joined: {formatDate(user.createdAt)}
-            </p>
+            <button
+              onClick={() => setModalOpen(true)}
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Edit User Info
+            </button>
           </div>
         </div>
       </div>
@@ -891,6 +908,16 @@ export default function UserDetailClient({
           isSubmitting={isSubmitting}
         />
       )}
+
+      <UserInfoModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        user={currentUser}
+        onSave={(u) => {
+          setCurrentUser(u);
+          setModalOpen(false);
+        }}
+      />
     </div>
   );
 }
@@ -1006,15 +1033,18 @@ function CreatePaymentModal({ onClose, onSubmit, isSubmitting }) {
 // Edit Payment Modal Component
 function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
   const [formData, setFormData] = useState({
+    id: payment.id,
     name: payment.name,
-    amount: payment.amount.toString(),
-    dueDate: new Date(payment.dueDate).toISOString().split("T")[0],
+    amount: payment.amount,
+    dueDate: payment.dueDate
+      ? new Date(payment.dueDate).toISOString().split("T")[0]
+      : "",
     status: payment.status,
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(payment.id, {
+    onSubmit({
       ...formData,
       amount: parseFloat(formData.amount),
       dueDate: new Date(formData.dueDate).toISOString(),

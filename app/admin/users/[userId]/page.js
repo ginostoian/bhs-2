@@ -4,37 +4,34 @@ import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
 import Document from "@/models/Document";
 import Payment from "@/models/Payment";
-import { notFound } from "next/navigation";
 import UserDetailClient from "./components/UserDetailClient";
 
 /**
  * User Detail Page
  * Shows all documents for a specific user with management capabilities
  */
-export default async function UserDetailPage({ params }) {
-  // Get user session
+export default async function AdminUserDetailPage({ params }) {
   const session = await getServerSession(authOptions);
-
-  // Check if user is admin
-  if (!session?.user?.role === "admin") {
-    return notFound();
-  }
-
-  // Connect to MongoDB
   await connectMongoose();
+  const user = await User.findById(params.userId).lean();
+  if (!user) return <div className="p-8">User not found.</div>;
 
-  // Fetch user
-  const user = await User.findById(params.userId)
-    .lean()
-    .then((doc) => ({
-      ...doc,
-      id: doc._id.toString(),
-      _id: undefined,
-    }));
-
-  if (!user) {
-    return notFound();
-  }
+  // Convert user to plain object
+  const userData = {
+    id: user._id.toString(),
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    address: user.address,
+    source: user.source,
+    leftReview: user.leftReview,
+    role: user.role,
+    projectStatus: user.projectStatus,
+    image: user.image,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+    emailVerified: user.emailVerified,
+  };
 
   // Fetch all documents for this user
   let documents = [];
@@ -45,16 +42,19 @@ export default async function UserDetailPage({ params }) {
       .lean()
       .then((docs) =>
         docs.map((doc) => ({
-          ...doc,
           id: doc._id.toString(),
-          _id: undefined,
+          type: doc.type,
+          content: doc.content,
+          status: doc.status,
+          createdAt: doc.createdAt,
+          updatedAt: doc.updatedAt,
           user: doc.user
             ? {
-                ...doc.user,
                 id: doc.user._id.toString(),
-                _id: undefined,
+                name: doc.user.name,
+                email: doc.user.email,
               }
-            : doc.user,
+            : null,
         })),
       );
   } catch (error) {
@@ -71,37 +71,25 @@ export default async function UserDetailPage({ params }) {
       .lean()
       .then((docs) =>
         docs.map((doc) => ({
-          ...doc,
           id: doc._id.toString(),
-          _id: undefined,
+          name: doc.name,
+          amount: doc.amount,
+          dueDate: doc.dueDate,
+          status: doc.status,
+          paymentNumber: doc.paymentNumber,
+          order: doc.order,
           user: doc.user
             ? {
-                ...doc.user,
                 id: doc.user._id.toString(),
-                _id: undefined,
+                name: doc.user.name,
+                email: doc.user.email,
               }
-            : doc.user,
+            : null,
         })),
       );
   } catch (error) {
     console.error("Error fetching payments:", error);
     payments = [];
-  }
-
-  // Update payment statuses based on due dates
-  for (const payment of payments) {
-    try {
-      const paymentDoc = await Payment.findById(payment.id);
-      if (paymentDoc) {
-        paymentDoc.updateStatus();
-        if (paymentDoc.isModified()) {
-          await paymentDoc.save();
-          payment.status = paymentDoc.status;
-        }
-      }
-    } catch (error) {
-      console.error("Error updating payment status:", error);
-    }
   }
 
   // Group documents by type
@@ -113,12 +101,10 @@ export default async function UserDetailPage({ params }) {
   };
 
   return (
-    <div>
-      <UserDetailClient
-        user={user}
-        documentsByType={documentsByType}
-        payments={payments}
-      />
-    </div>
+    <UserDetailClient
+      user={userData}
+      documentsByType={documentsByType}
+      payments={payments}
+    />
   );
 }

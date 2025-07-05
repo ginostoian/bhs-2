@@ -5,6 +5,15 @@
  * Displays a list of documents with appropriate formatting for each type
  */
 export default function DocumentList({ documents, type }) {
+  // Safety check for documents prop
+  if (!documents || !Array.isArray(documents)) {
+    return (
+      <div className="py-8 text-center text-gray-500">
+        No documents available.
+      </div>
+    );
+  }
+
   // Format date for display
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-GB", {

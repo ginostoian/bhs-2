@@ -88,6 +88,10 @@ const projectSchema = mongoose.Schema(
       max: 100,
       default: 0,
     },
+    // Projected finish date
+    projectedFinishDate: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

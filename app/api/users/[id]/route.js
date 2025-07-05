@@ -24,8 +24,28 @@ export async function PUT(req, { params }) {
     const body = await req.json();
     console.log("Full request body:", body);
 
-    const { email, name, role, projectStatus } = body;
-    console.log("Extracted fields:", { email, name, role, projectStatus });
+    const {
+      email,
+      name,
+      role,
+      projectStatus,
+      phone,
+      address,
+      source,
+      leftReview,
+      image,
+    } = body;
+    console.log("Extracted fields:", {
+      email,
+      name,
+      role,
+      projectStatus,
+      phone,
+      address,
+      source,
+      leftReview,
+      image,
+    });
     console.log(
       "Project status type:",
       typeof projectStatus,
@@ -71,6 +91,11 @@ export async function PUT(req, { params }) {
     if (name !== undefined) updateData.name = name;
     if (role !== undefined) updateData.role = role;
     if (projectStatus !== undefined) updateData.projectStatus = projectStatus;
+    if (phone !== undefined) updateData.phone = phone;
+    if (address !== undefined) updateData.address = address;
+    if (source !== undefined) updateData.source = source;
+    if (leftReview !== undefined) updateData.leftReview = leftReview;
+    if (image !== undefined) updateData.image = image;
 
     console.log("Update data being applied:", updateData);
 
@@ -82,27 +107,52 @@ export async function PUT(req, { params }) {
     // Update user
     console.log("Attempting to update user with data:", updateData);
 
-    const updatedUser = await User.findByIdAndUpdate(id, updateData, {
-      new: true,
-      runValidators: true,
-    });
+    let updatedUser;
+    try {
+      updatedUser = await User.findOneAndUpdate({ _id: id }, updateData, {
+        new: true,
+        runValidators: true,
+      });
 
-    if (!updatedUser) {
-      console.log("Failed to update user - no user returned");
+      if (!updatedUser) {
+        console.log("Failed to update user - no user returned");
+        return NextResponse.json(
+          { error: "Failed to update user" },
+          { status: 500 },
+        );
+      }
+
+      console.log("User updated successfully:", updatedUser.email);
+      console.log("Updated user data - basic fields:", {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        role: updatedUser.role,
+        projectStatus: updatedUser.projectStatus,
+      });
+
+      // Debug: Check if the new fields are actually in the database
+      console.log("Updated user - phone:", updatedUser.phone);
+      console.log("Updated user - address:", updatedUser.address);
+      console.log("Updated user - source:", updatedUser.source);
+      console.log("Updated user - leftReview:", updatedUser.leftReview);
+
+      // Fetch fresh from database to verify
+      const freshUser = await User.findById(id).lean();
+      console.log("Fresh user from database - phone:", freshUser.phone);
+      console.log("Fresh user from database - address:", freshUser.address);
+      console.log("Fresh user from database - source:", freshUser.source);
+      console.log(
+        "Fresh user from database - leftReview:",
+        freshUser.leftReview,
+      );
+    } catch (error) {
+      console.error("Database update error:", error);
       return NextResponse.json(
-        { error: "Failed to update user" },
+        { error: "Database update failed: " + error.message },
         { status: 500 },
       );
     }
-
-    console.log("User updated successfully:", updatedUser.email);
-    console.log("Updated user data:", {
-      id: updatedUser.id,
-      email: updatedUser.email,
-      name: updatedUser.name,
-      role: updatedUser.role,
-      projectStatus: updatedUser.projectStatus,
-    });
 
     // Send project status update email if status changed
     if (statusChanged) {
@@ -161,16 +211,25 @@ export async function PUT(req, { params }) {
       }
     }
 
-    return NextResponse.json({
+    const responseData = {
       user: {
         id: updatedUser.id,
         email: updatedUser.email,
         name: updatedUser.name,
+        phone: updatedUser.phone,
+        address: updatedUser.address,
+        source: updatedUser.source,
+        leftReview: updatedUser.leftReview,
         role: updatedUser.role,
         projectStatus: updatedUser.projectStatus,
+        image: updatedUser.image,
         createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
+        emailVerified: updatedUser.emailVerified,
       },
-    });
+    };
+
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error("PUT /api/users/[id] error:", error);
     console.error("Error stack:", error.stack);
