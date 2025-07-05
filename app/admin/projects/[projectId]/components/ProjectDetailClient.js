@@ -829,11 +829,12 @@ export default function ProjectDetailClient({
                   </li>
                   <li className="flex items-start">
                     <span className="mr-2 text-green-500">•</span>
-                    Update the project status to "Finished"
+                    Update the project status to &quot;Finished&quot;
                   </li>
                   <li className="flex items-start">
                     <span className="mr-2 text-green-500">•</span>
-                    Update the user's project status to "Finished"
+                    Update the user&apos;s project status to
+                    &quot;Finished&quot;
                   </li>
                   <li className="flex items-start">
                     <span className="mr-2 text-yellow-500">•</span>
