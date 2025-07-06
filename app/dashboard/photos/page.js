@@ -2,11 +2,11 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
-import DocumentList from "../components/DocumentList";
+import PhotoSlideshow from "../components/PhotoSlideshow";
 
 /**
  * Photos Dashboard Page
- * Displays user's project photos
+ * Displays user's project photos in a slideshow format
  */
 export default async function PhotosPage() {
   // Get user session
@@ -45,23 +45,11 @@ export default async function PhotosPage() {
           Project Photos
         </h2>
         <p className="text-gray-600">
-          View photos from your renovation project
+          View photos from your renovation project in a slideshow format
         </p>
       </div>
 
-      {photos.length === 0 ? (
-        <div className="py-12 text-center">
-          <div className="mb-4 text-6xl">📸</div>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">
-            No photos yet
-          </h3>
-          <p className="text-gray-600">
-            Project photos will be added here by our team as work progresses.
-          </p>
-        </div>
-      ) : (
-        <DocumentList documents={photos} type="photo" />
-      )}
+      <PhotoSlideshow photos={photos} />
     </div>
   );
 }
