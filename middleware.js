@@ -18,6 +18,14 @@ export default withAuth(
       }
     }
 
+    // Employee routes - require employee role
+    if (pathname.startsWith("/employee")) {
+      if (token?.role !== "employee") {
+        // Redirect non-employee users to sign in page
+        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+      }
+    }
+
     // Dashboard routes - require authentication (any role)
     if (pathname.startsWith("/dashboard")) {
       if (!token) {
@@ -34,9 +42,10 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
 
-        // Run middleware for admin and dashboard routes
+        // Run middleware for admin, employee, and dashboard routes
         if (
           pathname.startsWith("/admin") ||
+          pathname.startsWith("/employee") ||
           pathname.startsWith("/dashboard")
         ) {
           return !!token; // Return true if token exists
@@ -50,5 +59,5 @@ export default withAuth(
 
 // Configure which paths the middleware should run on
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard/:path*"],
+  matcher: ["/admin/:path*", "/employee/:path*", "/dashboard/:path*"],
 };

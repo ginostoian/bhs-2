@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Employee from "@/models/Employee";
+import User from "@/models/User";
 import { requireAdmin } from "@/libs/requireAdmin";
+import { notifyEmployeeCreation } from "@/libs/notificationService";
 
 /**
  * GET /api/employees
@@ -30,6 +32,7 @@ export async function POST(req) {
     await requireAdmin(req);
     await connectMongoose();
     const body = await req.json();
+
     // Validate required fields
     if (!body.name || !body.email || !body.position) {
       return NextResponse.json(
@@ -37,6 +40,7 @@ export async function POST(req) {
         { status: 400 },
       );
     }
+
     // Check if employee already exists
     const existing = await Employee.findOne({
       email: body.email.toLowerCase(),
@@ -47,11 +51,27 @@ export async function POST(req) {
         { status: 409 },
       );
     }
+
+    // Handle user conversion if requested
+    if (body.convertUser && body.userId) {
+      const user = await User.findById(body.userId);
+      if (!user) {
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+      }
+
+      // Update user role to employee
+      user.role = "employee";
+      await user.save();
+    }
+
     // Create employee
     const employee = await Employee.create({
       name: body.name,
       email: body.email.toLowerCase(),
-      image: body.image,
+      image:
+        body.image || body.convertUser
+          ? (await User.findOne({ email: body.email.toLowerCase() }))?.image
+          : undefined,
       phone: body.phone,
       position: body.position,
       skills: body.skills,
@@ -60,6 +80,19 @@ export async function POST(req) {
       availability: body.availability,
       notes: body.notes,
     });
+
+    // Send notification to admins
+    try {
+      await notifyEmployeeCreation({
+        name: employee.name,
+        email: employee.email,
+        position: employee.position,
+      });
+    } catch (notificationError) {
+      console.error("Failed to send notification:", notificationError);
+      // Don't fail the request if notification fails
+    }
+
     return NextResponse.json({ employee }, { status: 201 });
   } catch (error) {
     return NextResponse.json(

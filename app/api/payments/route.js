@@ -146,8 +146,9 @@ export async function POST(req) {
 
       if (daysUntilDue <= 7) {
         // If payment is due within 7 days, create a due notification
-        await Notification.createNotification({
-          user: targetUserId,
+        await Notification.createNotificationForRecipient({
+          recipient: targetUserId,
+          recipientType: "user",
           type: "payment_due",
           title: "Payment Due Soon",
           message: `Payment "${name}" is due in ${daysUntilDue} day${daysUntilDue !== 1 ? "s" : ""}.`,
@@ -164,8 +165,9 @@ export async function POST(req) {
       }
 
       // Also create a payment plan updated notification
-      await Notification.createNotification({
-        user: targetUserId,
+      await Notification.createNotificationForRecipient({
+        recipient: targetUserId,
+        recipientType: "user",
         type: "payment_plan_updated",
         title: "Payment Plan Updated",
         message: "A new payment plan has been created for your project.",

@@ -22,14 +22,40 @@ export async function POST(req) {
     // Connect to MongoDB
     await connectMongoose();
 
+    // Determine recipient type based on user role
+    let recipientType = "user";
+    if (session.user.role === "admin") {
+      recipientType = "admin";
+    } else if (session.user.role === "employee") {
+      recipientType = "employee";
+    }
+
     let result;
 
     if (markAll) {
       // Mark all notifications as read
-      result = await Notification.markAllAsRead(session.user.id);
+      result = await Notification.updateMany(
+        {
+          recipient: session.user.id,
+          recipientType: recipientType,
+          isRead: false,
+        },
+        {
+          $set: { isRead: true },
+        },
+      );
     } else if (notificationIds && notificationIds.length > 0) {
       // Mark specific notifications as read
-      result = await Notification.markAsRead(session.user.id, notificationIds);
+      result = await Notification.updateMany(
+        {
+          _id: { $in: notificationIds },
+          recipient: session.user.id,
+          recipientType: recipientType,
+        },
+        {
+          $set: { isRead: true },
+        },
+      );
     } else {
       return NextResponse.json(
         { error: "No notification IDs provided" },
@@ -38,7 +64,11 @@ export async function POST(req) {
     }
 
     // Get updated unread count
-    const unreadCount = await Notification.getUnreadCount(session.user.id);
+    const unreadCount = await Notification.countDocuments({
+      recipient: session.user.id,
+      recipientType: recipientType,
+      isRead: false,
+    });
 
     return NextResponse.json({
       success: true,

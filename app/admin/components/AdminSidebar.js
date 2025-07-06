@@ -16,12 +16,22 @@ export default function AdminSidebar() {
     { name: "Projects", href: "/admin/projects", icon: "🏗️" },
     { name: "Finished Projects", href: "/admin/finished-projects", icon: "✅" },
     { name: "Employees", href: "/admin/employees", icon: "👷" },
+    {
+      name: "Task Status Updates",
+      href: "/admin/task-status-updates",
+      icon: "⏳",
+    },
     { name: "Moodboards", href: "/admin/moodboards", icon: "🎨" },
     { name: "Product Database", href: "/admin/products", icon: "📦" },
     { name: "Instructions", href: "/admin/instructions", icon: "📋" },
     { name: "Payments", href: "/admin/payments", icon: "💳" },
     { name: "Add Document", href: "/admin/add-document", icon: "📄" },
     { name: "Notifications", href: "/admin/notifications", icon: "🔔" },
+    {
+      name: "Test Notifications",
+      href: "/admin/test-notifications",
+      icon: "🧪",
+    },
     { name: "Email Analytics", href: "/admin/email-analytics", icon: "📊" },
   ];
 

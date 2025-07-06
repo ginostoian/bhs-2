@@ -25,8 +25,16 @@ export async function GET(req) {
     const offset = parseInt(searchParams.get("offset")) || 0;
     const unreadOnly = searchParams.get("unread") === "true";
 
+    // Determine recipient type based on user role
+    let recipientType = "user";
+    if (session.user.role === "admin") {
+      recipientType = "admin";
+    } else if (session.user.role === "employee") {
+      recipientType = "employee";
+    }
+
     // Build query
-    const query = { user: session.user.id };
+    const query = { recipient: session.user.id, recipientType: recipientType };
     if (unreadOnly) {
       query.isRead = false;
     }
@@ -36,21 +44,33 @@ export async function GET(req) {
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(offset)
-      .lean()
-      .then((docs) =>
-        docs.map((doc) => ({
-          ...doc,
-          id: doc._id.toString(),
-          _id: undefined,
-        })),
-      );
+      .lean();
+
+    // Convert to plain objects with proper ID handling
+    const notificationsData = notifications.map((doc) => ({
+      id: doc._id.toString(),
+      type: doc.type,
+      title: doc.title,
+      message: doc.message,
+      isRead: doc.isRead,
+      relatedId: doc.relatedId ? doc.relatedId.toString() : null,
+      relatedModel: doc.relatedModel,
+      priority: doc.priority,
+      metadata: doc.metadata,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    }));
 
     // Get total count for pagination
     const totalCount = await Notification.countDocuments(query);
-    const unreadCount = await Notification.getUnreadCount(session.user.id);
+    const unreadCount = await Notification.countDocuments({
+      recipient: session.user.id,
+      recipientType: recipientType,
+      isRead: false,
+    });
 
     return NextResponse.json({
-      notifications,
+      notifications: notificationsData,
       pagination: {
         total: totalCount,
         limit,
@@ -76,7 +96,7 @@ export async function POST(req) {
   try {
     // Get user session
     const session = await getServerSession(authOptions);
-    if (!session?.user?.role !== "admin") {
+    if (session?.user?.role !== "admin") {
       return NextResponse.json(
         { error: "Admin access required" },
         { status: 403 },
@@ -85,7 +105,8 @@ export async function POST(req) {
 
     // Parse request body
     const {
-      userId,
+      recipientId,
+      recipientType,
       type,
       title,
       message,
@@ -96,7 +117,7 @@ export async function POST(req) {
     } = await req.json();
 
     // Validate required fields
-    if (!userId || !type || !title || !message) {
+    if (!recipientId || !recipientType || !type || !title || !message) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -107,8 +128,9 @@ export async function POST(req) {
     await connectMongoose();
 
     // Create notification
-    const notification = await Notification.createNotification({
-      user: userId,
+    const notification = await Notification.createNotificationForRecipient({
+      recipient: recipientId,
+      recipientType: recipientType,
       type,
       title,
       message,

@@ -189,7 +189,15 @@ function Navigation() {
             </li>
             {session ? (
               <li className={classes["main-nav__list-item"]}>
-                <Link href="/dashboard">Dashboard</Link>
+                <Link
+                  href={
+                    session.user.role === "employee"
+                      ? "/employee"
+                      : "/dashboard"
+                  }
+                >
+                  {session.user.role === "employee" ? "Employee" : "Dashboard"}
+                </Link>
               </li>
             ) : (
               <li className={classes["main-nav__list-item"]}>
@@ -368,7 +376,17 @@ function Navigation() {
                   className={classes["mobile-nav__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link
+                    href={
+                      session.user.role === "employee"
+                        ? "/employee"
+                        : "/dashboard"
+                    }
+                  >
+                    {session.user.role === "employee"
+                      ? "Employee"
+                      : "Dashboard"}
+                  </Link>
                 </li>
               ) : (
                 <li

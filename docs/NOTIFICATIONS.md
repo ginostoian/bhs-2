@@ -1,316 +1,235 @@
-# Notification System
-
-This document describes the notification system implemented for the Better Homes Studio dashboard.
+# Notification System Documentation
 
 ## Overview
 
-The notification system provides real-time alerts to users about important events related to their projects, payments, and documents. Users can view notifications through a bell icon in the dashboard header.
+The notification system provides real-time alerts for users, employees, and admins across the platform. It supports role-based notifications with different types and priorities.
 
-## Features
-
-- **Real-time notifications** with polling every 30 seconds
-- **Multiple notification types** (documents, payments, project status, announcements)
-- **Priority levels** (low, medium, high, urgent)
-- **Read/unread status** management
-- **Mark all as read** functionality
-- **Responsive dropdown** interface
-- **Automatic notification creation** from system events
-
-## Notification Types
-
-### 1. Document Added (`document_added`)
-
-- **Triggered when**: Admin adds quotes, invoices, photos, or comments
-- **Priority**: Medium
-- **Icon**: FileText (blue)
-- **Example**: "New Quote Added - A new quote has been added to your project."
-
-### 2. Payment Due (`payment_due`)
-
-- **Triggered when**: Payment is due within 7 days
-- **Priority**: High
-- **Icon**: CreditCard (orange)
-- **Example**: "Payment Due Soon - Payment 'Deposit' is due in 3 days."
-
-### 3. Payment Overdue (`payment_overdue`)
-
-- **Triggered when**: Payment is past due date
-- **Priority**: Urgent
-- **Icon**: CreditCard (orange)
-- **Example**: "Payment Overdue - Payment 'Final Payment' is overdue. Please contact us."
-
-### 4. Payment Plan Updated (`payment_plan_updated`)
-
-- **Triggered when**: Admin creates, updates, or deletes payment plans
-- **Priority**: Medium
-- **Icon**: CreditCard (green)
-- **Example**: "Payment Plan Updated - Your payment plan has been modified."
-
-### 5. Project Status Changed (`project_status_changed`)
-
-- **Triggered when**: Project status is updated
-- **Priority**: Medium
-- **Icon**: AlertCircle (purple)
-- **Example**: "Project Status Updated - Your project status has changed from 'Planning' to 'In Progress'."
-
-### 6. Announcement (`announcement`)
-
-- **Triggered when**: System-wide announcements are made
-- **Priority**: Configurable (default: medium)
-- **Icon**: AlertCircle (red)
-- **Example**: "System Maintenance - Scheduled maintenance on Sunday 2-4 AM."
-
-## Database Schema
+## Architecture
 
 ### Notification Model
 
+The `Notification` model supports:
+
+- **Recipient-based system**: Notifications are sent to specific users, employees, or admins
+- **Role-based filtering**: Different notification types for different user roles
+- **Priority levels**: urgent, high, medium, low
+- **Related entities**: Links to documents, tasks, payments, etc.
+- **Metadata**: Additional context for notifications
+
+### Key Components
+
+1. **Notification Model** (`models/Notification.js`)
+2. **Notification Service** (`libs/notificationService.js`)
+3. **Notification Bell Components**:
+   - User: `app/dashboard/components/NotificationBell.js`
+   - Admin: `app/admin/components/NotificationBell.js`
+   - Employee: `app/employee/components/NotificationBell.js`
+4. **API Endpoints**:
+   - `GET /api/notifications` - Fetch notifications
+   - `POST /api/notifications/mark-read` - Mark as read
+   - `POST /api/test-notifications` - Test notifications (admin only)
+
+## Notification Types
+
+### User Notifications
+
+- `document_added` - New document added to project
+- `payment_due` - Payment due soon
+- `payment_overdue` - Payment is overdue
+- `payment_plan_updated` - Payment plan changed
+- `project_status_changed` - Project status updated
+- `announcement` - General announcements
+
+### Employee Notifications
+
+- `task_assigned` - New task assigned
+- `task_status_approved` - Task status update approved
+- `task_status_rejected` - Task status update rejected
+- `project_updated` - Project details updated
+- `document_added` - New document added
+- `announcement` - General announcements
+
+### Admin Notifications
+
+- `new_user_registered` - New user registration
+- `new_employee_created` - New employee added
+- `task_status_update_request` - Employee requested status change
+- `payment_received` - Payment received from customer
+- `project_completed` - Project marked as completed
+- `system_alert` - System-wide alerts
+
+## Usage
+
+### Creating Notifications
+
+Use the notification service functions:
+
 ```javascript
-{
-  user: ObjectId,           // Reference to user
-  type: String,             // Notification type
-  title: String,            // Notification title
-  message: String,          // Detailed message
-  isRead: Boolean,          // Read status
-  relatedId: ObjectId,      // Related document/payment ID
-  relatedModel: String,     // Model name for related document
-  metadata: Object,         // Additional data
-  priority: String,         // Priority level
-  createdAt: Date,          // Creation timestamp
-  updatedAt: Date           // Last update timestamp
-}
+import {
+  notifyUser,
+  notifyAdmins,
+  notifyEmployees,
+  notifyTaskAssignment,
+  notifyPaymentReceived,
+} from "@/libs/notificationService";
+
+// Notify specific user
+await notifyUser(userId, {
+  type: "task_assigned",
+  title: "New Task Assigned",
+  message: "You have been assigned a new task",
+  priority: "high",
+});
+
+// Notify all admins
+await notifyAdmins({
+  type: "new_user_registered",
+  title: "New User Registration",
+  message: "A new user has registered",
+  priority: "medium",
+});
+
+// Use predefined templates
+await notifyTaskAssignment(employeeId, taskData);
+await notifyPaymentReceived(paymentData);
 ```
 
-## API Endpoints
+### Notification Templates
 
-### GET /api/notifications
+The service provides templates for common events:
 
-Fetch user's notifications with pagination and filtering.
+- `notifyUserRegistration(userData)` - New user registration
+- `notifyEmployeeCreation(employeeData)` - New employee added
+- `notifyTaskAssignment(employeeId, taskData)` - Task assigned
+- `notifyTaskStatusUpdateRequest(taskData, employeeData)` - Status update requested
+- `notifyTaskStatusApproved(employeeId, taskData)` - Status approved
+- `notifyTaskStatusRejected(employeeId, taskData, reason)` - Status rejected
+- `notifyPaymentReceived(paymentData)` - Payment received
+- `notifyProjectCompleted(projectData)` - Project completed
+- `notifyDocumentAdded(userId, documentData)` - Document added
+- `notifyPaymentDue(userId, paymentData)` - Payment due
+- `notifyPaymentOverdue(userId, paymentData)` - Payment overdue
+- `notifySystemAlert(message, priority)` - System alert
 
-**Query Parameters:**
+### Integration Points
 
-- `limit` (number): Number of notifications to return (default: 20)
-- `offset` (number): Number of notifications to skip (default: 0)
-- `unread` (boolean): Filter to unread notifications only
+The notification system is integrated into:
 
-**Response:**
+1. **Task Management**:
 
-```json
-{
-  "notifications": [...],
-  "pagination": {
-    "total": 50,
-    "limit": 20,
-    "offset": 0,
-    "hasMore": true
-  },
-  "unreadCount": 5
-}
-```
+   - Task status update requests notify admins
+   - Status approvals/rejections notify employees
 
-### POST /api/notifications
+2. **Employee Management**:
 
-Create a new notification (admin only).
+   - Employee creation notifies admins
 
-**Request Body:**
+3. **Payment Processing**:
 
-```json
-{
-  "userId": "user_id",
-  "type": "document_added",
-  "title": "New Quote Added",
-  "message": "A new quote has been added to your project.",
-  "relatedId": "document_id",
-  "relatedModel": "Document",
-  "priority": "medium",
-  "metadata": {}
-}
-```
+   - Payment webhooks notify admins of received payments
 
-### POST /api/notifications/mark-read
+4. **Document Management**:
 
-Mark notifications as read.
+   - Document uploads notify users
 
-**Request Body:**
+5. **User Registration**:
+   - New user registrations notify admins
 
-```json
-{
-  "notificationIds": ["id1", "id2"], // Specific notifications
-  "markAll": true // Or mark all as read
-}
-```
+## Frontend Components
 
-### POST /api/cron/check-overdue-payments
+### Notification Bell
 
-Cron job endpoint to check for overdue payments and create notifications automatically.
+Each role has a customized notification bell:
 
-## Integration Points
+- **Real-time polling**: Updates every 3-5 minutes
+- **Role-specific icons**: Different icons for different notification types
+- **Priority indicators**: Color-coded borders for priority levels
+- **Mark as read**: Individual and bulk mark as read functionality
+- **Responsive design**: Works on desktop and mobile
 
-### Automatic Notification Creation
+### Features
 
-The system automatically creates notifications when:
-
-1. **Documents are added** (`/api/documents` POST)
-2. **Payments are created** (`/api/payments` POST)
-3. **Payments become overdue** (cron job)
-
-### Manual Notification Creation
-
-Admins can create custom notifications through:
-
-- Admin notification testing page (`/admin/notifications`)
-- Direct API calls to `/api/notifications`
-
-## UI Components
-
-### NotificationBell Component
-
-Located at `app/dashboard/components/NotificationBell.js`
-
-**Features:**
-
-- Bell icon with unread count badge
-- Dropdown with notification list
-- Mark individual notifications as read
-- Mark all notifications as read
-- Real-time updates (30-second polling)
-- Responsive design
-
-**Usage:**
-
-```jsx
-import NotificationBell from "./components/NotificationBell";
-
-// In dashboard layout
-<NotificationBell />;
-```
-
-## Utility Functions
-
-### Notification Helpers
-
-Located at `libs/notifications.js`
-
-**Available Functions:**
-
-- `notifyDocumentAdded(userId, type, name, id)`
-- `notifyPaymentDue(userId, name, dueDate, id, isOverdue)`
-- `notifyPaymentPlanUpdated(userId, name, id, changeType)`
-- `notifyProjectStatusChanged(userId, oldStatus, newStatus, projectId)`
-- `notifyAnnouncement(userId, title, message, priority)`
-
-## Setup and Configuration
-
-### 1. Database Setup
-
-The Notification model is automatically created when the application starts.
-
-### 2. Cron Job Setup
-
-To enable automatic overdue payment notifications, set up a cron job to call:
-
-```
-POST /api/cron/check-overdue-payments
-```
-
-**Recommended schedule:** Daily at 9 AM
-
-**Example with Vercel Cron:**
-
-```json
-{
-  "crons": [
-    {
-      "path": "/api/cron/check-overdue-payments",
-      "schedule": "0 9 * * *"
-    }
-  ]
-}
-```
-
-### 3. Environment Variables
-
-No additional environment variables are required for basic functionality.
-
-For enhanced security, consider adding:
-
-```
-CRON_SECRET=your-secret-key
-```
+- **Live updates**: Polls for new notifications when tab is visible
+- **Performance optimized**: Stops polling when tab is hidden
+- **Unread count**: Shows badge with unread notification count
+- **Priority colors**: Visual indicators for notification importance
+- **Time formatting**: Smart time display (just now, hours ago, etc.)
 
 ## Testing
 
-### Admin Testing Interface
+### Test Page
 
-Visit `/admin/notifications` to test notification creation with:
+Admins can test the notification system at `/admin/test-notifications`:
 
-- Quick test buttons for each notification type
-- Custom notification form
-- Real-time result display
+- Test user registration notifications
+- Test employee creation notifications
+- Test task assignment notifications
+- Test system alerts
 
 ### Manual Testing
 
-1. Create a test user
-2. Add documents or payments for the user
-3. Check the user's dashboard for notifications
+1. Create a notification using the test page
+2. Check the notification bell in the header
+3. Verify the notification appears with correct styling
 4. Test mark as read functionality
+5. Verify unread count updates
 
-## Future Enhancements
+## Configuration
 
-### Planned Features
+### Polling Intervals
 
-1. **Email notifications** - Send email alerts for urgent notifications
-2. **Push notifications** - Browser push notifications
-3. **Notification preferences** - User-configurable notification settings
-4. **Notification history** - Full notification history page
-5. **Bulk actions** - Delete multiple notifications
-6. **Notification templates** - Predefined notification templates
+- **Users**: 5 minutes (only for active projects)
+- **Employees**: 5 minutes
+- **Admins**: 5 minutes
 
-### Technical Improvements
+### Priority Colors
 
-1. **WebSocket support** - Real-time notifications without polling
-2. **Notification queuing** - Handle high-volume notification creation
-3. **Notification analytics** - Track notification engagement
-4. **Mobile app support** - Native mobile notifications
+- **urgent**: Red border
+- **high**: Orange border
+- **medium**: Blue border
+- **low**: Gray border
+
+## Best Practices
+
+1. **Use appropriate priorities**: Don't overuse "urgent" priority
+2. **Keep messages concise**: Notifications should be brief and actionable
+3. **Include relevant context**: Use metadata for additional information
+4. **Handle failures gracefully**: Don't fail main operations if notifications fail
+5. **Test notifications**: Use the test page to verify functionality
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Notifications not appearing**
+1. **Notifications not appearing**:
 
-   - Check user authentication
-   - Verify notification creation in database
+   - Check user role and recipient type
+   - Verify notification service is working
    - Check browser console for errors
 
-2. **Cron job not working**
+2. **Polling not working**:
 
-   - Verify cron service is properly configured
-   - Check server logs for errors
-   - Test endpoint manually
+   - Ensure tab is visible
+   - Check network connectivity
+   - Verify API endpoints are accessible
 
-3. **Performance issues**
-   - Consider pagination for large notification lists
-   - Implement notification cleanup for old notifications
-   - Optimize database queries with proper indexing
+3. **Mark as read not working**:
+   - Check user authentication
+   - Verify notification ownership
+   - Check API response for errors
 
-### Debug Mode
+### Debugging
 
-Enable debug logging by setting:
+1. Check browser console for JavaScript errors
+2. Verify API responses in Network tab
+3. Check server logs for notification creation errors
+4. Use the test page to verify system functionality
 
-```javascript
-console.log("Notification debug:", notificationData);
-```
+## Future Enhancements
 
-## Security Considerations
-
-1. **Admin-only creation** - Only admins can create notifications
-2. **User isolation** - Users can only see their own notifications
-3. **Input validation** - All notification data is validated
-4. **Rate limiting** - Consider implementing rate limiting for notification creation
-
-## Performance Notes
-
-1. **Polling interval** - 30 seconds provides good balance between real-time updates and server load
-2. **Database indexing** - Proper indexes on user, isRead, and createdAt fields
-3. **Pagination** - Default limit of 20 notifications per request
-4. **Cleanup** - Consider archiving old notifications after 90 days
+1. **Push notifications**: Browser push notifications
+2. **Email integration**: Email notifications for important events
+3. **Notification preferences**: User-configurable notification settings
+4. **Bulk operations**: Bulk mark as read, delete, etc.
+5. **Notification history**: Full notification history page
+6. **Real-time updates**: WebSocket-based real-time notifications

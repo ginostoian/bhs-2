@@ -5,6 +5,7 @@ import connectMongo from "@/libs/mongoose";
 import configFile from "@/config";
 import User from "@/models/User";
 import { findCheckoutSession } from "@/libs/stripe";
+import { notifyPaymentReceived } from "@/libs/notificationService";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -79,6 +80,22 @@ export async function POST(req) {
         user.hasAccess = true;
         await user.save();
 
+        // Send notification to admins about payment received
+        try {
+          await notifyPaymentReceived({
+            _id: user._id,
+            amount: session.amount_total / 100, // Convert from cents
+            customerName: user.name || user.email,
+            customerId: customerId,
+          });
+        } catch (notificationError) {
+          console.error(
+            "Failed to send payment notification:",
+            notificationError,
+          );
+          // Don't fail the webhook if notification fails
+        }
+
         // Extra: send email with user link, product page, etc...
         // try {
         //   await sendEmail({to: ...});
@@ -107,7 +124,7 @@ export async function POST(req) {
         // ❌ Revoke access to the product
         // The customer might have changed the plan (higher or lower plan, cancel soon etc...)
         const subscription = await stripe.subscriptions.retrieve(
-          data.object.id
+          data.object.id,
         );
         const user = await User.findOne({ customerId: subscription.customer });
 

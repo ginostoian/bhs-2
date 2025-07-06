@@ -4,8 +4,8 @@ import Document from "@/models/Document";
 import User from "@/models/User";
 import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
-import Notification from "@/models/Notification";
 import { sendDocumentAddedEmail } from "@/libs/emailService";
+import { notifyDocumentAdded } from "@/libs/notificationService";
 
 /**
  * POST /api/documents
@@ -75,18 +75,11 @@ export async function POST(req) {
               ? "Invoice"
               : "Quote";
 
-      await Notification.createNotification({
-        user: userId,
-        type: "document_added",
-        title: `New ${documentName} Added`,
-        message: `A new ${type} "${documentName}" has been added to your project.`,
-        relatedId: document._id,
-        relatedModel: "Document",
-        priority: "medium",
-        metadata: {
-          documentType: type,
-          documentName,
-        },
+      await notifyDocumentAdded(userId, {
+        _id: document._id,
+        title: documentName,
+        type: type,
+        content: content,
       });
     } catch (notificationError) {
       console.error("Failed to create notification:", notificationError);

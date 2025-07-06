@@ -35,8 +35,9 @@ export async function POST(req) {
     // Create notifications for overdue payments
     for (const payment of overduePayments) {
       try {
-        await Notification.createNotification({
-          user: payment.user._id,
+        await Notification.createNotificationForRecipient({
+          recipient: payment.user._id,
+          recipientType: "user",
           type: "payment_overdue",
           title: "Payment Overdue",
           message: `Payment "${payment.name}" is overdue. Please contact us to arrange payment.`,
@@ -114,8 +115,9 @@ export async function POST(req) {
 
         // Only create notification if it's due within 3 days and not already overdue
         if (daysUntilDue <= 3 && daysUntilDue > 0) {
-          await Notification.createNotification({
-            user: payment.user._id,
+          await Notification.createNotificationForRecipient({
+            recipient: payment.user._id,
+            recipientType: "user",
             type: "payment_due",
             title: "Payment Due Soon",
             message: `Payment "${payment.name}" is due in ${daysUntilDue} day${daysUntilDue !== 1 ? "s" : ""}.`,

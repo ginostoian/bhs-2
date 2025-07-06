@@ -1,9 +1,9 @@
 import GoogleProvider from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import config from "@/config";
-import connectMongo from "./mongo";
-import connectMongoose from "./mongoose";
-import User from "@/models/User";
+import config from "../config.js";
+import connectMongo from "./mongo.js";
+import connectMongoose from "./mongoose.js";
+import User from "../models/User.js";
 
 export const authOptions = {
   // Set any random key in .env.local

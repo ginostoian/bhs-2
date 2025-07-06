@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-// Use relative import for Node.js compatibility
-import User from "../models/User.js";
 
 const connectMongo = async () => {
   if (!process.env.MONGODB_URI) {

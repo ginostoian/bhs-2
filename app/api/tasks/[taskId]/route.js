@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Task from "@/models/Task";
 import Employee from "@/models/Employee";
+import User from "@/models/User";
 import { requireAdmin, requireAuth } from "@/libs/requireAdmin";
+import { notifyTaskAssignment } from "@/libs/notificationService";
 
 /**
  * PATCH /api/tasks/[taskId]
@@ -32,6 +34,9 @@ export async function PATCH(req, { params }) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
     }
+    // Store the previous assignment to check if it changed
+    const previousAssignedTo = task.assignedTo;
+
     // Update allowed fields
     if (body.status) task.status = body.status;
     if (body.assignedTo !== undefined) task.assignedTo = body.assignedTo;
@@ -51,6 +56,38 @@ export async function PATCH(req, { params }) {
     // Populate the task before returning
     await task.populate("assignedTo", "name position");
     await task.populate("section", "name color icon");
+
+    // Send notification if task was assigned to a new employee
+    if (
+      body.assignedTo !== undefined &&
+      body.assignedTo &&
+      (!previousAssignedTo ||
+        previousAssignedTo.toString() !== body.assignedTo.toString())
+    ) {
+      try {
+        // Find the employee to get their email
+        const employee = await Employee.findById(body.assignedTo);
+        if (employee) {
+          // Find the corresponding User record
+          const user = await User.findOne({
+            email: employee.email,
+            role: "employee",
+          });
+          if (user) {
+            await notifyTaskAssignment(user._id, {
+              _id: task._id,
+              title: task.name,
+            });
+          }
+        }
+      } catch (notificationError) {
+        console.error(
+          "Failed to send task assignment notification:",
+          notificationError,
+        );
+        // Don't fail the request if notification fails
+      }
+    }
 
     return NextResponse.json({ task });
   } catch (error) {
@@ -80,6 +117,9 @@ export async function PUT(req, { params }) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
 
+    // Store the previous assignment to check if it changed
+    const previousAssignedTo = task.assignedTo;
+
     // Update all fields, handling null values for ObjectId fields
     Object.assign(task, body);
 
@@ -92,6 +132,37 @@ export async function PUT(req, { params }) {
     // Populate the task before returning
     await task.populate("assignedTo", "name position");
     await task.populate("section", "name color icon");
+
+    // Send notification if task was assigned to a new employee
+    if (
+      body.assignedTo &&
+      (!previousAssignedTo ||
+        previousAssignedTo.toString() !== body.assignedTo.toString())
+    ) {
+      try {
+        // Find the employee to get their email
+        const employee = await Employee.findById(body.assignedTo);
+        if (employee) {
+          // Find the corresponding User record
+          const user = await User.findOne({
+            email: employee.email,
+            role: "employee",
+          });
+          if (user) {
+            await notifyTaskAssignment(user._id, {
+              _id: task._id,
+              title: task.name,
+            });
+          }
+        }
+      } catch (notificationError) {
+        console.error(
+          "Failed to send task assignment notification:",
+          notificationError,
+        );
+        // Don't fail the request if notification fails
+      }
+    }
 
     return NextResponse.json({ task });
   } catch (error) {

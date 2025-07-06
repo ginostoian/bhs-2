@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
 import AdminSidebar from "./components/AdminSidebar";
 import SignOutButton from "../dashboard/components/SignOutButton";
+import NotificationBell from "./components/NotificationBell";
 
 /**
  * Admin Layout
@@ -36,6 +37,7 @@ export default async function AdminLayout({ children }) {
               <span className="text-sm text-gray-500">
                 Admin: {session.user.name || session.user.email}
               </span>
+              <NotificationBell />
               <SignOutButton />
             </div>
           </div>
