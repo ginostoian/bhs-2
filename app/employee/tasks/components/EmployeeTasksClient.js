@@ -274,7 +274,7 @@ export default function EmployeeTasksClient({ tasks: initialTasks }) {
             </h3>
             <p className="text-gray-600">
               {tasks.length === 0
-                ? "You don't have any tasks assigned yet."
+                ? "You don&apos;t have any tasks assigned yet."
                 : "No tasks match your current filters."}
             </p>
           </div>

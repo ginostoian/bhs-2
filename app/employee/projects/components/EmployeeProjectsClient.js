@@ -131,8 +131,8 @@ export default function EmployeeProjectsClient({ projects }) {
             No Projects Assigned
           </h3>
           <p className="text-gray-600">
-            You don't have any tasks assigned yet. Contact your administrator to
-            get started.
+            You don&apos;t have any tasks assigned yet. Contact your
+            administrator to get started.
           </p>
         </div>
       )}

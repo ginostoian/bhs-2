@@ -458,7 +458,7 @@ export default function EmployeeProjectClient({
                     </h3>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        You're requesting to change the status from{" "}
+                        You&apos;re requesting to change the status from{" "}
                         <span className="font-medium text-gray-900">
                           {pendingStatusChange.currentStatus}
                         </span>{" "}

@@ -311,7 +311,7 @@ export default function ToolsPage() {
             {
               title: "Easy to Use",
               subtitle: "Simple interface designed for homeowners",
-              p1: "Our calculators feature intuitive interfaces that guide you through each step, making it easy to get accurate estimates even if you're new to renovation projects.",
+              p1: "Our calculators feature intuitive interfaces that guide you through each step, making it easy to get accurate estimates even if you&apos;re new to renovation projects.",
               p2: "With clear explanations and helpful tips throughout the process, you'll understand exactly what factors affect your project costs.",
               imgSrc: "/assets/img/bathroom/1920.webp",
             },
