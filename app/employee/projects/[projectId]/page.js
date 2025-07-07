@@ -18,7 +18,7 @@ export default async function EmployeeProjectPage({ params }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect("/api/auth/signin");
+    redirect("/auth/signin");
   }
 
   if (session.user.role !== "employee") {

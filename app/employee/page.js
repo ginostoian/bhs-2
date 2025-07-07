@@ -16,7 +16,7 @@ export default async function EmployeeDashboardPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect("/api/auth/signin");
+    redirect("/auth/signin");
   }
 
   if (session.user.role !== "employee") {

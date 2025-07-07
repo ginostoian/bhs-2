@@ -14,7 +14,7 @@ export default withAuth(
     if (pathname.startsWith("/admin")) {
       if (token?.role !== "admin") {
         // Redirect non-admin users to sign in page
-        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
       }
     }
 
@@ -22,7 +22,7 @@ export default withAuth(
     if (pathname.startsWith("/employee")) {
       if (token?.role !== "employee") {
         // Redirect non-employee users to sign in page
-        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
       }
     }
 
@@ -30,7 +30,7 @@ export default withAuth(
     if (pathname.startsWith("/dashboard")) {
       if (!token) {
         // Redirect unauthenticated users to sign in page
-        return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
       }
     }
 
