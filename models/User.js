@@ -31,6 +31,16 @@ const userSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    // Hashed password for email/password authentication
+    password: {
+      type: String,
+      private: true,
+    },
+    // Google OAuth ID for account linking
+    googleId: {
+      type: String,
+      private: true,
+    },
     // User role for access control (user = regular user, admin = administrator, employee = restricted access)
     role: {
       type: String,

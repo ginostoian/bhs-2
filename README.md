@@ -4,8 +4,9 @@ A complete authentication and user management system for the Better Homes Studio
 
 ## Features
 
-- **User Authentication**: Google OAuth and email-based authentication
-- **Role-Based Access Control**: User and Admin roles
+- **User Authentication**: Google OAuth and email/password authentication with account linking
+- **Account Linking**: Seamless linking between email and Google accounts to prevent duplicates
+- **Role-Based Access Control**: User, Admin, and Employee roles
 - **Document Management**: Quotes, invoices, comments, and photos
 - **Dashboard**: User dashboard with tabs for different document types
 - **Admin Panel**: User management and document creation
@@ -33,7 +34,22 @@ GOOGLE_SECRET=your_google_client_secret
 EMAIL_SERVER=smtp://username:password@smtp.example.com:587
 ```
 
-### 2. Create First Admin User
+### 2. Migrate Existing Users (Recommended)
+
+If you have existing users from the previous Google-only authentication system, run the migration script to ensure compatibility:
+
+```bash
+npm run migrate-users
+```
+
+This script will:
+
+- Ensure all emails are lowercase
+- Set default roles for users without roles
+- Set default project status for users without status
+- Prepare users for account linking
+
+### 3. Create First Admin User
 
 After setting up the authentication system, you need to create the first admin user. You have two options:
 
@@ -52,7 +68,7 @@ After setting up the authentication system, you need to create the first admin u
    npm run create-admin
    ```
 
-3. **Sign in** at `/api/auth/signin` with your email
+3. **Sign in** at `/auth/signin` with your email or Google account
 
 #### Option B: Manual Database Update
 
@@ -88,7 +104,7 @@ Once you have at least one admin, you can create additional admin accounts throu
 
 2. **Test user registration**:
 
-   - Visit `/api/auth/signin` to sign up/sign in
+   - Visit `/auth/signin` to sign up/sign in with email or Google
    - Regular users will be redirected to `/dashboard`
 
 3. **Test admin access**:
@@ -120,12 +136,18 @@ Once you have at least one admin, you can create additional admin accounts throu
 ```
 app/
 ├── api/
+│   ├── auth/
+│   │   └── [...nextauth]/route.js
 │   ├── users/
 │   │   ├── route.js
 │   │   └── [id]/route.js
 │   └── documents/
 │       ├── route.js
 │       └── user/route.js
+├── auth/
+│   ├── layout.js
+│   └── signin/
+│       └── page.js
 ├── dashboard/
 │   ├── layout.js
 │   ├── page.js
@@ -143,6 +165,10 @@ libs/
 ├── next-auth.js
 ├── mongoose.js
 └── requireAdmin.js
+scripts/
+├── create-admin.js
+├── migrate-users-for-email-auth.js
+└── [other scripts]
 middleware.js
 ```
 
@@ -151,6 +177,8 @@ middleware.js
 - **Role-based middleware** protecting admin routes
 - **Authentication verification** in all API routes
 - **Input validation** and sanitization
+- **Password hashing** with bcrypt
+- **Account linking** to prevent duplicate accounts
 - **CSRF protection** via NextAuth
 - **Secure session management**
 

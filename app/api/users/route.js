@@ -58,6 +58,7 @@ export async function POST(req) {
       name,
       role = "user",
       projectStatus = "Lead",
+      password,
     } = await req.json();
 
     // Validate required fields
@@ -77,13 +78,22 @@ export async function POST(req) {
       );
     }
 
-    // Create new user
-    const user = await User.create({
+    // Prepare user data
+    const userData = {
       email: email.toLowerCase(),
       name,
       role,
       projectStatus,
-    });
+    };
+
+    // Add password if provided
+    if (password) {
+      const bcrypt = require("bcryptjs");
+      userData.password = await bcrypt.hash(password, 12);
+    }
+
+    // Create new user
+    const user = await User.create(userData);
 
     // Create email preferences for the new user
     await EmailPreference.create({

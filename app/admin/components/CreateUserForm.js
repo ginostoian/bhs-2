@@ -14,6 +14,7 @@ export default function CreateUserForm({ onUserCreated }) {
     email: "",
     role: "user",
     projectStatus: "Lead",
+    password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalState, setModalState] = useState({
@@ -70,6 +71,7 @@ export default function CreateUserForm({ onUserCreated }) {
         email: "",
         role: "user",
         projectStatus: "Lead",
+        password: "",
       });
 
       // Collapse form after successful creation
@@ -227,6 +229,28 @@ export default function CreateUserForm({ onUserCreated }) {
                 <option value="On Going">On Going</option>
                 <option value="Finished">Finished</option>
               </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="mb-2 block text-sm font-medium text-gray-700"
+              >
+                Password (Optional)
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                placeholder="Leave empty for Google-only login"
+              />
+              <p className="mt-1 text-sm text-gray-500">
+                If provided, user can sign in with email/password. If left
+                empty, user can only sign in with Google.
+              </p>
             </div>
 
             <div className="flex justify-end space-x-3">
