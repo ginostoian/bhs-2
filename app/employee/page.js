@@ -100,7 +100,7 @@ export default async function EmployeeDashboardPage() {
           Welcome back, {employee.name}!
         </h1>
         <p className="text-gray-600">
-          Here's an overview of your current tasks and projects.
+          Here&apos;s an overview of your current tasks and projects.
         </p>
       </div>
 
