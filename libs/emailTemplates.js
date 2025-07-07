@@ -454,3 +454,232 @@ export const announcementEmailTemplate = (
     text: `${title}: ${message}. Visit https://${config.domainName}/dashboard for more information.`,
   };
 };
+
+/**
+ * Moodboard Created Email Template
+ * Sent when a new moodboard is created for a user
+ */
+export const moodboardCreatedEmailTemplate = (
+  userName,
+  moodboardName,
+  description = null,
+  projectType = null,
+) => {
+  const content = `
+    <h2>New Moodboard Created 🎨</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>Great news! We've created a new moodboard for your renovation project.</p>
+    
+    <div class="alert alert-success">
+        <strong>Moodboard Details:</strong><br>
+        Name: ${moodboardName}<br>
+        ${description ? `Description: ${description}<br>` : ""}
+        ${projectType ? `Project Type: ${projectType}<br>` : ""}
+        Created: ${new Date().toLocaleDateString("en-GB")}
+    </div>
+    
+    <p>Your moodboard contains carefully selected products for your project. You can now:</p>
+    
+    <ul style="margin-left: 20px; margin-bottom: 20px;">
+        <li>Review all products in each section</li>
+        <li>Approve or decline individual products</li>
+        <li>Add comments and feedback</li>
+        <li>See pricing and supplier information</li>
+    </ul>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard/moodboards" class="button">View Your Moodboard</a>
+    </div>
+    
+    <p>Please take some time to review the products and let us know your preferences. This helps us ensure your project meets your exact requirements.</p>
+    
+    <p>If you have any questions about the products or need assistance, please don't hesitate to contact us.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `New Moodboard Created - ${moodboardName}`,
+    html: baseTemplate(content, "New Moodboard Created"),
+    text: `New moodboard "${moodboardName}" has been created for your project. View it at https://${config.domainName}/dashboard/moodboards`,
+  };
+};
+
+/**
+ * Product Approval Email Template
+ * Sent to admin when user approves or declines a product
+ */
+export const productApprovalEmailTemplate = (
+  userName,
+  productName,
+  approvalStatus,
+  userComment = null,
+  moodboardName = null,
+) => {
+  const statusIcon = approvalStatus === "approved" ? "✅" : "❌";
+  const statusColor =
+    approvalStatus === "approved" ? "alert-success" : "alert-warning";
+  const statusText = approvalStatus === "approved" ? "APPROVED" : "DECLINED";
+
+  const content = `
+    <h2>Product ${statusText} ${statusIcon}</h2>
+    
+    <p>Hello Admin,</p>
+    
+    <p>A user has ${approvalStatus} a product in their moodboard.</p>
+    
+    <div class="alert ${statusColor}">
+        <strong>Product Details:</strong><br>
+        Product: ${productName}<br>
+        Status: ${statusText}<br>
+        User: ${userName || "Unknown"}<br>
+        ${moodboardName ? `Moodboard: ${moodboardName}<br>` : ""}
+        Date: ${new Date().toLocaleDateString("en-GB")}
+    </div>
+    
+    ${
+      userComment
+        ? `
+    <div class="alert alert-info">
+        <strong>User Comment:</strong><br>
+        "${userComment}"
+    </div>
+    `
+        : ""
+    }
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/admin/moodboards" class="button">View Moodboards</a>
+    </div>
+    
+    <p>You can review this decision and take any necessary actions through the admin panel.</p>
+    
+    <p>Best regards,<br>
+    Better Homes Studio System</p>
+  `;
+
+  return {
+    subject: `Product ${statusText} - ${productName}`,
+    html: baseTemplate(content, `Product ${statusText}`),
+    text: `Product "${productName}" has been ${approvalStatus} by ${userName || "user"}. ${userComment ? `Comment: "${userComment}"` : ""}`,
+  };
+};
+
+/**
+ * Moodboard Status Update Email Template
+ * Sent when moodboard status changes
+ */
+export const moodboardStatusUpdateEmailTemplate = (
+  userName,
+  moodboardName,
+  oldStatus,
+  newStatus,
+) => {
+  const statusIcons = {
+    draft: "📝",
+    shared: "📤",
+    approved: "✅",
+    completed: "🎉",
+  };
+
+  const statusColors = {
+    draft: "alert-info",
+    shared: "alert-warning",
+    approved: "alert-success",
+    completed: "alert-success",
+  };
+
+  const statusDescriptions = {
+    draft: "Your moodboard is being prepared by our team",
+    shared: "Your moodboard is ready for your review",
+    approved:
+      "Your moodboard has been approved and is ready for implementation",
+    completed:
+      "Your moodboard has been completed and products are being ordered",
+  };
+
+  const content = `
+    <h2>Moodboard Status Updated ${statusIcons[newStatus]}</h2>
+    
+    <p>Hello ${userName || "there"},</p>
+    
+    <p>Your moodboard status has been updated.</p>
+    
+    <div class="alert ${statusColors[newStatus]}">
+        <strong>Status Change:</strong><br>
+        Moodboard: ${moodboardName}<br>
+        Previous Status: ${oldStatus.charAt(0).toUpperCase() + oldStatus.slice(1)}<br>
+        New Status: ${newStatus.charAt(0).toUpperCase() + newStatus.slice(1)}<br>
+        Updated: ${new Date().toLocaleDateString("en-GB")}
+    </div>
+    
+    <div class="alert alert-info">
+        <strong>What this means:</strong><br>
+        ${statusDescriptions[newStatus]}
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/dashboard/moodboards" class="button">View Your Moodboard</a>
+    </div>
+    
+    <p>If you have any questions about this status change or need assistance, please don't hesitate to contact us.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Moodboard Status Updated - ${moodboardName}`,
+    html: baseTemplate(content, "Moodboard Status Updated"),
+    text: `Your moodboard "${moodboardName}" status has changed from ${oldStatus} to ${newStatus}. View it at https://${config.domainName}/dashboard/moodboards`,
+  };
+};
+
+/**
+ * User Inactivity Email Template
+ * Sent to admin when user has been inactive for specified days
+ */
+export const userInactivityEmailTemplate = (
+  userName,
+  lastLoginAt,
+  daysThreshold,
+) => {
+  const daysInactive = Math.floor(
+    (new Date() - new Date(lastLoginAt)) / (1000 * 60 * 60 * 24),
+  );
+  const lastLoginFormatted = new Date(lastLoginAt).toLocaleDateString("en-GB");
+
+  const content = `
+    <h2>User Inactivity Alert ⏰</h2>
+    
+    <p>Hello Admin,</p>
+    
+    <p>A user has been inactive for ${daysInactive} days (threshold: ${daysThreshold} days).</p>
+    
+    <div class="alert alert-warning">
+        <strong>User Details:</strong><br>
+        Name: ${userName || "Unknown"}<br>
+        Last Login: ${lastLoginFormatted}<br>
+        Days Inactive: ${daysInactive}<br>
+        Alert Date: ${new Date().toLocaleDateString("en-GB")}
+    </div>
+    
+    <div style="text-align: center;">
+        <a href="https://${config.domainName}/admin/users" class="button">View User Management</a>
+    </div>
+    
+    <p>Consider reaching out to this user to re-engage them with their project.</p>
+    
+    <p>Best regards,<br>
+    Better Homes Studio System</p>
+  `;
+
+  return {
+    subject: `User Inactivity Alert - ${userName || "Unknown User"}`,
+    html: baseTemplate(content, "User Inactivity Alert"),
+    text: `User ${userName || "Unknown"} has been inactive for ${daysInactive} days. Last login: ${lastLoginFormatted}.`,
+  };
+};

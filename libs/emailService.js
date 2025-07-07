@@ -1,16 +1,65 @@
 import { sendEmail as resendSendEmail } from "./resend";
 import config from "@/config";
+import connectMongoose from "./mongoose";
+import EmailStats from "@/models/EmailStats";
 
 /**
  * Enhanced Email Service
  * Provides template-based email sending with error handling and tracking
  */
 
-// Email tracking for analytics (in-memory for now, can be extended to database)
-const emailTracking = {
-  sent: 0,
-  failed: 0,
-  errors: [],
+// In-memory cache for performance
+let emailStatsCache = null;
+let cacheTimestamp = 0;
+const CACHE_DURATION = 30000; // 30 seconds
+
+/**
+ * Get or create email stats document
+ */
+const getEmailStatsDocument = async () => {
+  await connectMongoose();
+  return await EmailStats.getOrCreate();
+};
+
+/**
+ * Update email stats in database
+ */
+const updateEmailStats = async (
+  incrementSent = false,
+  incrementFailed = false,
+  error = null,
+) => {
+  try {
+    const stats = await getEmailStatsDocument();
+
+    if (incrementSent) {
+      stats.sent += 1;
+    }
+
+    if (incrementFailed) {
+      stats.failed += 1;
+    }
+
+    if (error) {
+      stats.errors.push(error);
+      // Keep only the last 100 errors to prevent the array from growing too large
+      if (stats.errors.length > 100) {
+        stats.errors = stats.errors.slice(-100);
+      }
+    }
+
+    await stats.save();
+
+    // Invalidate cache
+    emailStatsCache = null;
+    cacheTimestamp = 0;
+
+    return stats;
+  } catch (error) {
+    console.error("Error updating email stats:", error);
+    // Fallback to in-memory tracking if database fails
+    return null;
+  }
 };
 
 /**
@@ -48,7 +97,7 @@ export const sendEmailWithTracking = async (emailData) => {
     await resendSendEmail(emailData);
 
     // Track successful email
-    emailTracking.sent++;
+    await updateEmailStats(true, false);
 
     const duration = Date.now() - startTime;
 
@@ -67,14 +116,15 @@ export const sendEmailWithTracking = async (emailData) => {
     };
   } catch (error) {
     // Track failed email
-    emailTracking.failed++;
-    emailTracking.errors.push({
+    const errorData = {
       error: error.message,
       recipient: emailData.to,
       subject: emailData.subject,
       timestamp: new Date().toISOString(),
       metadata: emailData.metadata || {},
-    });
+    };
+
+    await updateEmailStats(false, true, errorData);
 
     const duration = Date.now() - startTime;
 
@@ -391,32 +441,235 @@ export const sendAnnouncementEmail = async (
 };
 
 /**
- * Get email tracking statistics
- * @returns {Object} - Email tracking statistics
+ * Send moodboard created notification email
+ * @param {string} userEmail - User's email address
+ * @param {string} userName - User's name (optional)
+ * @param {string} moodboardName - Name of the moodboard
+ * @param {string} description - Moodboard description (optional)
+ * @param {string} projectType - Project type (optional)
+ * @returns {Promise<Object>} - Result object
  */
-export const getEmailStats = () => {
-  return {
-    sent: emailTracking.sent,
-    failed: emailTracking.failed,
-    successRate:
-      emailTracking.sent + emailTracking.failed > 0
-        ? (
-            (emailTracking.sent / (emailTracking.sent + emailTracking.failed)) *
-            100
-          ).toFixed(2) + "%"
-        : "0%",
-    recentErrors: emailTracking.errors.slice(-10), // Last 10 errors
-    totalErrors: emailTracking.errors.length,
-  };
+export const sendMoodboardCreatedEmail = async (
+  userEmail,
+  userName,
+  moodboardName,
+  description = null,
+  projectType = null,
+) => {
+  const { moodboardCreatedEmailTemplate } = await import("./emailTemplates");
+  const template = moodboardCreatedEmailTemplate(
+    userName,
+    moodboardName,
+    description,
+    projectType,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "moodboard_created",
+      moodboardName,
+      description,
+      projectType,
+      userName,
+      userEmail,
+    },
+  });
+};
+
+/**
+ * Send product approval/decline notification email to admin
+ * @param {string} userEmail - User's email address
+ * @param {string} userName - User's name (optional)
+ * @param {string} productName - Name of the product
+ * @param {string} approvalStatus - "approved" or "declined"
+ * @param {string} userComment - User's comment (optional)
+ * @param {string} moodboardName - Name of the moodboard
+ * @returns {Promise<Object>} - Result object
+ */
+export const sendProductApprovalEmail = async (
+  userEmail,
+  userName,
+  productName,
+  approvalStatus,
+  userComment = null,
+  moodboardName = null,
+) => {
+  const { productApprovalEmailTemplate } = await import("./emailTemplates");
+  const template = productApprovalEmailTemplate(
+    userName,
+    productName,
+    approvalStatus,
+    userComment,
+    moodboardName,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "product_approval",
+      productName,
+      approvalStatus,
+      userComment,
+      moodboardName,
+      userName,
+      userEmail,
+    },
+  });
+};
+
+/**
+ * Send moodboard status update notification email
+ * @param {string} userEmail - User's email address
+ * @param {string} userName - User's name (optional)
+ * @param {string} moodboardName - Name of the moodboard
+ * @param {string} oldStatus - Previous status
+ * @param {string} newStatus - New status
+ * @returns {Promise<Object>} - Result object
+ */
+export const sendMoodboardStatusUpdateEmail = async (
+  userEmail,
+  userName,
+  moodboardName,
+  oldStatus,
+  newStatus,
+) => {
+  const { moodboardStatusUpdateEmailTemplate } = await import(
+    "./emailTemplates"
+  );
+  const template = moodboardStatusUpdateEmailTemplate(
+    userName,
+    moodboardName,
+    oldStatus,
+    newStatus,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "moodboard_status_update",
+      moodboardName,
+      oldStatus,
+      newStatus,
+      userName,
+      userEmail,
+    },
+  });
+};
+
+/**
+ * Send user inactivity notification email to admin
+ * @param {string} userEmail - User's email address
+ * @param {string} userName - User's name (optional)
+ * @param {Date} lastLoginAt - User's last login date
+ * @param {number} daysThreshold - Number of days threshold
+ * @returns {Promise<Object>} - Result object
+ */
+export const sendUserInactivityEmail = async (
+  userEmail,
+  userName,
+  lastLoginAt,
+  daysThreshold,
+) => {
+  const { userInactivityEmailTemplate } = await import("./emailTemplates");
+  const template = userInactivityEmailTemplate(
+    userName,
+    lastLoginAt,
+    daysThreshold,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "user_inactivity",
+      userName,
+      lastLoginAt: lastLoginAt.toISOString(),
+      daysThreshold,
+      userEmail,
+    },
+  });
+};
+
+/**
+ * Get email tracking statistics
+ * @returns {Promise<Object>} - Email tracking statistics
+ */
+export const getEmailStats = async () => {
+  try {
+    // Check cache first
+    const now = Date.now();
+    if (emailStatsCache && now - cacheTimestamp < CACHE_DURATION) {
+      return emailStatsCache;
+    }
+
+    const stats = await getEmailStatsDocument();
+
+    const result = {
+      sent: stats.sent,
+      failed: stats.failed,
+      successRate:
+        stats.sent + stats.failed > 0
+          ? ((stats.sent / (stats.sent + stats.failed)) * 100).toFixed(2) + "%"
+          : "0%",
+      recentErrors: stats.errors.slice(-10).map((err) => ({
+        error: err.error,
+        recipient: err.recipient,
+        subject: err.subject,
+        timestamp: err.timestamp.toISOString(),
+        metadata: err.metadata,
+      })),
+      totalErrors: stats.errors.length,
+    };
+
+    // Update cache
+    emailStatsCache = result;
+    cacheTimestamp = now;
+
+    return result;
+  } catch (error) {
+    console.error("Error getting email stats:", error);
+    // Return empty stats if database fails
+    return {
+      sent: 0,
+      failed: 0,
+      successRate: "0%",
+      recentErrors: [],
+      totalErrors: 0,
+    };
+  }
 };
 
 /**
  * Clear email tracking data (useful for testing)
  */
-export const clearEmailStats = () => {
-  emailTracking.sent = 0;
-  emailTracking.failed = 0;
-  emailTracking.errors = [];
+export const clearEmailStats = async () => {
+  try {
+    const stats = await getEmailStatsDocument();
+    stats.sent = 0;
+    stats.failed = 0;
+    stats.errors = [];
+    await stats.save();
+
+    // Clear cache
+    emailStatsCache = null;
+    cacheTimestamp = 0;
+
+    console.log("✅ Email stats cleared successfully");
+  } catch (error) {
+    console.error("Error clearing email stats:", error);
+  }
 };
 
 // Export the original sendEmail function for backward compatibility

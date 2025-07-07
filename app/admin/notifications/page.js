@@ -12,7 +12,7 @@ import NotificationTestClient from "./components/NotificationTestClient";
 export default async function AdminNotificationsPage() {
   // Check authentication and admin access
   const session = await getServerSession(authOptions);
-  if (!session?.user?.role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     redirect("/dashboard");
   }
 

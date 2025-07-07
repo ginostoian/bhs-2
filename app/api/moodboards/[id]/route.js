@@ -5,10 +5,11 @@ import connectMongoose from "@/libs/mongoose";
 import Moodboard from "@/models/Moodboard";
 import MoodboardSection from "@/models/MoodboardSection";
 import MoodboardProduct from "@/models/MoodboardProduct";
+import EmailPreference from "@/models/EmailPreference";
+import { sendMoodboardStatusUpdateEmail } from "@/libs/emailService";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/moodboards/[id]
@@ -86,13 +87,19 @@ export async function PUT(request, { params }) {
     const body = await request.json();
     const { name, description, projectType, notes, status, isActive } = body;
 
-    const moodboard = await Moodboard.findById(params.id);
+    const moodboard = await Moodboard.findById(params.id).populate(
+      "user",
+      "name email",
+    );
     if (!moodboard) {
       return NextResponse.json(
         { error: "Moodboard not found" },
         { status: 404 },
       );
     }
+
+    // Store old status for comparison
+    const oldStatus = moodboard.status;
 
     // Update fields
     if (name !== undefined) moodboard.name = name;
@@ -103,7 +110,36 @@ export async function PUT(request, { params }) {
     if (isActive !== undefined) moodboard.isActive = isActive;
 
     await moodboard.save();
-    await moodboard.populate("user", "name email");
+
+    // Send email notification if status changed
+    if (status !== undefined && oldStatus !== status) {
+      try {
+        // Check if user has email notifications enabled for documents (moodboards fall under this category)
+        const emailEnabled = await EmailPreference.isEmailEnabled(
+          moodboard.user._id,
+          "documents",
+        );
+
+        if (emailEnabled) {
+          await sendMoodboardStatusUpdateEmail(
+            moodboard.user.email,
+            moodboard.user.name,
+            moodboard.name,
+            oldStatus,
+            status,
+          );
+          console.log(
+            `✅ Moodboard status update email sent to ${moodboard.user.email}`,
+          );
+        }
+      } catch (emailError) {
+        console.error(
+          "Failed to send moodboard status update email:",
+          emailError,
+        );
+        // Don't fail the moodboard update if email fails
+      }
+    }
 
     return NextResponse.json({ moodboard });
   } catch (error) {

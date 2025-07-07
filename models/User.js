@@ -100,6 +100,11 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Last login timestamp for activity tracking
+    lastLoginAt: {
+      type: Date,
+      index: true,
+    },
   },
   {
     timestamps: true,

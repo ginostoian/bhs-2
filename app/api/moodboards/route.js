@@ -4,10 +4,11 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Moodboard from "@/models/Moodboard";
 import User from "@/models/User";
+import EmailPreference from "@/models/EmailPreference";
+import { sendMoodboardCreatedEmail } from "@/libs/emailService";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/moodboards
@@ -97,6 +98,29 @@ export async function POST(request) {
 
     // Populate user data for response
     await moodboard.populate("user", "name email");
+
+    // Send email notification to the user (async, don't wait for it)
+    try {
+      // Check if user has email notifications enabled for documents (moodboards fall under this category)
+      const emailEnabled = await EmailPreference.isEmailEnabled(
+        userId,
+        "documents",
+      );
+
+      if (emailEnabled) {
+        await sendMoodboardCreatedEmail(
+          user.email,
+          user.name,
+          name,
+          description,
+          projectType,
+        );
+        console.log(`✅ Moodboard creation email sent to ${user.email}`);
+      }
+    } catch (emailError) {
+      console.error("Failed to send moodboard creation email:", emailError);
+      // Don't fail the moodboard creation if email fails
+    }
 
     return NextResponse.json({ moodboard }, { status: 201 });
   } catch (error) {

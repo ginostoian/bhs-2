@@ -3,10 +3,11 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import MoodboardProduct from "@/models/MoodboardProduct";
+import EmailPreference from "@/models/EmailPreference";
+import { sendProductApprovalEmail } from "@/libs/emailService";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * PUT /api/moodboards/[id]/sections/[sectionId]/products/[productId]/approval
@@ -26,7 +27,13 @@ export async function PUT(request, { params }) {
     const body = await request.json();
     const { approvalStatus, userComment, adminComment } = body;
 
-    const moodboardProduct = await MoodboardProduct.findById(params.productId);
+    const moodboardProduct = await MoodboardProduct.findById(params.productId)
+      .populate("product")
+      .populate({
+        path: "moodboard",
+        populate: { path: "user", select: "name email" },
+      });
+
     if (!moodboardProduct) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
@@ -38,6 +45,9 @@ export async function PUT(request, { params }) {
     ) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
+
+    // Store old approval status for comparison
+    const oldApprovalStatus = moodboardProduct.approvalStatus;
 
     // Update approval status (users can update their own approval)
     if (approvalStatus !== undefined) {
@@ -55,7 +65,34 @@ export async function PUT(request, { params }) {
     }
 
     await moodboardProduct.save();
-    await moodboardProduct.populate("product");
+
+    // Send email notification if approval status changed (and it's a user making the change)
+    if (
+      approvalStatus !== undefined &&
+      oldApprovalStatus !== approvalStatus &&
+      session.user.role === "user"
+    ) {
+      try {
+        // Send admin notification about product approval/decline
+        await sendProductApprovalEmail(
+          moodboardProduct.moodboard.user.email,
+          moodboardProduct.moodboard.user.name,
+          moodboardProduct.product.name,
+          approvalStatus,
+          userComment,
+          moodboardProduct.moodboard.name,
+        );
+        console.log(
+          `✅ Product ${approvalStatus} notification sent to admin for ${moodboardProduct.product.name}`,
+        );
+      } catch (emailError) {
+        console.error(
+          "Failed to send product approval notification:",
+          emailError,
+        );
+        // Don't fail the approval update if email fails
+      }
+    }
 
     return NextResponse.json({ product: moodboardProduct });
   } catch (error) {

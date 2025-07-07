@@ -6,8 +6,7 @@ import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 async function isAdmin(session) {
   if (!session?.user?.email) return false;
@@ -21,7 +20,8 @@ export async function GET() {
   if (!(await isAdmin(session))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json(getEmailStats());
+  const stats = await getEmailStats();
+  return NextResponse.json(stats);
 }
 
 export async function DELETE() {
@@ -29,6 +29,6 @@ export async function DELETE() {
   if (!(await isAdmin(session))) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  clearEmailStats();
+  await clearEmailStats();
   return NextResponse.json({ success: true });
 }

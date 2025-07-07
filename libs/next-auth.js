@@ -152,6 +152,26 @@ export const authOptions = {
   callbacks: {
     // Sign in callback - runs when user signs in
     signIn: async ({ user, account, profile }) => {
+      try {
+        // Update lastLoginAt for the user
+        if (user?.email) {
+          await connectMongoose();
+          // Find user by email since the ID might not be the MongoDB ObjectId
+          const userToUpdate = await User.findOne({ email: user.email });
+          if (userToUpdate) {
+            await User.findByIdAndUpdate(userToUpdate._id, {
+              lastLoginAt: new Date(),
+            });
+            console.log(`✅ Updated lastLoginAt for user: ${user.email}`);
+          } else {
+            console.log(`⚠️ User not found for email: ${user.email}`);
+          }
+        }
+      } catch (error) {
+        console.error("Error updating lastLoginAt:", error);
+        // Don't fail the sign in if this fails
+      }
+
       // Always allow sign in - let the adapter handle user creation and linking
       return true;
     },

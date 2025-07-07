@@ -12,7 +12,7 @@ import EmailTestClient from "./components/EmailTestClient";
 export default async function AdminEmailTestingPage() {
   // Check authentication and admin access
   const session = await getServerSession(authOptions);
-  if (!session?.user?.role !== "admin") {
+  if (!session?.user || session.user.role !== "admin") {
     redirect("/dashboard");
   }
 

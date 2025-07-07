@@ -268,6 +268,57 @@ export default function AdminMoodboardManager({
     }
   };
 
+  // Handle moodboard status update
+  const handleStatusUpdate = async (newStatus) => {
+    try {
+      const response = await fetch(`/api/moodboards/${moodboard.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update moodboard status");
+
+      const { moodboard: updatedMoodboard } = await response.json();
+      setMoodboard(updatedMoodboard);
+
+      setModalState({
+        isOpen: true,
+        title: "Success",
+        message: `Moodboard status updated to ${newStatus}`,
+        type: "alert",
+        confirmText: "OK",
+      });
+    } catch (error) {
+      console.error("Error updating moodboard status:", error);
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to update moodboard status. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
+    }
+  };
+
+  // Get status badge styling
+  const getStatusBadge = (status) => {
+    const styles = {
+      draft: "bg-gray-100 text-gray-800",
+      shared: "bg-blue-100 text-blue-800",
+      approved: "bg-green-100 text-green-800",
+      completed: "bg-purple-100 text-purple-800",
+    };
+
+    return (
+      <span
+        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status]}`}
+      >
+        {status.charAt(0).toUpperCase() + status.slice(1)}
+      </span>
+    );
+  };
+
   // Calculate statistics
   const totalProducts = sections.reduce(
     (total, section) => total + (section.products?.length || 0),
@@ -326,6 +377,24 @@ export default function AdminMoodboardManager({
               Project: {moodboard.projectType}
             </p>
           )}
+
+          {/* Status Management */}
+          <div className="mt-4 flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium text-gray-700">Status:</span>
+              {getStatusBadge(moodboard.status)}
+            </div>
+            <select
+              value={moodboard.status}
+              onChange={(e) => handleStatusUpdate(e.target.value)}
+              className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            >
+              <option value="draft">Draft</option>
+              <option value="shared">Shared</option>
+              <option value="approved">Approved</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import toJSON from "./plugins/toJSON";
+import EmailPreference from "./EmailPreference";
+import { sendPaymentDueEmail } from "@/libs/emailService";
 
 /**
  * Payment Schema
@@ -48,6 +50,11 @@ const paymentSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
+    // Track if status change email has been sent
+    statusChangeEmailSent: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
@@ -91,6 +98,59 @@ paymentSchema.pre("validate", async function (next) {
   }
 });
 
+// Pre-save middleware to handle status change notifications
+paymentSchema.pre("save", async function (next) {
+  try {
+    // Check if status is changing from Scheduled to Due
+    if (this.isModified("status") && this.status === "Due") {
+      const previousStatus = this._original?.status || "Scheduled";
+
+      if (previousStatus === "Scheduled" && !this.statusChangeEmailSent) {
+        // Send email notification for status change
+        try {
+          const emailEnabled = await EmailPreference.isEmailEnabled(
+            this.user,
+            "payments",
+          );
+
+          if (emailEnabled) {
+            // Populate user info if not already populated
+            if (!this.populated("user")) {
+              await this.populate("user", "name email");
+            }
+
+            await sendPaymentDueEmail(
+              this.user.email,
+              this.user.name,
+              this.name,
+              this.amount,
+              this.dueDate,
+              false, // not overdue
+            );
+
+            console.log(
+              `✅ Payment status change email sent to ${this.user.email} for payment: ${this.name}`,
+            );
+
+            // Mark that status change email has been sent
+            this.statusChangeEmailSent = true;
+          }
+        } catch (emailError) {
+          console.error(
+            `Failed to send payment status change email to user ${this.user}:`,
+            emailError,
+          );
+          // Don't fail the save operation if email fails
+        }
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Method to update status based on due date
 paymentSchema.methods.updateStatus = function () {
   const today = new Date();
@@ -114,8 +174,13 @@ paymentSchema.statics.updateAllStatuses = async function () {
   const payments = await this.find({ status: { $ne: "Paid" } });
 
   for (const payment of payments) {
+    const oldStatus = payment.status;
     payment.updateStatus();
-    await payment.save();
+
+    // Only save if status actually changed
+    if (oldStatus !== payment.status) {
+      await payment.save();
+    }
   }
 };
 
