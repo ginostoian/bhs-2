@@ -48,7 +48,9 @@ export const authOptions = {
 
           if (isSignUp) {
             // Sign up flow
+            console.log("Sign up attempt for:", email);
             if (user) {
+              console.log("User already exists, sign up failed");
               throw new Error("User with this email already exists");
             }
 
@@ -60,6 +62,7 @@ export const authOptions = {
               password: hashedPassword,
             });
 
+            console.log("New user created:", newUser.email);
             return {
               id: newUser._id.toString(),
               email: newUser.email,
@@ -68,7 +71,9 @@ export const authOptions = {
             };
           } else {
             // Sign in flow
+            console.log("Sign in attempt for:", email);
             if (!user || !user.password) {
+              console.log("User not found or no password");
               throw new Error("Invalid credentials");
             }
 
@@ -77,9 +82,11 @@ export const authOptions = {
               user.password,
             );
             if (!isValidPassword) {
+              console.log("Invalid password");
               throw new Error("Invalid credentials");
             }
 
+            console.log("Sign in successful for:", user.email);
             return {
               id: user._id.toString(),
               email: user.email,
@@ -100,7 +107,17 @@ export const authOptions = {
   // Requires a MongoDB database. Set MONOGODB_URI env variable.
   // Learn more about the model type: https://next-auth.js.org/v3/adapters/models
   // Re-enable adapter for production stability
-  ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
+  ...(connectMongo && {
+    adapter: MongoDBAdapter(connectMongo, {
+      // Configure the adapter to handle account linking
+      collections: {
+        Users: "users",
+        Accounts: "accounts",
+        Sessions: "sessions",
+        VerificationTokens: "verification_tokens",
+      },
+    }),
+  }),
 
   callbacks: {
     // Sign in callback - runs when user signs in
@@ -110,40 +127,38 @@ export const authOptions = {
 
         // If this is a Google OAuth sign in
         if (account?.provider === "google") {
+          console.log("Google sign in attempt for:", user.email);
+
           const existingUser = await User.findOne({ email: user.email });
 
           if (existingUser) {
-            // User exists - update with Google info if needed
-            if (!existingUser.googleId) {
-              await User.updateOne(
-                { email: user.email },
-                {
-                  googleId: profile.sub,
-                  image: profile.picture || existingUser.image,
-                  name: user.name || existingUser.name,
-                },
-              );
-            }
-            return true;
+            console.log("Existing user found:", existingUser.email);
+
+            // Update existing user with Google info
+            await User.updateOne(
+              { email: user.email },
+              {
+                googleId: account.providerAccountId,
+                image: user.image || existingUser.image,
+                name: user.name || existingUser.name,
+              },
+            );
+
+            // Set the user ID to link the accounts
+            user.id = existingUser._id.toString();
+            console.log("Account linked successfully");
           } else {
-            // New user from Google - create with Google ID
-            await User.create({
-              email: user.email,
-              name: user.name,
-              image: user.picture,
-              googleId: profile.sub,
-            });
-            return true;
+            console.log("New Google user, will be created by adapter");
           }
         }
 
-        // For credentials provider, user is already created/validated
         return true;
       } catch (error) {
         console.error("Sign in callback error:", error);
         return false;
       }
     },
+
     // JWT callback - runs when JWT is created/updated
     jwt: async ({ token, user, account }) => {
       // If user exists (first sign in), add role to token
