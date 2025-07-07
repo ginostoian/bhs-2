@@ -52,6 +52,14 @@ function SignInForm() {
     e.preventDefault();
     setIsLoading(true);
 
+    console.log("Sending credentials:", {
+      email: formData.email,
+      hasPassword: !!formData.password,
+      hasName: !!formData.name,
+      isSignUp: isSignUp,
+      isSignUpType: typeof isSignUp,
+    });
+
     try {
       const result = await signIn("credentials", {
         email: formData.email,

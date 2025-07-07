@@ -39,6 +39,18 @@ export const authOptions = {
 
           const { email, password, name, isSignUp } = credentials;
 
+          // Convert isSignUp to boolean if it's a string
+          const isSignUpBool = isSignUp === true || isSignUp === "true";
+
+          console.log("Credentials received:", {
+            email,
+            hasPassword: !!password,
+            hasName: !!name,
+            isSignUp: isSignUp,
+            isSignUpType: typeof isSignUp,
+            isSignUpBool: isSignUpBool,
+          });
+
           if (!email || !password) {
             return null;
           }
@@ -46,7 +58,7 @@ export const authOptions = {
           // Find user by email
           const user = await User.findOne({ email: email.toLowerCase() });
 
-          if (isSignUp) {
+          if (isSignUpBool) {
             // Sign up flow
             console.log("Sign up attempt for:", email);
             if (user) {
