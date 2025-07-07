@@ -4,6 +4,10 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Product from "@/models/Product";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * GET /api/products
  * Get all products with optional filtering

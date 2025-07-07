@@ -4,6 +4,10 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Notification from "@/models/Notification";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * POST /api/notifications/mark-read
  * Mark notifications as read

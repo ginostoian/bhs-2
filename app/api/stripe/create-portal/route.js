@@ -5,6 +5,10 @@ import connectMongo from "@/libs/mongoose";
 import { createCustomerPortal } from "@/libs/stripe";
 import User from "@/models/User";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 export async function POST(req) {
   const session = await getServerSession(authOptions);
 

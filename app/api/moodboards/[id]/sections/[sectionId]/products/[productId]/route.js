@@ -5,6 +5,10 @@ import connectMongoose from "@/libs/mongoose";
 import MoodboardProduct from "@/models/MoodboardProduct";
 import MoodboardSection from "@/models/MoodboardSection";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * PUT /api/moodboards/[id]/sections/[sectionId]/products/[productId]
  * Update a moodboard product

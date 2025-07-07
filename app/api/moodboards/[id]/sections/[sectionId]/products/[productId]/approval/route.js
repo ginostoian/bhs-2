@@ -4,6 +4,10 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import MoodboardProduct from "@/models/MoodboardProduct";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * PUT /api/moodboards/[id]/sections/[sectionId]/products/[productId]/approval
  * Update product approval status and comments

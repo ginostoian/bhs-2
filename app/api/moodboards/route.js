@@ -5,6 +5,10 @@ import connectMongoose from "@/libs/mongoose";
 import Moodboard from "@/models/Moodboard";
 import User from "@/models/User";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * GET /api/moodboards
  * Get moodboards - users see their own, admins see all

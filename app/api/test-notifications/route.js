@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import {
+
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
   notifyUserRegistration,
   notifyEmployeeCreation,
   notifyTaskAssignment,

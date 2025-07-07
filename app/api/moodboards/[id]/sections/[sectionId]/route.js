@@ -6,6 +6,10 @@ import mongoose from "mongoose";
 import MoodboardSection from "@/models/MoodboardSection";
 import Moodboard from "@/models/Moodboard";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * PUT /api/moodboards/[id]/sections/[sectionId]
  * Update a section (admin only)

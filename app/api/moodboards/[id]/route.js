@@ -6,6 +6,10 @@ import Moodboard from "@/models/Moodboard";
 import MoodboardSection from "@/models/MoodboardSection";
 import MoodboardProduct from "@/models/MoodboardProduct";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 /**
  * GET /api/moodboards/[id]
  * Get a specific moodboard with sections and products

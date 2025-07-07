@@ -5,6 +5,10 @@ import { getEmailStats, clearEmailStats } from "@/libs/emailService";
 import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 async function isAdmin(session) {
   if (!session?.user?.email) return false;
   await connectMongoose();

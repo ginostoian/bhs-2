@@ -5,6 +5,10 @@ import connectMongoose from "@/libs/mongoose";
 import Milestone from "../../../../models/Milestone.js";
 import Project from "../../../../models/Project.js";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 // GET /api/admin/milestones?projectId=xxx
 export async function GET(request) {
   try {

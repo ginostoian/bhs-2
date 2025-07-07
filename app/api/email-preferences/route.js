@@ -5,6 +5,10 @@ import connectMongoose from "@/libs/mongoose";
 import EmailPreference from "@/models/EmailPreference";
 import User from "@/models/User";
 
+// Force dynamic rendering for this route
+export const dynamic = 'force-dynamic';
+
+
 export async function GET(req) {
   try {
     const session = await getServerSession(authOptions);
