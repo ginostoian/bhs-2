@@ -13,6 +13,7 @@ function SignInForm() {
     searchParams.get("callbackUrl") || config.auth.callbackUrl;
 
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isSetPassword, setIsSetPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -52,20 +53,13 @@ function SignInForm() {
     e.preventDefault();
     setIsLoading(true);
 
-    console.log("Sending credentials:", {
-      email: formData.email,
-      hasPassword: !!formData.password,
-      hasName: !!formData.name,
-      isSignUp: isSignUp,
-      isSignUpType: typeof isSignUp,
-    });
-
     try {
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
         name: formData.name,
         isSignUp,
+        isSetPassword,
         callbackUrl,
         redirect: false,
       });
@@ -76,7 +70,9 @@ function SignInForm() {
         toast.success(
           isSignUp
             ? "Account created successfully!"
-            : "Signed in successfully!",
+            : isSetPassword
+              ? "Password set successfully!"
+              : "Signed in successfully!",
         );
         router.push(callbackUrl);
       }
@@ -107,19 +103,44 @@ function SignInForm() {
             </svg>
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isSignUp ? "Create your account" : "Sign in to your account"}
+            {isSignUp
+              ? "Create your account"
+              : isSetPassword
+                ? "Set your password"
+                : "Sign in to your account"}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             {isSignUp
               ? "Already have an account?"
-              : "Don&apos;t have an account?"}{" "}
+              : isSetPassword
+                ? "Remember your password?"
+                : "Don&apos;t have an account?"}{" "}
             <button
               type="button"
-              onClick={() => setIsSignUp(!isSignUp)}
+              onClick={() => {
+                setIsSignUp(false);
+                setIsSetPassword(false);
+              }}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
               {isSignUp ? "Sign in" : "Sign up"}
             </button>
+            {!isSignUp && !isSetPassword && (
+              <>
+                {" "}
+                or{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSignUp(false);
+                    setIsSetPassword(true);
+                  }}
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Set Password
+                </button>
+              </>
+            )}
           </p>
         </div>
 
@@ -248,7 +269,11 @@ function SignInForm() {
                     ></path>
                   </svg>
                 ) : null}
-                {isSignUp ? "Create Account" : "Sign In"}
+                {isSignUp
+                  ? "Create Account"
+                  : isSetPassword
+                    ? "Set Password"
+                    : "Sign In"}
               </button>
             </div>
           </form>

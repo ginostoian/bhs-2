@@ -32,37 +32,32 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
         name: { label: "Name", type: "text" },
         isSignUp: { label: "Is Sign Up", type: "boolean" },
+        isSetPassword: { label: "Is Set Password", type: "boolean" },
       },
       async authorize(credentials) {
         try {
           await connectMongoose();
 
-          const { email, password, name, isSignUp } = credentials;
+          const { email, password, name, isSignUp, isSetPassword } =
+            credentials;
 
-          // Convert isSignUp to boolean if it's a string
+          // Convert boolean flags if they're strings
           const isSignUpBool = isSignUp === true || isSignUp === "true";
-
-          console.log("Credentials received:", {
-            email,
-            hasPassword: !!password,
-            hasName: !!name,
-            isSignUp: isSignUp,
-            isSignUpType: typeof isSignUp,
-            isSignUpBool: isSignUpBool,
-          });
+          const isSetPasswordBool =
+            isSetPassword === true || isSetPassword === "true";
 
           if (!email || !password) {
             return null;
           }
 
-          // Find user by email
-          const user = await User.findOne({ email: email.toLowerCase() });
+          // Find user by email - explicitly select password field
+          const user = await User.findOne({
+            email: email.toLowerCase(),
+          }).select("+password");
 
           if (isSignUpBool) {
             // Sign up flow
-            console.log("Sign up attempt for:", email);
             if (user) {
-              console.log("User already exists, sign up failed");
               throw new Error("User with this email already exists");
             }
 
@@ -74,19 +69,55 @@ export const authOptions = {
               password: hashedPassword,
             });
 
-            console.log("New user created:", newUser.email);
             return {
               id: newUser._id.toString(),
               email: newUser.email,
               name: newUser.name,
               role: newUser.role,
             };
+          } else if (isSetPasswordBool) {
+            // Set password flow
+            if (!user) {
+              throw new Error("User not found");
+            }
+
+            if (user.password) {
+              throw new Error("User already has a password set");
+            }
+
+            // Set password for existing user
+            const hashedPassword = await bcrypt.hash(password, 12);
+            await User.updateOne(
+              { email: email.toLowerCase() },
+              { password: hashedPassword },
+            );
+
+            return {
+              id: user._id.toString(),
+              email: user.email,
+              name: user.name,
+              role: user.role,
+              image: user.image,
+              projectStatus: user.projectStatus,
+            };
           } else {
             // Sign in flow
-            console.log("Sign in attempt for:", email);
-            if (!user || !user.password) {
-              console.log("User not found or no password");
+            if (!user) {
               throw new Error("Invalid credentials");
+            }
+
+            if (!user.password) {
+              // If user has Google ID, they should use Google sign-in
+              if (user.googleId) {
+                throw new Error(
+                  "This email is registered with Google. Please sign in with Google instead.",
+                );
+              }
+
+              // If user has no password and no Google ID, they need to set a password
+              throw new Error(
+                "Account exists but no password is set. You can set a password using the 'Set Password' option below.",
+              );
             }
 
             const isValidPassword = await bcrypt.compare(
@@ -94,11 +125,8 @@ export const authOptions = {
               user.password,
             );
             if (!isValidPassword) {
-              console.log("Invalid password");
               throw new Error("Invalid credentials");
             }
-
-            console.log("Sign in successful for:", user.email);
             return {
               id: user._id.toString(),
               email: user.email,
@@ -119,56 +147,13 @@ export const authOptions = {
   // Requires a MongoDB database. Set MONOGODB_URI env variable.
   // Learn more about the model type: https://next-auth.js.org/v3/adapters/models
   // Re-enable adapter for production stability
-  ...(connectMongo && {
-    adapter: MongoDBAdapter(connectMongo, {
-      // Configure the adapter to handle account linking
-      collections: {
-        Users: "users",
-        Accounts: "accounts",
-        Sessions: "sessions",
-        VerificationTokens: "verification_tokens",
-      },
-    }),
-  }),
+  ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
 
   callbacks: {
     // Sign in callback - runs when user signs in
     signIn: async ({ user, account, profile }) => {
-      try {
-        await connectMongoose();
-
-        // If this is a Google OAuth sign in
-        if (account?.provider === "google") {
-          console.log("Google sign in attempt for:", user.email);
-
-          const existingUser = await User.findOne({ email: user.email });
-
-          if (existingUser) {
-            console.log("Existing user found:", existingUser.email);
-
-            // Update existing user with Google info
-            await User.updateOne(
-              { email: user.email },
-              {
-                googleId: account.providerAccountId,
-                image: user.image || existingUser.image,
-                name: user.name || existingUser.name,
-              },
-            );
-
-            // Set the user ID to link the accounts
-            user.id = existingUser._id.toString();
-            console.log("Account linked successfully");
-          } else {
-            console.log("New Google user, will be created by adapter");
-          }
-        }
-
-        return true;
-      } catch (error) {
-        console.error("Sign in callback error:", error);
-        return false;
-      }
+      // Always allow sign in - let the adapter handle user creation and linking
+      return true;
     },
 
     // JWT callback - runs when JWT is created/updated
@@ -184,18 +169,6 @@ export const authOptions = {
       if (session?.user) {
         session.user.id = token.sub;
         session.user.role = token.role;
-
-        // Fetch user data from database to get the image and project status
-        try {
-          await connectMongoose();
-          const user = await User.findOne({ email: session.user.email }).lean();
-          if (user) {
-            session.user.image = user.image;
-            session.user.projectStatus = user.projectStatus;
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
       }
       return session;
     },
