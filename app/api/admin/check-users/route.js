@@ -6,10 +6,6 @@ import User from "../../../../models/User";
 import Project from "../../../../models/Project";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
-
-// Force dynamic rendering for this route
 export const dynamic = "force-dynamic";
 
 export async function GET() {

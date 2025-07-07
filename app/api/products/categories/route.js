@@ -9,8 +9,7 @@ export const dynamic = 'force-dynamic';
 
 
 // Force dynamic rendering for this route
-export const dynamic = "force-dynamic";
-
+// Force dynamic rendering for this route
 /**
  * GET /api/products/categories
  * Get all product categories

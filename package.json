@@ -13,7 +13,8 @@
     "test-resend": "node scripts/test-resend.js",
     "create-projects": "node scripts/create-projects-for-users.js",
     "migrate-users": "node scripts/migrate-users-for-email-auth.js",
-    "fix-api-routes": "node scripts/add-dynamic-config.js"
+    "fix-api-routes": "node scripts/add-dynamic-config.js",
+    "fix-duplicates": "node scripts/fix-duplicate-dynamic.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^1.0.0",
