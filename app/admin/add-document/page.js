@@ -21,6 +21,8 @@ export default async function AddDocumentPage() {
     {
       email: 1,
       name: 1,
+      role: 1,
+      projectStatus: 1,
     },
   )
     .sort({ name: 1 })

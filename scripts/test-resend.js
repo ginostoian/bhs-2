@@ -26,7 +26,7 @@ async function testResend() {
     console.log("📧 Sending test email...");
 
     const data = {
-      from: "Better Homes Studio <onboarding@resend.dev>", // Use Resend's default domain for testing
+      from: "Better Homes Studio <info@mail.bhstudio.co.uk>", // Try a different sender address
       to: ["contact@celli.co.uk"], // Replace with your email for testing
       subject: "Resend Test - Better Homes Studio",
       text: "Resend Test Successful! This is a test email from your Better Homes Studio email system.",

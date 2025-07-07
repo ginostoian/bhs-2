@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Modal from "@/components/Modal";
+import UserSearchSelector from "./UserSearchSelector";
 
 /**
  * Add Document Form Component
@@ -28,6 +29,13 @@ export default function AddDocumentForm({ users }) {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleUserSelect = (userId) => {
+    setFormData((prev) => ({
+      ...prev,
+      userId: userId,
     }));
   };
 
@@ -159,21 +167,12 @@ export default function AddDocumentForm({ users }) {
           >
             Select User *
           </label>
-          <select
-            id="userId"
-            name="userId"
-            value={formData.userId}
-            onChange={handleChange}
-            required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-          >
-            <option value="">Choose a user...</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name || user.email} ({user.role || "user"})
-              </option>
-            ))}
-          </select>
+          <UserSearchSelector
+            users={users}
+            selectedUserId={formData.userId}
+            onUserSelect={handleUserSelect}
+            placeholder="Choose a user..."
+          />
         </div>
 
         {/* Document Type */}
