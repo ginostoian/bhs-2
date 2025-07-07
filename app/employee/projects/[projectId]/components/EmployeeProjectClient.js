@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 /**
  * Employee Project Client Component
@@ -404,9 +405,11 @@ export default function EmployeeProjectClient({
                 key={photo.id}
                 className="aspect-square overflow-hidden rounded-lg"
               >
-                <img
+                <Image
                   src={photo.content}
                   alt="Project photo"
+                  width={300}
+                  height={300}
                   className="h-full w-full object-cover"
                 />
               </div>

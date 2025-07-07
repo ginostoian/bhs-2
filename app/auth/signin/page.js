@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-hot-toast";
 import config from "@/config";
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl =
@@ -247,5 +247,33 @@ export default function SignInPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function SignInLoading() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md space-y-8">
+        <div className="animate-pulse">
+          <div className="mx-auto h-12 w-12 rounded-full bg-gray-200"></div>
+          <div className="mt-6 h-8 w-full rounded bg-gray-200"></div>
+          <div className="mx-auto mt-2 h-4 w-3/4 rounded bg-gray-200"></div>
+        </div>
+        <div className="space-y-4">
+          <div className="h-10 w-full rounded bg-gray-200"></div>
+          <div className="h-10 w-full rounded bg-gray-200"></div>
+          <div className="h-10 w-full rounded bg-gray-200"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<SignInLoading />}>
+      <SignInForm />
+    </Suspense>
   );
 }
