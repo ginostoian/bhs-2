@@ -23,7 +23,7 @@ export default function TaskModal({
     status: "Scheduled",
     assignedTo: "",
     estimatedDuration: 1,
-    dueDate: "",
+    startDate: "",
     priority: "medium",
     notes: "",
     tags: [],
@@ -43,8 +43,8 @@ export default function TaskModal({
         status: task.status || "Scheduled",
         assignedTo: task.assignedTo?.id || "",
         estimatedDuration: task.estimatedDuration || 1,
-        dueDate: task.dueDate
-          ? new Date(task.dueDate).toISOString().split("T")[0]
+        startDate: task.startDate
+          ? new Date(task.startDate).toISOString().split("T")[0]
           : "",
         priority: task.priority || "medium",
         notes: task.notes || "",
@@ -60,7 +60,7 @@ export default function TaskModal({
         status: "Scheduled",
         assignedTo: "",
         estimatedDuration: 1,
-        dueDate: "",
+        startDate: "",
         priority: "medium",
         notes: "",
         tags: [],
@@ -383,19 +383,19 @@ export default function TaskModal({
                 )}
               </div>
 
-              {/* Due Date */}
+              {/* Start Date */}
               <div>
                 <label
-                  htmlFor="dueDate"
+                  htmlFor="startDate"
                   className="mb-1 block text-sm font-medium text-gray-700"
                 >
-                  Due Date
+                  Start Date
                 </label>
                 <input
                   type="date"
-                  id="dueDate"
-                  name="dueDate"
-                  value={formData.dueDate}
+                  id="startDate"
+                  name="startDate"
+                  value={formData.startDate}
                   onChange={handleChange}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   disabled={loading}

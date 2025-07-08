@@ -1,12 +1,37 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import EditEmployeeModal from "./EditEmployeeModal";
 
 /**
  * Employee Detail Client Component
  * Displays detailed employee information and assigned tasks
  */
-export default function EmployeeDetailClient({ employee, tasks }) {
+export default function EmployeeDetailClient({
+  employee: initialEmployee,
+  tasks,
+}) {
+  const [employee, setEmployee] = useState(initialEmployee);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  // Debug: Log employee state changes
+  useEffect(() => {
+    console.log("Employee state updated:", employee);
+    console.log("Employee dayRate:", employee?.dayRate);
+  }, [employee]);
+
+  // Check if edit modal should be opened from URL parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("edit") === "true") {
+      setShowEditModal(true);
+      // Remove the edit parameter from URL
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.delete("edit");
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, []);
   // Helper function to get status badge
   const getStatusBadge = (status) => {
     const badges = {
@@ -71,9 +96,17 @@ export default function EmployeeDetailClient({ employee, tasks }) {
     <div className="space-y-6">
       {/* Employee Information */}
       <div className="rounded-lg bg-white p-6 shadow">
-        <h2 className="mb-4 text-lg font-medium text-gray-900">
-          Employee Information
-        </h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg font-medium text-gray-900">
+            Employee Information
+          </h2>
+          <button
+            onClick={() => setShowEditModal(true)}
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Edit Employee
+          </button>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <p className="text-sm font-medium text-gray-500">Full Name</p>
@@ -100,9 +133,9 @@ export default function EmployeeDetailClient({ employee, tasks }) {
             </p>
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-500">Hourly Rate</p>
+            <p className="text-sm font-medium text-gray-500">Day Rate</p>
             <p className="text-sm text-gray-900">
-              {employee.hourlyRate ? `£${employee.hourlyRate}/hr` : "Not set"}
+              {employee.dayRate ? `£${employee.dayRate}/day` : "Not set"}
             </p>
           </div>
           <div>
@@ -220,8 +253,10 @@ export default function EmployeeDetailClient({ employee, tasks }) {
                         {task.section?.name || "Unknown"}
                       </div>
                       <div>
-                        <span className="font-medium">Due Date:</span>{" "}
-                        {task.dueDate ? formatDate(task.dueDate) : "Not set"}
+                        <span className="font-medium">Start Date:</span>{" "}
+                        {task.startDate
+                          ? formatDate(task.startDate)
+                          : "Not set"}
                       </div>
                       <div>
                         <span className="font-medium">Duration:</span> Est:{" "}
@@ -251,6 +286,19 @@ export default function EmployeeDetailClient({ employee, tasks }) {
           ← Back to Employees
         </Link>
       </div>
+
+      {/* Edit Employee Modal */}
+      <EditEmployeeModal
+        employee={employee}
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onSave={(updatedEmployee) => {
+          console.log("onSave called with updated employee:", updatedEmployee);
+          console.log("Updated employee dayRate:", updatedEmployee.dayRate);
+          setEmployee(updatedEmployee);
+          setShowEditModal(false);
+        }}
+      />
     </div>
   );
 }

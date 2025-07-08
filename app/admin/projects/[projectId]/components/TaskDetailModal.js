@@ -221,10 +221,10 @@ export default function TaskDetailModal({
 
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700">
-                      Due Date
+                      Start Date
                     </label>
                     <div className="text-sm text-gray-900">
-                      {formatDate(task.dueDate)}
+                      {formatDate(task.startDate)}
                     </div>
                   </div>
                 </div>

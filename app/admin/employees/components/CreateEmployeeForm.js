@@ -13,7 +13,7 @@ export default function CreateEmployeeForm({ users }) {
     position: "",
     phone: "",
     skills: "",
-    hourlyRate: "",
+    dayRate: "",
     availability: "available",
     notes: "",
     convertUser: false,
@@ -78,8 +78,8 @@ export default function CreateEmployeeForm({ users }) {
       newErrors.position = "Position is required";
     }
 
-    if (formData.hourlyRate && isNaN(formData.hourlyRate)) {
-      newErrors.hourlyRate = "Hourly rate must be a number";
+    if (formData.dayRate && isNaN(formData.dayRate)) {
+      newErrors.dayRate = "Day rate must be a number";
     }
 
     setErrors(newErrors);
@@ -106,9 +106,7 @@ export default function CreateEmployeeForm({ users }) {
           .split(",")
           .map((skill) => skill.trim())
           .filter(Boolean),
-        hourlyRate: formData.hourlyRate
-          ? parseFloat(formData.hourlyRate)
-          : null,
+        dayRate: formData.dayRate ? parseFloat(formData.dayRate) : null,
         availability: formData.availability,
         notes: formData.notes.trim(),
         convertUser: formData.convertUser,
@@ -131,7 +129,7 @@ export default function CreateEmployeeForm({ users }) {
           position: "",
           phone: "",
           skills: "",
-          hourlyRate: "",
+          dayRate: "",
           availability: "available",
           notes: "",
           convertUser: false,
@@ -391,30 +389,30 @@ export default function CreateEmployeeForm({ users }) {
           />
         </div>
 
-        {/* Hourly Rate */}
+        {/* Day Rate */}
         <div>
           <label
-            htmlFor="hourlyRate"
+            htmlFor="dayRate"
             className="mb-1 block text-sm font-medium text-gray-700"
           >
-            Hourly Rate (£)
+            Day Rate (£)
           </label>
           <input
             type="number"
-            id="hourlyRate"
-            name="hourlyRate"
-            value={formData.hourlyRate}
+            id="dayRate"
+            name="dayRate"
+            value={formData.dayRate}
             onChange={handleChange}
             min="0"
             step="0.01"
             className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.hourlyRate ? "border-red-300" : "border-gray-300"
+              errors.dayRate ? "border-red-300" : "border-gray-300"
             }`}
             disabled={loading}
-            placeholder="Enter hourly rate"
+            placeholder="Enter day rate"
           />
-          {errors.hourlyRate && (
-            <p className="mt-1 text-sm text-red-600">{errors.hourlyRate}</p>
+          {errors.dayRate && (
+            <p className="mt-1 text-sm text-red-600">{errors.dayRate}</p>
           )}
         </div>
 

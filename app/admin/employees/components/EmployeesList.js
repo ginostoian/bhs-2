@@ -212,11 +212,11 @@ export default function EmployeesList({ employees: initialEmployees }) {
                       </span>
                     </div>
                   )}
-                  {employee.hourlyRate && (
+                  {employee.dayRate && (
                     <div>
                       Rate:{" "}
                       <span className="font-medium">
-                        £{employee.hourlyRate}/hr
+                        £{employee.dayRate}/day
                       </span>
                     </div>
                   )}
@@ -228,6 +228,12 @@ export default function EmployeesList({ employees: initialEmployees }) {
                     className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
                   >
                     View Details
+                  </Link>
+                  <Link
+                    href={`/admin/employees/${employee.id}?edit=true`}
+                    className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  >
+                    Edit
                   </Link>
                   <button
                     onClick={() => handleDeactivateEmployee(employee.id)}

@@ -367,7 +367,7 @@ export default function TasksTable({ projectId }) {
                               Priority
                             </th>
                             <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                              Due Date
+                              Start Date
                             </th>
                             <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                               Actions
@@ -472,8 +472,8 @@ export default function TasksTable({ projectId }) {
                                 {getPriorityBadge(task.priority)}
                               </td>
                               <td className="px-4 py-3 text-sm text-gray-900">
-                                {task.dueDate
-                                  ? new Date(task.dueDate).toLocaleDateString(
+                                {task.startDate
+                                  ? new Date(task.startDate).toLocaleDateString(
                                       "en-GB",
                                       {
                                         day: "2-digit",
@@ -556,10 +556,10 @@ export default function TasksTable({ projectId }) {
                               </div>
                             </div>
                             <div>
-                              <span className="text-gray-500">Due Date:</span>
+                              <span className="text-gray-500">Start Date:</span>
                               <div className="font-medium">
-                                {task.dueDate
-                                  ? new Date(task.dueDate).toLocaleDateString(
+                                {task.startDate
+                                  ? new Date(task.startDate).toLocaleDateString(
                                       "en-GB",
                                       {
                                         day: "2-digit",

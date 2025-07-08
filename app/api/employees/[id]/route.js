@@ -21,7 +21,25 @@ export async function GET(req, { params }) {
       );
     }
 
-    return NextResponse.json({ employee });
+    // Create response object manually to ensure all fields are included
+    const employeeResponse = {
+      _id: employee._id,
+      name: employee.name,
+      email: employee.email,
+      role: employee.role,
+      phone: employee.phone,
+      position: employee.position,
+      skills: employee.skills,
+      isActive: employee.isActive,
+      availability: employee.availability,
+      notes: employee.notes,
+      dayRate: employee.dayRate,
+      createdAt: employee.createdAt,
+      updatedAt: employee.updatedAt,
+      __v: employee.__v,
+    };
+
+    return NextResponse.json({ employee: employeeResponse });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to fetch employee" },
@@ -41,6 +59,10 @@ export async function PATCH(req, { params }) {
     const { id } = params;
     const body = await req.json();
 
+    console.log("PATCH request received for employee:", id);
+    console.log("Request body:", body);
+    console.log("Day rate in request:", body.dayRate);
+
     const employee = await Employee.findById(id);
     if (!employee) {
       return NextResponse.json(
@@ -49,12 +71,20 @@ export async function PATCH(req, { params }) {
       );
     }
 
+    console.log("Employee before update:", {
+      name: employee.name,
+      dayRate: employee.dayRate,
+    });
+
     // Update allowed fields
     if (body.name !== undefined) employee.name = body.name;
     if (body.position !== undefined) employee.position = body.position;
     if (body.phone !== undefined) employee.phone = body.phone;
     if (body.skills !== undefined) employee.skills = body.skills;
-    if (body.hourlyRate !== undefined) employee.hourlyRate = body.hourlyRate;
+    if (body.dayRate !== undefined) {
+      console.log("Setting dayRate from", employee.dayRate, "to", body.dayRate);
+      employee.dayRate = body.dayRate;
+    }
     if (body.availability !== undefined)
       employee.availability = body.availability;
     if (body.notes !== undefined) employee.notes = body.notes;
@@ -62,8 +92,38 @@ export async function PATCH(req, { params }) {
 
     await employee.save();
 
-    return NextResponse.json({ employee });
+    console.log("Employee after update:", {
+      name: employee.name,
+      dayRate: employee.dayRate,
+    });
+
+    // Create response object manually to ensure all fields are included
+    const employeeResponse = {
+      _id: employee._id,
+      name: employee.name,
+      email: employee.email,
+      role: employee.role,
+      phone: employee.phone,
+      position: employee.position,
+      skills: employee.skills,
+      isActive: employee.isActive,
+      availability: employee.availability,
+      notes: employee.notes,
+      dayRate: employee.dayRate,
+      createdAt: employee.createdAt,
+      updatedAt: employee.updatedAt,
+      __v: employee.__v,
+    };
+
+    console.log(
+      "PATCH - Final API response employee object:",
+      employeeResponse,
+    );
+    console.log("PATCH - Day rate in response:", employeeResponse.dayRate);
+
+    return NextResponse.json({ employee: employeeResponse });
   } catch (error) {
+    console.error("Error updating employee:", error);
     return NextResponse.json(
       { error: error.message || "Failed to update employee" },
       { status: 500 },

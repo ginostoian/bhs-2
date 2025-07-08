@@ -199,9 +199,9 @@ export default function EmployeeDashboardClient({
                     <div className="mt-2 flex items-center space-x-2">
                       {getStatusBadge(task.status)}
                       {getPriorityBadge(task.priority)}
-                      {task.dueDate && (
+                      {task.startDate && (
                         <span className="text-xs text-gray-500">
-                          Due: {formatDate(task.dueDate)}
+                          Start: {formatDate(task.startDate)}
                         </span>
                       )}
                     </div>
@@ -246,9 +246,9 @@ export default function EmployeeDashboardClient({
                     <div className="mt-2 flex items-center space-x-2">
                       {getStatusBadge(task.status)}
                       {getPriorityBadge(task.priority)}
-                      {task.dueDate && (
+                      {task.startDate && (
                         <span className="text-xs text-gray-500">
-                          Due: {formatDate(task.dueDate)}
+                          Start: {formatDate(task.startDate)}
                         </span>
                       )}
                     </div>

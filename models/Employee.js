@@ -56,8 +56,8 @@ const employeeSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    // Employee's hourly rate (optional, for future use)
-    hourlyRate: {
+    // Employee's day rate (optional, for future use)
+    dayRate: {
       type: Number,
       min: 0,
     },

@@ -220,8 +220,8 @@ export default function EmployeeTasksClient({ tasks: initialTasks }) {
                       {task.section?.name || "Unknown"}
                     </div>
                     <div>
-                      <span className="font-medium">Due Date:</span>{" "}
-                      {task.dueDate ? formatDate(task.dueDate) : "Not set"}
+                      <span className="font-medium">Start Date:</span>{" "}
+                      {task.startDate ? formatDate(task.startDate) : "Not set"}
                     </div>
                     <div>
                       <span className="font-medium">Duration:</span> Est:{" "}

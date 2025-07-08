@@ -47,7 +47,7 @@ export async function PATCH(req, { params }) {
     if (body.section !== undefined) task.section = body.section;
     if (body.estimatedDuration !== undefined)
       task.estimatedDuration = body.estimatedDuration;
-    if (body.dueDate) task.dueDate = body.dueDate;
+    if (body.startDate) task.startDate = body.startDate;
     if (body.priority) task.priority = body.priority;
     if (body.notes) task.notes = body.notes;
     if (body.tags) task.tags = body.tags;

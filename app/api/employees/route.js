@@ -14,7 +14,17 @@ export async function GET(req) {
     await requireAdmin(req);
     await connectMongoose();
     const employees = await Employee.find({ isActive: true }).sort({ name: 1 });
-    return NextResponse.json({ employees });
+
+    // Remove hourlyRate field from all employees if it exists
+    const cleanedEmployees = employees.map((employee) => {
+      const employeeObj = employee.toObject();
+      if (employeeObj.hourlyRate !== undefined) {
+        delete employeeObj.hourlyRate;
+      }
+      return employeeObj;
+    });
+
+    return NextResponse.json({ employees: cleanedEmployees });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to fetch employees" },
@@ -76,7 +86,7 @@ export async function POST(req) {
       position: body.position,
       skills: body.skills,
       isActive: body.isActive !== undefined ? body.isActive : true,
-      hourlyRate: body.hourlyRate,
+      dayRate: body.dayRate,
       availability: body.availability,
       notes: body.notes,
     });
@@ -93,7 +103,13 @@ export async function POST(req) {
       // Don't fail the request if notification fails
     }
 
-    return NextResponse.json({ employee }, { status: 201 });
+    // Remove hourlyRate field from response if it exists
+    const employeeResponse = employee.toObject();
+    if (employeeResponse.hourlyRate !== undefined) {
+      delete employeeResponse.hourlyRate;
+    }
+
+    return NextResponse.json({ employee: employeeResponse }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to create employee" },

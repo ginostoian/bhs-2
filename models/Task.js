@@ -63,10 +63,6 @@ const taskSchema = mongoose.Schema(
     completionDate: {
       type: Date,
     },
-    // Task due date
-    dueDate: {
-      type: Date,
-    },
     // Task priority
     priority: {
       type: String,
@@ -202,7 +198,7 @@ taskSchema.statics.getEmployeeTasks = function (employeeId) {
   return this.find({ assignedTo: employeeId })
     .populate("project", "name type status")
     .populate("section", "name color icon")
-    .sort({ dueDate: 1, priority: -1 });
+    .sort({ startDate: 1, priority: -1 });
 };
 
 // Static method to get tasks by status
@@ -211,7 +207,7 @@ taskSchema.statics.getTasksByStatus = function (status) {
     .populate("project", "name type")
     .populate("assignedTo", "name")
     .populate("section", "name")
-    .sort({ dueDate: 1 });
+    .sort({ startDate: 1 });
 };
 
 // Static method to get next order number for a section

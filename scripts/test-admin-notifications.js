@@ -48,7 +48,7 @@ async function testAdminNotifications() {
         emergencyContact: "Test Contact",
         emergencyPhone: "0987654321",
         startDate: new Date(),
-        hourlyRate: 25,
+        dayRate: 200,
         status: "active",
       },
       { upsert: true, new: true },
