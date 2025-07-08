@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import connectMongoose from "@/libs/mongoose";
 import Employee from "@/models/Employee";
 import Task from "@/models/Task";
+import TaskSection from "@/models/TaskSection";
 import EmployeeDetailClient from "./components/EmployeeDetailClient";
 
 /**

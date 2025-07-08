@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Task from "@/models/Task";
+import TaskSection from "@/models/TaskSection";
 import Employee from "@/models/Employee";
 import User from "@/models/User";
 import { requireAdmin, requireAuth } from "@/libs/requireAdmin";

@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
 import connectMongoose from "@/libs/mongoose";
 import Task from "@/models/Task";
+import TaskSection from "@/models/TaskSection";
 import Project from "@/models/Project";
 import Employee from "@/models/Employee";
 import EmployeeDashboardClient from "./components/EmployeeDashboardClient";
