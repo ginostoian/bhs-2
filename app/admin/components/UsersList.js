@@ -59,7 +59,20 @@ export default function UsersList({ users: initialUsers }) {
 
   // Fetch users when page, search, or status changes
   useEffect(() => {
-    fetchUsers(page, searchTerm, statusFilter);
+    // Only fetch from API if we have search terms or pagination, otherwise use initial data
+    if (searchTerm || page > 1 || statusFilter !== "All") {
+      fetchUsers(page, searchTerm, statusFilter);
+    } else {
+      // Use initial data and apply status filter locally
+      let filtered = initialUsers;
+      if (statusFilter !== "All") {
+        filtered = initialUsers.filter(
+          (user) => user.projectStatus === statusFilter,
+        );
+      }
+      setFilteredUsers(filtered);
+      setTotalCount(filtered.length);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchTerm, statusFilter]);
 
@@ -116,8 +129,11 @@ export default function UsersList({ users: initialUsers }) {
       );
       setUsers(updatedUsers);
 
-      // Update filtered users
-      fetchUsers(page, searchTerm, statusFilter);
+      // Update filtered users with the same data
+      const updatedFilteredUsers = filteredUsers.map((u) =>
+        u.id === userId ? { ...u, ...user } : u,
+      );
+      setFilteredUsers(updatedFilteredUsers);
 
       setEditModal({ isOpen: false, user: null });
     } catch (error) {
@@ -314,6 +330,21 @@ export default function UsersList({ users: initialUsers }) {
                   >
                     Edit
                   </button>
+                </div>
+                {/* Contact Information */}
+                <div className="mb-3 space-y-1 text-xs text-gray-600">
+                  {user.phone && (
+                    <div className="flex items-center">
+                      <span className="mr-1">📞</span>
+                      <span className="truncate">{user.phone}</span>
+                    </div>
+                  )}
+                  {user.address && (
+                    <div className="flex items-start">
+                      <span className="mr-1 mt-0.5">📍</span>
+                      <span className="truncate">{user.address}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-auto flex gap-2">
                   <Link

@@ -26,6 +26,8 @@ export default async function AdminUsersPage() {
       projectStatus: 1,
       createdAt: 1,
       hasAccess: 1,
+      phone: 1,
+      address: 1,
     },
   )
     .sort({ createdAt: -1 })

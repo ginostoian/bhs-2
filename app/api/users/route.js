@@ -46,6 +46,8 @@ export async function GET(req) {
       projectStatus: 1,
       createdAt: 1,
       hasAccess: 1,
+      phone: 1,
+      address: 1,
     })
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
