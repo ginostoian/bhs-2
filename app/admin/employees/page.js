@@ -24,12 +24,12 @@ export default async function AdminEmployeesPage() {
   // Fetch all employees and convert to plain objects
   const employees = await Employee.find({})
     .sort({ name: 1 })
-    .lean()
     .then((employees) => {
       return employees.map((employee) => ({
-        ...employee,
+        ...employee.toObject(),
         id: employee._id.toString(),
         _id: undefined,
+        dayRate: employee.dayRate || null, // Explicitly include dayRate
       }));
     });
 

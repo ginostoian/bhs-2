@@ -158,7 +158,7 @@ export default function EmployeesList({ employees: initialEmployees }) {
       </div>
 
       {/* Employees Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
         {paginatedEmployees.map((employee) => (
           <div
             key={employee.id}

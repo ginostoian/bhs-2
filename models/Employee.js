@@ -103,5 +103,9 @@ employeeSchema.statics.getEmployeesBySkills = function (skills) {
   }).sort({ name: 1 });
 };
 
-export default mongoose.models.Employee ||
-  mongoose.model("Employee", employeeSchema);
+// Force model recompilation to ensure schema changes are applied
+if (mongoose.models.Employee) {
+  delete mongoose.models.Employee;
+}
+
+export default mongoose.model("Employee", employeeSchema);

@@ -23,11 +23,14 @@ export default async function AdminEmployeeDetailPage({ params }) {
 
   const { id } = params;
 
-  // Get employee details
-  const employee = await Employee.findById(id).lean();
+  // Get employee details - use regular document instead of lean
+  const employee = await Employee.findById(id);
   if (!employee) {
     redirect("/admin/employees");
   }
+
+  console.log("Server-side employee data:", employee);
+  console.log("Server-side employee dayRate:", employee.dayRate);
 
   // Get employee's tasks
   const tasks = await Task.find({ assignedTo: employee._id })
@@ -36,12 +39,16 @@ export default async function AdminEmployeeDetailPage({ params }) {
     .sort({ dueDate: 1, priority: -1 })
     .lean();
 
-  // Convert to plain objects
+  // Convert to plain objects and ensure dayRate is included
   const employeeData = {
-    ...employee,
+    ...employee.toObject(),
     id: employee._id.toString(),
     _id: undefined,
+    dayRate: employee.dayRate || null, // Explicitly include dayRate
   };
+
+  console.log("Final employeeData:", employeeData);
+  console.log("Final employeeData dayRate:", employeeData.dayRate);
 
   const tasksData = tasks.map((task) => ({
     ...task,

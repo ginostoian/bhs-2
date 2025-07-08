@@ -34,6 +34,7 @@ export async function GET(req, { params }) {
       availability: employee.availability,
       notes: employee.notes,
       dayRate: employee.dayRate,
+      hourlyRate: employee.hourlyRate, // Temporarily include for migration
       createdAt: employee.createdAt,
       updatedAt: employee.updatedAt,
       __v: employee.__v,
@@ -92,10 +93,14 @@ export async function PATCH(req, { params }) {
 
     await employee.save();
 
-    console.log("Employee after update:", {
-      name: employee.name,
-      dayRate: employee.dayRate,
+    // Verify the save worked by fetching the employee again
+    const savedEmployee = await Employee.findById(id);
+    console.log("Employee after save:", {
+      name: savedEmployee.name,
+      dayRate: savedEmployee.dayRate,
+      hourlyRate: savedEmployee.hourlyRate,
     });
+    console.log("Full saved employee object:", savedEmployee.toObject());
 
     // Create response object manually to ensure all fields are included
     const employeeResponse = {
@@ -110,6 +115,7 @@ export async function PATCH(req, { params }) {
       availability: employee.availability,
       notes: employee.notes,
       dayRate: employee.dayRate,
+      hourlyRate: employee.hourlyRate, // Temporarily include for migration
       createdAt: employee.createdAt,
       updatedAt: employee.updatedAt,
       __v: employee.__v,
