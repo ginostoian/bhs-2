@@ -85,6 +85,12 @@ export default function ProjectsList({ projects: initialProjects }) {
     });
   };
 
+  // Helper function to calculate progress percentage
+  const calculateProgress = (project) => {
+    if (!project.tasksCount || project.tasksCount === 0) return 0;
+    return Math.round((project.completedTasksCount / project.tasksCount) * 100);
+  };
+
   // Helper function to get priority badge
   const getPriorityBadge = (priority) => {
     const badges = {
@@ -132,204 +138,121 @@ export default function ProjectsList({ projects: initialProjects }) {
   };
 
   return (
-    <div>
-      {/* Statistics */}
-      <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-medium text-gray-900">
-            Project Statistics
-          </h3>
-          <div className="flex gap-2">
-            <button
-              onClick={checkUsersStatus}
-              disabled={isCheckingUsers}
-              className="rounded-md bg-gray-600 px-4 py-2 text-sm text-white hover:bg-gray-700 disabled:opacity-50"
-            >
-              {isCheckingUsers ? "Checking..." : "Check Users Status"}
-            </button>
-            <button
-              onClick={createProjectsForUsers}
-              disabled={isCreatingProjects}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700 disabled:opacity-50"
-            >
-              {isCreatingProjects ? "Creating..." : "Create Projects for Users"}
-            </button>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg bg-blue-50 p-4">
-            <div className="text-2xl font-bold text-blue-600">
-              {projects.length}
-            </div>
-            <div className="text-sm text-blue-600">Active Projects</div>
-          </div>
-          <div className="rounded-lg bg-green-50 p-4">
-            <div className="text-2xl font-bold text-green-600">
-              {
-                projects.filter(
-                  (p) => p.priority === "high" || p.priority === "urgent",
-                ).length
-              }
-            </div>
-            <div className="text-sm text-green-600">High Priority</div>
-          </div>
-          <div className="rounded-lg bg-yellow-50 p-4">
-            <div className="text-2xl font-bold text-yellow-600">
-              {Math.round(
-                projects.reduce((acc, p) => acc + p.progress, 0) /
-                  Math.max(projects.length, 1),
-              )}
-              %
-            </div>
-            <div className="text-sm text-yellow-600">Avg Progress</div>
-          </div>
-          <div className="rounded-lg bg-purple-50 p-4">
-            <div className="text-2xl font-bold text-purple-600">
-              {projects.reduce((acc, p) => acc + p.tasksCount, 0)}
-            </div>
-            <div className="text-sm text-purple-600">Total Tasks</div>
-          </div>
-        </div>
-      </div>
-
-      {/* User Status Information */}
-      {userStatus && (
-        <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-          <h3 className="mb-4 text-lg font-medium text-gray-900">
-            User Status Analysis
-          </h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-lg bg-blue-50 p-4">
-              <div className="text-2xl font-bold text-blue-600">
-                {userStatus.summary.ongoingUsers}
-              </div>
-              <div className="text-sm text-blue-600">
-                Users with &ldquo;On Going&rdquo; Status
-              </div>
-            </div>
-            <div className="rounded-lg bg-green-50 p-4">
-              <div className="text-2xl font-bold text-green-600">
-                {userStatus.summary.usersWithProjects}
-              </div>
-              <div className="text-sm text-green-600">Users with Projects</div>
-            </div>
-            <div className="rounded-lg bg-yellow-50 p-4">
-              <div className="text-2xl font-bold text-yellow-600">
-                {userStatus.summary.usersWithoutProjects}
-              </div>
-              <div className="text-sm text-yellow-600">Users Need Projects</div>
-            </div>
-          </div>
-
-          {userStatus.summary.usersWithoutProjects > 0 && (
-            <div className="mt-4 rounded-lg bg-yellow-50 p-4">
-              <h4 className="mb-2 font-medium text-yellow-800">
-                Users without Projects:
-              </h4>
-              <ul className="text-sm text-yellow-700">
-                {userStatus.usersWithoutProjects.map((user) => (
-                  <li key={user.id}>• {user.name || user.email}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-
+    <div className="space-y-6">
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-          >
-            {/* Project Header */}
-            <div className="mb-4 flex items-start justify-between">
-              <div className="flex-1">
+      <div className="grid grid-cols-1 gap-16 md:grid-cols-2 xl:grid-cols-3">
+        {projects.map((project) => {
+          const progress = calculateProgress(project);
+          return (
+            <div
+              key={project.id}
+              className="mx-auto w-full min-w-[320px] max-w-[840px] rounded-lg border border-gray-200 bg-white p-6 shadow transition-shadow hover:shadow-md"
+            >
+              <div className="mb-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {project.name}
+                    </h3>
+                    <p className="text-sm text-gray-500">{project.type}</p>
+                    {project.location && (
+                      <p className="text-sm text-gray-500">
+                        {project.location}
+                      </p>
+                    )}
+                  </div>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                      project.status === "On Going"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
+                  >
+                    {project.status}
+                  </span>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="mb-4">
+                <div className="mb-1 flex items-center justify-between text-sm text-gray-600">
+                  <span>Progress</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-gray-200">
+                  <div
+                    className="h-2 rounded-full bg-blue-600 transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Task Statistics */}
+              <div className="mb-4 grid grid-cols-2 gap-2 text-xs">
+                <div className="text-center">
+                  <div className="font-medium text-gray-900">
+                    {project.tasksCount}
+                  </div>
+                  <div className="text-gray-500">Total Tasks</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-medium text-green-600">
+                    {project.completedTasksCount}
+                  </div>
+                  <div className="text-gray-500">Completed</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-medium text-blue-600">
+                    {/* In Progress: not available directly, so show 0 or add if available */}
+                    {project.inProgressTasks || 0}
+                  </div>
+                  <div className="text-gray-500">In Progress</div>
+                </div>
+                <div className="text-center">
+                  <div className="font-medium text-gray-600">
+                    {/* Scheduled: not available directly, so show 0 or add if available */}
+                    {project.scheduledTasks || 0}
+                  </div>
+                  <div className="text-gray-500">Scheduled</div>
+                </div>
+              </div>
+
+              {/* Project Details */}
+              <div className="mb-4 space-y-1 text-xs text-gray-500">
+                <div>Client: {project.user?.name || "Unknown"}</div>
+                <div>Started: {formatDate(project.startDate)}</div>
+                {project.budget && (
+                  <div>Budget: {formatBudget(project.budget)}</div>
+                )}
+                {project.projectManager && (
+                  <div>
+                    Project Manager: {project.projectManager.name} (
+                    {project.projectManager.position})
+                  </div>
+                )}
+                {project.progress !== undefined && (
+                  <div>Overall Progress: {project.progress}%</div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex space-x-2">
                 <Link
                   href={`/admin/projects/${project.id}`}
-                  className="text-lg font-semibold text-gray-900 hover:text-blue-600 hover:underline"
+                  className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
                 >
-                  {project.name}
+                  View Project Details
                 </Link>
-                <p className="text-sm text-gray-500">
-                  {project.user.name || project.user.email}
-                </p>
-              </div>
-              <div className="flex flex-col items-end space-y-1">
-                {getPriorityBadge(project.priority)}
-                {getTypeBadge(project.type)}
-              </div>
-            </div>
-
-            {/* Project Details */}
-            <div className="mb-4 space-y-2 text-sm text-gray-600">
-              <div className="flex justify-between">
-                <span>Location:</span>
-                <span className="font-medium">
-                  {project.location || "Not specified"}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Budget:</span>
-                <span className="font-medium">
-                  {formatBudget(project.budget)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Started:</span>
-                <span className="font-medium">
-                  {formatDate(project.startDate)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Tasks:</span>
-                <span className="font-medium">
-                  {project.completedTasksCount}/{project.tasksCount} completed
-                </span>
+                <Link
+                  href={`/admin/projects/${project.id}?tab=tasks`}
+                  className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-center text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                >
+                  Manage Tasks
+                </Link>
               </div>
             </div>
-
-            {/* Progress Bar */}
-            <div className="mb-4">
-              <div className="mb-1 flex justify-between text-sm text-gray-600">
-                <span>Progress</span>
-                <span>{project.progress}%</span>
-              </div>
-              <div className="h-2 w-full rounded-full bg-gray-200">
-                <div
-                  className="h-2 rounded-full bg-blue-600 transition-all duration-300"
-                  style={{ width: `${project.progress}%` }}
-                ></div>
-              </div>
-            </div>
-
-            {/* Project Manager */}
-            {project.projectManager && (
-              <div className="mb-4 text-sm text-gray-600">
-                <span className="font-medium">Project Manager:</span>{" "}
-                {project.projectManager.name} ({project.projectManager.position}
-                )
-              </div>
-            )}
-
-            {/* Action Buttons */}
-            <div className="flex space-x-2">
-              <Link
-                href={`/admin/projects/${project.id}`}
-                className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
-              >
-                View Details
-              </Link>
-              <Link
-                href={`/admin/projects/${project.id}?tab=tasks`}
-                className="flex-1 rounded-md border border-gray-300 bg-white px-3 py-2 text-center text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-              >
-                Manage Tasks
-              </Link>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Empty State */}
@@ -350,6 +273,42 @@ export default function ProjectsList({ projects: initialProjects }) {
           >
             Manage Users
           </Link>
+        </div>
+      )}
+
+      {/* Summary Statistics */}
+      {projects.length > 0 && (
+        <div className="rounded-lg bg-white p-6 shadow">
+          <h3 className="mb-4 text-lg font-medium text-gray-900">Summary</h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-900">
+                {projects.length}
+              </div>
+              <div className="text-sm text-gray-500">Total Projects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">
+                {projects.filter((p) => p.status === "On Going").length}
+              </div>
+              <div className="text-sm text-gray-500">Active Projects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">
+                {projects.reduce(
+                  (sum, p) => sum + (p.completedTasksCount || 0),
+                  0,
+                )}
+              </div>
+              <div className="text-sm text-gray-500">Completed Tasks</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-orange-600">
+                {projects.reduce((sum, p) => sum + (p.inProgressTasks || 0), 0)}
+              </div>
+              <div className="text-sm text-gray-500">In Progress Tasks</div>
+            </div>
+          </div>
         </div>
       )}
     </div>

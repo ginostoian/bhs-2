@@ -4,6 +4,7 @@ import connectMongoose from "@/libs/mongoose";
 import Project from "@/models/Project";
 import User from "@/models/User";
 import ProjectsList from "./components/ProjectsList";
+import Task from "@/models/Task";
 
 /**
  * Admin Projects Page
@@ -18,27 +19,51 @@ export default async function AdminProjectsPage() {
 
   // Fetch all ongoing projects with populated user data
   const projects = await Project.getOngoingProjects();
+  const projectIds = projects.map((p) => p._id);
 
-  // Convert to plain objects and add user info
-  const projectsWithUserInfo = projects.map((project) => ({
-    id: project._id.toString(),
-    name: project.name,
-    type: project.type,
-    status: project.status,
-    priority: project.priority,
-    progress: project.progress,
-    startDate: project.startDate,
-    location: project.location,
-    budget: project.budget,
-    projectManager: project.projectManager,
-    user: {
-      id: project.user._id.toString(),
-      name: project.user.name,
-      email: project.user.email,
-    },
-    tasksCount: project.tasksCount || 0,
-    completedTasksCount: project.completedTasksCount || 0,
-  }));
+  // Fetch all tasks for these projects
+  const allTasks = await Task.find({ project: { $in: projectIds } }).lean();
+
+  // Group tasks by project and compute stats
+  const tasksByProject = {};
+  for (const task of allTasks) {
+    const pid = task.project.toString();
+    if (!tasksByProject[pid]) {
+      tasksByProject[pid] = [];
+    }
+    tasksByProject[pid].push(task);
+  }
+
+  // Convert to plain objects and add user info and accurate stats
+  const projectsWithUserInfo = projects.map((project) => {
+    const pid = project._id.toString();
+    const projectTasks = tasksByProject[pid] || [];
+    return {
+      id: project._id.toString(),
+      name: project.name,
+      type: project.type,
+      status: project.status,
+      priority: project.priority,
+      progress: project.progress,
+      startDate: project.startDate,
+      location: project.location,
+      budget: project.budget,
+      projectManager: project.projectManager,
+      user: {
+        id: project.user._id.toString(),
+        name: project.user.name,
+        email: project.user.email,
+      },
+      tasksCount: projectTasks.length,
+      completedTasksCount: projectTasks.filter((t) => t.status === "Done")
+        .length,
+      inProgressTasks: projectTasks.filter((t) => t.status === "In Progress")
+        .length,
+      scheduledTasks: projectTasks.filter((t) => t.status === "Scheduled")
+        .length,
+      blockedTasks: projectTasks.filter((t) => t.status === "Blocked").length,
+    };
+  });
 
   return (
     <div>
