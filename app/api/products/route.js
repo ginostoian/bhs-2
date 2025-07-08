@@ -5,8 +5,7 @@ import connectMongoose from "@/libs/mongoose";
 import Product from "@/models/Product";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/products
@@ -28,6 +27,8 @@ export async function GET(request) {
     const supplier = searchParams.get("supplier");
     const search = searchParams.get("search");
     const active = searchParams.get("active");
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "12", 10);
 
     let query = {};
 
@@ -59,9 +60,13 @@ export async function GET(request) {
       };
     }
 
-    const products = await Product.find(query).sort({ name: 1 });
+    const totalCount = await Product.countDocuments(query);
+    const products = await Product.find(query)
+      .sort({ name: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
 
-    return NextResponse.json({ products });
+    return NextResponse.json({ products, totalCount });
   } catch (error) {
     console.error("Error fetching products:", error);
     return NextResponse.json(

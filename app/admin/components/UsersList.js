@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Modal from "@/components/Modal";
 
+const PAGE_SIZE = 12;
+
 /**
  * Users List Component
  * Displays all users with management capabilities
@@ -23,74 +25,60 @@ export default function UsersList({ users: initialUsers }) {
     isOpen: false,
     user: null,
   });
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(initialUsers.length);
+  const [loading, setLoading] = useState(false);
 
-  // Initialize filtered users when component mounts or users change
-  useEffect(() => {
-    console.log(
-      "Initializing users:",
-      initialUsers.map((u) => ({
-        id: u.id,
-        name: u.name,
-        projectStatus: u.projectStatus,
-      })),
-    );
-    setUsers(initialUsers);
-    filterUsers(statusFilter, searchTerm);
-  }, [initialUsers, statusFilter, searchTerm]);
-
-  // Filter users based on status and search term
-  const filterUsers = (status, search = searchTerm) => {
-    console.log("Filtering users by status:", status, "and search:", search);
-    console.log(
-      "Available users:",
-      users.map((u) => ({
-        id: u.id,
-        name: u.name,
-        projectStatus: u.projectStatus,
-      })),
-    );
-
-    let filtered = users;
-
-    // Filter by status
-    if (status !== "All") {
-      filtered = filtered.filter((user) => user.projectStatus === status);
-    }
-
-    // Filter by search term
-    if (search) {
-      const searchLower = search.toLowerCase();
-      filtered = filtered.filter((user) => {
-        const nameMatch = (user.name || "").toLowerCase().includes(searchLower);
-        const emailMatch = (user.email || "")
-          .toLowerCase()
-          .includes(searchLower);
-        return nameMatch || emailMatch;
+  // Fetch users from API with pagination and search
+  const fetchUsers = async (
+    pageNum = 1,
+    search = "",
+    status = statusFilter,
+  ) => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({
+        page: pageNum,
+        limit: PAGE_SIZE,
       });
+      if (search) params.set("search", search);
+      const res = await fetch(`/api/users?${params.toString()}`);
+      const data = await res.json();
+      let users = data.users || [];
+      // Filter by status on client (since projectStatus is not indexed for $or)
+      if (status !== "All") {
+        users = users.filter((user) => user.projectStatus === status);
+      }
+      setUsers(users);
+      setFilteredUsers(users);
+      setTotalCount(data.totalCount || 0);
+    } finally {
+      setLoading(false);
     }
-
-    console.log(
-      "Filtered users:",
-      filtered.map((u) => ({
-        id: u.id,
-        name: u.name,
-        projectStatus: u.projectStatus,
-      })),
-    );
-    setFilteredUsers(filtered);
   };
+
+  // Fetch users when page, search, or status changes
+  useEffect(() => {
+    fetchUsers(page, searchTerm, statusFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchTerm, statusFilter]);
 
   // Handle status filter change
   const handleStatusFilterChange = (status) => {
     setStatusFilter(status);
-    filterUsers(status, searchTerm);
+    setPage(1);
   };
 
   // Handle search term change
   const handleSearchChange = (newSearchTerm) => {
     setSearchTerm(newSearchTerm);
-    filterUsers(statusFilter, newSearchTerm);
+    setPage(1);
   };
+
+  // Pagination controls
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const canPrev = page > 1;
+  const canNext = page < totalPages;
 
   // Handle status update
   const handleStatusUpdate = async (userId, newStatus) => {
@@ -129,7 +117,7 @@ export default function UsersList({ users: initialUsers }) {
       setUsers(updatedUsers);
 
       // Update filtered users
-      filterUsers(statusFilter);
+      fetchUsers(page, searchTerm, statusFilter);
 
       setEditModal({ isOpen: false, user: null });
     } catch (error) {
@@ -266,89 +254,110 @@ export default function UsersList({ users: initialUsers }) {
         </div>
       </div>
 
-      {filteredUsers.length === 0 ? (
+      {filteredUsers.length === 0 && !loading ? (
         <div className="py-12 text-center">
           <div className="mb-4 text-6xl">👥</div>
           <h3 className="mb-2 text-lg font-medium text-gray-900">
-            {users.length === 0
+            {totalCount === 0
               ? "No users found"
               : "No users match your filters"}
           </h3>
           <p className="text-gray-600">
-            {users.length === 0
+            {totalCount === 0
               ? "No users have registered yet."
               : "Try adjusting your search or filter criteria."}
           </p>
         </div>
+      ) : loading ? (
+        <div className="py-12 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="mt-2 text-gray-600">Loading users...</p>
+        </div>
       ) : (
-        <div className="space-y-4">
-          {/* Users List */}
-          {filteredUsers.map((user) => (
-            <div
-              key={user.id}
-              className="rounded-lg border border-gray-200 bg-white p-6 shadow"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="mb-4 flex items-center space-x-3">
-                    <div className="flex-shrink-0">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500 text-sm font-medium text-white">
-                        {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
-                      </div>
-                    </div>
-                    <div>
-                      <Link
-                        href={`/admin/users/${user.id}`}
-                        className="text-lg font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                      >
-                        {user.name || "Unknown User"}
-                      </Link>
-                      <div className="text-sm text-gray-500">{user.email}</div>
+        <>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredUsers.map((user) => (
+              <div
+                key={user.id}
+                className="flex h-full flex-col rounded-lg border border-gray-200 bg-white p-5 shadow"
+              >
+                <div className="mb-4 flex items-center">
+                  <div className="flex-shrink-0">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-lg font-medium text-white">
+                      {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
                     </div>
                   </div>
-
-                  <div className="mb-3 text-sm text-gray-600">
-                    <div className="mb-2">
-                      Role:{" "}
-                      <span className="font-medium">{user.role || "user"}</span>
-                    </div>
-                    <div className="mb-2">
-                      Joined: {formatDate(user.createdAt)}
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span>Status:</span>
-                      {getStatusBadge(user.projectStatus)}
-                      <button
-                        onClick={() => setEditModal({ isOpen: true, user })}
-                        className="ml-2 text-xs text-blue-600 hover:text-blue-800 hover:underline"
-                      >
-                        Edit
-                      </button>
+                  <div className="ml-4 min-w-0 flex-1">
+                    <Link
+                      href={`/admin/users/${user.id}`}
+                      className="block truncate text-base font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+                    >
+                      {user.name || "Unknown User"}
+                    </Link>
+                    <div className="truncate text-xs text-gray-500">
+                      {user.email}
                     </div>
                   </div>
                 </div>
-
-                <div className="ml-4 flex flex-col space-y-2">
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-gray-600">
+                  <span className="font-medium">Role:</span>{" "}
+                  {user.role || "user"}
+                  <span className="ml-2 font-medium">Joined:</span>{" "}
+                  {formatDate(user.createdAt)}
+                </div>
+                <div className="mb-3 flex items-center gap-2 text-xs">
+                  <span className="font-medium">Status:</span>
+                  {getStatusBadge(user.projectStatus)}
+                  <button
+                    onClick={() => setEditModal({ isOpen: true, user })}
+                    className="ml-2 text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                  >
+                    Edit
+                  </button>
+                </div>
+                <div className="mt-auto flex gap-2">
                   <Link
                     href={`/admin/users/${user.id}`}
-                    className="rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 hover:bg-blue-100"
+                    className="flex-1 rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-center text-xs font-medium text-blue-700 hover:bg-blue-100"
                   >
-                    View Details
+                    View
                   </Link>
                   <button
                     onClick={() =>
                       openDeleteModal(user.id, user.name || user.email)
                     }
                     disabled={isDeleting}
-                    className="rounded-md border border-red-300 bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex-1 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-center text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isDeleting ? "Deleting..." : "Delete"}
                   </button>
                 </div>
               </div>
+            ))}
+          </div>
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <button
+                onClick={() => canPrev && setPage(page - 1)}
+                disabled={!canPrev}
+                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="mx-2 text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => canNext && setPage(page + 1)}
+                disabled={!canNext}
+                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
+              >
+                Next
+              </button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {/* Statistics */}

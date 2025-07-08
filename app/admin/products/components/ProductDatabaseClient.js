@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
 import ProductForm from "./ProductForm";
+
+const PAGE_SIZE = 12;
 
 /**
  * Product Database Client Component
@@ -31,11 +33,65 @@ export default function ProductDatabaseClient({
     mode: "create", // "create" or "edit"
   });
 
-  // Filter states
+  // Pagination and filter/search state
   const [filterCategory, setFilterCategory] = useState("");
   const [filterSupplier, setFilterSupplier] = useState("");
   const [filterActive, setFilterActive] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(initialProducts.length);
+  const [loading, setLoading] = useState(false);
+
+  // Fetch products from API with pagination, search, and filters
+  const fetchProducts = async (pageNum = 1) => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({
+        page: pageNum,
+        limit: PAGE_SIZE,
+      });
+      if (searchTerm) params.set("search", searchTerm);
+      if (filterCategory) params.set("category", filterCategory);
+      if (filterSupplier) params.set("supplier", filterSupplier);
+      if (filterActive !== "all")
+        params.set("active", filterActive === "active" ? "true" : "false");
+      const res = await fetch(`/api/products?${params.toString()}`);
+      const data = await res.json();
+      setProducts(data.products || []);
+      setTotalCount(data.totalCount || 0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch products when page, search, or filters change
+  useEffect(() => {
+    fetchProducts(page);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchTerm, filterCategory, filterSupplier, filterActive]);
+
+  // Handle filter/search changes
+  const handleCategoryChange = (cat) => {
+    setFilterCategory(cat);
+    setPage(1);
+  };
+  const handleSupplierChange = (sup) => {
+    setFilterSupplier(sup);
+    setPage(1);
+  };
+  const handleActiveChange = (val) => {
+    setFilterActive(val);
+    setPage(1);
+  };
+  const handleSearchChange = (val) => {
+    setSearchTerm(val);
+    setPage(1);
+  };
+
+  // Pagination controls
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const canPrev = page > 1;
+  const canNext = page < totalPages;
 
   // Filter products
   const filteredProducts = products.filter((product) => {
@@ -167,10 +223,10 @@ export default function ProductDatabaseClient({
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-medium text-gray-900">
-            Products ({filteredProducts.length})
+            Products ({totalCount})
           </h3>
           <p className="text-sm text-gray-600">
-            Total products in database: {products.length}
+            Total products in database: {totalCount}
           </p>
         </div>
         <button
@@ -198,187 +254,202 @@ export default function ProductDatabaseClient({
 
       {/* Filters */}
       <div className="mb-6 rounded-lg border border-gray-200 bg-white p-4">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-5">
+        <div className="flex flex-wrap items-center gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Search
-            </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search products..."
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-xs font-medium text-gray-700">
               Category
             </label>
             <select
               value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className="mt-1 block w-32 rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
-              <option value="">All Categories</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>
-                  {category}
+              <option value="">All</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-xs font-medium text-gray-700">
               Supplier
             </label>
             <select
               value={filterSupplier}
-              onChange={(e) => setFilterSupplier(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => handleSupplierChange(e.target.value)}
+              className="mt-1 block w-32 rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
-              <option value="">All Suppliers</option>
-              {suppliers.map((supplier) => (
-                <option key={supplier} value={supplier}>
-                  {supplier}
+              <option value="">All</option>
+              {suppliers.map((sup) => (
+                <option key={sup} value={sup}>
+                  {sup}
                 </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Status
+            <label className="block text-xs font-medium text-gray-700">
+              Active
             </label>
             <select
               value={filterActive}
-              onChange={(e) => setFilterActive(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              onChange={(e) => handleActiveChange(e.target.value)}
+              className="mt-1 block w-24 rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
               <option value="all">All</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
           </div>
-          <div className="flex items-end">
-            <button
-              onClick={() => {
-                setFilterCategory("");
-                setFilterSupplier("");
-                setFilterActive("all");
-                setSearchTerm("");
-              }}
-              className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-            >
-              Clear Filters
-            </button>
+          <div className="flex-1">
+            <label className="block text-xs font-medium text-gray-700">
+              Search
+            </label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              placeholder="Search by name, description, supplier, tag..."
+              className="mt-1 block w-full rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            />
           </div>
         </div>
       </div>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
-          >
-            {/* Product Image */}
-            <div className="mb-4 aspect-square overflow-hidden rounded-lg bg-gray-100">
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                className="h-full w-full object-cover"
-                onError={(e) => {
-                  e.target.src =
-                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' /%3E%3C/svg%3E";
-                }}
-              />
-            </div>
-
-            {/* Product Details */}
-            <div className="mb-4">
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                <a
-                  href={product.productUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-600 hover:underline"
-                >
-                  {product.name}
-                </a>
-              </h3>
-
-              {product.description && (
-                <p className="mb-2 line-clamp-2 text-sm text-gray-600">
-                  {product.description}
-                </p>
-              )}
-
-              <div className="mb-2 space-y-1 text-sm text-gray-500">
-                <p>
-                  <strong>Price:</strong> {formatPrice(product.price)}
-                </p>
-                <p>
-                  <strong>Supplier:</strong> {product.supplier}
-                </p>
-                <p>
-                  <strong>Category:</strong> {product.category}
-                </p>
-                {product.sku && (
-                  <p>
-                    <strong>SKU:</strong> {product.sku}
-                  </p>
-                )}
-              </div>
-
-              {/* Status Badge */}
-              <div className="mb-3">
-                <span
-                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                    product.isActive
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {product.isActive ? "Active" : "Inactive"}
-                </span>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex space-x-2">
-              <button
-                onClick={() =>
-                  setProductModal({ isOpen: true, product, mode: "edit" })
-                }
-                className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => openDeleteModal(product)}
-                className="flex-1 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {filteredProducts.length === 0 && (
+      {/* Product Grid or Loading/Empty State */}
+      {loading ? (
+        <div className="py-12 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+          <p className="mt-2 text-gray-600">Loading products...</p>
+        </div>
+      ) : products.length === 0 ? (
         <div className="py-12 text-center">
           <div className="mb-4 text-6xl">📦</div>
           <h3 className="mb-2 text-lg font-medium text-gray-900">
             No products found
           </h3>
           <p className="text-gray-600">
-            {products.length === 0
-              ? "Get started by adding your first product to the database."
-              : "Try adjusting your filters to see more products."}
+            Try adjusting your search or filter criteria.
           </p>
         </div>
+      ) : (
+        <>
+          {/* Product Grid */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredProducts.map((product) => (
+              <div
+                key={product.id}
+                className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md"
+              >
+                {/* Product Image */}
+                <div className="mb-4 aspect-square overflow-hidden rounded-lg bg-gray-100">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.target.src =
+                        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' /%3E%3C/svg%3E";
+                    }}
+                  />
+                </div>
+
+                {/* Product Details */}
+                <div className="mb-4">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-900">
+                    <a
+                      href={product.productUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-blue-600 hover:underline"
+                    >
+                      {product.name}
+                    </a>
+                  </h3>
+
+                  {product.description && (
+                    <p className="mb-2 line-clamp-2 text-sm text-gray-600">
+                      {product.description}
+                    </p>
+                  )}
+
+                  <div className="mb-2 space-y-1 text-sm text-gray-500">
+                    <p>
+                      <strong>Price:</strong> {formatPrice(product.price)}
+                    </p>
+                    <p>
+                      <strong>Supplier:</strong> {product.supplier}
+                    </p>
+                    <p>
+                      <strong>Category:</strong> {product.category}
+                    </p>
+                    {product.sku && (
+                      <p>
+                        <strong>SKU:</strong> {product.sku}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Status Badge */}
+                  <div className="mb-3">
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        product.isActive
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {product.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() =>
+                      setProductModal({ isOpen: true, product, mode: "edit" })
+                    }
+                    className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => openDeleteModal(product)}
+                    className="flex-1 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <button
+                onClick={() => canPrev && setPage(page - 1)}
+                disabled={!canPrev}
+                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span className="mx-2 text-sm">
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={() => canNext && setPage(page + 1)}
+                disabled={!canNext}
+                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
       )}
 
       {/* Product Modal */}

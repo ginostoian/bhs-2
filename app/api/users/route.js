@@ -20,20 +20,38 @@ export async function GET(req) {
     // Connect to MongoDB
     await connectMongoose();
 
-    // Fetch all users, excluding sensitive fields
-    const users = await User.find(
-      {},
-      {
-        email: 1,
-        name: 1,
-        role: 1,
-        projectStatus: 1,
-        createdAt: 1,
-        hasAccess: 1,
-      },
-    ).sort({ createdAt: -1 });
+    // Parse query params
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "12", 10);
+    const search = searchParams.get("search")?.trim() || "";
 
-    return NextResponse.json({ users });
+    // Build query
+    const query = {};
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // Get total count for pagination
+    const totalCount = await User.countDocuments(query);
+
+    // Fetch paginated users, excluding sensitive fields
+    const users = await User.find(query, {
+      email: 1,
+      name: 1,
+      role: 1,
+      projectStatus: 1,
+      createdAt: 1,
+      hasAccess: 1,
+    })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return NextResponse.json({ users, totalCount });
   } catch (error) {
     console.error("GET /api/users error:", error);
     return NextResponse.json(
