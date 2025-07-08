@@ -58,8 +58,8 @@ function SignInForm() {
         email: formData.email,
         password: formData.password,
         name: formData.name,
-        isSignUp,
-        isSetPassword,
+        isSignUp: isSignUp.toString(),
+        isSetPassword: isSetPassword.toString(),
         callbackUrl,
         redirect: false,
       });
@@ -118,8 +118,12 @@ function SignInForm() {
             <button
               type="button"
               onClick={() => {
-                setIsSignUp(false);
-                setIsSetPassword(false);
+                if (isSignUp) {
+                  setIsSignUp(false);
+                } else {
+                  setIsSignUp(true);
+                  setIsSetPassword(false);
+                }
               }}
               className="font-medium text-blue-600 hover:text-blue-500"
             >
@@ -138,6 +142,21 @@ function SignInForm() {
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
                   Set Password
+                </button>
+              </>
+            )}
+            {isSetPassword && (
+              <>
+                {" "}
+                or{" "}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSetPassword(false);
+                  }}
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
+                  Sign in
                 </button>
               </>
             )}
