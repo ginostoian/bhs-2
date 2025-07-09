@@ -15,6 +15,8 @@ export default function UserDetailClient({
   user,
   documentsByType: initialDocumentsByType,
   payments: initialPayments = [],
+  projects: initialProjects = [],
+  moodboards: initialMoodboards = [],
 }) {
   const [documentsByType, setDocumentsByType] = useState(
     initialDocumentsByType || {
@@ -25,6 +27,8 @@ export default function UserDetailClient({
     },
   );
   const [payments, setPayments] = useState(initialPayments || []);
+  const [projects, setProjects] = useState(initialProjects || []);
+  const [moodboards, setMoodboards] = useState(initialMoodboards || []);
   const [activeTab, setActiveTab] = useState("all");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -73,6 +77,25 @@ export default function UserDetailClient({
       Lead: "bg-blue-100 text-blue-800",
       "On Going": "bg-yellow-100 text-yellow-800",
       Finished: "bg-green-100 text-green-800",
+    };
+
+    return (
+      <span
+        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+          styles[status] || "bg-gray-100 text-gray-800"
+        }`}
+      >
+        {status || "Unknown"}
+      </span>
+    );
+  };
+
+  const getMoodboardStatusBadge = (status) => {
+    const styles = {
+      draft: "bg-gray-100 text-gray-800",
+      shared: "bg-blue-100 text-blue-800",
+      approved: "bg-green-100 text-green-800",
+      completed: "bg-purple-100 text-purple-800",
     };
 
     return (
@@ -356,43 +379,55 @@ export default function UserDetailClient({
       {/* Statistics */}
       <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
         <h3 className="mb-4 text-lg font-medium text-gray-900">Statistics</h3>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
-          <div className="rounded-lg bg-blue-50 p-4">
+        <div className="flex flex-nowrap gap-4 overflow-x-auto pb-2 sm:flex-wrap sm:gap-6 sm:overflow-x-visible">
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-blue-50 p-4">
             <div className="text-2xl font-bold text-blue-600">
               {getAllDocuments().length}
             </div>
             <div className="text-sm text-blue-600">Total Documents</div>
           </div>
-          <div className="rounded-lg bg-green-50 p-4">
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-green-50 p-4">
             <div className="text-2xl font-bold text-green-600">
               {documentsByType.photo.length}
             </div>
             <div className="text-sm text-green-600">Photos</div>
           </div>
-          <div className="rounded-lg bg-yellow-50 p-4">
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-yellow-50 p-4">
             <div className="text-2xl font-bold text-yellow-600">
               {documentsByType.comment.length}
             </div>
             <div className="text-sm text-yellow-600">Comments</div>
           </div>
-          <div className="rounded-lg bg-purple-50 p-4">
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-purple-50 p-4">
             <div className="text-2xl font-bold text-purple-600">
               {documentsByType.quote.length + documentsByType.invoice.length}
             </div>
             <div className="text-sm text-purple-600">Quotes & Invoices</div>
           </div>
-          <div className="rounded-lg bg-orange-50 p-4">
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-orange-50 p-4">
             <div className="text-2xl font-bold text-orange-600">
               {payments?.length || 0}
             </div>
             <div className="text-sm text-orange-600">Payments</div>
           </div>
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-indigo-50 p-4">
+            <div className="text-2xl font-bold text-indigo-600">
+              {projects?.length || 0}
+            </div>
+            <div className="text-sm text-indigo-600">Projects</div>
+          </div>
+          <div className="min-w-[140px] flex-shrink-0 rounded-lg bg-pink-50 p-4">
+            <div className="text-2xl font-bold text-pink-600">
+              {moodboards?.length || 0}
+            </div>
+            <div className="text-sm text-pink-600">Moodboards</div>
+          </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="mb-6">
-        <nav className="flex space-x-8 border-b border-gray-200">
+      <div className="relative mb-6">
+        <nav className="hide-scrollbar flex flex-nowrap gap-2 overflow-x-auto border-b border-gray-200 pb-2 sm:gap-4">
           {[
             {
               id: "all",
@@ -424,20 +459,32 @@ export default function UserDetailClient({
               label: "Payment Plan",
               count: payments?.length || 0,
             },
+            {
+              id: "projects",
+              label: "Projects",
+              count: projects?.length || 0,
+            },
+            {
+              id: "moodboards",
+              label: "Moodboards",
+              count: moodboards?.length || 0,
+            },
           ].map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`border-b-2 px-1 py-2 text-sm font-medium ${
+              className={`min-w-[120px] flex-shrink-0 border-b-2 px-4 py-2 text-sm font-medium transition-colors duration-150 ${
                 activeTab === tab.id
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  ? "border-blue-500 bg-blue-50 text-blue-600"
+                  : "border-transparent bg-white text-gray-500 hover:border-gray-300 hover:text-gray-700"
               }`}
             >
               {tab.label} ({tab.count})
             </button>
           ))}
         </nav>
+        {/* Gradient fade on the right to indicate scrollability */}
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-8 bg-gradient-to-l from-white to-transparent" />
       </div>
 
       {/* Content based on active tab */}
@@ -638,6 +685,229 @@ export default function UserDetailClient({
                 </Droppable>
               </div>
             </DragDropContext>
+          )}
+        </div>
+      ) : activeTab === "projects" ? (
+        <div>
+          {/* Projects Header */}
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900">Projects</h2>
+            <Link
+              href="/admin/projects"
+              className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+              View All Projects
+            </Link>
+          </div>
+
+          {/* Projects List */}
+          {!projects || projects.length === 0 ? (
+            <div className="py-12 text-center">
+              <div className="mb-4 text-6xl">🏗️</div>
+              <h3 className="mb-2 text-lg font-medium text-gray-900">
+                No projects found
+              </h3>
+              <p className="text-gray-600">
+                This user doesn&apos;t have any projects yet.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {projects.map((project) => (
+                <div
+                  key={project.id}
+                  className="rounded-lg border border-gray-200 bg-white p-6 shadow"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="mb-2 flex items-center space-x-3">
+                        <h3 className="text-lg font-medium text-gray-900">
+                          {project.name}
+                        </h3>
+                        {getStatusBadge(project.status)}
+                        <span className="text-sm text-gray-500">
+                          {formatDate(project.createdAt)}
+                        </span>
+                      </div>
+
+                      <div className="mb-3 space-y-2 text-sm text-gray-600">
+                        {project.description && <p>{project.description}</p>}
+                        <div className="flex flex-wrap gap-4">
+                          <span className="flex items-center">
+                            <span className="mr-1">🏠</span>
+                            {project.type}
+                          </span>
+                          {project.location && (
+                            <span className="flex items-center">
+                              <span className="mr-1">📍</span>
+                              {project.location}
+                            </span>
+                          )}
+                          {project.budget && (
+                            <span className="flex items-center">
+                              <span className="mr-1">💰</span>
+                              {formatAmount(project.budget)}
+                            </span>
+                          )}
+                          <span className="flex items-center">
+                            <span className="mr-1">📊</span>
+                            {project.progress}% complete
+                          </span>
+                        </div>
+                        {project.projectManager && (
+                          <p className="text-sm text-gray-500">
+                            Project Manager: {project.projectManager.name} (
+                            {project.projectManager.position})
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="ml-4 flex flex-col space-y-2">
+                      <Link
+                        href={`/admin/projects/${project.id}`}
+                        className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
+                      >
+                        <svg
+                          className="mr-1 h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                        View Project
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : activeTab === "moodboards" ? (
+        <div>
+          {/* Moodboards Header */}
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-gray-900">Moodboards</h2>
+            <Link
+              href="/admin/moodboards"
+              className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
+              </svg>
+              View All Moodboards
+            </Link>
+          </div>
+
+          {/* Moodboards List */}
+          {!moodboards || moodboards.length === 0 ? (
+            <div className="py-12 text-center">
+              <div className="mb-4 text-6xl">🎨</div>
+              <h3 className="mb-2 text-lg font-medium text-gray-900">
+                No moodboards found
+              </h3>
+              <p className="text-gray-600">
+                This user doesn&apos;t have any moodboards yet.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {moodboards.map((moodboard) => (
+                <div
+                  key={moodboard.id}
+                  className="rounded-lg border border-gray-200 bg-white p-6 shadow"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="mb-2 flex items-center space-x-3">
+                        <h3 className="text-lg font-medium text-gray-900">
+                          {moodboard.name}
+                        </h3>
+                        {getMoodboardStatusBadge(moodboard.status)}
+                        <span className="text-sm text-gray-500">
+                          {formatDate(moodboard.createdAt)}
+                        </span>
+                      </div>
+
+                      <div className="mb-3 space-y-2 text-sm text-gray-600">
+                        {moodboard.description && (
+                          <p>{moodboard.description}</p>
+                        )}
+                        <div className="flex flex-wrap gap-4">
+                          {moodboard.projectType && (
+                            <span className="flex items-center">
+                              <span className="mr-1">🏠</span>
+                              {moodboard.projectType}
+                            </span>
+                          )}
+                          <span className="flex items-center">
+                            <span className="mr-1">📊</span>
+                            {moodboard.isActive ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                        {moodboard.notes && (
+                          <p className="text-sm text-gray-500">
+                            Notes: {moodboard.notes}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="ml-4 flex flex-col space-y-2">
+                      <Link
+                        href={`/admin/moodboards/${moodboard.id}`}
+                        className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
+                      >
+                        <svg
+                          className="mr-1 h-4 w-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                          />
+                        </svg>
+                        View Moodboard
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       ) : /* Documents Content */
