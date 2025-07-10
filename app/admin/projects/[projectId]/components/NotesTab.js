@@ -2,6 +2,29 @@
 
 import { useState, useEffect } from "react";
 
+// Helper: Convert URLs to clickable links in text
+const renderTextWithLinks = (text) => {
+  if (!text) return "";
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+};
+
 /**
  * Notes Tab Component
  * Handles project notes with filtering, search, and CRUD operations
@@ -11,6 +34,7 @@ export default function NotesTab({ projectId }) {
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
+  const [viewingNote, setViewingNote] = useState(null);
   const [filters, setFilters] = useState({
     tag: "all",
     important: "all",
@@ -156,6 +180,44 @@ export default function NotesTab({ projectId }) {
     });
   };
 
+  // Truncate text for preview
+  const truncateText = (text, maxLength = 200) => {
+    if (!text) return "";
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + "...";
+  };
+
+  // Check if note has attachments
+  const hasAttachments = (note) => {
+    return note.attachments && note.attachments.length > 0;
+  };
+
+  // Get file type icon
+  const getFileIcon = (fileType) => {
+    const icons = {
+      pdf: "📄",
+      doc: "📝",
+      docx: "📝",
+      xls: "📊",
+      xlsx: "📊",
+      ppt: "📽️",
+      pptx: "📽️",
+      jpg: "🖼️",
+      jpeg: "🖼️",
+      png: "🖼️",
+      gif: "🖼️",
+      webp: "🖼️",
+      mp4: "🎥",
+      avi: "🎥",
+      mov: "🎥",
+      zip: "📦",
+      rar: "📦",
+      txt: "📄",
+      default: "📎",
+    };
+    return icons[fileType.toLowerCase()] || icons.default;
+  };
+
   return (
     <div className="p-6">
       <div className="mb-6 flex items-center justify-between">
@@ -238,76 +300,105 @@ export default function NotesTab({ projectId }) {
         </div>
       ) : (
         <div className="space-y-4">
-          {notes.map((note) => (
-            <div
-              key={note.id}
-              className={`rounded-lg border p-4 ${
-                note.isImportant
-                  ? "border-orange-200 bg-orange-50"
-                  : "border-gray-200 bg-white"
-              }`}
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="mb-2 flex items-center space-x-2">
-                    <h3 className="font-medium text-gray-900">{note.title}</h3>
-                    {note.isImportant && (
-                      <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-800">
-                        ⭐ Important
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="mb-3 text-sm text-gray-600">{note.content}</p>
-
-                  <div className="flex items-center space-x-4 text-xs text-gray-500">
-                    <span>Created: {formatDate(note.createdAt)}</span>
-                    {note.modifiedBy && (
-                      <span>Modified: {formatDate(note.updatedAt)}</span>
-                    )}
-                    <span>By: {note.createdBy?.name || "Unknown"}</span>
-                  </div>
-
-                  {/* Tags */}
-                  {note.tags && note.tags.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {note.tags.map((tag) => {
-                        const tagInfo = getTagInfo(tag);
-                        return (
-                          <span
-                            key={tag}
-                            className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
-                          >
-                            {tagInfo.icon} {tagInfo.label}
-                            {tag === "custom" &&
-                              note.customTag &&
-                              `: ${note.customTag}`}
-                          </span>
-                        );
-                      })}
+          {notes.map((note) => {
+            return (
+              <div
+                key={note.id}
+                className={`rounded-lg border p-4 ${
+                  note.isImportant
+                    ? "border-orange-200 bg-orange-50"
+                    : "border-gray-200 bg-white"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="mb-2 flex items-center space-x-2">
+                      <h3 className="font-medium text-gray-900">
+                        {note.title}
+                      </h3>
+                      {note.isImportant && (
+                        <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-800">
+                          ⭐ Important
+                        </span>
+                      )}
+                      {hasAttachments(note) && (
+                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                          📎 {note.attachments.length} attachment
+                          {note.attachments.length !== 1 ? "s" : ""}
+                        </span>
+                      )}
                     </div>
-                  )}
-                </div>
 
-                <div className="ml-4 flex space-x-2">
-                  <button
-                    onClick={() => setEditingNote(note)}
-                    className="text-gray-400 hover:text-blue-600"
-                    title="Edit note"
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    onClick={() => handleDeleteNote(note.id)}
-                    className="text-gray-400 hover:text-red-600"
-                    title="Delete note"
-                  >
-                    🗑️
-                  </button>
+                    <p className="mb-3 text-sm text-gray-600">
+                      {renderTextWithLinks(truncateText(note.content))}
+                      {note.content.length > 200 && (
+                        <button
+                          onClick={() => setViewingNote(note)}
+                          className="ml-2 text-xs font-medium text-blue-600 hover:text-blue-800"
+                        >
+                          Read more
+                        </button>
+                      )}
+                    </p>
+
+                    <div className="flex items-center space-x-4 text-xs text-gray-500">
+                      <span>Created: {formatDate(note.createdAt)}</span>
+                      {note.modifiedBy && (
+                        <span>Modified: {formatDate(note.updatedAt)}</span>
+                      )}
+                      <span>By: {note.createdBy?.name || "Unknown"}</span>
+                    </div>
+
+                    {/* Tags */}
+                    {note.tags && note.tags.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {note.tags.map((tag) => {
+                          const tagInfo = getTagInfo(tag);
+                          return (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
+                            >
+                              {tagInfo.icon} {tagInfo.label}
+                              {tag === "custom" &&
+                                note.customTag &&
+                                `: ${note.customTag}`}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="ml-4 flex space-x-2">
+                    {(hasAttachments(note) || note.content.length > 200) && (
+                      <button
+                        onClick={() => setViewingNote(note)}
+                        className="text-gray-400 hover:text-green-600"
+                        title="View full note"
+                      >
+                        👁️
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setEditingNote(note)}
+                      className="text-gray-400 hover:text-blue-600"
+                      title="Edit note"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => handleDeleteNote(note.id)}
+                      className="text-gray-400 hover:text-red-600"
+                      title="Delete note"
+                    >
+                      🗑️
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -331,6 +422,210 @@ export default function NotesTab({ projectId }) {
           availableTags={availableTags}
         />
       )}
+
+      {/* View Note Modal */}
+      {viewingNote && (
+        <ViewNoteModal
+          isOpen={true}
+          onClose={() => setViewingNote(null)}
+          note={viewingNote}
+          availableTags={availableTags}
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * View Note Modal Component
+ * Displays full note content with attachments
+ */
+function ViewNoteModal({ isOpen, onClose, note, availableTags }) {
+  // Get tag display info
+  const getTagInfo = (tag) => {
+    const availableTags = [
+      { value: "email", label: "Email", icon: "📧" },
+      { value: "phone call", label: "Phone Call", icon: "📞" },
+      { value: "instruction", label: "Instruction", icon: "📋" },
+      { value: "meeting", label: "Meeting", icon: "🤝" },
+      { value: "follow-up", label: "Follow-up", icon: "🔄" },
+      { value: "custom", label: "Custom", icon: "🏷️" },
+    ];
+    return (
+      availableTags.find((t) => t.value === tag) || { label: tag, icon: "🏷️" }
+    );
+  };
+
+  // Format date
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  // Get file type icon
+  const getFileIcon = (fileType) => {
+    const icons = {
+      pdf: "📄",
+      doc: "📝",
+      docx: "📝",
+      xls: "📊",
+      xlsx: "📊",
+      ppt: "📽️",
+      pptx: "📽️",
+      jpg: "🖼️",
+      jpeg: "🖼️",
+      png: "🖼️",
+      gif: "🖼️",
+      webp: "🖼️",
+      mp4: "🎥",
+      avi: "🎥",
+      mov: "🎥",
+      zip: "📦",
+      rar: "📦",
+      txt: "📄",
+      default: "📎",
+    };
+    return icons[fileType.toLowerCase()] || icons.default;
+  };
+
+  if (!isOpen || !note) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-lg bg-white shadow-xl">
+        <div className="max-h-[calc(90vh-2rem)] overflow-y-auto p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-xl font-medium text-gray-900">{note.title}</h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {/* Note Content */}
+            <div>
+              <h4 className="mb-2 text-sm font-medium text-gray-700">
+                Content
+              </h4>
+              <div className="rounded-lg bg-gray-50 p-4">
+                <p className="whitespace-pre-wrap text-sm text-gray-900">
+                  {renderTextWithLinks(note.content)}
+                </p>
+              </div>
+            </div>
+
+            {/* Attachments */}
+            {note.attachments && note.attachments.length > 0 && (
+              <div>
+                <h4 className="mb-2 text-sm font-medium text-gray-700">
+                  Attachments ({note.attachments.length})
+                </h4>
+                <div className="space-y-2">
+                  {note.attachments.map((attachment, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center space-x-3 rounded-lg border border-gray-200 p-3"
+                    >
+                      <span className="text-lg">
+                        {getFileIcon(attachment.type)}
+                      </span>
+                      <div className="flex-1">
+                        <div className="text-sm font-medium">
+                          {attachment.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {attachment.type.toUpperCase()} •{" "}
+                          {formatDate(attachment.uploadedAt)}
+                        </div>
+                      </div>
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
+                      >
+                        View
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tags */}
+            {note.tags && note.tags.length > 0 && (
+              <div>
+                <h4 className="mb-2 text-sm font-medium text-gray-700">Tags</h4>
+                <div className="flex flex-wrap gap-2">
+                  {note.tags.map((tag) => {
+                    const tagInfo = getTagInfo(tag);
+                    return (
+                      <span
+                        key={tag}
+                        className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
+                      >
+                        {tagInfo.icon} {tagInfo.label}
+                        {tag === "custom" &&
+                          note.customTag &&
+                          `: ${note.customTag}`}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Metadata */}
+            <div>
+              <h4 className="mb-2 text-sm font-medium text-gray-700">
+                Details
+              </h4>
+              <div className="grid grid-cols-1 gap-4 text-sm md:grid-cols-2">
+                <div>
+                  <span className="text-gray-500">Created:</span>
+                  <span className="ml-2 text-gray-900">
+                    {formatDate(note.createdAt)}
+                  </span>
+                </div>
+                {note.modifiedBy && (
+                  <div>
+                    <span className="text-gray-500">Modified:</span>
+                    <span className="ml-2 text-gray-900">
+                      {formatDate(note.updatedAt)}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <span className="text-gray-500">Created by:</span>
+                  <span className="ml-2 text-gray-900">
+                    {note.createdBy?.name || "Unknown"}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-500">Status:</span>
+                  <span className="ml-2">
+                    {note.isImportant ? (
+                      <span className="inline-flex items-center rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-800">
+                        ⭐ Important
+                      </span>
+                    ) : (
+                      <span className="text-gray-900">Normal</span>
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -346,22 +641,31 @@ function NoteModal({ isOpen, onClose, onSubmit, note, availableTags }) {
     tags: note?.tags || [],
     customTag: note?.customTag || "",
     isImportant: note?.isImportant || false,
+    attachments: note?.attachments || [],
   });
 
   const [showCustomTag, setShowCustomTag] = useState(
     note?.tags?.includes("custom") || false,
   );
 
+  const [newAttachment, setNewAttachment] = useState({
+    name: "",
+    url: "",
+    type: "",
+  });
+
   // Reset form when note changes
   useEffect(() => {
     if (note) {
-      setFormData({
+      const newFormData = {
         title: note.title || "",
         content: note.content || "",
         tags: note.tags || [],
         customTag: note.customTag || "",
         isImportant: note.isImportant || false,
-      });
+        attachments: note.attachments || [],
+      };
+      setFormData(newFormData);
       setShowCustomTag(note.tags?.includes("custom") || false);
     } else {
       setFormData({
@@ -370,6 +674,7 @@ function NoteModal({ isOpen, onClose, onSubmit, note, availableTags }) {
         tags: [],
         customTag: "",
         isImportant: false,
+        attachments: [],
       });
       setShowCustomTag(false);
     }
@@ -405,6 +710,76 @@ function NoteModal({ isOpen, onClose, onSubmit, note, availableTags }) {
     });
 
     setShowCustomTag(tagValue === "custom");
+  };
+
+  // Get file type from URL
+  const getFileTypeFromUrl = (url) => {
+    if (!url) return "";
+    const extension = url.split(".").pop()?.toLowerCase();
+    return extension || "";
+  };
+
+  // Add attachment
+  const handleAddAttachment = () => {
+    if (!newAttachment.name.trim() || !newAttachment.url.trim()) {
+      alert("Please fill in both file name and URL");
+      return;
+    }
+
+    const fileType =
+      newAttachment.type || getFileTypeFromUrl(newAttachment.url);
+
+    setFormData((prev) => {
+      const newAttachments = [
+        ...prev.attachments,
+        {
+          name: newAttachment.name,
+          url: newAttachment.url,
+          type: fileType,
+          uploadedAt: new Date(),
+        },
+      ];
+      return {
+        ...prev,
+        attachments: newAttachments,
+      };
+    });
+
+    setNewAttachment({ name: "", url: "", type: "" });
+  };
+
+  // Remove attachment
+  const handleRemoveAttachment = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      attachments: prev.attachments.filter((_, i) => i !== index),
+    }));
+  };
+
+  // Get file type icon
+  const getFileIcon = (fileType) => {
+    const icons = {
+      pdf: "📄",
+      doc: "📝",
+      docx: "📝",
+      xls: "📊",
+      xlsx: "📊",
+      ppt: "📽️",
+      pptx: "📽️",
+      jpg: "🖼️",
+      jpeg: "🖼️",
+      png: "🖼️",
+      gif: "🖼️",
+      webp: "🖼️",
+      mp4: "🎥",
+      avi: "🎥",
+      mov: "🎥",
+      zip: "📦",
+      rar: "📦",
+      txt: "📄",
+      default: "📎",
+    };
+    return icons[fileType.toLowerCase()] || icons.default;
   };
 
   if (!isOpen) return null;
@@ -527,6 +902,109 @@ function NoteModal({ isOpen, onClose, onSubmit, note, availableTags }) {
               >
                 Mark as Important
               </label>
+            </div>
+
+            {/* File Attachments */}
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                File Attachments
+              </label>
+
+              {/* Current Attachments */}
+              {formData.attachments.length > 0 && (
+                <div className="mb-3 space-y-2">
+                  {formData.attachments.map((attachment, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center space-x-3 rounded-lg border border-gray-200 p-2"
+                    >
+                      <span className="text-lg">
+                        {getFileIcon(attachment.type)}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm font-medium">
+                          {attachment.name}
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          {attachment.type.toUpperCase()}
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAttachment(index)}
+                        className="text-red-500 hover:text-red-700"
+                        title="Remove attachment"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Add New Attachment */}
+              <div className="space-y-2 rounded-lg border border-gray-200 p-3">
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-700">
+                      File Name
+                    </label>
+                    <input
+                      type="text"
+                      value={newAttachment.name}
+                      onChange={(e) =>
+                        setNewAttachment((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
+                      className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="e.g., Project Plan.pdf"
+                    />
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-xs font-medium text-gray-700">
+                      File Type (optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={newAttachment.type}
+                      onChange={(e) =>
+                        setNewAttachment((prev) => ({
+                          ...prev,
+                          type: e.target.value,
+                        }))
+                      }
+                      className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      placeholder="e.g., pdf, doc, jpg"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs font-medium text-gray-700">
+                    File URL
+                  </label>
+                  <input
+                    type="url"
+                    value={newAttachment.url}
+                    onChange={(e) =>
+                      setNewAttachment((prev) => ({
+                        ...prev,
+                        url: e.target.value,
+                      }))
+                    }
+                    className="w-full rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    placeholder="https://example.com/file.pdf"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={handleAddAttachment}
+                  className="w-full rounded-md bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                >
+                  + Add Attachment
+                </button>
+              </div>
             </div>
 
             {/* Actions */}

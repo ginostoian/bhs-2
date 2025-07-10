@@ -51,6 +51,35 @@ const projectNoteSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // File attachments
+    attachments: [
+      {
+        // File name
+        name: {
+          type: String,
+          required: true,
+        },
+        // File URL
+        url: {
+          type: String,
+          required: true,
+        },
+        // File type
+        type: {
+          type: String,
+          required: true,
+        },
+        // File size in bytes (optional)
+        size: {
+          type: Number,
+        },
+        // Upload date
+        uploadedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
     // Created by (admin/employee)
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

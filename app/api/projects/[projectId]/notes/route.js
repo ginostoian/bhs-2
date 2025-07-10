@@ -93,6 +93,7 @@ export async function POST(request, { params }) {
       tags: body.tags || [],
       customTag: body.customTag,
       isImportant: body.isImportant || false,
+      attachments: body.attachments || [],
       createdBy: session.user.id,
     });
 

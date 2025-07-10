@@ -40,6 +40,7 @@ export async function PUT(request, { params }) {
         tags: body.tags || [],
         customTag: body.customTag,
         isImportant: body.isImportant || false,
+        attachments: body.attachments || [],
         modifiedBy: session.user.id,
       },
       { new: true, runValidators: true },
