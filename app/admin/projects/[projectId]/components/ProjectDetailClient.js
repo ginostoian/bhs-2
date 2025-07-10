@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TasksTable from "./TasksTable";
 import MilestoneModal from "./MilestoneModal";
 import ProjectInfoModal from "./ProjectInfoModal";
+import NotesTab from "./NotesTab";
 
 /**
  * Project Detail Client Component
@@ -146,6 +147,7 @@ export default function ProjectDetailClient({
     { id: "tasks", name: "Tasks", icon: "📋" },
     { id: "timeline", name: "Timeline", icon: "📅" },
     { id: "documents", name: "Documents", icon: "📄" },
+    { id: "notes", name: "Notes", icon: "📝" },
   ];
 
   const handleTabChange = (tabId) => {
@@ -788,6 +790,8 @@ export default function ProjectDetailClient({
             )}
           </div>
         )}
+
+        {activeTab === "notes" && <NotesTab projectId={project.id} />}
       </div>
 
       {/* Milestone Modal */}
