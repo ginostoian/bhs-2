@@ -42,8 +42,10 @@ export async function GET() {
     // Get all users with their project status
     const users = await User.find(
       {},
-      { email: 1, name: 1, projectStatus: 1 },
+      { email: 1, name: 1, projectStatus: 1, role: 1 },
     ).lean();
+
+    console.log("All users from database:", users);
 
     // Get all projects
     const projects = await Project.find({}, { user: 1, name: 1 }).lean();
@@ -77,6 +79,13 @@ export async function GET() {
         usersWithoutProjects: usersWithoutProjects.length,
         usersWithProjects: usersWithProjects.length,
       },
+      users: users.map((u) => ({
+        id: u._id.toString(),
+        name: u.name,
+        email: u.email,
+        role: u.role || "user",
+        projectStatus: u.projectStatus,
+      })),
       ongoingUsers: ongoingUsers.map((u) => ({
         id: u._id.toString(),
         name: u.name,

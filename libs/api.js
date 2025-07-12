@@ -7,6 +7,7 @@ import config from "@/config";
 // See https://shipfa.st/docs/tutorials/api-call
 const apiClient = axios.create({
   baseURL: "/api",
+  withCredentials: true, // Ensure session cookies are sent
 });
 
 apiClient.interceptors.response.use(
@@ -41,7 +42,7 @@ apiClient.interceptors.response.use(
       toast.error("something went wrong...");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default apiClient;

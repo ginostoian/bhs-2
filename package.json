@@ -15,7 +15,9 @@
     "migrate-users": "node scripts/migrate-users-for-email-auth.js",
     "fix-api-routes": "node scripts/add-dynamic-config.js",
     "fix-duplicates": "node scripts/fix-duplicate-dynamic.js",
-    "check-imports": "node scripts/check-broken-imports.js"
+    "check-imports": "node scripts/check-broken-imports.js",
+    "morning-brief": "node scripts/send-morning-brief.js",
+    "update-aging": "node scripts/update-lead-aging.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^1.0.0",
