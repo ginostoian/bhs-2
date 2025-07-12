@@ -12,7 +12,7 @@ const emailStatsSchema = new mongoose.Schema(
   {
     sent: { type: Number, default: 0 },
     failed: { type: Number, default: 0 },
-    errors: [emailErrorSchema],
+    emailErrors: [emailErrorSchema],
   },
   {
     timestamps: true,

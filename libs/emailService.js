@@ -41,10 +41,10 @@ const updateEmailStats = async (
     }
 
     if (error) {
-      stats.errors.push(error);
+      stats.emailErrors.push(error);
       // Keep only the last 100 errors to prevent the array from growing too large
-      if (stats.errors.length > 100) {
-        stats.errors = stats.errors.slice(-100);
+      if (stats.emailErrors.length > 100) {
+        stats.emailErrors = stats.emailErrors.slice(-100);
       }
     }
 
@@ -623,14 +623,14 @@ export const getEmailStats = async () => {
         stats.sent + stats.failed > 0
           ? ((stats.sent / (stats.sent + stats.failed)) * 100).toFixed(2) + "%"
           : "0%",
-      recentErrors: stats.errors.slice(-10).map((err) => ({
+      recentErrors: stats.emailErrors.slice(-10).map((err) => ({
         error: err.error,
         recipient: err.recipient,
         subject: err.subject,
         timestamp: err.timestamp.toISOString(),
         metadata: err.metadata,
       })),
-      totalErrors: stats.errors.length,
+      totalErrors: stats.emailErrors.length,
     };
 
     // Update cache
@@ -659,7 +659,7 @@ export const clearEmailStats = async () => {
     const stats = await getEmailStatsDocument();
     stats.sent = 0;
     stats.failed = 0;
-    stats.errors = [];
+    stats.emailErrors = [];
     await stats.save();
 
     // Clear cache
