@@ -7,6 +7,7 @@ import TasksTable from "./TasksTable";
 import MilestoneModal from "./MilestoneModal";
 import ProjectInfoModal from "./ProjectInfoModal";
 import NotesTab from "./NotesTab";
+import GanttChart from "./GanttChart";
 
 /**
  * Project Detail Client Component
@@ -26,6 +27,7 @@ export default function ProjectDetailClient({
   const [payments] = useState(initialPayments);
   const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(false);
   const [milestoneModal, setMilestoneModal] = useState({
     isOpen: false,
@@ -77,6 +79,21 @@ export default function ProjectDetailClient({
           setTasks(tasksData.tasks || []);
         } else {
           console.error("Failed to load tasks:", tasksResponse.status);
+        }
+
+        // Load sections
+        const sectionsResponse = await fetch(
+          `/api/projects/${project.id}/sections`,
+          {
+            credentials: "include",
+          },
+        );
+        if (sectionsResponse.ok) {
+          const sectionsData = await sectionsResponse.json();
+          console.log("Loaded sections:", sectionsData.sections);
+          setSections(sectionsData.sections || []);
+        } else {
+          console.error("Failed to load sections:", sectionsResponse.status);
         }
       } catch (error) {
         console.error("Error loading project data:", error);
@@ -146,6 +163,7 @@ export default function ProjectDetailClient({
     { id: "overview", name: "Overview", icon: "📊" },
     { id: "tasks", name: "Tasks", icon: "📋" },
     { id: "timeline", name: "Timeline", icon: "📅" },
+    { id: "gantt", name: "Gantt Chart", icon: "📈" },
     { id: "documents", name: "Documents", icon: "📄" },
     { id: "notes", name: "Notes", icon: "📝" },
   ];
@@ -789,6 +807,15 @@ export default function ProjectDetailClient({
               </div>
             )}
           </div>
+        )}
+
+        {activeTab === "gantt" && (
+          <GanttChart
+            projectId={project.id}
+            projectName={project.name}
+            tasks={tasks}
+            sections={sections}
+          />
         )}
 
         {activeTab === "notes" && <NotesTab projectId={project.id} />}
