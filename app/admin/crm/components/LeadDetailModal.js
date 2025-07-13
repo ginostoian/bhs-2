@@ -38,6 +38,7 @@ export default function LeadDetailModal({
     title: "",
     description: "",
     contactMade: false,
+    dueDate: "",
   });
 
   // Debugging logs
@@ -180,6 +181,7 @@ export default function LeadDetailModal({
         title: "",
         description: "",
         contactMade: false,
+        dueDate: "",
       });
       setShowAddActivity(false);
       fetchLeadDetails();
@@ -594,6 +596,40 @@ export default function LeadDetailModal({
                       className="input input-bordered bg-white"
                     />
                   </div>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <input
+                      type="datetime-local"
+                      placeholder="Due date (optional)"
+                      value={newActivity.dueDate}
+                      onChange={(e) =>
+                        setNewActivity((a) => ({
+                          ...a,
+                          dueDate: e.target.value,
+                        }))
+                      }
+                      className="input input-bordered bg-white"
+                    />
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id="contactMade"
+                        checked={newActivity.contactMade}
+                        onChange={(e) =>
+                          setNewActivity((a) => ({
+                            ...a,
+                            contactMade: e.target.checked,
+                          }))
+                        }
+                        className="checkbox checkbox-sm"
+                      />
+                      <label
+                        htmlFor="contactMade"
+                        className="text-sm text-gray-700"
+                      >
+                        Contact was made with the lead (resets aging timer)
+                      </label>
+                    </div>
+                  </div>
                   <textarea
                     placeholder="Description (optional)"
                     value={newActivity.description}
@@ -606,26 +642,6 @@ export default function LeadDetailModal({
                     className="textarea textarea-bordered bg-white"
                     rows="3"
                   />
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      id="contactMade"
-                      checked={newActivity.contactMade}
-                      onChange={(e) =>
-                        setNewActivity((a) => ({
-                          ...a,
-                          contactMade: e.target.checked,
-                        }))
-                      }
-                      className="checkbox checkbox-sm"
-                    />
-                    <label
-                      htmlFor="contactMade"
-                      className="text-sm text-gray-700"
-                    >
-                      Contact was made with the lead (resets aging timer)
-                    </label>
-                  </div>
                   <div className="flex justify-end">
                     <CRMButton
                       size="sm"
@@ -671,13 +687,19 @@ export default function LeadDetailModal({
                       return icons[type] || "📋";
                     };
 
+                    const isOverdue =
+                      activity.dueDate &&
+                      new Date(activity.dueDate) < new Date();
+
                     return (
                       <div
                         key={index}
                         className={`relative rounded-lg border p-4 transition-all duration-200 ${
                           isDone
                             ? "border-green-200 bg-green-50 opacity-75"
-                            : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
+                            : isOverdue
+                              ? "border-red-300 bg-red-50 hover:border-red-400 hover:shadow-sm"
+                              : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
                         }`}
                       >
                         <div className="flex items-start justify-between">
@@ -738,6 +760,22 @@ export default function LeadDetailModal({
                                 </span>
                                 <span>•</span>
                                 <span>{formatDate(activity.date)}</span>
+                                {activity.dueDate && (
+                                  <>
+                                    <span>•</span>
+                                    <span
+                                      className={
+                                        new Date(activity.dueDate) < new Date()
+                                          ? "font-semibold text-red-600"
+                                          : "text-gray-500"
+                                      }
+                                    >
+                                      Due: {formatDate(activity.dueDate)}
+                                      {new Date(activity.dueDate) <
+                                        new Date() && " (Overdue)"}
+                                    </span>
+                                  </>
+                                )}
                               </div>
                             </div>
                           </div>

@@ -164,6 +164,9 @@ const leadSchema = mongoose.Schema(
           type: Date,
           default: Date.now,
         },
+        dueDate: {
+          type: Date,
+        },
         createdBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
@@ -375,7 +378,7 @@ leadSchema.statics.findByAssignee = function (userId) {
 };
 
 // Instance method to add activity
-leadSchema.methods.addActivity = function (activity) {
+leadSchema.methods.addActivity = async function (activity) {
   this.activities.push(activity);
 
   // Only update lastContactDate if contact was actually made

@@ -27,40 +27,14 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
 
-    // Debug: Log raw activities from database
-    console.log(
-      "Raw activities from DB:",
-      lead.activities.map((a) => ({
-        id: a._id,
-        title: a.title,
-        status: a.status,
-        hasStatus: a.hasOwnProperty("status"),
-      })),
-    );
-
     // Ensure all activities have a status field
     const activitiesWithStatus = lead.activities.map((activity) => {
       const activityObj = activity.toObject();
-      console.log(
-        `Activity ${activity._id} - Raw status:`,
-        activity.status,
-        "Has status field:",
-        activity.hasOwnProperty("status"),
-      );
       return {
         ...activityObj,
         status: activity.status || "pending",
       };
     });
-
-    console.log(
-      "Activities with status:",
-      activitiesWithStatus.map((a) => ({
-        id: a._id,
-        title: a.title,
-        status: a.status,
-      })),
-    );
 
     return NextResponse.json({ activities: activitiesWithStatus });
   } catch (error) {
@@ -88,8 +62,20 @@ export async function POST(request, { params }) {
     }
 
     const body = await request.json();
-    const { type, title, description, attachments, metadata, contactMade } =
-      body;
+    console.log("Activity creation request body:", body);
+
+    const {
+      type,
+      title,
+      description,
+      attachments,
+      metadata,
+      contactMade,
+      dueDate,
+    } = body;
+
+    console.log("Due date from request:", dueDate);
+    console.log("Due date type:", typeof dueDate);
 
     if (!type || !title) {
       return NextResponse.json(
@@ -108,11 +94,15 @@ export async function POST(request, { params }) {
       title,
       description,
       contactMade: contactMade || false,
+      dueDate: dueDate ? new Date(dueDate) : null,
       date: new Date(),
       createdBy: session.user.id,
       attachments: attachments || [],
       metadata: metadata || {},
     };
+
+    console.log("Activity object being saved:", activity);
+    console.log("Due date in activity object:", activity.dueDate);
 
     await lead.addActivity(activity);
 

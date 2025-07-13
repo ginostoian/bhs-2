@@ -5,8 +5,8 @@
       "schedule": "0 2 * * *"
     },
     {
-      "path": "/api/cron/check-overdue-payments",
-      "schedule": "0 3 * * *"
+      "path": "/api/cron/check-overdue-activities",
+      "schedule": "0 9 * * *"
     }
   ]
 }
