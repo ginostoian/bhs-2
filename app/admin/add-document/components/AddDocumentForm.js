@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import UserSearchSelector from "./UserSearchSelector";
+import FileUpload from "@/components/FileUpload";
 
 /**
  * Add Document Form Component
@@ -15,6 +16,8 @@ export default function AddDocumentForm({ users }) {
     content: "",
     status: "pending",
   });
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploadedFileIds, setUploadedFileIds] = useState([]); // Store file IDs for document association
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [modalState, setModalState] = useState({
     isOpen: false,
@@ -38,6 +41,42 @@ export default function AddDocumentForm({ users }) {
       userId: userId,
     }));
   };
+
+  const handleUploadComplete = (files, result) => {
+    setUploadedFiles((prev) => [...prev, ...files]);
+
+    // Store file IDs for document association
+    const fileIds = files.map((file) => file.id);
+    setUploadedFileIds((prev) => [...prev, ...fileIds]);
+
+    // Auto-populate content field based on document type and uploaded files
+    if (files.length > 0) {
+      const firstFile = files[0];
+
+      if (
+        formData.type === "photo" &&
+        firstFile.contentType.startsWith("image/")
+      ) {
+        // For photo documents, use the first image
+        setFormData((prev) => ({
+          ...prev,
+          content: firstFile.url,
+        }));
+      } else if (
+        (formData.type === "quote" || formData.type === "invoice") &&
+        firstFile.contentType === "application/pdf"
+      ) {
+        // For quote/invoice documents, use the first PDF
+        setFormData((prev) => ({
+          ...prev,
+          content: firstFile.url,
+        }));
+      }
+    }
+  };
+
+  // Check if user is selected
+  const isUserSelected = formData.userId && formData.userId.trim() !== "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,6 +143,7 @@ export default function AddDocumentForm({ users }) {
           userId: formData.userId,
           type: formData.type,
           content: content,
+          fileIds: uploadedFileIds, // Pass uploaded file IDs for association
           ...(formData.type === "invoice" && { status: formData.status }),
         }),
       });
@@ -120,6 +160,8 @@ export default function AddDocumentForm({ users }) {
         content: "",
         status: "pending",
       });
+      setUploadedFiles([]);
+      setUploadedFileIds([]);
 
       // Show success modal
       setModalState({
@@ -319,6 +361,45 @@ export default function AddDocumentForm({ users }) {
               placeholder="Enter comment text..."
             />
           )}
+        </div>
+
+        {/* File Upload */}
+        <div>
+          <label className="mb-2 block text-sm font-medium text-gray-700">
+            Attachments
+          </label>
+          {!isUserSelected ? (
+            <div className="rounded-lg border-2 border-dashed border-gray-300 p-8 text-center">
+              <div className="mb-4 text-4xl text-gray-400">📁</div>
+              <p className="mb-2 text-gray-600">Please select a user first</p>
+              <p className="text-sm text-gray-500">
+                Choose a user above to enable file uploads for this document.
+              </p>
+            </div>
+          ) : (
+            <FileUpload
+              onUploadComplete={handleUploadComplete}
+              multiple={formData.type === "photo"}
+              maxSize={50 * 1024 * 1024} // 50MB
+              allowedTypes={
+                formData.type === "photo"
+                  ? [".jpg", ".jpeg", ".png", ".gif", ".webp"]
+                  : [".pdf", ".doc", ".docx", ".jpg", ".jpeg", ".png"]
+              }
+              folder="documents"
+              entityType="document"
+              entityId={null} // Will be set after document creation
+              targetUserId={formData.userId} // Pass the selected user ID
+              disabled={isSubmitting}
+              showPreview={true}
+              maxFiles={formData.type === "photo" ? 10 : 5}
+            />
+          )}
+          <p className="mt-1 text-xs text-gray-500">
+            {formData.type === "photo"
+              ? "Upload images for this photo document. The first image will be used as the main content."
+              : "Upload supporting files for this document."}
+          </p>
         </div>
 
         {/* Submit Button */}

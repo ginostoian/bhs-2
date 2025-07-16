@@ -27,6 +27,7 @@ export default function AdminSidebar() {
     { name: "Instructions", href: "/admin/instructions", icon: "📋" },
     { name: "Payments", href: "/admin/payments", icon: "💳" },
     { name: "Add Document", href: "/admin/add-document", icon: "📄" },
+    { name: "Files", href: "/admin/files", icon: "📁" },
     {
       name: "Notification Management",
       href: "/admin/notification-management",
