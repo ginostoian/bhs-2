@@ -219,7 +219,15 @@ export default function ProjectsList({ projects: initialProjects }) {
 
               {/* Project Details */}
               <div className="mb-4 space-y-1 text-xs text-gray-500">
-                <div>Client: {project.user?.name || "Unknown"}</div>
+                <div className="flex items-center justify-between">
+                  <span>Client: {project.user?.name || "Unknown"}</span>
+                  <Link
+                    href={`/admin/users/${project.user?.id}`}
+                    className="rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    View User
+                  </Link>
+                </div>
                 <div>Started: {formatDate(project.startDate)}</div>
                 {project.budget && (
                   <div>Budget: {formatBudget(project.budget)}</div>
