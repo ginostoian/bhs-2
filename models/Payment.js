@@ -68,8 +68,8 @@ paymentSchema.plugin(toJSON);
 // Compound index for user and order to ensure proper ordering
 paymentSchema.index({ user: 1, order: 1 });
 
-// Simple index for user and paymentNumber (no uniqueness constraint for now)
-paymentSchema.index({ user: 1, paymentNumber: 1 });
+// Index for user and paymentNumber (no uniqueness constraint)
+paymentSchema.index({ user: 1, paymentNumber: 1 }, { unique: false });
 
 // Pre-validate middleware to auto-assign payment number if not provided
 paymentSchema.pre("validate", async function (next) {
@@ -78,9 +78,9 @@ paymentSchema.pre("validate", async function (next) {
       // Get the highest payment number for this user
       const lastPayment = await this.constructor
         .findOne({ user: this.user })
-        .sort({ paymentNumber: -1 });
+        .sort({ order: -1 });
 
-      this.paymentNumber = lastPayment ? lastPayment.paymentNumber + 1 : 1;
+      this.paymentNumber = lastPayment ? lastPayment.order + 1 : 1;
     }
 
     // Auto-assign order if not provided
@@ -90,6 +90,11 @@ paymentSchema.pre("validate", async function (next) {
         .sort({ order: -1 });
 
       this.order = lastPayment ? lastPayment.order + 1 : 1;
+    }
+
+    // Ensure payment number matches order
+    if (this.paymentNumber !== this.order) {
+      this.paymentNumber = this.order;
     }
 
     next();

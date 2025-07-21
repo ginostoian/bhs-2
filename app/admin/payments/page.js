@@ -18,7 +18,7 @@ export default async function AdminPaymentsPage() {
 
   // Fetch all payments and convert to plain objects
   const payments = await Payment.find({})
-    .sort({ order: 1, paymentNumber: 1 })
+    .sort({ order: 1 })
     .populate("user", "name email projectStatus")
     .lean()
     .then((docs) =>

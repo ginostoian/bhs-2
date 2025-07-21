@@ -203,7 +203,7 @@ export default function AdminPaymentsClient({
       })),
     );
 
-    // Update local state
+    // Update local state immediately for better UX
     setPayments((prevPayments) =>
       prevPayments.map((payment) => {
         if (
@@ -217,29 +217,57 @@ export default function AdminPaymentsClient({
       }),
     );
 
-    // Update order in database
+    // Update order and payment numbers in database
     try {
-      const response = await fetch(`/api/payments/${reorderedItem.id}`, {
-        method: "PATCH",
+      const response = await fetch("/api/payments/reorder", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          newOrder: destination.index + 1,
+          payments: items.map((item, index) => ({
+            id: item.id,
+            userId: sourceUserId,
+            order: index + 1,
+            paymentNumber: index + 1,
+          })),
         }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to reorder payment");
+        throw new Error("Failed to reorder payments");
       }
+
+      // Update local state with new order
+      const updatedItems = items.map((item, index) => ({
+        ...item,
+        order: index + 1,
+      }));
+
+      setPayments((prevPayments) =>
+        prevPayments.map((payment) => {
+          if (
+            payment.user?.id === sourceUserId ||
+            payment.user?._id === sourceUserId
+          ) {
+            const newPayment = updatedItems.find(
+              (item) => item.id === payment.id,
+            );
+            return newPayment || payment;
+          }
+          return payment;
+        }),
+      );
 
       console.log("Reorder successful");
     } catch (error) {
       console.error("Error reordering payment:", error);
+      // Revert to original state on error
+      setPayments(initialPayments);
       setModalState({
         isOpen: true,
         title: "Error",
-        message: "Failed to reorder payment. Please try again.",
+        message: "Failed to reorder payments. Please try again.",
         type: "alert",
         confirmText: "OK",
       });
@@ -767,7 +795,7 @@ export default function AdminPaymentsClient({
                                             </div>
                                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                                               <span className="text-sm font-semibold text-gray-600">
-                                                #{payment.paymentNumber}
+                                                #{payment.order}
                                               </span>
                                             </div>
                                             <div>

@@ -19,7 +19,7 @@ export default async function PaymentsPage() {
   const payments = await Payment.find({
     user: session.user.id,
   })
-    .sort({ order: 1, paymentNumber: 1 })
+    .sort({ order: 1 })
     .populate("user", "name email")
     .lean()
     .then((docs) =>
@@ -237,7 +237,7 @@ export default async function PaymentsPage() {
                     <div className="flex items-center space-x-4">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                         <span className="text-sm font-semibold text-gray-600">
-                          #{payment.paymentNumber}
+                          #{payment.order}
                         </span>
                       </div>
                       <div>

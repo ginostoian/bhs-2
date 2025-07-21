@@ -307,24 +307,47 @@ export default function UserDetailClient({
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
+    // Update local state immediately for better UX
     setPayments(items);
 
-    // Update order in database
+    // Update order and payment numbers in database
     try {
-      await fetch("/api/payments/update-statuses", {
-        method: "PUT",
+      const response = await fetch("/api/payments/reorder", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           payments: items.map((item, index) => ({
             id: item.id,
+            userId: user.id,
             order: index + 1,
+            paymentNumber: index + 1,
           })),
         }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to reorder payments");
+      }
+
+      // Update local state with new order
+      const updatedItems = items.map((item, index) => ({
+        ...item,
+        order: index + 1,
+      }));
+      setPayments(updatedItems);
     } catch (error) {
       console.error("Error updating payment order:", error);
+      // Revert to original order on error
+      setPayments(initialPayments);
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to reorder payments. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     }
   };
 
@@ -732,7 +755,7 @@ export default function UserDetailClient({
                                     </div>
                                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                                       <span className="text-sm font-semibold text-gray-600">
-                                        #{payment.paymentNumber}
+                                        #{payment.order}
                                       </span>
                                     </div>
                                     <div>

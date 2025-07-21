@@ -68,7 +68,7 @@ export default async function AdminUserDetailPage({ params }) {
   let payments = [];
   try {
     payments = await Payment.find({ user: params.userId })
-      .sort({ order: 1, paymentNumber: 1 })
+      .sort({ order: 1 })
       .populate("user", "name email")
       .lean()
       .then((docs) =>
@@ -78,7 +78,7 @@ export default async function AdminUserDetailPage({ params }) {
           amount: doc.amount,
           dueDate: doc.dueDate,
           status: doc.status,
-          paymentNumber: doc.paymentNumber,
+          paymentNumber: doc.order,
           order: doc.order,
           user: doc.user
             ? {

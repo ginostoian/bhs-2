@@ -101,7 +101,7 @@ export async function PUT(req, { params }) {
     return NextResponse.json({
       payment: {
         id: payment.id,
-        paymentNumber: payment.paymentNumber,
+        paymentNumber: payment.order,
         name: payment.name,
         dueDate: payment.dueDate,
         status: payment.status,

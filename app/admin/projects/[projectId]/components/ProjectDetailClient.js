@@ -1000,7 +1000,7 @@ export default function ProjectDetailClient({
                           <div className="flex items-center space-x-4">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                               <span className="text-sm font-semibold text-gray-600">
-                                #{payment.paymentNumber}
+                                #{payment.order}
                               </span>
                             </div>
                             <div>

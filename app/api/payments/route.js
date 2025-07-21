@@ -28,7 +28,7 @@ export async function GET(req) {
 
     // Fetch user's payments and convert to plain objects
     const payments = await Payment.find(filter)
-      .sort({ order: 1, paymentNumber: 1 })
+      .sort({ order: 1 })
       .populate("user", "name email")
       .lean()
       .then((docs) =>
@@ -220,7 +220,7 @@ export async function POST(req) {
       {
         payment: {
           id: payment.id,
-          paymentNumber: payment.paymentNumber,
+          paymentNumber: payment.order,
           name: payment.name,
           dueDate: payment.dueDate,
           status: payment.status,
