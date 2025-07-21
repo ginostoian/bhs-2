@@ -74,9 +74,14 @@ export default function UserDetailClient({
 
   const getStatusBadge = (status) => {
     const styles = {
+      // Project statuses
       Lead: "bg-blue-100 text-blue-800",
       "On Going": "bg-yellow-100 text-yellow-800",
       Finished: "bg-green-100 text-green-800",
+      // Payment statuses
+      Scheduled: "bg-blue-100 text-blue-800",
+      Due: "bg-yellow-100 text-yellow-800",
+      Paid: "bg-green-100 text-green-800",
     };
 
     return (
