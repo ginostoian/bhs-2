@@ -762,173 +762,187 @@ export default function AdminPaymentsClient({
                                   Drag and drop to reorder payments
                                 </p>
                               </div>
-                              <div className="divide-y divide-gray-200">
-                                {userGroup.payments.map((payment, index) => (
-                                  <Draggable
-                                    key={payment.id}
-                                    draggableId={payment.id}
-                                    index={index}
-                                  >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        className={`px-6 py-4 transition-colors hover:bg-gray-50 ${
-                                          snapshot.isDragging
-                                            ? "bg-blue-50"
-                                            : ""
-                                        }`}
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <div className="flex items-center space-x-4">
+                              <div className="overflow-x-auto">
+                                <div className="min-w-[800px]">
+                                  <div className="divide-y divide-gray-200">
+                                    {userGroup.payments.map(
+                                      (payment, index) => (
+                                        <Draggable
+                                          key={payment.id}
+                                          draggableId={payment.id}
+                                          index={index}
+                                        >
+                                          {(provided, snapshot) => (
                                             <div
-                                              {...provided.dragHandleProps}
-                                              className="flex h-10 w-10 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
-                                            >
-                                              <svg
-                                                className="h-4 w-4 text-gray-400"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                              >
-                                                <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
-                                              </svg>
-                                            </div>
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                                              <span className="text-sm font-semibold text-gray-600">
-                                                #{payment.order}
-                                              </span>
-                                            </div>
-                                            <div>
-                                              <h4 className="text-sm font-medium text-gray-900">
-                                                {payment.name}
-                                              </h4>
-                                              <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
-                                                <span className="flex items-center">
-                                                  <svg
-                                                    className="mr-1 h-3 w-3"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                  >
-                                                    <path
-                                                      strokeLinecap="round"
-                                                      strokeLinejoin="round"
-                                                      strokeWidth={2}
-                                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                                    />
-                                                  </svg>
-                                                  Due:{" "}
-                                                  {formatDate(payment.dueDate)}
-                                                </span>
-                                                {payment.status === "Paid" && (
-                                                  <span className="flex items-center text-green-600">
-                                                    <svg
-                                                      className="mr-1 h-3 w-3"
-                                                      fill="none"
-                                                      stroke="currentColor"
-                                                      viewBox="0 0 24 24"
-                                                    >
-                                                      <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                      />
-                                                    </svg>
-                                                    Paid
-                                                  </span>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div className="flex items-center space-x-4">
-                                            <div className="text-right">
-                                              <p className="text-sm font-semibold text-gray-900">
-                                                {formatAmount(payment.amount)}
-                                              </p>
-                                            </div>
-                                            <span
-                                              className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
-                                                payment.status === "Paid"
-                                                  ? "bg-green-100 text-green-800 ring-1 ring-green-200"
-                                                  : payment.status === "Due"
-                                                    ? "bg-red-100 text-red-800 ring-1 ring-red-200"
-                                                    : "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
+                                              ref={provided.innerRef}
+                                              {...provided.draggableProps}
+                                              className={`px-6 py-4 transition-colors hover:bg-gray-50 ${
+                                                snapshot.isDragging
+                                                  ? "bg-blue-50"
+                                                  : ""
                                               }`}
                                             >
-                                              {payment.status === "Paid" && (
-                                                <svg
-                                                  className="mr-1 h-3 w-3"
-                                                  fill="currentColor"
-                                                  viewBox="0 0 20 20"
-                                                >
-                                                  <path
-                                                    fillRule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clipRule="evenodd"
-                                                  />
-                                                </svg>
-                                              )}
-                                              {payment.status === "Due" && (
-                                                <svg
-                                                  className="mr-1 h-3 w-3"
-                                                  fill="currentColor"
-                                                  viewBox="0 0 20 20"
-                                                >
-                                                  <path
-                                                    fillRule="evenodd"
-                                                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                                                    clipRule="evenodd"
-                                                  />
-                                                </svg>
-                                              )}
-                                              {payment.status ===
-                                                "Scheduled" && (
-                                                <svg
-                                                  className="mr-1 h-3 w-3"
-                                                  fill="currentColor"
-                                                  viewBox="0 0 20 20"
-                                                >
-                                                  <path
-                                                    fillRule="evenodd"
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                                                    clipRule="evenodd"
-                                                  />
-                                                </svg>
-                                              )}
-                                              {payment.status}
-                                            </span>
-                                            <div className="flex space-x-2">
-                                              <button
-                                                onClick={() =>
-                                                  setEditModal({
-                                                    isOpen: true,
-                                                    payment,
-                                                  })
-                                                }
-                                                className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
-                                              >
-                                                Edit
-                                              </button>
-                                              <button
-                                                onClick={() =>
-                                                  openDeleteModal(payment)
-                                                }
-                                                disabled={isDeleting}
-                                                className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                                              >
-                                                {isDeleting
-                                                  ? "Deleting..."
-                                                  : "Delete"}
-                                              </button>
+                                              <div className="flex items-center justify-between">
+                                                <div className="flex items-center space-x-4">
+                                                  <div
+                                                    {...provided.dragHandleProps}
+                                                    className="flex h-10 w-10 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                                                  >
+                                                    <svg
+                                                      className="h-4 w-4 text-gray-400"
+                                                      fill="currentColor"
+                                                      viewBox="0 0 20 20"
+                                                    >
+                                                      <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
+                                                    </svg>
+                                                  </div>
+                                                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                                    <span className="text-sm font-semibold text-gray-600">
+                                                      #{payment.order}
+                                                    </span>
+                                                  </div>
+                                                  <div>
+                                                    <h4 className="text-sm font-medium text-gray-900">
+                                                      {payment.name}
+                                                    </h4>
+                                                    <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
+                                                      <span className="flex items-center">
+                                                        <svg
+                                                          className="mr-1 h-3 w-3"
+                                                          fill="none"
+                                                          stroke="currentColor"
+                                                          viewBox="0 0 24 24"
+                                                        >
+                                                          <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                                          />
+                                                        </svg>
+                                                        Due:{" "}
+                                                        {formatDate(
+                                                          payment.dueDate,
+                                                        )}
+                                                      </span>
+                                                      {payment.status ===
+                                                        "Paid" && (
+                                                        <span className="flex items-center text-green-600">
+                                                          <svg
+                                                            className="mr-1 h-3 w-3"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                          >
+                                                            <path
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              strokeWidth={2}
+                                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                            />
+                                                          </svg>
+                                                          Paid
+                                                        </span>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div className="flex items-center space-x-4">
+                                                  <div className="text-right">
+                                                    <p className="text-sm font-semibold text-gray-900">
+                                                      {formatAmount(
+                                                        payment.amount,
+                                                      )}
+                                                    </p>
+                                                  </div>
+                                                  <span
+                                                    className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
+                                                      payment.status === "Paid"
+                                                        ? "bg-green-100 text-green-800 ring-1 ring-green-200"
+                                                        : payment.status ===
+                                                            "Due"
+                                                          ? "bg-red-100 text-red-800 ring-1 ring-red-200"
+                                                          : "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
+                                                    }`}
+                                                  >
+                                                    {payment.status ===
+                                                      "Paid" && (
+                                                      <svg
+                                                        className="mr-1 h-3 w-3"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 20 20"
+                                                      >
+                                                        <path
+                                                          fillRule="evenodd"
+                                                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                          clipRule="evenodd"
+                                                        />
+                                                      </svg>
+                                                    )}
+                                                    {payment.status ===
+                                                      "Due" && (
+                                                      <svg
+                                                        className="mr-1 h-3 w-3"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 20 20"
+                                                      >
+                                                        <path
+                                                          fillRule="evenodd"
+                                                          d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                                                          clipRule="evenodd"
+                                                        />
+                                                      </svg>
+                                                    )}
+                                                    {payment.status ===
+                                                      "Scheduled" && (
+                                                      <svg
+                                                        className="mr-1 h-3 w-3"
+                                                        fill="currentColor"
+                                                        viewBox="0 0 20 20"
+                                                      >
+                                                        <path
+                                                          fillRule="evenodd"
+                                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                                          clipRule="evenodd"
+                                                        />
+                                                      </svg>
+                                                    )}
+                                                    {payment.status}
+                                                  </span>
+                                                  <div className="flex space-x-2">
+                                                    <button
+                                                      onClick={() =>
+                                                        setEditModal({
+                                                          isOpen: true,
+                                                          payment,
+                                                        })
+                                                      }
+                                                      className="rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100"
+                                                    >
+                                                      Edit
+                                                    </button>
+                                                    <button
+                                                      onClick={() =>
+                                                        openDeleteModal(payment)
+                                                      }
+                                                      disabled={isDeleting}
+                                                      className="rounded-md border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    >
+                                                      {isDeleting
+                                                        ? "Deleting..."
+                                                        : "Delete"}
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </div>
                                             </div>
-                                          </div>
-                                        </div>
-                                      </div>
+                                          )}
+                                        </Draggable>
+                                      ),
                                     )}
-                                  </Draggable>
-                                ))}
-                                {provided.placeholder}
+                                    {provided.placeholder}
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           )}
