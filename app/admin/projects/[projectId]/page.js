@@ -59,9 +59,17 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     .lean()
     .then((docs) =>
       docs.map((doc) => ({
-        ...doc,
         id: doc._id.toString(),
-        _id: undefined,
+        user: doc.user.toString(),
+        name: doc.name,
+        dueDate: doc.dueDate,
+        amount: doc.amount,
+        status: doc.status,
+        order: doc.order,
+        paymentNumber: doc.paymentNumber,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+        statusChangeEmailSent: doc.statusChangeEmailSent,
       })),
     );
 
@@ -99,11 +107,13 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   };
 
   return (
-    <ProjectDetailClient
-      project={projectData}
-      documentsByType={documentsByType}
-      payments={payments}
-      activeTab={activeTab}
-    />
+    <div className="min-h-screen bg-gray-50">
+      <ProjectDetailClient
+        project={projectData}
+        documentsByType={documentsByType}
+        payments={payments}
+        activeTab={activeTab}
+      />
+    </div>
   );
 }
