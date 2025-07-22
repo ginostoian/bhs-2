@@ -5,6 +5,7 @@ import Project from "@/models/Project";
 import User from "@/models/User";
 import Document from "@/models/Document";
 import Payment from "@/models/Payment";
+import Expense from "@/models/Expense";
 import { notFound } from "next/navigation";
 import ProjectDetailClient from "./components/ProjectDetailClient";
 
@@ -73,6 +74,30 @@ export default async function ProjectDetailPage({ params, searchParams }) {
       })),
     );
 
+  // Fetch project expenses
+  const expenses = await Expense.find({ project: projectId })
+    .sort({ order: 1 })
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        id: doc._id.toString(),
+        project: doc.project.toString(),
+        name: doc.name,
+        amount: doc.amount,
+        purchaseDate: doc.purchaseDate,
+        type: doc.type,
+        category: doc.category,
+        customCategory: doc.customCategory,
+        purchaseLink: doc.purchaseLink,
+        notes: doc.notes,
+        files: doc.files,
+        order: doc.order,
+        status: doc.status,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+      })),
+    );
+
   // Convert project to plain object
   const projectData = {
     id: project._id.toString(),
@@ -113,6 +138,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
         project={projectData}
         documentsByType={documentsByType}
         payments={payments}
+        expenses={expenses}
         activeTab={activeTab}
       />
     </div>

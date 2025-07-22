@@ -9,6 +9,7 @@ import MilestoneModal from "./MilestoneModal";
 import ProjectInfoModal from "./ProjectInfoModal";
 import NotesTab from "./NotesTab";
 import GanttChart from "./GanttChart";
+import ExpensesTab from "./ExpensesTab";
 
 /**
  * Project Detail Client Component
@@ -18,6 +19,7 @@ export default function ProjectDetailClient({
   project: initialProject,
   documentsByType: initialDocumentsByType,
   payments: initialPayments,
+  expenses: initialExpenses,
   activeTab: initialActiveTab,
 }) {
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function ProjectDetailClient({
   const [project, setProject] = useState(initialProject);
   const [documentsByType] = useState(initialDocumentsByType);
   const [payments] = useState(initialPayments);
+  const [expenses] = useState(initialExpenses);
   const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [sections, setSections] = useState([]);
@@ -346,6 +349,7 @@ export default function ProjectDetailClient({
     { id: "milestones", name: "Milestones", icon: "🎯" },
     { id: "documents", name: "Documents", icon: "📄" },
     { id: "payments", name: "Payment Plan", icon: "💰" },
+    { id: "expenses", name: "Expenses", icon: "💳" },
     { id: "notes", name: "Notes", icon: "📝" },
     { id: "gantt", name: "Gantt Chart", icon: "📈" },
   ];
@@ -1501,6 +1505,18 @@ export default function ProjectDetailClient({
                   </Link>
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === "expenses" && (
+            <div className="p-6">
+              <ExpensesTab
+                projectId={project.id}
+                projectName={project.name}
+                userName={project.user.name || project.user.email}
+                userAddress={project.location}
+                expenses={expenses}
+              />
             </div>
           )}
 

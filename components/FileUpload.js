@@ -108,7 +108,7 @@ export default function FileUpload({
       // Update uploaded files
       const newFiles = result.uploaded.map((file) => ({
         ...file,
-        id: `${file.fileName}_${Date.now()}`,
+        // Keep the original id from the API response (MongoDB ObjectId)
       }));
 
       setUploadedFiles((prev) => [...prev, ...newFiles]);
