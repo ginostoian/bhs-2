@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import TasksTable from "./TasksTable";
+import AdminTasksTable from "./AdminTasksTable";
 import MilestoneModal from "./MilestoneModal";
 import ProjectInfoModal from "./ProjectInfoModal";
 import NotesTab from "./NotesTab";
@@ -304,10 +305,43 @@ export default function ProjectDetailClient({
     return "No content available";
   };
 
+  // Calculate incomplete admin tasks count
+  const [adminTasks, setAdminTasks] = useState([]);
+  const incompleteAdminTasksCount = adminTasks.filter(
+    (task) => task.status !== "Done",
+  ).length;
+
+  // Load admin tasks
+  useEffect(() => {
+    const loadAdminTasks = async () => {
+      try {
+        const response = await fetch(
+          `/api/projects/${project.id}/admin-tasks`,
+          {
+            credentials: "include",
+          },
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setAdminTasks(data.tasks || []);
+        }
+      } catch (error) {
+        console.error("Error loading admin tasks:", error);
+      }
+    };
+
+    loadAdminTasks();
+  }, [project.id]);
+
   // Define tabs
   const tabs = [
     { id: "overview", name: "Overview", icon: "📊" },
     { id: "tasks", name: "Tasks", icon: "📋" },
+    {
+      id: "admin-tasks",
+      name: `Admin Tasks${incompleteAdminTasksCount > 0 ? ` (${incompleteAdminTasksCount})` : ""}`,
+      icon: "👥",
+    },
     { id: "milestones", name: "Milestones", icon: "🎯" },
     { id: "documents", name: "Documents", icon: "📄" },
     { id: "payments", name: "Payment Plan", icon: "💰" },
@@ -580,6 +614,34 @@ export default function ProjectDetailClient({
                       t.id === updatedTask.id ? updatedTask : t,
                     ),
                   );
+                }}
+              />
+            </div>
+          )}
+
+          {activeTab === "admin-tasks" && (
+            <div className="p-6">
+              <AdminTasksTable
+                projectId={project.id}
+                onTasksUpdate={() => {
+                  // Reload admin tasks to update the count
+                  const loadAdminTasks = async () => {
+                    try {
+                      const response = await fetch(
+                        `/api/projects/${project.id}/admin-tasks`,
+                        {
+                          credentials: "include",
+                        },
+                      );
+                      if (response.ok) {
+                        const data = await response.json();
+                        setAdminTasks(data.tasks || []);
+                      }
+                    } catch (error) {
+                      console.error("Error loading admin tasks:", error);
+                    }
+                  };
+                  loadAdminTasks();
                 }}
               />
             </div>
