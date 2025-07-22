@@ -83,6 +83,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     priority: project.priority,
     progress: project.progress,
     startDate: project.startDate,
+    projectedFinishDate: project.projectedFinishDate,
     completionDate: project.completionDate,
     location: project.location,
     budget: project.budget,

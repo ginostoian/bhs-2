@@ -19,6 +19,7 @@ export default function ProjectInfoModal({ isOpen, onClose, project, onSave }) {
     budget: "",
     priority: "medium",
     notes: "",
+    startDate: "",
     projectedFinishDate: "",
   });
   const [loading, setLoading] = useState(false);
@@ -36,6 +37,9 @@ export default function ProjectInfoModal({ isOpen, onClose, project, onSave }) {
             : "",
         priority: project.priority || "medium",
         notes: project.notes || "",
+        startDate: project.startDate
+          ? new Date(project.startDate).toISOString().split("T")[0]
+          : "",
         projectedFinishDate: project.projectedFinishDate
           ? new Date(project.projectedFinishDate).toISOString().split("T")[0]
           : "",
@@ -56,19 +60,23 @@ export default function ProjectInfoModal({ isOpen, onClose, project, onSave }) {
     if (!form.type) return setError("Project type is required");
     setLoading(true);
     try {
+      const requestBody = {
+        name: form.name,
+        type: form.type,
+        location: form.location,
+        budget: form.budget === "" ? null : Number(form.budget),
+        priority: form.priority,
+        notes: form.notes,
+        startDate: form.startDate === "" ? null : form.startDate,
+        projectedFinishDate:
+          form.projectedFinishDate === "" ? null : form.projectedFinishDate,
+      };
+
       const res = await fetch(`/api/projects/${project.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          name: form.name,
-          type: form.type,
-          location: form.location,
-          budget: form.budget === "" ? null : Number(form.budget),
-          priority: form.priority,
-          notes: form.notes,
-          projectedFinishDate: form.projectedFinishDate || null,
-        }),
+        body: JSON.stringify(requestBody),
       });
       if (!res.ok) throw new Error("Failed to update project");
       const data = await res.json();
@@ -183,6 +191,18 @@ export default function ProjectInfoModal({ isOpen, onClose, project, onSave }) {
                   </option>
                 ))}
               </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Start Date
+              </label>
+              <input
+                type="date"
+                name="startDate"
+                value={form.startDate}
+                onChange={handleChange}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
             <div>
               <label className="mb-1 block text-sm font-medium text-gray-700">

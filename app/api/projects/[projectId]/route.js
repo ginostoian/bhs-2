@@ -67,27 +67,65 @@ export async function PUT(req, { params }) {
     if (body.notes !== undefined) updateData.notes = body.notes;
     if (body.tags !== undefined) updateData.tags = body.tags;
 
+    // Handle date fields explicitly
+    if (body.startDate !== undefined) {
+      if (body.startDate && body.startDate.trim() !== "") {
+        updateData.startDate = new Date(body.startDate);
+      } else {
+        updateData.startDate = null;
+      }
+    }
+
+    if (body.projectedFinishDate !== undefined) {
+      if (body.projectedFinishDate && body.projectedFinishDate.trim() !== "") {
+        updateData.projectedFinishDate = new Date(body.projectedFinishDate);
+      } else {
+        updateData.projectedFinishDate = null;
+      }
+    }
+
     // If changing to Finished, set completion date
     if (isChangingToFinished) {
       updateData.completionDate = new Date();
     }
 
-    const updatedProject = await Project.findByIdAndUpdate(
-      projectId,
-      updateData,
-      { new: true, runValidators: true },
-    )
-      .populate("user", "name email projectStatus")
-      .populate("projectManager", "name position");
+    try {
+      // First, ensure the projectedFinishDate field exists in the document
+      if (updateData.projectedFinishDate !== undefined) {
+        await Project.updateOne(
+          { _id: projectId, projectedFinishDate: { $exists: false } },
+          { $set: { projectedFinishDate: null } },
+        );
+      }
 
-    // If project status changed to Finished, also update user's projectStatus
-    if (isChangingToFinished && updatedProject.user) {
-      await User.findByIdAndUpdate(updatedProject.user._id, {
-        projectStatus: "Finished",
-      });
+      // Use findByIdAndUpdate with explicit $set
+      const updatedProject = await Project.findByIdAndUpdate(
+        projectId,
+        { $set: updateData },
+        { new: true, runValidators: true },
+      )
+        .populate("user", "name email projectStatus")
+        .populate("projectManager", "name position");
+
+      if (!updatedProject) {
+        return NextResponse.json(
+          { error: "Failed to update project" },
+          { status: 500 },
+        );
+      }
+
+      // If project status changed to Finished, also update user's projectStatus
+      if (isChangingToFinished && updatedProject.user) {
+        await User.findByIdAndUpdate(updatedProject.user._id, {
+          projectStatus: "Finished",
+        });
+      }
+
+      return NextResponse.json({ project: updatedProject });
+    } catch (updateError) {
+      console.error("Database update error:", updateError);
+      throw updateError;
     }
-
-    return NextResponse.json({ project: updatedProject });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to update project" },

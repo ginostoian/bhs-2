@@ -23,7 +23,7 @@ export default function ProjectDetailClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState(initialActiveTab);
-  const [project] = useState(initialProject);
+  const [project, setProject] = useState(initialProject);
   const [documentsByType] = useState(initialDocumentsByType);
   const [payments] = useState(initialPayments);
   const [milestones, setMilestones] = useState([]);
@@ -245,13 +245,6 @@ export default function ProjectDetailClient({
     if (project.startDate) {
       return formatDate(project.startDate);
     }
-    if (tasks && tasks.length > 0) {
-      const startDates = tasks
-        .map((t) => t.startDate)
-        .filter((d) => d)
-        .sort();
-      return startDates.length > 0 ? formatDate(startDates[0]) : "Not set";
-    }
     return "Not set";
   };
 
@@ -269,6 +262,14 @@ export default function ProjectDetailClient({
       return completionDates.length > 0
         ? formatDate(completionDates[0])
         : "Not set";
+    }
+    return "Not set";
+  };
+
+  // Helper function to get projected finish date
+  const getProjectedFinishDate = () => {
+    if (project.projectedFinishDate) {
+      return formatDate(project.projectedFinishDate);
     }
     return "Not set";
   };
@@ -407,6 +408,25 @@ export default function ProjectDetailClient({
                 <span className="text-sm text-gray-500">
                   Progress: {currentProgress}%
                 </span>
+                {project.startDate &&
+                  new Date(project.startDate) > new Date() && (
+                    <span className="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-600/20">
+                      <svg
+                        className="mr-1 h-3 w-3"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      Future Start
+                    </span>
+                  )}
                 {project.status === "On Going" && (
                   <button
                     onClick={() => setMarkAsFinishedModal({ isOpen: true })}
@@ -541,6 +561,12 @@ export default function ProjectDetailClient({
                       <span className="text-gray-600">Start Date:</span>
                       <span className="font-medium">
                         {getProjectStartDate()}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                      <span className="text-gray-600">Projected Finish:</span>
+                      <span className="font-medium">
+                        {getProjectedFinishDate()}
                       </span>
                     </div>
                     <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
@@ -1517,8 +1543,9 @@ export default function ProjectDetailClient({
           project={project}
           onClose={() => setProjectInfoModal({ isOpen: false })}
           onSave={(updatedProject) => {
-            // Handle project update - you might want to refresh the page or update state
-            window.location.reload();
+            // Update the local project state with the updated data
+            setProject(updatedProject);
+            console.log("Project updated successfully:", updatedProject);
           }}
         />
       )}
