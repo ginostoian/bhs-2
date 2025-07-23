@@ -726,8 +726,8 @@ function ExpenseDetailModal({ isOpen, onClose, expense, onEdit, onDelete }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+      <div className="my-8 w-full max-w-4xl rounded-lg bg-white p-6 shadow-xl">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-lg font-medium text-gray-900">Expense Details</h3>
           <button
@@ -750,7 +750,7 @@ function ExpenseDetailModal({ isOpen, onClose, expense, onEdit, onDelete }) {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           {/* Left Column - Expense Details */}
           <div className="space-y-6">
             <div>
@@ -890,7 +890,7 @@ function ExpenseDetailModal({ isOpen, onClose, expense, onEdit, onDelete }) {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-end space-x-3">
+        <div className="mt-8 flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
           <button
             onClick={onDelete}
             className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
@@ -1007,8 +1007,8 @@ function ExpenseModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+      <div className="my-8 w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
         <div className="mb-6 flex items-center justify-between">
           <h3 className="text-lg font-medium text-gray-900">
             {expense ? "Edit Expense" : "Add New Expense"}
@@ -1034,7 +1034,7 @@ function ExpenseModal({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Expense Name *
@@ -1191,7 +1191,7 @@ function ExpenseModal({
                   {uploadedFiles.map((file, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between rounded-md bg-gray-50 p-2"
+                      className="flex flex-col space-y-2 rounded-md bg-gray-50 p-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
                     >
                       <div className="flex items-center space-x-2">
                         <span className="text-sm text-gray-600">
@@ -1220,7 +1220,7 @@ function ExpenseModal({
             </div>
           </div>
 
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
             <button
               type="button"
               onClick={onClose}
