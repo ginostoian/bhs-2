@@ -248,21 +248,21 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
   return (
     <div>
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Admin Tasks</h2>
           <p className="mt-1 text-sm text-gray-600">
             Tasks for office staff - drag and drop to reorder
           </p>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
           <div className="text-sm text-gray-600">
             <span className="font-medium">{incompleteTasksCount}</span> tasks
             remaining
           </div>
           <button
             onClick={() => setShowAddTaskModal(true)}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Add Admin Task
           </button>
@@ -503,38 +503,38 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
                             }`}
                             onClick={() => handleTaskClick(task)}
                           >
-                            <div className="mb-3 flex items-start justify-between">
-                              <div className="min-w-0 flex-1">
-                                <div className="mb-1 flex items-center">
-                                  <div
-                                    {...provided.dragHandleProps}
-                                    className="mr-2 flex h-6 w-6 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                            <div className="mb-3">
+                              <div className="mb-2 flex items-start">
+                                <div
+                                  {...provided.dragHandleProps}
+                                  className="mr-2 mt-0.5 flex h-6 w-6 flex-shrink-0 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                                >
+                                  <svg
+                                    className="h-3 w-3 text-gray-400"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
                                   >
-                                    <svg
-                                      className="h-3 w-3 text-gray-400"
-                                      fill="currentColor"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
-                                    </svg>
-                                  </div>
-                                  <h4 className="truncate text-sm font-medium text-gray-900">
+                                    <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
+                                  </svg>
+                                </div>
+                                <div className="min-w-0 flex-1">
+                                  <h4 className="break-words text-sm font-medium text-gray-900">
                                     {task.name}
                                   </h4>
                                   {task.attachments &&
                                     task.attachments.length > 0 && (
-                                      <span className="ml-2 flex-shrink-0 text-blue-600">
+                                      <span className="mt-1 inline-block text-blue-600">
                                         📎
                                       </span>
                                     )}
                                 </div>
-                                {task.description && (
-                                  <p className="mb-2 line-clamp-2 text-xs text-gray-500">
-                                    {task.description}
-                                  </p>
-                                )}
                               </div>
-                              <div className="ml-3 flex items-center space-x-2">
+                              {task.description && (
+                                <p className="mb-3 line-clamp-2 text-xs text-gray-500">
+                                  {task.description}
+                                </p>
+                              )}
+                              <div className="flex flex-wrap items-center gap-2">
                                 {getStatusBadge(task.status)}
                                 {getPriorityBadge(task.priority)}
                               </div>

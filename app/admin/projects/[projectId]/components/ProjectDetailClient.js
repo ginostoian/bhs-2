@@ -387,16 +387,16 @@ export default function ProjectDetailClient({
             </div>
           </div>
 
-          <div className="mt-6 flex items-center space-x-6">
+          <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
             <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-lg">
               🏗️
             </div>
             <div className="min-w-0 flex-1">
-              <h1 className="truncate text-3xl font-bold text-gray-900">
+              <h1 className="truncate text-2xl font-bold text-gray-900 sm:text-3xl">
                 {project.name}
               </h1>
-              <div className="mt-2 flex items-center space-x-3">
-                <p className="text-lg text-gray-600">
+              <div className="mt-2 flex flex-wrap items-center gap-2 sm:space-x-3">
+                <p className="text-base text-gray-600 sm:text-lg">
                   {project.user.name || project.user.email}
                 </p>
                 <Link
@@ -406,10 +406,10 @@ export default function ProjectDetailClient({
                   View User
                 </Link>
               </div>
-              <div className="mt-3 flex items-center space-x-3">
+              <div className="mt-3 flex flex-wrap items-center gap-2 sm:space-x-3">
                 {getStatusBadge(project.status)}
                 {getPriorityBadge(project.priority)}
-                <span className="text-sm text-gray-500">
+                <span className="text-xs text-gray-500 sm:text-sm">
                   Progress: {currentProgress}%
                 </span>
                 {project.startDate &&
@@ -428,7 +428,8 @@ export default function ProjectDetailClient({
                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
-                      Future Start
+                      <span className="hidden sm:inline">Future Start</span>
+                      <span className="sm:hidden">Future</span>
                     </span>
                   )}
                 {project.status === "On Going" && (

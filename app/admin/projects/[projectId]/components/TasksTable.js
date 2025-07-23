@@ -325,23 +325,23 @@ export default function TasksTable({ projectId }) {
   return (
     <div>
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div>
           <h2 className="text-xl font-semibold text-gray-900">Project Tasks</h2>
           <p className="mt-1 text-sm text-gray-600">
             Drag and drop tasks to reorder them within each section
           </p>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:space-y-0">
           <button
             onClick={() => setShowSectionModal(true)}
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Add Section
           </button>
           <button
             onClick={() => setShowTaskModal(true)}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
             Add Task
           </button>
@@ -384,8 +384,8 @@ export default function TasksTable({ projectId }) {
                   className="overflow-hidden rounded-lg border border-gray-200 bg-white"
                 >
                   {/* Section Header */}
-                  <div className="rounded-t-lg border-b border-gray-200 bg-gray-50 px-6 py-4">
-                    <div className="flex items-center justify-between">
+                  <div className="rounded-t-lg border-b border-gray-200 bg-gray-50 px-4 py-4 sm:px-6">
+                    <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <div className="flex min-w-0 flex-1 items-center space-x-3">
                         <span className="flex-shrink-0 text-lg">
                           {section.icon}
@@ -401,18 +401,21 @@ export default function TasksTable({ projectId }) {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-shrink-0 items-center space-x-4">
-                        <div className="text-sm text-gray-600">
+                      <div className="flex flex-wrap items-center gap-3 sm:flex-shrink-0 sm:gap-0 sm:space-x-4">
+                        <div className="text-xs text-gray-600 sm:text-sm">
                           {completedTasks}/{sectionTasks.length} tasks completed
                         </div>
-                        <div className="text-sm font-medium text-gray-900">
+                        <div className="text-xs font-medium text-gray-900 sm:text-sm">
                           {progress}%
                         </div>
                         <div className="flex items-center space-x-2 text-xs text-gray-500">
-                          <span>📋 Drag to reorder</span>
+                          <span className="hidden sm:inline">
+                            📋 Drag to reorder
+                          </span>
+                          <span className="sm:hidden">📋</span>
                           <button
                             onClick={() => handleAddTask(section)}
-                            className="text-sm font-medium text-blue-600 hover:text-blue-800"
+                            className="text-xs font-medium text-blue-600 hover:text-blue-800 sm:text-sm"
                           >
                             Add Task
                           </button>
@@ -452,28 +455,28 @@ export default function TasksTable({ projectId }) {
                               <table className="w-full divide-y divide-gray-200">
                                 <thead className="bg-gray-50">
                                   <tr>
-                                    <th className="w-12 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="w-16 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:w-20 sm:px-4">
                                       Order
                                     </th>
-                                    <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="w-20 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:w-28 sm:px-4">
                                       Status
                                     </th>
-                                    <th className="w-64 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="min-w-0 flex-1 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4">
                                       Task
                                     </th>
-                                    <th className="w-40 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                      Assigned To
+                                    <th className="hidden w-32 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4 md:table-cell">
+                                      Assigned
                                     </th>
-                                    <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="hidden w-20 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4 lg:table-cell">
                                       Duration
                                     </th>
-                                    <th className="w-20 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="w-16 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:w-20 sm:px-4">
                                       Priority
                                     </th>
-                                    <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                                      Start Date
+                                    <th className="hidden w-24 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4 xl:table-cell">
+                                      Start
                                     </th>
-                                    <th className="w-28 px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    <th className="w-20 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:w-28 sm:px-4">
                                       Actions
                                     </th>
                                   </tr>
@@ -496,26 +499,26 @@ export default function TasksTable({ projectId }) {
                                           }`}
                                           onClick={() => handleTaskClick(task)}
                                         >
-                                          <td className="px-4 py-3">
+                                          <td className="px-2 py-3 sm:px-4">
                                             <div className="flex items-center space-x-2">
                                               <div
                                                 {...provided.dragHandleProps}
-                                                className="flex h-8 w-8 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                                                className="flex h-6 w-6 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 sm:h-8 sm:w-8"
                                               >
                                                 <svg
-                                                  className="h-4 w-4 text-gray-400"
+                                                  className="h-3 w-3 text-gray-400 sm:h-4 sm:w-4"
                                                   fill="currentColor"
                                                   viewBox="0 0 20 20"
                                                 >
                                                   <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
                                                 </svg>
                                               </div>
-                                              <span className="text-sm font-semibold text-gray-600">
+                                              <span className="text-xs font-semibold text-gray-600 sm:text-sm">
                                                 #{task.order || index + 1}
                                               </span>
                                             </div>
                                           </td>
-                                          <td className="px-4 py-3">
+                                          <td className="px-2 py-3 sm:px-4">
                                             <select
                                               value={task.status}
                                               onChange={(e) =>
@@ -541,7 +544,7 @@ export default function TasksTable({ projectId }) {
                                               <option value="Done">Done</option>
                                             </select>
                                           </td>
-                                          <td className="px-4 py-3">
+                                          <td className="px-2 py-3 sm:px-4">
                                             <div className="min-w-0">
                                               <div className="flex items-center text-sm font-medium text-gray-900">
                                                 {task.name}
@@ -582,7 +585,7 @@ export default function TasksTable({ projectId }) {
                                               )}
                                             </div>
                                           </td>
-                                          <td className="px-4 py-3">
+                                          <td className="hidden px-2 py-3 sm:px-4 md:table-cell">
                                             <select
                                               value={task.assignedTo?.id || ""}
                                               onChange={(e) =>
@@ -610,7 +613,7 @@ export default function TasksTable({ projectId }) {
                                               ))}
                                             </select>
                                           </td>
-                                          <td className="px-4 py-3 text-sm text-gray-900">
+                                          <td className="hidden px-2 py-3 text-sm text-gray-900 sm:px-4 lg:table-cell">
                                             <div>
                                               <div>
                                                 Est: {task.estimatedDuration}{" "}
@@ -624,10 +627,10 @@ export default function TasksTable({ projectId }) {
                                               )}
                                             </div>
                                           </td>
-                                          <td className="px-4 py-3">
+                                          <td className="px-2 py-3 sm:px-4">
                                             {getPriorityBadge(task.priority)}
                                           </td>
-                                          <td className="px-4 py-3 text-sm text-gray-900">
+                                          <td className="hidden px-2 py-3 text-sm text-gray-900 sm:px-4 xl:table-cell">
                                             {task.startDate
                                               ? new Date(
                                                   task.startDate,
@@ -638,7 +641,7 @@ export default function TasksTable({ projectId }) {
                                                 })
                                               : "Not set"}
                                           </td>
-                                          <td className="px-4 py-3 text-sm font-medium">
+                                          <td className="px-2 py-3 text-sm font-medium sm:px-4">
                                             <button
                                               onClick={(e) => {
                                                 e.stopPropagation();
@@ -694,62 +697,36 @@ export default function TasksTable({ projectId }) {
                                       }`}
                                       onClick={() => handleTaskClick(task)}
                                     >
-                                      <div className="mb-3 flex items-start justify-between">
-                                        <div className="min-w-0 flex-1">
-                                          <div className="mb-1 flex items-center">
-                                            <div
-                                              {...provided.dragHandleProps}
-                                              className="mr-2 flex h-6 w-6 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                                      <div className="mb-3">
+                                        <div className="mb-1 flex items-center">
+                                          <div
+                                            {...provided.dragHandleProps}
+                                            className="mr-2 flex h-6 w-6 cursor-move items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                                          >
+                                            <svg
+                                              className="h-3 w-3 text-gray-400"
+                                              fill="currentColor"
+                                              viewBox="0 0 20 20"
                                             >
-                                              <svg
-                                                className="h-3 w-3 text-gray-400"
-                                                fill="currentColor"
-                                                viewBox="0 0 20 20"
-                                              >
-                                                <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
-                                              </svg>
-                                            </div>
-                                            <h4 className="truncate text-sm font-medium text-gray-900">
-                                              {task.name}
-                                            </h4>
-                                            {task.attachments &&
-                                              task.attachments.length > 0 && (
-                                                <span className="ml-2 flex-shrink-0 text-blue-600">
-                                                  📎
-                                                </span>
-                                              )}
+                                              <path d="M7 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 2zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 7 14zm6-8a2 2 0 1 1-.001-4.001A2 2 0 0 1 13 6zm0 2a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 8zm0 6a2 2 0 1 1 .001 4.001A2 2 0 0 1 13 14z" />
+                                            </svg>
                                           </div>
-                                          {task.description && (
-                                            <p className="mb-2 line-clamp-2 text-xs text-gray-500">
-                                              {task.description}
-                                            </p>
-                                          )}
+                                          <h4 className="break-words text-sm font-medium text-gray-900">
+                                            {task.name}
+                                          </h4>
+                                          {task.attachments &&
+                                            task.attachments.length > 0 && (
+                                              <span className="ml-2 flex-shrink-0 text-blue-600">
+                                                📎
+                                              </span>
+                                            )}
                                         </div>
-                                        <div className="ml-3 flex items-center space-x-2">
-                                          {getStatusBadge(task.status)}
-                                          {getPriorityBadge(task.priority)}
-                                        </div>
-                                      </div>
-                                      <div className="mb-3 flex items-start justify-between">
-                                        <div className="min-w-0 flex-1">
-                                          <div className="mb-1 flex items-center">
-                                            <h4 className="truncate text-sm font-medium text-gray-900">
-                                              {task.name}
-                                            </h4>
-                                            {task.attachments &&
-                                              task.attachments.length > 0 && (
-                                                <span className="ml-2 flex-shrink-0 text-blue-600">
-                                                  📎
-                                                </span>
-                                              )}
-                                          </div>
-                                          {task.description && (
-                                            <p className="mb-2 line-clamp-2 text-xs text-gray-500">
-                                              {task.description}
-                                            </p>
-                                          )}
-                                        </div>
-                                        <div className="ml-3 flex items-center space-x-2">
+                                        {task.description && (
+                                          <p className="mb-3 line-clamp-2 text-xs text-gray-500">
+                                            {task.description}
+                                          </p>
+                                        )}
+                                        <div className="flex flex-wrap items-center gap-2">
                                           {getStatusBadge(task.status)}
                                           {getPriorityBadge(task.priority)}
                                         </div>

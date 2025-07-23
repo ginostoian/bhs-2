@@ -136,8 +136,8 @@ export default function AdminTaskModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+      <div className="my-8 w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">
             {task ? "Edit Admin Task" : "Create Admin Task"}
@@ -162,7 +162,7 @@ export default function AdminTaskModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           {/* Task Name */}
           <div>
             <label
@@ -236,7 +236,7 @@ export default function AdminTaskModal({
           </div>
 
           {/* Priority and Status */}
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
             <div>
               <label
                 htmlFor="priority"
@@ -329,7 +329,7 @@ export default function AdminTaskModal({
           )}
 
           {/* Action Buttons */}
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
             <button
               type="button"
               onClick={onClose}
