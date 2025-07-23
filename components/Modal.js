@@ -61,8 +61,8 @@ export default function Modal({
   const styles = getTypeStyles();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-50 p-4">
+      <div className="my-8 w-full max-w-md rounded-lg bg-white shadow-xl">
         <div className="p-6">
           {/* Header */}
           <div className="mb-4 flex items-center">
@@ -144,7 +144,7 @@ export default function Modal({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex justify-end space-x-3">
+          <div className="flex flex-col space-y-3 sm:flex-row sm:justify-end sm:space-x-3 sm:space-y-0">
             {type === "confirm" && (
               <button
                 onClick={onClose}
