@@ -396,49 +396,106 @@ export default function ExpensesTab({
         </div>
 
         {expenses.length > 0 ? (
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="expenses">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="divide-y divide-gray-200"
-                >
-                  {expenses.map((expense, index) => (
-                    <Draggable
-                      key={expense.id}
-                      draggableId={expense.id}
-                      index={index}
-                    >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className={`px-6 py-4 transition-colors hover:bg-gray-50 ${
-                            snapshot.isDragging ? "bg-blue-50 shadow-lg" : ""
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div
-                              className="flex cursor-pointer items-center space-x-4 rounded-lg p-2 transition-colors hover:bg-gray-50"
-                              onClick={() =>
-                                setDetailModal({ isOpen: true, expense })
-                              }
-                            >
-                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                                <span className="text-sm font-semibold text-gray-600">
-                                  #{expense.order}
-                                </span>
+          <div className="overflow-x-auto">
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="expenses">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="min-w-[800px] divide-y divide-gray-200"
+                  >
+                    {expenses.map((expense, index) => (
+                      <Draggable
+                        key={expense.id}
+                        draggableId={expense.id}
+                        index={index}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`px-6 py-4 transition-colors hover:bg-gray-50 ${
+                              snapshot.isDragging ? "bg-blue-50 shadow-lg" : ""
+                            }`}
+                          >
+                            <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+                              <div
+                                className="flex cursor-pointer items-center space-x-4 rounded-lg p-2 transition-colors hover:bg-gray-50"
+                                onClick={() =>
+                                  setDetailModal({ isOpen: true, expense })
+                                }
+                              >
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                  <span className="text-sm font-semibold text-gray-600">
+                                    #{expense.order}
+                                  </span>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium text-gray-900">
+                                    {expense.name}
+                                  </h4>
+                                  <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                                    <span className="flex items-center">
+                                      <svg
+                                        className="mr-1 h-3 w-3"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                      </svg>
+                                      {formatDate(expense.purchaseDate)}
+                                    </span>
+                                    <span>
+                                      {getCategoryDisplayName(expense)}
+                                    </span>
+                                    {expense.files &&
+                                      expense.files.length > 0 && (
+                                        <span className="flex items-center text-blue-600">
+                                          <svg
+                                            className="mr-1 h-3 w-3"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth={2}
+                                              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                                            />
+                                          </svg>
+                                          {expense.files.length} file(s)
+                                        </span>
+                                      )}
+                                  </div>
+                                </div>
                               </div>
-                              <div>
-                                <h4 className="text-sm font-medium text-gray-900">
-                                  {expense.name}
-                                </h4>
-                                <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
-                                  <span className="flex items-center">
+                              <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+                                <div className="text-right">
+                                  <p className="text-sm font-semibold text-gray-900">
+                                    {formatAmount(expense.amount)}
+                                  </p>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  {getTypeBadge(expense.type)}
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <button
+                                    onClick={() =>
+                                      setEditModal({ isOpen: true, expense })
+                                    }
+                                    className="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  >
                                     <svg
-                                      className="mr-1 h-3 w-3"
+                                      className="mr-1.5 h-3.5 w-3.5"
                                       fill="none"
                                       stroke="currentColor"
                                       viewBox="0 0 24 24"
@@ -447,98 +504,45 @@ export default function ExpensesTab({
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                                       />
                                     </svg>
-                                    {formatDate(expense.purchaseDate)}
-                                  </span>
-                                  <span>{getCategoryDisplayName(expense)}</span>
-                                  {expense.files &&
-                                    expense.files.length > 0 && (
-                                      <span className="flex items-center text-blue-600">
-                                        <svg
-                                          className="mr-1 h-3 w-3"
-                                          fill="none"
-                                          stroke="currentColor"
-                                          viewBox="0 0 24 24"
-                                        >
-                                          <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                                          />
-                                        </svg>
-                                        {expense.files.length} file(s)
-                                      </span>
-                                    )}
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteExpense(expense.id)
+                                    }
+                                    className="inline-flex items-center rounded-md bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                  >
+                                    <svg
+                                      className="mr-1.5 h-3.5 w-3.5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                      />
+                                    </svg>
+                                    Delete
+                                  </button>
                                 </div>
                               </div>
                             </div>
-                            <div className="flex items-center space-x-4">
-                              <div className="text-right">
-                                <p className="text-sm font-semibold text-gray-900">
-                                  {formatAmount(expense.amount)}
-                                </p>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                {getTypeBadge(expense.type)}
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <button
-                                  onClick={() =>
-                                    setEditModal({ isOpen: true, expense })
-                                  }
-                                  className="inline-flex items-center rounded-md bg-blue-50 px-3 py-1.5 text-sm font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                  <svg
-                                    className="mr-1.5 h-3.5 w-3.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                                    />
-                                  </svg>
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    handleDeleteExpense(expense.id)
-                                  }
-                                  className="inline-flex items-center rounded-md bg-red-50 px-3 py-1.5 text-sm font-medium text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                >
-                                  <svg
-                                    className="mr-1.5 h-3.5 w-3.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                  </svg>
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
                           </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
         ) : (
           <div className="p-12 text-center">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
