@@ -849,7 +849,7 @@ export default function ProjectDetailClient({
                   >
                     {/* Milestone Header */}
                     <div className="border-b border-gray-100 p-6">
-                      <div className="flex items-start justify-between">
+                      <div className="flex flex-col space-y-4 sm:flex-row sm:items-start sm:justify-between sm:space-y-0">
                         <div className="flex items-start space-x-4">
                           <div
                             className="flex h-12 w-12 items-center justify-center rounded-full text-xl shadow-sm"
@@ -861,36 +861,38 @@ export default function ProjectDetailClient({
                             {milestone.icon}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <div className="flex items-center space-x-3">
-                              <h3 className="truncate text-lg font-semibold text-gray-900">
+                            <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                              <h3 className="break-words text-lg font-semibold text-gray-900">
                                 {milestone.name}
                               </h3>
-                              <span
-                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                                  milestone.status === "Completed"
-                                    ? "bg-green-100 text-green-800 ring-1 ring-green-200"
-                                    : milestone.status === "In Progress"
-                                      ? "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
-                                      : milestone.status === "Delayed"
-                                        ? "bg-red-100 text-red-800 ring-1 ring-red-200"
-                                        : "bg-gray-100 text-gray-800 ring-1 ring-gray-200"
-                                }`}
-                              >
-                                {milestone.status}
-                              </span>
-                              <span
-                                className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                                  milestone.type === "Planning"
-                                    ? "bg-purple-100 text-purple-800 ring-1 ring-purple-200"
-                                    : milestone.type === "Construction"
-                                      ? "bg-orange-100 text-orange-800 ring-1 ring-orange-200"
-                                      : milestone.type === "Finishing"
-                                        ? "bg-green-100 text-green-800 ring-1 ring-green-200"
-                                        : "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
-                                }`}
-                              >
-                                {milestone.type}
-                              </span>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span
+                                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                    milestone.status === "Completed"
+                                      ? "bg-green-100 text-green-800 ring-1 ring-green-200"
+                                      : milestone.status === "In Progress"
+                                        ? "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
+                                        : milestone.status === "Delayed"
+                                          ? "bg-red-100 text-red-800 ring-1 ring-red-200"
+                                          : "bg-gray-100 text-gray-800 ring-1 ring-gray-200"
+                                  }`}
+                                >
+                                  {milestone.status}
+                                </span>
+                                <span
+                                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                                    milestone.type === "Planning"
+                                      ? "bg-purple-100 text-purple-800 ring-1 ring-purple-200"
+                                      : milestone.type === "Construction"
+                                        ? "bg-orange-100 text-orange-800 ring-1 ring-orange-200"
+                                        : milestone.type === "Finishing"
+                                          ? "bg-green-100 text-green-800 ring-1 ring-green-200"
+                                          : "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
+                                  }`}
+                                >
+                                  {milestone.type}
+                                </span>
+                              </div>
                             </div>
                             {milestone.description && (
                               <p className="mt-2 line-clamp-2 text-sm text-gray-600">
