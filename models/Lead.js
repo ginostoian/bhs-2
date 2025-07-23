@@ -128,6 +128,17 @@ const leadSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    agingPaused: {
+      type: Boolean,
+      default: false,
+    },
+    agingPausedAt: {
+      type: Date,
+    },
+    agingPausedReason: {
+      type: String,
+      trim: true,
+    },
 
     // Activity Tracking
     activities: [
@@ -339,14 +350,35 @@ leadSchema.virtual("fullProjectTypes").get(function () {
   return types;
 });
 
-// Pre-save middleware to update aging days
-leadSchema.pre("save", function (next) {
+// Pre-save middleware to update aging days and auto-link users
+leadSchema.pre("save", async function (next) {
+  // Update aging days
   if (this.isModified("lastContactDate") || this.isNew) {
-    const now = new Date();
-    const lastContact = this.lastContactDate || this.createdAt;
-    const diffTime = Math.abs(now - lastContact);
-    this.agingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // Don't update aging if it's paused
+    if (!this.agingPaused) {
+      const now = new Date();
+      const lastContact = this.lastContactDate || this.createdAt;
+      const diffTime = Math.abs(now - lastContact);
+      this.agingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    }
   }
+
+  // Auto-link to user if email matches and not already linked
+  if (this.isModified("email") || (this.isNew && !this.linkedUser)) {
+    try {
+      const User = mongoose.model("User");
+      const user = await User.findOne({ email: this.email });
+      if (user) {
+        this.linkedUser = user._id;
+        console.log(
+          `🔗 Auto-linked lead "${this.name}" to user "${user.name}"`,
+        );
+      }
+    } catch (error) {
+      console.error("Error auto-linking lead to user:", error);
+    }
+  }
+
   next();
 });
 
@@ -365,6 +397,7 @@ leadSchema.statics.findAgingLeads = function (days = 7) {
     stage: { $nin: ["Won", "Lost"] },
     isActive: true,
     isArchived: false,
+    agingPaused: false,
   })
     .populate("assignedTo", "name email")
     .sort({ agingDays: -1 });

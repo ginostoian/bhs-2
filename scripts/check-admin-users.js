@@ -1,41 +1,47 @@
-const connectMongo = require("../libs/mongoose.js");
-const User = require("../models/User.js");
+require("dotenv").config({ path: ".env.local" });
+const connectMongo = require("../libs/mongoose-cjs");
+const mongoose = require("mongoose");
 
 async function checkAdminUsers() {
   try {
+    console.log("🔍 Checking admin users...");
     await connectMongo();
 
-    console.log("Checking for admin users...");
+    // Define user schema inline for the script
+    const userSchema = new mongoose.Schema({
+      name: String,
+      email: String,
+      role: String,
+    });
 
-    // Get all users
-    const allUsers = await User.find({}).lean();
-    console.log(`Total users: ${allUsers.length}`);
+    const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-    // Get admin users
-    const adminUsers = await User.find({ role: "admin" }).lean();
-    console.log(`Admin users: ${adminUsers.length}`);
+    // Get all admin users
+    const adminUsers = await User.find({ role: "admin" });
+    console.log(`📊 Found ${adminUsers.length} admin users:`);
 
-    if (adminUsers.length > 0) {
-      console.log("Admin users found:");
-      adminUsers.forEach((user) => {
-        console.log(
-          `- ${user.name || "No name"} (${user.email}) - Role: ${user.role}`,
-        );
-      });
-    } else {
-      console.log("No admin users found!");
-      console.log("All users:");
-      allUsers.forEach((user) => {
-        console.log(
-          `- ${user.name || "No name"} (${user.email}) - Role: ${user.role || "No role"}`,
-        );
-      });
-    }
+    adminUsers.forEach((user, index) => {
+      console.log(`   ${index + 1}. ${user.name} (${user.email})`);
+    });
 
-    process.exit(0);
+    // Get all users by role
+    const allUsers = await User.find({});
+    const usersByRole = {};
+    allUsers.forEach((user) => {
+      if (!usersByRole[user.role]) {
+        usersByRole[user.role] = [];
+      }
+      usersByRole[user.role].push(user);
+    });
+
+    console.log("\n📈 Users by role:");
+    Object.keys(usersByRole).forEach((role) => {
+      console.log(`   ${role}: ${usersByRole[role].length} users`);
+    });
   } catch (error) {
-    console.error("Error:", error);
-    process.exit(1);
+    console.error("❌ Error checking admin users:", error);
+  } finally {
+    process.exit(0);
   }
 }
 

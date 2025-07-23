@@ -16,12 +16,13 @@ export async function GET(request) {
 
     await connectMongo();
 
-    // Get aging leads (2+ days)
+    // Get aging leads (2+ days) - exclude paused leads
     const agingLeads = await Lead.find({
       agingDays: { $gte: 2 },
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
+      agingPaused: false,
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });
@@ -50,12 +51,13 @@ export async function POST(request) {
 
     await connectMongo();
 
-    // Get aging leads
+    // Get aging leads - exclude paused leads
     const agingLeads = await Lead.find({
       agingDays: { $gte: 2 },
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
+      agingPaused: false,
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });
@@ -73,21 +75,58 @@ export async function POST(request) {
     // Generate email content
     const emailContent = generateAgingLeadsEmail(agingLeads);
 
-    // Send email to all admins
-    const emailPromises = admins.map((admin) =>
-      sendEmail({
-        to: admin.email,
-        subject: `⚠️ Aging Leads Alert - ${agingLeads.length} leads need attention`,
-        html: emailContent,
-      }),
-    );
+    // Send email to all admins with better error handling
+    console.log(`📧 Sending aging leads alert to ${admins.length} admins:`);
+    admins.forEach((admin, index) => {
+      console.log(`   ${index + 1}. ${admin.name} (${admin.email})`);
+    });
 
-    await Promise.all(emailPromises);
+    const emailResults = [];
+    for (const admin of admins) {
+      try {
+        console.log(`📤 Sending aging alert to ${admin.email}...`);
+        const result = await sendEmail({
+          to: admin.email,
+          subject: `⚠️ Aging Leads Alert - ${agingLeads.length} leads need attention`,
+          html: emailContent,
+        });
+        console.log(`✅ Successfully sent aging alert to ${admin.email}`);
+        emailResults.push({ admin: admin.email, success: true, result });
+
+        // Add a small delay between emails to avoid rate limiting
+        if (admins.indexOf(admin) < admins.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      } catch (error) {
+        console.error(
+          `❌ Failed to send aging alert to ${admin.email}:`,
+          error.message,
+        );
+        emailResults.push({
+          admin: admin.email,
+          success: false,
+          error: error.message,
+        });
+      }
+    }
+
+    const successfulSends = emailResults.filter((r) => r.success).length;
+    const failedSends = emailResults.filter((r) => !r.success).length;
+
+    console.log(
+      `📊 Aging alert sending summary: ${successfulSends} successful, ${failedSends} failed`,
+    );
 
     return NextResponse.json({
       success: true,
-      message: `Aging leads notification sent to ${admins.length} admins`,
-      agingLeadsCount: agingLeads.length,
+      message: `Aging leads notification sent to ${successfulSends} out of ${admins.length} admins`,
+      details: {
+        totalAdmins: admins.length,
+        successfulSends,
+        failedSends,
+        agingLeadsCount: agingLeads.length,
+        results: emailResults,
+      },
     });
   } catch (error) {
     console.error("Error sending aging leads notification:", error);

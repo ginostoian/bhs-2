@@ -151,9 +151,12 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
           <div
             className={`text-xs font-medium ${getAgingColor(lead.agingDays)}`}
           >
+            {lead.agingPaused ? "⏸️" : ""}
             {lead.agingDays}d
           </div>
-          <div className="text-xs text-gray-500">Aging</div>
+          <div className="text-xs text-gray-500">
+            {lead.agingPaused ? "Paused" : "Aging"}
+          </div>
         </div>
       </div>
 
@@ -186,7 +189,7 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
               👤
             </div>
             <a
-              href={`/admin/users/${lead.linkedUser.id}`}
+              href={`/admin/users/${lead.linkedUser.id || lead.linkedUser._id}`}
               className="truncate text-sm text-green-600 hover:text-green-700 hover:underline"
               onClick={(e) => e.stopPropagation()}
               title={lead.linkedUser.name || lead.linkedUser.email}

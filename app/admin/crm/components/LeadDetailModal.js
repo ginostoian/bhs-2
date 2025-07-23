@@ -20,6 +20,9 @@ export default function LeadDetailModal({
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
+  const [isPausingAging, setIsPausingAging] = useState(false);
+  const [showPauseReasonModal, setShowPauseReasonModal] = useState(false);
+  const [pauseReason, setPauseReason] = useState("");
 
   // Add state for showing add forms
   const [showAddNote, setShowAddNote] = useState(false);
@@ -188,6 +191,53 @@ export default function LeadDetailModal({
     } catch (e) {
       toast.error("Failed to add activity");
     }
+  };
+
+  const handleAgingPauseToggle = async () => {
+    if (!lead.id) return;
+
+    if (lead.agingPaused) {
+      // Resuming aging - no reason needed
+      await performAgingToggle(null);
+    } else {
+      // Pausing aging - show reason modal
+      setShowPauseReasonModal(true);
+    }
+  };
+
+  const performAgingToggle = async (reason) => {
+    setIsPausingAging(true);
+    try {
+      const response = await apiClient.post(
+        `/crm/leads/${lead.id}/aging-pause`,
+        {
+          reason: reason || undefined,
+        },
+      );
+
+      // Update the lead data
+      if (onUpdate) {
+        await onUpdate(lead.id, {
+          agingPaused: response.lead.agingPaused,
+          agingPausedAt: response.lead.agingPausedAt,
+          agingPausedReason: response.lead.agingPausedReason,
+          agingDays: response.lead.agingDays,
+        });
+      }
+
+      toast.success(response.message);
+    } catch (error) {
+      console.error("Error toggling aging pause:", error);
+      toast.error("Failed to toggle aging pause");
+    } finally {
+      setIsPausingAging(false);
+      setShowPauseReasonModal(false);
+      setPauseReason("");
+    }
+  };
+
+  const handlePauseReasonSubmit = async () => {
+    await performAgingToggle(pauseReason);
   };
 
   const handleMarkTaskDone = async (taskId) => {
@@ -547,9 +597,32 @@ export default function LeadDetailModal({
                 <label className="label">
                   <span className="label-text font-medium">Aging</span>
                 </label>
-                <p className="text-gray-900">
-                  {lead.agingDays} days since last contact
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-gray-900">
+                    {lead.agingPaused ? "⏸️ " : ""}
+                    {lead.agingDays} days since last contact
+                    {lead.agingPaused && lead.agingPausedReason && (
+                      <span className="ml-2 text-sm text-gray-500">
+                        (Paused: {lead.agingPausedReason})
+                      </span>
+                    )}
+                  </p>
+                  <CRMButton
+                    onClick={handleAgingPauseToggle}
+                    disabled={isPausingAging}
+                    variant="outline"
+                    size="sm"
+                    className="ml-2"
+                  >
+                    {isPausingAging ? (
+                      <div className="loading loading-spinner loading-xs"></div>
+                    ) : lead.agingPaused ? (
+                      "▶️ Resume"
+                    ) : (
+                      "⏸️ Pause"
+                    )}
+                  </CRMButton>
+                </div>
               </div>
             </div>
           )}
@@ -1119,6 +1192,44 @@ export default function LeadDetailModal({
           </CRMButton>
         </div>
       </div>
+
+      {/* Pause Reason Modal */}
+      {showPauseReasonModal && (
+        <div className="modal modal-open">
+          <div className="modal-box max-w-md">
+            <h3 className="mb-4 text-lg font-bold">Pause Aging Timer</h3>
+            <p className="mb-4 text-gray-600">
+              Please provide a reason for pausing the aging timer (optional):
+            </p>
+            <textarea
+              value={pauseReason}
+              onChange={(e) => setPauseReason(e.target.value)}
+              placeholder="e.g., Customer asked to call back in 3 months"
+              className="textarea textarea-bordered mb-4 w-full"
+              rows={3}
+            />
+            <div className="modal-action">
+              <CRMButton
+                onClick={() => {
+                  setShowPauseReasonModal(false);
+                  setPauseReason("");
+                }}
+                variant="outline"
+              >
+                Cancel
+              </CRMButton>
+              <CRMButton
+                onClick={handlePauseReasonSubmit}
+                variant="primary"
+                disabled={isPausingAging}
+                loading={isPausingAging}
+              >
+                {isPausingAging ? "Pausing..." : "Pause Aging"}
+              </CRMButton>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,8 @@
 
 The lead aging system tracks how many days have passed since the last contact with each lead. This helps identify leads that need follow-up and ensures no leads fall through the cracks.
 
+**New Feature**: The aging system now supports pausing the aging timer for specific leads. This is useful for leads that have asked to be contacted in a few months, or for leads that are temporarily on hold. See [AGING_PAUSE_FEATURE.md](./AGING_PAUSE_FEATURE.md) for details.
+
 ## How It Works
 
 ### Aging Calculation
@@ -35,6 +37,13 @@ The lead aging system tracks how many days have passed since the last contact wi
 - Internal notes (without "Contact Made" checkbox)
 - Internal tasks
 - General lead updates (name, email, etc.)
+
+#### ⏸️ Paused Aging:
+
+- **Paused leads**: When aging is paused, the aging timer stops completely
+- **Excluded from reports**: Paused leads won't appear in aging alerts or reports
+- **Manual control**: Admins can pause/resume aging via the UI
+- **Reason tracking**: Optional reason is stored when pausing aging
 
 ## Enhanced Contact Tracking
 

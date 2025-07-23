@@ -40,9 +40,12 @@ export async function GET(request) {
       stageCounts[stage] = leads.filter((lead) => lead.stage === stage).length;
     });
 
-    // Get aging leads (2+ days)
+    // Get aging leads (2+ days) - exclude paused leads
     const agingLeads = leads.filter(
-      (lead) => lead.agingDays >= 2 && !["Won", "Lost"].includes(lead.stage),
+      (lead) =>
+        lead.agingDays >= 2 &&
+        !["Won", "Lost"].includes(lead.stage) &&
+        !lead.agingPaused,
     );
 
     // Get tasks due today
@@ -152,20 +155,54 @@ export async function POST(request) {
     // Generate email content
     const emailContent = generateMorningBriefEmail(briefData);
 
-    // Send email to all admins
-    const emailPromises = admins.map((admin) =>
-      sendEmail({
-        to: admin.email,
-        subject: `Morning Brief - ${new Date().toLocaleDateString("en-GB")}`,
-        html: emailContent,
-      }),
-    );
+    // Send email to all admins with better error handling
+    console.log(`📧 Sending morning brief to ${admins.length} admins:`);
+    admins.forEach((admin, index) => {
+      console.log(`   ${index + 1}. ${admin.name} (${admin.email})`);
+    });
 
-    await Promise.all(emailPromises);
+    const emailResults = [];
+    for (const admin of admins) {
+      try {
+        console.log(`📤 Sending to ${admin.email}...`);
+        const result = await sendEmail({
+          to: admin.email,
+          subject: `Morning Brief - ${new Date().toLocaleDateString("en-GB")}`,
+          html: emailContent,
+        });
+        console.log(`✅ Successfully sent to ${admin.email}`);
+        emailResults.push({ admin: admin.email, success: true, result });
+
+        // Add a small delay between emails to avoid rate limiting
+        if (admins.indexOf(admin) < admins.length - 1) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      } catch (error) {
+        console.error(`❌ Failed to send to ${admin.email}:`, error.message);
+        emailResults.push({
+          admin: admin.email,
+          success: false,
+          error: error.message,
+        });
+      }
+    }
+
+    const successfulSends = emailResults.filter((r) => r.success).length;
+    const failedSends = emailResults.filter((r) => !r.success).length;
+
+    console.log(
+      `📊 Email sending summary: ${successfulSends} successful, ${failedSends} failed`,
+    );
 
     return NextResponse.json({
       success: true,
-      message: `Morning brief sent to ${admins.length} admins`,
+      message: `Morning brief sent to ${successfulSends} out of ${admins.length} admins`,
+      details: {
+        totalAdmins: admins.length,
+        successfulSends,
+        failedSends,
+        results: emailResults,
+      },
     });
   } catch (error) {
     console.error("Error sending morning brief:", error);

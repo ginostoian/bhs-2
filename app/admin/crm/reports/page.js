@@ -83,10 +83,13 @@ export default function CRMReportsPage() {
     };
   };
 
-  // Get aging leads (2+ days)
+  // Get aging leads (2+ days) - exclude paused leads
   const getAgingLeads = () => {
     return leads.filter(
-      (lead) => lead.agingDays >= 2 && !["Won", "Lost"].includes(lead.stage),
+      (lead) =>
+        lead.agingDays >= 2 &&
+        !["Won", "Lost"].includes(lead.stage) &&
+        !lead.agingPaused,
     );
   };
 

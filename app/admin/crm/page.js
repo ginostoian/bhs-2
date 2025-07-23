@@ -37,7 +37,6 @@ export default function CRMPage() {
   const [selectedLead, setSelectedLead] = useState(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [sendingBrief, setSendingBrief] = useState(false);
-  const [checkingOverdue, setCheckingOverdue] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
     assignedTo: "",
@@ -184,23 +183,6 @@ export default function CRMPage() {
     }
   };
 
-  const handleCheckOverdueActivities = async () => {
-    try {
-      setCheckingOverdue(true);
-      const response = await apiClient.post("/cron/check-overdue-activities");
-      const successCount =
-        response.notificationsSent?.filter((n) => n.success).length || 0;
-      toast.success(
-        `Overdue activities check complete! Sent ${successCount} notifications`,
-      );
-    } catch (error) {
-      console.error("Error checking overdue activities:", error);
-      toast.error("Failed to check overdue activities");
-    } finally {
-      setCheckingOverdue(false);
-    }
-  };
-
   const getLeadsByStage = (stage) => {
     return filteredLeads.filter((lead) => lead.stage === stage);
   };
@@ -264,29 +246,7 @@ export default function CRMPage() {
               )}
               {sendingBrief ? "Sending..." : "Send Brief"}
             </CRMButton>
-            <CRMButton
-              onClick={handleCheckOverdueActivities}
-              variant="outline"
-              disabled={checkingOverdue}
-              loading={checkingOverdue}
-            >
-              {!checkingOverdue && (
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              )}
-              {checkingOverdue ? "Checking..." : "Check Overdue"}
-            </CRMButton>
+
             <CRMButton
               onClick={() => setShowCreateModal(true)}
               variant="primary"

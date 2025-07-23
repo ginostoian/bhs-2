@@ -18,6 +18,11 @@ async function updateLeadAging() {
     const now = new Date();
 
     for (const lead of leads) {
+      // Skip leads with paused aging
+      if (lead.agingPaused) {
+        continue;
+      }
+
       const lastContact = lead.lastContactDate || lead.createdAt;
       const diffTime = Math.abs(now - lastContact);
       const newAgingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -43,6 +48,7 @@ async function updateLeadAging() {
           isActive: true,
           isArchived: false,
           stage: { $nin: ["Won", "Lost"] },
+          agingPaused: false,
         },
       },
       {

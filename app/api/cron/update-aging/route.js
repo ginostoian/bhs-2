@@ -28,6 +28,11 @@ export async function POST(req) {
     const now = new Date();
 
     for (const lead of leads) {
+      // Skip leads with paused aging
+      if (lead.agingPaused) {
+        continue;
+      }
+
       const lastContact = lead.lastContactDate || lead.createdAt;
       const diffTime = Math.abs(now - lastContact);
       const newAgingDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -53,6 +58,7 @@ export async function POST(req) {
           isActive: true,
           isArchived: false,
           stage: { $nin: ["Won", "Lost"] },
+          agingPaused: false,
         },
       },
       {
@@ -83,6 +89,7 @@ export async function POST(req) {
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
+      agingPaused: false,
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });
@@ -90,16 +97,49 @@ export async function POST(req) {
     if (agingLeads.length > 0) {
       const admins = await User.find({ role: "admin" });
       const emailContent = generateAgingLeadsEmail(agingLeads);
-      const emailPromises = admins.map((admin) =>
-        sendEmail({
-          to: admin.email,
-          subject: `⚠️ Aging Leads Alert - ${agingLeads.length} leads need attention`,
-          html: emailContent,
-        }),
-      );
-      await Promise.all(emailPromises);
+      // Send email to all admins with better error handling
+      console.log(`📧 Sending aging leads alert to ${admins.length} admins:`);
+      admins.forEach((admin, index) => {
+        console.log(`   ${index + 1}. ${admin.name} (${admin.email})`);
+      });
+
+      const emailResults = [];
+      for (const admin of admins) {
+        try {
+          console.log(`📤 Sending aging alert to ${admin.email}...`);
+          const result = await sendEmail({
+            to: admin.email,
+            subject: `⚠️ Aging Leads Alert - ${agingLeads.length} leads need attention`,
+            html: emailContent,
+          });
+          console.log(`✅ Successfully sent aging alert to ${admin.email}`);
+          emailResults.push({ admin: admin.email, success: true, result });
+
+          // Add a small delay between emails to avoid rate limiting
+          if (admins.indexOf(admin) < admins.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+        } catch (error) {
+          console.error(
+            `❌ Failed to send aging alert to ${admin.email}:`,
+            error.message,
+          );
+          emailResults.push({
+            admin: admin.email,
+            success: false,
+            error: error.message,
+          });
+        }
+      }
+
+      const successfulSends = emailResults.filter((r) => r.success).length;
+      const failedSends = emailResults.filter((r) => !r.success).length;
+
       console.log(
-        `📧 Aging leads notification sent to ${admins.length} admins`,
+        `📊 Aging alert sending summary: ${successfulSends} successful, ${failedSends} failed`,
+      );
+      console.log(
+        `📧 Aging leads notification sent to ${successfulSends} out of ${admins.length} admins`,
       );
     } else {
       console.log("No aging leads found for notification.");
