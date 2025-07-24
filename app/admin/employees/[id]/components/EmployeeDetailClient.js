@@ -254,8 +254,8 @@ export default function EmployeeDetailClient({
                       </div>
                       <div>
                         <span className="font-medium">Start Date:</span>{" "}
-                        {task.startDate
-                          ? formatDate(task.startDate)
+                        {task.plannedStartDate
+                          ? formatDate(task.plannedStartDate)
                           : "Not set"}
                       </div>
                       <div>

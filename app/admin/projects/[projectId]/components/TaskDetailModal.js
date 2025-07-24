@@ -221,12 +221,66 @@ export default function TaskDetailModal({
 
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700">
-                      Start Date
+                      Planned Start Date
                     </label>
                     <div className="text-sm text-gray-900">
-                      {formatDate(task.startDate)}
+                      {formatDate(task.plannedStartDate)}
                     </div>
                   </div>
+                </div>
+
+                {/* Actual Start Date and Difference */}
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                      Actual Start Date
+                    </label>
+                    <div className="text-sm text-gray-900">
+                      {task.actualStartDate
+                        ? formatDate(task.actualStartDate)
+                        : "Not started"}
+                    </div>
+                  </div>
+
+                  {task.plannedStartDate && task.actualStartDate && (
+                    <div>
+                      <label className="mb-1 block text-sm font-medium text-gray-700">
+                        Start Date Difference
+                      </label>
+                      <div className="text-sm text-gray-900">
+                        {(() => {
+                          const planned = new Date(task.plannedStartDate);
+                          const actual = new Date(task.actualStartDate);
+                          const diffTime = actual - planned;
+                          const diffDays = Math.ceil(
+                            diffTime / (1000 * 60 * 60 * 24),
+                          );
+
+                          if (diffDays === 0) {
+                            return (
+                              <span className="text-green-600">
+                                Started on time
+                              </span>
+                            );
+                          } else if (diffDays > 0) {
+                            return (
+                              <span className="text-red-600">
+                                Started {diffDays} days late compared to planned
+                                date
+                              </span>
+                            );
+                          } else {
+                            return (
+                              <span className="text-green-600">
+                                Started {Math.abs(diffDays)} days early compared
+                                to planned date
+                              </span>
+                            );
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 

@@ -15,9 +15,9 @@ export async function GET(req) {
     await connectMongoose();
     const employees = await Employee.find({ isActive: true }).sort({ name: 1 });
 
-    // Remove hourlyRate field from all employees if it exists
+    // Convert to JSON to apply toJSON plugin transformations
     const cleanedEmployees = employees.map((employee) => {
-      const employeeObj = employee.toObject();
+      const employeeObj = employee.toJSON();
       if (employeeObj.hourlyRate !== undefined) {
         delete employeeObj.hourlyRate;
       }

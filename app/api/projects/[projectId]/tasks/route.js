@@ -19,7 +19,11 @@ export async function GET(req, { params }) {
       .populate("assignedTo", "name position")
       .populate("section", "name color icon")
       .sort({ "section.order": 1, order: 1 });
-    return NextResponse.json({ tasks });
+
+    // Convert tasks to JSON to ensure proper serialization
+    const tasksResponse = tasks.map((task) => task.toJSON());
+
+    return NextResponse.json({ tasks: tasksResponse });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to fetch tasks" },
@@ -77,7 +81,9 @@ export async function POST(req, { params }) {
       status: body.status || "Scheduled",
       assignedTo,
       estimatedDuration: body.estimatedDuration,
-      dueDate: body.dueDate,
+      plannedStartDate: body.plannedStartDate
+        ? new Date(body.plannedStartDate)
+        : null,
       priority: body.priority,
       order,
       notes: body.notes,
@@ -88,7 +94,9 @@ export async function POST(req, { params }) {
     await task.populate("assignedTo", "name position");
     await task.populate("section", "name color icon");
 
-    return NextResponse.json({ task }, { status: 201 });
+    // Convert to JSON to ensure proper serialization
+    const taskResponse = task.toJSON();
+    return NextResponse.json({ task: taskResponse }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to create task" },

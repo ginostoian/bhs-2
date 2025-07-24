@@ -25,12 +25,13 @@ export default async function AdminEmployeesPage() {
   const employees = await Employee.find({})
     .sort({ name: 1 })
     .then((employees) => {
-      return employees.map((employee) => ({
-        ...employee.toObject(),
-        id: employee._id.toString(),
-        _id: undefined,
-        dayRate: employee.dayRate || null, // Explicitly include dayRate
-      }));
+      return employees.map((employee) => {
+        const employeeObj = employee.toJSON();
+        return {
+          ...employeeObj,
+          dayRate: employeeObj.dayRate || null, // Explicitly include dayRate
+        };
+      });
     });
 
   // Fetch all users for potential conversion to employees (excluding admins and existing employees)

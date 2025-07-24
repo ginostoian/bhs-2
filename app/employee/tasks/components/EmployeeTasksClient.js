@@ -221,7 +221,9 @@ export default function EmployeeTasksClient({ tasks: initialTasks }) {
                     </div>
                     <div>
                       <span className="font-medium">Start Date:</span>{" "}
-                      {task.startDate ? formatDate(task.startDate) : "Not set"}
+                      {task.plannedStartDate
+                        ? formatDate(task.plannedStartDate)
+                        : "Not set"}
                     </div>
                     <div>
                       <span className="font-medium">Duration:</span> Est:{" "}
@@ -231,9 +233,9 @@ export default function EmployeeTasksClient({ tasks: initialTasks }) {
                     </div>
                   </div>
 
-                  {task.startDate && (
+                  {task.actualStartDate && (
                     <div className="mt-2 text-xs text-gray-500">
-                      Started: {formatDate(task.startDate)}
+                      Actually Started: {formatDate(task.actualStartDate)}
                     </div>
                   )}
 

@@ -23,7 +23,7 @@ export default function TaskModal({
     status: "Scheduled",
     assignedTo: "",
     estimatedDuration: 1,
-    startDate: "",
+    plannedStartDate: "",
     priority: "medium",
     notes: "",
     tags: [],
@@ -43,8 +43,8 @@ export default function TaskModal({
         status: task.status || "Scheduled",
         assignedTo: task.assignedTo?.id || "",
         estimatedDuration: task.estimatedDuration || 1,
-        startDate: task.startDate
-          ? new Date(task.startDate).toISOString().split("T")[0]
+        plannedStartDate: task.plannedStartDate
+          ? new Date(task.plannedStartDate).toISOString().split("T")[0]
           : "",
         priority: task.priority || "medium",
         notes: task.notes || "",
@@ -60,7 +60,7 @@ export default function TaskModal({
         status: "Scheduled",
         assignedTo: "",
         estimatedDuration: 1,
-        startDate: "",
+        plannedStartDate: "",
         priority: "medium",
         notes: "",
         tags: [],
@@ -164,6 +164,8 @@ export default function TaskModal({
         // Convert empty strings to null for ObjectId fields
         assignedTo: formData.assignedTo || null,
         section: formData.section || null,
+        // Convert empty date strings to null
+        plannedStartDate: formData.plannedStartDate || null,
         attachments: attachments.map((att) => ({
           name: att.name,
           type: att.type,
@@ -383,19 +385,19 @@ export default function TaskModal({
                 )}
               </div>
 
-              {/* Start Date */}
+              {/* Planned Start Date */}
               <div>
                 <label
-                  htmlFor="startDate"
+                  htmlFor="plannedStartDate"
                   className="mb-1 block text-sm font-medium text-gray-700"
                 >
-                  Start Date
+                  Planned Start Date
                 </label>
                 <input
                   type="date"
-                  id="startDate"
-                  name="startDate"
-                  value={formData.startDate}
+                  id="plannedStartDate"
+                  name="plannedStartDate"
+                  value={formData.plannedStartDate}
                   onChange={handleChange}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   disabled={loading}

@@ -39,13 +39,13 @@ export default async function AdminEmployeeDetailPage({ params }) {
     .sort({ dueDate: 1, priority: -1 })
     .lean();
 
-  // Convert to plain objects and ensure dayRate is included
-  const employeeData = {
-    ...employee.toObject(),
-    id: employee._id.toString(),
-    _id: undefined,
-    dayRate: employee.dayRate || null, // Explicitly include dayRate
-  };
+  // Convert to JSON to apply plugin transformations
+  const employeeData = employee.toJSON();
+
+  // Ensure dayRate is included
+  if (employeeData.dayRate === undefined) {
+    employeeData.dayRate = null;
+  }
 
   console.log("Final employeeData:", employeeData);
   console.log("Final employeeData dayRate:", employeeData.dayRate);

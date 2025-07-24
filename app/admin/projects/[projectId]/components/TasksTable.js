@@ -631,9 +631,9 @@ export default function TasksTable({ projectId }) {
                                             {getPriorityBadge(task.priority)}
                                           </td>
                                           <td className="hidden px-2 py-3 text-sm text-gray-900 sm:px-4 xl:table-cell">
-                                            {task.startDate
+                                            {task.plannedStartDate
                                               ? new Date(
-                                                  task.startDate,
+                                                  task.plannedStartDate,
                                                 ).toLocaleDateString("en-GB", {
                                                   day: "2-digit",
                                                   month: "short",
@@ -755,9 +755,9 @@ export default function TasksTable({ projectId }) {
                                             Start Date:
                                           </span>
                                           <div className="font-medium">
-                                            {task.startDate
+                                            {task.plannedStartDate
                                               ? new Date(
-                                                  task.startDate,
+                                                  task.plannedStartDate,
                                                 ).toLocaleDateString("en-GB", {
                                                   day: "2-digit",
                                                   month: "short",

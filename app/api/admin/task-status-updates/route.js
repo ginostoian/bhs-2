@@ -123,18 +123,21 @@ export async function POST(req) {
       if (task) {
         task.status = statusUpdate.requestedStatus;
 
-        // Set start date when status changes to "In Progress"
-        if (statusUpdate.requestedStatus === "In Progress" && !task.startDate) {
-          task.startDate = new Date();
+        // Set actual start date when status changes to "In Progress"
+        if (
+          statusUpdate.requestedStatus === "In Progress" &&
+          !task.actualStartDate
+        ) {
+          task.actualStartDate = new Date();
         }
 
         // Set completion date when status changes to "Done"
         if (statusUpdate.requestedStatus === "Done" && !task.completionDate) {
           task.completionDate = new Date();
 
-          // Calculate actual duration if start date exists
-          if (task.startDate) {
-            const start = new Date(task.startDate);
+          // Calculate actual duration if actual start date exists
+          if (task.actualStartDate) {
+            const start = new Date(task.actualStartDate);
             const completion = new Date(task.completionDate);
             const diffTime = Math.abs(completion - start);
             task.actualDuration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

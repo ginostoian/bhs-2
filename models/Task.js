@@ -55,8 +55,12 @@ const taskSchema = mongoose.Schema(
       type: Number,
       min: 0,
     },
-    // Task start date
-    startDate: {
+    // Planned start date (manually set during planning)
+    plannedStartDate: {
+      type: Date,
+    },
+    // Actual start date (automatically set when status becomes "In Progress")
+    actualStartDate: {
       type: Date,
     },
     // Task completion date
@@ -141,15 +145,34 @@ taskSchema.plugin(toJSON);
 // Compound index for section and order
 taskSchema.index({ section: 1, order: 1 });
 
+// Virtual for calculating start date difference
+taskSchema.virtual("startDateDifference").get(function () {
+  if (!this.plannedStartDate || !this.actualStartDate) {
+    return null;
+  }
+
+  const planned = new Date(this.plannedStartDate);
+  const actual = new Date(this.actualStartDate);
+  const diffTime = actual - planned;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return {
+    days: diffDays,
+    isEarly: diffDays < 0,
+    isLate: diffDays > 0,
+    isOnTime: diffDays === 0,
+  };
+});
+
 // Pre-save middleware to set start/completion dates
 taskSchema.pre("save", function (next) {
-  // Set start date when status changes to "In Progress"
+  // Set actual start date when status changes to "In Progress"
   if (
     this.isModified("status") &&
     this.status === "In Progress" &&
-    !this.startDate
+    !this.actualStartDate
   ) {
-    this.startDate = new Date();
+    this.actualStartDate = new Date();
   }
 
   // Set completion date when status changes to "Done"
@@ -160,9 +183,9 @@ taskSchema.pre("save", function (next) {
   ) {
     this.completionDate = new Date();
 
-    // Calculate actual duration if start date exists
-    if (this.startDate) {
-      const start = new Date(this.startDate);
+    // Calculate actual duration if actual start date exists
+    if (this.actualStartDate) {
+      const start = new Date(this.actualStartDate);
       const completion = new Date(this.completionDate);
       const diffTime = Math.abs(completion - start);
       this.actualDuration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));

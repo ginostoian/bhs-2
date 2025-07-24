@@ -123,52 +123,17 @@ export default function EmployeeDashboardClient({
         <div className="rounded-lg bg-white p-6 shadow">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500 text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500 text-white">
                 ⚠️
               </div>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-500">Urgent</p>
               <p className="text-2xl font-semibold text-gray-900">
-                {stats.urgentTasks}
+                {urgentTasks.length}
               </p>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Employee Info */}
-      <div className="rounded-lg bg-white p-6 shadow">
-        <h3 className="mb-4 text-lg font-medium text-gray-900">
-          Employee Information
-        </h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <p className="text-sm font-medium text-gray-500">Name</p>
-            <p className="text-sm text-gray-900">{employee.name}</p>
-          </div>
-          <div>
-            <p className="text-sm font-medium text-gray-500">Position</p>
-            <p className="text-sm text-gray-900">{employee.position}</p>
-          </div>
-          <div>
-            <p className="text-sm font-medium text-gray-500">Email</p>
-            <p className="text-sm text-gray-900">{employee.email}</p>
-          </div>
-          <div>
-            <p className="text-sm font-medium text-gray-500">Availability</p>
-            <p className="text-sm capitalize text-gray-900">
-              {employee.availability}
-            </p>
-          </div>
-          {employee.skills && employee.skills.length > 0 && (
-            <div className="sm:col-span-2">
-              <p className="text-sm font-medium text-gray-500">Skills</p>
-              <p className="text-sm text-gray-900">
-                {employee.skills.join(", ")}
-              </p>
-            </div>
-          )}
         </div>
       </div>
 
@@ -188,7 +153,7 @@ export default function EmployeeDashboardClient({
             {urgentTasks.slice(0, 3).map((task) => (
               <div
                 key={task.id}
-                className="rounded-lg border border-gray-200 p-4 hover:bg-gray-50"
+                className="rounded-lg border border-red-200 bg-red-50 p-4"
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -199,9 +164,9 @@ export default function EmployeeDashboardClient({
                     <div className="mt-2 flex items-center space-x-2">
                       {getStatusBadge(task.status)}
                       {getPriorityBadge(task.priority)}
-                      {task.startDate && (
+                      {task.plannedStartDate && (
                         <span className="text-xs text-gray-500">
-                          Start: {formatDate(task.startDate)}
+                          Start: {formatDate(task.plannedStartDate)}
                         </span>
                       )}
                     </div>
@@ -246,9 +211,9 @@ export default function EmployeeDashboardClient({
                     <div className="mt-2 flex items-center space-x-2">
                       {getStatusBadge(task.status)}
                       {getPriorityBadge(task.priority)}
-                      {task.startDate && (
+                      {task.plannedStartDate && (
                         <span className="text-xs text-gray-500">
-                          Start: {formatDate(task.startDate)}
+                          Start: {formatDate(task.plannedStartDate)}
                         </span>
                       )}
                     </div>
@@ -293,8 +258,10 @@ export default function EmployeeDashboardClient({
                 <span
                   className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                     project.status === "On Going"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-green-100 text-green-800"
+                      ? "bg-green-100 text-green-800"
+                      : project.status === "Finished"
+                        ? "bg-blue-100 text-blue-800"
+                        : "bg-gray-100 text-gray-800"
                   }`}
                 >
                   {project.status}
@@ -303,9 +270,26 @@ export default function EmployeeDashboardClient({
             </Link>
           ))}
         </div>
-        {projects.length === 0 && (
-          <p className="text-center text-gray-500">No projects assigned yet.</p>
-        )}
+      </div>
+
+      {/* Welcome Message */}
+      <div className="rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white shadow">
+        <div className="flex items-center">
+          <div className="flex-shrink-0">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white bg-opacity-20">
+              👋
+            </div>
+          </div>
+          <div className="ml-4">
+            <h3 className="text-lg font-medium">
+              Welcome back, {employee.name}!
+            </h3>
+            <p className="text-blue-100">
+              You have {tasks.filter((t) => t.status === "Scheduled").length}{" "}
+              scheduled tasks and {urgentTasks.length} urgent tasks to complete.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

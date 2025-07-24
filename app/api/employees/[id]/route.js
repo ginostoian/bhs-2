@@ -21,24 +21,13 @@ export async function GET(req, { params }) {
       );
     }
 
-    // Create response object manually to ensure all fields are included
-    const employeeResponse = {
-      _id: employee._id,
-      name: employee.name,
-      email: employee.email,
-      role: employee.role,
-      phone: employee.phone,
-      position: employee.position,
-      skills: employee.skills,
-      isActive: employee.isActive,
-      availability: employee.availability,
-      notes: employee.notes,
-      dayRate: employee.dayRate,
-      hourlyRate: employee.hourlyRate, // Temporarily include for migration
-      createdAt: employee.createdAt,
-      updatedAt: employee.updatedAt,
-      __v: employee.__v,
-    };
+    // Use toJSON to apply plugin transformations
+    const employeeResponse = employee.toJSON();
+
+    // Remove hourlyRate if it exists (for migration purposes)
+    if (employeeResponse.hourlyRate !== undefined) {
+      delete employeeResponse.hourlyRate;
+    }
 
     return NextResponse.json({ employee: employeeResponse });
   } catch (error) {
@@ -102,24 +91,13 @@ export async function PATCH(req, { params }) {
     });
     console.log("Full saved employee object:", savedEmployee.toObject());
 
-    // Create response object manually to ensure all fields are included
-    const employeeResponse = {
-      _id: employee._id,
-      name: employee.name,
-      email: employee.email,
-      role: employee.role,
-      phone: employee.phone,
-      position: employee.position,
-      skills: employee.skills,
-      isActive: employee.isActive,
-      availability: employee.availability,
-      notes: employee.notes,
-      dayRate: employee.dayRate,
-      hourlyRate: employee.hourlyRate, // Temporarily include for migration
-      createdAt: employee.createdAt,
-      updatedAt: employee.updatedAt,
-      __v: employee.__v,
-    };
+    // Use toJSON to apply plugin transformations
+    const employeeResponse = employee.toJSON();
+
+    // Remove hourlyRate if it exists (for migration purposes)
+    if (employeeResponse.hourlyRate !== undefined) {
+      delete employeeResponse.hourlyRate;
+    }
 
     console.log(
       "PATCH - Final API response employee object:",

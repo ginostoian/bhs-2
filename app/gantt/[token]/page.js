@@ -59,7 +59,8 @@ export default async function PublicGanttPage({ params }) {
         priority: doc.priority,
         estimatedDuration: doc.estimatedDuration,
         actualDuration: doc.actualDuration,
-        startDate: doc.startDate,
+        plannedStartDate: doc.plannedStartDate,
+        actualStartDate: doc.actualStartDate,
         completionDate: doc.completionDate,
         assignedTo: doc.assignedTo
           ? {

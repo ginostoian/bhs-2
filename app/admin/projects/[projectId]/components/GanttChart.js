@@ -61,8 +61,8 @@ export default function GanttChart({
 
   // Calculate task duration
   const getTaskDuration = (task) => {
-    if (task.startDate && task.completionDate) {
-      const start = new Date(task.startDate);
+    if (task.actualStartDate && task.completionDate) {
+      const start = new Date(task.actualStartDate);
       const end = new Date(task.completionDate);
       const diffTime = Math.abs(end - start);
       return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -72,18 +72,18 @@ export default function GanttChart({
 
   // Calculate task start position (days from project start)
   const getTaskStartPosition = (task) => {
-    if (!task.startDate) return 0;
+    if (!task.plannedStartDate) return 0;
 
-    // Find the earliest task start date as project start
+    // Find the earliest task planned start date as project start
     const allStartDates = tasks
-      .map((t) => t.startDate)
+      .map((t) => t.plannedStartDate)
       .filter((date) => date)
       .map((date) => new Date(date));
 
     if (allStartDates.length === 0) return 0;
 
     const projectStart = new Date(Math.min(...allStartDates));
-    const taskStart = new Date(task.startDate);
+    const taskStart = new Date(task.plannedStartDate);
     const diffTime = Math.abs(taskStart - projectStart);
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
@@ -140,7 +140,7 @@ export default function GanttChart({
         task.name,
         task.status,
         task.assignedTo?.name || "Unassigned",
-        task.startDate ? formatDate(task.startDate) : "Not set",
+        task.plannedStartDate ? formatDate(task.plannedStartDate) : "Not set",
         task.completionDate ? formatDate(task.completionDate) : "Not set",
         `${getTaskDuration(task)} days`,
       ]);
@@ -234,7 +234,7 @@ export default function GanttChart({
 
   // Calculate timeline dimensions
   const allStartDates = tasks
-    .map((t) => t.startDate)
+    .map((t) => t.plannedStartDate)
     .filter((date) => date)
     .map((date) => new Date(date));
 
@@ -242,9 +242,9 @@ export default function GanttChart({
     .map(
       (t) =>
         t.completionDate ||
-        (t.startDate
+        (t.plannedStartDate
           ? new Date(
-              new Date(t.startDate).getTime() +
+              new Date(t.plannedStartDate).getTime() +
                 (t.estimatedDuration || 1) * 24 * 60 * 60 * 1000,
             )
           : null),
@@ -365,12 +365,12 @@ export default function GanttChart({
                                 backgroundColor: getTaskColor(task.status),
                                 minWidth: "20px",
                               }}
-                              title={`${task.name} - ${formatDate(task.startDate)} to ${task.completionDate ? formatDate(task.completionDate) : "Ongoing"}`}
+                              title={`${task.name} - ${formatDate(task.plannedStartDate)} to ${task.completionDate ? formatDate(task.completionDate) : "Ongoing"}`}
                             ></div>
                           </div>
                           <div className="mt-1 text-xs text-gray-500">
-                            {task.startDate
-                              ? formatDate(task.startDate)
+                            {task.plannedStartDate
+                              ? formatDate(task.plannedStartDate)
                               : "Not started"}
                             {task.completionDate &&
                               ` - ${formatDate(task.completionDate)}`}

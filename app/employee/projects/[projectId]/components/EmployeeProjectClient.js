@@ -293,8 +293,10 @@ export default function EmployeeProjectClient({
                         </div>
 
                         <div className="mt-2 text-xs text-gray-500">
-                          {task.startDate && (
-                            <span>Start: {formatDate(task.startDate)} • </span>
+                          {task.plannedStartDate && (
+                            <span>
+                              Start: {formatDate(task.plannedStartDate)} •{" "}
+                            </span>
                           )}
                           <span>Est: {task.estimatedDuration} days</span>
                           {task.actualDuration && (

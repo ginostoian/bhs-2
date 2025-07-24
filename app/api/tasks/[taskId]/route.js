@@ -47,7 +47,11 @@ export async function PATCH(req, { params }) {
     if (body.section !== undefined) task.section = body.section;
     if (body.estimatedDuration !== undefined)
       task.estimatedDuration = body.estimatedDuration;
-    if (body.startDate) task.startDate = body.startDate;
+    if (body.plannedStartDate !== undefined) {
+      task.plannedStartDate = body.plannedStartDate
+        ? new Date(body.plannedStartDate)
+        : null;
+    }
     if (body.priority) task.priority = body.priority;
     if (body.notes) task.notes = body.notes;
     if (body.tags) task.tags = body.tags;
@@ -90,7 +94,25 @@ export async function PATCH(req, { params }) {
       }
     }
 
-    return NextResponse.json({ task });
+    // Convert to JSON to ensure proper serialization
+    const taskResponse = task.toJSON();
+    console.log("PUT API Response - task object before toJSON:", {
+      id: task._id,
+      name: task.name,
+      plannedStartDate: task.plannedStartDate,
+      actualStartDate: task.actualStartDate,
+      hasPlannedStartDate: task.plannedStartDate !== undefined,
+      plannedStartDateType: typeof task.plannedStartDate,
+    });
+    console.log("PUT API Response - taskResponse after toJSON:", {
+      id: taskResponse.id,
+      name: taskResponse.name,
+      plannedStartDate: taskResponse.plannedStartDate,
+      actualStartDate: taskResponse.actualStartDate,
+      hasPlannedStartDate: taskResponse.plannedStartDate !== undefined,
+      plannedStartDateType: typeof taskResponse.plannedStartDate,
+    });
+    return NextResponse.json({ task: taskResponse });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to update task" },
@@ -120,6 +142,13 @@ export async function PUT(req, { params }) {
 
     // Store the previous assignment to check if it changed
     const previousAssignedTo = task.assignedTo;
+
+    // Handle date conversion for plannedStartDate before Object.assign
+    if (body.plannedStartDate !== undefined) {
+      body.plannedStartDate = body.plannedStartDate
+        ? new Date(body.plannedStartDate)
+        : null;
+    }
 
     // Update all fields, handling null values for ObjectId fields
     Object.assign(task, body);
@@ -165,7 +194,9 @@ export async function PUT(req, { params }) {
       }
     }
 
-    return NextResponse.json({ task });
+    // Convert to JSON to ensure proper serialization
+    const taskResponse = task.toJSON();
+    return NextResponse.json({ task: taskResponse });
   } catch (error) {
     return NextResponse.json(
       { error: error.message || "Failed to update task" },
