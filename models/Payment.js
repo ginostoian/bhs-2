@@ -74,27 +74,30 @@ paymentSchema.index({ user: 1, paymentNumber: 1 }, { unique: false });
 // Pre-validate middleware to auto-assign payment number if not provided
 paymentSchema.pre("validate", async function (next) {
   try {
-    if (!this.paymentNumber) {
-      // Get the highest payment number for this user
-      const lastPayment = await this.constructor
-        .findOne({ user: this.user })
-        .sort({ order: -1 });
+    // Only run this middleware for new documents, not updates
+    if (this.isNew) {
+      if (!this.paymentNumber) {
+        // Get the highest payment number for this user
+        const lastPayment = await this.constructor
+          .findOne({ user: this.user })
+          .sort({ order: -1 });
 
-      this.paymentNumber = lastPayment ? lastPayment.order + 1 : 1;
-    }
+        this.paymentNumber = lastPayment ? lastPayment.order + 1 : 1;
+      }
 
-    // Auto-assign order if not provided
-    if (this.order === 0) {
-      const lastPayment = await this.constructor
-        .findOne({ user: this.user })
-        .sort({ order: -1 });
+      // Auto-assign order if not provided
+      if (this.order === 0) {
+        const lastPayment = await this.constructor
+          .findOne({ user: this.user })
+          .sort({ order: -1 });
 
-      this.order = lastPayment ? lastPayment.order + 1 : 1;
-    }
+        this.order = lastPayment ? lastPayment.order + 1 : 1;
+      }
 
-    // Ensure payment number matches order
-    if (this.paymentNumber !== this.order) {
-      this.paymentNumber = this.order;
+      // Ensure payment number matches order for new documents
+      if (this.paymentNumber !== this.order) {
+        this.paymentNumber = this.order;
+      }
     }
 
     next();

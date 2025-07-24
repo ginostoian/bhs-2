@@ -112,6 +112,15 @@ export async function PUT(req, { params }) {
     });
   } catch (error) {
     console.error("PUT /api/payments/[id] error:", error);
+
+    // Provide more specific error messages
+    if (error.code === 11000) {
+      return NextResponse.json(
+        { error: "Duplicate payment number detected. Please try again." },
+        { status: 400 },
+      );
+    }
+
     return NextResponse.json(
       { error: error.message || "Failed to update payment" },
       { status: 500 },
