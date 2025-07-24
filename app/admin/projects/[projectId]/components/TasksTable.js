@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import SectionModal from "./SectionModal";
 import TaskModal from "./TaskModal";
 import TaskDetailModal from "./TaskDetailModal";
+import Modal from "@/components/Modal";
 
 /**
  * Tasks Table Component
@@ -23,6 +24,15 @@ export default function TasksTable({ projectId }) {
   const [editingTask, setEditingTask] = useState(null);
   const [editingSection, setEditingSection] = useState(null);
   const [defaultSection, setDefaultSection] = useState(null);
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    taskId: null,
+    taskName: "",
+  });
+  const [errorModal, setErrorModal] = useState({
+    isOpen: false,
+    message: "",
+  });
 
   // Load data on component mount
   useEffect(() => {
@@ -213,6 +223,42 @@ export default function TasksTable({ projectId }) {
   const handleTaskDetailModalClose = () => {
     setShowTaskDetailModal(false);
     setSelectedTask(null);
+  };
+
+  // Handle task deletion
+  const handleTaskDelete = async (taskId) => {
+    setDeleteModal({
+      isOpen: true,
+      taskId: taskId,
+      taskName: tasks.find((task) => task.id === taskId)?.name || "",
+    });
+  };
+
+  // Handle actual task deletion
+  const performTaskDelete = async () => {
+    try {
+      const response = await fetch(`/api/tasks/${deleteModal.taskId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        // Remove task from local state
+        setTasks((prev) =>
+          prev.filter((task) => task.id !== deleteModal.taskId),
+        );
+        setDeleteModal({ isOpen: false, taskId: null, taskName: "" });
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to delete task");
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      setErrorModal({
+        isOpen: true,
+        message: "Failed to delete task: " + error.message,
+      });
+    }
   };
 
   // Handle drag and drop reordering within a section
@@ -660,6 +706,15 @@ export default function TasksTable({ projectId }) {
                                             >
                                               View
                                             </button>
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleTaskDelete(task.id);
+                                              }}
+                                              className="ml-3 text-red-600 hover:text-red-900"
+                                            >
+                                              Delete
+                                            </button>
                                           </td>
                                         </tr>
                                       )}
@@ -789,6 +844,15 @@ export default function TasksTable({ projectId }) {
                                             >
                                               View
                                             </button>
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleTaskDelete(task.id);
+                                              }}
+                                              className="text-xs text-red-600 hover:text-red-900"
+                                            >
+                                              Delete
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
@@ -850,6 +914,31 @@ export default function TasksTable({ projectId }) {
           onSave={handleSectionSave}
           section={editingSection}
           projectId={projectId}
+        />
+
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={deleteModal.isOpen}
+          onClose={() =>
+            setDeleteModal({ isOpen: false, taskId: null, taskName: "" })
+          }
+          onConfirm={performTaskDelete}
+          title="Delete Task"
+          message={`Are you sure you want to delete "${deleteModal.taskName}"? This action cannot be undone.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          type="confirm"
+        />
+
+        {/* Error Modal */}
+        <Modal
+          isOpen={errorModal.isOpen}
+          onClose={() => setErrorModal({ isOpen: false, message: "" })}
+          onConfirm={() => setErrorModal({ isOpen: false, message: "" })}
+          title="Error"
+          message={errorModal.message}
+          confirmText="OK"
+          type="alert"
         />
       </DragDropContext>
     </div>

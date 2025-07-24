@@ -204,3 +204,27 @@ export async function PUT(req, { params }) {
     );
   }
 }
+
+/**
+ * DELETE /api/tasks/[taskId]
+ * Delete a task (admin only)
+ */
+export async function DELETE(req, { params }) {
+  try {
+    await requireAdmin(req);
+    await connectMongoose();
+    const { taskId } = params;
+
+    const task = await Task.findByIdAndDelete(taskId);
+    if (!task) {
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: "Task deleted successfully" });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message || "Failed to delete task" },
+      { status: 500 },
+    );
+  }
+}

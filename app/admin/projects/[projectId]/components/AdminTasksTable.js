@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import AdminTaskModal from "./AdminTaskModal";
 import AdminTaskDetailModal from "./AdminTaskDetailModal";
+import Modal from "@/components/Modal";
 
 /**
  * Admin Tasks Table Component
@@ -17,6 +18,15 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
   const [showTaskDetailModal, setShowTaskDetailModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    taskId: null,
+    taskName: "",
+  });
+  const [errorModal, setErrorModal] = useState({
+    isOpen: false,
+    message: "",
+  });
 
   // Load data on component mount
   useEffect(() => {
@@ -173,6 +183,48 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
   const handleTaskDetailModalClose = () => {
     setShowTaskDetailModal(false);
     setSelectedTask(null);
+  };
+
+  // Handle admin task deletion
+  const handleTaskDelete = async (taskId) => {
+    setDeleteModal({
+      isOpen: true,
+      taskId: taskId,
+      taskName: tasks.find((task) => task.id === taskId)?.name || "",
+    });
+  };
+
+  // Handle actual admin task deletion
+  const performTaskDelete = async () => {
+    try {
+      const response = await fetch(`/api/admin-tasks/${deleteModal.taskId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        // Remove task from local state
+        setTasks((prev) =>
+          prev.filter((task) => task.id !== deleteModal.taskId),
+        );
+
+        // Notify parent component
+        if (onTasksUpdate) {
+          onTasksUpdate();
+        }
+
+        setDeleteModal({ isOpen: false, taskId: null, taskName: "" });
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to delete admin task");
+      }
+    } catch (error) {
+      console.error("Error deleting admin task:", error);
+      setErrorModal({
+        isOpen: true,
+        message: "Failed to delete admin task: " + error.message,
+      });
+    }
   };
 
   // Handle drag and drop reordering
@@ -466,6 +518,15 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
                                   >
                                     View
                                   </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleTaskDelete(task.id);
+                                    }}
+                                    className="ml-3 text-red-600 hover:text-red-900"
+                                  >
+                                    Delete
+                                  </button>
                                 </td>
                               </tr>
                             )}
@@ -583,6 +644,15 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
                                   >
                                     View
                                   </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleTaskDelete(task.id);
+                                    }}
+                                    className="text-xs text-red-600 hover:text-red-900"
+                                  >
+                                    Delete
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -625,6 +695,31 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
           onClose={handleTaskDetailModalClose}
           task={selectedTask}
           admins={admins}
+        />
+
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={deleteModal.isOpen}
+          onClose={() =>
+            setDeleteModal({ isOpen: false, taskId: null, taskName: "" })
+          }
+          onConfirm={performTaskDelete}
+          title="Delete Admin Task"
+          message={`Are you sure you want to delete "${deleteModal.taskName}"? This action cannot be undone.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          type="confirm"
+        />
+
+        {/* Error Modal */}
+        <Modal
+          isOpen={errorModal.isOpen}
+          onClose={() => setErrorModal({ isOpen: false, message: "" })}
+          onConfirm={() => setErrorModal({ isOpen: false, message: "" })}
+          title="Error"
+          message={errorModal.message}
+          confirmText="OK"
+          type="alert"
         />
       </DragDropContext>
     </div>

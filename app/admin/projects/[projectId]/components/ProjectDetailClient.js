@@ -635,18 +635,7 @@ export default function ProjectDetailClient({
                   Project Tasks
                 </h2>
               </div>
-              <TasksTable
-                tasks={tasks}
-                sections={sections}
-                projectId={project.id}
-                onTaskUpdate={(updatedTask) => {
-                  setTasks((prev) =>
-                    prev.map((t) =>
-                      t.id === updatedTask.id ? updatedTask : t,
-                    ),
-                  );
-                }}
-              />
+              <TasksTable projectId={project.id} />
             </div>
           )}
 
