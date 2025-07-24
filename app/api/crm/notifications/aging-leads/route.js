@@ -22,7 +22,7 @@ export async function GET(request) {
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
-      agingPaused: false,
+      $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });
@@ -57,7 +57,7 @@ export async function POST(request) {
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
-      agingPaused: false,
+      $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });
@@ -116,6 +116,18 @@ export async function POST(request) {
     console.log(
       `📊 Aging alert sending summary: ${successfulSends} successful, ${failedSends} failed`,
     );
+
+    console.log("📤 Final response being sent:", {
+      success: true,
+      message: `Aging leads notification sent to ${successfulSends} out of ${admins.length} admins`,
+      details: {
+        totalAdmins: admins.length,
+        successfulSends,
+        failedSends,
+        agingLeadsCount: agingLeads.length,
+        results: emailResults,
+      },
+    });
 
     return NextResponse.json({
       success: true,

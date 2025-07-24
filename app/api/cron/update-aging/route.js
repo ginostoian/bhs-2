@@ -58,7 +58,7 @@ export async function POST(req) {
           isActive: true,
           isArchived: false,
           stage: { $nin: ["Won", "Lost"] },
-          agingPaused: false,
+          $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
         },
       },
       {
@@ -89,7 +89,7 @@ export async function POST(req) {
       stage: { $nin: ["Won", "Lost"] },
       isActive: true,
       isArchived: false,
-      agingPaused: false,
+      $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
     })
       .populate("assignedTo", "name email")
       .sort({ agingDays: -1 });

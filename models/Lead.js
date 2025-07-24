@@ -397,7 +397,7 @@ leadSchema.statics.findAgingLeads = function (days = 7) {
     stage: { $nin: ["Won", "Lost"] },
     isActive: true,
     isArchived: false,
-    agingPaused: false,
+    $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
   })
     .populate("assignedTo", "name email")
     .sort({ agingDays: -1 });

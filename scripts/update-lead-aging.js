@@ -48,7 +48,7 @@ async function updateLeadAging() {
           isActive: true,
           isArchived: false,
           stage: { $nin: ["Won", "Lost"] },
-          agingPaused: false,
+          $or: [{ agingPaused: false }, { agingPaused: { $exists: false } }],
         },
       },
       {
