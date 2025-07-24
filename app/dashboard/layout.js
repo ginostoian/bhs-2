@@ -19,14 +19,16 @@ export default async function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="mx-auto min-h-screen max-w-7xl rounded-2xl pt-6">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className="mx-auto mt-10 max-w-[85%] rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
+          <div className="flex items-center justify-between py-8">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                Dashboard
+              </h1>
+              <p className="mt-1 text-lg text-gray-600">
                 Welcome back, {session.user.name || session.user.email}
               </p>
             </div>
