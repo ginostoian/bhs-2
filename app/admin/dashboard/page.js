@@ -182,8 +182,8 @@ export default async function AdminDashboardPage() {
           Admin Dashboard
         </h1>
         <p className="text-gray-600">
-          Welcome back, {session?.user?.name}! Here's what's happening in your
-          system.
+          Welcome back, {session?.user?.name}! Here&apos;s what&apos;s happening
+          in your system.
         </p>
       </div>
 
