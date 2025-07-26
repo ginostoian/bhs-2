@@ -47,6 +47,17 @@ export async function PUT(request, { params }) {
     // Update stage with version history
     await lead.updateStage(stage, session.user.id, comment);
 
+    // Update email automation stage
+    try {
+      const { updateEmailAutomationStage } = await import(
+        "@/libs/crmEmailAutomation"
+      );
+      await updateEmailAutomationStage(params.id, stage, session.user.id);
+    } catch (error) {
+      console.error("Error updating email automation stage:", error);
+      // Don't fail the stage update if automation fails
+    }
+
     // Populate references including version history
     await lead.populate("assignedTo", "name email");
     await lead.populate("linkedUser", "name email");

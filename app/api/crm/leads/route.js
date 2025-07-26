@@ -159,6 +159,17 @@ export async function POST(request) {
     await lead.populate("assignedTo", "name email");
     await lead.populate("linkedUser", "name email");
 
+    // Initialize email automation for new lead
+    try {
+      const { initializeEmailAutomation } = await import(
+        "@/libs/crmEmailAutomation"
+      );
+      await initializeEmailAutomation(lead._id, lead.stage);
+    } catch (error) {
+      console.error("Error initializing email automation for new lead:", error);
+      // Don't fail the lead creation if automation fails
+    }
+
     return NextResponse.json({ success: true, lead }, { status: 201 });
   } catch (error) {
     console.error("Error creating lead:", error);

@@ -15,6 +15,7 @@ export default function AdminSidebar() {
 
   // Navigation items configuration
   const navItems = [
+    { name: "Dashboard", href: "/admin/dashboard", icon: "🏠" },
     { name: "Users", href: "/admin", icon: "👥" },
     { name: "CRM", href: "/admin/crm", icon: "📈" },
     { name: "Projects", href: "/admin/projects", icon: "🏗️" },
@@ -43,6 +44,7 @@ export default function AdminSidebar() {
       icon: "🧪",
     },
     { name: "Email Analytics", href: "/admin/email-analytics", icon: "📊" },
+    { name: "Email Automation", href: "/admin/email-automation", icon: "🤖" },
   ];
 
   return (

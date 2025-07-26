@@ -7,7 +7,6 @@ import apiClient from "@/libs/api";
 export default function AdminUtilitiesDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLinkingLeads, setIsLinkingLeads] = useState(false);
-  const [isCheckingOverdue, setIsCheckingOverdue] = useState(false);
   const [isSendingBrief, setIsSendingBrief] = useState(false);
   const [isSendingAgingAlert, setIsSendingAgingAlert] = useState(false);
   const dropdownRef = useRef(null);
@@ -44,24 +43,6 @@ export default function AdminUtilitiesDropdown() {
       toast.error("Failed to link leads to users");
     } finally {
       setIsLinkingLeads(false);
-      setIsOpen(false);
-    }
-  };
-
-  const handleCheckOverdueActivities = async () => {
-    setIsCheckingOverdue(true);
-    try {
-      const response = await apiClient.post("/cron/check-overdue-activities");
-      const successCount =
-        response.notificationsSent?.filter((n) => n.success).length || 0;
-      toast.success(
-        `Overdue activities check complete! Sent ${successCount} notifications`,
-      );
-    } catch (error) {
-      console.error("Error checking overdue activities:", error);
-      toast.error("Failed to check overdue activities");
-    } finally {
-      setIsCheckingOverdue(false);
       setIsOpen(false);
     }
   };
@@ -120,13 +101,7 @@ export default function AdminUtilitiesDropdown() {
       action: handleLinkLeadsToUsers,
       loading: isLinkingLeads,
     },
-    {
-      name: "Check Overdue Activities",
-      description: "Check for overdue activities and send notifications",
-      icon: "⏰",
-      action: handleCheckOverdueActivities,
-      loading: isCheckingOverdue,
-    },
+
     {
       name: "Send Morning Brief",
       description: "Send morning brief email to all admins",
