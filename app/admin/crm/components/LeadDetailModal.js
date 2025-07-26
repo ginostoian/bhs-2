@@ -12,6 +12,8 @@ export default function LeadDetailModal({
   onStageUpdate,
   onRefresh,
 }) {
+  // Helper function to get lead ID
+  const getLeadId = () => lead?.id || lead?._id;
   const [activeTab, setActiveTab] = useState("overview");
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState(lead);
@@ -44,6 +46,15 @@ export default function LeadDetailModal({
     dueDate: "",
   });
 
+  // Reply tracking state
+  const [showReplyModal, setShowReplyModal] = useState(false);
+  const [replyData, setReplyData] = useState({
+    replySubject: "",
+    replyContent: "",
+  });
+  const [processingReply, setProcessingReply] = useState(false);
+  const [processingResume, setProcessingResume] = useState(false);
+
   // Debugging logs
   useEffect(() => {
     console.log("Activities:", activities);
@@ -60,7 +71,8 @@ export default function LeadDetailModal({
   }, [activities, notes, tasks]);
 
   useEffect(() => {
-    if (lead && lead.id) {
+    const leadId = lead?.id || lead?._id;
+    if (lead && leadId) {
       setFormData(lead);
       fetchLeadDetails();
       fetchAdmins();
@@ -68,13 +80,15 @@ export default function LeadDetailModal({
   }, [lead]);
 
   const fetchLeadDetails = async () => {
-    if (!lead || !lead.id) return;
+    const leadId = lead?.id || lead?._id;
+    if (!lead || !leadId) return;
     try {
       setLoading(true);
+      const leadId = lead.id || lead._id;
       const [activitiesRes, notesRes, tasksRes] = await Promise.all([
-        apiClient.get(`/crm/leads/${lead.id}/activities`),
-        apiClient.get(`/crm/leads/${lead.id}/notes`),
-        apiClient.get(`/crm/leads/${lead.id}/tasks`),
+        apiClient.get(`/crm/leads/${leadId}/activities`),
+        apiClient.get(`/crm/leads/${leadId}/notes`),
+        apiClient.get(`/crm/leads/${leadId}/tasks`),
       ]);
 
       setActivities(activitiesRes.activities || []);
@@ -110,13 +124,14 @@ export default function LeadDetailModal({
 
   const handleSave = async () => {
     // Guard against invalid lead ID
-    if (!lead.id) {
+    const leadId = lead.id || lead._id;
+    if (!leadId) {
       toast.error("Invalid lead ID");
       return;
     }
 
     try {
-      await onUpdate(lead.id, formData);
+      await onUpdate(leadId, formData);
       setEditing(false);
     } catch (error) {
       console.error("Error updating lead:", error);
@@ -152,7 +167,7 @@ export default function LeadDetailModal({
   const handleAddNote = async () => {
     if (!newNote.title.trim() || !newNote.content.trim()) return;
     try {
-      await apiClient.post(`/crm/leads/${lead.id}/notes`, newNote);
+      await apiClient.post(`/crm/leads/${getLeadId()}/notes`, newNote);
       setNewNote({ title: "", content: "" });
       setShowAddNote(false);
       fetchLeadDetails();
@@ -165,7 +180,7 @@ export default function LeadDetailModal({
   const handleAddTask = async () => {
     if (!newTask.title.trim()) return;
     try {
-      await apiClient.post(`/crm/leads/${lead.id}/tasks`, newTask);
+      await apiClient.post(`/crm/leads/${getLeadId()}/tasks`, newTask);
       setNewTask({ title: "", description: "", priority: "medium" });
       setShowAddTask(false);
       fetchLeadDetails();
@@ -178,7 +193,7 @@ export default function LeadDetailModal({
   const handleAddActivity = async () => {
     if (!newActivity.title.trim()) return;
     try {
-      await apiClient.post(`/crm/leads/${lead.id}/activities`, newActivity);
+      await apiClient.post(`/crm/leads/${getLeadId()}/activities`, newActivity);
       setNewActivity({
         type: "call",
         title: "",
@@ -194,7 +209,7 @@ export default function LeadDetailModal({
   };
 
   const handleAgingPauseToggle = async () => {
-    if (!lead.id) return;
+    if (!getLeadId()) return;
 
     if (lead.agingPaused) {
       // Resuming aging - no reason needed
@@ -209,7 +224,7 @@ export default function LeadDetailModal({
     setIsPausingAging(true);
     try {
       const response = await apiClient.post(
-        `/crm/leads/${lead.id}/aging-pause`,
+        `/crm/leads/${getLeadId()}/aging-pause`,
         {
           reason: reason || undefined,
         },
@@ -217,7 +232,7 @@ export default function LeadDetailModal({
 
       // Update the lead data
       if (onUpdate) {
-        await onUpdate(lead.id, {
+        await onUpdate(getLeadId(), {
           agingPaused: response.lead.agingPaused,
           agingPausedAt: response.lead.agingPausedAt,
           agingPausedReason: response.lead.agingPausedReason,
@@ -244,7 +259,7 @@ export default function LeadDetailModal({
     console.log("Marking task as done:", taskId);
     try {
       const response = await apiClient.patch(
-        `/crm/leads/${lead.id}/tasks/${taskId}`,
+        `/crm/leads/${getLeadId()}/tasks/${taskId}`,
         {
           status: "completed",
         },
@@ -266,7 +281,7 @@ export default function LeadDetailModal({
       return;
 
     try {
-      await apiClient.delete(`/crm/leads/${lead.id}`);
+      await apiClient.delete(`/crm/leads/${getLeadId()}`);
       toast.success("Lead deleted successfully");
       onClose();
       // Trigger a refresh of the leads list
@@ -283,7 +298,7 @@ export default function LeadDetailModal({
     console.log("Marking activity as done:", activityId);
     try {
       const response = await apiClient.patch(
-        `/crm/leads/${lead.id}/activities/${activityId}`,
+        `/crm/leads/${getLeadId()}/activities/${activityId}`,
         {
           status: "done",
         },
@@ -295,6 +310,58 @@ export default function LeadDetailModal({
     } catch (e) {
       console.error("Error marking activity as done:", e);
       toast.error("Failed to mark activity as done");
+    }
+  };
+
+  const handleLeadReply = async () => {
+    try {
+      setProcessingReply(true);
+
+      const response = await apiClient.post(`/crm/leads/${getLeadId()}/reply`, {
+        replySubject: replyData.replySubject,
+        replyContent: replyData.replyContent,
+      });
+
+      toast.success("Lead reply processed successfully!");
+
+      // Reset form and close modal
+      setReplyData({ replySubject: "", replyContent: "" });
+      setShowReplyModal(false);
+
+      // Refresh lead details
+      fetchLeadDetails();
+      if (onRefresh) onRefresh();
+    } catch (error) {
+      console.error("Error processing lead reply:", error);
+      toast.error(
+        error.response?.data?.error || "Failed to process lead reply",
+      );
+    } finally {
+      setProcessingReply(false);
+    }
+  };
+
+  const handleResumeAutomation = async () => {
+    try {
+      setProcessingResume(true);
+
+      const response = await apiClient.post(
+        `/crm/leads/${getLeadId()}/resume-automation`,
+        {
+          reason: "Manual resume by admin",
+        },
+      );
+
+      toast.success("Email automation resumed successfully!");
+
+      // Refresh lead details
+      fetchLeadDetails();
+      if (onRefresh) onRefresh();
+    } catch (error) {
+      console.error("Error resuming automation:", error);
+      toast.error(error.response?.data?.error || "Failed to resume automation");
+    } finally {
+      setProcessingResume(false);
     }
   };
 
@@ -633,13 +700,37 @@ export default function LeadDetailModal({
                 <h4 className="text-xl font-semibold text-gray-900">
                   Activity Timeline
                 </h4>
-                <CRMButton
-                  size="sm"
-                  onClick={() => setShowAddActivity((v) => !v)}
-                  className="bg-blue-600 text-white hover:bg-blue-700"
-                >
-                  {showAddActivity ? "Cancel" : "+ Add Activity"}
-                </CRMButton>
+                <div className="flex gap-2">
+                  <CRMButton
+                    size="sm"
+                    onClick={() => setShowAddActivity((v) => !v)}
+                    className="bg-blue-600 text-white hover:bg-blue-700"
+                  >
+                    {showAddActivity ? "Cancel" : "+ Add Activity"}
+                  </CRMButton>
+                  <CRMButton
+                    size="sm"
+                    onClick={() => setShowReplyModal(true)}
+                    className="bg-green-600 text-white hover:bg-green-700"
+                  >
+                    📧 Mark as Replied
+                  </CRMButton>
+                  {/* Show resume button if automation is paused or lead has replied */}
+                  {(lead.emailAutomation?.leadReplied ||
+                    (lead.emailAutomation &&
+                      !lead.emailAutomation.isActive)) && (
+                    <CRMButton
+                      size="sm"
+                      onClick={handleResumeAutomation}
+                      disabled={processingResume}
+                      className="bg-orange-600 text-white hover:bg-orange-700"
+                    >
+                      {processingResume
+                        ? "Resuming..."
+                        : "▶️ Resume Automation"}
+                    </CRMButton>
+                  )}
+                </div>
               </div>
 
               {showAddActivity && (
@@ -1225,6 +1316,81 @@ export default function LeadDetailModal({
                 loading={isPausingAging}
               >
                 {isPausingAging ? "Pausing..." : "Pause Aging"}
+              </CRMButton>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reply Modal */}
+      {showReplyModal && (
+        <div className="modal modal-open">
+          <div className="modal-box max-w-md">
+            <h3 className="mb-4 text-lg font-bold">Mark Lead as Replied</h3>
+            <p className="mb-4 text-gray-600">
+              This will pause the email automation and reset the aging timer for{" "}
+              {lead.name}.
+            </p>
+
+            <div className="space-y-4">
+              <div>
+                <label className="label">
+                  <span className="label-text font-medium">
+                    Reply Subject (optional)
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  value={replyData.replySubject}
+                  onChange={(e) =>
+                    setReplyData((prev) => ({
+                      ...prev,
+                      replySubject: e.target.value,
+                    }))
+                  }
+                  placeholder="e.g., Re: Kitchen Renovation Quote"
+                  className="input input-bordered w-full"
+                />
+              </div>
+
+              <div>
+                <label className="label">
+                  <span className="label-text font-medium">
+                    Reply Content (optional)
+                  </span>
+                </label>
+                <textarea
+                  value={replyData.replyContent}
+                  onChange={(e) =>
+                    setReplyData((prev) => ({
+                      ...prev,
+                      replyContent: e.target.value,
+                    }))
+                  }
+                  placeholder="Brief description of what the lead replied with..."
+                  className="textarea textarea-bordered w-full"
+                  rows={4}
+                />
+              </div>
+            </div>
+
+            <div className="modal-action">
+              <CRMButton
+                onClick={() => {
+                  setShowReplyModal(false);
+                  setReplyData({ replySubject: "", replyContent: "" });
+                }}
+                variant="outline"
+              >
+                Cancel
+              </CRMButton>
+              <CRMButton
+                onClick={handleLeadReply}
+                variant="primary"
+                disabled={processingReply}
+                loading={processingReply}
+              >
+                {processingReply ? "Processing..." : "Mark as Replied"}
               </CRMButton>
             </div>
           </div>

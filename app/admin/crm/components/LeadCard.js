@@ -61,7 +61,8 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
     <div
       className="w-full cursor-pointer rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:border-gray-300 hover:shadow-lg"
       onClick={() => {
-        if (!lead || !lead.id) {
+        const leadId = lead.id || lead._id;
+        if (!lead || !leadId) {
           return;
         }
         onClick();
@@ -82,6 +83,54 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
               <div className="loading loading-spinner loading-xs"></div>
             )}
           </div>
+
+          {/* Email Automation Status */}
+          {lead.emailAutomation ? (
+            <div
+              className="mt-2 flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {lead.emailAutomation.isActive ? (
+                <span
+                  className="inline-flex cursor-help items-center gap-1 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800"
+                  title={`Email automation is active for ${lead.emailAutomation.currentStage} stage`}
+                >
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500"></span>
+                  Email Active
+                </span>
+              ) : (
+                <span
+                  className="inline-flex cursor-help items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-600"
+                  title={
+                    lead.emailAutomation.pausedReason ||
+                    "Email automation is paused"
+                  }
+                >
+                  <span className="h-1.5 w-1.5 rounded-full bg-gray-400"></span>
+                  Email Paused
+                </span>
+              )}
+
+              {lead.emailAutomation.leadReplied && (
+                <span
+                  className="inline-flex cursor-help items-center gap-1 rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800"
+                  title="Lead has replied to automated emails"
+                >
+                  📧 Replied
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+              <span
+                className="inline-flex cursor-help items-center gap-1 rounded-full bg-orange-100 px-2 py-1 text-xs font-medium text-orange-800"
+                title="Email automation not initialized for this lead"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-orange-400"></span>
+                No Email Automation
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

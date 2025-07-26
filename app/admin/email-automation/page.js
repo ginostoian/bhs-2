@@ -8,6 +8,10 @@ export default function EmailAutomationPage() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processingEmails, setProcessingEmails] = useState(false);
+  const [expandedSections, setExpandedSections] = useState({
+    leadsByStage: false,
+    recentEmails: false,
+  });
 
   useEffect(() => {
     fetchStats();
@@ -43,11 +47,88 @@ export default function EmailAutomationPage() {
     }
   };
 
+  const resumeAutomation = async (leadId) => {
+    try {
+      const response = await apiClient.post(
+        `/crm/leads/${leadId}/resume-automation`,
+        {
+          reason: "Manual resume by admin",
+        },
+      );
+
+      toast.success("Email automation resumed successfully");
+      fetchStats(); // Refresh stats after resuming
+    } catch (error) {
+      console.error("Error resuming automation:", error);
+      toast.error("Failed to resume automation");
+    }
+  };
+
+  const initializeAllAutomations = async () => {
+    try {
+      const response = await apiClient.post("/crm/email-automation", {
+        action: "initialize_all_automations",
+      });
+
+      toast.success(response.message);
+      fetchStats(); // Refresh stats after initialization
+    } catch (error) {
+      console.error("Error initializing automations:", error);
+      toast.error("Failed to initialize automations");
+    }
+  };
+
   const formatEmailType = (type) => {
     return type
       .split("_")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(amount || 0);
+  };
+
+  const toggleSection = (section) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  const getStatusBadge = (automation) => {
+    if (!automation.isActive) {
+      return (
+        <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+          Paused
+        </span>
+      );
+    }
+    if (automation.leadReplied) {
+      return (
+        <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+          Replied
+        </span>
+      );
+    }
+    return (
+      <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+        Active
+      </span>
+    );
   };
 
   if (loading) {
@@ -120,6 +201,25 @@ export default function EmailAutomationPage() {
           </svg>
           Refresh Stats
         </button>
+        <button
+          onClick={initializeAllAutomations}
+          className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+        >
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+          Initialize All Automations
+        </button>
       </div>
 
       {stats && (
@@ -146,6 +246,12 @@ export default function EmailAutomationPage() {
                 <span className="text-gray-600">Paused Automations</span>
                 <span className="text-2xl font-semibold text-orange-600">
                   {stats.pausedAutomations}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600">Leads Who Replied</span>
+                <span className="text-2xl font-semibold text-blue-600">
+                  {stats.leadsReplied || 0}
                 </span>
               </div>
             </div>
@@ -224,6 +330,185 @@ export default function EmailAutomationPage() {
           </div>
         </div>
       )}
+
+      {/* Detailed Lead Lists by Stage */}
+      <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+        <div
+          className="flex cursor-pointer items-center justify-between"
+          onClick={() => toggleSection("leadsByStage")}
+        >
+          <h2 className="text-xl font-semibold text-gray-900">
+            Detailed Lead Lists by Stage
+          </h2>
+          <svg
+            className={`h-5 w-5 transform transition-transform ${
+              expandedSections.leadsByStage ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+
+        {expandedSections.leadsByStage && (
+          <div className="mt-6 space-y-6">
+            {Object.entries(stats.leadsByStage || {}).map(([stage, leads]) => (
+              <div key={stage} className="rounded-lg border border-gray-200">
+                <div className="bg-gray-50 px-4 py-3">
+                  <h3 className="font-semibold text-gray-900">
+                    {stage} Stage ({leads.length} leads)
+                  </h3>
+                </div>
+                <div className="divide-y divide-gray-200">
+                  {leads.map((lead) => (
+                    <div key={lead._id} className="px-4 py-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3">
+                            <h4 className="font-medium text-gray-900">
+                              {lead.leadName}
+                            </h4>
+                            {getStatusBadge(lead)}
+                          </div>
+                          <p className="text-sm text-gray-600">
+                            {lead.leadEmail}
+                          </p>
+                          <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
+                            <span>Value: {formatCurrency(lead.leadValue)}</span>
+                            <span>Emails sent: {lead.emailsSent || 0}</span>
+                            {lead.nextEmailDue && (
+                              <span>
+                                Next email: {formatDate(lead.nextEmailDue)}
+                              </span>
+                            )}
+                          </div>
+                          {lead.pausedReason && (
+                            <p className="mt-1 text-xs text-red-600">
+                              Paused: {lead.pausedReason}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => resumeAutomation(lead.leadId)}
+                            className="rounded bg-blue-600 px-3 py-1 text-xs text-white hover:bg-blue-700"
+                          >
+                            Resume
+                          </button>
+                          <a
+                            href={`/admin/crm?lead=${lead.leadId}`}
+                            className="rounded bg-gray-600 px-3 py-1 text-xs text-white hover:bg-gray-700"
+                          >
+                            View Lead
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Recent Email History */}
+      <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+        <div
+          className="flex cursor-pointer items-center justify-between"
+          onClick={() => toggleSection("recentEmails")}
+        >
+          <h2 className="text-xl font-semibold text-gray-900">
+            Recent Email History (Last 20)
+          </h2>
+          <svg
+            className={`h-5 w-5 transform transition-transform ${
+              expandedSections.recentEmails ? "rotate-180" : ""
+            }`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+
+        {expandedSections.recentEmails && (
+          <div className="mt-6 overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Lead
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Email Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Subject
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Sent At
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-white">
+                {stats.recentEmails?.map((email, index) => (
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {email.leadName}
+                        </div>
+                        <div className="text-sm text-gray-500">
+                          {email.leadEmail}
+                        </div>
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
+                      {formatEmailType(email.emailType)}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      <div className="max-w-xs truncate">
+                        {email.subject || "No subject"}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {formatDate(email.sentAt)}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      {email.success ? (
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                          Sent
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
+                          Failed
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
 
       {/* Information Panel */}
       <div className="rounded-xl bg-blue-50 p-6 ring-1 ring-blue-200">

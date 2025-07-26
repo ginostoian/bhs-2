@@ -4,6 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
+import EmailAutomation from "@/models/EmailAutomation";
 
 // GET - Fetch all leads with filtering and pagination
 export async function GET(request) {
@@ -50,10 +51,35 @@ export async function GET(request) {
       .skip(skip)
       .limit(limit);
 
+    // Get email automation data for all leads
+    const leadIds = leads.map((lead) => lead._id);
+    const automations = await EmailAutomation.find({
+      leadId: { $in: leadIds },
+    });
+
+    // Create a map of leadId to automation data
+    const automationMap = {};
+    automations.forEach((automation) => {
+      automationMap[automation.leadId.toString()] = {
+        isActive: automation.isActive,
+        currentStage: automation.currentStage,
+        leadReplied: automation.leadReplied,
+        pausedAt: automation.pausedAt,
+        pausedReason: automation.pausedReason,
+      };
+    });
+
+    // Add automation data to leads
+    const leadsWithAutomation = leads.map((lead) => {
+      const leadObj = lead.toObject();
+      leadObj.emailAutomation = automationMap[lead._id.toString()] || null;
+      return leadObj;
+    });
+
     const total = await Lead.countDocuments(query);
 
     return NextResponse.json({
-      leads,
+      leads: leadsWithAutomation,
       pagination: {
         page,
         limit,

@@ -69,6 +69,39 @@ export const initializeEmailAutomation = async (leadId, stage = "Lead") => {
 };
 
 /**
+ * Resume email automation after lead reply
+ */
+export const resumeEmailAutomation = async (
+  leadId,
+  reason = "Manual resume",
+) => {
+  try {
+    await connectMongo();
+
+    const automation = await EmailAutomation.findOne({ leadId });
+    if (!automation) {
+      throw new Error("Email automation not found");
+    }
+
+    // Resume the automation
+    automation.isActive = true;
+    automation.leadReplied = false; // Reset reply status
+    automation.pausedAt = null;
+    automation.pausedReason = null;
+    automation.resumedAt = new Date();
+    automation.lastActivity = new Date();
+
+    await automation.save();
+
+    console.log(`✅ Email automation resumed for lead ${leadId}: ${reason}`);
+    return automation;
+  } catch (error) {
+    console.error("Error resuming email automation:", error);
+    throw error;
+  }
+};
+
+/**
  * Update email automation when lead stage changes
  */
 export const updateEmailAutomationStage = async (leadId, newStage, userId) => {
@@ -88,6 +121,25 @@ export const updateEmailAutomationStage = async (leadId, newStage, userId) => {
     // If moving to Won or Lost, pause automation
     if (newStage === "Won" || newStage === "Lost") {
       await automation.pause(`Lead moved to ${newStage} stage`);
+    } else {
+      // If moving to any other stage and automation was paused due to reply,
+      // automatically resume it for the new stage
+      if (
+        automation.isActive === false &&
+        automation.pausedReason?.includes("Lead replied")
+      ) {
+        automation.isActive = true;
+        automation.leadReplied = false; // Reset reply status for new stage
+        automation.pausedAt = null;
+        automation.pausedReason = null;
+        automation.resumedAt = new Date();
+        automation.lastActivity = new Date();
+        await automation.save();
+
+        console.log(
+          `🔄 Email automation auto-resumed for lead ${leadId} moving to ${newStage} stage`,
+        );
+      }
     }
 
     console.log(
@@ -114,24 +166,6 @@ export const pauseEmailAutomation = async (leadId, reason) => {
     }
   } catch (error) {
     console.error("Error pausing email automation:", error);
-    throw error;
-  }
-};
-
-/**
- * Resume email automation
- */
-export const resumeEmailAutomation = async (leadId) => {
-  try {
-    await connectMongo();
-
-    const automation = await EmailAutomation.findOne({ leadId });
-    if (automation) {
-      await automation.resume();
-      console.log(`▶️ Email automation resumed for lead ${leadId}`);
-    }
-  } catch (error) {
-    console.error("Error resuming email automation:", error);
     throw error;
   }
 };
@@ -408,6 +442,73 @@ const sendNegotiationsAdminNotification = async (automation, leadData) => {
   } catch (error) {
     console.error("Error sending negotiations admin notification:", error);
     throw error;
+  }
+};
+
+/**
+ * Handle lead reply to automated email
+ */
+export const handleLeadReply = async (
+  leadId,
+  fromEmail,
+  subject,
+  content,
+  automation,
+) => {
+  try {
+    console.log(`📧 Processing lead reply from ${fromEmail}`);
+
+    // Update the automation to mark that lead has replied
+    automation.leadReplied = true;
+    automation.lastReplyDate = new Date();
+    automation.replySubject = subject;
+    automation.replyContent = content;
+    automation.lastActivity = new Date();
+
+    // Pause the automation since lead has engaged
+    automation.isActive = false;
+    automation.pausedAt = new Date();
+    automation.pausedReason = "Lead replied to automated email";
+
+    await automation.save();
+
+    // Find the lead and add a reply activity
+    const lead = await Lead.findById(leadId);
+    if (!lead) {
+      console.error(`Lead not found: ${leadId}`);
+      return { success: false, error: "Lead not found" };
+    }
+
+    // Add reply activity to lead
+    await lead.addActivity({
+      type: "email",
+      title: "Lead replied to automated email",
+      description: `Subject: ${subject}\n\nContent: ${content.substring(0, 200)}${content.length > 200 ? "..." : ""}`,
+      status: "done",
+      contactMade: true, // Reset aging timer since lead engaged
+      createdBy: null, // System-generated activity
+      metadata: {
+        emailType: "lead_reply",
+        subject,
+        fromEmail,
+        contentLength: content.length,
+        automated: true,
+      },
+    });
+
+    console.log(`✅ Lead reply processed successfully for ${lead.name}`);
+
+    return {
+      success: true,
+      leadId: lead._id,
+      leadName: lead.name,
+      automationPaused: true,
+      agingReset: true,
+      activityAdded: true,
+    };
+  } catch (error) {
+    console.error("Error handling lead reply:", error);
+    return { success: false, error: error.message };
   }
 };
 

@@ -128,7 +128,9 @@ export default function CRMPage() {
     try {
       const response = await apiClient.put(`/crm/leads/${leadId}`, updates);
       setLeads((prev) =>
-        prev.map((lead) => (lead.id === leadId ? response.lead : lead)),
+        prev.map((lead) =>
+          (lead.id || lead._id) === leadId ? response.lead : lead,
+        ),
       );
       toast.success("Lead updated successfully");
     } catch (error) {
@@ -150,7 +152,9 @@ export default function CRMPage() {
         comment,
       });
       setLeads((prev) =>
-        prev.map((lead) => (lead.id === leadId ? response.lead : lead)),
+        prev.map((lead) =>
+          (lead.id || lead._id) === leadId ? response.lead : lead,
+        ),
       );
       toast.success(`Lead moved to ${newStage}`);
     } catch (error) {
@@ -161,7 +165,8 @@ export default function CRMPage() {
 
   const handleLeadClick = (lead) => {
     // Guard against invalid lead
-    if (!lead || !lead.id) {
+    const leadId = lead.id || lead._id;
+    if (!lead || !leadId) {
       toast.error("Invalid lead data");
       return;
     }
@@ -290,7 +295,7 @@ export default function CRMPage() {
                 <div className="space-y-3">
                   {getLeadsByStage(stage).map((lead) => (
                     <LeadCard
-                      key={lead.id}
+                      key={lead.id || lead._id}
                       lead={lead}
                       onClick={() => handleLeadClick(lead)}
                       onStageUpdate={handleStageUpdate}

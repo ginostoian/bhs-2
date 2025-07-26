@@ -148,6 +148,21 @@ const emailAutomationSchema = mongoose.Schema(
       type: Date,
     },
 
+    // Reply tracking
+    leadReplied: {
+      type: Boolean,
+      default: false,
+    },
+    lastReplyDate: {
+      type: Date,
+    },
+    replySubject: {
+      type: String,
+    },
+    replyContent: {
+      type: String,
+    },
+
     // Last activity tracking
     lastActivity: {
       type: Date,
