@@ -20,7 +20,7 @@ export const leadIntroEmailTemplate = (leadData) => {
       "££££": "£50,000+",
     }[leadData.budget] || "your budget range";
 
-  const subject = `Welcome to Better Homes Studio - Let's discuss your ${projectTypesText}`;
+  const subject = `You and Better Homes - Let's discuss your ${projectTypesText}`;
 
   const html = `
     <!DOCTYPE html>
@@ -52,7 +52,6 @@ export const leadIntroEmailTemplate = (leadData) => {
         <div class="highlight">
           <strong>Project Details:</strong><br>
           • Project Type: ${projectTypesText}<br>
-          • Budget Range: ${budgetText}<br>
           • Location: ${leadData.address || "Your area"}
         </div>
         
@@ -62,27 +61,29 @@ export const leadIntroEmailTemplate = (leadData) => {
         <ul>
           <li>Free consultation and site visit</li>
           <li>Detailed project planning and design</li>
+          <li>Best in industry workmanship warranty</li>
           <li>Transparent pricing with no hidden costs</li>
           <li>Quality craftsmanship and materials</li>
           <li>Professional project management</li>
         </ul>
         
-        <p>We&apos;ll be in touch within the next 24 hours to schedule a convenient time to discuss your project in detail.</p>
+        <p>We&apos;ll be in touch within the next 24 hours to schedule a convenient time to discuss your project in detail. If you already have a preferred time, please let us know and we&apos;ll do our best to accommodate.</p>
         
         <p>In the meantime, feel free to explore our portfolio and learn more about our services at <a href="https://bhstudio.co.uk" style="color: #007bff;">bhstudio.co.uk</a>.</p>
         
+        <p>To get started even faster, please reply to this email with a list of things you'd like to get done and any relevant photos, videos or documents you have and we'll get back to you with a quote and a plan of action.</p>
+
         <p>If you have any immediate questions, please don&apos;t hesitate to reply to this email or call us directly.</p>
         
         <p>We look forward to working with you!</p>
+
+        <p>Kind regards,<br>
+        Gino @ Better Homes</p>
       </div>
       
       <div class="footer">
         <p><strong>Better Homes Studio</strong><br>
         <a href="https://bhstudio.co.uk" style="color: #007bff;">bhstudio.co.uk</a></p>
-        <p style="margin-top: 15px; font-size: 12px; color: #666;">
-          Kind Regards,<br>
-          Gino @ Better Homes
-        </p>
       </div>
     </body>
     </html>
@@ -95,7 +96,6 @@ Thank you for your interest in Better Homes Studio! We're excited to help you br
 
 Project Details:
 • Project Type: ${projectTypesText}
-• Budget Range: ${budgetText}
 • Location: ${leadData.address || "Your area"}
 
 Our team of experienced professionals is ready to discuss your ${projectTypesText} project and provide you with a comprehensive quote tailored to your needs and budget.
@@ -103,6 +103,7 @@ Our team of experienced professionals is ready to discuss your ${projectTypesTex
 Here's what you can expect from us:
 • Free consultation and site visit
 • Detailed project planning and design
+• Best in industry workmanship warranty
 • Transparent pricing with no hidden costs
 • Quality craftsmanship and materials
 • Professional project management
@@ -110,15 +111,17 @@ Here's what you can expect from us:
 We'll be in touch within the next 24 hours to schedule a convenient time to discuss your project in detail.
 
 In the meantime, feel free to explore our portfolio and learn more about our services at https://bhstudio.co.uk.
+If you already have a preferred time, please let us know and we'll do our best to accommodate.
 
 If you have any immediate questions, please don't hesitate to reply to this email or call us directly.
+To get started even faster, please reply to this email with a list of things you'd like to get done and any relevant photos, videos or documents you have and we'll get back to you with a quote and a plan of action.
 
 We look forward to working with you!
 
 Better Homes Studio
 https://bhstudio.co.uk
 
-Kind Regards,
+Kind regards,<br>
 Gino @ Better Homes
   `;
 
@@ -362,7 +365,7 @@ export const proposalFollowupEmailTemplate = (leadData, followupNumber) => {
     {
       subject: `Your ${projectTypesText} quote - Any questions?`,
       intro:
-        "I wanted to touch base regarding your project quote. We're here to answer any questions you might have and help you move forward.",
+        "I wanted to touch base regarding your project quote. We're here to answer any questions you might have and help you move forward. If pricing is a concern, please let us know and we'll see what we can do to help.",
     },
     {
       subject: `Final follow-up: Your ${projectTypesText} proposal`,
