@@ -1,0 +1,250 @@
+/* Enhanced Notes Tab Styles */
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.prose {
+    color: #374151;
+    max-width: none;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+    color: #111827;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose h1 {
+    font-size: 1.5rem;
+}
+
+.prose h2 {
+    font-size: 1.25rem;
+}
+
+.prose h3 {
+    font-size: 1.125rem;
+}
+
+.prose p {
+    margin: 0.75rem 0;
+    line-height: 1.6;
+}
+
+.prose ul,
+.prose ol {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+}
+
+.prose li {
+    margin: 0.25rem 0;
+}
+
+.prose a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #1d4ed8;
+}
+
+.prose blockquote {
+    border-left: 4px solid #d1d5db;
+    margin: 1rem 0;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #6b7280;
+}
+
+.prose code {
+    background: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+}
+
+.prose pre {
+    background: #f3f4f6;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.prose pre code {
+    background: none;
+    padding: 0;
+}
+
+/* Rich Text Editor Enhancements */
+.rich-text-editor {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: white;
+    transition: all 0.2s;
+}
+
+.rich-text-editor:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.rich-text-editor .toolbar {
+    background: #f9fafb;
+    border-bottom: 1px solid #d1d5db;
+    padding: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.rich-text-editor .toolbar-button {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s;
+    color: #374151;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rich-text-editor .toolbar-button:hover {
+    background: #e5e7eb;
+}
+
+.rich-text-editor .toolbar-button.active {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.rich-text-editor .editor-area {
+    min-height: 200px;
+    padding: 1rem;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+}
+
+.rich-text-editor .editor-area:empty:before {
+    content: attr(data-placeholder);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+/* Note Card Animations */
+.note-card {
+    transition: all 0.2s ease-in-out;
+}
+
+.note-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading Animation */
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Tag Animations */
+.tag {
+    transition: all 0.2s ease-in-out;
+}
+
+.tag:hover {
+    transform: scale(1.05);
+}
+
+/* Modal Enhancements */
+.modal-overlay {
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Button Enhancements */
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Filter Enhancements */
+.filter-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+}
+
+/* Empty State */
+.empty-state {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .prose {
+        font-size: 0.875rem;
+    }
+
+    .prose h1 {
+        font-size: 1.25rem;
+    }
+
+    .prose h2 {
+        font-size: 1.125rem;
+    }
+
+    .prose h3 {
+        font-size: 1rem;
+    }
+}

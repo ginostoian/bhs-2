@@ -7,7 +7,7 @@ import TasksTable from "./TasksTable";
 import AdminTasksTable from "./AdminTasksTable";
 import MilestoneModal from "./MilestoneModal";
 import ProjectInfoModal from "./ProjectInfoModal";
-import NotesTab from "./NotesTab";
+import EnhancedNotesTab from "./EnhancedNotesTab";
 import GanttChart from "./GanttChart";
 import ExpensesTab from "./ExpensesTab";
 
@@ -1514,7 +1514,7 @@ export default function ProjectDetailClient({
 
           {activeTab === "notes" && (
             <div className="p-6">
-              <NotesTab projectId={project.id} />
+              <EnhancedNotesTab projectId={project.id} />
             </div>
           )}
 
