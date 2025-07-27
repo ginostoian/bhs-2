@@ -111,7 +111,7 @@ const BathroomRenovationForm = () => {
   };
 
   return (
-    <section className="bg-gradient-to-br from-gray-50 to-white py-16">
+    <section className="mx-auto my-10 max-w-[85%] rounded-3xl bg-gradient-to-br from-gray-50 to-white py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
