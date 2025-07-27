@@ -143,6 +143,13 @@ export async function GET(request) {
           leadEmail: "$lead.email",
           leadValue: "$lead.value",
           leadStage: "$lead.stage",
+          // Stage-specific next email due dates
+          leadNextEmailDue: "$stageData.lead.nextEmailDue",
+          qualifiedNextEmailDue:
+            "$stageData.qualified.nextAdminNotificationDue",
+          proposalNextEmailDue: "$stageData.proposalSent.nextEmailDue",
+          negotiationsNextEmailDue:
+            "$stageData.negotiations.nextAdminNotificationDue",
         },
       },
       {

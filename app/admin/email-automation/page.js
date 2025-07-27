@@ -131,6 +131,83 @@ export default function EmailAutomationPage() {
     );
   };
 
+  // Countdown Timer Component
+  const CountdownTimer = ({ nextEmailDue, stage }) => {
+    const [timeLeft, setTimeLeft] = useState("");
+
+    useEffect(() => {
+      if (!nextEmailDue) {
+        setTimeLeft("No email scheduled");
+        return;
+      }
+
+      const updateTimer = () => {
+        const now = new Date();
+        const dueDate = new Date(nextEmailDue);
+        const diff = dueDate - now;
+
+        if (diff <= 0) {
+          setTimeLeft("Due now");
+        } else {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+          );
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+          if (days > 0) {
+            setTimeLeft(`${days}d ${hours}h`);
+          } else if (hours > 0) {
+            setTimeLeft(`${hours}h ${minutes}m`);
+          } else {
+            setTimeLeft(`${minutes}m`);
+          }
+        }
+      };
+
+      updateTimer();
+      const interval = setInterval(updateTimer, 60000); // Update every minute
+
+      return () => clearInterval(interval);
+    }, [nextEmailDue]);
+
+    if (!nextEmailDue) {
+      return <span className="text-xs text-gray-500">No email scheduled</span>;
+    }
+
+    const isOverdue = new Date(nextEmailDue) <= new Date();
+
+    return (
+      <span
+        className={`text-xs font-medium ${
+          isOverdue
+            ? "text-red-600"
+            : new Date(nextEmailDue) - new Date() < 1000 * 60 * 60 * 2 // Less than 2 hours
+              ? "text-orange-600"
+              : "text-green-600"
+        }`}
+      >
+        {isOverdue ? "⚠️ " : "⏰ "}
+        {timeLeft}
+      </span>
+    );
+  };
+
+  const getNextEmailDue = (automation) => {
+    switch (automation.currentStage) {
+      case "Lead":
+        return automation.leadNextEmailDue;
+      case "Qualified":
+        return automation.qualifiedNextEmailDue;
+      case "Proposal Sent":
+        return automation.proposalNextEmailDue;
+      case "Negotiations":
+        return automation.negotiationsNextEmailDue;
+      default:
+        return null;
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -383,9 +460,15 @@ export default function EmailAutomationPage() {
                           <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
                             <span>Value: {formatCurrency(lead.leadValue)}</span>
                             <span>Emails sent: {lead.emailsSent || 0}</span>
+                          </div>
+                          <div className="mt-1 flex items-center gap-4 text-xs">
+                            <CountdownTimer
+                              nextEmailDue={getNextEmailDue(lead)}
+                              stage={lead.currentStage}
+                            />
                             {lead.nextEmailDue && (
-                              <span>
-                                Next email: {formatDate(lead.nextEmailDue)}
+                              <span className="text-gray-500">
+                                Due: {formatDate(lead.nextEmailDue)}
                               </span>
                             )}
                           </div>
