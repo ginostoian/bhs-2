@@ -18,9 +18,9 @@ export default function Page() {
     <>
       <main>
         <Hero
-          title="Thank you for getting filling out the form "
+          title="Thank you for filling out the form"
           titleAccent="We'll be in touch"
-          subtitle="One of our team members will be in touch via email or phone shortly to either discuss further or send you an accurate estimate"
+          subtitle="We've received your message and will get back to you within 24 hours. You should also receive a confirmation email shortly."
           heroCTA="Go home"
           heroImgUrl={contactPageCopy.heroImgUrl}
           ctaTallyFormLink="/"

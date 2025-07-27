@@ -33,6 +33,16 @@ export default function AdminSidebar() {
     { name: "Add Document", href: "/admin/add-document", icon: "📄" },
     { name: "Files", href: "/admin/files", icon: "📁" },
     {
+      name: "Contact Submissions",
+      href: "/admin/contact-submissions",
+      icon: "📧",
+    },
+    {
+      name: "Bathroom Renovations",
+      href: "/admin/bathroom-renovations",
+      icon: "🚿",
+    },
+    {
       name: "Notification Management",
       href: "/admin/notification-management",
       icon: "🔔",
