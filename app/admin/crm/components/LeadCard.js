@@ -41,16 +41,33 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
   };
 
   const handleStageChange = async (newStage) => {
-    if (!lead.id || newStage === lead.stage) return;
+    const leadId = lead.id || lead._id;
+    console.log("🔄 Stage change requested:", {
+      leadId,
+      currentStage: lead.stage,
+      newStage,
+    });
+
+    if (!leadId || newStage === lead.stage) {
+      console.log("❌ Stage change skipped:", {
+        leadId,
+        currentStage: lead.stage,
+        newStage,
+      });
+      return;
+    }
 
     setIsUpdating(true);
     try {
+      console.log("📞 Calling onStageUpdate with:", { leadId, newStage });
       await onStageUpdate(
-        lead.id,
+        leadId,
         newStage,
         `Stage changed from ${lead.stage} to ${newStage}`,
       );
+      console.log("✅ Stage update completed successfully");
     } catch (error) {
+      console.error("❌ Stage update failed:", error);
       toast.error("Failed to update stage");
     } finally {
       setIsUpdating(false);

@@ -109,6 +109,7 @@ export default function CRMPage() {
   const handleCreateLead = async (leadData) => {
     try {
       const response = await apiClient.post("/crm/leads", leadData);
+      console.log("✅ New lead created:", response.lead);
       setLeads((prev) => [response.lead, ...prev]);
       setShowCreateModal(false);
       toast.success("Lead created successfully");
@@ -128,9 +129,11 @@ export default function CRMPage() {
     try {
       const response = await apiClient.put(`/crm/leads/${leadId}`, updates);
       setLeads((prev) =>
-        prev.map((lead) =>
-          (lead.id || lead._id) === leadId ? response.lead : lead,
-        ),
+        prev.map((lead) => {
+          const currentLeadId = String(lead.id || lead._id);
+          const targetLeadId = String(leadId);
+          return currentLeadId === targetLeadId ? response.lead : lead;
+        }),
       );
       toast.success("Lead updated successfully");
     } catch (error) {
@@ -140,25 +143,40 @@ export default function CRMPage() {
   };
 
   const handleStageUpdate = async (leadId, newStage, comment) => {
+    console.log("🔄 handleStageUpdate called:", { leadId, newStage, comment });
+
     // Guard against invalid lead ID
     if (!leadId) {
+      console.log("❌ Invalid lead ID");
       toast.error("Invalid lead ID");
       return;
     }
 
     try {
+      console.log("📞 Making API call to update stage");
       const response = await apiClient.put(`/crm/leads/${leadId}/stage`, {
         stage: newStage,
         comment,
       });
+      console.log("✅ API response received:", response);
+
       setLeads((prev) =>
-        prev.map((lead) =>
-          (lead.id || lead._id) === leadId ? response.lead : lead,
-        ),
+        prev.map((lead) => {
+          const currentLeadId = String(lead.id || lead._id);
+          const targetLeadId = String(leadId);
+          const responseLeadId = String(response.lead.id || response.lead._id);
+          console.log("🔄 Comparing lead IDs:", {
+            currentLeadId,
+            targetLeadId,
+            responseLeadId,
+            match: currentLeadId === targetLeadId,
+          });
+          return currentLeadId === targetLeadId ? response.lead : lead;
+        }),
       );
       toast.success(`Lead moved to ${newStage}`);
     } catch (error) {
-      console.error("Error updating stage:", error);
+      console.error("❌ Error updating stage:", error);
       toast.error(error.response?.data?.error || "Failed to update stage");
     }
   };
@@ -189,7 +207,9 @@ export default function CRMPage() {
   };
 
   const getLeadsByStage = (stage) => {
-    return filteredLeads.filter((lead) => lead.stage === stage);
+    const stageLeads = filteredLeads.filter((lead) => lead.stage === stage);
+    console.log(`📊 Found ${stageLeads.length} leads in stage: ${stage}`);
+    return stageLeads;
   };
 
   if (loading) {
