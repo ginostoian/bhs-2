@@ -790,3 +790,60 @@ export const projectChangeStatusEmailTemplate = (
     text: `Your change request "${changeName}" has been ${statusText}. Cost: ${formattedCost}. View at https://${config.domainName}/dashboard`,
   };
 };
+
+/**
+ * Project Change User Response Email Template
+ * Sent to admin when user accepts or declines a change
+ */
+export const projectChangeUserResponseEmailTemplate = (
+  adminName,
+  userName,
+  changeName,
+  status,
+  cost,
+  projectName,
+) => {
+  const subject = `Project Change ${status} by User`;
+  const formattedCost = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  }).format(cost);
+
+  const statusText = status === "Accepted" ? "accepted" : "declined";
+  const statusColor = status === "Accepted" ? "#10b981" : "#ef4444";
+
+  const content = `
+    <h2>Project Change ${status} by User ${status === "Accepted" ? "✅" : "❌"}</h2>
+    
+    <p>Hello ${adminName || "Admin"},</p>
+    
+    <p>A user has ${statusText} a project change request. Here are the details:</p>
+    
+    <div class="document-card">
+      <h3 style="margin: 0 0 15px 0; color: #333;">Change Details:</h3>
+      <p style="margin: 8px 0;"><strong>Project:</strong> ${projectName}</p>
+      <p style="margin: 8px 0;"><strong>User:</strong> ${userName}</p>
+      <p style="margin: 8px 0;"><strong>Change Name:</strong> ${changeName}</p>
+      <p style="margin: 8px 0;"><strong>Cost:</strong> ${formattedCost}</p>
+      <p style="margin: 8px 0;"><strong>Status:</strong> <span style="color: ${statusColor}; font-weight: bold;">${status}</span></p>
+      <p style="margin: 8px 0;"><strong>Response Date:</strong> ${new Date().toLocaleDateString("en-GB")}</p>
+    </div>
+    
+    <div style="text-align: center;">
+      <a href="https://${config.domainName}/admin/projects" class="button">
+        View Project Details
+      </a>
+    </div>
+    
+    <p>You can view the full project details and manage other changes from the admin panel.</p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Project Change ${status} by User`,
+    html: baseTemplate(content, `Project Change ${status} by User`),
+    text: `User ${userName} has ${statusText} the change request "${changeName}" for project "${projectName}". Cost: ${formattedCost}. View at https://${config.domainName}/admin/projects`,
+  };
+};

@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import toJSON from "./plugins/toJSON";
 import Notification from "./Notification";
-import { sendProjectChangeNotificationEmail } from "@/libs/emailService";
+import {
+  sendProjectChangeNotificationEmail,
+  sendProjectChangeUserResponseEmail,
+} from "@/libs/emailService";
 
 /**
  * ProjectChange Schema
@@ -148,7 +151,7 @@ projectChangeSchema.pre("save", async function (next) {
     if (this.isNew) {
       // Create notification for the user
       try {
-        await Notification.createNotification({
+        const notification = await Notification.createNotification({
           recipient: this.user,
           recipientType: "user",
           type: "project_change_added",
@@ -165,12 +168,20 @@ projectChangeSchema.pre("save", async function (next) {
           },
         });
 
+        console.log(
+          `✅ Notification created for project change: ${notification._id}`,
+        );
+
         // Send email notification
         try {
           // Populate user info if not already populated
           if (!this.populated("user")) {
             await this.populate("user", "name email");
           }
+
+          console.log(
+            `📧 Attempting to send email to ${this.user.email} for change: ${this.name}`,
+          );
 
           await sendProjectChangeNotificationEmail(
             this.user.email,
@@ -251,6 +262,70 @@ projectChangeSchema.pre("save", async function (next) {
             console.error(
               `Failed to send project change status email to user ${this.user}:`,
               emailError,
+            );
+          }
+
+          // Send email to project manager if status was changed by user (not admin)
+          try {
+            // Check if the change was made by a user (not admin)
+            // If decidedBy is the same as user, it means the user made the decision
+            if (
+              this.decidedBy &&
+              this.decidedBy.toString() === this.user.toString()
+            ) {
+              // Get project details with project manager
+              const Project = mongoose.model("Project");
+              const project = await Project.findById(this.project)
+                .populate("projectManager", "name email")
+                .lean();
+
+              if (project && project.projectManager) {
+                console.log(
+                  `📧 Sending admin notification to project manager ${project.projectManager.email} for change: ${this.name}`,
+                );
+
+                // Create notification for project manager
+                await Notification.createNotification({
+                  recipient: project.projectManager._id,
+                  recipientType: "employee",
+                  type: "project_change_user_response",
+                  title: `Project Change ${this.status} by User`,
+                  message: `User ${this.user.name || this.user.email} has ${this.status === "Accepted" ? "accepted" : "declined"} the change request "${this.name}" for project "${project.name}".`,
+                  relatedId: this._id,
+                  relatedModel: "ProjectChange",
+                  priority: "medium",
+                  metadata: {
+                    changeId: this._id,
+                    projectId: this.project,
+                    changeName: this.name,
+                    status: this.status,
+                    cost: this.cost,
+                    userName: this.user.name || this.user.email,
+                    projectName: project.name,
+                  },
+                });
+
+                await sendProjectChangeUserResponseEmail(
+                  project.projectManager.email,
+                  project.projectManager.name,
+                  this.user.name || this.user.email,
+                  this.name,
+                  this.status,
+                  this.cost,
+                  project.name,
+                );
+
+                console.log(
+                  `✅ Project change user response email sent to project manager ${project.projectManager.email} for change: ${this.name}`,
+                );
+              } else {
+                console.log("⚠️ No project manager found for this project");
+              }
+            }
+          } catch (adminEmailError) {
+            console.error(
+              `Failed to send project change user response email to project manager:`,
+              adminEmailError,
             );
           }
         } catch (notificationError) {

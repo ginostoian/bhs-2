@@ -32,6 +32,7 @@ const notificationSchema = mongoose.Schema(
         "project_status_changed",
         "project_change_added",
         "project_change_status_changed",
+        "project_change_user_response",
         "announcement",
         // Employee notifications
         "task_assigned",
@@ -72,7 +73,15 @@ const notificationSchema = mongoose.Schema(
     // Model name for the related document
     relatedModel: {
       type: String,
-      enum: ["Document", "Payment", "User", "Task", "Project", "ProjectChange"],
+      enum: [
+        "Document",
+        "Payment",
+        "User",
+        "Task",
+        "Project",
+        "ProjectChange",
+        "Employee",
+      ],
     },
     // Additional data for the notification
     metadata: {

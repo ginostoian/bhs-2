@@ -34,8 +34,9 @@ const NotificationBell = ({ userProjectStatus }) => {
 
   // Check if user should receive real-time notifications
   const shouldPollForNotifications = () => {
-    const activeStatuses = ["Lead", "On Going"];
-    return userProjectStatus && activeStatuses.includes(userProjectStatus);
+    // For project changes, we want to show notifications regardless of project status
+    // since changes can happen at any stage of the project
+    return true;
   };
 
   // Fetch notifications
@@ -43,12 +44,18 @@ const NotificationBell = ({ userProjectStatus }) => {
     // Don't fetch if component is unmounting
     if (!document.hidden) {
       try {
+        console.log("🔔 Fetching notifications...");
         const response = await fetch("/api/notifications?limit=10");
         if (response.ok) {
           const data = await response.json();
+          console.log(
+            `📧 Found ${data.notifications.length} notifications, ${data.unreadCount} unread`,
+          );
           setNotifications(data.notifications);
           setUnreadCount(data.unreadCount);
           setLastUpdated(new Date());
+        } else {
+          console.error("Failed to fetch notifications:", response.status);
         }
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
@@ -119,6 +126,8 @@ const NotificationBell = ({ userProjectStatus }) => {
         return <RefreshCw className="h-4 w-4 text-blue-500" />;
       case "project_change_status_changed":
         return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case "project_change_user_response":
+        return <RefreshCw className="h-4 w-4 text-purple-500" />;
       case "announcement":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
       default:

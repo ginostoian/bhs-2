@@ -670,6 +670,45 @@ export const sendProjectChangeStatusEmail = async (
   });
 };
 
+export const sendProjectChangeUserResponseEmail = async (
+  adminEmail,
+  adminName,
+  userName,
+  changeName,
+  status,
+  cost,
+  projectName,
+) => {
+  const { projectChangeUserResponseEmailTemplate } = await import(
+    "./emailTemplates"
+  );
+  const template = projectChangeUserResponseEmailTemplate(
+    adminName,
+    userName,
+    changeName,
+    status,
+    cost,
+    projectName,
+  );
+
+  return await sendEmailWithRetry({
+    to: adminEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "project_change_user_response",
+      adminName,
+      userName,
+      changeName,
+      status,
+      cost,
+      projectName,
+      adminEmail,
+    },
+  });
+};
+
 /**
  * Get email tracking statistics
  * @returns {Promise<Object>} - Email tracking statistics
