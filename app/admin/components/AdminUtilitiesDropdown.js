@@ -9,6 +9,7 @@ export default function AdminUtilitiesDropdown() {
   const [isLinkingLeads, setIsLinkingLeads] = useState(false);
   const [isSendingBrief, setIsSendingBrief] = useState(false);
   const [isSendingAgingAlert, setIsSendingAgingAlert] = useState(false);
+  const [isProcessingDueEmails, setIsProcessingDueEmails] = useState(false);
   const dropdownRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -93,6 +94,27 @@ export default function AdminUtilitiesDropdown() {
     }
   };
 
+  const handleProcessDueEmails = async () => {
+    setIsProcessingDueEmails(true);
+    try {
+      const response = await apiClient.post("/admin/process-due-emails");
+      const details = response.details;
+      if (details && details.processed > 0) {
+        toast.success(
+          `Processed ${details.processed} email automations successfully`,
+        );
+      } else {
+        toast.success("No due emails found to process");
+      }
+    } catch (error) {
+      console.error("Error processing due emails:", error);
+      toast.error("Failed to process due emails");
+    } finally {
+      setIsProcessingDueEmails(false);
+      setIsOpen(false);
+    }
+  };
+
   const utilities = [
     {
       name: "Link Leads to Users",
@@ -115,6 +137,13 @@ export default function AdminUtilitiesDropdown() {
       icon: "⚠️",
       action: handleSendAgingAlert,
       loading: isSendingAgingAlert,
+    },
+    {
+      name: "Process Due Emails",
+      description: "Process all due automation emails",
+      icon: "📬",
+      action: handleProcessDueEmails,
+      loading: isProcessingDueEmails,
     },
   ];
 

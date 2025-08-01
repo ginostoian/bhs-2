@@ -258,8 +258,8 @@ const Footer = () => {
 
         <div className={classes["footer__body-copyright"]}>
           <div>
-            Copyright &copy; {new Date().getFullYear()} - The Wisehome Group
-            Limited
+            Copyright &copy; {new Date().getFullYear()} - The Home Development
+            Group Limited
           </div>
           <div>Trading as Better Homes Studio</div>
           <div className="dot-divider"></div>
