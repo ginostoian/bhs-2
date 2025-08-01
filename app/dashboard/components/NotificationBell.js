@@ -9,6 +9,8 @@ import {
   FileText,
   CreditCard,
   AlertCircle,
+  RefreshCw,
+  CheckCircle,
 } from "lucide-react";
 
 /**
@@ -113,6 +115,10 @@ const NotificationBell = ({ userProjectStatus }) => {
         return <CreditCard className="h-4 w-4 text-green-500" />;
       case "project_status_changed":
         return <AlertCircle className="h-4 w-4 text-purple-500" />;
+      case "project_change_added":
+        return <RefreshCw className="h-4 w-4 text-blue-500" />;
+      case "project_change_status_changed":
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
       case "announcement":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
       default:

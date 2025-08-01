@@ -16,6 +16,7 @@ export default function DashboardNav() {
     { name: "Moodboards", href: "/dashboard/moodboards", icon: "🎨" },
     { name: "Invoices", href: "/dashboard/invoices", icon: "💰" },
     { name: "Payments", href: "/dashboard/payments", icon: "💳" },
+    { name: "Changes", href: "/dashboard/changes", icon: "🔄" },
     { name: "Instructions", href: "/dashboard/instructions", icon: "📋" },
     { name: "Photos", href: "/dashboard/photos", icon: "📸" },
     { name: "Request Quote", href: "/dashboard/request-quote", icon: "➕" },

@@ -6,6 +6,7 @@ import User from "@/models/User";
 import Document from "@/models/Document";
 import Payment from "@/models/Payment";
 import Expense from "@/models/Expense";
+import ProjectChange from "@/models/ProjectChange";
 import { notFound } from "next/navigation";
 import ProjectDetailClient from "./components/ProjectDetailClient";
 
@@ -98,6 +99,45 @@ export default async function ProjectDetailPage({ params, searchParams }) {
       })),
     );
 
+  // Fetch project changes
+  const changes = await ProjectChange.find({ project: projectId })
+    .sort({ order: 1 })
+    .populate("user", "name email")
+    .populate("decidedBy", "name")
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        id: doc._id.toString(),
+        project: doc.project.toString(),
+        user: doc.user
+          ? {
+              id: doc.user._id.toString(),
+              name: doc.user.name,
+              email: doc.user.email,
+            }
+          : null,
+        changeNumber: doc.changeNumber,
+        name: doc.name,
+        description: doc.description,
+        cost: doc.cost,
+        status: doc.status,
+        includedInPaymentPlan: doc.includedInPaymentPlan,
+        type: doc.type,
+        order: doc.order,
+        adminNotes: doc.adminNotes,
+        requestedDate: doc.requestedDate,
+        decisionDate: doc.decisionDate,
+        decidedBy: doc.decidedBy
+          ? {
+              id: doc.decidedBy._id.toString(),
+              name: doc.decidedBy.name,
+            }
+          : null,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+      })),
+    );
+
   // Convert project to plain object
   const projectData = {
     id: project._id.toString(),
@@ -139,6 +179,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
         documentsByType={documentsByType}
         payments={payments}
         expenses={expenses}
+        changes={changes}
         activeTab={activeTab}
       />
     </div>

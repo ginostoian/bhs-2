@@ -10,6 +10,7 @@ import ProjectInfoModal from "./ProjectInfoModal";
 import EnhancedNotesTab from "./EnhancedNotesTab";
 import GanttChart from "./GanttChart";
 import ExpensesTab from "./ExpensesTab";
+import ChangesTab from "./ChangesTab";
 
 /**
  * Project Detail Client Component
@@ -20,6 +21,7 @@ export default function ProjectDetailClient({
   documentsByType: initialDocumentsByType,
   payments: initialPayments,
   expenses: initialExpenses,
+  changes: initialChanges,
   activeTab: initialActiveTab,
 }) {
   const router = useRouter();
@@ -29,6 +31,7 @@ export default function ProjectDetailClient({
   const [documentsByType] = useState(initialDocumentsByType);
   const [payments] = useState(initialPayments);
   const [expenses] = useState(initialExpenses);
+  const [changes] = useState(initialChanges);
   const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [sections, setSections] = useState([]);
@@ -349,6 +352,7 @@ export default function ProjectDetailClient({
     { id: "milestones", name: "Milestones", icon: "🎯" },
     { id: "documents", name: "Documents", icon: "📄" },
     { id: "payments", name: "Payment Plan", icon: "💰" },
+    { id: "changes", name: "Changes", icon: "🔄" },
     { id: "expenses", name: "Expenses", icon: "💳" },
     { id: "notes", name: "Notes", icon: "📝" },
     { id: "gantt", name: "Gantt Chart", icon: "📈" },
@@ -1497,6 +1501,17 @@ export default function ProjectDetailClient({
                   </Link>
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === "changes" && (
+            <div className="p-6">
+              <ChangesTab
+                projectId={project.id}
+                projectName={project.name}
+                userName={project.user.name || project.user.email}
+                changes={changes}
+              />
             </div>
           )}
 

@@ -683,3 +683,110 @@ export const userInactivityEmailTemplate = (
     text: `User ${userName || "Unknown"} has been inactive for ${daysInactive} days. Last login: ${lastLoginFormatted}.`,
   };
 };
+
+/**
+ * Project Change Notification Email Template
+ * Sent to user when a new project change is added
+ */
+export const projectChangeNotificationEmailTemplate = (
+  userName,
+  changeName,
+  cost,
+  type,
+  description = null,
+) => {
+  const formattedCost = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  }).format(cost);
+
+  const content = `
+    <h2>New Project Change Request 📋</h2>
+    
+    <p>Dear ${userName || "Valued Customer"},</p>
+    
+    <p>A new change request has been added to your project that requires your review and approval.</p>
+    
+    <div class="document-card">
+      <h3 style="margin: 0 0 15px 0; color: #333;">Change Details:</h3>
+      <p style="margin: 8px 0;"><strong>Name:</strong> ${changeName}</p>
+      <p style="margin: 8px 0;"><strong>Cost:</strong> ${formattedCost}</p>
+      <p style="margin: 8px 0;"><strong>Type:</strong> ${type}</p>
+      ${description ? `<p style="margin: 8px 0;"><strong>Description:</strong> ${description}</p>` : ""}
+    </div>
+    
+    <p>Please log into your dashboard to review this change request and provide your approval or decline.</p>
+    
+    <div style="text-align: center;">
+      <a href="https://${config.domainName}/dashboard" class="button">
+        Review Change Request
+      </a>
+    </div>
+    
+    <p>If you have any questions about this change request, please contact our support team at 
+    <a href="mailto:${config.resend.supportEmail}">${config.resend.supportEmail}</a></p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: "New Project Change Request",
+    html: baseTemplate(content, "New Project Change Request"),
+    text: `New project change request "${changeName}" has been added. Cost: ${formattedCost}, Type: ${type}. Review at https://${config.domainName}/dashboard`,
+  };
+};
+
+/**
+ * Project Change Status Email Template
+ * Sent to user when a project change is approved or declined
+ */
+export const projectChangeStatusEmailTemplate = (
+  userName,
+  changeName,
+  status,
+  cost,
+  adminNotes = null,
+) => {
+  const formattedCost = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  }).format(cost);
+
+  const statusText = status === "Accepted" ? "approved" : "declined";
+  const alertClass = status === "Accepted" ? "alert-success" : "alert-urgent";
+
+  const content = `
+    <h2>Project Change ${status} ${status === "Accepted" ? "✅" : "❌"}</h2>
+    
+    <p>Dear ${userName || "Valued Customer"},</p>
+    
+    <p>Your change request has been ${statusText}. Here are the details:</p>
+    
+    <div class="document-card">
+      <h3 style="margin: 0 0 15px 0; color: #333;">Change Details:</h3>
+      <p style="margin: 8px 0;"><strong>Name:</strong> ${changeName}</p>
+      <p style="margin: 8px 0;"><strong>Cost:</strong> ${formattedCost}</p>
+      <p style="margin: 8px 0;"><strong>Status:</strong> <span style="color: ${status === "Accepted" ? "#28a745" : "#dc3545"}; font-weight: bold;">${status}</span></p>
+      ${adminNotes ? `<p style="margin: 8px 0;"><strong>Notes:</strong> ${adminNotes}</p>` : ""}
+    </div>
+    
+    <div style="text-align: center;">
+      <a href="https://${config.domainName}/dashboard" class="button">
+        View in Dashboard
+      </a>
+    </div>
+    
+    <p>If you have any questions about this decision, please contact our support team at 
+    <a href="mailto:${config.resend.supportEmail}">${config.resend.supportEmail}</a></p>
+    
+    <p>Best regards,<br>
+    The Better Homes Studio Team</p>
+  `;
+
+  return {
+    subject: `Project Change ${status}`,
+    html: baseTemplate(content, `Project Change ${status}`),
+    text: `Your change request "${changeName}" has been ${statusText}. Cost: ${formattedCost}. View at https://${config.domainName}/dashboard`,
+  };
+};

@@ -602,6 +602,74 @@ export const sendUserInactivityEmail = async (
   });
 };
 
+export const sendProjectChangeNotificationEmail = async (
+  userEmail,
+  userName,
+  changeName,
+  cost,
+  type,
+  description = null,
+) => {
+  const { projectChangeNotificationEmailTemplate } = await import(
+    "./emailTemplates"
+  );
+  const template = projectChangeNotificationEmailTemplate(
+    userName,
+    changeName,
+    cost,
+    type,
+    description,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "project_change_notification",
+      userName,
+      changeName,
+      cost,
+      type,
+      userEmail,
+    },
+  });
+};
+
+export const sendProjectChangeStatusEmail = async (
+  userEmail,
+  userName,
+  changeName,
+  status,
+  cost,
+  adminNotes = null,
+) => {
+  const { projectChangeStatusEmailTemplate } = await import("./emailTemplates");
+  const template = projectChangeStatusEmailTemplate(
+    userName,
+    changeName,
+    status,
+    cost,
+    adminNotes,
+  );
+
+  return await sendEmailWithRetry({
+    to: userEmail,
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+    metadata: {
+      type: "project_change_status",
+      userName,
+      changeName,
+      status,
+      cost,
+      userEmail,
+    },
+  });
+};
+
 /**
  * Get email tracking statistics
  * @returns {Promise<Object>} - Email tracking statistics
