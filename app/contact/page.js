@@ -139,6 +139,145 @@ export default function Page() {
           ctaTallyFormLink={contactPageCopy.ctaTallyFormLink}
         />
         <SocialProof />
+
+        {/* Warranty/Ticket Section */}
+        <section className="mx-auto max-w-[85%] py-16">
+          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div className="rounded-3xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8 md:p-12">
+              <div className="mb-8 text-center">
+                <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
+                  Need Warranty Support?
+                </h2>
+                <p className="mx-auto max-w-2xl text-lg text-gray-600">
+                  If you have a warranty claim or need support with your
+                  project, we have a dedicated ticketing system to help you get
+                  the assistance you need quickly and efficiently.
+                </p>
+              </div>
+
+              <div className="grid items-center gap-8 md:grid-cols-2">
+                <div>
+                  <h3 className="mb-4 text-xl font-semibold text-gray-900">
+                    Our Warranty Promise
+                  </h3>
+                  <ul className="space-y-3 text-gray-700">
+                    <li className="flex items-start">
+                      <svg
+                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      Industry-leading workmanship guarantee
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      Dedicated support team
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      Fast response times
+                    </li>
+                    <li className="flex items-start">
+                      <svg
+                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      Track your ticket progress online
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="text-center">
+                  <div className="rounded-2xl bg-white p-6 shadow-lg">
+                    <div className="mb-4">
+                      <svg
+                        className="mx-auto h-12 w-12 text-blue-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <h4 className="mb-2 text-lg font-semibold text-gray-900">
+                      Submit a Support Ticket
+                    </h4>
+                    <p className="mb-4 text-gray-600">
+                      Log in to your account to submit warranty claims and
+                      support requests through our ticketing system.
+                    </p>
+                    <Link
+                      href="/auth/signin?callbackUrl=/dashboard/tickets/new"
+                      className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                      <svg
+                        className="-ml-1 mr-2 h-5 w-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
+                      </svg>
+                      Create Support Ticket
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <ContactForm />
         <SectionTitle
           title="Why choose us"

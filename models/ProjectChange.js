@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import toJSON from "./plugins/toJSON";
-import Notification from "./Notification";
 import {
   sendProjectChangeNotificationEmail,
   sendProjectChangeUserResponseEmail,
+  sendProjectChangeStatusEmail,
 } from "@/libs/emailService";
 
 /**
@@ -151,6 +151,7 @@ projectChangeSchema.pre("save", async function (next) {
     if (this.isNew) {
       // Create notification for the user
       try {
+        const { Notification } = await import("./index.js");
         const notification = await Notification.createNotification({
           recipient: this.user,
           recipientType: "user",
@@ -218,6 +219,7 @@ projectChangeSchema.pre("save", async function (next) {
       if (previousStatus === "Review") {
         // Create notification for status change
         try {
+          const { Notification } = await import("./index.js");
           const statusText =
             this.status === "Accepted" ? "approved" : "declined";
 
@@ -274,7 +276,7 @@ projectChangeSchema.pre("save", async function (next) {
               this.decidedBy.toString() === this.user.toString()
             ) {
               // Get project details with project manager
-              const Project = mongoose.model("Project");
+              const { Project } = await import("./index.js");
               const project = await Project.findById(this.project)
                 .populate("projectManager", "name email")
                 .lean();
@@ -285,6 +287,7 @@ projectChangeSchema.pre("save", async function (next) {
                 );
 
                 // Create notification for project manager
+                const { Notification } = await import("./index.js");
                 await Notification.createNotification({
                   recipient: project.projectManager._id,
                   recipientType: "employee",

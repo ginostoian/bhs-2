@@ -157,7 +157,7 @@ projectSchema.statics.getProjectsByType = function (type) {
 
 // Instance method to update progress based on tasks
 projectSchema.methods.updateProgress = async function () {
-  const Task = mongoose.model("Task");
+  const { Task } = await import("./index.js");
   const totalTasks = await Task.countDocuments({ project: this._id });
   const completedTasks = await Task.countDocuments({
     project: this._id,

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
-import ProjectChange from "@/models/ProjectChange";
+import { ProjectChange, Project } from "@/models/index.js";
 import UserChangesClient from "./components/UserChangesClient";
 
 /**
