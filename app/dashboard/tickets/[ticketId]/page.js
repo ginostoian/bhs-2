@@ -26,7 +26,7 @@ export default function TicketDetailPage() {
     }
 
     fetchTicket();
-  }, [session, status, router, ticketId]);
+  }, [session, status, router, ticketId, fetchTicket]);
 
   const fetchTicket = async () => {
     try {
@@ -182,7 +182,7 @@ export default function TicketDetailPage() {
               Ticket not found
             </h1>
             <p className="mt-2 text-gray-600">
-              The ticket you're looking for doesn't exist.
+              The ticket you&apos;re looking for doesn&apos;t exist.
             </p>
             <Link
               href="/dashboard/tickets"
