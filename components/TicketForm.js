@@ -313,7 +313,7 @@ const TicketForm = () => {
                   onChange={handleInputChange}
                   rows={6}
                   className="w-full resize-none rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
-                  placeholder="Please provide detailed information about your issue, including any relevant context, steps to reproduce, and what you've already tried..."
+                  placeholder="Please provide detailed information about your issue, including any relevant context, steps to reproduce, and what you have already tried..."
                   required
                 />
                 <p className="mt-2 text-sm text-gray-500">
