@@ -37,7 +37,15 @@ export default function AdminTicketsPage() {
     fetchStats();
     fetchEmployees();
     fetchProjects();
-  }, [session, status, router, filters, searchTerm, page]);
+  }, [session, status, router]);
+
+  // Separate useEffect for filters and search to prevent unnecessary re-renders
+  useEffect(() => {
+    if (status === "loading" || !session || session.user.role !== "admin")
+      return;
+
+    fetchTickets();
+  }, [filters, searchTerm, page]);
 
   const fetchTickets = async () => {
     try {
@@ -58,7 +66,9 @@ export default function AdminTicketsPage() {
         setTickets(data.tickets || []);
         setTotalPages(data.pagination?.pages || 1);
       } else {
-        toast.error("Failed to fetch tickets");
+        const errorData = await response.json();
+        console.error("Ticket fetch error:", errorData);
+        toast.error(errorData.error || "Failed to fetch tickets");
       }
     } catch (error) {
       console.error("Error fetching tickets:", error);
@@ -74,9 +84,14 @@ export default function AdminTicketsPage() {
       if (response.ok) {
         const data = await response.json();
         setStats(data.overview || {});
+      } else {
+        const errorData = await response.json();
+        console.error("Stats fetch error:", errorData);
+        // Don't show toast for stats errors as they're not critical
       }
     } catch (error) {
       console.error("Error fetching stats:", error);
+      // Don't show toast for stats errors as they're not critical
     }
   };
 
@@ -86,6 +101,9 @@ export default function AdminTicketsPage() {
       if (response.ok) {
         const data = await response.json();
         setEmployees(data.employees || []);
+      } else {
+        const errorData = await response.json();
+        console.error("Employees fetch error:", errorData);
       }
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -98,6 +116,9 @@ export default function AdminTicketsPage() {
       if (response.ok) {
         const data = await response.json();
         setProjects(data.projects || []);
+      } else {
+        const errorData = await response.json();
+        console.error("Projects fetch error:", errorData);
       }
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -205,25 +226,6 @@ export default function AdminTicketsPage() {
                 </p>
               </div>
               <div className="mt-4 flex space-x-3 sm:mt-0">
-                <Link
-                  href="/admin/tickets/stats"
-                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
-                  <svg
-                    className="-ml-1 mr-2 h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
-                  View Stats
-                </Link>
                 <Link
                   href="/admin/calendar"
                   className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"

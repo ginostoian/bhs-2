@@ -69,138 +69,173 @@ export async function GET(request) {
     });
 
     // Category breakdown
-    const categoryStats = await Ticket.aggregate([
-      { $match: dateFilter },
-      {
-        $group: {
-          _id: "$category",
-          count: { $sum: 1 },
+    let categoryStats = [];
+    try {
+      categoryStats = await Ticket.aggregate([
+        { $match: dateFilter },
+        {
+          $group: {
+            _id: "$category",
+            count: { $sum: 1 },
+          },
         },
-      },
-      { $sort: { count: -1 } },
-    ]);
+        { $sort: { count: -1 } },
+      ]);
+    } catch (error) {
+      console.error("Error in category stats aggregation:", error);
+    }
 
     // Priority breakdown
-    const priorityStats = await Ticket.aggregate([
-      { $match: dateFilter },
-      {
-        $group: {
-          _id: "$priority",
-          count: { $sum: 1 },
+    let priorityStats = [];
+    try {
+      priorityStats = await Ticket.aggregate([
+        { $match: dateFilter },
+        {
+          $group: {
+            _id: "$priority",
+            count: { $sum: 1 },
+          },
         },
-      },
-      { $sort: { count: -1 } },
-    ]);
+        { $sort: { count: -1 } },
+      ]);
+    } catch (error) {
+      console.error("Error in priority stats aggregation:", error);
+    }
 
     // Status breakdown
-    const statusStats = await Ticket.aggregate([
-      { $match: dateFilter },
-      {
-        $group: {
-          _id: "$status",
-          count: { $sum: 1 },
+    let statusStats = [];
+    try {
+      statusStats = await Ticket.aggregate([
+        { $match: dateFilter },
+        {
+          $group: {
+            _id: "$status",
+            count: { $sum: 1 },
+          },
         },
-      },
-      { $sort: { count: -1 } },
-    ]);
+        { $sort: { count: -1 } },
+      ]);
+    } catch (error) {
+      console.error("Error in status stats aggregation:", error);
+    }
 
     // Daily ticket creation trend
-    const dailyTrend = await Ticket.aggregate([
-      { $match: dateFilter },
-      {
-        $group: {
-          _id: {
-            $dateToString: {
-              format: "%Y-%m-%d",
-              date: "$createdAt",
+    let dailyTrend = [];
+    try {
+      dailyTrend = await Ticket.aggregate([
+        { $match: dateFilter },
+        {
+          $group: {
+            _id: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$createdAt",
+              },
             },
+            count: { $sum: 1 },
           },
-          count: { $sum: 1 },
         },
-      },
-      { $sort: { _id: 1 } },
-    ]);
+        { $sort: { _id: 1 } },
+      ]);
+    } catch (error) {
+      console.error("Error in daily trend aggregation:", error);
+    }
 
     // Average resolution time (for resolved tickets)
-    const resolutionTimeStats = await Ticket.aggregate([
-      {
-        $match: {
-          ...dateFilter,
-          status: { $in: ["Resolved", "Closed"] },
-          resolvedAt: { $exists: true },
-        },
-      },
-      {
-        $addFields: {
-          resolutionTime: {
-            $divide: [
-              { $subtract: ["$resolvedAt", "$createdAt"] },
-              1000 * 60 * 60 * 24, // Convert to days
-            ],
+    let resolutionTimeStats = [];
+    try {
+      resolutionTimeStats = await Ticket.aggregate([
+        {
+          $match: {
+            ...dateFilter,
+            status: { $in: ["Resolved", "Closed"] },
+            resolvedAt: { $exists: true },
           },
         },
-      },
-      {
-        $group: {
-          _id: null,
-          avgResolutionTime: { $avg: "$resolutionTime" },
-          minResolutionTime: { $min: "$resolutionTime" },
-          maxResolutionTime: { $max: "$resolutionTime" },
-        },
-      },
-    ]);
-
-    // Top assigned employees
-    const employeeStats = await Ticket.aggregate([
-      { $match: { ...dateFilter, assignedTo: { $exists: true } } },
-      {
-        $lookup: {
-          from: "employees",
-          localField: "assignedTo",
-          foreignField: "_id",
-          as: "employee",
-        },
-      },
-      { $unwind: "$employee" },
-      {
-        $group: {
-          _id: "$assignedTo",
-          employeeName: { $first: "$employee.name" },
-          ticketCount: { $sum: 1 },
-          resolvedCount: {
-            $sum: {
-              $cond: [{ $in: ["$status", ["Resolved", "Closed"]] }, 1, 0],
+        {
+          $addFields: {
+            resolutionTime: {
+              $divide: [
+                { $subtract: ["$resolvedAt", "$createdAt"] },
+                1000 * 60 * 60 * 24, // Convert to days
+              ],
             },
           },
         },
-      },
-      { $sort: { ticketCount: -1 } },
-      { $limit: 10 },
-    ]);
+        {
+          $group: {
+            _id: null,
+            avgResolutionTime: { $avg: "$resolutionTime" },
+            minResolutionTime: { $min: "$resolutionTime" },
+            maxResolutionTime: { $max: "$resolutionTime" },
+          },
+        },
+      ]);
+    } catch (error) {
+      console.error("Error in resolution time aggregation:", error);
+    }
+
+    // Top assigned employees
+    let employeeStats = [];
+    try {
+      employeeStats = await Ticket.aggregate([
+        { $match: { ...dateFilter, assignedTo: { $exists: true } } },
+        {
+          $lookup: {
+            from: "employees",
+            localField: "assignedTo",
+            foreignField: "_id",
+            as: "employee",
+          },
+        },
+        { $unwind: "$employee" },
+        {
+          $group: {
+            _id: "$assignedTo",
+            employeeName: { $first: "$employee.name" },
+            ticketCount: { $sum: 1 },
+            resolvedCount: {
+              $sum: {
+                $cond: [{ $in: ["$status", ["Resolved", "Closed"]] }, 1, 0],
+              },
+            },
+          },
+        },
+        { $sort: { ticketCount: -1 } },
+        { $limit: 10 },
+      ]);
+    } catch (error) {
+      console.error("Error in employee stats aggregation:", error);
+    }
 
     // Project-linked tickets
-    const projectStats = await Ticket.aggregate([
-      { $match: { ...dateFilter, project: { $exists: true } } },
-      {
-        $lookup: {
-          from: "projects",
-          localField: "project",
-          foreignField: "_id",
-          as: "project",
+    let projectStats = [];
+    try {
+      projectStats = await Ticket.aggregate([
+        { $match: { ...dateFilter, project: { $exists: true } } },
+        {
+          $lookup: {
+            from: "projects",
+            localField: "project",
+            foreignField: "_id",
+            as: "project",
+          },
         },
-      },
-      { $unwind: "$project" },
-      {
-        $group: {
-          _id: "$project",
-          projectName: { $first: "$project.name" },
-          projectType: { $first: "$project.type" },
-          ticketCount: { $sum: 1 },
+        { $unwind: "$project" },
+        {
+          $group: {
+            _id: "$project",
+            projectName: { $first: "$project.name" },
+            projectType: { $first: "$project.type" },
+            ticketCount: { $sum: 1 },
+          },
         },
-      },
-      { $sort: { ticketCount: -1 } },
-      { $limit: 10 },
-    ]);
+        { $sort: { ticketCount: -1 } },
+        { $limit: 10 },
+      ]);
+    } catch (error) {
+      console.error("Error in project stats aggregation:", error);
+    }
 
     return NextResponse.json({
       overview: {

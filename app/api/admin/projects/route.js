@@ -24,7 +24,13 @@ export async function GET(request) {
       .populate("user", "name email")
       .sort({ createdAt: -1 });
 
-    return NextResponse.json({ projects });
+    // Convert projects to JSON and ensure _id is a string
+    const projectsJson = projects.map((project) => ({
+      ...project.toJSON(),
+      _id: project._id.toString(),
+    }));
+
+    return NextResponse.json({ projects: projectsJson });
   } catch (error) {
     console.error("Error fetching projects:", error);
     return NextResponse.json(

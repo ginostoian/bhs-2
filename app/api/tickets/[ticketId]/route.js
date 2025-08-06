@@ -44,6 +44,13 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
+    console.log("Ticket data being returned:", {
+      customerEmail: ticket.customerEmail,
+      customerPhone: ticket.customerPhone,
+      userEmail: ticket.user?.email,
+      userPhone: ticket.user?.phone,
+    }); // Debug log
+
     return NextResponse.json({ ticket });
   } catch (error) {
     console.error("Error fetching ticket:", error);

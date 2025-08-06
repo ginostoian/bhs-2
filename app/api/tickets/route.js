@@ -130,6 +130,8 @@ export async function POST(request) {
       customerEmail: customerEmail || null,
     };
 
+    console.log("Creating ticket with data:", ticketData); // Debug log
+
     const ticket = new Ticket(ticketData);
     await ticket.save();
 

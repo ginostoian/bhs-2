@@ -37,17 +37,33 @@ export default function AdminTicketDetailPage() {
 
   const fetchTicket = async () => {
     try {
+      // Check if ticketId is valid (not "stats" or undefined)
+      if (!ticketId || ticketId === "stats" || ticketId === "undefined") {
+        router.push("/admin/tickets");
+        return;
+      }
+
       setLoading(true);
       const response = await fetch(`/api/tickets/${ticketId}`);
+
       if (response.ok) {
         const data = await response.json();
+
+        // Check if ticket data exists
+        if (!data.ticket) {
+          console.error("No ticket data in response:", data);
+          toast.error("Failed to fetch ticket - no data received");
+          router.push("/admin/tickets");
+          return;
+        }
+
         setTicket(data.ticket);
         setEditForm({
-          title: data.ticket.title,
-          description: data.ticket.description,
-          category: data.ticket.category,
-          priority: data.ticket.priority,
-          status: data.ticket.status,
+          title: data.ticket.title || "",
+          description: data.ticket.description || "",
+          category: data.ticket.category || "",
+          priority: data.ticket.priority || "",
+          status: data.ticket.status || "",
           projectId: data.ticket.project?.id || "",
           assignedTo: data.ticket.assignedTo?.id || "",
           scheduledDate: data.ticket.scheduledDate
@@ -59,7 +75,9 @@ export default function AdminTicketDetailPage() {
           tags: data.ticket.tags?.join(", ") || "",
         });
       } else {
-        toast.error("Failed to fetch ticket");
+        const errorData = await response.json();
+        console.error("Ticket fetch error:", errorData);
+        toast.error(errorData.error || "Failed to fetch ticket");
         router.push("/admin/tickets");
       }
     } catch (error) {
