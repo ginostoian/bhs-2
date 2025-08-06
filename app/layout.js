@@ -4,6 +4,7 @@ import PlausibleProvider from "next-plausible";
 
 import Header from "@/components/navigation/Navigation";
 import Footer from "@/components/footer/Footer";
+import WhereWeWork from "@/components/WhereWeWork";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
@@ -25,11 +26,7 @@ export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      data-theme={config.colors.theme}
-      className={font.className}
-    >
+    <html lang="en" data-theme={config.colors.theme} className={font.className}>
       {config.domainName && (
         <head>
           <PlausibleProvider domain={config.domainName} />
@@ -42,6 +39,7 @@ export default function RootLayout({ children }) {
           <Announcement />
           <Header />
           {children}
+          <WhereWeWork />
           <Footer />
         </ClientLayout>
       </body>
