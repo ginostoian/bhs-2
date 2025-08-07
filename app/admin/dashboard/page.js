@@ -6,6 +6,7 @@ import User from "@/models/User";
 import Project from "@/models/Project";
 import EmailAutomation from "@/models/EmailAutomation";
 import AdminTask from "@/models/AdminTask";
+import { Ticket } from "@/models/index.js";
 import { formatDistanceToNow } from "date-fns";
 
 /**
@@ -30,6 +31,8 @@ export default async function AdminDashboardPage() {
     stageStats,
     recentActivities,
     adminTasks,
+    activeTicketsCount,
+    activeTicketsList,
   ] = await Promise.all([
     // All leads with activities
     Lead.find({ isActive: true, isArchived: false })
@@ -122,6 +125,18 @@ export default async function AdminDashboardPage() {
     })
       .populate("project", "name type status")
       .sort({ dueDate: 1, priority: -1 })
+      .lean(),
+
+    // Active tickets: anything not Resolved or Closed
+    Ticket.countDocuments({ status: { $nin: ["Resolved", "Closed"] } }),
+
+    // List of recent active tickets
+    Ticket.find({ status: { $nin: ["Resolved", "Closed"] } })
+      .populate("user", "name email")
+      .populate("assignedTo", "name position")
+      .populate("project", "name type")
+      .sort({ createdAt: -1 })
+      .limit(5)
       .lean(),
   ]);
 
@@ -250,6 +265,36 @@ export default async function AdminDashboardPage() {
         <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <div className="flex items-center">
             <div className="flex-shrink-0">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-teal-100">
+                <svg
+                  className="h-5 w-5 text-teal-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 7h18M3 12h18M3 17h18"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-500">
+                Active Tickets
+              </p>
+              <p className="text-2xl font-semibold text-gray-900">
+                {activeTicketsCount}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100">
                 <svg
                   className="h-5 w-5 text-orange-600"
@@ -308,52 +353,7 @@ export default async function AdminDashboardPage() {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* Ongoing Projects */}
-        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Ongoing Projects
-            </h2>
-            <a
-              href="/admin/projects"
-              className="text-sm text-blue-600 hover:text-blue-500"
-            >
-              View all →
-            </a>
-          </div>
-          {ongoingProjectsList.length > 0 ? (
-            <div className="space-y-3">
-              {ongoingProjectsList.map((project) => (
-                <a
-                  key={project._id}
-                  href={`/admin/projects/${project._id}`}
-                  className="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
-                >
-                  <div>
-                    <p className="font-medium text-gray-900">{project.name}</p>
-                    <p className="text-sm text-gray-500">
-                      {project.user?.email || "No email"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-medium text-gray-900">
-                      £{(project.budget || 0).toLocaleString()}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {project.projectManager?.name || "Unassigned"}
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          ) : (
-            <p className="py-4 text-center text-gray-500">
-              No ongoing projects
-            </p>
-          )}
-        </div>
-
-        {/* Admin Tasks */}
+        {/* 1. My Admin Tasks */}
         <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
@@ -447,7 +447,90 @@ export default async function AdminDashboardPage() {
           )}
         </div>
 
-        {/* Overdue Activities */}
+        {/* 2. Ongoing Projects */}
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Ongoing Projects
+            </h2>
+            <a
+              href="/admin/projects"
+              className="text-sm text-blue-600 hover:text-blue-500"
+            >
+              View all →
+            </a>
+          </div>
+          {ongoingProjectsList.length > 0 ? (
+            <div className="space-y-3">
+              {ongoingProjectsList.map((project) => (
+                <a
+                  key={project._id}
+                  href={`/admin/projects/${project._id}`}
+                  className="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
+                >
+                  <div>
+                    <p className="font-medium text-gray-900">{project.name}</p>
+                    <p className="text-sm text-gray-500">
+                      {project.user?.email || "No email"}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-900">
+                      £{(project.budget || 0).toLocaleString()}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {project.projectManager?.name || "Unassigned"}
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <p className="py-4 text-center text-gray-500">
+              No ongoing projects
+            </p>
+          )}
+        </div>
+
+        {/* 3. Aging Leads */}
+        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Aging Leads</h2>
+            <a
+              href="/admin/crm"
+              className="text-sm text-blue-600 hover:text-blue-500"
+            >
+              View all →
+            </a>
+          </div>
+          {topAgingLeads.length > 0 ? (
+            <div className="space-y-3">
+              {topAgingLeads.map((lead) => (
+                <div
+                  key={lead._id}
+                  className="flex items-center justify-between rounded-lg border border-orange-200 bg-orange-50 p-3"
+                >
+                  <div>
+                    <p className="font-medium text-gray-900">{lead.name}</p>
+                    <p className="text-sm text-orange-600">
+                      {lead.agingDays} days since last contact
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-gray-500">
+                      {lead.assignedTo?.name || "Unassigned"}
+                    </p>
+                    <p className="text-xs text-gray-400">{lead.stage}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="py-4 text-center text-gray-500">No aging leads</p>
+          )}
+        </div>
+
+        {/* 4. Overdue Activities */}
         <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
@@ -499,45 +582,61 @@ export default async function AdminDashboardPage() {
           )}
         </div>
 
-        {/* Aging Leads */}
+        {/* 5. Active Tickets */}
         <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900">Aging Leads</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Active Tickets
+            </h2>
             <a
-              href="/admin/crm"
+              href="/admin/tickets"
               className="text-sm text-blue-600 hover:text-blue-500"
             >
               View all →
             </a>
           </div>
-          {topAgingLeads.length > 0 ? (
+          {activeTicketsList && activeTicketsList.length > 0 ? (
             <div className="space-y-3">
-              {topAgingLeads.map((lead) => (
-                <div
-                  key={lead._id}
-                  className="flex items-center justify-between rounded-lg border border-orange-200 bg-orange-50 p-3"
+              {activeTicketsList.map((ticket) => (
+                <a
+                  key={ticket._id}
+                  href={`/admin/tickets/${ticket._id}`}
+                  className="flex cursor-pointer items-start justify-between rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
                 >
-                  <div>
-                    <p className="font-medium text-gray-900">{lead.name}</p>
-                    <p className="text-sm text-orange-600">
-                      {lead.agingDays} days since last contact
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-gray-900">
+                      {ticket.title}
                     </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500">
-                      {lead.assignedTo?.name || "Unassigned"}
+                    <p className="truncate text-sm text-gray-500">
+                      {ticket.ticketNumber} • {ticket.user?.name || "Unknown"} •{" "}
+                      {new Date(ticket.createdAt).toLocaleDateString("en-GB")}
                     </p>
-                    <p className="text-xs text-gray-400">{lead.stage}</p>
+                    {ticket.description && (
+                      <p className="mt-1 line-clamp-2 text-sm text-gray-600">
+                        {ticket.description}
+                      </p>
+                    )}
                   </div>
-                </div>
+                  <div className="ml-4 flex flex-col items-end space-y-1 text-right">
+                    <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
+                      {ticket.category}
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                      {ticket.priority}
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                      {ticket.status}
+                    </span>
+                  </div>
+                </a>
               ))}
             </div>
           ) : (
-            <p className="py-4 text-center text-gray-500">No aging leads</p>
+            <p className="py-4 text-center text-gray-500">No active tickets</p>
           )}
         </div>
 
-        {/* Recent Activities */}
+        {/* 6. Recent Activities */}
         <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
