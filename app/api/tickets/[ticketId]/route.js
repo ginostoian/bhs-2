@@ -4,7 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import { Ticket, User, Employee, Project } from "@/models/index.js";
 import bunnyStorage from "@/libs/bunnyStorage";
-import { sendEmail } from "@/libs/emailService";
+import { sendEmailWithRetry } from "@/libs/emailService";
 
 // GET /api/tickets/[ticketId] - Get specific ticket
 export async function GET(request, { params }) {
@@ -151,25 +151,45 @@ export async function PUT(request, { params }) {
       .populate("project", "name type")
       .populate("resolvedBy", "name");
 
-    // Send email notification to customer if ticket is closed
-    if (body.status === "Closed" && ticket.status !== "Closed") {
+    // Send email notification to customer on status change
+    if (
+      body.status &&
+      body.status !== ticket.status &&
+      updatedTicket.user?.email
+    ) {
       try {
-        await sendEmail({
+        const { ticketStatusUpdateEmailTemplate } = await import(
+          "@/libs/emailTemplates"
+        );
+        const tpl = ticketStatusUpdateEmailTemplate(
+          updatedTicket.user.name,
+          updatedTicket.ticketNumber,
+          updatedTicket.title,
+          ticket.status,
+          updatedTicket.status,
+          `${process.env.NEXTAUTH_URL}/dashboard/tickets/${updatedTicket._id}`,
+        );
+
+        await sendEmailWithRetry({
           to: updatedTicket.user.email,
-          subject: `Ticket ${updatedTicket.ticketNumber} has been closed`,
-          template: "ticket-closed-notification",
-          data: {
+          subject: tpl.subject,
+          html: tpl.html,
+          text: tpl.text,
+          metadata: {
+            type: "ticket_status_update",
+            ticketId: updatedTicket._id.toString(),
             ticketNumber: updatedTicket.ticketNumber,
-            title: updatedTicket.title,
-            resolution: updatedTicket.resolution,
-            customerName: updatedTicket.user.name,
+            oldStatus: ticket.status,
+            newStatus: updatedTicket.status,
           },
         });
 
-        updatedTicket.emailNotifications.resolutionNotificationSent = true;
-        await updatedTicket.save();
+        if (updatedTicket.status === "Closed") {
+          updatedTicket.emailNotifications.resolutionNotificationSent = true;
+          await updatedTicket.save();
+        }
       } catch (emailError) {
-        console.error("Failed to send resolution notification:", emailError);
+        console.error("Failed to send status notification:", emailError);
       }
     }
 
@@ -194,11 +214,6 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Only admins can delete tickets
-    if (session.user.role !== "admin") {
-      return NextResponse.json({ error: "Access denied" }, { status: 403 });
-    }
-
     await connectMongoose();
 
     const { ticketId } = params;
@@ -206,6 +221,13 @@ export async function DELETE(request, { params }) {
     const ticket = await Ticket.findById(ticketId);
     if (!ticket) {
       return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
+    }
+
+    // Authorization: admins can delete any ticket; users can delete their own
+    const isAdmin = session.user.role === "admin";
+    const isOwner = ticket.user?.toString() === session.user.id;
+    if (!isAdmin && !isOwner) {
+      return NextResponse.json({ error: "Access denied" }, { status: 403 });
     }
 
     // Delete associated files from bunny.net

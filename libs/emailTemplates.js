@@ -639,6 +639,146 @@ export const moodboardStatusUpdateEmailTemplate = (
 };
 
 /**
+ * Ticket: New Ticket Notification (Admins)
+ */
+export const ticketNewAdminNotificationTemplate = (
+  adminName,
+  ticketNumber,
+  title,
+  category,
+  priority,
+  customerName,
+  customerEmail,
+  description,
+  ticketUrl,
+) => {
+  const content = `
+    <h2>New Ticket Created 🆕</h2>
+    <p>Hello ${adminName || "Admin"},</p>
+    <p>A new ticket has been created. Here are the details:</p>
+    <div class="document-card">
+      <div class="document-title">${title}</div>
+      <div class="document-meta">
+        Ticket: ${ticketNumber}<br>
+        Category: ${category}<br>
+        Priority: ${priority}<br>
+        Customer: ${customerName} (${customerEmail})
+      </div>
+      ${
+        description
+          ? `<div style="margin-top:12px"><strong>Description:</strong><br>${description}</div>`
+          : ""
+      }
+    </div>
+    <div style="text-align:center;">
+      <a href="${ticketUrl}" class="button">Open Ticket</a>
+    </div>
+  `;
+
+  return {
+    subject: `New Ticket Created: ${ticketNumber}`,
+    html: baseTemplate(content, "New Ticket Created"),
+    text: `New ticket ${ticketNumber} created. Title: ${title}. Customer: ${customerName} (${customerEmail}). Open: ${ticketUrl}`,
+  };
+};
+
+/**
+ * Ticket: Status Update (Customer)
+ */
+export const ticketStatusUpdateEmailTemplate = (
+  userName,
+  ticketNumber,
+  title,
+  oldStatus,
+  newStatus,
+  ticketUrl,
+) => {
+  const content = `
+    <h2>Ticket Status Updated 📬</h2>
+    <p>Hello ${userName || "there"},</p>
+    <p>Your ticket has been updated:</p>
+    <div class="alert alert-success">
+      <strong>${title}</strong><br>
+      Ticket: ${ticketNumber}<br>
+      From: ${oldStatus || "Unknown"}<br>
+      To: ${newStatus}
+    </div>
+    <div style="text-align:center;">
+      <a href="https://${config.domainName}/dashboard/tickets" class="button">View Ticket</a>
+    </div>
+  `;
+
+  return {
+    subject: `Ticket ${ticketNumber} status: ${newStatus}`,
+    html: baseTemplate(content, "Ticket Status Updated"),
+    text: `Your ticket ${ticketNumber} changed from ${oldStatus || "Unknown"} to ${newStatus}. View: ${ticketUrl}`,
+  };
+};
+
+/**
+ * Ticket: Admin Note Added -> Customer
+ */
+export const ticketAdminNoteAddedEmailTemplate = (
+  userName,
+  ticketNumber,
+  title,
+  adminName,
+  note,
+) => {
+  const content = `
+    <h2>New Note Added To Your Ticket 📝</h2>
+    <p>Hello ${userName || "there"},</p>
+    <p>Our team added a new note to your ticket:</p>
+    <div class="document-card">
+      <div class="document-title">${title} (${ticketNumber})</div>
+      <div class="document-meta">From: ${adminName || "Admin"}</div>
+      <div style="margin-top:12px"><strong>Note:</strong><br>${note}</div>
+    </div>
+    <div style="text-align:center;">
+      <a href="https://${config.domainName}/dashboard/tickets" class="button">Open Ticket</a>
+    </div>
+  `;
+
+  return {
+    subject: `New note on ticket ${ticketNumber}`,
+    html: baseTemplate(content, "Ticket Note Added"),
+    text: `A new note was added by ${adminName} on ticket ${ticketNumber}: ${note}`,
+  };
+};
+
+/**
+ * Ticket: Customer Update Added -> Admins
+ */
+export const ticketCustomerUpdateAddedEmailTemplate = (
+  adminName,
+  ticketNumber,
+  title,
+  customerName,
+  update,
+  adminTicketUrl,
+) => {
+  const content = `
+    <h2>Customer Update Added 💬</h2>
+    <p>Hello ${adminName || "Admin"},</p>
+    <p>The customer added an update to a ticket:</p>
+    <div class="document-card">
+      <div class="document-title">${title} (${ticketNumber})</div>
+      <div class="document-meta">Customer: ${customerName}</div>
+      <div style="margin-top:12px"><strong>Update:</strong><br>${update}</div>
+    </div>
+    <div style="text-align:center;">
+      <a href="${adminTicketUrl}" class="button">Open Ticket</a>
+    </div>
+  `;
+
+  return {
+    subject: `Customer update on ${ticketNumber}`,
+    html: baseTemplate(content, "Customer Update Added"),
+    text: `Customer ${customerName} added an update on ticket ${ticketNumber}: ${update}. Open: ${adminTicketUrl}`,
+  };
+};
+
+/**
  * User Inactivity Email Template
  * Sent to admin when user has been inactive for specified days
  */

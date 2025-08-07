@@ -55,6 +55,8 @@ export async function POST(request, { params }) {
       .populate("assignedTo", "name position")
       .populate("project", "name type");
 
+    // Internal notes are not emailed to the customer
+
     return NextResponse.json({
       message: "Internal note added successfully",
       ticket: updatedTicket,

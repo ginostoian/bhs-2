@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import { Ticket, User } from "@/models/index.js";
+import { sendEmailWithRetry } from "@/libs/emailService";
 import bunnyStorage from "@/libs/bunnyStorage";
 
 // POST /api/tickets/[ticketId]/updates - Add customer update
@@ -97,6 +98,44 @@ export async function POST(request, { params }) {
       .populate("user", "name email")
       .populate("assignedTo", "name position")
       .populate("project", "name type");
+
+    // Notify admins of customer update
+    try {
+      const adminUsers = await User.find({ role: "admin" });
+      const adminEmails = adminUsers.map((a) => a.email).filter(Boolean);
+      if (adminEmails.length > 0) {
+        const { ticketCustomerUpdateAddedEmailTemplate } = await import(
+          "@/libs/emailTemplates"
+        );
+        const adminTicketUrl = `${process.env.NEXTAUTH_URL}/admin/tickets/${updatedTicket._id}`;
+        await Promise.all(
+          adminEmails.map(async (adminEmail) => {
+            const admin = adminUsers.find((a) => a.email === adminEmail);
+            const tpl = ticketCustomerUpdateAddedEmailTemplate(
+              admin?.name || "Admin",
+              updatedTicket.ticketNumber,
+              updatedTicket.title,
+              user.name,
+              update.trim(),
+              adminTicketUrl,
+            );
+            await sendEmailWithRetry({
+              to: adminEmail,
+              subject: tpl.subject,
+              html: tpl.html,
+              text: tpl.text,
+              metadata: {
+                type: "ticket_customer_update_added",
+                ticketId: updatedTicket._id.toString(),
+                ticketNumber: updatedTicket.ticketNumber,
+              },
+            });
+          }),
+        );
+      }
+    } catch (emailError) {
+      console.error("Failed to send customer update notification:", emailError);
+    }
 
     return NextResponse.json({
       message: "Update added successfully",

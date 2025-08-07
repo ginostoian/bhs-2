@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Modal from "@/components/Modal";
 
 export default function TicketsPage() {
   const { data: session, status } = useSession();
@@ -13,6 +14,11 @@ export default function TicketsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    ticketId: null,
+    ticketTitle: "",
+  });
 
   useEffect(() => {
     if (status === "loading") return;
@@ -41,6 +47,36 @@ export default function TicketsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const deleteTicket = async (ticketId) => {
+    try {
+      const response = await fetch(`/api/tickets/${ticketId}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        toast.success("Ticket deleted");
+        fetchTickets();
+      } else {
+        const err = await response.json().catch(() => ({}));
+        toast.error(err.error || "Failed to delete ticket");
+      }
+    } catch (error) {
+      console.error("Error deleting ticket:", error);
+      toast.error("Failed to delete ticket");
+    }
+  };
+
+  const openDeleteModal = (ticket, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setDeleteModal({
+      isOpen: true,
+      ticketId: ticket._id,
+      ticketTitle: ticket.title || ticket.ticketNumber || "this ticket",
+    });
   };
 
   const getStatusColor = (status) => {
@@ -118,25 +154,90 @@ export default function TicketsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-8">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">My Tickets</h1>
-                <p className="mt-2 text-gray-600">
-                  View and manage your support tickets and warranty claims.
-                </p>
+    <>
+      <div className="min-h-screen bg-gray-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="py-8">
+            {/* Header */}
+            <div className="mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900">
+                    My Tickets
+                  </h1>
+                  <p className="mt-2 text-gray-600">
+                    View and manage your support tickets and warranty claims.
+                  </p>
+                </div>
+                <div className="mt-4 sm:mt-0">
+                  <Link
+                    href="/dashboard/tickets/new"
+                    className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  >
+                    <svg
+                      className="-ml-1 mr-2 h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
+                    New Ticket
+                  </Link>
+                </div>
               </div>
-              <div className="mt-4 sm:mt-0">
-                <Link
-                  href="/dashboard/tickets/new"
-                  className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                >
+            </div>
+
+            {/* Filters and Search */}
+            <div className="mb-6 rounded-lg bg-white p-4 shadow">
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Search tickets..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value)}
+                    className="rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Waiting for Customer">
+                      Waiting for Customer
+                    </option>
+                    <option value="Scheduled">Scheduled</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Tickets List */}
+            {loading ? (
+              <div className="rounded-lg bg-white shadow">
+                <div className="p-8 text-center">
+                  <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                  <p className="mt-2 text-gray-600">Loading tickets...</p>
+                </div>
+              </div>
+            ) : filteredTickets.length === 0 ? (
+              <div className="rounded-lg bg-white shadow">
+                <div className="p-8 text-center">
                   <svg
-                    className="-ml-1 mr-2 h-5 w-5"
+                    className="mx-auto h-12 w-12 text-gray-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -145,201 +246,178 @@ export default function TicketsPage() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                     />
                   </svg>
-                  New Ticket
-                </Link>
+                  <h3 className="mt-2 text-sm font-medium text-gray-900">
+                    No tickets found
+                  </h3>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {searchTerm || filter !== "all"
+                      ? "Try adjusting your search or filter criteria."
+                      : "Get started by creating a new ticket."}
+                  </p>
+                  {!searchTerm && filter === "all" && (
+                    <div className="mt-6">
+                      <Link
+                        href="/dashboard/tickets/new"
+                        className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                      >
+                        Create your first ticket
+                      </Link>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Filters and Search */}
-          <div className="mb-6 rounded-lg bg-white p-4 shadow">
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <div className="flex-1">
-                <input
-                  type="text"
-                  placeholder="Search tickets..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <select
-                  value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
-                  className="rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">All Statuses</option>
-                  <option value="New">New</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Waiting for Customer">
-                    Waiting for Customer
-                  </option>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Resolved">Resolved</option>
-                  <option value="Closed">Closed</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Tickets List */}
-          {loading ? (
-            <div className="rounded-lg bg-white shadow">
-              <div className="p-8 text-center">
-                <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-                <p className="mt-2 text-gray-600">Loading tickets...</p>
-              </div>
-            </div>
-          ) : filteredTickets.length === 0 ? (
-            <div className="rounded-lg bg-white shadow">
-              <div className="p-8 text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                  />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">
-                  No tickets found
-                </h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  {searchTerm || filter !== "all"
-                    ? "Try adjusting your search or filter criteria."
-                    : "Get started by creating a new ticket."}
-                </p>
-                {!searchTerm && filter === "all" && (
-                  <div className="mt-6">
-                    <Link
-                      href="/dashboard/tickets/new"
-                      className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-                    >
-                      Create your first ticket
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="overflow-hidden bg-white shadow sm:rounded-md">
-              <ul className="divide-y divide-gray-200">
-                {filteredTickets.map((ticket) => (
-                  <li key={ticket._id}>
-                    <Link
-                      href={`/dashboard/tickets/${ticket._id}`}
-                      className="block transition-colors duration-150 hover:bg-gray-50"
-                    >
-                      <div className="px-4 py-4 sm:px-6">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0">
-                              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+            ) : (
+              <div className="overflow-hidden bg-white shadow sm:rounded-md">
+                <ul className="divide-y divide-gray-200">
+                  {filteredTickets.map((ticket) => (
+                    <li key={ticket._id}>
+                      <Link
+                        href={`/dashboard/tickets/${ticket._id}`}
+                        className="block transition-colors duration-150 hover:bg-gray-50"
+                      >
+                        <div className="px-4 py-4 sm:px-6">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
+                                  <svg
+                                    className="h-6 w-6 text-blue-600"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    />
+                                  </svg>
+                                </div>
+                              </div>
+                              <div className="ml-4 min-w-0 flex-1">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="truncate text-sm font-medium text-gray-900">
+                                      {ticket.title}
+                                    </p>
+                                    <p className="text-sm text-gray-500">
+                                      {ticket.ticketNumber} • Created{" "}
+                                      {formatDate(ticket.createdAt)}
+                                    </p>
+                                  </div>
+                                  <div className="flex items-center space-x-2">
+                                    <span
+                                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(ticket.category)}`}
+                                    >
+                                      {ticket.category}
+                                    </span>
+                                    <span
+                                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getPriorityColor(ticket.priority)}`}
+                                    >
+                                      {ticket.priority}
+                                    </span>
+                                    <span
+                                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticket.status)}`}
+                                    >
+                                      {ticket.status}
+                                    </span>
+                                  </div>
+                                </div>
+                                {ticket.description && (
+                                  <p className="mt-2 line-clamp-2 text-sm text-gray-600">
+                                    {ticket.description}
+                                  </p>
+                                )}
+                                {ticket.attachments &&
+                                  ticket.attachments.length > 0 && (
+                                    <div className="mt-2 flex items-center text-sm text-gray-500">
+                                      <svg
+                                        className="mr-1.5 h-4 w-4 flex-shrink-0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                                        />
+                                      </svg>
+                                      {ticket.attachments.length} attachment
+                                      {ticket.attachments.length !== 1
+                                        ? "s"
+                                        : ""}
+                                    </div>
+                                  )}
+                              </div>
+                            </div>
+                            <div className="ml-4 flex flex-shrink-0 items-center gap-3">
+                              <button
+                                onClick={(e) => openDeleteModal(ticket, e)}
+                                className="inline-flex items-center rounded-md border border-red-300 bg-white px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+                                title="Delete ticket"
+                              >
                                 <svg
-                                  className="h-6 w-6 text-blue-600"
+                                  className="h-4 w-4"
+                                  viewBox="0 0 24 24"
                                   fill="none"
                                   stroke="currentColor"
-                                  viewBox="0 0 24 24"
                                 >
                                   <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m-7 0V5a2 2 0 012-2h2a2 2 0 012 2v2"
                                   />
                                 </svg>
-                              </div>
+                              </button>
+                              <svg
+                                className="h-5 w-5 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
+                                />
+                              </svg>
                             </div>
-                            <div className="ml-4 min-w-0 flex-1">
-                              <div className="flex items-center justify-between">
-                                <div>
-                                  <p className="truncate text-sm font-medium text-gray-900">
-                                    {ticket.title}
-                                  </p>
-                                  <p className="text-sm text-gray-500">
-                                    {ticket.ticketNumber} • Created{" "}
-                                    {formatDate(ticket.createdAt)}
-                                  </p>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <span
-                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getCategoryColor(ticket.category)}`}
-                                  >
-                                    {ticket.category}
-                                  </span>
-                                  <span
-                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getPriorityColor(ticket.priority)}`}
-                                  >
-                                    {ticket.priority}
-                                  </span>
-                                  <span
-                                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(ticket.status)}`}
-                                  >
-                                    {ticket.status}
-                                  </span>
-                                </div>
-                              </div>
-                              {ticket.description && (
-                                <p className="mt-2 line-clamp-2 text-sm text-gray-600">
-                                  {ticket.description}
-                                </p>
-                              )}
-                              {ticket.attachments &&
-                                ticket.attachments.length > 0 && (
-                                  <div className="mt-2 flex items-center text-sm text-gray-500">
-                                    <svg
-                                      className="mr-1.5 h-4 w-4 flex-shrink-0"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      viewBox="0 0 24 24"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                                      />
-                                    </svg>
-                                    {ticket.attachments.length} attachment
-                                    {ticket.attachments.length !== 1 ? "s" : ""}
-                                  </div>
-                                )}
-                            </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0">
-                            <svg
-                              className="h-5 w-5 text-gray-400"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onClose={() =>
+          setDeleteModal({ isOpen: false, ticketId: null, ticketTitle: "" })
+        }
+        onConfirm={async () => {
+          if (deleteModal.ticketId) {
+            await deleteTicket(deleteModal.ticketId);
+          }
+          setDeleteModal({ isOpen: false, ticketId: null, ticketTitle: "" });
+        }}
+        title="Delete Ticket"
+        message={`Are you sure you want to delete "${deleteModal.ticketTitle}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="confirm"
+      />
+    </>
   );
 }

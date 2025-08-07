@@ -78,6 +78,14 @@ const TicketForm = () => {
       toast.error("Please select a category");
       return;
     }
+    if (!formData.customerPhone.trim()) {
+      toast.error("Phone number is required");
+      return;
+    }
+    if (!formData.customerEmail.trim()) {
+      toast.error("Email address is required");
+      return;
+    }
 
     setIsSubmitting(true);
     const loadingToast = toast.loading("Creating your ticket...");
@@ -183,7 +191,7 @@ const TicketForm = () => {
                     htmlFor="customerPhone"
                     className="mb-2 block text-sm font-semibold text-gray-700"
                   >
-                    Phone Number
+                    Phone Number *
                   </label>
                   <input
                     type="tel"
@@ -193,6 +201,7 @@ const TicketForm = () => {
                     onChange={handleInputChange}
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                     placeholder="Your phone number"
+                    required
                   />
                 </div>
                 <div>
@@ -200,7 +209,7 @@ const TicketForm = () => {
                     htmlFor="customerEmail"
                     className="mb-2 block text-sm font-semibold text-gray-700"
                   >
-                    Email Address
+                    Email Address *
                   </label>
                   <input
                     type="email"
@@ -210,6 +219,7 @@ const TicketForm = () => {
                     onChange={handleInputChange}
                     className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 transition-all duration-200 focus:border-transparent focus:ring-2 focus:ring-blue-500"
                     placeholder="your.email@example.com"
+                    required
                   />
                 </div>
               </div>

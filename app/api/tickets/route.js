@@ -4,7 +4,8 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import { Ticket, User, Project, Employee } from "@/models/index.js";
 import bunnyStorage from "@/libs/bunnyStorage";
-import { sendEmail } from "@/libs/emailService";
+import { sendEmailWithRetry, sendEmail } from "@/libs/emailService";
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // GET /api/tickets - List tickets (admin only or user's own tickets)
 export async function GET(request) {
@@ -104,6 +105,12 @@ export async function POST(request) {
         { status: 400 },
       );
     }
+    if (!customerPhone || !customerEmail) {
+      return NextResponse.json(
+        { error: "Phone number and email address are required" },
+        { status: 400 },
+      );
+    }
 
     // Get user
     const user = await User.findById(session.user.id);
@@ -173,33 +180,57 @@ export async function POST(request) {
       }
     }
 
-    // Send email notification to admins (delayed)
-    setTimeout(async () => {
-      try {
-        const adminUsers = await User.find({ role: "admin" });
-        const adminEmails = adminUsers.map((admin) => admin.email);
+    // Send email notification to all admins with slight delay between sends to avoid rate limits
+    try {
+      const adminUsers = await User.find({ role: "admin" });
+      const adminEmails = Array.from(
+        new Set(adminUsers.map((admin) => admin.email).filter(Boolean)),
+      );
 
-        if (adminEmails.length > 0) {
-          await sendEmail({
-            to: adminEmails,
-            subject: `New Ticket Created: ${ticket.ticketNumber}`,
-            template: "new-ticket-notification",
-            data: {
+      if (adminEmails.length > 0) {
+        const { ticketNewAdminNotificationTemplate } = await import(
+          "@/libs/emailTemplates"
+        );
+        for (const adminEmail of adminEmails) {
+          const admin = adminUsers.find((a) => a.email === adminEmail);
+          const tpl = ticketNewAdminNotificationTemplate(
+            admin?.name || "Admin",
+            ticket.ticketNumber,
+            ticket.title,
+            ticket.category,
+            ticket.priority,
+            user.name,
+            user.email,
+            ticket.description,
+            `${process.env.NEXTAUTH_URL}/admin/tickets/${ticket._id}`,
+          );
+
+          const result = await sendEmailWithRetry({
+            to: adminEmail,
+            subject: tpl.subject,
+            html: tpl.html,
+            text: tpl.text,
+            metadata: {
+              type: "ticket_new_admin_notification",
+              ticketId: ticket._id.toString(),
               ticketNumber: ticket.ticketNumber,
-              title: ticket.title,
-              category: ticket.category,
-              priority: ticket.priority,
-              customerName: user.name,
-              customerEmail: user.email,
-              description: ticket.description,
-              ticketUrl: `${process.env.NEXTAUTH_URL}/admin/tickets/${ticket._id}`,
             },
           });
+          if (!result.success) {
+            console.error(
+              `Admin notification failed for ${adminEmail}:`,
+              result.error,
+            );
+          }
+          // 1s delay between sends
+          await sleep(1000);
         }
-      } catch (emailError) {
-        console.error("Failed to send admin notification:", emailError);
+      } else {
+        console.warn("No admin emails found to notify for new ticket.");
       }
-    }, 2000); // 2 second delay
+    } catch (emailError) {
+      console.error("Failed to send admin notification:", emailError);
+    }
 
     // Mark admin notification as sent
     ticket.emailNotifications.adminNotificationSent = true;
