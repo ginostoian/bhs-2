@@ -29,6 +29,7 @@ export default function AdminSidebar() {
     { name: "Moodboards", href: "/admin/moodboards", icon: "🎨" },
     { name: "Product Database", href: "/admin/products", icon: "📦" },
     { name: "Contractor Database", href: "/admin/contractors", icon: "🧰" },
+    { name: "Partners Database", href: "/admin/partners", icon: "🤝" },
     { name: "Instructions", href: "/admin/instructions", icon: "📋" },
     { name: "Payments", href: "/admin/payments", icon: "💳" },
     { name: "Tickets", href: "/admin/tickets", icon: "🎫" },
