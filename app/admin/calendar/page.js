@@ -7,6 +7,7 @@ export default function AdminCalendarPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [dayModal, setDayModal] = useState({ isOpen: false, date: null });
 
   useEffect(() => {
     fetchEvents();
@@ -105,28 +106,22 @@ export default function AdminCalendarPage() {
       const dateStr = date.toLocaleDateString("en-CA"); // YYYY-MM-DD format
       return events.filter((event) => {
         try {
-          // Handle different date formats from the API
-          let eventDate;
-          if (event.start) {
-            eventDate = new Date(event.start);
-          } else if (event.date) {
-            eventDate = new Date(event.date);
-          } else if (event.createdAt) {
-            eventDate = new Date(event.createdAt);
-          } else if (event.scheduledDate) {
-            eventDate = new Date(event.scheduledDate);
-          } else {
-            return false;
-          }
+          // Determine start and end for the event
+          const startSource =
+            event.start || event.date || event.createdAt || event.scheduledDate;
+          if (!startSource) return false;
+          const startDate = new Date(startSource);
+          if (isNaN(startDate.getTime())) return false;
 
-          // Check if the date is valid
-          if (isNaN(eventDate.getTime())) {
-            return false;
-          }
+          const endSource = event.end || startSource;
+          const endDate = new Date(endSource);
+          if (isNaN(endDate.getTime())) return false;
 
-          // Use local date string for comparison
-          const eventDateStr = eventDate.toLocaleDateString("en-CA");
-          return eventDateStr === dateStr;
+          const startStr = startDate.toLocaleDateString("en-CA");
+          const endStr = endDate.toLocaleDateString("en-CA");
+
+          // Include the event if the day falls within [start, end] inclusive
+          return startStr <= dateStr && dateStr <= endStr;
         } catch (error) {
           console.error("Error parsing event date:", error, event);
           return false;
@@ -136,6 +131,54 @@ export default function AdminCalendarPage() {
       console.error("Error in getEventsForDate:", error);
       return [];
     }
+  };
+
+  const getEventStartEnd = (event) => {
+    const startSource =
+      event.start || event.date || event.createdAt || event.scheduledDate;
+    const endSource = event.end || startSource;
+    const start = new Date(startSource);
+    const end = new Date(endSource);
+    return { start, end };
+  };
+
+  const isSameDay = (a, b) => {
+    if (!a || !b) return false;
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  };
+
+  const renderEventPill = (event, day) => {
+    const { start, end } = getEventStartEnd(event);
+    const isStart = isSameDay(start, day);
+    const isEnd = isSameDay(end, day);
+    const spansMultipleDays = start.toDateString() !== end.toDateString();
+
+    const baseClasses = `truncate px-2 py-1 text-xs font-medium ${getEventColor(event)}`;
+    const rounding = spansMultipleDays
+      ? `${isStart ? "rounded-l" : "rounded-none"} ${isEnd ? "rounded-r" : "rounded-none"}`
+      : "rounded";
+
+    const startText = formatDate(start);
+    const endText = formatDate(end);
+    const titleText =
+      startText === endText
+        ? `${event.title} - ${startText}`
+        : `${event.title} - ${startText} to ${endText}`;
+
+    const leftArrow = spansMultipleDays && !isStart ? "↞ " : "";
+    const rightArrow = spansMultipleDays && !isEnd ? " ↠" : "";
+
+    return (
+      <div className={`${baseClasses} ${rounding}`} title={titleText}>
+        {leftArrow}
+        {event.title}
+        {rightArrow}
+      </div>
+    );
   };
 
   const formatDate = (date) => {
@@ -317,18 +360,20 @@ export default function AdminCalendarPage() {
                               {getEventsForDate(day)
                                 .slice(0, 3)
                                 .map((event, eventIndex) => (
-                                  <div
-                                    key={eventIndex}
-                                    className={`truncate rounded px-2 py-1 text-xs font-medium ${getEventColor(event)}`}
-                                    title={`${event.title} - ${formatDate(event.date || event.createdAt || event.scheduledDate)}`}
-                                  >
-                                    {event.title}
+                                  <div key={eventIndex}>
+                                    {renderEventPill(event, day)}
                                   </div>
                                 ))}
                               {getEventsForDate(day).length > 3 && (
-                                <div className="text-xs font-medium text-gray-400">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setDayModal({ isOpen: true, date: day })
+                                  }
+                                  className="text-xs font-medium text-blue-600 hover:underline"
+                                >
                                   +{getEventsForDate(day).length - 3} more
-                                </div>
+                                </button>
                               )}
                             </div>
                           </>
@@ -379,16 +424,12 @@ export default function AdminCalendarPage() {
                             </h4>
                             <p className="mt-1 text-sm text-gray-600">
                               {(() => {
-                                // Try to find the best date to display
-                                const eventDate =
-                                  event.scheduledDate ||
-                                  event.date ||
-                                  event.createdAt ||
-                                  event.start;
-                                if (!eventDate) {
-                                  return "No date set";
-                                }
-                                return formatDate(eventDate);
+                                const { start, end } = getEventStartEnd(event);
+                                const startText = formatDate(start);
+                                const endText = formatDate(end);
+                                return startText === endText
+                                  ? startText
+                                  : `${startText} to ${endText}`;
                               })()}
                             </p>
                             {event.type && (
@@ -415,6 +456,104 @@ export default function AdminCalendarPage() {
               </div>
             </>
           )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Day events modal
+function DayEventsModal({
+  isOpen,
+  date,
+  onClose,
+  events,
+  formatDate,
+  getEventColor,
+}) {
+  if (!isOpen || !date) return null;
+  const eventsForDate = events.filter((event) => {
+    const startSource =
+      event.start || event.date || event.createdAt || event.scheduledDate;
+    const endSource = event.end || startSource;
+    const start = new Date(startSource);
+    const end = new Date(endSource);
+    const dateStr = date.toLocaleDateString("en-CA");
+    const startStr = start.toLocaleDateString("en-CA");
+    const endStr = end.toLocaleDateString("en-CA");
+    return startStr <= dateStr && dateStr <= endStr;
+  });
+
+  const title = date.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+      <div className="w-full max-w-lg rounded-lg bg-white shadow-xl">
+        <div className="flex items-center justify-between border-b px-4 py-3">
+          <h4 className="text-sm font-semibold text-gray-900">
+            Events on {title}
+          </h4>
+          <button
+            type="button"
+            className="rounded-md p-1 text-gray-500 hover:bg-gray-100"
+            onClick={onClose}
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="max-h-[60vh] overflow-y-auto p-4">
+          {eventsForDate.length === 0 ? (
+            <p className="text-sm text-gray-500">No events.</p>
+          ) : (
+            <div className="space-y-2">
+              {eventsForDate.map((event, idx) => {
+                const start =
+                  event.start ||
+                  event.date ||
+                  event.createdAt ||
+                  event.scheduledDate;
+                const end = event.end || start;
+                const isRange =
+                  new Date(start).toDateString() !==
+                  new Date(end).toDateString();
+                return (
+                  <div
+                    key={idx}
+                    className={`rounded border p-2 ${getEventColor(event)}`}
+                  >
+                    <div className="text-sm font-medium text-gray-900">
+                      {event.title}
+                    </div>
+                    <div className="text-xs text-gray-700">
+                      {isRange
+                        ? `${formatDate(start)} to ${formatDate(end)}`
+                        : formatDate(start)}
+                    </div>
+                    {event.type && (
+                      <span className="mt-1 inline-block rounded bg-white bg-opacity-60 px-2 py-0.5 text-[10px] font-semibold text-gray-700">
+                        {event.type}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        <div className="flex justify-end border-t px-4 py-3">
+          <button
+            type="button"
+            className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            onClick={onClose}
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>

@@ -71,24 +71,43 @@ export async function GET(request) {
       });
     }
 
-    // Get project start dates
+    // Get projects overlapping the requested window. If a project has a projectedFinishDate,
+    // include it for every day between startDate and projectedFinishDate. If it does not,
+    // show it on its startDate only.
     if (type !== "tickets") {
       const projects = await Project.find({
-        startDate: {
-          $gte: start,
-          $lte: end,
-        },
+        $or: [
+          // Projects with a projected finish that overlap the window
+          {
+            startDate: { $lte: end },
+            projectedFinishDate: { $exists: true, $ne: null, $gte: start },
+          },
+          // Projects without a projected finish (null or missing); show only if the start is in the window
+          {
+            $and: [
+              {
+                $or: [
+                  { projectedFinishDate: { $exists: false } },
+                  { projectedFinishDate: null },
+                ],
+              },
+              { startDate: { $gte: start, $lte: end } },
+            ],
+          },
+        ],
       })
         .populate("user", "name email")
         .populate("projectManager", "name position")
         .sort({ startDate: 1 });
 
       projects.forEach((project) => {
+        const startValue = project.startDate;
+        const endValue = project.projectedFinishDate || project.startDate;
         events.push({
           id: `project-${project._id}`,
-          title: `Project Start: ${project.name}`,
-          start: project.startDate,
-          end: project.startDate,
+          title: `Project: ${project.name}`,
+          start: startValue,
+          end: endValue,
           allDay: true,
           type: "project",
           projectName: project.name,
