@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import { Ticket, User, Employee, Project } from "@/models/index.js";
+import mongoose from "mongoose";
 import bunnyStorage from "@/libs/bunnyStorage";
 import { sendEmailWithRetry } from "@/libs/emailService";
 
@@ -107,11 +108,25 @@ export async function PUT(request, { params }) {
     // Handle assignment
     if (body.assignedTo !== undefined) {
       if (body.assignedTo) {
-        const employee = await Employee.findById(body.assignedTo);
+        let employee = null;
+        const assignedVal = String(body.assignedTo).trim();
+        if (mongoose.Types.ObjectId.isValid(assignedVal)) {
+          employee = await Employee.findById(assignedVal);
+        } else {
+          // Fallback: accept "Name - Position" string
+          const parts = assignedVal.split(" - ");
+          const name = parts[0]?.trim();
+          const position = parts[1]?.trim();
+          if (name) {
+            employee = await Employee.findOne(
+              position ? { name, position } : { name },
+            );
+          }
+        }
         if (!employee) {
           return NextResponse.json(
-            { error: "Employee not found" },
-            { status: 404 },
+            { error: "Employee not found or invalid identifier" },
+            { status: 400 },
           );
         }
         updateData.assignedTo = employee._id;
