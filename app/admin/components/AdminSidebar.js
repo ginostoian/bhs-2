@@ -18,9 +18,17 @@ export default function AdminSidebar() {
     { name: "Dashboard", href: "/admin/dashboard", icon: "🏠" },
     { name: "Users", href: "/admin", icon: "👥" },
     { name: "CRM", href: "/admin/crm", icon: "📈" },
+    { name: "Calendar", href: "/admin/calendar", icon: "📅" },
     { name: "Projects", href: "/admin/projects", icon: "🏗️" },
     { name: "Finished Projects", href: "/admin/finished-projects", icon: "✅" },
     { name: "Employees", href: "/admin/employees", icon: "👷" },
+    { name: "Workers", href: "/admin/workers", icon: "🧑‍🔧" },
+    { name: "Attendance", href: "/admin/attendance", icon: "🗓️" },
+    {
+      name: "Attendance Reports",
+      href: "/admin/reports/attendance",
+      icon: "📈",
+    },
     {
       name: "Task Status Updates",
       href: "/admin/task-status-updates",

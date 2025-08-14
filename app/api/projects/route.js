@@ -12,10 +12,21 @@ export async function GET(req) {
   try {
     await requireAdmin(req);
     await connectMongoose();
-    const projects = await Project.find()
+
+    const { searchParams } = new URL(req.url);
+    const status = searchParams.get("status");
+
+    // Build filter
+    const filter = {};
+    if (status) {
+      filter.status = status;
+    }
+
+    const projects = await Project.find(filter)
       .populate("user", "name email")
       .populate("projectManager", "name position")
       .sort({ createdAt: -1 });
+
     return NextResponse.json({ projects });
   } catch (error) {
     return NextResponse.json(

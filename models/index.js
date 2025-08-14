@@ -17,6 +17,7 @@ import ProjectNote from "./ProjectNote.js";
 import Expense from "./Expense.js";
 import GanttShare from "./GanttShare.js";
 import Contact from "./Contact.js";
+import Attendance from "./Attendance.js";
 
 // Export all models
 export {
@@ -36,4 +37,5 @@ export {
   Expense,
   GanttShare,
   Contact,
+  Attendance,
 };
