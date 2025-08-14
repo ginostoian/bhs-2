@@ -919,7 +919,8 @@ export default function AttendanceAdminPage() {
                                     setIsCreateWorkerOpen(true);
                                   }}
                                 >
-                                  Create custom worker "{addWorkerQuery}"
+                                  Create custom worker &apos;{addWorkerQuery}
+                                  &apos;
                                 </button>
                               </div>
                             )}
