@@ -484,8 +484,7 @@ const config = {
       ],
     },
     kitchenPage: {
-      ctaTallyFormLink:
-        "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+      ctaTallyFormLink: "/kitchen-renovation-form",
       title: "Your kitchen deserves better ",
       titleAccent: "Renovate with the best.",
       subtitle:
@@ -503,7 +502,7 @@ const config = {
           p2: "When getting a kitchen from one of the big kitchen vendors is just not enough, our team will help you make the best decisions",
           CTA: "Get your kitchen designed",
           imgSrc: "/assets/img/kitchen/kitchen-design.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
         smallKitchen: {
           title: "Small kitchens",
@@ -513,7 +512,7 @@ const config = {
           p2: "Our team of kitchen refurbishment experts and installers will guide you through the whole process.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/small-kitchen.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
         modernKitchen: {
           title: "Modern kitchens",
@@ -524,7 +523,7 @@ const config = {
           p2: "This minimalistic approach to layout is what achieves a simple and elegant look.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/modern-kitchen.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
         industrialKitchen: {
           title: "Industrial kitchens",
@@ -535,7 +534,7 @@ const config = {
           p2: "Whichever option you decide to go with, you can use metro tiles, grey colors, bare brick walls, exposed shelving and black shower frames.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/industrial-kitchen.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
         openPlanKitchen: {
           title: "Open plan kitchens",
@@ -545,7 +544,7 @@ const config = {
           p2: "In an open plan kitchen, the design hangs on the interaction between the kitchen, especially the island, and dining or living room. This usually involves knocking down a wall.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/open-plan-kitchen.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
         kitchenInExtension: {
           title: "Kitchen in extension",
@@ -556,7 +555,7 @@ const config = {
           p2: "Bifold or sliding patio doors are fantastic options that offer views out all year round, while installing a large roof lantern can bring in plenty of natural light to the new space.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/kitchen-extension.webp",
-          slug: "#tally-open=wvPvbg&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/kitchen-renovation-form",
         },
       },
       howWeDoItSection: {

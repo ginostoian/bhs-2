@@ -112,6 +112,11 @@ export default function AdminSidebar() {
           href: "/admin/bathroom-renovations",
           icon: "🚿",
         },
+        {
+          name: "Kitchen Renovations",
+          href: "/admin/kitchen-renovations",
+          icon: "🍳",
+        },
       ],
     },
     {

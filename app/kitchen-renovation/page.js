@@ -136,7 +136,7 @@ export default function Page() {
           subtitle={kitchenPageCopy.subtitle}
           heroCTA={kitchenPageCopy.heroCTA}
           heroImgUrl={kitchenPageCopy.heroImgUrl}
-          ctaTallyFormLink={kitchenPageCopy.ctaTallyFormLink}
+          ctaTallyFormLink="/kitchen-renovation-form"
         />
         <SocialProof />
         <SectionTitle
