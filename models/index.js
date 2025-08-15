@@ -18,6 +18,9 @@ import Expense from "./Expense.js";
 import GanttShare from "./GanttShare.js";
 import Contact from "./Contact.js";
 import Attendance from "./Attendance.js";
+import BathroomRenovation from "./BathroomRenovation.js";
+import KitchenRenovation from "./KitchenRenovation.js";
+import GeneralRenovation from "./GeneralRenovation.js";
 
 // Export all models
 export {
@@ -38,4 +41,7 @@ export {
   GanttShare,
   Contact,
   Attendance,
+  BathroomRenovation,
+  KitchenRenovation,
+  GeneralRenovation,
 };

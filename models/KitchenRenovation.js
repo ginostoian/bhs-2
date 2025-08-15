@@ -83,6 +83,26 @@ const kitchenRenovationSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+
+    // Email tracking fields
+    confirmationEmailSent: {
+      type: Boolean,
+      default: false,
+    },
+    adminNotificationSent: {
+      type: Boolean,
+      default: false,
+    },
+
+    // System fields
+    ipAddress: {
+      type: String,
+      default: "unknown",
+    },
+    userAgent: {
+      type: String,
+      default: "unknown",
+    },
   },
   {
     timestamps: true,

@@ -501,6 +501,49 @@ const BathroomRenovationsClient = () => {
         </p>
       </div>
 
+      {/* Stats Cards */}
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            Total Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+            {submissions.length}
+          </dd>
+        </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            New Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-blue-600">
+            {submissions.filter((s) => (s.status || "new") === "new").length}
+          </dd>
+        </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            Detailed Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-purple-600">
+            {submissions.filter((s) => s.hasDetailedInfo).length}
+          </dd>
+        </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            This Month
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-green-600">
+            {
+              submissions.filter(
+                (s) =>
+                  new Date(s.createdAt).getMonth() === new Date().getMonth() &&
+                  new Date(s.createdAt).getFullYear() ===
+                    new Date().getFullYear(),
+              ).length
+            }
+          </dd>
+        </div>
+      </div>
+
       {/* Filters and Search */}
       <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">

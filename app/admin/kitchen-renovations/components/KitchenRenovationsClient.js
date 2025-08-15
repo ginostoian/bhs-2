@@ -5,6 +5,30 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+// Helper functions
+const getStatusColor = (status) => {
+  const safeStatus = status || "New";
+  switch (safeStatus) {
+    case "New":
+      return "bg-blue-100 text-blue-800";
+    case "Contacted":
+      return "bg-yellow-100 text-yellow-800";
+    case "Quote Sent":
+      return "bg-green-100 text-green-800";
+    case "Converted":
+      return "bg-purple-100 text-purple-800";
+    case "Lost":
+      return "bg-red-100 text-red-800";
+    default:
+      return "bg-gray-100 text-gray-800";
+  }
+};
+
+const getStatusDisplay = (status) => {
+  const safeStatus = status || "New";
+  return safeStatus;
+};
+
 // Modal Component
 const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
   if (!isOpen || !submission) return null;
@@ -95,23 +119,32 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                   {submission.address}
                 </p>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Submitted
-                </label>
-                <p className="mt-1 text-sm text-gray-900">
-                  {formatDate(submission.submittedAt)}
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* Project Information */}
+          {/* Project Details */}
           <div>
             <h3 className="mb-4 text-lg font-medium text-gray-900">
-              Project Information
+              Project Details
             </h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Property Type
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {submission.propertyType}
+                  {submission.flatFloor && ` (Floor: ${submission.flatFloor})`}
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Kitchen Size
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {submission.kitchenSize || "Not specified"}
+                </p>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">
                   New Purchase
@@ -122,34 +155,16 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">
-                  Property Type
+                  Detailed Information
                 </label>
                 <p className="mt-1 text-sm text-gray-900">
-                  {submission.propertyType}
-                </p>
-              </div>
-              {submission.flatFloor && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-500">
-                    Flat Floor
-                  </label>
-                  <p className="mt-1 text-sm text-gray-900">
-                    {submission.flatFloor}
-                  </p>
-                </div>
-              )}
-              <div>
-                <label className="block text-sm font-medium text-gray-500">
-                  Kitchen Size
-                </label>
-                <p className="mt-1 text-sm text-gray-900">
-                  {submission.kitchenSize}
+                  {submission.hasDetailedInfo ? "Yes" : "No"}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Detailed Information (if available) */}
+          {/* Detailed Information */}
           {submission.hasDetailedInfo && (
             <div>
               <h3 className="mb-4 text-lg font-medium text-gray-900">
@@ -169,7 +184,7 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                 {submission.rewiring && (
                   <div>
                     <label className="block text-sm font-medium text-gray-500">
-                      Rewiring Needed
+                      Rewiring
                     </label>
                     <p className="mt-1 text-sm text-gray-900">
                       {submission.rewiring}
@@ -186,17 +201,17 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                     </p>
                   </div>
                 )}
+                {submission.additionalRequests && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-500">
+                      Additional Requests
+                    </label>
+                    <p className="mt-1 text-sm text-gray-900">
+                      {submission.additionalRequests}
+                    </p>
+                  </div>
+                )}
               </div>
-              {submission.additionalRequests && (
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-500">
-                    Additional Requests
-                  </label>
-                  <p className="mt-1 text-sm text-gray-900">
-                    {submission.additionalRequests}
-                  </p>
-                </div>
-              )}
             </div>
           )}
 
@@ -211,7 +226,7 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                   How They Found Us
                 </label>
                 <p className="mt-1 text-sm text-gray-900">
-                  {submission.source}
+                  {submission.source || "Not specified"}
                 </p>
               </div>
             </div>
@@ -228,7 +243,13 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                   Status
                 </label>
                 <p className="mt-1 text-sm text-gray-900">
-                  {submission.status}
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusColor(
+                      submission.status,
+                    )}`}
+                  >
+                    {getStatusDisplay(submission.status)}
+                  </span>
                 </p>
               </div>
               {submission.notes && (
@@ -242,6 +263,85 @@ const KitchenRenovationModal = ({ submission, isOpen, onClose }) => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* System Information */}
+          <div>
+            <h3 className="mb-4 text-lg font-medium text-gray-900">
+              System Information
+            </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Submission ID
+                </label>
+                <p className="mt-1 font-mono text-sm text-gray-900">
+                  {submission._id}
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Submitted At
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {formatDate(submission.createdAt)}
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  IP Address
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {submission.ipAddress || "Not recorded"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Email Status */}
+          <div>
+            <h3 className="mb-4 text-lg font-medium text-gray-900">
+              Email Status
+            </h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Confirmation Email
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {submission.confirmationEmailSent ? "Sent" : "Not sent"}
+                </p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-500">
+                  Admin Notification
+                </label>
+                <p className="mt-1 text-sm text-gray-900">
+                  {submission.adminNotificationSent ? "Sent" : "Not sent"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex justify-end space-x-3 pt-4">
+            <button
+              onClick={() => {
+                window.open(
+                  `mailto:${submission.email}?subject=Re: Kitchen Renovation Enquiry`,
+                  "_blank",
+                );
+              }}
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Reply via Email
+            </button>
+            <button
+              onClick={onClose}
+              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -257,9 +357,9 @@ const KitchenRenovationsClient = () => {
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("submittedAt");
+  const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
   useEffect(() => {
@@ -276,7 +376,14 @@ const KitchenRenovationsClient = () => {
   const fetchSubmissions = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/admin/kitchen-renovations");
+      const params = new URLSearchParams({
+        status: filter,
+        search: searchTerm,
+        sortBy,
+        sortOrder,
+      });
+
+      const response = await fetch(`/api/admin/kitchen-renovations?${params}`);
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -297,16 +404,13 @@ const KitchenRenovationsClient = () => {
 
   const updateStatus = async (submissionId, newStatus) => {
     try {
-      const response = await fetch(
-        `/api/admin/kitchen-renovations/${submissionId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status: newStatus }),
+      const response = await fetch(`/api/admin/kitchen-renovations`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ submissionId, status: newStatus }),
+      });
 
       if (response.ok) {
         toast.success("Status updated successfully");
@@ -320,85 +424,35 @@ const KitchenRenovationsClient = () => {
     }
   };
 
-  const addNote = async (submissionId, note) => {
-    try {
-      const response = await fetch(
-        `/api/admin/kitchen-renovations/${submissionId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ notes: note }),
-        },
-      );
-
-      if (response.ok) {
-        toast.success("Note added successfully");
-        fetchSubmissions(); // Refresh the list
-      } else {
-        toast.error("Failed to add note");
-      }
-    } catch (error) {
-      console.error("Error adding note:", error);
-      toast.error("Failed to add note");
-    }
+  const handleViewDetails = (submission) => {
+    setSelectedSubmission(submission);
+    setIsModalOpen(true);
   };
 
-  const deleteSubmission = async (submissionId) => {
-    if (!confirm("Are you sure you want to delete this submission?")) return;
-
-    try {
-      const response = await fetch(
-        `/api/admin/kitchen-renovations/${submissionId}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (response.ok) {
-        toast.success("Submission deleted successfully");
-        fetchSubmissions(); // Refresh the list
-      } else {
-        toast.error("Failed to delete submission");
-      }
-    } catch (error) {
-      console.error("Error deleting submission:", error);
-      toast.error("Failed to delete submission");
-    }
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedSubmission(null);
   };
 
   // Filter and sort submissions
-  const filteredAndSortedSubmissions = submissions
-    .filter((submission) => {
-      const matchesSearch =
-        submission.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        submission.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        submission.address.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesStatus =
-        statusFilter === "all" || submission.status === statusFilter;
-      return matchesSearch && matchesStatus;
-    })
-    .sort((a, b) => {
-      let aValue = a[sortBy];
-      let bValue = b[sortBy];
+  const filteredSubmissions = submissions.filter((sub) => {
+    const matchesSearch =
+      sub.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      sub.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      sub.address.toLowerCase().includes(searchTerm.toLowerCase());
 
-      if (sortBy === "submittedAt") {
-        aValue = new Date(aValue);
-        bValue = new Date(bValue);
-      }
+    const matchesFilter = filter === "all" || (sub.status || "New") === filter;
 
-      if (sortOrder === "asc") {
-        return aValue > bValue ? 1 : -1;
-      } else {
-        return aValue < bValue ? 1 : -1;
-      }
-    });
+    return matchesSearch && matchesFilter;
+  });
 
   if (status === "loading") {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="text-xl">Loading...</div>
+        <div className="text-center">
+          <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-gray-900"></div>
+          <p className="mt-4 text-lg">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -408,32 +462,112 @@ const KitchenRenovationsClient = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
           Kitchen Renovation Submissions
         </h1>
-        <p className="mt-2 text-gray-600">
-          Manage and track kitchen renovation form submissions
+        <p className="mt-2 text-sm text-gray-600">
+          Manage and track all kitchen renovation form submissions
         </p>
       </div>
 
-      {/* Filters and Search */}
-      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-        <div>
-          <input
-            type="text"
-            placeholder="Search by name, email, or address..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
+      {/* Stats Cards */}
+      <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            Total Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+            {submissions.length}
+          </dd>
         </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            New Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-blue-600">
+            {submissions.filter((s) => (s.status || "New") === "New").length}
+          </dd>
+        </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            Detailed Submissions
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-purple-600">
+            {submissions.filter((s) => s.hasDetailedInfo).length}
+          </dd>
+        </div>
+        <div className="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+          <dt className="truncate text-sm font-medium text-gray-500">
+            This Month
+          </dt>
+          <dd className="mt-1 text-3xl font-semibold tracking-tight text-green-600">
+            {
+              submissions.filter(
+                (s) =>
+                  new Date(s.createdAt).getMonth() === new Date().getMonth() &&
+                  new Date(s.createdAt).getFullYear() ===
+                    new Date().getFullYear(),
+              ).length
+            }
+          </dd>
+        </div>
+      </div>
+
+      {/* Filters and Search */}
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+        {/* Search */}
         <div>
+          <label
+            htmlFor="search"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Search
+          </label>
+          <div className="relative mt-1 rounded-md shadow-sm">
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg
+                className="h-5 w-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </div>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              className="block w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-blue-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm"
+              placeholder="Search by name, email, or address..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Status Filter */}
+        <div>
+          <label
+            htmlFor="status-filter"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Status
+          </label>
           <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            id="status-filter"
+            name="status-filter"
+            className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
           >
             <option value="all">All Statuses</option>
             <option value="New">New</option>
@@ -443,59 +577,85 @@ const KitchenRenovationsClient = () => {
             <option value="Lost">Lost</option>
           </select>
         </div>
+
+        {/* Sort */}
         <div>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          <label
+            htmlFor="sort"
+            className="block text-sm font-medium text-gray-700"
           >
-            <option value="submittedAt">Sort by Date</option>
-            <option value="name">Sort by Name</option>
-            <option value="status">Sort by Status</option>
-          </select>
-        </div>
-        <div>
+            Sort By
+          </label>
           <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            id="sort"
+            name="sort"
+            className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+            value={`${sortBy}-${sortOrder}`}
+            onChange={(e) => {
+              const [newSortBy, newSortOrder] = e.target.value.split("-");
+              setSortBy(newSortBy);
+              setSortOrder(newSortOrder);
+            }}
           >
-            <option value="desc">Newest First</option>
-            <option value="asc">Oldest First</option>
+            <option value="createdAt-desc">Newest First</option>
+            <option value="createdAt-asc">Oldest First</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+            <option value="status-asc">Status A-Z</option>
+            <option value="status-desc">Status Z-A</option>
           </select>
         </div>
       </div>
 
       {/* Submissions Table */}
-      {loading ? (
-        <div className="flex h-64 items-center justify-center">
-          <div className="text-xl">Loading submissions...</div>
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Contact Info
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Project Details
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Source
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Submitted
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 bg-white">
+              {loading ? (
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Contact Info
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Project Details
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Submitted
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Actions
-                  </th>
+                  <td
+                    colSpan="6"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    Loading submissions...
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">
-                {filteredAndSortedSubmissions.map((submission) => (
+              ) : filteredSubmissions.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan="6"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
+                    {searchTerm || filter !== "all"
+                      ? "No submissions match your filters"
+                      : "No submissions found"}
+                  </td>
+                </tr>
+              ) : (
+                filteredSubmissions.map((submission) => (
                   <tr key={submission._id} className="hover:bg-gray-50">
                     <td className="whitespace-nowrap px-6 py-4">
                       <div>
@@ -511,29 +671,31 @@ const KitchenRenovationsClient = () => {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <div className="text-sm text-gray-900">
-                        <div>
-                          <span className="font-medium">Type:</span>{" "}
+                      <div>
+                        <div className="text-sm text-gray-900">
                           {submission.propertyType}
+                          {submission.flatFloor &&
+                            ` (Floor: ${submission.flatFloor})`}
                         </div>
-                        <div>
-                          <span className="font-medium">Size:</span>{" "}
-                          {submission.kitchenSize}
+                        <div className="text-sm text-gray-500">
+                          {submission.kitchenSize || "Size not specified"}
                         </div>
-                        {submission.hasDetailedInfo && (
-                          <div className="text-xs text-blue-600">
-                            Detailed info available
-                          </div>
-                        )}
+                        <div className="text-sm text-gray-500">
+                          {submission.hasDetailedInfo
+                            ? "Detailed info"
+                            : "Basic info"}
+                        </div>
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <select
-                        value={submission.status}
+                        value={submission.status || "New"}
                         onChange={(e) =>
                           updateStatus(submission._id, e.target.value)
                         }
-                        className="rounded-md border border-gray-300 px-2 py-1 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        className={`inline-flex items-center rounded-full border-0 px-2.5 py-0.5 text-xs font-medium focus:ring-2 focus:ring-blue-500 ${getStatusColor(
+                          submission.status,
+                        )}`}
                       >
                         <option value="New">New</option>
                         <option value="Contacted">Contacted</option>
@@ -543,67 +705,36 @@ const KitchenRenovationsClient = () => {
                       </select>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {new Date(submission.submittedAt).toLocaleDateString(
+                      {submission.source || "Not specified"}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {new Date(submission.createdAt).toLocaleDateString(
                         "en-GB",
                       )}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
-                          onClick={() => {
-                            setSelectedSubmission(submission);
-                            setIsModalOpen(true);
-                          }}
+                          onClick={() => handleViewDetails(submission)}
                           className="text-blue-600 hover:text-blue-900"
                         >
-                          View
-                        </button>
-                        <button
-                          onClick={() => {
-                            const note = prompt("Enter a note:");
-                            if (note) {
-                              addNote(submission._id, note);
-                            }
-                          }}
-                          className="text-green-600 hover:text-green-900"
-                        >
-                          Add Note
-                        </button>
-                        <button
-                          onClick={() => deleteSubmission(submission._id)}
-                          className="text-red-600 hover:text-red-900"
-                        >
-                          Delete
+                          View Details
                         </button>
                       </div>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-      )}
-
-      {/* Empty State */}
-      {!loading && filteredAndSortedSubmissions.length === 0 && (
-        <div className="mt-8 text-center">
-          <div className="text-gray-500">
-            {searchTerm || statusFilter !== "all"
-              ? "No submissions match your filters"
-              : "No kitchen renovation submissions yet"}
-          </div>
-        </div>
-      )}
+      </div>
 
       {/* Modal */}
       <KitchenRenovationModal
         submission={selectedSubmission}
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedSubmission(null);
-        }}
+        onClose={closeModal}
       />
     </div>
   );

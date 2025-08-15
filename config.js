@@ -680,8 +680,7 @@ const config = {
       ],
     },
     renovationPage: {
-      ctaTallyFormLink:
-        "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+      ctaTallyFormLink: "/general-renovation-form",
       title: "Goodbye renovation nightmares. ",
       titleAccent: "Hello, dream home!",
       subtitle:
@@ -699,7 +698,7 @@ const config = {
           p2: "Our team will help you make the best decisions and get the best possible outcome from the renovation.",
           CTA: "Renovate your house",
           imgSrc: "/assets/img/general/london-grey-living-room.webp",
-          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/general-renovation-form",
         },
         kitchenInstallation: {
           title: "Kitchen installation & Design",
@@ -730,7 +729,7 @@ const config = {
           p2: "Whichever option you decide to go with, we will make sure that it's flawlessly installed. We can even help you source it.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/flooring-1.webp",
-          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/general-renovation-form",
         },
         structuralWork: {
           title: "Structural work",
@@ -740,7 +739,7 @@ const config = {
           p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
-          slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
+          slug: "/general-renovation-form",
         },
         heating: {
           title: "Heating & Boilers",

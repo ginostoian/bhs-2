@@ -1,28 +1,38 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
-import KitchenRenovation from "@/models/KitchenRenovation";
+import GeneralRenovation from "@/models/GeneralRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
 
+/**
+ * POST /api/general-renovation
+ * Handle general renovation form submissions
+ */
 export async function POST(request) {
   try {
     const body = await request.json();
     const {
       name,
-      email,
       phone,
+      email,
       address,
       isNewPurchase,
       propertyType,
       flatFloor,
-      kitchenSize,
-      kitchenSizeSqm,
-      knockDownWall,
+      numberOfRooms,
+      hasDetailedInfo,
+      boilerWork,
       rewiring,
-      kitchenType,
+      plastering,
+      roomsNeedPlastering,
+      painting,
+      roomsNeedPainting,
+      flooring,
+      roomsNeedFlooring,
+      flooringType,
+      bathroomRenovation,
+      kitchenRenovation,
       additionalRequests,
       source,
-      customSource,
-      hasDetailedInfo,
     } = body;
 
     // Validate required fields
@@ -30,16 +40,16 @@ export async function POST(request) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
     }
 
-    if (!email?.trim() || !email.includes("@")) {
+    if (!phone?.trim()) {
       return NextResponse.json(
-        { error: "Valid email address is required" },
+        { error: "Phone number is required" },
         { status: 400 },
       );
     }
 
-    if (!phone?.trim()) {
+    if (!email?.trim() || !email.includes("@")) {
       return NextResponse.json(
-        { error: "Phone number is required" },
+        { error: "Valid email address is required" },
         { status: 400 },
       );
     }
@@ -72,6 +82,13 @@ export async function POST(request) {
       );
     }
 
+    if (!numberOfRooms) {
+      return NextResponse.json(
+        { error: "Please specify the number of rooms" },
+        { status: 400 },
+      );
+    }
+
     // Connect to database
     await connectMongo();
 
@@ -82,57 +99,65 @@ export async function POST(request) {
       "unknown";
     const userAgent = request.headers.get("user-agent") || "unknown";
 
-    // Create kitchen renovation submission
+    // Create general renovation submission
     const renovationData = {
       name: name.trim(),
-      email: email.trim().toLowerCase(),
       phone: phone.trim(),
+      email: email.trim().toLowerCase(),
       address: address.trim(),
       isNewPurchase,
       propertyType,
-      flatFloor: propertyType === "Flat" ? flatFloor?.trim() : undefined,
-      kitchenSize: kitchenSize || kitchenSizeSqm,
-      source: customSource || source,
+      flatFloor: flatFloor?.trim(),
+      numberOfRooms: parseInt(numberOfRooms),
       hasDetailedInfo: hasDetailedInfo || false,
       ipAddress,
       userAgent,
     };
 
-    // Add detailed information only if provided and hasDetailedInfo is true
+    // Add detailed information if provided
     if (hasDetailedInfo) {
-      if (knockDownWall && knockDownWall.trim()) {
-        renovationData.knockDownWall = knockDownWall.trim();
-      }
-      if (rewiring && rewiring.trim()) {
-        renovationData.rewiring = rewiring.trim();
-      }
-      if (kitchenType && kitchenType.trim()) {
-        renovationData.kitchenType = kitchenType.trim();
-      }
-      if (additionalRequests && additionalRequests.trim()) {
-        renovationData.additionalRequests = additionalRequests.trim();
-      }
+      Object.assign(renovationData, {
+        boilerWork,
+        rewiring,
+        plastering,
+        roomsNeedPlastering: roomsNeedPlastering
+          ? parseInt(roomsNeedPlastering)
+          : undefined,
+        painting,
+        roomsNeedPainting: roomsNeedPainting
+          ? parseInt(roomsNeedPainting)
+          : undefined,
+        flooring,
+        roomsNeedFlooring: roomsNeedFlooring
+          ? parseInt(roomsNeedFlooring)
+          : undefined,
+        flooringType: flooringType?.trim(),
+        bathroomRenovation,
+        kitchenRenovation,
+        additionalRequests: additionalRequests?.trim(),
+        source,
+      });
     }
 
-    const kitchenRenovation = await KitchenRenovation.create(renovationData);
+    const generalRenovation = await GeneralRenovation.create(renovationData);
 
     // Send confirmation email to customer (async)
     try {
-      const confirmationEmail = generateConfirmationEmail(kitchenRenovation);
+      const confirmationEmail = generateConfirmationEmail(generalRenovation);
       await sendEmailWithRetry({
-        to: kitchenRenovation.email,
+        to: generalRenovation.email,
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
         text: confirmationEmail.text,
         metadata: {
-          type: "kitchen_renovation_confirmation",
-          submissionId: kitchenRenovation._id.toString(),
+          type: "general_renovation_confirmation",
+          submissionId: generalRenovation._id.toString(),
         },
       });
 
       // Update submission record
-      kitchenRenovation.confirmationEmailSent = true;
-      await kitchenRenovation.save();
+      generalRenovation.confirmationEmailSent = true;
+      await generalRenovation.save();
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
       // Don't fail the request if email fails
@@ -140,21 +165,21 @@ export async function POST(request) {
 
     // Send notification email to admin (async)
     try {
-      const adminEmail = generateAdminNotificationEmail(kitchenRenovation);
+      const adminEmail = generateAdminNotificationEmail(generalRenovation);
       await sendEmailWithRetry({
         to: "contact@celli.co.uk",
         subject: adminEmail.subject,
         html: adminEmail.html,
         text: adminEmail.text,
         metadata: {
-          type: "kitchen_renovation_admin_notification",
-          submissionId: kitchenRenovation._id.toString(),
+          type: "general_renovation_admin_notification",
+          submissionId: generalRenovation._id.toString(),
         },
       });
 
       // Update submission record
-      kitchenRenovation.adminNotificationSent = true;
-      await kitchenRenovation.save();
+      generalRenovation.adminNotificationSent = true;
+      await generalRenovation.save();
     } catch (emailError) {
       console.error("Failed to send admin notification email:", emailError);
       // Don't fail the request if email fails
@@ -163,15 +188,19 @@ export async function POST(request) {
     return NextResponse.json(
       {
         success: true,
-        message: "Kitchen renovation form submitted successfully",
-        submissionId: kitchenRenovation._id.toString(),
+        message: "General renovation form submitted successfully",
+        submissionId: generalRenovation._id.toString(),
       },
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error submitting kitchen renovation enquiry:", error);
+    console.error("Error submitting general renovation form:", error);
+    console.error("Error stack:", error.stack);
     return NextResponse.json(
-      { error: "Failed to submit enquiry" },
+      {
+        error: "Failed to submit general renovation form",
+        details: error.message,
+      },
       { status: 500 },
     );
   }
@@ -181,7 +210,7 @@ export async function POST(request) {
  * Generate confirmation email for customer
  */
 function generateConfirmationEmail(submission) {
-  const subject = "Thank you for your kitchen renovation enquiry";
+  const subject = "Thank you for your general renovation enquiry";
 
   const html = `
     <!DOCTYPE html>
@@ -189,7 +218,7 @@ function generateConfirmationEmail(submission) {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Kitchen Renovation Enquiry Confirmation</title>
+      <title>General Renovation Enquiry Confirmation</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -209,7 +238,7 @@ function generateConfirmationEmail(submission) {
         <div class="content">
           <p>Dear ${submission.name},</p>
           
-          <p>Thank you for submitting your kitchen renovation enquiry. We have received your request and our team will review it carefully.</p>
+          <p>Thank you for submitting your general renovation enquiry. We have received your request and our team will review it carefully.</p>
           
           <div class="highlight">
             <h3>What happens next?</h3>
@@ -219,8 +248,8 @@ function generateConfirmationEmail(submission) {
           <div class="details">
             <h3>Your Project Details</h3>
             <p><strong>Property Type:</strong> ${submission.propertyType}${submission.flatFloor ? ` (Floor: ${submission.flatFloor})` : ""}</p>
-            <p><strong>Kitchen Size:</strong> ${submission.kitchenSize || "Not specified"}</p>
-            <p><strong>New Purchase:</strong> ${submission.isNewPurchase}</p>
+            <p><strong>Number of Rooms:</strong> ${submission.numberOfRooms}</p>
+            <p><strong>New Purchase:</strong> ${submission.isNewPurchase ? "Yes" : "No"}</p>
             ${
               submission.hasDetailedInfo
                 ? `
@@ -234,7 +263,7 @@ function generateConfirmationEmail(submission) {
           
           <p>If you have any questions in the meantime, please don't hesitate to contact us at <a href="mailto:contact@celli.co.uk">contact@celli.co.uk</a> or call us directly.</p>
           
-          <p>We look forward to helping you create your dream kitchen!</p>
+          <p>We look forward to helping you transform your space!</p>
           
           <p>Best regards,<br>
           The Better Homes Studio Team</p>
@@ -250,24 +279,24 @@ function generateConfirmationEmail(submission) {
   `;
 
   const text = `
-Thank you for your kitchen renovation enquiry!
+Thank you for your general renovation enquiry!
 
 Dear ${submission.name},
 
-Thank you for submitting your kitchen renovation enquiry. We have received your request and our team will review it carefully.
+Thank you for submitting your general renovation enquiry. We have received your request and our team will review it carefully.
 
 What happens next?
 We will review your project requirements and get back to you within 24 hours with a detailed quote and next steps.
 
 Your Project Details:
 - Property Type: ${submission.propertyType}${submission.flatFloor ? ` (Floor: ${submission.flatFloor})` : ""}
-- Kitchen Size: ${submission.kitchenSize || "Not specified"}
-- New Purchase: ${submission.isNewPurchase}
+- Number of Rooms: ${submission.numberOfRooms}
+- New Purchase: ${submission.isNewPurchase ? "Yes" : "No"}
 - Detailed Estimate: ${submission.hasDetailedInfo ? "Yes - we have additional information to provide a more accurate quote" : "No - we will contact you for more details"}
 
 If you have any questions in the meantime, please don't hesitate to contact us at contact@celli.co.uk or call us directly.
 
-We look forward to helping you create your dream kitchen!
+We look forward to helping you transform your space!
 
 Best regards,
 The Better Homes Studio Team
@@ -283,7 +312,7 @@ Professional renovation and construction services
  * Generate admin notification email
  */
 function generateAdminNotificationEmail(submission) {
-  const subject = "New Kitchen Renovation Enquiry";
+  const subject = "New General Renovation Enquiry";
 
   const html = `
     <!DOCTYPE html>
@@ -291,7 +320,7 @@ function generateAdminNotificationEmail(submission) {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>New Kitchen Renovation Enquiry</title>
+      <title>New General Renovation Enquiry</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -308,7 +337,7 @@ function generateAdminNotificationEmail(submission) {
     <body>
       <div class="container">
         <div class="header">
-          <h2>New Kitchen Renovation Enquiry</h2>
+          <h2>New General Renovation Enquiry</h2>
         </div>
         
         <div class="content">
@@ -338,13 +367,13 @@ function generateAdminNotificationEmail(submission) {
           </div>
           
           <div class="field">
-            <div class="label">Kitchen Size:</div>
-            <div class="value">${submission.kitchenSize || "Not specified"}</div>
+            <div class="label">Number of Rooms:</div>
+            <div class="value">${submission.numberOfRooms}</div>
           </div>
           
           <div class="field">
             <div class="label">New Purchase:</div>
-            <div class="value">${submission.isNewPurchase}</div>
+            <div class="value">${submission.isNewPurchase ? "Yes" : "No"}</div>
           </div>
           
           <div class="field">
@@ -359,11 +388,11 @@ function generateAdminNotificationEmail(submission) {
             <h3>Detailed Information</h3>
             
             ${
-              submission.knockDownWall
+              submission.boilerWork
                 ? `
             <div class="field">
-              <div class="label">Knock Down Wall:</div>
-              <div class="value">${submission.knockDownWall}</div>
+              <div class="label">Boiler Work:</div>
+              <div class="value">${submission.boilerWork}</div>
             </div>
             `
                 : ""
@@ -381,11 +410,55 @@ function generateAdminNotificationEmail(submission) {
             }
             
             ${
-              submission.kitchenType
+              submission.plastering
                 ? `
             <div class="field">
-              <div class="label">Kitchen Type:</div>
-              <div class="value">${submission.kitchenType}</div>
+              <div class="label">Plastering:</div>
+              <div class="value">${submission.plastering}${submission.roomsNeedPlastering ? ` (${submission.roomsNeedPlastering} rooms)` : ""}</div>
+            </div>
+            `
+                : ""
+            }
+            
+            ${
+              submission.painting
+                ? `
+            <div class="field">
+              <div class="label">Painting:</div>
+              <div class="value">${submission.painting}${submission.roomsNeedPainting ? ` (${submission.roomsNeedPainting} rooms)` : ""}</div>
+            </div>
+            `
+                : ""
+            }
+            
+            ${
+              submission.flooring
+                ? `
+            <div class="field">
+              <div="label">Flooring:</div>
+              <div class="value">${submission.flooring}${submission.roomsNeedFlooring ? ` (${submission.roomsNeedFlooring} rooms)` : ""}${submission.flooringType ? ` - ${submission.flooringType}` : ""}</div>
+            </div>
+            `
+                : ""
+            }
+            
+            ${
+              submission.bathroomRenovation
+                ? `
+            <div class="field">
+              <div class="label">Bathroom Renovation:</div>
+              <div class="value">${submission.bathroomRenovation}</div>
+            </div>
+            `
+                : ""
+            }
+            
+            ${
+              submission.kitchenRenovation
+                ? `
+            <div class="field">
+              <div class="label">Kitchen Renovation:</div>
+              <div class="value">${submission.kitchenRenovation ? "Yes" : "No"}</div>
             </div>
             `
                 : ""
@@ -422,24 +495,28 @@ function generateAdminNotificationEmail(submission) {
   `;
 
   const text = `
-New Kitchen Renovation Enquiry
+New General Renovation Enquiry
 
 Name: ${submission.name}
 Email: ${submission.email}
 Phone: ${submission.phone}
 Address: ${submission.address}
 Property Type: ${submission.propertyType}${submission.flatFloor ? ` (Floor: ${submission.flatFloor})` : ""}
-Kitchen Size: ${submission.kitchenSize || "Not specified"}
-New Purchase: ${submission.isNewPurchase}
+Number of Rooms: ${submission.numberOfRooms}
+New Purchase: ${submission.isNewPurchase ? "Yes" : "No"}
 Source: ${submission.source || "Not specified"}
 
 ${
   submission.hasDetailedInfo
     ? `
 Detailed Information:
-${submission.knockDownWall ? `Knock Down Wall: ${submission.knockDownWall}` : ""}
+${submission.boilerWork ? `Boiler Work: ${submission.boilerWork}` : ""}
 ${submission.rewiring ? `Rewiring: ${submission.rewiring}` : ""}
-${submission.kitchenType ? `Kitchen Type: ${submission.kitchenType}` : ""}
+${submission.plastering ? `Plastering: ${submission.plastering}${submission.roomsNeedPlastering ? ` (${submission.roomsNeedPlastering} rooms)` : ""}` : ""}
+${submission.painting ? `Painting: ${submission.painting}${submission.roomsNeedPainting ? ` (${submission.roomsNeedPainting} rooms)` : ""}` : ""}
+${submission.flooring ? `Flooring: ${submission.flooring}${submission.roomsNeedFlooring ? ` (${submission.roomsNeedFlooring} rooms)` : ""}${submission.flooringType ? ` - ${submission.flooringType}` : ""}` : ""}
+${submission.bathroomRenovation ? `Bathroom Renovation: ${submission.bathroomRenovation}` : ""}
+${submission.kitchenRenovation ? `Kitchen Renovation: ${submission.kitchenRenovation ? "Yes" : "No"}` : ""}
 ${submission.additionalRequests ? `Additional Requests: ${submission.additionalRequests}` : ""}
 `
     : ""
