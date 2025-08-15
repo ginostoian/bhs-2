@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 
 import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
@@ -19,15 +20,6 @@ import config from "@/config";
 
 export default function Page() {
   const faqPageCopy = config.copy.faqPage;
-  //   const whatWeDoCopy = aboutPageCopy.whatWeDoSection;
-  //   const whatWeDoArr = [
-  //     whatWeDoCopy.fullHome,
-  //     whatWeDoCopy.bathroomInstallation,
-  //     whatWeDoCopy.kitchenInstallation,
-  //     whatWeDoCopy.structuralWork,
-  //     whatWeDoCopy.heating,
-  //     whatWeDoCopy.flooringInstallation,
-  //   ];
   const howWeDoItCopy = faqPageCopy.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
   const faqCopy = faqPageCopy.faqs;
@@ -124,10 +116,206 @@ export default function Page() {
         </div>
       ),
     },
+    // New FAQ items for better SEO coverage
+    {
+      question: "How much does a house extension cost in London?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          House extension costs in London typically range from £2,500 to £4,500
+          per square metre, depending on the complexity and finish level. A
+          single-storey extension might cost £25,000-£45,000, while a
+          double-storey extension could range from £45,000-£80,000. We offer
+          free extension cost calculators on our website to help you estimate
+          your project.
+        </div>
+      ),
+    },
+    {
+      question: "What planning permission do I need for a loft conversion?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Most loft conversions fall under permitted development rights, meaning
+          you won&apos;t need planning permission. However, if your property is
+          listed, in a conservation area, or exceeds certain size limits,
+          you&apos;ll need to apply. Our team can assess your specific situation
+          and handle all planning applications on your behalf.
+        </div>
+      ),
+    },
+    {
+      question: "How long does a kitchen renovation take?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          A typical kitchen renovation takes 3-6 weeks depending on the scope.
+          Simple updates might take 2-3 weeks, while complete kitchen remodels
+          with structural changes can take 6-8 weeks. We always provide detailed
+          timelines during the planning phase and keep you updated throughout
+          the process.
+        </div>
+      ),
+    },
+    {
+      question: "Do you offer interior design services?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Yes, we provide comprehensive interior design services including space
+          planning, colour schemes, furniture selection, and lighting design.
+          Our interior designers work closely with our construction team to
+          ensure your vision is perfectly executed. We can handle everything
+          from concept to completion.
+        </div>
+      ),
+    },
+    {
+      question: "What's included in a bathroom renovation package?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Our bathroom renovation packages include design consultation,
+          demolition, plumbing and electrical work, tiling, installation of
+          fixtures, painting, and final finishing. We also handle all necessary
+          permits and inspections. Additional services like underfloor heating
+          or smart technology can be added to any package.
+        </div>
+      ),
+    },
+    {
+      question: "Can you help with structural work and building regulations?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Absolutely. Our team includes qualified structural engineers and
+          we&apos;re fully compliant with all building regulations. We handle
+          structural assessments, calculations, and ensure all work meets
+          current building standards. This includes foundations, load-bearing
+          walls, and structural modifications for extensions.
+        </div>
+      ),
+    },
+    {
+      question: "Do you work with architects and surveyors?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Yes, we have established relationships with local architects,
+          surveyors, and other professionals. For complex projects requiring
+          architectural drawings or structural surveys, we can recommend trusted
+          partners or work with your existing team. We coordinate all aspects to
+          ensure smooth project delivery.
+        </div>
+      ),
+    },
+    {
+      question: "What warranty do you provide on materials and installations?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          We provide comprehensive warranties: up to 10 years on workmanship,
+          2-5 years on installations depending on the product, and manufacturer
+          warranties on materials. All our work is guaranteed, and we&apos;re
+          members of professional trade associations that provide additional
+          consumer protection.
+        </div>
+      ),
+    },
+    {
+      question: "How do you handle project management and communication?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Each project has a dedicated project manager who serves as your single
+          point of contact. We provide regular updates, photos of progress, and
+          are available via phone, email, or our project management app.
+          You&apos;ll always know what&apos;s happening and when the next
+          milestone is due.
+        </div>
+      ),
+    },
+    {
+      question: "Do you offer financing options for large renovation projects?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Yes, we offer flexible payment plans and can work with various
+          financing options. Ask us more about this by contacting us.
+        </div>
+      ),
+    },
+    {
+      question:
+        "What makes Better Homes Studio different from other contractors?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          We&apos;re a full-service company that handles everything from design
+          to completion under one roof. Our team includes qualified
+          tradespeople, designers, and project managers. We use premium
+          materials, provide transparent pricing, and offer industry-leading
+          warranties. Most importantly, we treat your home like our own and
+          ensure every detail meets our high standards.
+        </div>
+      ),
+    },
+    {
+      question: "Can you work around my schedule and minimize disruption?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Absolutely. We understand that renovations can be disruptive, so we
+          work around your schedule and lifestyle. We can work in phases,
+          schedule noisy work during specific hours, and always clean up
+          thoroughly each day. For kitchen renovations, we can set up temporary
+          cooking facilities to minimize inconvenience.
+        </div>
+      ),
+    },
+    {
+      question:
+        "Do you provide post-completion support and maintenance advice?",
+      answer: (
+        <div className="space-y-2 leading-relaxed">
+          Yes, we provide comprehensive aftercare including maintenance guides,
+          warranty information, and ongoing support. Our team is always
+          available to answer questions about your new space. We also offer
+          maintenance packages for ongoing care of your renovation, ensuring it
+          stays beautiful for years to come.
+        </div>
+      ),
+    },
   ];
+
+  // Simple schema markup for FAQ page
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Answer provided by Better Homes Studio",
+      },
+    })),
+  };
+
+  // Simple local business schema
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Better Homes Studio",
+    description: "Full service renovation company in London",
+    url: "https://bhstudio.co.uk",
+    areaServed: "London",
+  };
 
   return (
     <>
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema),
+        }}
+      />
+      <Script
+        id="local-business-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema),
+        }}
+      />
       <main>
         <Hero
           title={faqPageCopy.title}
