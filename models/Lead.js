@@ -317,6 +317,15 @@ const leadSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    archivedAt: {
+      type: Date,
+      default: null,
+    },
+    archivedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
@@ -333,6 +342,8 @@ leadSchema.index({ assignedTo: 1, stage: 1 });
 leadSchema.index({ email: 1, linkedUser: 1 });
 leadSchema.index({ nextFollowUpDate: 1 });
 leadSchema.index({ isActive: 1, isArchived: 1 });
+leadSchema.index({ archivedAt: -1 });
+leadSchema.index({ archivedBy: 1 });
 
 // Virtual for full source (including custom source)
 leadSchema.virtual("fullSource").get(function () {
