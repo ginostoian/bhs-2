@@ -24,6 +24,7 @@ export async function GET(request) {
     const page = parseInt(searchParams.get("page")) || 1;
     const limit = parseInt(searchParams.get("limit")) || 20;
     const search = searchParams.get("search");
+    const dateRange = searchParams.get("dateRange");
 
     // Build query
     const query = { isActive: true, isArchived: false };
@@ -32,6 +33,16 @@ export async function GET(request) {
     if (assignedTo) query.assignedTo = assignedTo;
     if (source) query.source = source;
     if (projectType) query.projectTypes = projectType;
+
+    // Add date filtering
+    if (dateRange) {
+      const days = parseInt(dateRange);
+      if (!isNaN(days)) {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - days);
+        query.createdAt = { $gte: cutoffDate };
+      }
+    }
 
     if (search) {
       query.$or = [

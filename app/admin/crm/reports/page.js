@@ -19,16 +19,20 @@ export default function CRMReportsPage() {
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState("30"); // days
   const [selectedStage, setSelectedStage] = useState("all");
+  const [lastUpdated, setLastUpdated] = useState(null);
 
   useEffect(() => {
     fetchLeads();
-  }, []);
+  }, [dateRange]);
 
   const fetchLeads = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get("/crm/leads");
+      console.log(`Fetching leads for last ${dateRange} days`);
+      const response = await apiClient.get(`/crm/leads?dateRange=${dateRange}`);
+      console.log("API Response:", response);
       setLeads(response.leads || []);
+      setLastUpdated(new Date());
     } catch (error) {
       console.error("Error fetching leads:", error);
       toast.error("Failed to fetch leads");
@@ -170,7 +174,7 @@ export default function CRMReportsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-96 flex items-center justify-center">
+      <div className="flex min-h-96 items-center justify-center">
         <div className="loading loading-spinner loading-lg"></div>
       </div>
     );
@@ -186,19 +190,33 @@ export default function CRMReportsPage() {
           </h1>
           <p className="text-gray-600">
             Comprehensive insights into your lead pipeline
+            {dateRange && (
+              <span className="ml-2 font-medium text-blue-600">
+                • Last {dateRange} days ({totalLeads} leads)
+              </span>
+            )}
           </p>
+          {lastUpdated && (
+            <p className="text-sm text-gray-500">
+              Last updated: {lastUpdated.toLocaleString()}
+            </p>
+          )}
         </div>
         <div className="flex gap-2">
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
             className="crm-select"
+            disabled={loading}
           >
             <option value="7">Last 7 days</option>
             <option value="30">Last 30 days</option>
             <option value="90">Last 90 days</option>
-            <option value="365">Last year</option>
+            <option value="365">Last 365 days</option>
           </select>
+          {loading && (
+            <div className="loading loading-spinner loading-sm"></div>
+          )}
         </div>
       </div>
 
@@ -232,6 +250,34 @@ export default function CRMReportsPage() {
           <div className="stat-desc">2+ days without contact</div>
         </div>
       </div>
+
+      {/* No Data Message */}
+      {totalLeads === 0 && !loading && (
+        <div className="rounded-lg bg-blue-50 p-6 text-center">
+          <div className="mb-2 text-blue-600">
+            <svg
+              className="mx-auto h-12 w-12"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+          </div>
+          <h3 className="mb-2 text-lg font-medium text-blue-900">
+            No leads found
+          </h3>
+          <p className="text-blue-700">
+            No leads were created in the last {dateRange} days. Try selecting a
+            longer time period or check if leads exist in your system.
+          </p>
+        </div>
+      )}
 
       {/* Pipeline Overview */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
