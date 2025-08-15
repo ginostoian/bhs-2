@@ -247,3 +247,26 @@ a:hover {
   display: none;
   /* Chrome/Safari/Webkit */
 }
+
+/* CRM Collapsible Column Styles */
+.crm-collapsible-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.crm-collapsible-button:hover {
+  transform: scale(1.1);
+}
+
+.crm-finished-column {
+  transition: all 0.3s ease-in-out;
+}
+
+.crm-finished-column.collapsed {
+  opacity: 0.7;
+}
+
+.crm-finished-column.collapsed .archived-leads-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}

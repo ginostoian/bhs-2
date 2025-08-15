@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
+export default function LeadCard({
+  lead,
+  onClick,
+  onStageUpdate,
+  onUpdate,
+  onArchive,
+}) {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const formatCurrency = (amount) => {
@@ -283,6 +289,20 @@ export default function LeadCard({ lead, onClick, onStageUpdate, onUpdate }) {
           <option value="Won">Won</option>
           <option value="Lost">Lost</option>
         </select>
+
+        {/* Archive Button */}
+        {onArchive && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onArchive(lead.id || lead._id);
+            }}
+            className="mt-2 w-full rounded-md bg-gray-100 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+            title="Archive this lead"
+          >
+            📁 Archive
+          </button>
+        )}
       </div>
     </div>
   );

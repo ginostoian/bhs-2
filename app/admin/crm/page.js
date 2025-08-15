@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
 import LeadCard from "./components/LeadCard";
+import ArchivedLeadCard from "./components/ArchivedLeadCard";
 import CreateLeadModal from "./components/CreateLeadModal";
 import LeadDetailModal from "./components/LeadDetailModal";
 import FilterBar from "./components/FilterBar";
@@ -43,10 +44,14 @@ export default function CRMPage() {
     source: "",
     projectType: "",
   });
+  const [archivedLeads, setArchivedLeads] = useState([]);
+  const [isFinishedColumnCollapsed, setIsFinishedColumnCollapsed] =
+    useState(false);
 
   // Fetch leads on component mount
   useEffect(() => {
     fetchLeads();
+    fetchArchivedLeads();
   }, []);
 
   // Apply filters when leads or filters change
@@ -64,6 +69,16 @@ export default function CRMPage() {
       toast.error("Failed to fetch leads");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchArchivedLeads = async () => {
+    try {
+      const response = await apiClient.get("/crm/leads/archived");
+      setArchivedLeads(response.leads || []);
+    } catch (error) {
+      console.error("Error fetching archived leads:", error);
+      toast.error("Failed to fetch archived leads");
     }
   };
 
@@ -206,6 +221,50 @@ export default function CRMPage() {
     }
   };
 
+  const handleArchiveLead = async (leadId) => {
+    try {
+      await apiClient.post(`/crm/leads/${leadId}/archive`);
+
+      // Remove from active leads and add to archived leads
+      const leadToArchive = leads.find(
+        (lead) => (lead.id || lead._id) === leadId,
+      );
+      if (leadToArchive) {
+        setLeads((prev) =>
+          prev.filter((lead) => (lead.id || lead._id) !== leadId),
+        );
+        setArchivedLeads((prev) => [leadToArchive, ...prev]);
+      }
+
+      toast.success("Lead archived successfully");
+    } catch (error) {
+      console.error("Error archiving lead:", error);
+      toast.error("Failed to archive lead");
+    }
+  };
+
+  const handleUnarchiveLead = async (leadId) => {
+    try {
+      await apiClient.delete(`/crm/leads/${leadId}/archive`);
+
+      // Remove from archived leads and add back to active leads
+      const leadToUnarchive = archivedLeads.find(
+        (lead) => (lead.id || lead._id) === leadId,
+      );
+      if (leadToUnarchive) {
+        setArchivedLeads((prev) =>
+          prev.filter((lead) => (lead.id || lead._id) !== leadId),
+        );
+        setLeads((prev) => [leadToUnarchive, ...prev]);
+      }
+
+      toast.success("Lead unarchived successfully");
+    } catch (error) {
+      console.error("Error unarchiving lead:", error);
+      toast.error("Failed to unarchive lead");
+    }
+  };
+
   const getLeadsByStage = (stage) => {
     const stageLeads = filteredLeads.filter((lead) => lead.stage === stage);
     console.log(`📊 Found ${stageLeads.length} leads in stage: ${stage}`);
@@ -214,7 +273,7 @@ export default function CRMPage() {
 
   if (loading) {
     return (
-      <div className="min-h-96 flex items-center justify-center">
+      <div className="flex min-h-96 items-center justify-center">
         <div className="loading loading-spinner loading-lg"></div>
       </div>
     );
@@ -320,11 +379,56 @@ export default function CRMPage() {
                       onClick={() => handleLeadClick(lead)}
                       onStageUpdate={handleStageUpdate}
                       onUpdate={handleUpdateLead}
+                      onArchive={handleArchiveLead}
                     />
                   ))}
                 </div>
               </div>
             ))}
+
+            {/* Finished Column (Archived Leads) */}
+            <div className="min-h-96 w-[420px] rounded-lg border-2 border-gray-300 bg-gray-50 p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() =>
+                      setIsFinishedColumnCollapsed(!isFinishedColumnCollapsed)
+                    }
+                    className="text-gray-600 hover:text-gray-800"
+                    title={
+                      isFinishedColumnCollapsed
+                        ? "Expand Finished column"
+                        : "Collapse Finished column"
+                    }
+                  >
+                    {isFinishedColumnCollapsed ? "▶️" : "🔽"}
+                  </button>
+                  <h3 className="font-semibold text-gray-700">Finished</h3>
+                </div>
+                <span className="badge badge-neutral bg-gray-500">
+                  {archivedLeads.length}
+                </span>
+              </div>
+
+              {!isFinishedColumnCollapsed && (
+                <div className="space-y-3">
+                  {archivedLeads.map((lead) => (
+                    <ArchivedLeadCard
+                      key={lead.id || lead._id}
+                      lead={lead}
+                      onClick={() => handleLeadClick(lead)}
+                      onUnarchive={handleUnarchiveLead}
+                    />
+                  ))}
+                  {archivedLeads.length === 0 && (
+                    <div className="py-8 text-center text-gray-500">
+                      <div className="mb-2 text-4xl">📁</div>
+                      <div className="text-sm">No archived leads</div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
