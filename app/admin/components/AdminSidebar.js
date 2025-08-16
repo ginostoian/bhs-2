@@ -24,7 +24,7 @@ export default function AdminSidebar() {
       icon: "⚙️",
       items: [
         { name: "Dashboard", href: "/admin/dashboard", icon: "🏠" },
-        { name: "Users", href: "/admin", icon: "👥" },
+        { name: "Users", href: "/admin/users", icon: "👥" },
         { name: "CRM", href: "/admin/crm", icon: "📈" },
         { name: "Calendar", href: "/admin/calendar", icon: "📅" },
         { name: "Tickets", href: "/admin/tickets", icon: "🎫" },
