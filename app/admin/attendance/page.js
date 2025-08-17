@@ -179,6 +179,10 @@ export default function AttendanceAdminPage() {
   const [isLoadingCalendar, setIsLoadingCalendar] = useState(true);
   const [isLoadingList, setIsLoadingList] = useState(true);
 
+  // Error states
+  const [error, setError] = useState(null);
+  const [lastError, setLastError] = useState(null);
+
   // Prevent hydration mismatch by deferring dynamic UI until mounted
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -347,6 +351,16 @@ export default function AttendanceAdminPage() {
         setIsLoadingCalendar(false);
         setIsLoadingList(false);
 
+        // Capture error for UI display
+        setError(`Failed to load attendance data: ${error.message}`);
+        setLastError({
+          message: error.message,
+          stack: error.stack,
+          timestamp: new Date().toISOString(),
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+        });
+
         // Show error to user
         alert(`Failed to load attendance data: ${error.message}`);
       }
@@ -394,6 +408,14 @@ export default function AttendanceAdminPage() {
         setProjects(mappedProjects);
       } catch (error) {
         console.error("❌ Failed to load workers and projects:", error);
+        setError(`Failed to load workers and projects: ${error.message}`);
+        setLastError({
+          message: error.message,
+          stack: error.stack,
+          timestamp: new Date().toISOString(),
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+        });
         alert(`Failed to load workers and projects: ${error.message}`);
       }
     };
@@ -740,6 +762,36 @@ export default function AttendanceAdminPage() {
         </div>
       )}
 
+      {/* Show any errors that occurred */}
+      {error && (
+        <div className="rounded-xl border border-red-200 bg-red-50 p-4">
+          <h3 className="mb-2 text-lg font-semibold text-red-800">
+            Error Loading Data
+          </h3>
+          <p className="mb-2 text-red-600">{error}</p>
+          {lastError && (
+            <details className="text-sm">
+              <summary className="cursor-pointer text-red-700">
+                Technical Details
+              </summary>
+              <pre className="mt-2 whitespace-pre-wrap rounded bg-red-100 p-2 text-xs text-red-600">
+                {JSON.stringify(lastError, null, 2)}
+              </pre>
+            </details>
+          )}
+          <button
+            onClick={() => {
+              setError(null);
+              setLastError(null);
+              fetchAttendanceData(true);
+            }}
+            className="mt-2 rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
       {/* Main content - only show when authenticated */}
       {status === "authenticated" && (
         <>
@@ -754,57 +806,75 @@ export default function AttendanceAdminPage() {
             </p>
           </div>
 
-          {/* Debug Panel - Remove this after fixing the issue */}
-          {process.env.NODE_ENV === "development" && (
-            <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
-              <h3 className="mb-2 text-lg font-semibold text-yellow-800">
-                Debug Info
-              </h3>
-              <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
-                <div>
-                  <span className="font-medium">Session Status:</span> {status}
-                </div>
-                <div>
-                  <span className="font-medium">User ID:</span>{" "}
-                  {session?.user?.id || "None"}
-                </div>
-                <div>
-                  <span className="font-medium">Mounted:</span>{" "}
-                  {mounted ? "✅" : "❌"}
-                </div>
-                <div>
-                  <span className="font-medium">Loading:</span>{" "}
-                  {isLoading ? "🔄" : "✅"}
-                </div>
-                <div>
-                  <span className="font-medium">Calendar:</span>{" "}
-                  {isLoadingCalendar ? "🔄" : "✅"}
-                </div>
-                <div>
-                  <span className="font-medium">List:</span>{" "}
-                  {isLoadingList ? "🔄" : "✅"}
-                </div>
-                <div>
-                  <span className="font-medium">Events:</span> {events.length}
-                </div>
-                <div>
-                  <span className="font-medium">List Items:</span>{" "}
-                  {listItems.length}
-                </div>
-                <div>
-                  <span className="font-medium">Date:</span>{" "}
-                  {date.toDateString()}
-                </div>
-                <div>
-                  <span className="font-medium">Worker Filter:</span>{" "}
-                  {selectedWorkerId || "None"}
-                </div>
+          {/* Debug Panel - Show in both dev and production for troubleshooting */}
+          <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
+            <h3 className="mb-2 text-lg font-semibold text-yellow-800">
+              Debug Info
+            </h3>
+            <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
+              <div>
+                <span className="font-medium">Session Status:</span> {status}
               </div>
-              <div className="mt-2 text-xs text-yellow-600">
-                Check browser console for detailed logs
+              <div>
+                <span className="font-medium">User ID:</span>{" "}
+                {session?.user?.id || "None"}
+              </div>
+              <div>
+                <span className="font-medium">Mounted:</span>{" "}
+                {mounted ? "✅" : "❌"}
+              </div>
+              <div>
+                <span className="font-medium">Loading:</span>{" "}
+                {isLoading ? "🔄" : "✅"}
+              </div>
+              <div>
+                <span className="font-medium">Calendar:</span>{" "}
+                {isLoadingCalendar ? "🔄" : "✅"}
+              </div>
+              <div>
+                <span className="font-medium">List:</span>{" "}
+                {isLoadingList ? "🔄" : "✅"}
+              </div>
+              <div>
+                <span className="font-medium">Events:</span> {events.length}
+              </div>
+              <div>
+                <span className="font-medium">List Items:</span>{" "}
+                {listItems.length}
+              </div>
+              <div>
+                <span className="font-medium">Date:</span> {date.toDateString()}
+              </div>
+              <div>
+                <span className="font-medium">Worker Filter:</span>{" "}
+                {selectedWorkerId || "None"}
               </div>
             </div>
-          )}
+            <div className="mt-2 text-xs text-yellow-600">
+              Check browser console for detailed logs
+            </div>
+
+            {/* Environment Debug Info */}
+            <details className="mt-3">
+              <summary className="cursor-pointer font-medium text-yellow-700">
+                Environment Info
+              </summary>
+              <div className="mt-2 rounded bg-yellow-100 p-2 text-xs text-yellow-600">
+                <div>Environment: {process.env.NODE_ENV || "unknown"}</div>
+                {mounted && (
+                  <>
+                    <div>Base URL: {window.location.origin}</div>
+                    <div>Path: {window.location.pathname}</div>
+                    <div>
+                      User Agent: {navigator.userAgent.substring(0, 50)}...
+                    </div>
+                    <div>Timestamp: {new Date().toISOString()}</div>
+                  </>
+                )}
+                {!mounted && <div>Loading environment info...</div>}
+              </div>
+            </details>
+          </div>
 
           {/* Filters */}
           <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
