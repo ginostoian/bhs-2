@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import { requireAdmin } from "@/libs/requireAdmin";
 import Attendance from "@/models/Attendance";
+import Employee from "@/models/Employee";
+import Project from "@/models/Project";
 
 export const dynamic = "force-dynamic";
 
