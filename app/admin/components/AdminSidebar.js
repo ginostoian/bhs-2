@@ -60,6 +60,22 @@ export default function AdminSidebar() {
       items: [{ name: "Payments", href: "/admin/payments", icon: "💳" }],
     },
     {
+      id: "quoting",
+      name: "Pricing & Quotes",
+      icon: "📋",
+      items: [
+        { name: "Quoting Dashboard", href: "/admin/quoting", icon: "📊" },
+        { name: "Create Quote", href: "/admin/quoting/create", icon: "➕" },
+        {
+          name: "Quote Templates",
+          href: "/admin/quoting/templates",
+          icon: "📄",
+        },
+        { name: "Rate Cards", href: "/admin/quoting/rates", icon: "💰" },
+        { name: "Quote History", href: "/admin/quoting/history", icon: "📚" },
+      ],
+    },
+    {
       id: "attendance",
       name: "Attendance & Tasks",
       icon: "📊",

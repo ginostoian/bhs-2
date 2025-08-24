@@ -21,6 +21,9 @@ import Attendance from "./Attendance.js";
 import BathroomRenovation from "./BathroomRenovation.js";
 import KitchenRenovation from "./KitchenRenovation.js";
 import GeneralRenovation from "./GeneralRenovation.js";
+import QuoteTemplate from "./QuoteTemplate.js";
+import RateCard from "./RateCard.js";
+import Quote from "./Quote.js";
 
 // Export all models
 export {
@@ -44,4 +47,7 @@ export {
   BathroomRenovation,
   KitchenRenovation,
   GeneralRenovation,
+  QuoteTemplate,
+  RateCard,
+  Quote,
 };
