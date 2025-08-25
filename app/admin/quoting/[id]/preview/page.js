@@ -395,68 +395,75 @@ export default function QuotePreviewPage() {
 
                   {/* Table Header */}
                   <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
-                    <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
-                      <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
-                        <div className="col-span-5">Service Item</div>
-                        <div className="col-span-2">Quantity</div>
-                        <div className="col-span-2">Unit Price</div>
-                        <div className="col-span-3">Total</div>
-                      </div>
-                    </div>
-
-                    {/* Table Body */}
-                    <div className="divide-y divide-gray-200">
-                      {category.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
-                        >
-                          <div className="grid grid-cols-12 items-center gap-4 text-sm">
-                            {/* Service Item */}
-                            <div className="col-span-5">
-                              <div className="space-y-1">
-                                <h5 className="font-medium text-gray-900">
-                                  {item.name}
-                                </h5>
-                                {item.description && (
-                                  <p className="whitespace-pre-line text-xs text-gray-600">
-                                    {item.description}
-                                  </p>
-                                )}
-                                {item.notes && (
-                                  <div className="mt-1 text-xs text-blue-700">
-                                    <span className="font-medium">Notes:</span>{" "}
-                                    <span className="whitespace-pre-line">
-                                      {item.notes}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-
-                            {/* Quantity */}
-                            <div className="col-span-2">
-                              <span className="text-gray-700">
-                                {item.quantity} {item.unit}
-                              </span>
-                            </div>
-
-                            {/* Unit Price */}
-                            <div className="col-span-2">
-                              <span className="font-medium text-gray-700">
-                                {formatCurrency(item.unitPrice)}
-                              </span>
-                            </div>
-
-                            {/* Total */}
-                            <div className="col-span-3">
-                              <span className="font-bold text-gray-900">
-                                {formatCurrency(item.total)}
-                              </span>
-                            </div>
+                    {/* Table Container with Horizontal Scroll on Mobile */}
+                    <div className="overflow-x-auto">
+                      <div className="min-w-[600px]">
+                        <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
+                          <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
+                            <div className="col-span-5">Service Item</div>
+                            <div className="col-span-2">Quantity</div>
+                            <div className="col-span-2">Unit Price</div>
+                            <div className="col-span-3">Total</div>
                           </div>
                         </div>
-                      ))}
+
+                        {/* Table Body */}
+                        <div className="divide-y divide-gray-200">
+                          {category.items.map((item, itemIndex) => (
+                            <div
+                              key={itemIndex}
+                              className="px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
+                            >
+                              <div className="grid grid-cols-12 items-center gap-4 text-sm">
+                                {/* Service Item */}
+                                <div className="col-span-5">
+                                  <div className="space-y-1">
+                                    <h5 className="font-medium text-gray-900">
+                                      {item.name}
+                                    </h5>
+                                    {item.description && (
+                                      <p className="whitespace-pre-line text-xs text-gray-600">
+                                        {item.description}
+                                      </p>
+                                    )}
+                                    {item.notes && (
+                                      <div className="mt-1 text-xs text-blue-700">
+                                        <span className="font-medium">
+                                          Notes:
+                                        </span>{" "}
+                                        <span className="whitespace-pre-line">
+                                          {item.notes}
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {/* Quantity */}
+                                <div className="col-span-2">
+                                  <span className="text-gray-700">
+                                    {item.quantity} {item.unit}
+                                  </span>
+                                </div>
+
+                                {/* Unit Price */}
+                                <div className="col-span-2">
+                                  <span className="font-medium text-gray-700">
+                                    {formatCurrency(item.unitPrice)}
+                                  </span>
+                                </div>
+
+                                {/* Total */}
+                                <div className="col-span-3">
+                                  <span className="font-bold text-gray-900">
+                                    {formatCurrency(item.total)}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
