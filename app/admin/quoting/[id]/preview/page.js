@@ -40,7 +40,7 @@ export default function QuotePreviewPage() {
             id: quoteId,
             quoteNumber: quoteId,
             title: "Sample Quote",
-            projectType: "Bathroom Renovation",
+            projectType: "bathroom-renovation",
             client: {
               name: "John Doe",
               email: "john@example.com",
@@ -286,21 +286,21 @@ export default function QuotePreviewPage() {
       {/* Quote Content - Same as public page but in admin layout */}
       <div className="space-y-6">
         {/* Company Header */}
-        <div className="rounded-xl border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 text-center shadow-sm">
-          <div className="mb-4">
-            <h1 className="mb-2 text-5xl font-bold text-gray-900">
-              Better Homes
-            </h1>
-            <div className="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"></div>
-          </div>
-          <p className="mb-4 text-xl font-medium text-gray-700">
-            Professional Home Renovation Services
-          </p>
-          <div className="flex items-center justify-center space-x-6 text-sm text-gray-600">
-            <span>London, UK</span>
-            <span>VAT Registered</span>
-            <span>Fully Insured</span>
-            <span>5 Star Rated</span>
+        <div className="rounded-xl border-0 bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-lg">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-white">Better Homes</h1>
+            <p className="mt-2 text-xl text-blue-100">
+              Professional Home Renovation Services
+            </p>
+            <div className="mt-4 flex justify-center space-x-6 text-sm text-blue-200">
+              <span>London, UK</span>
+              <span>•</span>
+              <span>VAT Registered</span>
+              <span>•</span>
+              <span>Fully Insured</span>
+              <span>•</span>
+              <span>5 Star Rated</span>
+            </div>
           </div>
         </div>
 
@@ -374,9 +374,9 @@ export default function QuotePreviewPage() {
 
         {/* Services Breakdown */}
         {quote.services && quote.services.length > 0 && (
-          <div className="rounded-lg border border-gray-200 bg-white">
-            <div className="border-b border-gray-200 px-6 py-4">
-              <h3 className="text-lg font-medium text-gray-900">
+          <div className="overflow-hidden rounded-xl border-0 bg-white shadow-lg">
+            <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4">
+              <h3 className="text-xl font-semibold text-gray-800">
                 Services & Costs
               </h3>
             </div>
@@ -393,9 +393,8 @@ export default function QuotePreviewPage() {
                     </span>
                   </div>
 
-                  {/* Services Table */}
-                  <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-                    {/* Table Header */}
+                  {/* Table Header */}
+                  <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
                     <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
                       <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
                         <div className="col-span-5">Service Item</div>
@@ -476,7 +475,7 @@ export default function QuotePreviewPage() {
               </p>
             </div>
             <div className="p-6">
-              <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="grid grid-cols-1 gap-8 min-[760px]:grid-cols-2">
                 {/* Left Column - Basic Costs */}
                 <div className="space-y-2">
                   <div className="flex justify-between border-b border-gray-100 py-2">

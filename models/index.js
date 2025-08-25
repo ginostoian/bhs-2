@@ -23,6 +23,7 @@ import KitchenRenovation from "./KitchenRenovation.js";
 import GeneralRenovation from "./GeneralRenovation.js";
 import QuoteTemplate from "./QuoteTemplate.js";
 import RateCard from "./RateCard.js";
+import TemplateService from "./TemplateService.js";
 import Quote from "./Quote.js";
 
 // Export all models
@@ -49,5 +50,6 @@ export {
   GeneralRenovation,
   QuoteTemplate,
   RateCard,
+  TemplateService,
   Quote,
 };

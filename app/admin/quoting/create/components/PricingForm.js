@@ -1,6 +1,9 @@
 "use client";
 
 export default function PricingForm({ formData, updateFormData }) {
+  // Check if template is being used
+  const isUsingTemplate = formData.template;
+
   // Calculate totals
   const subtotal = formData.services.reduce(
     (sum, category) => sum + (category.categoryTotal || 0),
@@ -29,6 +32,17 @@ export default function PricingForm({ formData, updateFormData }) {
           Adjust pricing multipliers, overheads, profit margins, and other
           calculation settings.
         </p>
+        {isUsingTemplate && (
+          <div className="mt-3 rounded-lg border border-green-200 bg-green-50 p-3">
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-green-600"></div>
+              <span className="text-sm text-green-800">
+                Template pricing loaded. You can adjust these values as needed
+                for this specific quote.
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

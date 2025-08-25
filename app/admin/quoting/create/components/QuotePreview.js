@@ -58,13 +58,21 @@ export default function QuotePreview({ formData, quoteId }) {
       </div>
 
       {/* Company Header */}
-      <div className="rounded-lg border border-gray-200 bg-white p-6">
+      <div className="rounded-xl border-0 bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-lg">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">BH Studio</h1>
-          <p className="text-gray-600">Professional Home Renovation Services</p>
-          <p className="mt-2 text-sm text-gray-500">
-            London, UK | VAT Registered | Fully Insured
+          <h1 className="text-4xl font-bold text-white">Better Homes</h1>
+          <p className="mt-2 text-xl text-blue-100">
+            Professional Home Renovation Services
           </p>
+          <div className="mt-4 flex justify-center space-x-6 text-sm text-blue-200">
+            <span>London, UK</span>
+            <span>•</span>
+            <span>VAT Registered</span>
+            <span>•</span>
+            <span>Fully Insured</span>
+            <span>•</span>
+            <span>5 Star Rated</span>
+          </div>
         </div>
       </div>
 
@@ -137,56 +145,87 @@ export default function QuotePreview({ formData, quoteId }) {
       </div>
 
       {/* Services Breakdown */}
-      <div className="rounded-lg border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-6 py-4">
-          <h3 className="text-lg font-medium text-gray-900">
+      <div className="overflow-hidden rounded-xl border-0 bg-white shadow-lg">
+        <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4">
+          <h3 className="text-xl font-semibold text-gray-800">
             Services & Costs
           </h3>
         </div>
         <div className="p-6">
           {formData.services.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="mb-6 last:mb-0">
-              <div className="mb-3 flex items-center justify-between">
-                <h4 className="text-md font-medium text-gray-900">
+            <div key={categoryIndex} className="mb-8 last:mb-0">
+              <div className="mb-4 flex items-center justify-between rounded-lg bg-blue-50 px-4 py-3">
+                <h4 className="text-lg font-semibold text-blue-900">
                   {category.categoryName}
                 </h4>
-                <span className="text-lg font-bold text-blue-600">
+                <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-700 shadow-sm">
                   {formatCurrency(category.categoryTotal)}
                 </span>
               </div>
 
-              <div className="space-y-2">
-                {category.items.map((item, itemIndex) => (
-                  <div
-                    key={itemIndex}
-                    className="flex items-center justify-between border-b border-gray-100 py-2 last:border-b-0"
-                  >
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3">
-                        <span className="font-medium text-gray-900">
-                          {item.name}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {item.quantity} {item.unit} ×{" "}
-                          {formatCurrency(item.unitPrice)}
-                        </span>
-                      </div>
-                      {item.description && (
-                        <p className="mt-1 text-sm text-gray-600">
-                          {item.description}
-                        </p>
-                      )}
-                      {item.notes && (
-                        <p className="mt-1 text-sm text-blue-600">
-                          <strong>Notes:</strong> {item.notes}
-                        </p>
-                      )}
-                    </div>
-                    <span className="font-bold text-gray-900">
-                      {formatCurrency(item.total)}
-                    </span>
+              {/* Table Header */}
+              <div className="mb-3 overflow-hidden rounded-lg border border-gray-200 bg-white">
+                <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
+                  <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
+                    <div className="col-span-5">Service Item</div>
+                    <div className="col-span-2">Quantity</div>
+                    <div className="col-span-2">Unit Price</div>
+                    <div className="col-span-3">Total</div>
                   </div>
-                ))}
+                </div>
+
+                {/* Table Body */}
+                <div className="divide-y divide-gray-200">
+                  {category.items.map((item, itemIndex) => (
+                    <div
+                      key={itemIndex}
+                      className="px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
+                    >
+                      <div className="grid grid-cols-12 items-center gap-4 text-sm">
+                        {/* Service Item */}
+                        <div className="col-span-5">
+                          <div className="space-y-1">
+                            <h5 className="font-medium text-gray-900">
+                              {item.name}
+                            </h5>
+                            {item.description && (
+                              <p className="text-xs text-gray-600">
+                                {item.description}
+                              </p>
+                            )}
+                            {item.notes && (
+                              <div className="mt-1 text-xs text-blue-700">
+                                <span className="font-medium">Notes:</span>{" "}
+                                {item.notes}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Quantity */}
+                        <div className="col-span-2">
+                          <span className="text-gray-700">
+                            {item.quantity} {item.unit}
+                          </span>
+                        </div>
+
+                        {/* Unit Price */}
+                        <div className="col-span-2">
+                          <span className="font-medium text-gray-700">
+                            {formatCurrency(item.unitPrice)}
+                          </span>
+                        </div>
+
+                        {/* Total */}
+                        <div className="col-span-3">
+                          <span className="font-bold text-gray-900">
+                            {formatCurrency(item.total)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
@@ -194,98 +233,116 @@ export default function QuotePreview({ formData, quoteId }) {
       </div>
 
       {/* Cost Summary */}
-      <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <h3 className="mb-4 text-lg font-medium text-gray-900">Cost Summary</h3>
-
-        <div className="space-y-3">
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">Services Subtotal:</span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(subtotal)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">Labour Cost:</span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(labourCost)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">Materials Cost:</span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(materialsCost)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">Base Subtotal:</span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(baseSubtotal)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">
-              Overheads ({formData.pricing.overheadPercentage}%):
-            </span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(overheads)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">
-              Profit ({formData.pricing.profitPercentage}%):
-            </span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(profit)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">
-              Contingency ({formData.pricing.contingencyPercentage}%):
-            </span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(contingency)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-b border-gray-100 py-2">
-            <span className="text-sm text-gray-600">
-              VAT ({formData.pricing.vatRate}%):
-            </span>
-            <span className="text-sm font-medium text-gray-900">
-              {formatCurrency(vat)}
-            </span>
-          </div>
-
-          <div className="flex justify-between border-t-2 border-gray-200 py-4">
-            <span className="text-xl font-bold text-gray-900">Total:</span>
-            <span className="text-3xl font-bold text-blue-600">
-              {formatCurrency(total)}
-            </span>
-          </div>
-
-          {formData.pricing.depositRequired && (
-            <div className="mt-4 rounded-lg bg-blue-50 p-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-blue-900">
-                  Deposit Required:
-                </span>
-                <span className="text-lg font-bold text-blue-900">
-                  {formatCurrency(
-                    formData.pricing.depositAmount > 0
-                      ? formData.pricing.depositAmount
-                      : (total * formData.pricing.depositPercentage) / 100,
-                  )}
-                </span>
-              </div>
-            </div>
-          )}
+      <div className="rounded-xl border-0 bg-white p-6 shadow-lg">
+        <div className="-mx-6 -mt-6 mb-6 rounded-t-lg bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
+          <h3 className="text-xl font-semibold text-gray-800">Cost Summary</h3>
         </div>
+
+        <div className="grid grid-cols-1 gap-8 min-[760px]:grid-cols-2">
+          {/* Left Column - Basic Costs */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Services Subtotal:
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(subtotal)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Labour Cost:
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(labourCost)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Materials Cost:
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(materialsCost)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Base Subtotal:
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(baseSubtotal)}
+              </span>
+            </div>
+          </div>
+
+          {/* Right Column - Additional Costs */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Overheads ({formData.pricing.overheadPercentage}%):
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(overheads)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Profit ({formData.pricing.profitPercentage}%):
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(profit)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Contingency ({formData.pricing.contingencyPercentage}%):
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(contingency)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                VAT ({formData.pricing.vatRate}%):
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(vat)}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Total - Full Width, Separate from the grid */}
+        <div className="flex items-center justify-between border-t-2 border-gray-200 pt-6">
+          <span className="text-2xl font-bold text-gray-900">Total:</span>
+          <span className="rounded-xl bg-blue-50 px-6 py-3 text-2xl font-bold text-blue-600 shadow-sm">
+            {formatCurrency(total)}
+          </span>
+        </div>
+
+        {/* Deposit Information - Full Width */}
+        {formData.pricing.depositRequired && (
+          <div className="mt-6 rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 p-5">
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold text-blue-900">
+                Deposit Required:
+              </span>
+              <span className="rounded-lg border border-blue-200 bg-white px-5 py-2 text-xl font-bold text-blue-900 shadow-sm">
+                {formatCurrency(
+                  formData.pricing.depositAmount > 0
+                    ? formData.pricing.depositAmount
+                    : (total * formData.pricing.depositPercentage) / 100,
+                )}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Terms & Conditions */}

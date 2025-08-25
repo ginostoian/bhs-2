@@ -81,11 +81,43 @@ export default function QuoteBuilder() {
 
   const loadDefaultTemplate = async (projectType) => {
     try {
-      // This will be implemented with actual API call
-      console.log("Loading template for:", projectType);
+      const response = await fetch(
+        `/api/admin/quoting/templates?projectType=${projectType}`,
+      );
+      if (response.ok) {
+        const templates = await response.json();
+        if (templates.length > 0) {
+          // Use the first template found for this project type
+          const template = templates[0];
+          applyTemplate(template);
+        }
+      }
     } catch (error) {
       console.error("Error loading template:", error);
     }
+  };
+
+  const applyTemplate = (template) => {
+    if (!template) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      template: template._id,
+      services: template.baseServices || [],
+      pricing: {
+        ...prev.pricing,
+        labourMultiplier: template.defaultPricing?.labourMultiplier || 1.0,
+        materialsMultiplier:
+          template.defaultPricing?.materialsMultiplier || 1.0,
+        overheadPercentage: template.defaultPricing?.overheadPercentage || 15,
+        profitPercentage: template.defaultPricing?.profitPercentage || 20,
+        contingencyPercentage:
+          template.defaultPricing?.contingencyPercentage || 10,
+        vatRate: template.defaultPricing?.vatRate || 20,
+      },
+    }));
+
+    toast.success(`Template "${template.name}" applied successfully!`);
   };
 
   const updateFormData = (section, data) => {

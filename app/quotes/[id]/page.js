@@ -38,7 +38,7 @@ export default function PublicQuotePage({ params }) {
             id: quoteId,
             quoteNumber: quoteId,
             title: "Sample Quote",
-            projectType: "Bathroom Renovation",
+            projectType: "bathroom-renovation",
             client: {
               name: "John Doe",
               email: "john@example.com",
@@ -260,21 +260,21 @@ export default function PublicQuotePage({ params }) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-6">
           {/* Company Header */}
-          <div className="rounded-xl border-2 border-gray-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 text-center shadow-sm">
-            <div className="mb-4">
-              <h1 className="mb-2 text-5xl font-bold text-gray-900">
-                Better Homes
-              </h1>
-              <div className="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"></div>
-            </div>
-            <p className="mb-4 text-xl font-medium text-gray-700">
-              Professional Home Renovation Services
-            </p>
-            <div className="flex items-center justify-center space-x-6 text-sm text-gray-600">
-              <span>London, UK</span>
-              <span>VAT Registered</span>
-              <span>Fully Insured</span>
-              <span>5 Star Rated</span>
+          <div className="rounded-xl border-0 bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-lg">
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-white">Better Homes</h1>
+              <p className="mt-2 text-xl text-blue-100">
+                Professional Home Renovation Services
+              </p>
+              <div className="mt-4 flex justify-center space-x-6 text-sm text-blue-200">
+                <span>London, UK</span>
+                <span>•</span>
+                <span>VAT Registered</span>
+                <span>•</span>
+                <span>Fully Insured</span>
+                <span>•</span>
+                <span>5 Star Rated</span>
+              </div>
             </div>
           </div>
 
@@ -503,7 +503,7 @@ export default function PublicQuotePage({ params }) {
                 </p>
               </div>
               <div className="p-6">
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                <div className="grid grid-cols-1 gap-8 min-[760px]:grid-cols-2">
                   {/* Left Column - Basic Costs */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between border-b border-gray-100 py-2">
