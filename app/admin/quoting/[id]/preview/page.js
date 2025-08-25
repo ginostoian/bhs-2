@@ -562,11 +562,17 @@ export default function QuotePreviewPage() {
                 </div>
               </div>
 
-              {/* Total - Full Width */}
+              {/* Total - Full Width (includes all costs) */}
               <div className="mt-6 flex items-center justify-between rounded-lg border-t-2 border-gray-300 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4">
                 <span className="text-xl font-bold text-gray-900">Total:</span>
                 <span className="text-2xl font-bold text-blue-600">
-                  {formatCurrency(quote.costBreakdown.total)}
+                  {formatCurrency(
+                    (quote.costBreakdown.subtotal || 0) +
+                      (quote.costBreakdown.overheads || 0) +
+                      (quote.costBreakdown.profit || 0) +
+                      (quote.costBreakdown.contingency || 0) +
+                      (quote.costBreakdown.vat || 0),
+                  )}
                 </span>
               </div>
 

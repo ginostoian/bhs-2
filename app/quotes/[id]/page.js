@@ -510,91 +510,66 @@ export default function PublicQuotePage({ params }) {
                 </p>
               </div>
               <div className="p-6">
-                <div className="grid grid-cols-1 gap-8 min-[760px]:grid-cols-2">
-                  {/* Left Column - Basic Costs */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Services Subtotal:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.subtotal)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Labour Cost:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.labourCost)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Materials Cost:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.materialsCost)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Base Subtotal:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.subtotal)}
-                      </span>
-                    </div>
+                {/* Single Column - Customer-Facing Costs */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between border-b border-gray-100 py-2">
+                    <span className="font-medium text-gray-600">
+                      Services Subtotal:
+                    </span>
+                    <span className="font-semibold text-gray-900">
+                      {formatCurrency(
+                        quote.services?.reduce(
+                          (total, category) =>
+                            total +
+                            (category.items?.reduce(
+                              (catTotal, item) => catTotal + (item.total || 0),
+                              0,
+                            ) || 0),
+                          0,
+                        ) || 0,
+                      )}
+                    </span>
                   </div>
 
-                  {/* Right Column - Additional Costs */}
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Overheads:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.overheads)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">Profit:</span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.profit)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        Contingency:
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.contingency)}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between border-b border-gray-100 py-2">
-                      <span className="font-medium text-gray-600">
-                        VAT ({quote.calculationSettings?.vatRate || 20}%):
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {formatCurrency(quote.costBreakdown.vat)}
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between border-b border-gray-100 py-2">
+                    <span className="font-medium text-gray-600">
+                      VAT ({quote.calculationSettings?.vatRate || 20}%):
+                    </span>
+                    <span className="font-semibold text-gray-900">
+                      {formatCurrency(
+                        (quote.services?.reduce(
+                          (total, category) =>
+                            total +
+                            (category.items?.reduce(
+                              (catTotal, item) => catTotal + (item.total || 0),
+                              0,
+                            ) || 0),
+                          0,
+                        ) || 0) *
+                          ((quote.calculationSettings?.vatRate || 20) / 100),
+                      )}
+                    </span>
                   </div>
                 </div>
 
-                {/* Total - Full Width */}
+                {/* Total - Full Width (Services + VAT only) */}
                 <div className="mt-6 flex items-center justify-between rounded-lg border-t-2 border-gray-300 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4">
                   <span className="text-xl font-bold text-gray-900">
                     Total:
                   </span>
                   <span className="text-2xl font-bold text-blue-600">
-                    {formatCurrency(quote.costBreakdown.total)}
+                    {formatCurrency(
+                      (quote.services?.reduce(
+                        (total, category) =>
+                          total +
+                          (category.items?.reduce(
+                            (catTotal, item) => catTotal + (item.total || 0),
+                            0,
+                          ) || 0),
+                        0,
+                      ) || 0) *
+                        (1 + (quote.calculationSettings?.vatRate || 20) / 100),
+                    )}
                   </span>
                 </div>
 
