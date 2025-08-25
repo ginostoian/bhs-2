@@ -155,8 +155,8 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
                       <div className="flex items-center space-x-2">
                         <CheckCircle className="h-4 w-4 text-green-600" />
                         <span className="text-sm text-green-800">
-                          Template "{selectedTemplate.name}" selected. Services
-                          and pricing will be pre-filled.
+                          Template &quot;{selectedTemplate.name}&quot; selected.
+                          Services and pricing will be pre-filled.
                         </span>
                       </div>
                       <button

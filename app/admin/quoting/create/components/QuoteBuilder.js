@@ -224,7 +224,7 @@ export default function QuoteBuilder() {
           milestones: [],
         },
         termsAndConditions:
-          "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, balance on completion.",
+          "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.",
         warrantyInformation:
           "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.",
         leadTime: "We typically require 2 weeks notice to start a project.",

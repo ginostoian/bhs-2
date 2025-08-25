@@ -161,7 +161,7 @@ export default function QuotePreviewPage() {
               vatRate: 20,
             },
             termsAndConditions:
-              "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, balance on completion.",
+              "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.",
             warrantyInformation:
               "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.",
             leadTime: "We typically require 2 weeks notice to start a project.",
@@ -598,7 +598,7 @@ export default function QuotePreviewPage() {
               <h4 className="mb-2 font-medium text-gray-900">Payment Terms</h4>
               <p>
                 {quote.termsAndConditions ||
-                  "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, balance on completion."}
+                  "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion."}
               </p>
             </div>
 
@@ -619,6 +619,180 @@ export default function QuotePreviewPage() {
               <p>
                 {quote.warrantyInformation ||
                   "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used."}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Comprehensive Terms & Conditions */}
+        <div className="rounded-lg border border-gray-200 bg-white p-6">
+          <h3 className="mb-4 text-lg font-medium text-gray-900">
+            Comprehensive Terms & Conditions
+          </h3>
+
+          <div className="space-y-4 text-sm text-gray-600">
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">General Terms</h4>
+              <div className="space-y-2">
+                <p>
+                  Any new services Building control might require are not
+                  included and will be subject to a new quote.
+                </p>
+                <p>
+                  Any extra services not mentioned in this quote will be subject
+                  to a new quote. Please read the quote carefully to see what is
+                  included.
+                </p>
+                <p>
+                  Any unexpected work or additional tasks as well as any damage
+                  to materials/items will be the responsibility of the client.
+                  We do not open packages upon delivery. We will open packages
+                  only during installation. We do not take any responsibility
+                  for any damaged items.
+                </p>
+                <p>
+                  This quote is for labour and building materials only. All
+                  items on the Client to Supply list are to be purchased by the
+                  client. In the situation that we take care of ordering
+                  materials on your behalf, the price of the materials will be
+                  invoiced before we purchase them.
+                </p>
+                <p>Parking permits if needed, to be supplied by the client.</p>
+                <p>
+                  We also offer a design and supply service. If you are
+                  interested please ask us more about it and we will walk
+                  through what that entails.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Bathroom Installation Standards
+              </h4>
+              <p className="mb-2">
+                The quote includes standard installation of (unless otherwise
+                specified):
+              </p>
+              <ul className="ml-6 list-disc space-y-1">
+                <li>
+                  Standard pattern tiling with standard ceramic tiles. The quote
+                  does not cover for complete mosaic tiling, complete
+                  herringbone style pattern or border patterns, cement tiles on
+                  walls and/or floor or any other tiles which require special
+                  installation or sealing as these are more time consuming and
+                  would influence the cost. If this is something you would like,
+                  please let us know.
+                </li>
+                <li>Same layout for plumbing</li>
+                <li>Shower tray (not wetroom kit)</li>
+                <li>Floor standing toilet</li>
+                <li>4 spotlights installation as standard</li>
+                <li>Taps on sink</li>
+                <li>Visible shower pipes</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Kitchen Fitting Standards
+              </h4>
+              <p className="mb-2">
+                The quote includes standard installation of (unless otherwise
+                specified):
+              </p>
+              <ul className="ml-6 list-disc space-y-1">
+                <li>
+                  Hob/oven installation: install new hob/oven in same location
+                  and like for like as existing
+                </li>
+                <li>
+                  Sink installation: install new sink in same location
+                  overmounted on worktop
+                </li>
+                <li>
+                  Worktop installation: install 2 runs of worktop - laminate or
+                  wooden worktop (not composite, not stone)
+                </li>
+                <li>Taps on sink</li>
+                <li>Tile splashback with standard tiles up to wall units</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Miscellaneous Standards
+              </h4>
+              <ul className="ml-6 list-disc space-y-1">
+                <li>
+                  Floor levelling or repairs to subfloor if required to be
+                  assessed and calculated accordingly
+                </li>
+                <li>
+                  Painting refers to minor repairs and standard paint unless
+                  otherwise specified
+                </li>
+                <li>
+                  Installation of wooden doors - same size as existing, original
+                  frames unless quoted differently
+                </li>
+                <li>
+                  Installation of radiators - same position and approximately
+                  the same size unless quoted differently
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Project Scheduling & Deposits
+              </h4>
+              <div className="space-y-2">
+                <p>
+                  Start date is subject to availability. We will work with you
+                  to find a suitable start date but usually we need 10 days from
+                  the agreement to be able to start.
+                </p>
+                <p>
+                  To book the start date agreed upon we require a small deposit.
+                  Depending on the size of the project this ranges between £300
+                  - £1,000.
+                </p>
+                <p>
+                  All start dates are flexible (1 - 3 days) for both ends (the
+                  company or the client). This is so that if something
+                  unexpected happens and you need to postpone the start date for
+                  a couple of days you wouldn&apos;t lose your deposit.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Quality Assurance
+              </h4>
+              <p className="mb-2">
+                The above quote guarantees quality property care:
+              </p>
+              <ul className="ml-6 list-disc space-y-1">
+                <li>Isolating floors and furniture</li>
+                <li>Clean and tidy job site</li>
+                <li>Cleaning at the end of the project</li>
+                <li>Project completed to a very high standard</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="mb-2 font-medium text-gray-900">
+                Radiator Work Disclaimer
+              </h4>
+              <p>
+                Upon radiators removal and reinstallation (in order to paint
+                behind them) we will bleed the radiators. We do not take any
+                responsibility for any fault your boiler might show as removal
+                and reinstallation of radiators should not break a boiler
+                system. In the rare cases when boilers do show errors, remedial
+                works are not included in the price shown above.
               </p>
             </div>
           </div>
