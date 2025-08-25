@@ -86,6 +86,9 @@ export async function GET(request) {
       .populate("createdBy", "name email")
       .lean();
 
+    // Debug: Log the quotes being returned
+    console.log("API: Returning quotes with statuses:", quotes.map(q => ({ id: q._id, status: q.status, title: q.title })));
+
     // Get total count
     const total = await Quote.countDocuments(query);
 

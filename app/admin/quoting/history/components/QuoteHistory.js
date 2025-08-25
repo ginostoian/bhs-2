@@ -99,6 +99,47 @@ export default function QuoteHistory() {
     }
   };
 
+  const handleStatusUpdate = async (quoteId, newStatus) => {
+    try {
+      console.log("Updating quote", quoteId, "to status:", newStatus);
+      
+      const response = await fetch(`/api/admin/quoting/${quoteId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update quote status");
+      }
+
+      const result = await response.json();
+      console.log("Status update response:", result);
+      
+      if (!result.success) {
+        throw new Error(result.error || "Failed to update quote status");
+      }
+
+      // Update local state
+      const updatedQuotes = quotes.map((quote) =>
+        quote._id === quoteId ? { ...quote, status: newStatus } : quote,
+      );
+      setQuotes(updatedQuotes);
+
+      toast.success(`Quote status updated to ${newStatus}`);
+      
+      // Force a reload of quotes to ensure we have the latest data
+      setTimeout(() => {
+        loadQuotes();
+      }, 500);
+    } catch (error) {
+      console.error("Error updating quote status:", error);
+      toast.error("Failed to update quote status");
+    }
+  };
+
   const copyShareLink = async (quoteId) => {
     try {
       const shareLink = `${window.location.origin}/quotes/${quoteId}`;
@@ -128,6 +169,8 @@ export default function QuoteHistory() {
     switch (status) {
       case "draft":
         return "bg-gray-100 text-gray-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
       case "sent":
         return "bg-blue-100 text-blue-800";
       case "won":
@@ -135,7 +178,7 @@ export default function QuoteHistory() {
       case "lost":
         return "bg-red-100 text-red-800";
       case "expired":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-orange-100 text-orange-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -331,14 +374,47 @@ export default function QuoteHistory() {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
-                      <span
-                        className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${getStatusColor(
+                      <select
+                        value={quote.status || "draft"}
+                        onChange={(e) =>
+                          handleStatusUpdate(quote._id, e.target.value)
+                        }
+                        className={`inline-flex cursor-pointer rounded-full border-0 px-2 py-1 text-xs font-semibold focus:ring-2 focus:ring-blue-500 ${getStatusColor(
                           quote.status,
                         )}`}
+                        style={{
+                          backgroundColor: "transparent",
+                          color: "inherit",
+                        }}
                       >
-                        {quote.status?.charAt(0).toUpperCase() +
-                          quote.status?.slice(1) || "Draft"}
-                      </span>
+                        <option
+                          value="draft"
+                          className="bg-white text-gray-900"
+                        >
+                          Draft
+                        </option>
+                        <option
+                          value="pending"
+                          className="bg-white text-gray-900"
+                        >
+                          Pending
+                        </option>
+                        <option value="sent" className="bg-white text-gray-900">
+                          Sent
+                        </option>
+                        <option value="won" className="bg-white text-gray-900">
+                          Won
+                        </option>
+                        <option value="lost" className="bg-white text-gray-900">
+                          Lost
+                        </option>
+                        <option
+                          value="expired"
+                          className="bg-white text-gray-900"
+                        >
+                          Expired
+                        </option>
+                      </select>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">

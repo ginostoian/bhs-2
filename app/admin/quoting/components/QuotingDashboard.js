@@ -33,17 +33,24 @@ export default function QuotingDashboard() {
 
   const fetchQuotes = async () => {
     try {
-      const response = await fetch("/api/admin/quoting?limit=5");
+      // Add cache-busting parameter and no-cache headers to ensure fresh data
+      const response = await fetch(`/api/admin/quoting?limit=5&t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       if (response.ok) {
         const result = await response.json();
         if (result.success) {
+          console.log("Fetched quotes:", result.quotes); // Debug log
           setQuotes(result.quotes);
 
           // Calculate stats
           const total = result.pagination.total;
           const won = result.quotes.filter((q) => q.status === "won").length;
           const pending = result.quotes.filter(
-            (q) => q.status === "draft" || q.status === "sent",
+            (q) => q.status === "draft" || q.status === "sent" || q.status === "pending",
           ).length;
           const totalValue = result.quotes.reduce(
             (sum, q) => sum + (q.costBreakdown?.total || 0),
@@ -229,12 +236,23 @@ export default function QuotingDashboard() {
         <div className="border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium text-gray-900">Recent Quotes</h3>
-            <Link
-              href="/admin/quoting/history"
-              className="text-sm text-blue-600 hover:text-blue-800"
-            >
-              View All
-            </Link>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={fetchQuotes}
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Refresh
+              </button>
+              <Link
+                href="/admin/quoting/history"
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                View All
+              </Link>
+            </div>
           </div>
         </div>
 
@@ -248,10 +266,10 @@ export default function QuotingDashboard() {
         ) : quotes.length > 0 ? (
           <div className="divide-y divide-gray-200">
             {quotes.map((quote) => (
-              <div key={quote._id || quote.id} className="p-6 hover:bg-gray-50">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3">
+                <div key={quote._id || quote.id} className="p-6 hover:bg-gray-50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3">
                       <h4 className="text-sm font-medium text-gray-900">
                         {quote.title || "Untitled Quote"}
                       </h4>
@@ -261,11 +279,17 @@ export default function QuotingDashboard() {
                             ? "bg-green-100 text-green-800"
                             : quote.status === "sent"
                               ? "bg-blue-100 text-blue-800"
+                              : quote.status === "pending"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : quote.status === "lost"
+                              ? "bg-red-100 text-red-800"
+                              : quote.status === "expired"
+                              ? "bg-orange-100 text-orange-800"
                               : "bg-gray-100 text-gray-800"
                         }`}
                       >
-                        {quote.status?.charAt(0).toUpperCase() +
-                          quote.status?.slice(1) || "Draft"}
+                        {(quote.status || "draft").charAt(0).toUpperCase() +
+                          (quote.status || "draft").slice(1)}
                       </span>
                     </div>
                     <p className="mt-1 text-sm text-gray-500">

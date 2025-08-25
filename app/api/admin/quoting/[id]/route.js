@@ -4,6 +4,49 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Quote from "@/models/Quote";
 
+export async function PUT(request, { params }) {
+  try {
+    // Check authentication and admin role
+    const session = await getServerSession(authOptions);
+    if (!session || session.user.role !== "admin") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectMongo();
+    const { id } = params;
+    const body = await request.json();
+
+    // Debug: Log what we're updating
+    console.log("API: Updating quote", id, "with body:", body);
+
+    // Find and update the quote
+    const updatedQuote = await Quote.findByIdAndUpdate(
+      id,
+      { $set: body },
+      { new: true, runValidators: true },
+    );
+
+    // Debug: Log the updated quote
+    console.log("API: Updated quote result:", { id: updatedQuote._id, status: updatedQuote.status });
+
+    if (!updatedQuote) {
+      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Quote updated successfully",
+      quote: updatedQuote,
+    });
+  } catch (error) {
+    console.error("Error updating quote:", error);
+    return NextResponse.json(
+      { error: "Failed to update quote", details: error.message },
+      { status: 500 },
+    );
+  }
+}
+
 export async function DELETE(request, { params }) {
   try {
     // Check authentication and admin role
