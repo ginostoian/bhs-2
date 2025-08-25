@@ -391,6 +391,16 @@ export default function QuotePreviewPage() {
                     <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-600 shadow-sm">
                       {formatCurrency(category.categoryTotal)}
                     </span>
+                    <div className="text-xs text-blue-500">
+                      Customer:{" "}
+                      {formatCurrency(
+                        category.items?.reduce(
+                          (total, item) =>
+                            total + (item.customerTotal || item.total || 0),
+                          0,
+                        ) || 0,
+                      )}
+                    </div>
                   </div>
 
                   {/* Table Header */}
@@ -451,6 +461,12 @@ export default function QuotePreviewPage() {
                                   <span className="font-medium text-gray-700">
                                     {formatCurrency(item.unitPrice)}
                                   </span>
+                                  <div className="text-xs text-gray-500">
+                                    Customer:{" "}
+                                    {formatCurrency(
+                                      item.customerUnitPrice || item.unitPrice,
+                                    )}
+                                  </div>
                                 </div>
 
                                 {/* Total */}
@@ -458,6 +474,12 @@ export default function QuotePreviewPage() {
                                   <span className="font-bold text-gray-900">
                                     {formatCurrency(item.total)}
                                   </span>
+                                  <div className="text-xs text-gray-500">
+                                    Customer:{" "}
+                                    {formatCurrency(
+                                      item.customerTotal || item.total,
+                                    )}
+                                  </div>
                                 </div>
                               </div>
                             </div>

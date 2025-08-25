@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import {
   Plus,
   Trash2,
@@ -112,6 +113,13 @@ export default function ServicesForm({ formData, updateFormData }) {
     )
       return;
 
+    // Check if selectedCategory is valid
+    if (selectedCategory === "" || selectedCategory === undefined) {
+      console.error("No category selected");
+      toast.error("Please select a category first");
+      return;
+    }
+
     const newItem = {
       name: newItemName.trim(),
       description: newItemDescription.trim(),
@@ -120,10 +128,18 @@ export default function ServicesForm({ formData, updateFormData }) {
       unitPrice: parseFloat(newItemPrice),
       notes: newItemNotes.trim(),
       total: parseFloat(newItemQuantity) * parseFloat(newItemPrice),
+      // Initialize customer pricing fields (will be calculated later)
+      customerUnitPrice: parseFloat(newItemPrice),
+      customerTotal: parseFloat(newItemQuantity) * parseFloat(newItemPrice),
     };
 
+    console.log("Adding item:", newItem);
+    console.log("Selected category:", selectedCategory);
+    console.log("Current services:", formData.services);
+
     const updatedServices = formData.services.map((cat, index) => {
-      if (index === selectedCategory) {
+      if (index === parseInt(selectedCategory)) {
+        console.log("Updating category at index:", index);
         const updatedCategory = { ...cat, items: [...cat.items, newItem] };
         return {
           ...updatedCategory,
@@ -133,6 +149,7 @@ export default function ServicesForm({ formData, updateFormData }) {
       return cat;
     });
 
+    console.log("Updated services:", updatedServices);
     updateFormData("services", updatedServices);
 
     // Reset form
@@ -143,6 +160,11 @@ export default function ServicesForm({ formData, updateFormData }) {
     setNewItemPrice("");
     setNewItemNotes("");
     setShowAddItem(false);
+
+    // Debug: Check if form data was updated
+    setTimeout(() => {
+      console.log("Form data after update:", formData.services);
+    }, 100);
   };
 
   const removeItem = (categoryIndex, itemIndex) => {
@@ -173,6 +195,9 @@ export default function ServicesForm({ formData, updateFormData }) {
                 ...item,
                 quantity: parseFloat(newQuantity),
                 total: parseFloat(newQuantity) * item.unitPrice,
+                customerTotal:
+                  parseFloat(newQuantity) *
+                  (item.customerUnitPrice || item.unitPrice),
               };
             }
             return item;
@@ -199,7 +224,8 @@ export default function ServicesForm({ formData, updateFormData }) {
                 ...item,
                 unitPrice: parseFloat(newPrice),
                 total: item.quantity * parseFloat(newPrice),
-                categoryTotal: calculateCategoryTotal(updatedCategory.items),
+                customerUnitPrice: parseFloat(newPrice),
+                customerTotal: item.quantity * parseFloat(newPrice),
               };
             }
             return item;
@@ -290,6 +316,9 @@ export default function ServicesForm({ formData, updateFormData }) {
       unitPrice: price,
       notes: selectedTemplateService.notes || "",
       total: quantity * price,
+      // Initialize customer pricing fields
+      customerUnitPrice: price,
+      customerTotal: quantity * price,
       source: "template",
       templateServiceId: selectedTemplateService._id,
     };
@@ -356,6 +385,9 @@ export default function ServicesForm({ formData, updateFormData }) {
       unitPrice: price,
       notes: `Calculated from ${tradesperson.name} rate`,
       total: price,
+      // Initialize customer pricing fields
+      customerUnitPrice: price,
+      customerTotal: price,
       source: "calculated",
       calculationDetails: {
         tradesperson: tradesperson._id,
@@ -1135,6 +1167,11 @@ export default function ServicesForm({ formData, updateFormData }) {
                         </option>
                       ))}
                     </select>
+                    {formData.services.length === 0 && (
+                      <p className="mt-1 text-xs text-red-600">
+                        Please add a category first before adding items
+                      </p>
+                    )}
                   </div>
 
                   <div>

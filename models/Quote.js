@@ -104,6 +104,15 @@ const QuoteSchema = new mongoose.Schema(
               type: Number,
               required: true,
             },
+            // New fields for customer-facing pricing
+            customerUnitPrice: {
+              type: Number,
+              required: true,
+            },
+            customerTotal: {
+              type: Number,
+              required: true,
+            },
             notes: {
               type: String,
             },

@@ -414,7 +414,13 @@ export default function PublicQuotePage({ params }) {
                         {category.categoryName}
                       </h4>
                       <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-600 shadow-sm">
-                        {formatCurrency(category.categoryTotal)}
+                        {formatCurrency(
+                          category.items?.reduce(
+                            (total, item) =>
+                              total + (item.customerTotal || item.total || 0),
+                            0,
+                          ) || 0,
+                        )}
                       </span>
                     </div>
 
@@ -475,14 +481,19 @@ export default function PublicQuotePage({ params }) {
                                   {/* Unit Price */}
                                   <div className="col-span-2">
                                     <span className="font-medium text-gray-700">
-                                      {formatCurrency(item.unitPrice)}
+                                      {formatCurrency(
+                                        item.customerUnitPrice ||
+                                          item.unitPrice,
+                                      )}
                                     </span>
                                   </div>
 
                                   {/* Total */}
                                   <div className="col-span-3">
                                     <span className="font-bold text-gray-900">
-                                      {formatCurrency(item.total)}
+                                      {formatCurrency(
+                                        item.customerTotal || item.total,
+                                      )}
                                     </span>
                                   </div>
                                 </div>
@@ -522,7 +533,9 @@ export default function PublicQuotePage({ params }) {
                           (total, category) =>
                             total +
                             (category.items?.reduce(
-                              (catTotal, item) => catTotal + (item.total || 0),
+                              (catTotal, item) =>
+                                catTotal +
+                                (item.customerTotal || item.total || 0),
                               0,
                             ) || 0),
                           0,
@@ -541,7 +554,9 @@ export default function PublicQuotePage({ params }) {
                           (total, category) =>
                             total +
                             (category.items?.reduce(
-                              (catTotal, item) => catTotal + (item.total || 0),
+                              (catTotal, item) =>
+                                catTotal +
+                                (item.customerTotal || item.total || 0),
                               0,
                             ) || 0),
                           0,
@@ -563,7 +578,9 @@ export default function PublicQuotePage({ params }) {
                         (total, category) =>
                           total +
                           (category.items?.reduce(
-                            (catTotal, item) => catTotal + (item.total || 0),
+                            (catTotal, item) =>
+                              catTotal +
+                              (item.customerTotal || item.total || 0),
                             0,
                           ) || 0),
                         0,

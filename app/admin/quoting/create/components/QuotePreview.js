@@ -161,6 +161,16 @@ export default function QuotePreview({ formData, quoteId }) {
                 <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-700 shadow-sm">
                   {formatCurrency(category.categoryTotal)}
                 </span>
+                <div className="text-sm text-blue-500">
+                  Customer:{" "}
+                  {formatCurrency(
+                    category.items?.reduce(
+                      (total, item) =>
+                        total + (item.customerTotal || item.total || 0),
+                      0,
+                    ) || 0,
+                  )}
+                </div>
               </div>
 
               {/* Table Header */}
@@ -216,6 +226,12 @@ export default function QuotePreview({ formData, quoteId }) {
                           <span className="font-medium text-gray-700">
                             {formatCurrency(item.unitPrice)}
                           </span>
+                          <div className="text-xs text-gray-500">
+                            Customer:{" "}
+                            {formatCurrency(
+                              item.customerUnitPrice || item.unitPrice,
+                            )}
+                          </div>
                         </div>
 
                         {/* Total */}
@@ -223,6 +239,10 @@ export default function QuotePreview({ formData, quoteId }) {
                           <span className="font-bold text-gray-900">
                             {formatCurrency(item.total)}
                           </span>
+                          <div className="text-xs text-gray-500">
+                            Customer:{" "}
+                            {formatCurrency(item.customerTotal || item.total)}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -250,6 +270,21 @@ export default function QuotePreview({ formData, quoteId }) {
               <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
                 {formatCurrency(subtotal)}
               </span>
+              <div className="text-xs text-gray-500">
+                Customer:{" "}
+                {formatCurrency(
+                  formData.services?.reduce(
+                    (total, category) =>
+                      total +
+                      (category.items?.reduce(
+                        (catTotal, item) =>
+                          catTotal + (item.customerTotal || item.total || 0),
+                        0,
+                      ) || 0),
+                    0,
+                  ) || 0,
+                )}
+              </div>
             </div>
 
             <div className="flex items-center justify-between border-b border-gray-100 py-3">
@@ -326,6 +361,22 @@ export default function QuotePreview({ formData, quoteId }) {
           <span className="rounded-xl bg-blue-50 px-6 py-3 text-2xl font-bold text-blue-600 shadow-sm">
             {formatCurrency(total)}
           </span>
+          <div className="text-sm text-blue-500">
+            Customer:{" "}
+            {formatCurrency(
+              (formData.services?.reduce(
+                (total, category) =>
+                  total +
+                  (category.items?.reduce(
+                    (catTotal, item) =>
+                      catTotal + (item.customerTotal || item.total || 0),
+                    0,
+                  ) || 0),
+                0,
+              ) || 0) *
+                (1 + (formData.pricing.vatRate || 20) / 100),
+            )}
+          </div>
         </div>
 
         {/* Deposit Information - Full Width */}
