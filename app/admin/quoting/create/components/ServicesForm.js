@@ -807,7 +807,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                         }
                         rows={2}
                         className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                        placeholder="Describe what this service includes..."
+                        placeholder="Describe what this service includes... (press Enter for new lines)"
                       />
                     </div>
 
@@ -926,7 +926,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                         onChange={(e) => setNewItemDescription(e.target.value)}
                         rows={2}
                         className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                        placeholder="Describe what this service includes..."
+                        placeholder="Describe what this service includes... (press Enter for new lines)"
                       />
                     </div>
 
@@ -939,7 +939,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                         onChange={(e) => setNewItemNotes(e.target.value)}
                         rows={2}
                         className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                        placeholder="Additional notes or special instructions..."
+                        placeholder="Additional notes or special instructions... (press Enter for new lines)"
                       />
                     </div>
 
@@ -1025,7 +1025,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                               )}
                             </div>
                             {item.description && (
-                              <p className="mt-1 text-sm text-gray-600">
+                              <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
                                 {item.description}
                               </p>
                             )}
@@ -1040,7 +1040,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                               </span>
                             </div>
                             {item.notes && (
-                              <p className="mt-1 text-sm text-gray-500">
+                              <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
                                 {item.notes}
                               </p>
                             )}
@@ -1155,12 +1155,12 @@ export default function ServicesForm({ formData, updateFormData }) {
                     <label className="block text-sm font-medium text-gray-700">
                       Description
                     </label>
-                    <input
-                      type="text"
+                    <textarea
                       value={newItemDescription}
                       onChange={(e) => setNewItemDescription(e.target.value)}
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                      placeholder="Description"
+                      rows={3}
+                      className="mt-1 block w-full resize-none rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                      placeholder="Description (press Enter for new lines)"
                     />
                   </div>
 
@@ -1234,7 +1234,7 @@ export default function ServicesForm({ formData, updateFormData }) {
                     onChange={(e) => setNewItemNotes(e.target.value)}
                     rows={2}
                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                    placeholder="Additional notes..."
+                    placeholder="Additional notes... (press Enter for new lines)"
                   />
                 </div>
 

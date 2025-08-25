@@ -445,7 +445,7 @@ export default function PublicQuotePage({ params }) {
                                     {item.name}
                                   </h5>
                                   {item.description && (
-                                    <p className="text-xs text-gray-600">
+                                    <p className="whitespace-pre-line text-xs text-gray-600">
                                       {item.description}
                                     </p>
                                   )}
@@ -454,7 +454,9 @@ export default function PublicQuotePage({ params }) {
                                       <span className="font-medium">
                                         Notes:
                                       </span>{" "}
-                                      {item.notes}
+                                      <span className="whitespace-pre-line">
+                                        {item.notes}
+                                      </span>
                                     </div>
                                   )}
                                 </div>

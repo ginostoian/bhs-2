@@ -419,14 +419,16 @@ export default function QuotePreviewPage() {
                                   {item.name}
                                 </h5>
                                 {item.description && (
-                                  <p className="text-xs text-gray-600">
+                                  <p className="whitespace-pre-line text-xs text-gray-600">
                                     {item.description}
                                   </p>
                                 )}
                                 {item.notes && (
                                   <div className="mt-1 text-xs text-blue-700">
                                     <span className="font-medium">Notes:</span>{" "}
-                                    {item.notes}
+                                    <span className="whitespace-pre-line">
+                                      {item.notes}
+                                    </span>
                                   </div>
                                 )}
                               </div>

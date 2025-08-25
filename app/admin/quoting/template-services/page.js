@@ -299,7 +299,7 @@ export default function TemplateServicesPage() {
                     )}
                   </div>
                   {templateService.description && (
-                    <p className="mt-2 text-sm text-gray-600">
+                    <p className="mt-2 whitespace-pre-line text-sm text-gray-600">
                       {templateService.description}
                     </p>
                   )}

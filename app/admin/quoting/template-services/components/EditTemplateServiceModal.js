@@ -484,7 +484,7 @@ export default function EditTemplateServiceModal({
                     }
                     rows={3}
                     className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                    placeholder="Describe what this service includes..."
+                    placeholder="Describe what this service includes... (press Enter for new lines)"
                   />
                 </div>
 
