@@ -2,7 +2,17 @@
 
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { Plus, Trash2, Search, FileText, Edit3, Save, X } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Search,
+  FileText,
+  Edit3,
+  Save,
+  X,
+  GripVertical,
+} from "lucide-react";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 export default function ServicesForm({
   formData,
@@ -332,6 +342,59 @@ export default function ServicesForm({
     updateFormData({ services: updatedServices });
   };
 
+  // Handle drag and drop reordering
+  const handleDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const { source, destination } = result;
+
+    // Handle category reordering
+    if (result.type === "category") {
+      const items = Array.from(formData.services);
+      const [reorderedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reorderedItem);
+
+      updateFormData({ services: items });
+      return;
+    }
+
+    // Handle item reordering within categories
+    if (result.type === "item") {
+      const sourceCategoryIndex = parseInt(
+        source.droppableId.replace("category-", ""),
+      );
+      const destCategoryIndex = parseInt(
+        destination.droppableId.replace("category-", ""),
+      );
+
+      // Only allow reordering within the same category
+      if (sourceCategoryIndex !== destCategoryIndex) {
+        return;
+      }
+
+      const updatedServices = formData.services.map(
+        (category, categoryIndex) => {
+          if (categoryIndex === sourceCategoryIndex) {
+            const items = Array.from(category.items);
+            const [reorderedItem] = items.splice(source.index, 1);
+            items.splice(destination.index, 0, reorderedItem);
+
+            return {
+              ...category,
+              items: items,
+              categoryTotal: calculateCategoryTotal(items),
+            };
+          }
+          return category;
+        },
+      );
+
+      updateFormData({ services: updatedServices });
+    }
+  };
+
   // Enhanced service addition methods
   const openServiceOptions = () => {
     setShowServiceOptions(true);
@@ -454,17 +517,42 @@ export default function ServicesForm({
         )}
       </div>
 
-      {/* Enhanced Service Addition Options */}
-      <div className="rounded-lg border border-gray-200 bg-white p-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-gray-900">Add New Service</h3>
-          <button
-            onClick={openServiceOptions}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            <Plus className="-ml-1 mr-2 h-4 w-4" />
-            Add Service
-          </button>
+      {/* Simplified Service Addition */}
+      <div className="rounded-lg border border-gray-200 bg-white">
+        <div className="border-b border-gray-200 px-6 py-4">
+          <h3 className="text-lg font-medium text-gray-900">Add Services</h3>
+          <p className="mt-1 text-sm text-gray-500">
+            Add services from templates or create custom services
+          </p>
+        </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <button
+              onClick={openServiceOptions}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-blue-500 hover:text-blue-600"
+            >
+              <div className="text-center">
+                <FileText className="mx-auto mb-2 h-8 w-8" />
+                <span className="block text-sm font-medium">From Template</span>
+                <span className="block text-xs text-gray-500">
+                  Use predefined services
+                </span>
+              </div>
+            </button>
+
+            <button
+              onClick={() => setShowAddCategory(true)}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-green-500 hover:text-green-600"
+            >
+              <div className="text-center">
+                <Plus className="mx-auto mb-2 h-8 w-8" />
+                <span className="block text-sm font-medium">Add Category</span>
+                <span className="block text-xs text-gray-500">
+                  Create new category
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -794,109 +882,197 @@ export default function ServicesForm({
         </div>
       )}
 
-      {/* Existing Services Display */}
+      {/* Services Display with Drag & Drop */}
       {formData.services.length > 0 && (
         <div className="space-y-6">
-          {formData.services.map((category, categoryIndex) => (
-            <div
-              key={categoryIndex}
-              className="rounded-lg border border-gray-200 bg-white"
-            >
-              <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-                <div className="flex items-center space-x-4">
-                  <h3 className="text-lg font-medium text-gray-900">
-                    {category.categoryName}
-                  </h3>
-                  <span className="text-sm font-medium text-gray-600">
-                    Total: £{(category.categoryTotal || 0).toFixed(2)}
-                  </span>
-                </div>
-                <button
-                  onClick={() => removeCategory(categoryIndex)}
-                  className="text-red-600 hover:text-red-800"
+          {/* Drag & Drop Info */}
+          <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
+            <div className="flex items-center space-x-2">
+              <GripVertical className="h-4 w-4 text-blue-600" />
+              <span className="text-sm text-blue-800">
+                <strong>Tip:</strong> Drag the grip handles to reorder
+                categories and items within categories.
+              </span>
+            </div>
+          </div>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="categories" type="category">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-6"
                 >
-                  <Trash2 className="h-5 w-5" />
-                </button>
-              </div>
-
-              {category.items.length > 0 && (
-                <div className="p-4">
-                  <div className="space-y-3">
-                    {category.items &&
-                      Array.isArray(category.items) &&
-                      category.items.map((item, itemIndex) => {
-                        return (
-                          <div
-                            key={itemIndex}
-                            className="flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3"
-                          >
-                            <div className="flex-1">
-                              <div className="flex items-center space-x-3">
-                                <h4 className="font-medium text-gray-900">
-                                  {item.name}
-                                </h4>
-                                {item.source && (
-                                  <span
-                                    className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                                      item.source === "template"
-                                        ? "bg-blue-100 text-blue-800"
-                                        : "bg-gray-100 text-gray-800"
-                                    }`}
-                                  >
-                                    {item.source === "template"
-                                      ? "Template"
-                                      : "Custom"}
-                                  </span>
-                                )}
-                              </div>
-                              {item.description && (
-                                <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
-                                  {item.description}
-                                </p>
-                              )}
-                              <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                                <span>Unit: {item.unit}</span>
-                                <span>Quantity: {item.quantity}</span>
-                                <span>
-                                  Price: £{(item.unitPrice || 0).toFixed(2)}
-                                </span>
-                                <span className="font-medium text-gray-900">
-                                  Total: £{(item.total || 0).toFixed(2)}
-                                </span>
-                              </div>
-                              {item.notes && (
-                                <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
-                                  {item.notes}
-                                </p>
-                              )}
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                              <button
-                                onClick={() =>
-                                  startEditItem(categoryIndex, itemIndex, item)
-                                }
-                                className="text-blue-600 hover:text-blue-800"
+                  {formData.services.map((category, categoryIndex) => (
+                    <Draggable
+                      key={`category-${categoryIndex}`}
+                      draggableId={`category-${categoryIndex}`}
+                      index={categoryIndex}
+                      type="category"
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          className={`rounded-lg border border-gray-200 bg-white transition-shadow ${
+                            snapshot.isDragging ? "shadow-lg" : ""
+                          }`}
+                        >
+                          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+                            <div className="flex items-center space-x-4">
+                              <div
+                                {...provided.dragHandleProps}
+                                className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
                               >
-                                <Edit3 className="h-4 w-4" />
-                              </button>
-                              <button
-                                onClick={() =>
-                                  removeItem(categoryIndex, itemIndex)
-                                }
-                                className="text-red-600 hover:text-red-800"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
+                                <GripVertical className="h-5 w-5" />
+                              </div>
+                              <h3 className="text-lg font-medium text-gray-900">
+                                {category.categoryName}
+                              </h3>
+                              <span className="text-sm font-medium text-gray-600">
+                                Total: £
+                                {(category.categoryTotal || 0).toFixed(2)}
+                              </span>
                             </div>
+                            <button
+                              onClick={() => removeCategory(categoryIndex)}
+                              className="text-red-600 hover:text-red-800"
+                            >
+                              <Trash2 className="h-5 w-5" />
+                            </button>
                           </div>
-                        );
-                      })}
-                  </div>
+
+                          {category.items.length > 0 && (
+                            <div className="p-4">
+                              <Droppable
+                                droppableId={`category-${categoryIndex}`}
+                                type="item"
+                              >
+                                {(provided) => (
+                                  <div
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                    className="space-y-3"
+                                  >
+                                    {category.items.map((item, itemIndex) => (
+                                      <Draggable
+                                        key={`item-${categoryIndex}-${itemIndex}`}
+                                        draggableId={`item-${categoryIndex}-${itemIndex}`}
+                                        index={itemIndex}
+                                      >
+                                        {(provided, snapshot) => (
+                                          <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            className={`flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3 transition-shadow ${
+                                              snapshot.isDragging
+                                                ? "bg-white shadow-md"
+                                                : ""
+                                            }`}
+                                          >
+                                            <div className="flex flex-1 items-center space-x-3">
+                                              <div
+                                                {...provided.dragHandleProps}
+                                                className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
+                                              >
+                                                <GripVertical className="h-4 w-4" />
+                                              </div>
+                                              <div className="flex-1">
+                                                <div className="flex items-center space-x-3">
+                                                  <h4 className="font-medium text-gray-900">
+                                                    {item.name}
+                                                  </h4>
+                                                  {item.source && (
+                                                    <span
+                                                      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                                        item.source ===
+                                                        "template"
+                                                          ? "bg-blue-100 text-blue-800"
+                                                          : "bg-gray-100 text-gray-800"
+                                                      }`}
+                                                    >
+                                                      {item.source ===
+                                                      "template"
+                                                        ? "Template"
+                                                        : "Custom"}
+                                                    </span>
+                                                  )}
+                                                </div>
+                                                {item.description && (
+                                                  <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
+                                                    {item.description}
+                                                  </p>
+                                                )}
+                                                <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                                  <span>Unit: {item.unit}</span>
+                                                  <span>
+                                                    Quantity: {item.quantity}
+                                                  </span>
+                                                  <span>
+                                                    Price: £
+                                                    {(
+                                                      item.unitPrice || 0
+                                                    ).toFixed(2)}
+                                                  </span>
+                                                  <span className="font-medium text-gray-900">
+                                                    Total: £
+                                                    {(item.total || 0).toFixed(
+                                                      2,
+                                                    )}
+                                                  </span>
+                                                </div>
+                                                {item.notes && (
+                                                  <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
+                                                    {item.notes}
+                                                  </p>
+                                                )}
+                                              </div>
+                                            </div>
+
+                                            <div className="ml-3 flex items-center space-x-2">
+                                              <button
+                                                onClick={() =>
+                                                  startEditItem(
+                                                    categoryIndex,
+                                                    itemIndex,
+                                                    item,
+                                                  )
+                                                }
+                                                className="text-blue-600 hover:text-blue-800"
+                                              >
+                                                <Edit3 className="h-4 w-4" />
+                                              </button>
+                                              <button
+                                                onClick={() =>
+                                                  removeItem(
+                                                    categoryIndex,
+                                                    itemIndex,
+                                                  )
+                                                }
+                                                className="text-red-600 hover:text-red-800"
+                                              >
+                                                <Trash2 className="h-4 w-4" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                  </div>
+                                )}
+                              </Droppable>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
                 </div>
               )}
-            </div>
-          ))}
+            </Droppable>
+          </DragDropContext>
 
           {/* Grand Total */}
           <div className="rounded-lg border border-gray-200 bg-white p-4">

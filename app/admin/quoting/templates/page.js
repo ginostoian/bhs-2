@@ -4,10 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, FileText, Edit, Trash2, Eye } from "lucide-react";
 import { formatProjectType } from "@/libs/formatProjectType";
+import Modal from "@/components/Modal";
 
 export default function QuoteTemplatesPage() {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [deleteModal, setDeleteModal] = useState({
+    isOpen: false,
+    template: null,
+  });
 
   useEffect(() => {
     fetchTemplates();
@@ -27,21 +32,29 @@ export default function QuoteTemplatesPage() {
     }
   };
 
-  const deleteTemplate = async (templateId) => {
-    if (!confirm("Are you sure you want to delete this template?")) {
-      return;
-    }
+  const openDeleteModal = (template) => {
+    setDeleteModal({ isOpen: true, template });
+  };
+
+  const closeDeleteModal = () => {
+    setDeleteModal({ isOpen: false, template: null });
+  };
+
+  const confirmDeleteTemplate = async () => {
+    const template = deleteModal.template;
+    if (!template) return;
 
     try {
       const response = await fetch(
-        `/api/admin/quoting/templates/${templateId}`,
+        `/api/admin/quoting/templates/${template._id}`,
         {
           method: "DELETE",
         },
       );
 
       if (response.ok) {
-        setTemplates(templates.filter((t) => t._id !== templateId));
+        setTemplates(templates.filter((t) => t._id !== template._id));
+        closeDeleteModal();
       } else {
         console.error("Failed to delete template");
       }
@@ -263,7 +276,7 @@ export default function QuoteTemplatesPage() {
                     Edit
                   </Link>
                   <button
-                    onClick={() => deleteTemplate(template._id)}
+                    onClick={() => openDeleteModal(template)}
                     className="inline-flex items-center rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 shadow-sm hover:bg-red-100"
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
@@ -302,6 +315,18 @@ export default function QuoteTemplatesPage() {
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={deleteModal.isOpen}
+        onClose={closeDeleteModal}
+        onConfirm={confirmDeleteTemplate}
+        title="Delete Template"
+        message={`Are you sure you want to delete "${deleteModal.template?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="error"
+      />
     </div>
   );
 }
