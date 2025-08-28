@@ -5,6 +5,11 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Edit, Download, Copy, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import {
+  generatePrintOptimizedPDF,
+  generatePDFFromCurrentPage,
+  generateVectorPDF,
+} from "@/libs/htmlQuotePdfGenerator";
 
 export default function QuotePreviewPage() {
   const params = useParams();
@@ -12,6 +17,7 @@ export default function QuotePreviewPage() {
   const { id: quoteId } = params;
   const [quote, setQuote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
 
   useEffect(() => {
     // Load quote from database API
@@ -180,6 +186,25 @@ export default function QuotePreviewPage() {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    if (!quote || downloadingPDF) return;
+
+    setDownloadingPDF(true);
+    try {
+      // Use the page capture approach with enhanced settings
+      await generatePDFFromCurrentPage(
+        "quote-content",
+        `quote-${quote.quoteNumber || quote.id}.pdf`,
+      );
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      toast.error("Failed to download PDF. Please try again.");
+    } finally {
+      setDownloadingPDF(false);
+    }
+  };
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -254,13 +279,14 @@ export default function QuotePreviewPage() {
             <Copy className="mr-2 h-4 w-4" />
             Copy Link
           </button>
-          <Link
-            href={`/admin/quoting/${quoteId}/pdf`}
-            className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          <button
+            onClick={handleDownloadPDF}
+            disabled={downloadingPDF}
+            className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Download className="mr-2 h-4 w-4" />
-            Export PDF
-          </Link>
+            {downloadingPDF ? "Generating..." : "Export PDF"}
+          </button>
           <a
             href={`/quotes/${quoteId}`}
             target="_blank"

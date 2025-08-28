@@ -4,12 +4,18 @@ import { useState, useEffect } from "react";
 import { Copy, Download, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import {
+  generatePrintOptimizedPDF,
+  generatePDFFromCurrentPage,
+  generateVectorPDF,
+} from "@/libs/htmlQuotePdfGenerator";
 
 export default function PublicQuotePage({ params }) {
   const { id: quoteId } = params;
   const [quote, setQuote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
 
   useEffect(() => {
     // Load quote from database API
@@ -179,6 +185,25 @@ export default function PublicQuotePage({ params }) {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    if (!quote || downloadingPDF) return;
+
+    setDownloadingPDF(true);
+    try {
+      // Use the page capture approach with enhanced settings
+      await generatePDFFromCurrentPage(
+        "quote-content",
+        `quote-${quote.quoteNumber || quote.id}.pdf`,
+      );
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      toast.error("Failed to download PDF. Please try again.");
+    } finally {
+      setDownloadingPDF(false);
+    }
+  };
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-GB", {
       style: "currency",
@@ -237,9 +262,13 @@ export default function PublicQuotePage({ params }) {
                 <Copy className="mr-2 h-4 w-4" />
                 {copied ? "Copied!" : "Copy Link"}
               </button>
-              <button className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+              <button
+                onClick={handleDownloadPDF}
+                disabled={downloadingPDF}
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
                 <Download className="mr-2 h-4 w-4" />
-                Export PDF
+                {downloadingPDF ? "Generating..." : "Export PDF"}
               </button>
             </div>
           </div>
@@ -247,10 +276,17 @@ export default function PublicQuotePage({ params }) {
       </div>
 
       {/* Quote Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div
+        id="quote-content"
+        className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8"
+        style={{
+          pageBreakInside: "avoid",
+          breakInside: "avoid",
+        }}
+      >
         <div className="space-y-6">
           {/* Company Header */}
-          <div className="rounded-xl border-0 bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-lg">
+          <div className="no-break rounded-xl border-0 bg-gradient-to-r from-blue-600 to-blue-800 p-8 text-white shadow-lg">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-white">Better Homes</h1>
               <p className="mt-2 text-xl text-blue-100">
@@ -269,7 +305,7 @@ export default function PublicQuotePage({ params }) {
           </div>
 
           {/* Quote Details */}
-          <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+          <div className="no-break rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               <div className="space-y-4">
                 <h3 className="border-b border-gray-200 pb-2 text-xl font-semibold text-gray-900">

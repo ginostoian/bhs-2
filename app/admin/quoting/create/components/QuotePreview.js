@@ -3,9 +3,14 @@
 import { useState } from "react";
 import { Copy, ExternalLink, Download } from "lucide-react";
 import toast from "react-hot-toast";
+import {
+  generatePrintOptimizedPDF,
+  generateVectorPDF,
+} from "@/libs/htmlQuotePdfGenerator";
 
 export default function QuotePreview({ formData, quoteId }) {
   const [copied, setCopied] = useState(false);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
 
   // Calculate simple total from services
   const subtotal = formData.services.reduce(
@@ -29,6 +34,39 @@ export default function QuotePreview({ formData, quoteId }) {
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       toast.error("Failed to copy link");
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (downloadingPDF) return;
+
+    setDownloadingPDF(true);
+    try {
+      // Create a quote object from formData
+      const quote = {
+        id: quoteId || "temp-id",
+        quoteNumber: quoteId || "temp-id",
+        title: formData.projectName,
+        projectType: formData.projectType,
+        client: formData.client,
+        projectAddress: formData.projectAddress,
+        projectDescription: formData.projectDescription,
+        startDate: formData.startDate,
+        estimatedDuration: formData.estimatedDuration,
+        services: formData.services,
+        total: total,
+        validUntil: formData.validUntil,
+        termsAndConditions: formData.termsAndConditions,
+        warrantyInformation: formData.warrantyInformation,
+      };
+
+      await generatePrintOptimizedPDF(quote, `quote-${quoteId || "temp"}.pdf`);
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Error downloading PDF:", error);
+      toast.error("Failed to download PDF. Please try again.");
+    } finally {
+      setDownloadingPDF(false);
     }
   };
 
@@ -608,9 +646,16 @@ export default function QuotePreview({ formData, quoteId }) {
           </p>
 
           <div className="flex items-center space-x-3">
-            <Download className="h-5 w-5 text-gray-400" />
+            <button
+              onClick={handleDownloadPDF}
+              disabled={downloadingPDF}
+              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              {downloadingPDF ? "Generating..." : "Download PDF"}
+            </button>
             <span className="text-sm text-gray-600">
-              PDF export functionality will be available after quote generation
+              Download a PDF version of this quote
             </span>
           </div>
         </div>
