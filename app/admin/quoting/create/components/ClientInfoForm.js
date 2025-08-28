@@ -24,7 +24,9 @@ export default function ClientInfoForm({ formData, updateFormData }) {
             type="text"
             id="client-name"
             value={formData.client.name}
-            onChange={(e) => updateFormData("client", { name: e.target.value })}
+            onChange={(e) =>
+              updateFormData({ client: { name: e.target.value } })
+            }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="John Doe"
             required
@@ -43,7 +45,7 @@ export default function ClientInfoForm({ formData, updateFormData }) {
             id="client-email"
             value={formData.client.email}
             onChange={(e) =>
-              updateFormData("client", { email: e.target.value })
+              updateFormData({ client: { email: e.target.value } })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="john@example.com"
@@ -63,7 +65,7 @@ export default function ClientInfoForm({ formData, updateFormData }) {
             id="client-phone"
             value={formData.client.phone}
             onChange={(e) =>
-              updateFormData("client", { phone: e.target.value })
+              updateFormData({ client: { phone: e.target.value } })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="07700 900000"
@@ -83,7 +85,7 @@ export default function ClientInfoForm({ formData, updateFormData }) {
             id="client-postcode"
             value={formData.client.postcode}
             onChange={(e) =>
-              updateFormData("client", { postcode: e.target.value })
+              updateFormData({ client: { postcode: e.target.value } })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="SW1A 1AA"
@@ -103,7 +105,7 @@ export default function ClientInfoForm({ formData, updateFormData }) {
             rows={3}
             value={formData.client.address}
             onChange={(e) =>
-              updateFormData("client", { address: e.target.value })
+              updateFormData({ client: { address: e.target.value } })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="123 Sample Street, London"

@@ -1,19 +1,90 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { FileText, CheckCircle, XCircle } from "lucide-react";
 
-export default function ProjectDetailsForm({ formData, updateFormData }) {
+export default function ProjectDetailsForm({
+  formData,
+  updateFormData,
+  isEditing = false,
+  originalData = null,
+}) {
   const [availableTemplates, setAvailableTemplates] = useState([]);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
+  // Ensure formData has the required structure
+  const safeFormData = useMemo(
+    () => ({
+      project: formData.project || {},
+      client: formData.client || {},
+      projectAddress: formData.projectAddress || "",
+      warrantyInformation: formData.warrantyInformation || "",
+      leadTime: formData.leadTime || "",
+      validUntil: formData.validUntil || "",
+      internalNotes: formData.internalNotes || "",
+      specialInstructions: formData.specialInstructions || "",
+      title: formData.title || "",
+      services: formData.services || [],
+      pricing: formData.pricing || {
+        depositRequired: false,
+        depositAmount: 0,
+        depositPercentage: 0,
+      },
+      template: formData.template || null,
+    }),
+    [formData],
+  );
+
+  console.log("ProjectDetailsForm render - formData:", formData);
+  console.log("ProjectDetailsForm render - safeFormData:", safeFormData);
+
+  // Initialize form with existing data when editing
+  useEffect(() => {
+    console.log("ProjectDetailsForm useEffect triggered:", {
+      isEditing,
+      originalData,
+      hasProjectType: !!safeFormData.project?.type,
+    });
+
+    if (isEditing && originalData && !safeFormData.project?.type) {
+      console.log("Initializing form with original data:", originalData);
+
+      // Pre-populate form with existing data
+      updateFormData({
+        project: {
+          type: originalData.projectType || "",
+          description: originalData.projectDescription || "",
+          startDate: originalData.startDate || "",
+          estimatedDuration: originalData.estimatedDuration || "",
+          title: originalData.title || "",
+          address: originalData.projectAddress || "",
+        },
+        client: originalData.client || {},
+        projectAddress: originalData.projectAddress || "",
+        warrantyInformation: originalData.warrantyInformation || "",
+        leadTime: originalData.leadTime || "",
+        validUntil: originalData.validUntil || "",
+        internalNotes: originalData.internalNotes || "",
+        specialInstructions: originalData.specialInstructions || "",
+        title: originalData.title || "",
+        pricing: {
+          depositRequired: originalData.pricing?.depositRequired || false,
+          depositAmount: originalData.pricing?.depositAmount || 0,
+          depositPercentage: originalData.pricing?.depositPercentage || 0,
+        },
+      });
+
+      console.log("Form initialization complete");
+    }
+  }, [isEditing, originalData, updateFormData]);
+
   // Fetch available templates when project type changes
   useEffect(() => {
-    if (formData.project.type) {
-      fetchTemplates(formData.project.type);
+    if (safeFormData.project && safeFormData.project.type) {
+      fetchTemplates(safeFormData.project.type);
     }
-  }, [formData.project.type]);
+  }, [safeFormData.project?.type]);
 
   const fetchTemplates = async (projectType) => {
     setLoadingTemplates(true);
@@ -35,18 +106,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
     // The template will be applied in the parent component
-    updateFormData("template", template._id);
-
-    // Also update the services and pricing from the template
-    updateFormData("services", template.baseServices || []);
-    updateFormData("pricing", {
-      labourMultiplier: template.defaultPricing?.labourMultiplier || 1.0,
-      materialsMultiplier: template.defaultPricing?.materialsMultiplier || 1.0,
-      overheadPercentage: template.defaultPricing?.overheadPercentage || 15,
-      profitPercentage: template.defaultPricing?.profitPercentage || 20,
-      contingencyPercentage:
-        template.defaultPricing?.contingencyPercentage || 10,
-      vatRate: template.defaultPricing?.vatRate || 20,
+    updateFormData({
+      template: template._id,
+      services: template.baseServices || [],
+      pricing: {
+        depositRequired: false,
+        depositAmount: 0,
+        depositPercentage: 0,
+      },
     });
   };
   const projectTypes = [
@@ -80,10 +147,20 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           </label>
           <select
             id="project-type"
-            value={formData.project.type}
-            onChange={(e) =>
-              updateFormData("project", { type: e.target.value })
-            }
+            value={safeFormData.project?.type || ""}
+            onChange={(e) => {
+              console.log("Project type changed to:", e.target.value);
+              console.log(
+                "Current safeFormData.project:",
+                safeFormData.project,
+              );
+              updateFormData({
+                project: {
+                  ...safeFormData.project,
+                  type: e.target.value,
+                },
+              });
+            }}
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             required
           >
@@ -97,7 +174,7 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
         </div>
 
         {/* Template Selection */}
-        {formData.project.type && (
+        {safeFormData.project?.type && (
           <div className="md:col-span-2">
             <label className="mb-3 block text-sm font-medium text-gray-700">
               Available Templates
@@ -162,15 +239,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
                       <button
                         onClick={() => {
                           setSelectedTemplate(null);
-                          updateFormData("template", null);
-                          updateFormData("services", []);
-                          updateFormData("pricing", {
-                            labourMultiplier: 1.0,
-                            materialsMultiplier: 1.0,
-                            overheadPercentage: 15,
-                            profitPercentage: 20,
-                            contingencyPercentage: 10,
-                            vatRate: 20,
+                          updateFormData({
+                            template: null,
+                            services: [],
+                            pricing: {
+                              depositRequired: false,
+                              depositAmount: 0,
+                              depositPercentage: 0,
+                            },
                           });
                         }}
                         className="text-xs text-red-600 underline hover:text-red-800"
@@ -212,9 +288,11 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           <input
             type="text"
             id="project-title"
-            value={formData.project.title}
+            value={safeFormData.title || ""}
             onChange={(e) =>
-              updateFormData("project", { title: e.target.value })
+              updateFormData({
+                title: e.target.value,
+              })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="e.g., Master Bathroom Renovation"
@@ -232,9 +310,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           <textarea
             id="project-description"
             rows={4}
-            value={formData.project.description}
+            value={safeFormData.project?.description || ""}
             onChange={(e) =>
-              updateFormData("project", { description: e.target.value })
+              updateFormData({
+                project: {
+                  ...safeFormData.project,
+                  description: e.target.value,
+                },
+              })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="Please describe the project requirements, scope of work, and any specific details..."
@@ -252,9 +335,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           <textarea
             id="project-address"
             rows={3}
-            value={formData.project.address}
+            value={safeFormData.project?.address || ""}
             onChange={(e) =>
-              updateFormData("project", { address: e.target.value })
+              updateFormData({
+                project: {
+                  ...safeFormData.project,
+                  address: e.target.value,
+                },
+              })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="Full address where the work will be carried out"
@@ -272,9 +360,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           <input
             type="date"
             id="project-start-date"
-            value={formData.project.startDate}
+            value={safeFormData.project?.startDate || ""}
             onChange={(e) =>
-              updateFormData("project", { startDate: e.target.value })
+              updateFormData({
+                project: {
+                  ...safeFormData.project,
+                  startDate: e.target.value,
+                },
+              })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
           />
@@ -290,9 +383,14 @@ export default function ProjectDetailsForm({ formData, updateFormData }) {
           <input
             type="text"
             id="project-duration"
-            value={formData.project.estimatedDuration}
+            value={safeFormData.project?.estimatedDuration || ""}
             onChange={(e) =>
-              updateFormData("project", { estimatedDuration: e.target.value })
+              updateFormData({
+                project: {
+                  ...safeFormData.project,
+                  estimatedDuration: e.target.value,
+                },
+              })
             }
             className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             placeholder="e.g., 2-3 weeks, 1 month"

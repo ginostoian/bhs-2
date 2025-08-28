@@ -30,6 +30,9 @@ export default function QuoteBuilder() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
+    // Quote Title (top-level)
+    title: "",
+
     // Client Information
     client: {
       name: "",
@@ -42,7 +45,6 @@ export default function QuoteBuilder() {
     // Project Details
     project: {
       type: "",
-      title: "",
       description: "",
       address: "",
       startDate: "",
@@ -54,12 +56,6 @@ export default function QuoteBuilder() {
 
     // Pricing
     pricing: {
-      labourMultiplier: 1.0,
-      materialsMultiplier: 1.0,
-      overheadPercentage: 15,
-      profitPercentage: 20,
-      contingencyPercentage: 10,
-      vatRate: 20,
       depositRequired: true,
       depositAmount: 0,
       depositPercentage: 0,
@@ -100,14 +96,13 @@ export default function QuoteBuilder() {
   const applyTemplate = (template) => {
     if (!template) return;
 
-    // Ensure template services have customer pricing fields initialized
-    const servicesWithCustomerPricing = (template.baseServices || []).map(
+    // Ensure template services have proper pricing fields initialized
+    const servicesWithPricing = (template.baseServices || []).map(
       (category) => ({
         ...category,
         items: category.items.map((item) => ({
           ...item,
-          customerUnitPrice: item.unitPrice || 0,
-          customerTotal: item.total || 0,
+          total: (item.quantity || 1) * (item.unitPrice || 0),
         })),
       }),
     );
@@ -115,17 +110,12 @@ export default function QuoteBuilder() {
     setFormData((prev) => ({
       ...prev,
       template: template._id,
-      services: servicesWithCustomerPricing,
+      services: servicesWithPricing,
       pricing: {
         ...prev.pricing,
-        labourMultiplier: template.defaultPricing?.labourMultiplier || 1.0,
-        materialsMultiplier:
-          template.defaultPricing?.materialsMultiplier || 1.0,
-        overheadPercentage: template.defaultPricing?.overheadPercentage || 15,
-        profitPercentage: template.defaultPricing?.profitPercentage || 20,
-        contingencyPercentage:
-          template.defaultPricing?.contingencyPercentage || 10,
-        vatRate: template.defaultPricing?.vatRate || 20,
+        depositRequired: template.defaultPricing?.depositRequired || false,
+        depositAmount: template.defaultPricing?.depositAmount || 0,
+        depositPercentage: template.defaultPricing?.depositPercentage || 0,
       },
     }));
 
@@ -133,10 +123,38 @@ export default function QuoteBuilder() {
   };
 
   const updateFormData = (section, data) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: Array.isArray(data) ? data : { ...prev[section], ...data },
-    }));
+    setFormData((prev) => {
+      // Handle both calling patterns:
+      // 1. updateFormData("client", { name: "John" })
+      // 2. updateFormData({ client: { name: "John" } })
+
+      if (typeof section === "object" && !data) {
+        // Pattern 2: updateFormData({ client: { name: "John" } })
+        const updates = section;
+        let newState = { ...prev };
+
+        Object.keys(updates).forEach((key) => {
+          if (Array.isArray(updates[key])) {
+            newState[key] = updates[key];
+          } else if (
+            typeof updates[key] === "object" &&
+            updates[key] !== null
+          ) {
+            newState[key] = { ...newState[key], ...updates[key] };
+          } else {
+            newState[key] = updates[key];
+          }
+        });
+
+        return newState;
+      } else {
+        // Pattern 1: updateFormData("client", { name: "John" })
+        return {
+          ...prev,
+          [section]: Array.isArray(data) ? data : { ...prev[section], ...data },
+        };
+      }
+    });
   };
 
   const nextStep = () => {
@@ -156,7 +174,7 @@ export default function QuoteBuilder() {
       case 0: // Client Info
         return formData.client.name && formData.client.email;
       case 1: // Project Details
-        return formData.project.type && formData.project.title;
+        return formData.project.type && formData.title;
       case 2: // Services
         return formData.services.length > 0;
       case 3: // Pricing
@@ -182,81 +200,47 @@ export default function QuoteBuilder() {
     setIsLoading(true);
     try {
       // Calculate built-in prices for each service item
-      const servicesWithCustomerPricing = formData.services.map((category) => ({
-        ...category,
-        items: category.items.map((item) => {
-          // Calculate margins for this specific service item
-          const itemSubtotal = item.total;
-          const itemOverheads =
-            itemSubtotal * (formData.pricing.overheadPercentage / 100);
-          const itemProfit =
-            itemSubtotal * (formData.pricing.profitPercentage / 100);
-          const itemContingency =
-            itemSubtotal * (formData.pricing.contingencyPercentage / 100);
+      // Calculate simple total from services
+      const servicesWithTotals = formData.services.map((category) => {
+        const itemsWithTotals = category.items.map((item) => ({
+          ...item,
+          total:
+            Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) /
+            100,
+        }));
+        
+        // Calculate category total
+        const categoryTotal = itemsWithTotals.reduce((sum, item) => sum + item.total, 0);
+        
+        return {
+          ...category,
+          items: itemsWithTotals,
+          categoryTotal: Math.round(categoryTotal * 100) / 100,
+        };
+      });
 
-          // Calculate customer-facing prices
-          const customerUnitPrice =
-            item.unitPrice +
-            (itemOverheads + itemProfit + itemContingency) / item.quantity;
-          const customerTotal =
-            item.total + itemOverheads + itemProfit + itemContingency;
-
-          return {
-            ...item,
-            customerUnitPrice: Math.round(customerUnitPrice * 100) / 100, // Round to 2 decimal places
-            customerTotal: Math.round(customerTotal * 100) / 100, // Round to 2 decimal places
-          };
-        }),
-      }));
-
-      // Calculate the base total from raw service costs
-      let baseTotal = 0;
-      if (
-        servicesWithCustomerPricing &&
-        servicesWithCustomerPricing.length > 0
-      ) {
-        servicesWithCustomerPricing.forEach((category) => {
+      // Calculate the simple total
+      let total = 0;
+      if (servicesWithTotals && servicesWithTotals.length > 0) {
+        servicesWithTotals.forEach((category) => {
           category.items.forEach((item) => {
-            baseTotal += item.total; // Use raw total, not customer total
+            total += item.total;
           });
         });
       }
 
-      // Apply pricing multipliers and percentages to the base total
-      const labourCost = baseTotal * 0.6 * formData.pricing.labourMultiplier;
-      const materialsCost =
-        baseTotal * 0.4 * formData.pricing.materialsMultiplier;
-      const subtotal = labourCost + materialsCost;
-      const overheads = subtotal * (formData.pricing.overheadPercentage / 100);
-      const profit = subtotal * (formData.pricing.profitPercentage / 100);
-      const contingency =
-        subtotal * (formData.pricing.contingencyPercentage / 100);
-      const vat =
-        (subtotal + overheads + profit + contingency) *
-        (formData.pricing.vatRate / 100);
-      const calculatedTotal = subtotal + overheads + profit + contingency + vat;
-
       // Create the complete quote object
       const completeQuote = {
-        title: formData.project.title || "Untitled Project",
-        projectType: formData.project.type || "general-renovation",
+        title: formData.title || "Untitled Project",
+        projectType: formData.project.type || "custom",
         client: formData.client,
         projectAddress: formData.project.address,
         projectDescription: formData.project.description,
         startDate: formData.project.startDate,
         estimatedDuration: formData.project.estimatedDuration,
-        services: servicesWithCustomerPricing,
-        costBreakdown: {
-          subtotal: baseTotal,
-          labourCost: labourCost,
-          materialsCost: materialsCost,
-          overheads: overheads,
-          profit: profit,
-          contingency: contingency,
-          vat: vat,
-          total: calculatedTotal,
-        },
-        calculationSettings: formData.pricing,
+        services: servicesWithTotals,
+        total: total,
+        pricing: formData.pricing,
         paymentTerms: {
           deposit: formData.pricing.depositAmount || 0,
           milestones: [],
@@ -271,6 +255,9 @@ export default function QuoteBuilder() {
         ).toISOString(),
       };
 
+      // Debug: Log what we're sending
+      console.log("Sending quote data:", JSON.stringify(completeQuote, null, 2));
+      
       // Save quote to database via API
       const response = await fetch("/api/admin/quoting", {
         method: "POST",

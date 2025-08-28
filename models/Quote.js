@@ -104,14 +104,14 @@ const QuoteSchema = new mongoose.Schema(
               type: Number,
               required: true,
             },
-            // New fields for customer-facing pricing
+            // Legacy fields - temporarily optional for migration
             customerUnitPrice: {
               type: Number,
-              required: true,
+              required: false,
             },
             customerTotal: {
               type: Number,
-              required: true,
+              required: false,
             },
             notes: {
               type: String,
@@ -120,68 +120,14 @@ const QuoteSchema = new mongoose.Schema(
         ],
       },
     ],
-    costBreakdown: {
-      subtotal: {
-        type: Number,
-        required: true,
-      },
-      labourCost: {
-        type: Number,
-        required: true,
-      },
-      materialsCost: {
-        type: Number,
-        required: true,
-      },
-      overheads: {
-        type: Number,
-        required: true,
-      },
-      profit: {
-        type: Number,
-        required: true,
-      },
-      contingency: {
-        type: Number,
-        required: true,
-      },
-      vat: {
-        type: Number,
-        required: true,
-      },
-      total: {
-        type: Number,
-        required: true,
-      },
+    total: {
+      type: Number,
+      required: true,
     },
-    calculationSettings: {
-      labourMultiplier: {
-        type: Number,
-        default: 1.0,
-      },
-      materialsMultiplier: {
-        type: Number,
-        default: 1.0,
-      },
-      overheadPercentage: {
-        type: Number,
-        default: 15,
-      },
-      profitPercentage: {
-        type: Number,
-        default: 20,
-      },
-      contingencyPercentage: {
-        type: Number,
-        default: 10,
-      },
-      vatRate: {
-        type: Number,
-        default: 20,
-      },
+    pricing: {
       depositRequired: {
         type: Boolean,
-        default: true,
+        default: false,
       },
       depositAmount: {
         type: Number,
@@ -190,6 +136,10 @@ const QuoteSchema = new mongoose.Schema(
       depositPercentage: {
         type: Number,
         default: 0,
+      },
+      vatRate: {
+        type: Number,
+        default: 20,
       },
     },
     paymentTerms: {
@@ -284,22 +234,16 @@ QuoteSchema.virtual("formattedQuoteNumber").get(function () {
   return `#${this.quoteNumber}`;
 });
 
-// Virtual for total excluding VAT
-QuoteSchema.virtual("totalExcludingVat").get(function () {
-  return this.costBreakdown.total - this.costBreakdown.vat;
-});
-
 // Virtual for deposit amount
 QuoteSchema.virtual("depositAmount").get(function () {
-  if (this.calculationSettings.depositAmount > 0) {
-    return this.calculationSettings.depositAmount;
+  // Use new simplified pricing structure
+  if (this.pricing && this.pricing.depositAmount > 0) {
+    return this.pricing.depositAmount;
   }
-  if (this.calculationSettings.depositPercentage > 0) {
-    return (
-      (this.costBreakdown.total * this.calculationSettings.depositPercentage) /
-      100
-    );
+  if (this.pricing && this.pricing.depositPercentage > 0) {
+    return (this.total * this.pricing.depositPercentage) / 100;
   }
+
   return 0;
 });
 

@@ -26,11 +26,6 @@ export default function CreateTemplatePage() {
       },
     ],
     defaultPricing: {
-      labourMultiplier: 1.0,
-      materialsMultiplier: 1.0,
-      overheadPercentage: 25,
-      profitPercentage: 30,
-      contingencyPercentage: 10,
       vatRate: 20,
     },
   });
@@ -428,86 +423,6 @@ export default function CreateTemplatePage() {
             Default Pricing
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Labour Multiplier
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={formData.defaultPricing.labourMultiplier}
-                onChange={(e) =>
-                  updateFormData("defaultPricing", {
-                    labourMultiplier: parseFloat(e.target.value),
-                  })
-                }
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Materials Multiplier
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={formData.defaultPricing.materialsMultiplier}
-                onChange={(e) =>
-                  updateFormData("defaultPricing", {
-                    materialsMultiplier: parseFloat(e.target.value),
-                  })
-                }
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Overhead Percentage
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={formData.defaultPricing.overheadPercentage}
-                onChange={(e) =>
-                  updateFormData("defaultPricing", {
-                    overheadPercentage: parseFloat(e.target.value),
-                  })
-                }
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Profit Percentage
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={formData.defaultPricing.profitPercentage}
-                onChange={(e) =>
-                  updateFormData("defaultPricing", {
-                    profitPercentage: parseFloat(e.target.value),
-                  })
-                }
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Contingency Percentage
-              </label>
-              <input
-                type="number"
-                step="0.1"
-                value={formData.defaultPricing.contingencyPercentage}
-                onChange={(e) =>
-                  updateFormData("defaultPricing", {
-                    contingencyPercentage: parseFloat(e.target.value),
-                  })
-                }
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              />
-            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 VAT Rate

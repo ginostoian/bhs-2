@@ -7,23 +7,15 @@ import toast from "react-hot-toast";
 export default function QuotePreview({ formData, quoteId }) {
   const [copied, setCopied] = useState(false);
 
-  // Calculate totals
+  // Calculate simple total from services
   const subtotal = formData.services.reduce(
     (sum, category) => sum + (category.categoryTotal || 0),
     0,
   );
 
-  const labourCost = subtotal * 0.6 * formData.pricing.labourMultiplier;
-  const materialsCost = subtotal * 0.4 * formData.pricing.materialsMultiplier;
-  const baseSubtotal = labourCost + materialsCost;
-  const overheads = baseSubtotal * (formData.pricing.overheadPercentage / 100);
-  const profit = baseSubtotal * (formData.pricing.profitPercentage / 100);
-  const contingency =
-    baseSubtotal * (formData.pricing.contingencyPercentage / 100);
-  const vat =
-    (baseSubtotal + overheads + profit + contingency) *
-    (formData.pricing.vatRate / 100);
-  const total = baseSubtotal + overheads + profit + contingency + vat;
+  // Simple VAT calculation
+  const vat = subtotal * ((formData.pricing.vatRate || 20) / 100);
+  const total = subtotal + vat;
 
   const shareableLink = quoteId ? `/quotes/${quoteId}` : "/quotes/temp-id";
 
@@ -289,63 +281,6 @@ export default function QuotePreview({ formData, quoteId }) {
 
             <div className="flex items-center justify-between border-b border-gray-100 py-3">
               <span className="text-sm font-medium text-gray-600">
-                Labour Cost:
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(labourCost)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
-                Materials Cost:
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(materialsCost)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
-                Base Subtotal:
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(baseSubtotal)}
-              </span>
-            </div>
-          </div>
-
-          {/* Right Column - Additional Costs */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
-                Overheads ({formData.pricing.overheadPercentage}%):
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(overheads)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
-                Profit ({formData.pricing.profitPercentage}%):
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(profit)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
-                Contingency ({formData.pricing.contingencyPercentage}%):
-              </span>
-              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
-                {formatCurrency(contingency)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
-              <span className="text-sm font-medium text-gray-600">
                 VAT ({formData.pricing.vatRate}%):
               </span>
               <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
@@ -353,29 +288,36 @@ export default function QuotePreview({ formData, quoteId }) {
               </span>
             </div>
           </div>
-        </div>
 
-        {/* Total - Full Width, Separate from the grid */}
-        <div className="flex items-center justify-between border-t-2 border-gray-200 pt-6">
-          <span className="text-2xl font-bold text-gray-900">Total:</span>
-          <span className="rounded-xl bg-blue-50 px-6 py-3 text-2xl font-bold text-blue-600 shadow-sm">
-            {formatCurrency(total)}
-          </span>
-          <div className="text-sm text-blue-500">
-            Customer:{" "}
-            {formatCurrency(
-              (formData.services?.reduce(
-                (total, category) =>
-                  total +
-                  (category.items?.reduce(
-                    (catTotal, item) =>
-                      catTotal + (item.customerTotal || item.total || 0),
+          {/* Right Column - Additional Costs */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">Total:</span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(total)}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+              <span className="text-sm font-medium text-gray-600">
+                Customer Total:
+              </span>
+              <span className="rounded bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-900">
+                {formatCurrency(
+                  (formData.services?.reduce(
+                    (total, category) =>
+                      total +
+                      (category.items?.reduce(
+                        (catTotal, item) =>
+                          catTotal + (item.customerTotal || item.total || 0),
+                        0,
+                      ) || 0),
                     0,
-                  ) || 0),
-                0,
-              ) || 0) *
-                (1 + (formData.pricing.vatRate || 20) / 100),
-            )}
+                  ) || 0) *
+                    (1 + (formData.pricing.vatRate || 20) / 100),
+                )}
+              </span>
+            </div>
           </div>
         </div>
 

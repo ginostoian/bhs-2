@@ -130,11 +130,6 @@ export default function QuoteTemplatesPage() {
           },
         ],
         defaultPricing: {
-          labourMultiplier: 1.2,
-          materialsMultiplier: 1.1,
-          overheadPercentage: 25,
-          profitPercentage: 30,
-          contingencyPercentage: 10,
           vatRate: 20,
         },
       };

@@ -102,7 +102,7 @@ export default function QuoteHistory() {
   const handleStatusUpdate = async (quoteId, newStatus) => {
     try {
       console.log("Updating quote", quoteId, "to status:", newStatus);
-      
+
       const response = await fetch(`/api/admin/quoting/${quoteId}`, {
         method: "PUT",
         headers: {
@@ -117,7 +117,7 @@ export default function QuoteHistory() {
 
       const result = await response.json();
       console.log("Status update response:", result);
-      
+
       if (!result.success) {
         throw new Error(result.error || "Failed to update quote status");
       }
@@ -129,7 +129,7 @@ export default function QuoteHistory() {
       setQuotes(updatedQuotes);
 
       toast.success(`Quote status updated to ${newStatus}`);
-      
+
       // Force a reload of quotes to ensure we have the latest data
       setTimeout(() => {
         loadQuotes();
@@ -418,11 +418,7 @@ export default function QuoteHistory() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
-                        {quote.costBreakdown?.total
-                          ? formatCurrency(quote.costBreakdown.total)
-                          : quote.total
-                            ? formatCurrency(quote.total)
-                            : "N/A"}
+                        {quote.total ? formatCurrency(quote.total) : "N/A"}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">

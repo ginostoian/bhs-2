@@ -2,16 +2,14 @@
 
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import {
-  Plus,
-  Trash2,
-  Search,
-  Calculator,
-  FileText,
-  Edit3,
-} from "lucide-react";
+import { Plus, Trash2, Search, FileText, Edit3 } from "lucide-react";
 
-export default function ServicesForm({ formData, updateFormData }) {
+export default function ServicesForm({
+  formData,
+  updateFormData,
+  isEditing = false,
+  originalData = null,
+}) {
   const [newCategory, setNewCategory] = useState("");
   const [newItemName, setNewItemName] = useState("");
   const [newItemDescription, setNewItemDescription] = useState("");
@@ -34,24 +32,31 @@ export default function ServicesForm({ formData, updateFormData }) {
   const [selectedTemplateService, setSelectedTemplateService] = useState(null);
   const [templateServiceQuantity, setTemplateServiceQuantity] = useState("");
 
-  // Calculate method state
-  const [calculateServiceName, setCalculateServiceName] = useState("");
-  const [calculateServiceDescription, setCalculateServiceDescription] =
-    useState("");
-  const [calculateServiceUnit, setCalculateServiceUnit] = useState("");
-  const [calculateTradesperson, setCalculateTradesperson] = useState("");
-  const [calculateQuantity, setCalculateQuantity] = useState("");
-  const [calculateMaterial, setCalculateMaterial] = useState("");
-  const [calculateMaterialPrice, setCalculateMaterialPrice] = useState("");
-  const [calculateMaterialQuantity, setCalculateMaterialQuantity] =
-    useState("");
-
   const isUsingTemplate = formData.template && formData.services.length > 0;
 
   useEffect(() => {
     fetchTemplateServices();
     fetchRateCards();
   }, []);
+
+  // Initialize services with existing data when editing
+  useEffect(() => {
+    if (isEditing && originalData && formData.services.length === 0) {
+      // Pre-populate services with existing data
+      const servicesWithCalculations = (originalData.services || []).map(
+        (cat) => ({
+          ...cat,
+          items: cat.items.map((item) => ({
+            ...item,
+            total: Math.round(item.quantity * item.unitPrice * 100) / 100,
+          })),
+          categoryTotal: calculateCategoryTotal(cat.items),
+        }),
+      );
+
+      updateFormData({ services: servicesWithCalculations });
+    }
+  }, [isEditing, originalData, formData.services.length, updateFormData]);
 
   const fetchTemplateServices = async () => {
     try {
@@ -92,16 +97,15 @@ export default function ServicesForm({ formData, updateFormData }) {
       items: [],
     };
 
-    updateFormData("services", [...formData.services, newServiceCategory]);
+    updateFormData({ services: [...formData.services, newServiceCategory] });
     setNewCategory("");
     setShowAddCategory(false);
   };
 
   const removeCategory = (categoryIndex) => {
-    updateFormData(
-      "services",
-      formData.services.filter((_, index) => index !== categoryIndex),
-    );
+    updateFormData({
+      services: formData.services.filter((_, index) => index !== categoryIndex),
+    });
   };
 
   const addItem = () => {
@@ -120,17 +124,18 @@ export default function ServicesForm({ formData, updateFormData }) {
       return;
     }
 
+    const quantity = parseFloat(newItemQuantity);
+    const unitPrice = parseFloat(newItemPrice);
+    const total = Math.round(quantity * unitPrice * 100) / 100; // Simple calculation with precision fix
+
     const newItem = {
       name: newItemName.trim(),
       description: newItemDescription.trim(),
       unit: newItemUnit,
-      quantity: parseFloat(newItemQuantity),
-      unitPrice: parseFloat(newItemPrice),
+      quantity: quantity,
+      unitPrice: unitPrice,
       notes: newItemNotes.trim(),
-      total: parseFloat(newItemQuantity) * parseFloat(newItemPrice),
-      // Initialize customer pricing fields (will be calculated later)
-      customerUnitPrice: parseFloat(newItemPrice),
-      customerTotal: parseFloat(newItemQuantity) * parseFloat(newItemPrice),
+      total: total,
     };
 
     console.log("Adding item:", newItem);
@@ -150,7 +155,7 @@ export default function ServicesForm({ formData, updateFormData }) {
     });
 
     console.log("Updated services:", updatedServices);
-    updateFormData("services", updatedServices);
+    updateFormData({ services: updatedServices });
 
     // Reset form
     setNewItemName("");
@@ -181,7 +186,7 @@ export default function ServicesForm({ formData, updateFormData }) {
       }
       return cat;
     });
-    updateFormData("services", updatedServices);
+    updateFormData({ services: updatedServices });
   };
 
   const updateItemQuantity = (categoryIndex, itemIndex, newQuantity) => {
@@ -191,13 +196,14 @@ export default function ServicesForm({ formData, updateFormData }) {
           ...cat,
           items: cat.items.map((item, itemIdx) => {
             if (itemIdx === itemIndex) {
+              const quantity = parseFloat(newQuantity);
+              const unitPrice = item.unitPrice;
+              const total = Math.round(quantity * unitPrice * 100) / 100;
+
               return {
                 ...item,
-                quantity: parseFloat(newQuantity),
-                total: parseFloat(newQuantity) * item.unitPrice,
-                customerTotal:
-                  parseFloat(newQuantity) *
-                  (item.customerUnitPrice || item.unitPrice),
+                quantity: quantity,
+                total: total,
               };
             }
             return item;
@@ -210,7 +216,7 @@ export default function ServicesForm({ formData, updateFormData }) {
       }
       return cat;
     });
-    updateFormData("services", updatedServices);
+    updateFormData({ services: updatedServices });
   };
 
   const updateItemPrice = (categoryIndex, itemIndex, newPrice) => {
@@ -220,12 +226,14 @@ export default function ServicesForm({ formData, updateFormData }) {
           ...cat,
           items: cat.items.map((item, itemIdx) => {
             if (itemIdx === itemIndex) {
+              const quantity = item.quantity;
+              const unitPrice = parseFloat(newPrice);
+              const total = Math.round(quantity * unitPrice * 100) / 100;
+
               return {
                 ...item,
-                unitPrice: parseFloat(newPrice),
-                total: item.quantity * parseFloat(newPrice),
-                customerUnitPrice: parseFloat(newPrice),
-                customerTotal: item.quantity * parseFloat(newPrice),
+                unitPrice: unitPrice,
+                total: total,
               };
             }
             return item;
@@ -238,7 +246,7 @@ export default function ServicesForm({ formData, updateFormData }) {
       }
       return cat;
     });
-    updateFormData("services", updatedServices);
+    updateFormData({ services: updatedServices });
   };
 
   // Calculate category totals
@@ -266,14 +274,6 @@ export default function ServicesForm({ formData, updateFormData }) {
     setSelectedServiceOption("");
     setSelectedTemplateService(null);
     setTemplateServiceQuantity("");
-    setCalculateServiceName("");
-    setCalculateServiceDescription("");
-    setCalculateServiceUnit("");
-    setCalculateTradesperson("");
-    setCalculateQuantity("");
-    setCalculateMaterial("");
-    setCalculateMaterialPrice("");
-    setCalculateMaterialQuantity("");
   };
 
   // Template Service method
@@ -316,9 +316,6 @@ export default function ServicesForm({ formData, updateFormData }) {
       unitPrice: price,
       notes: selectedTemplateService.notes || "",
       total: quantity * price,
-      // Initialize customer pricing fields
-      customerUnitPrice: price,
-      customerTotal: quantity * price,
       source: "template",
       templateServiceId: selectedTemplateService._id,
     };
@@ -332,7 +329,7 @@ export default function ServicesForm({ formData, updateFormData }) {
         categoryName: selectedTemplateService.category,
         items: [],
       };
-      updateFormData("services", [...formData.services, targetCategory]);
+      updateFormData({ services: [...formData.services, targetCategory] });
     }
 
     const updatedServices = formData.services.map((cat) => {
@@ -345,88 +342,10 @@ export default function ServicesForm({ formData, updateFormData }) {
       }
       return cat;
     });
-    updateFormData("services", updatedServices);
+    updateFormData({ services: updatedServices });
 
     closeServiceOptions();
   };
-
-  // Calculate method
-  const addCalculatedService = () => {
-    if (
-      !calculateServiceName ||
-      !calculateServiceUnit ||
-      !calculateTradesperson ||
-      !calculateQuantity
-    )
-      return;
-
-    const tradesperson = rateCards.find((r) => r._id === calculateTradesperson);
-    if (!tradesperson) return;
-
-    let price = tradesperson.price * parseFloat(calculateQuantity);
-    let description = calculateServiceDescription;
-
-    if (
-      calculateMaterial &&
-      calculateMaterialPrice &&
-      calculateMaterialQuantity
-    ) {
-      price +=
-        parseFloat(calculateMaterialPrice) *
-        parseFloat(calculateMaterialQuantity);
-      description += ` + ${calculateMaterial} materials`;
-    }
-
-    const newItem = {
-      name: calculateServiceName,
-      description: description,
-      unit: calculateServiceUnit,
-      quantity: parseFloat(calculateQuantity),
-      unitPrice: price,
-      notes: `Calculated from ${tradesperson.name} rate`,
-      total: price,
-      // Initialize customer pricing fields
-      customerUnitPrice: price,
-      customerTotal: price,
-      source: "calculated",
-      calculationDetails: {
-        tradesperson: tradesperson._id,
-        material: calculateMaterial,
-        materialPrice: calculateMaterialPrice,
-        materialQuantity: calculateMaterialQuantity,
-      },
-    };
-
-    // Add to selected category or create new one
-    let targetCategory = formData.services.find(
-      (cat) => cat.categoryName === "Calculated Services",
-    );
-    if (!targetCategory) {
-      targetCategory = {
-        categoryName: "Calculated Services",
-        items: [],
-      };
-      updateFormData("services", [...formData.services, targetCategory]);
-    }
-
-    const updatedServices = formData.services.map((cat) => {
-      if (cat.categoryName === targetCategory.categoryName) {
-        const updatedCategory = { ...cat, items: [...cat.items, newItem] };
-        return {
-          ...updatedCategory,
-          categoryTotal: calculateCategoryTotal(updatedCategory.items),
-        };
-      }
-      return cat;
-    });
-    updateFormData("services", updatedServices);
-
-    closeServiceOptions();
-  };
-
-  const getTradespeople = () =>
-    rateCards.filter((r) => r.type === "tradesperson");
-  const getMaterials = () => rateCards.filter((r) => r.type === "material");
 
   const filteredTemplateServices = templateServices.filter(
     (service) =>
@@ -526,26 +445,6 @@ export default function ServicesForm({ formData, updateFormData }) {
                         </h3>
                         <p className="text-sm text-gray-600">
                           Use predefined service templates
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Option 2: Calculate */}
-                  <div
-                    className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                      selectedServiceOption === "calculate"
-                        ? "border-blue-500 bg-blue-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                    onClick={() => setSelectedServiceOption("calculate")}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <Calculator className="h-8 w-8 text-green-600" />
-                      <div>
-                        <h3 className="font-medium text-gray-900">Calculate</h3>
-                        <p className="text-sm text-gray-600">
-                          Calculate from rate cards
                         </p>
                       </div>
                     </div>
@@ -678,191 +577,6 @@ export default function ServicesForm({ formData, updateFormData }) {
                         </div>
                       </div>
                     )}
-                  </div>
-                )}
-
-                {/* Calculate Method Form */}
-                {selectedServiceOption === "calculate" && (
-                  <div className="mt-6 space-y-4">
-                    <h3 className="text-lg font-medium text-gray-900">
-                      Calculate Service Price
-                    </h3>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Service Name *
-                        </label>
-                        <input
-                          type="text"
-                          value={calculateServiceName}
-                          onChange={(e) =>
-                            setCalculateServiceName(e.target.value)
-                          }
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                          placeholder="e.g., Wall Painting, Skirting Installation"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Unit *
-                        </label>
-                        <select
-                          value={calculateServiceUnit}
-                          onChange={(e) =>
-                            setCalculateServiceUnit(e.target.value)
-                          }
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                          required
-                        >
-                          <option value="">Select unit</option>
-                          <option value="sqm">sqm</option>
-                          <option value="linear m">linear m</option>
-                          <option value="piece">piece</option>
-                          <option value="day">day</option>
-                          <option value="hour">hour</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Tradesperson *
-                        </label>
-                        <select
-                          value={calculateTradesperson}
-                          onChange={(e) =>
-                            setCalculateTradesperson(e.target.value)
-                          }
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                          required
-                        >
-                          <option value="">Select tradesperson</option>
-                          {getTradespeople().map((tradesperson) => (
-                            <option
-                              key={tradesperson._id}
-                              value={tradesperson._id}
-                            >
-                              {tradesperson.name} (£{tradesperson.price}/
-                              {tradesperson.unit})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Quantity *
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={calculateQuantity}
-                          onChange={(e) => setCalculateQuantity(e.target.value)}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                          placeholder="1.0"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Material (Optional)
-                        </label>
-                        <select
-                          value={calculateMaterial}
-                          onChange={(e) => setCalculateMaterial(e.target.value)}
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                        >
-                          <option value="">No material</option>
-                          {getMaterials().map((material) => (
-                            <option key={material._id} value={material.name}>
-                              {material.name} (£{material.price}/{material.unit}
-                              )
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Material Price per Unit
-                        </label>
-                        <div className="relative mt-1">
-                          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <span className="text-gray-500 sm:text-sm">£</span>
-                          </div>
-                          <input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            value={calculateMaterialPrice}
-                            onChange={(e) =>
-                              setCalculateMaterialPrice(e.target.value)
-                            }
-                            className="block w-full rounded-md border border-gray-300 py-2 pl-7 pr-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                            placeholder="0.00"
-                            disabled={!calculateMaterial}
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                          Material Quantity
-                        </label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          value={calculateMaterialQuantity}
-                          onChange={(e) =>
-                            setCalculateMaterialQuantity(e.target.value)
-                          }
-                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                          placeholder="0.1"
-                          disabled={!calculateMaterial}
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700">
-                        Description
-                      </label>
-                      <textarea
-                        value={calculateServiceDescription}
-                        onChange={(e) =>
-                          setCalculateServiceDescription(e.target.value)
-                        }
-                        rows={2}
-                        className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                        placeholder="Describe what this service includes... (press Enter for new lines)"
-                      />
-                    </div>
-
-                    <div className="flex justify-end space-x-3">
-                      <button
-                        onClick={closeServiceOptions}
-                        className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={addCalculatedService}
-                        disabled={
-                          !calculateServiceName ||
-                          !calculateServiceUnit ||
-                          !calculateTradesperson ||
-                          !calculateQuantity
-                        }
-                        className="inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
-                      >
-                        Calculate & Add Service
-                      </button>
-                    </div>
                   </div>
                 )}
 
@@ -1043,16 +757,12 @@ export default function ServicesForm({ formData, updateFormData }) {
                                   className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
                                     item.source === "template"
                                       ? "bg-blue-100 text-blue-800"
-                                      : item.source === "calculated"
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-gray-100 text-gray-800"
+                                      : "bg-gray-100 text-gray-800"
                                   }`}
                                 >
                                   {item.source === "template"
                                     ? "Template"
-                                    : item.source === "calculated"
-                                      ? "Calculated"
-                                      : "Custom"}
+                                    : "Custom"}
                                 </span>
                               )}
                             </div>
