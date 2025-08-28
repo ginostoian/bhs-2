@@ -20,7 +20,8 @@
     "fix-duplicates": "node scripts/fix-duplicate-dynamic.js",
     "check-imports": "node scripts/check-broken-imports.js",
     "morning-brief": "node scripts/send-morning-brief.js",
-    "update-aging": "node scripts/update-lead-aging.js"
+    "update-aging": "node scripts/update-lead-aging.js",
+    "migrate-templates": "node scripts/migrate-quote-templates.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^1.0.0",

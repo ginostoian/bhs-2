@@ -75,6 +75,14 @@ export default function QuoteBuilder() {
     }
   }, [formData.project.type]);
 
+  // Apply template when template ID is set manually
+  useEffect(() => {
+    if (formData.template && formData.services.length === 0) {
+      // Template was selected but services not yet applied, fetch and apply the template
+      fetchAndApplyTemplate(formData.template);
+    }
+  }, [formData.template]);
+
   const loadDefaultTemplate = async (projectType) => {
     try {
       const response = await fetch(
@@ -93,31 +101,86 @@ export default function QuoteBuilder() {
     }
   };
 
+  const fetchAndApplyTemplate = async (templateId) => {
+    try {
+      const response = await fetch(
+        `/api/admin/quoting/templates/${templateId}`,
+      );
+      if (response.ok) {
+        const template = await response.json();
+        applyTemplate(template);
+      }
+    } catch (error) {
+      console.error("Error fetching template:", error);
+    }
+  };
+
   const applyTemplate = (template) => {
     if (!template) return;
 
-    // Ensure template services have proper pricing fields initialized
-    const servicesWithPricing = (template.baseServices || []).map(
-      (category) => ({
-        ...category,
-        items: category.items.map((item) => ({
-          ...item,
-          total: (item.quantity || 1) * (item.unitPrice || 0),
-        })),
-      }),
+    // Transform template services to match quote service structure
+    // Deep clone template data to completely break references
+    const templateCopy = JSON.parse(
+      JSON.stringify(template.baseServices || []),
     );
 
-    setFormData((prev) => ({
-      ...prev,
-      template: template._id,
-      services: servicesWithPricing,
-      pricing: {
-        ...prev.pricing,
-        depositRequired: template.defaultPricing?.depositRequired || false,
-        depositAmount: template.defaultPricing?.depositAmount || 0,
-        depositPercentage: template.defaultPricing?.depositPercentage || 0,
-      },
-    }));
+    const servicesWithPricing = templateCopy.map((category) => {
+      const items = category.items.map((item) => {
+        // Ensure we convert to number properly
+        let unitPrice = 0;
+        if (item.basePrice !== null && item.basePrice !== undefined) {
+          unitPrice = Number(item.basePrice);
+          if (isNaN(unitPrice)) {
+            console.warn(
+              "Could not convert basePrice to number:",
+              item.basePrice,
+            );
+            unitPrice = 0;
+          }
+        }
+
+        const total = unitPrice; // Since quantity is 1 initially
+
+        // Create a completely new object with ONLY the properties we want
+        const transformedItem = {
+          name: String(item.name || ""),
+          description: String(item.description || ""),
+          unit: String(item.unit || ""),
+          quantity: 1, // Default quantity
+          unitPrice: unitPrice, // Map basePrice to unitPrice (DO NOT include basePrice)
+          total: total, // Initial total
+          notes: String(item.notes || ""),
+          source: "template", // Mark as template source
+        };
+
+        return transformedItem;
+      });
+
+      // Calculate category total
+      const categoryTotal = items.reduce((sum, item) => sum + item.total, 0);
+
+      return {
+        categoryName: String(category.category || ""), // Map category to categoryName
+        items: items,
+        categoryTotal: categoryTotal,
+      };
+    });
+
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        template: template._id,
+        services: servicesWithPricing,
+        pricing: {
+          ...prev.pricing,
+          depositRequired: template.defaultPricing?.depositRequired || false,
+          depositAmount: template.defaultPricing?.depositAmount || 0,
+          depositPercentage: template.defaultPricing?.depositPercentage || 0,
+        },
+      };
+
+      return newData;
+    });
 
     toast.success(`Template "${template.name}" applied successfully!`);
   };
@@ -208,10 +271,13 @@ export default function QuoteBuilder() {
             Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) /
             100,
         }));
-        
+
         // Calculate category total
-        const categoryTotal = itemsWithTotals.reduce((sum, item) => sum + item.total, 0);
-        
+        const categoryTotal = itemsWithTotals.reduce(
+          (sum, item) => sum + item.total,
+          0,
+        );
+
         return {
           ...category,
           items: itemsWithTotals,
@@ -255,9 +321,6 @@ export default function QuoteBuilder() {
         ).toISOString(),
       };
 
-      // Debug: Log what we're sending
-      console.log("Sending quote data:", JSON.stringify(completeQuote, null, 2));
-      
       // Save quote to database via API
       const response = await fetch("/api/admin/quoting", {
         method: "POST",

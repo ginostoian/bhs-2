@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { getProjectTypes } from "@/libs/formatProjectType";
 
 export default function CreateTemplatePage() {
   const router = useRouter();
@@ -30,16 +31,7 @@ export default function CreateTemplatePage() {
     },
   });
 
-  const projectTypes = [
-    "Bathroom Renovation",
-    "Kitchen Renovation",
-    "Electrical Rewiring",
-    "Boiler Installation",
-    "Full Home Renovation",
-    "Home Extension",
-    "Loft Conversion",
-    "Garden Work",
-  ];
+  const projectTypes = getProjectTypes();
 
   const units = [
     "sqm",
@@ -137,22 +129,93 @@ export default function CreateTemplatePage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate required fields
+    if (!formData.name || !formData.description || !formData.projectType) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    // Validate that at least one service category has items
+    if (
+      !formData.baseServices.length ||
+      !formData.baseServices[0].items.length
+    ) {
+      alert("Please add at least one service category with items");
+      return;
+    }
+
+    // Validate service items have required fields
+    for (let i = 0; i < formData.baseServices.length; i++) {
+      const category = formData.baseServices[i];
+      if (!category.category.trim()) {
+        alert(`Please enter a category name for category ${i + 1}`);
+        return;
+      }
+
+      for (let j = 0; j < category.items.length; j++) {
+        const item = category.items[j];
+        if (
+          !item.name.trim() ||
+          !item.description.trim() ||
+          !item.unit.trim() ||
+          !item.basePrice
+        ) {
+          alert(
+            `Please fill in all required fields for item ${j + 1} in category "${category.category}"`,
+          );
+        }
+      }
+    }
+
     try {
+      console.log("Submitting template data:", formData);
+
+      // Transform the data to match the model exactly
+      const transformedData = {
+        name: formData.name,
+        description: formData.description,
+        projectType: formData.projectType,
+        baseServices: formData.baseServices.map((category) => ({
+          category: category.category,
+          items: category.items.map((item) => ({
+            name: item.name,
+            description: item.description,
+            unit: item.unit,
+            basePrice: parseFloat(item.basePrice) || 0,
+            notes: item.notes || "",
+          })),
+        })),
+        defaultPricing: {
+          vatRate: formData.defaultPricing.vatRate,
+        },
+      };
+
+      console.log("Transformed data:", transformedData);
+
       const response = await fetch("/api/admin/quoting/templates", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(transformedData),
       });
 
+      console.log("Response status:", response.status);
+
       if (response.ok) {
+        const result = await response.json();
+        console.log("Template created successfully:", result);
         router.push("/admin/quoting/templates");
       } else {
-        console.error("Failed to create template");
+        const errorData = await response.json();
+        console.error("Failed to create template:", errorData);
+        alert(
+          `Failed to create template: ${errorData.error || "Unknown error"}`,
+        );
       }
     } catch (error) {
       console.error("Error creating template:", error);
+      alert(`Error creating template: ${error.message}`);
     }
   };
 
@@ -218,8 +281,8 @@ export default function CreateTemplatePage() {
               >
                 <option value="">Select project type</option>
                 {projectTypes.map((type) => (
-                  <option key={type} value={type}>
-                    {type}
+                  <option key={type.value} value={type.value}>
+                    {type.label}
                   </option>
                 ))}
               </select>
@@ -444,6 +507,16 @@ export default function CreateTemplatePage() {
 
         {/* Actions */}
         <div className="flex justify-end space-x-3">
+          <button
+            type="button"
+            onClick={() => {
+              console.log("Current form data:", formData);
+              alert("Check console for form data");
+            }}
+            className="inline-flex items-center rounded-md border border-gray-300 bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-200"
+          >
+            Debug Form Data
+          </button>
           <Link
             href="/admin/quoting/templates"
             className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"

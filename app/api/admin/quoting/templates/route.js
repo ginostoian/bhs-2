@@ -15,21 +15,39 @@ export async function POST(request) {
     await connectMongo();
 
     const body = await request.json();
+    console.log("Creating template with data:", body);
+
+    // Log the current model schema for debugging
+    console.log(
+      "Current QuoteTemplate schema fields:",
+      Object.keys(QuoteTemplate.schema.obj),
+    );
+    console.log(
+      "ProjectType enum values:",
+      QuoteTemplate.schema.obj.projectType?.enum,
+    );
 
     const template = new QuoteTemplate({
       ...body,
       createdBy: session.user.id,
+      lastModifiedBy: session.user.id,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
 
+    console.log("Template object before save:", template);
+
     await template.save();
+    console.log("Template saved successfully:", template._id);
 
     return NextResponse.json(template, { status: 201 });
   } catch (error) {
     console.error("Error creating template:", error);
+    if (error.errors) {
+      console.error("Validation errors:", error.errors);
+    }
     return NextResponse.json(
-      { error: "Failed to create template" },
+      { error: "Failed to create template", details: error.message },
       { status: 500 },
     );
   }

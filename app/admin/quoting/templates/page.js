@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, FileText, Edit, Trash2, Eye } from "lucide-react";
+import { formatProjectType } from "@/libs/formatProjectType";
 
 export default function QuoteTemplatesPage() {
   const [templates, setTemplates] = useState([]);
@@ -228,7 +229,7 @@ export default function QuoteTemplatesPage() {
                       {template.name}
                     </h3>
                     <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                      {template.projectType}
+                      {formatProjectType(template.projectType)}
                     </span>
                   </div>
                   {template.description && (

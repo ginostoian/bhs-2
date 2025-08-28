@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { Plus, Trash2, Search, FileText, Edit3 } from "lucide-react";
+import { Plus, Trash2, Search, FileText, Edit3, Save, X } from "lucide-react";
 
 export default function ServicesForm({
   formData,
@@ -31,6 +31,10 @@ export default function ServicesForm({
   // Template Service state
   const [selectedTemplateService, setSelectedTemplateService] = useState(null);
   const [templateServiceQuantity, setTemplateServiceQuantity] = useState("");
+
+  // Edit state
+  const [editingItem, setEditingItem] = useState(null);
+  const [editFormData, setEditFormData] = useState({});
 
   const isUsingTemplate = formData.template && formData.services.length > 0;
 
@@ -138,13 +142,8 @@ export default function ServicesForm({
       total: total,
     };
 
-    console.log("Adding item:", newItem);
-    console.log("Selected category:", selectedCategory);
-    console.log("Current services:", formData.services);
-
     const updatedServices = formData.services.map((cat, index) => {
       if (index === parseInt(selectedCategory)) {
-        console.log("Updating category at index:", index);
         const updatedCategory = { ...cat, items: [...cat.items, newItem] };
         return {
           ...updatedCategory,
@@ -153,8 +152,6 @@ export default function ServicesForm({
       }
       return cat;
     });
-
-    console.log("Updated services:", updatedServices);
     updateFormData({ services: updatedServices });
 
     // Reset form
@@ -165,11 +162,6 @@ export default function ServicesForm({
     setNewItemPrice("");
     setNewItemNotes("");
     setShowAddItem(false);
-
-    // Debug: Check if form data was updated
-    setTimeout(() => {
-      console.log("Form data after update:", formData.services);
-    }, 100);
   };
 
   const removeItem = (categoryIndex, itemIndex) => {
@@ -187,6 +179,61 @@ export default function ServicesForm({
       return cat;
     });
     updateFormData({ services: updatedServices });
+  };
+
+  const startEditItem = (categoryIndex, itemIndex, item) => {
+    setEditingItem({ categoryIndex, itemIndex });
+    setEditFormData({
+      name: item.name,
+      description: item.description,
+      unit: item.unit,
+      quantity: item.quantity,
+      unitPrice: item.unitPrice,
+      notes: item.notes || "",
+    });
+  };
+
+  const saveEditItem = () => {
+    if (!editingItem) return;
+
+    const { categoryIndex, itemIndex } = editingItem;
+    const updatedServices = formData.services.map((cat, catIndex) => {
+      if (catIndex === categoryIndex) {
+        const updatedCategory = {
+          ...cat,
+          items: cat.items.map((item, itemIdx) => {
+            if (itemIdx === itemIndex) {
+              const total =
+                Math.round(
+                  editFormData.quantity * editFormData.unitPrice * 100,
+                ) / 100;
+              return {
+                ...item,
+                ...editFormData,
+                total: total,
+              };
+            }
+            return item;
+          }),
+        };
+        return {
+          ...updatedCategory,
+          categoryTotal: calculateCategoryTotal(updatedCategory.items),
+        };
+      }
+      return cat;
+    });
+
+    // Update the form data with recalculated totals
+    updateFormData({ services: updatedServices });
+    setEditingItem(null);
+    setEditFormData({});
+    toast.success("Service updated successfully!");
+  };
+
+  const cancelEditItem = () => {
+    setEditingItem(null);
+    setEditFormData({});
   };
 
   const updateItemQuantity = (categoryIndex, itemIndex, newQuantity) => {
@@ -261,6 +308,28 @@ export default function ServicesForm({
       ...cat,
       categoryTotal: calculateCategoryTotal(cat.items),
     }));
+  };
+
+  // Recalculate all totals for all services
+  const recalculateAllTotals = () => {
+    const updatedServices = formData.services.map((category) => ({
+      ...category,
+      items: category.items.map((item) => ({
+        ...item,
+        total:
+          Math.round((item.quantity || 0) * (item.unitPrice || 0) * 100) / 100,
+      })),
+      categoryTotal: calculateCategoryTotal(
+        category.items.map((item) => ({
+          ...item,
+          total:
+            Math.round((item.quantity || 0) * (item.unitPrice || 0) * 100) /
+            100,
+        })),
+      ),
+    }));
+
+    updateFormData({ services: updatedServices });
   };
 
   // Enhanced service addition methods
@@ -366,12 +435,20 @@ export default function ServicesForm({
         </p>
         {isUsingTemplate && (
           <div className="mt-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
-            <div className="flex items-center space-x-2">
-              <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-              <span className="text-sm text-blue-800">
-                Template services loaded. You can modify quantities, add new
-                items, or remove existing ones.
-              </span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+                <span className="text-sm text-blue-800">
+                  Template services loaded. You can modify quantities, add new
+                  items, or remove existing ones.
+                </span>
+              </div>
+              <button
+                onClick={recalculateAllTotals}
+                className="inline-flex items-center rounded-md border border-blue-300 bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 hover:bg-blue-200"
+              >
+                Recalculate Totals
+              </button>
             </div>
           </div>
         )}
@@ -726,9 +803,14 @@ export default function ServicesForm({
               className="rounded-lg border border-gray-200 bg-white"
             >
               <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-                <h3 className="text-lg font-medium text-gray-900">
-                  {category.categoryName}
-                </h3>
+                <div className="flex items-center space-x-4">
+                  <h3 className="text-lg font-medium text-gray-900">
+                    {category.categoryName}
+                  </h3>
+                  <span className="text-sm font-medium text-gray-600">
+                    Total: £{(category.categoryTotal || 0).toFixed(2)}
+                  </span>
+                </div>
                 <button
                   onClick={() => removeCategory(categoryIndex)}
                   className="text-red-600 hover:text-red-800"
@@ -742,69 +824,244 @@ export default function ServicesForm({
                   <div className="space-y-3">
                     {category.items &&
                       Array.isArray(category.items) &&
-                      category.items.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3"
-                        >
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-3">
-                              <h4 className="font-medium text-gray-900">
-                                {item.name}
-                              </h4>
-                              {item.source && (
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                                    item.source === "template"
-                                      ? "bg-blue-100 text-blue-800"
-                                      : "bg-gray-100 text-gray-800"
-                                  }`}
-                                >
-                                  {item.source === "template"
-                                    ? "Template"
-                                    : "Custom"}
+                      category.items.map((item, itemIndex) => {
+                        return (
+                          <div
+                            key={itemIndex}
+                            className="flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3"
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-3">
+                                <h4 className="font-medium text-gray-900">
+                                  {item.name}
+                                </h4>
+                                {item.source && (
+                                  <span
+                                    className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                      item.source === "template"
+                                        ? "bg-blue-100 text-blue-800"
+                                        : "bg-gray-100 text-gray-800"
+                                    }`}
+                                  >
+                                    {item.source === "template"
+                                      ? "Template"
+                                      : "Custom"}
+                                  </span>
+                                )}
+                              </div>
+                              {item.description && (
+                                <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
+                                  {item.description}
+                                </p>
+                              )}
+                              <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                <span>Unit: {item.unit}</span>
+                                <span>Quantity: {item.quantity}</span>
+                                <span>
+                                  Price: £{(item.unitPrice || 0).toFixed(2)}
                                 </span>
+                                <span className="font-medium text-gray-900">
+                                  Total: £{(item.total || 0).toFixed(2)}
+                                </span>
+                              </div>
+                              {item.notes && (
+                                <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
+                                  {item.notes}
+                                </p>
                               )}
                             </div>
-                            {item.description && (
-                              <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
-                                {item.description}
-                              </p>
-                            )}
-                            <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                              <span>Unit: {item.unit}</span>
-                              <span>Quantity: {item.quantity}</span>
-                              <span>
-                                Price: £{(item.unitPrice || 0).toFixed(2)}
-                              </span>
-                              <span className="font-medium text-gray-900">
-                                Total: £{(item.total || 0).toFixed(2)}
-                              </span>
-                            </div>
-                            {item.notes && (
-                              <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
-                                {item.notes}
-                              </p>
-                            )}
-                          </div>
 
-                          <div className="flex items-center space-x-2">
-                            <button
-                              onClick={() =>
-                                removeItem(categoryIndex, itemIndex)
-                              }
-                              className="text-red-600 hover:text-red-800"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() =>
+                                  startEditItem(categoryIndex, itemIndex, item)
+                                }
+                                className="text-blue-600 hover:text-blue-800"
+                              >
+                                <Edit3 className="h-4 w-4" />
+                              </button>
+                              <button
+                                onClick={() =>
+                                  removeItem(categoryIndex, itemIndex)
+                                }
+                                className="text-red-600 hover:text-red-800"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                   </div>
                 </div>
               )}
             </div>
           ))}
+
+          {/* Grand Total */}
+          <div className="rounded-lg border border-gray-200 bg-white p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-medium text-gray-900">Grand Total</h3>
+              <span className="text-xl font-bold text-gray-900">
+                £
+                {formData.services
+                  .reduce(
+                    (sum, category) => sum + (category.categoryTotal || 0),
+                    0,
+                  )
+                  .toFixed(2)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Service Modal */}
+      {editingItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-lg font-medium text-gray-900">
+                Edit Service
+              </h2>
+              <button
+                onClick={cancelEditItem}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Service Name
+                </label>
+                <input
+                  type="text"
+                  value={editFormData.name}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, name: e.target.value })
+                  }
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Description
+                </label>
+                <textarea
+                  value={editFormData.description}
+                  onChange={(e) =>
+                    setEditFormData({
+                      ...editFormData,
+                      description: e.target.value,
+                    })
+                  }
+                  rows={3}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Unit
+                  </label>
+                  <select
+                    value={editFormData.unit}
+                    onChange={(e) =>
+                      setEditFormData({ ...editFormData, unit: e.target.value })
+                    }
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Select unit</option>
+                    <option value="sqm">sqm</option>
+                    <option value="linear m">linear m</option>
+                    <option value="job">job</option>
+                    <option value="day">day</option>
+                    <option value="hour">hour</option>
+                    <option value="piece">piece</option>
+                    <option value="set">set</option>
+                    <option value="m2">m2</option>
+                    <option value="m3">m3</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={editFormData.quantity}
+                    onChange={(e) =>
+                      setEditFormData({
+                        ...editFormData,
+                        quantity: parseFloat(e.target.value) || 0,
+                      })
+                    }
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Unit Price (£)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={editFormData.unitPrice}
+                    onChange={(e) =>
+                      setEditFormData({
+                        ...editFormData,
+                        unitPrice: parseFloat(e.target.value) || 0,
+                      })
+                    }
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Notes
+                </label>
+                <textarea
+                  value={editFormData.notes}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, notes: e.target.value })
+                  }
+                  rows={2}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4">
+                <button
+                  onClick={cancelEditItem}
+                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Cancel
+                </button>
+                <button
+                  onClick={saveEditItem}
+                  className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

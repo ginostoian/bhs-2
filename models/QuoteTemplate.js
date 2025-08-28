@@ -31,15 +31,11 @@ const QuoteTemplateSchema = new mongoose.Schema(
       required: true,
       default: "1.0.0",
     },
-    baseStructure: [
+    baseServices: [
       {
-        categoryName: {
+        category: {
           type: String,
           required: true,
-        },
-        categoryTotal: {
-          type: Number,
-          default: 0,
         },
         items: [
           {
@@ -51,19 +47,11 @@ const QuoteTemplateSchema = new mongoose.Schema(
               type: String,
               required: true,
             },
-            quantity: {
-              type: Number,
-              required: true,
-            },
             unit: {
               type: String,
               required: true,
             },
-            unitPrice: {
-              type: Number,
-              required: true,
-            },
-            total: {
+            basePrice: {
               type: Number,
               required: true,
             },
@@ -74,36 +62,10 @@ const QuoteTemplateSchema = new mongoose.Schema(
         ],
       },
     ],
-    defaultSettings: {
-      labourMultiplier: {
-        type: Number,
-        default: 1.0,
-      },
-      materialsMultiplier: {
-        type: Number,
-        default: 1.0,
-      },
-      overheadPercentage: {
-        type: Number,
-        default: 15,
-      },
-      profitPercentage: {
+    defaultPricing: {
+      vatRate: {
         type: Number,
         default: 20,
-      },
-      contingencyPercentage: {
-        type: Number,
-        default: 10,
-      },
-      depositRange: {
-        min: {
-          type: Number,
-          default: 300,
-        },
-        max: {
-          type: Number,
-          default: 1000,
-        },
       },
     },
     isActive: {
@@ -140,5 +102,9 @@ const QuoteTemplateSchema = new mongoose.Schema(
   },
 );
 
-export default mongoose.models.QuoteTemplate ||
-  mongoose.model("QuoteTemplate", QuoteTemplateSchema);
+// Clear any existing model and create a fresh one
+if (mongoose.models.QuoteTemplate) {
+  delete mongoose.models.QuoteTemplate;
+}
+
+export default mongoose.model("QuoteTemplate", QuoteTemplateSchema);

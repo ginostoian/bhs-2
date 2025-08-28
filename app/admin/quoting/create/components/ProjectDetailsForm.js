@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { FileText, CheckCircle, XCircle } from "lucide-react";
+import { getProjectTypes } from "@/libs/formatProjectType";
 
 export default function ProjectDetailsForm({
   formData,
@@ -36,20 +37,9 @@ export default function ProjectDetailsForm({
     [formData],
   );
 
-  console.log("ProjectDetailsForm render - formData:", formData);
-  console.log("ProjectDetailsForm render - safeFormData:", safeFormData);
-
   // Initialize form with existing data when editing
   useEffect(() => {
-    console.log("ProjectDetailsForm useEffect triggered:", {
-      isEditing,
-      originalData,
-      hasProjectType: !!safeFormData.project?.type,
-    });
-
     if (isEditing && originalData && !safeFormData.project?.type) {
-      console.log("Initializing form with original data:", originalData);
-
       // Pre-populate form with existing data
       updateFormData({
         project: {
@@ -74,8 +64,6 @@ export default function ProjectDetailsForm({
           depositPercentage: originalData.pricing?.depositPercentage || 0,
         },
       });
-
-      console.log("Form initialization complete");
     }
   }, [isEditing, originalData, updateFormData]);
 
@@ -105,28 +93,12 @@ export default function ProjectDetailsForm({
 
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
-    // The template will be applied in the parent component
+    // Only set the template ID - the QuoteBuilder will handle the transformation
     updateFormData({
       template: template._id,
-      services: template.baseServices || [],
-      pricing: {
-        depositRequired: false,
-        depositAmount: 0,
-        depositPercentage: 0,
-      },
     });
   };
-  const projectTypes = [
-    { value: "bathroom-renovation", label: "Bathroom Renovation" },
-    { value: "kitchen-renovation", label: "Kitchen Renovation" },
-    { value: "electrical-rewiring", label: "Electrical Rewiring" },
-    { value: "boiler-installation", label: "Boiler Installation/Relocation" },
-    { value: "full-home-renovation", label: "Full Home Renovation" },
-    { value: "home-extension", label: "Home Extension" },
-    { value: "loft-conversion", label: "Loft Conversion" },
-    { value: "garden-work", label: "Garden Work" },
-    { value: "custom", label: "Custom Project" },
-  ];
+  const projectTypes = getProjectTypes();
 
   return (
     <div className="space-y-6">
@@ -149,11 +121,6 @@ export default function ProjectDetailsForm({
             id="project-type"
             value={safeFormData.project?.type || ""}
             onChange={(e) => {
-              console.log("Project type changed to:", e.target.value);
-              console.log(
-                "Current safeFormData.project:",
-                safeFormData.project,
-              );
               updateFormData({
                 project: {
                   ...safeFormData.project,
@@ -242,11 +209,6 @@ export default function ProjectDetailsForm({
                           updateFormData({
                             template: null,
                             services: [],
-                            pricing: {
-                              depositRequired: false,
-                              depositAmount: 0,
-                              depositPercentage: 0,
-                            },
                           });
                         }}
                         className="text-xs text-red-600 underline hover:text-red-800"
