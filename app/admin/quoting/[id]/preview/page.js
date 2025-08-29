@@ -5,11 +5,11 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Edit, Download, Copy, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-import {
-  generatePrintOptimizedPDF,
-  generatePDFFromCurrentPage,
-  generateVectorPDF,
-} from "@/libs/htmlQuotePdfGenerator";
+// Dynamic import to avoid build-time serialization issues
+const loadPDFGenerator = async () => {
+  const { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF } = await import("@/libs/htmlQuotePdfGenerator");
+  return { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF };
+};
 
 export default function QuotePreviewPage() {
   const params = useParams();
@@ -191,6 +191,9 @@ export default function QuotePreviewPage() {
 
     setDownloadingPDF(true);
     try {
+      // Load PDF generator dynamically
+      const { generatePDFFromCurrentPage } = await loadPDFGenerator();
+      
       // Use the page capture approach with enhanced settings
       await generatePDFFromCurrentPage(
         "quote-content",

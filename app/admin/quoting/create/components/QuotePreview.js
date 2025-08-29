@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { Copy, ExternalLink, Download } from "lucide-react";
 import toast from "react-hot-toast";
-import {
-  generatePrintOptimizedPDF,
-  generateVectorPDF,
-} from "@/libs/htmlQuotePdfGenerator";
+// Dynamic import to avoid build-time serialization issues
+const loadPDFGenerator = async () => {
+  const { generatePrintOptimizedPDF, generateVectorPDF } = await import("@/libs/htmlQuotePdfGenerator");
+  return { generatePrintOptimizedPDF, generateVectorPDF };
+};
 
 export default function QuotePreview({ formData, quoteId }) {
   const [copied, setCopied] = useState(false);
@@ -42,6 +43,9 @@ export default function QuotePreview({ formData, quoteId }) {
 
     setDownloadingPDF(true);
     try {
+      // Load PDF generator dynamically
+      const { generatePrintOptimizedPDF } = await loadPDFGenerator();
+      
       // Create a quote object from formData
       const quote = {
         id: quoteId || "temp-id",
