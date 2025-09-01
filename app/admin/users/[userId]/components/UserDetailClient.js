@@ -6,6 +6,8 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import DocumentList from "../../../../dashboard/components/DocumentList";
 import Modal from "@/components/Modal";
 import UserInfoModal from "./UserInfoModal";
+import CreateProjectModal from "./CreateProjectModal";
+import toast from "react-hot-toast";
 
 /**
  * User Detail Client Component
@@ -45,6 +47,10 @@ export default function UserDetailClient({
   const [createModal, setCreateModal] = useState({
     isOpen: false,
   });
+  const [createProjectModal, setCreateProjectModal] = useState({
+    isOpen: false,
+  });
+  const [isCreatingProject, setIsCreatingProject] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(user);
 
@@ -348,6 +354,46 @@ export default function UserDetailClient({
         type: "alert",
         confirmText: "OK",
       });
+    }
+  };
+
+  const handleCreateProject = async (projectData) => {
+    setIsCreatingProject(true);
+    try {
+      const response = await fetch(
+        `/api/admin/users/${currentUser.id}/create-project`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(projectData),
+        },
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to create project");
+      }
+
+      // Add the new project to the local state
+      setProjects([result.project]);
+
+      // Update user status if they were a lead
+      if (currentUser.projectStatus === "Lead") {
+        setCurrentUser((prev) => ({ ...prev, projectStatus: "On Going" }));
+      }
+
+      // Close the modal
+      setCreateProjectModal({ isOpen: false });
+
+      toast.success("Project created successfully!");
+    } catch (error) {
+      console.error("Error creating project:", error);
+      toast.error(error.message || "Failed to create project");
+    } finally {
+      setIsCreatingProject(false);
     }
   };
 
@@ -1318,9 +1364,28 @@ export default function UserDetailClient({
               <h3 className="mb-2 text-lg font-medium text-gray-900">
                 No Projects Found
               </h3>
-              <p className="text-gray-600">
+              <p className="mb-6 text-gray-600">
                 This user doesn&apos;t have any projects yet.
               </p>
+              <button
+                onClick={() => setCreateProjectModal({ isOpen: true })}
+                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Create Project
+              </button>
             </div>
           ) : (
             <div className="space-y-6">
@@ -1981,6 +2046,14 @@ export default function UserDetailClient({
           setCurrentUser(u);
           setModalOpen(false);
         }}
+      />
+
+      <CreateProjectModal
+        isOpen={createProjectModal.isOpen}
+        onClose={() => setCreateProjectModal({ isOpen: false })}
+        onSubmit={handleCreateProject}
+        user={currentUser}
+        isSubmitting={isCreatingProject}
       />
     </div>
   );
