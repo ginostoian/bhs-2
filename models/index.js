@@ -25,6 +25,7 @@ import QuoteTemplate from "./QuoteTemplate.js";
 import RateCard from "./RateCard.js";
 import TemplateService from "./TemplateService.js";
 import Quote from "./Quote.js";
+import QuoteView from "./QuoteView.js";
 
 // Export all models
 export {
@@ -52,4 +53,5 @@ export {
   RateCard,
   TemplateService,
   Quote,
+  QuoteView,
 };

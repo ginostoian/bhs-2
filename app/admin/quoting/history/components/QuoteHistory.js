@@ -12,6 +12,7 @@ import {
   Download,
   Copy,
   MoreHorizontal,
+  BarChart3,
 } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -434,6 +435,13 @@ export default function QuoteHistory() {
                           <Eye className="h-4 w-4" />
                         </Link>
                         <Link
+                          href={`/admin/quoting/${quote._id}/analytics`}
+                          className="text-purple-600 hover:text-purple-900"
+                          title="View Analytics"
+                        >
+                          <BarChart3 className="h-4 w-4" />
+                        </Link>
+                        <Link
                           href={`/admin/quoting/${quote._id}/edit`}
                           className="text-green-600 hover:text-green-900"
                           title="Edit Quote"
@@ -442,7 +450,7 @@ export default function QuoteHistory() {
                         </Link>
                         <Link
                           href={`/admin/quoting/${quote._id}/pdf`}
-                          className="text-purple-600 hover:text-purple-900"
+                          className="text-orange-600 hover:text-orange-900"
                           title="Download PDF"
                         >
                           <Download className="h-4 w-4" />

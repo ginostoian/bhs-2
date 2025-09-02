@@ -6,8 +6,16 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 // Dynamic import to avoid build-time serialization issues
 const loadPDFGenerator = async () => {
-  const { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF } = await import("@/libs/htmlQuotePdfGenerator");
-  return { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF };
+  const {
+    generatePrintOptimizedPDF,
+    generatePDFFromCurrentPage,
+    generateVectorPDF,
+  } = await import("@/libs/htmlQuotePdfGenerator");
+  return {
+    generatePrintOptimizedPDF,
+    generatePDFFromCurrentPage,
+    generateVectorPDF,
+  };
 };
 
 export default function PublicQuotePage({ params }) {
@@ -16,6 +24,150 @@ export default function PublicQuotePage({ params }) {
   const [isLoading, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
+
+  // Tracking state
+  const [viewId, setViewId] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [trackingInitiated, setTrackingInitiated] = useState(false);
+  const [sessionId] = useState(
+    () => `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+  );
+
+  // Function to extract UTM parameters from URL
+  const extractUtmParams = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return {
+      utmSource: urlParams.get("utm_source"),
+      utmMedium: urlParams.get("utm_medium"),
+      utmCampaign: urlParams.get("utm_campaign"),
+      utmTerm: urlParams.get("utm_term"),
+      utmContent: urlParams.get("utm_content"),
+    };
+  };
+
+  // Function to determine visitor type based on UTM parameters
+  const determineVisitorType = (utmParams) => {
+    if (utmParams.utmSource === "client") return "client";
+    if (utmParams.utmSource === "internal" || utmParams.utmMedium === "admin")
+      return "internal";
+    if (utmParams.utmSource === "partner") return "partner";
+    return "unknown";
+  };
+
+  // Function to track quote view
+  const trackQuoteView = async () => {
+    // Prevent duplicate tracking calls
+    if (trackingInitiated) {
+      console.log("Tracking already initiated, skipping...");
+      return;
+    }
+
+    setTrackingInitiated(true);
+
+    try {
+      const utmParams = extractUtmParams();
+      const visitorType = determineVisitorType(utmParams);
+
+      // Debug logging
+      console.log("✅ UTM Params extracted:", utmParams);
+      console.log("👤 Visitor type determined:", visitorType);
+
+      const response = await fetch(`/api/quotes/${quoteId}/track`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sessionId,
+          viewport: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+          },
+          utmParams,
+          visitorType,
+          metadata: {
+            referrer: document.referrer,
+            timestamp: new Date().toISOString(),
+            fullUrl: window.location.href,
+          },
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setViewId(result.data.viewId);
+          setStartTime(Date.now());
+        }
+      }
+    } catch (error) {
+      console.error("Error tracking quote view:", error);
+      // Fail silently - don't interrupt user experience
+    }
+  };
+
+  // Function to update time on page
+  const updateTimeOnPage = async () => {
+    if (!viewId || !startTime) return;
+
+    const timeOnPage = Math.floor((Date.now() - startTime) / 1000);
+
+    try {
+      await fetch(`/api/quotes/${quoteId}/track`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          viewId,
+          timeOnPage,
+        }),
+      });
+    } catch (error) {
+      console.error("Error updating time on page:", error);
+      // Fail silently
+    }
+  };
+
+  // Track view when component mounts and quote is loaded
+  useEffect(() => {
+    if (quote && !isLoading && !trackingInitiated) {
+      console.log(
+        "Triggering trackQuoteView because quote loaded and tracking not initiated yet",
+      );
+      trackQuoteView();
+    }
+  }, [quote, isLoading, trackingInitiated]);
+
+  // Update time on page periodically and on unmount
+  useEffect(() => {
+    if (!viewId || !startTime) return;
+
+    // Update time every 30 seconds
+    const interval = setInterval(updateTimeOnPage, 30000);
+
+    // Update time when user leaves the page
+    const handleBeforeUnload = () => {
+      updateTimeOnPage();
+    };
+
+    // Update time when page becomes hidden (tab switch, minimize, etc.)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        updateTimeOnPage();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      updateTimeOnPage();
+      clearInterval(interval);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [viewId, startTime]);
 
   useEffect(() => {
     // Load quote from database API
@@ -192,7 +344,7 @@ export default function PublicQuotePage({ params }) {
     try {
       // Load PDF generator dynamically
       const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-      
+
       // Use the page capture approach with enhanced settings
       await generatePDFFromCurrentPage(
         "quote-content",

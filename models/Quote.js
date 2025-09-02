@@ -223,6 +223,18 @@ const QuoteSchema = new mongoose.Schema(
     specialInstructions: {
       type: String,
     },
+
+    // Tracking fields
+    viewCount: {
+      type: Number,
+      default: 0,
+    },
+    lastViewed: {
+      type: Date,
+    },
+    firstViewed: {
+      type: Date,
+    },
   },
   {
     timestamps: true,

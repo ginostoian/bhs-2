@@ -2,13 +2,28 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Edit, Download, Copy, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft,
+  Edit,
+  Download,
+  Copy,
+  ExternalLink,
+  BarChart3,
+} from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 // Dynamic import to avoid build-time serialization issues
 const loadPDFGenerator = async () => {
-  const { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF } = await import("@/libs/htmlQuotePdfGenerator");
-  return { generatePrintOptimizedPDF, generatePDFFromCurrentPage, generateVectorPDF };
+  const {
+    generatePrintOptimizedPDF,
+    generatePDFFromCurrentPage,
+    generateVectorPDF,
+  } = await import("@/libs/htmlQuotePdfGenerator");
+  return {
+    generatePrintOptimizedPDF,
+    generatePDFFromCurrentPage,
+    generateVectorPDF,
+  };
 };
 
 export default function QuotePreviewPage() {
@@ -193,7 +208,7 @@ export default function QuotePreviewPage() {
     try {
       // Load PDF generator dynamically
       const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-      
+
       // Use the page capture approach with enhanced settings
       await generatePDFFromCurrentPage(
         "quote-content",
@@ -268,6 +283,13 @@ export default function QuotePreviewPage() {
         </div>
 
         <div className="flex items-center space-x-3">
+          <Link
+            href={`/admin/quoting/${quoteId}/analytics`}
+            className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          >
+            <BarChart3 className="mr-2 h-4 w-4" />
+            View Analytics
+          </Link>
           <Link
             href={`/admin/quoting/${quoteId}/edit`}
             className="inline-flex items-center rounded-md border border-transparent bg-green-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
