@@ -102,6 +102,31 @@ export async function PUT(request, { params }) {
 
     // Check if user exists with this email and link them
     if (body.email && body.email !== lead.email) {
+      // First check if another lead already has this email
+      const existingLead = await Lead.findOne({
+        email: body.email,
+        _id: { $ne: params.id }, // Exclude the current lead
+      });
+
+      if (existingLead) {
+        if (existingLead.isArchived) {
+          return NextResponse.json(
+            {
+              error: "A lead with this email already exists in archived leads",
+              suggestion:
+                "Please unarchive the existing lead instead of updating this one",
+              existingLeadId: existingLead._id,
+            },
+            { status: 400 },
+          );
+        } else {
+          return NextResponse.json(
+            { error: "A lead with this email already exists" },
+            { status: 400 },
+          );
+        }
+      }
+
       const existingUser = await User.findOne({ email: body.email });
       if (existingUser) {
         lead.linkedUser = existingUser._id;

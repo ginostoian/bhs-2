@@ -62,7 +62,8 @@ export default function CRMPage() {
   const fetchLeads = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get("/crm/leads");
+      // Fetch all leads by setting a high limit to avoid pagination issues
+      const response = await apiClient.get("/crm/leads?limit=1000");
       setLeads(response.leads || []);
     } catch (error) {
       console.error("Error fetching leads:", error);

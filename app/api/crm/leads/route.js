@@ -143,13 +143,26 @@ export async function POST(request) {
       );
     }
 
-    // Check if lead with this email already exists
-    const existingLead = await Lead.findOne({ email, isActive: true });
+    // Check if lead with this email already exists (including archived leads)
+    const existingLead = await Lead.findOne({ email });
     if (existingLead) {
-      return NextResponse.json(
-        { error: "A lead with this email already exists" },
-        { status: 400 },
-      );
+      // If the existing lead is archived, suggest unarchiving instead
+      if (existingLead.isArchived) {
+        return NextResponse.json(
+          {
+            error: "A lead with this email already exists in archived leads",
+            suggestion:
+              "Please unarchive the existing lead instead of creating a new one",
+            existingLeadId: existingLead._id,
+          },
+          { status: 400 },
+        );
+      } else {
+        return NextResponse.json(
+          { error: "A lead with this email already exists" },
+          { status: 400 },
+        );
+      }
     }
 
     // Check if user exists with this email and link them
