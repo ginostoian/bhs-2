@@ -74,6 +74,7 @@ export default function InvoicePreviewPage() {
   };
 
   const formatDate = (date) => {
+    if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-GB", {
       weekday: "long",
       year: "numeric",
@@ -404,7 +405,7 @@ export default function InvoicePreviewPage() {
               <div>
                 <h2 className="text-3xl font-bold text-gray-900">INVOICE</h2>
                 <p className="mt-2 text-lg text-gray-600">
-                  #{invoice.invoiceNumber}
+                  #{invoice.invoiceNumber || "N/A"}
                 </p>
               </div>
               <div className="text-right">
@@ -428,11 +429,11 @@ export default function InvoicePreviewPage() {
                   Bill To:
                 </h3>
                 <div className="text-gray-700">
-                  <p className="font-medium">{invoice.client.name}</p>
-                  <p>{invoice.client.email}</p>
-                  <p>{invoice.client.phone}</p>
+                  <p className="font-medium">{invoice.client?.name || "N/A"}</p>
+                  <p>{invoice.client?.email || "N/A"}</p>
+                  <p>{invoice.client?.phone || "N/A"}</p>
                   <div className="mt-2 whitespace-pre-line">
-                    {invoice.client.address}
+                    {invoice.client?.address || "N/A"}
                   </div>
                 </div>
               </div>
@@ -445,7 +446,11 @@ export default function InvoicePreviewPage() {
                 <div className="space-y-2 text-gray-700">
                   <div className="flex justify-between">
                     <span>Invoice Date:</span>
-                    <span>{formatDate(invoice.issueDate)}</span>
+                    <span>
+                      {invoice.issueDate
+                        ? formatDate(invoice.issueDate)
+                        : "N/A"}
+                    </span>
                   </div>
                   {invoice.dueDate && (
                     <div className="flex justify-between">
