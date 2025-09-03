@@ -171,34 +171,39 @@ export default function InvoicePreviewPage() {
   };
 
   // Search for users to link invoice to
+  const searchClients = useCallback(async () => {
+    if (!searchQuery || searchQuery.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const response = await apiClient.get(
+        `/admin/invoicing/clients/search?q=${encodeURIComponent(searchQuery)}&limit=10`,
+      );
+      // Only show users (not leads) for linking
+      const userResults = response.clients.filter(
+        (client) => client.type === "user",
+      );
+      setSearchResults(userResults);
+    } catch (error) {
+      console.error("Error searching users:", error);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, [searchQuery]);
+
   useEffect(() => {
     if (!searchQuery || searchQuery.length < 2) {
       setSearchResults([]);
       return;
     }
 
-    const searchClients = async () => {
-      try {
-        setIsSearching(true);
-        const response = await apiClient.get(
-          `/admin/invoicing/clients/search?q=${encodeURIComponent(searchQuery)}&limit=10`,
-        );
-        // Only show users (not leads) for linking
-        const userResults = response.clients.filter(
-          (client) => client.type === "user",
-        );
-        setSearchResults(userResults);
-      } catch (error) {
-        console.error("Error searching users:", error);
-        setSearchResults([]);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-
     const timeoutId = setTimeout(searchClients, 300);
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, searchClients]);
 
   const handleLinkToUser = async (userId) => {
     try {
@@ -239,60 +244,6 @@ export default function InvoicePreviewPage() {
     } finally {
       setIsLinking(false);
     }
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    }).format(amount);
-  };
-
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("en-GB", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const getStatusBadge = (status, isOverdue) => {
-    let colorClass = "";
-    let icon = null;
-
-    if (isOverdue) {
-      colorClass = "bg-red-100 text-red-800 border-red-200";
-      icon = <AlertTriangle className="mr-1 h-4 w-4" />;
-    } else {
-      switch (status) {
-        case "draft":
-          colorClass = "bg-gray-100 text-gray-800 border-gray-200";
-          icon = <Clock className="mr-1 h-4 w-4" />;
-          break;
-        case "sent":
-          colorClass = "bg-blue-100 text-blue-800 border-blue-200";
-          icon = <Send className="mr-1 h-4 w-4" />;
-          break;
-        case "paid":
-          colorClass = "bg-green-100 text-green-800 border-green-200";
-          icon = <CheckCircle className="mr-1 h-4 w-4" />;
-          break;
-        default:
-          colorClass = "bg-gray-100 text-gray-800 border-gray-200";
-      }
-    }
-
-    return (
-      <span
-        className={`inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${colorClass}`}
-      >
-        {icon}
-        {isOverdue
-          ? "Overdue"
-          : status.charAt(0).toUpperCase() + status.slice(1)}
-      </span>
-    );
   };
 
   if (loading) {
