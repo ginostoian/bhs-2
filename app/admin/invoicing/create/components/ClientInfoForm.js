@@ -30,7 +30,7 @@ export default function ClientInfoForm({
     } else {
       markSectionIncomplete("client");
     }
-  }, [formData.client]);
+  }, [formData.client, markSectionComplete, markSectionIncomplete]);
 
   useEffect(() => {
     const searchClients = async () => {

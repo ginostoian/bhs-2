@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 
 /**
@@ -24,7 +24,7 @@ export default function FileManagerClient() {
   });
 
   // Fetch files from API
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -55,12 +55,12 @@ export default function FileManagerClient() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pagination.page, filters]);
 
   // Load files on component mount and filter changes
   useEffect(() => {
     fetchFiles();
-  }, [pagination.page, filters]);
+  }, [fetchFiles]);
 
   // Handle file selection
   const handleFileSelect = (fileId, checked) => {

@@ -17,7 +17,7 @@ export default function InvoiceDetailsForm({
     } else {
       markSectionIncomplete("details");
     }
-  }, [formData.title]);
+  }, [formData.title, markSectionComplete, markSectionIncomplete]);
 
   const handleInputChange = (field, value) => {
     // Update top-level fields directly

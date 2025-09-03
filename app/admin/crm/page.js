@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
 import LeadCard from "./components/LeadCard";
@@ -57,7 +57,7 @@ export default function CRMPage() {
   // Apply filters when leads or filters change
   useEffect(() => {
     applyFilters();
-  }, [leads, filters]);
+  }, [applyFilters]);
 
   const fetchLeads = async () => {
     try {
@@ -83,7 +83,7 @@ export default function CRMPage() {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...leads];
 
     // Apply search filter
@@ -120,7 +120,7 @@ export default function CRMPage() {
     }
 
     setFilteredLeads(filtered);
-  };
+  }, [leads, filters]);
 
   const handleCreateLead = async (leadData) => {
     try {

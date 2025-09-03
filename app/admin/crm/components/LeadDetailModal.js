@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
 import CRMButton from "@/components/CRMButton";
@@ -70,16 +70,7 @@ export default function LeadDetailModal({
     console.log("Tasks:", tasks);
   }, [activities, notes, tasks]);
 
-  useEffect(() => {
-    const leadId = lead?.id || lead?._id;
-    if (lead && leadId) {
-      setFormData(lead);
-      fetchLeadDetails();
-      fetchAdmins();
-    }
-  }, [lead]);
-
-  const fetchLeadDetails = async () => {
+  const fetchLeadDetails = useCallback(async () => {
     const leadId = lead?.id || lead?._id;
     if (!lead || !leadId) return;
     try {
@@ -99,7 +90,16 @@ export default function LeadDetailModal({
     } finally {
       setLoading(false);
     }
-  };
+  }, [lead]);
+
+  useEffect(() => {
+    const leadId = lead?.id || lead?._id;
+    if (lead && leadId) {
+      setFormData(lead);
+      fetchLeadDetails();
+      fetchAdmins();
+    }
+  }, [lead, fetchLeadDetails]);
 
   const fetchAdmins = async () => {
     try {

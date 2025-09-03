@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   Eye,
@@ -49,11 +49,7 @@ export default function InvoicingDashboard() {
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
 
-  useEffect(() => {
-    fetchInvoices();
-  }, [filters, pagination.page, sortBy, sortOrder]);
-
-  const fetchInvoices = async () => {
+  const fetchInvoices = useCallback(async () => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -77,7 +73,11 @@ export default function InvoicingDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters, pagination.page, sortBy, sortOrder]);
+
+  useEffect(() => {
+    fetchInvoices();
+  }, [fetchInvoices]);
 
   const handleStatusUpdate = async (invoiceId, newStatus) => {
     try {

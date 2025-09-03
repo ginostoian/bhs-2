@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
   const [totals, setTotals] = useState({
@@ -15,9 +15,9 @@ export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
 
     // Calculate totals
     calculateTotals();
-  }, [formData.lineItems]);
+  }, [formData.lineItems, calculateTotals, markSectionComplete]);
 
-  const calculateTotals = () => {
+  const calculateTotals = useCallback(() => {
     let subtotal = 0;
     let totalVat = 0;
 
@@ -36,7 +36,7 @@ export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
       totalVat: parseFloat(totalVat.toFixed(2)),
       total: parseFloat(total.toFixed(2)),
     });
-  };
+  }, [formData.lineItems]);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-GB", {
@@ -273,9 +273,9 @@ export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
             </h3>
             <div className="mt-2 text-sm text-blue-700">
               <p>
-                Review the information above and click "Create Invoice" to
-                generate your invoice. The invoice will be saved as a draft and
-                you can edit it or send it to the client.
+                Review the information above and click &quot;Create
+                Invoice&quot; to generate your invoice. The invoice will be
+                saved as a draft and you can edit it or send it to the client.
               </p>
             </div>
           </div>

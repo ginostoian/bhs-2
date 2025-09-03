@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
 
@@ -21,11 +21,7 @@ export default function CRMReportsPage() {
   const [selectedStage, setSelectedStage] = useState("all");
   const [lastUpdated, setLastUpdated] = useState(null);
 
-  useEffect(() => {
-    fetchLeads();
-  }, [dateRange]);
-
-  const fetchLeads = async () => {
+  const fetchLeads = useCallback(async () => {
     try {
       setLoading(true);
       console.log(`Fetching leads for last ${dateRange} days`);
@@ -39,7 +35,11 @@ export default function CRMReportsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dateRange]);
+
+  useEffect(() => {
+    fetchLeads();
+  }, [fetchLeads]);
 
   // Calculate pipeline metrics
   const getPipelineMetrics = () => {
