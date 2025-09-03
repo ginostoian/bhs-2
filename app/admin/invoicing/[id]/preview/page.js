@@ -48,10 +48,6 @@ export default function InvoicePreviewPage() {
   const [isSearching, setIsSearching] = useState(false);
   const [isLinking, setIsLinking] = useState(false);
 
-  useEffect(() => {
-    fetchInvoice();
-  }, [invoiceId, fetchInvoice]);
-
   const fetchInvoice = useCallback(async () => {
     try {
       setLoading(true);
@@ -65,6 +61,65 @@ export default function InvoicePreviewPage() {
       setLoading(false);
     }
   }, [invoiceId, router]);
+
+  useEffect(() => {
+    fetchInvoice();
+  }, [fetchInvoice]);
+
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+    }).format(amount || 0);
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const getStatusBadge = (status, isOverdue) => {
+    let colorClass = "";
+    let icon = null;
+
+    if (isOverdue) {
+      colorClass = "bg-red-100 text-red-800 border-red-200";
+      icon = <AlertTriangle className="mr-1.5 h-3 w-3" />;
+    } else {
+      switch (status) {
+        case "draft":
+          colorClass = "bg-gray-100 text-gray-800 border-gray-200";
+          icon = <Clock className="mr-1.5 h-3 w-3" />;
+          break;
+        case "sent":
+          colorClass = "bg-blue-100 text-blue-800 border-blue-200";
+          icon = <Send className="mr-1.5 h-3 w-3" />;
+          break;
+        case "paid":
+          colorClass = "bg-green-100 text-green-800 border-green-200";
+          icon = <CheckCircle className="mr-1.5 h-3 w-3" />;
+          break;
+        default:
+          colorClass = "bg-gray-100 text-gray-800 border-gray-200";
+          icon = <Clock className="mr-1.5 h-3 w-3" />;
+      }
+    }
+
+    return (
+      <span
+        className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${colorClass}`}
+      >
+        {icon}
+        {isOverdue
+          ? "Overdue"
+          : status.charAt(0).toUpperCase() + status.slice(1)}
+      </span>
+    );
+  };
 
   const copyShareLink = async () => {
     if (!invoice?.publicToken) return;
@@ -342,7 +397,7 @@ export default function InvoicePreviewPage() {
                   <X className="mr-2 h-4 w-4" />
                   {isLinking
                     ? "Unlinking..."
-                    : `Unlink from ${invoice.linkedUser.name}`}
+                    : `Unlink from ${invoice.linkedUser?.name || "User"}`}
                 </button>
               ) : (
                 <button
@@ -515,7 +570,7 @@ export default function InvoicePreviewPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {invoice.lineItems.map((item, index) => (
+                  {(invoice.lineItems || []).map((item, index) => (
                     <tr
                       key={index}
                       className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
