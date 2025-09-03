@@ -26,6 +26,13 @@ import RateCard from "./RateCard.js";
 import TemplateService from "./TemplateService.js";
 import Quote from "./Quote.js";
 import QuoteView from "./QuoteView.js";
+import Invoice from "./Invoice.js";
+import InvoiceTemplate from "./InvoiceTemplate.js";
+import Lead from "./Lead.js";
+import EmailAutomation from "./EmailAutomation.js";
+import EmailPreference from "./EmailPreference.js";
+import EmailStats from "./EmailStats.js";
+import TaskStatusUpdate from "./TaskStatusUpdate.js";
 
 // Export all models
 export {
@@ -54,4 +61,11 @@ export {
   TemplateService,
   Quote,
   QuoteView,
+  Invoice,
+  InvoiceTemplate,
+  Lead,
+  EmailAutomation,
+  EmailPreference,
+  EmailStats,
+  TaskStatusUpdate,
 };

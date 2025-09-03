@@ -1,12 +1,12 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
-import Document from "@/models/Document";
-import DocumentList from "../components/DocumentList";
+import Invoice from "@/models/Invoice";
+import UserInvoicesList from "./components/UserInvoicesList";
 
 /**
  * Invoices Dashboard Page
- * Displays user's invoices
+ * Displays user's invoices from the invoicing system
  */
 export default async function InvoicesPage() {
   // Get user session
@@ -15,26 +15,18 @@ export default async function InvoicesPage() {
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's invoices and convert to plain objects
-  const invoices = await Document.find({
-    user: session.user.id,
-    type: "invoice",
+  // Fetch user's invoices from the new Invoice model
+  const invoices = await Invoice.find({
+    linkedUser: session.user.id,
+    status: { $ne: "draft" }, // Only show sent and paid invoices to users
   })
     .sort({ createdAt: -1 })
-    .populate("user", "name email")
     .lean()
     .then((docs) =>
       docs.map((doc) => ({
         ...doc,
         id: doc._id.toString(),
         _id: undefined,
-        user: doc.user
-          ? {
-              ...doc.user,
-              id: doc.user._id.toString(),
-              _id: undefined,
-            }
-          : doc.user,
       })),
     );
 
@@ -104,12 +96,13 @@ export default async function InvoicesPage() {
             No invoices yet
           </h3>
           <p className="text-gray-600">
-            Invoices will appear here once your quotes are approved.
+            Your invoices will appear here once they are sent to you by BH
+            Studio.
           </p>
         </div>
       ) : (
         <div className="space-y-6">
-          <DocumentList documents={invoices} type="invoice" />
+          <UserInvoicesList invoices={invoices} />
         </div>
       )}
     </div>

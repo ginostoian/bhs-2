@@ -57,7 +57,10 @@ export default function AdminSidebar() {
       id: "financial",
       name: "Financial",
       icon: "💰",
-      items: [{ name: "Payments", href: "/admin/payments", icon: "💳" }],
+      items: [
+        { name: "Payments", href: "/admin/payments", icon: "💳" },
+        { name: "Invoicing", href: "/admin/invoicing", icon: "📄" },
+      ],
     },
     {
       id: "quoting",
