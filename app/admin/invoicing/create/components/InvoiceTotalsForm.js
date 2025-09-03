@@ -9,14 +9,6 @@ export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
     total: 0,
   });
 
-  useEffect(() => {
-    // Always mark this section as complete since it's just a review
-    markSectionComplete("totals");
-
-    // Calculate totals
-    calculateTotals();
-  }, [formData.lineItems, calculateTotals, markSectionComplete]);
-
   const calculateTotals = useCallback(() => {
     let subtotal = 0;
     let totalVat = 0;
@@ -37,6 +29,14 @@ export default function InvoiceTotalsForm({ formData, markSectionComplete }) {
       total: parseFloat(total.toFixed(2)),
     });
   }, [formData.lineItems]);
+
+  useEffect(() => {
+    // Always mark this section as complete since it's just a review
+    markSectionComplete("totals");
+
+    // Calculate totals
+    calculateTotals();
+  }, [formData.lineItems, calculateTotals, markSectionComplete]);
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-GB", {
