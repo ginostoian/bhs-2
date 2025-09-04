@@ -3,6 +3,7 @@ import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
 import Guarantee from "@/components/Guarantee";
 import InfoPartner from "@/components/InfoPartner";
+import RevenueCalculator from "@/components/RevenueCalculator";
 import Stats from "@/components/Stats";
 import Testimonials11 from "@/components/Testimonials11";
 import WhoCanPartner from "@/components/WhoCanPartner";
@@ -121,6 +122,7 @@ export default function Page() {
           ctaTallyFormLink="https://tally.so/r/nPvjxV"
         />
         <InfoPartner />
+        <RevenueCalculator />
         <WhoCanPartner />
         <Features />
 
