@@ -81,6 +81,12 @@ function Navigation() {
                     Bathroom Calculator
                   </Link>
                 </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/btu-calculator">BTU Calculator</Link>
+                </li>
               </ul>
             </li>
             <li className={classes["main-nav__list-item"]}>

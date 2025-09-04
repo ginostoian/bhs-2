@@ -80,6 +80,21 @@ export default function ToolsPage() {
       estimatedTime: "10-15 minutes",
       accuracy: "88% accurate",
     },
+    {
+      title: "BTU Calculator",
+      description:
+        "Calculate the perfect BTU output for heating your room with gas or electric radiators. Get accurate heating requirements based on room size and insulation.",
+      image: "/assets/img/general/living-room-1.webp",
+      link: "/btu-calculator",
+      features: [
+        "Room size calculation",
+        "Insulation assessment",
+        "Heating type selection",
+        "Cost estimates",
+      ],
+      estimatedTime: "3-5 minutes",
+      accuracy: "95% accurate",
+    },
   ];
 
   const faqs = [
