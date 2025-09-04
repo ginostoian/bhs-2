@@ -48,41 +48,6 @@ export default function CRMPage() {
   const [isFinishedColumnCollapsed, setIsFinishedColumnCollapsed] =
     useState(false);
 
-  // Fetch leads on component mount
-  useEffect(() => {
-    fetchLeads();
-    fetchArchivedLeads();
-  }, []);
-
-  // Apply filters when leads or filters change
-  useEffect(() => {
-    applyFilters();
-  }, [applyFilters]);
-
-  const fetchLeads = async () => {
-    try {
-      setLoading(true);
-      // Fetch all leads by setting a high limit to avoid pagination issues
-      const response = await apiClient.get("/crm/leads?limit=1000");
-      setLeads(response.leads || []);
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-      toast.error("Failed to fetch leads");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchArchivedLeads = async () => {
-    try {
-      const response = await apiClient.get("/crm/leads/archived");
-      setArchivedLeads(response.leads || []);
-    } catch (error) {
-      console.error("Error fetching archived leads:", error);
-      toast.error("Failed to fetch archived leads");
-    }
-  };
-
   const applyFilters = useCallback(() => {
     let filtered = [...leads];
 
@@ -121,6 +86,41 @@ export default function CRMPage() {
 
     setFilteredLeads(filtered);
   }, [leads, filters]);
+
+  // Fetch leads on component mount
+  useEffect(() => {
+    fetchLeads();
+    fetchArchivedLeads();
+  }, []);
+
+  // Apply filters when leads or filters change
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
+
+  const fetchLeads = async () => {
+    try {
+      setLoading(true);
+      // Fetch all leads by setting a high limit to avoid pagination issues
+      const response = await apiClient.get("/crm/leads?limit=1000");
+      setLeads(response.leads || []);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      toast.error("Failed to fetch leads");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchArchivedLeads = async () => {
+    try {
+      const response = await apiClient.get("/crm/leads/archived");
+      setArchivedLeads(response.leads || []);
+    } catch (error) {
+      console.error("Error fetching archived leads:", error);
+      toast.error("Failed to fetch archived leads");
+    }
+  };
 
   const handleCreateLead = async (leadData) => {
     try {

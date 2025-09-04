@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import {
@@ -106,17 +106,17 @@ export default function InvoiceBuilder() {
     }));
   };
 
-  const markSectionComplete = (sectionId) => {
+  const markSectionComplete = useCallback((sectionId) => {
     setCompletedSections((prev) => new Set([...prev, sectionId]));
-  };
+  }, []);
 
-  const markSectionIncomplete = (sectionId) => {
+  const markSectionIncomplete = useCallback((sectionId) => {
     setCompletedSections((prev) => {
       const newSet = new Set(prev);
       newSet.delete(sectionId);
       return newSet;
     });
-  };
+  }, []);
 
   const validateSection = (sectionId) => {
     switch (sectionId) {
@@ -210,12 +210,12 @@ export default function InvoiceBuilder() {
       }
 
       setInvoiceId(response.invoice._id);
-      toast.success("Invoice created successfully!");
+      toast.success(
+        "Invoice created successfully! You can now preview or continue editing.",
+      );
 
-      // Redirect to invoice dashboard after a short delay
-      setTimeout(() => {
-        router.push("/admin/invoicing");
-      }, 1500);
+      // Remove automatic redirect to prevent conflicts with preview button
+      // User can manually go back to dashboard if needed
     } catch (error) {
       console.error("Error generating invoice:", error);
       toast.error(
@@ -304,13 +304,27 @@ export default function InvoiceBuilder() {
           {invoiceId && (
             <>
               <button
-                onClick={() =>
-                  router.push(`/admin/invoicing/${invoiceId}/preview`)
-                }
+                onClick={() => {
+                  if (!invoiceId) {
+                    toast.error(
+                      "Invoice ID not found. Please try creating the invoice again.",
+                    );
+                    return;
+                  }
+                  router.push(`/admin/invoicing/${invoiceId}/preview`);
+                }}
                 className="inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               >
                 <Eye className="mr-2 h-4 w-4" />
                 Preview Invoice
+              </button>
+
+              <button
+                onClick={() => router.push("/admin/invoicing")}
+                className="inline-flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Dashboard
               </button>
             </>
           )}

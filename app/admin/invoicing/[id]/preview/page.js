@@ -36,6 +36,11 @@ export default function InvoicePreviewPage() {
   const router = useRouter();
   const invoiceId = params.id;
 
+  // Debug: Check invoice ID
+  if (!invoiceId) {
+    console.error("No invoice ID provided");
+  }
+
   const [invoice, setInvoice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
@@ -204,7 +209,7 @@ export default function InvoicePreviewPage() {
 
     const timeoutId = setTimeout(searchClients, 300);
     return () => clearTimeout(timeoutId);
-  }, [searchQuery, searchClients]);
+  }, [searchQuery]); // Remove searchClients to prevent infinite loop
 
   const handleLinkToUser = async (userId) => {
     try {
