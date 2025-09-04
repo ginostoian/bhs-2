@@ -102,13 +102,50 @@ export default function InvoicingDashboard() {
   };
 
   const handleDelete = async (invoiceId) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this invoice? This action cannot be undone.",
-      )
-    ) {
-      return;
-    }
+    // Show confirmation toast instead of browser confirm
+    const confirmDelete = () => {
+      return new Promise((resolve) => {
+        toast(
+          (t) => (
+            <div className="flex flex-col">
+              <div className="mb-2 text-sm font-medium">
+                Are you sure you want to delete this invoice?
+              </div>
+              <div className="mb-3 text-xs text-gray-600">
+                This action cannot be undone.
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    resolve(true);
+                  }}
+                  className="rounded bg-red-600 px-3 py-1 text-xs text-white hover:bg-red-700"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    resolve(false);
+                  }}
+                  className="rounded bg-gray-300 px-3 py-1 text-xs text-gray-700 hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ),
+          {
+            duration: Infinity,
+            position: "top-center",
+          },
+        );
+      });
+    };
+
+    const confirmed = await confirmDelete();
+    if (!confirmed) return;
 
     try {
       const response = await apiClient.delete(`/admin/invoicing/${invoiceId}`);
@@ -402,6 +439,17 @@ export default function InvoicingDashboard() {
                           <CheckCircle className="h-4 w-4" />
                         </button>
                       )}
+
+                      {/* Edit Button */}
+                      <button
+                        onClick={() =>
+                          router.push(`/admin/invoicing/${invoice._id}/edit`)
+                        }
+                        className="text-indigo-600 hover:text-indigo-900"
+                        title="Edit Invoice"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
 
                       {/* Copy Public Link */}
                       {invoice.status !== "draft" && (
