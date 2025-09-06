@@ -13,8 +13,8 @@ import {
 import toast from "react-hot-toast";
 
 const loadPDFGenerator = async () => {
-  const module = await import("@/libs/quotePdfGenerator");
-  return { generatePDFFromCurrentPage: module.generatePDFFromCurrentPage };
+  const pdfModule = await import("@/libs/quotePdfGenerator");
+  return { generatePDFFromCurrentPage: pdfModule.generatePDFFromCurrentPage };
 };
 
 export default function UserQuotesList({ quotes }) {
