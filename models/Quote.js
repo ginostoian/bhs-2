@@ -70,13 +70,39 @@ const QuoteSchema = new mongoose.Schema(
     },
     services: [
       {
+        // Support for both categories and headings
+        type: {
+          type: String,
+          enum: ["category", "heading"],
+          default: "category",
+        },
         categoryName: {
           type: String,
-          required: true,
+          required: function () {
+            return this.type === "category";
+          },
         },
         categoryTotal: {
           type: Number,
-          required: true,
+          required: function () {
+            return this.type === "category";
+          },
+          default: 0,
+        },
+        // For headings
+        headingText: {
+          type: String,
+          required: function () {
+            return this.type === "heading";
+          },
+        },
+        headingDescription: {
+          type: String,
+        },
+        // Order for drag and drop
+        order: {
+          type: Number,
+          default: 0,
         },
         items: [
           {
@@ -224,6 +250,27 @@ const QuoteSchema = new mongoose.Schema(
       type: String,
     },
 
+    // User linking for dashboard integration (optional)
+    linkedUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      index: true,
+    },
+
+    // Lead linking (if created from CRM lead)
+    linkedLead: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
+      index: true,
+    },
+
+    // Public viewing token for shareable links
+    publicToken: {
+      type: String,
+      unique: true,
+      sparse: true, // Allow null values but ensure uniqueness when present
+    },
+
     // Tracking fields
     viewCount: {
       type: Number,
@@ -244,6 +291,15 @@ const QuoteSchema = new mongoose.Schema(
 // Virtual for formatted quote number
 QuoteSchema.virtual("formattedQuoteNumber").get(function () {
   return `#${this.quoteNumber}`;
+});
+
+// Pre-save middleware to generate public token
+QuoteSchema.pre("save", function (next) {
+  // Generate public token if not exists and status is not draft
+  if (!this.publicToken && this.status !== "draft") {
+    this.publicToken = `quote_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  }
+  next();
 });
 
 // Virtual for deposit amount

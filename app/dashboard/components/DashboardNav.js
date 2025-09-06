@@ -12,7 +12,8 @@ export default function DashboardNav() {
 
   // Navigation tabs configuration
   const tabs = [
-    { name: "Quotes", href: "/dashboard", icon: "📋" },
+    { name: "Old Quotes", href: "/dashboard", icon: "📋" },
+    { name: "Quotes", href: "/dashboard/quotes", icon: "📄" },
     { name: "Moodboards", href: "/dashboard/moodboards", icon: "🎨" },
     { name: "Invoices", href: "/dashboard/invoices", icon: "💰" },
     { name: "Payments", href: "/dashboard/payments", icon: "💳" },

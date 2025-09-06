@@ -88,6 +88,10 @@ export default function QuoteBuilder() {
 
     // Template
     template: null,
+
+    // User/Lead linking
+    linkedUser: null,
+    linkedLead: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -107,6 +111,18 @@ export default function QuoteBuilder() {
       fetchAndApplyTemplate(formData.template);
     }
   }, [formData.template]);
+
+  // Handle adding additional template services
+  useEffect(() => {
+    if (formData.addTemplate) {
+      // Add template services to existing services
+      fetchAndAddTemplate(formData.addTemplate);
+      // Clear the addTemplate flag
+      updateFormData({
+        addTemplate: null,
+      });
+    }
+  }, [formData.addTemplate]);
 
   const loadDefaultTemplate = async (projectType) => {
     try {
@@ -137,6 +153,20 @@ export default function QuoteBuilder() {
       }
     } catch (error) {
       console.error("Error fetching template:", error);
+    }
+  };
+
+  const fetchAndAddTemplate = async (templateId) => {
+    try {
+      const response = await fetch(
+        `/api/admin/quoting/templates/${templateId}`,
+      );
+      if (response.ok) {
+        const template = await response.json();
+        addTemplateServices(template);
+      }
+    } catch (error) {
+      console.error("Error fetching template to add:", error);
     }
   };
 
@@ -185,17 +215,25 @@ export default function QuoteBuilder() {
       const categoryTotal = items.reduce((sum, item) => sum + item.total, 0);
 
       return {
+        type: "category", // Set type as category
         categoryName: String(category.category || ""), // Map category to categoryName
         items: items,
         categoryTotal: categoryTotal,
+        order: 0, // Will be set properly when added to services
       };
     });
 
     setFormData((prev) => {
+      // Set proper order values for template services
+      const servicesWithOrder = servicesWithPricing.map((service, index) => ({
+        ...service,
+        order: index,
+      }));
+
       const newData = {
         ...prev,
         template: template._id,
-        services: servicesWithPricing,
+        services: servicesWithOrder,
         pricing: {
           ...prev.pricing,
           depositRequired: template.defaultPricing?.depositRequired || false,
@@ -208,6 +246,85 @@ export default function QuoteBuilder() {
     });
 
     toast.success(`Template "${template.name}" applied successfully!`);
+  };
+
+  const addTemplateServices = (template) => {
+    if (!template) return;
+
+    // Transform template services to match quote service structure
+    const templateCopy = JSON.parse(
+      JSON.stringify(template.baseServices || []),
+    );
+
+    const newServicesWithPricing = templateCopy.map((category) => {
+      const items = category.items.map((item) => {
+        // Ensure we convert to number properly
+        let unitPrice = 0;
+        if (item.basePrice !== null && item.basePrice !== undefined) {
+          unitPrice = Number(item.basePrice);
+          if (isNaN(unitPrice)) {
+            console.warn(
+              "Could not convert basePrice to number:",
+              item.basePrice,
+            );
+            unitPrice = 0;
+          }
+        }
+
+        const total = unitPrice; // Since quantity is 1 initially
+
+        // Create a completely new object with ONLY the properties we want
+        const transformedItem = {
+          name: String(item.name || ""),
+          description: String(item.description || ""),
+          unit: String(item.unit || ""),
+          quantity: 1, // Default quantity
+          unitPrice: unitPrice, // Map basePrice to unitPrice
+          total: total, // Initial total
+          notes: String(item.notes || ""),
+          source: "template", // Mark as template source
+        };
+
+        return transformedItem;
+      });
+
+      // Calculate category total
+      const categoryTotal = items.reduce((sum, item) => sum + item.total, 0);
+
+      return {
+        type: "category", // Set type as category
+        categoryName: String(category.category || ""), // Map category to categoryName
+        items: items,
+        categoryTotal: categoryTotal,
+        order: 0, // Will be set properly when added to services
+      };
+    });
+
+    setFormData((prev) => {
+      // Add new services to existing services
+      const currentServices = prev.services || [];
+      const currentMaxOrder = Math.max(
+        ...currentServices.map((s) => s.order || 0),
+        -1,
+      );
+
+      // Set proper order values for new template services
+      const servicesWithOrder = newServicesWithPricing.map(
+        (service, index) => ({
+          ...service,
+          order: currentMaxOrder + 1 + index,
+        }),
+      );
+
+      const newData = {
+        ...prev,
+        services: [...currentServices, ...servicesWithOrder],
+      };
+
+      return newData;
+    });
+
+    toast.success(`Template "${template.name}" services added successfully!`);
   };
 
   const updateFormData = (section, data) => {
@@ -316,13 +433,17 @@ export default function QuoteBuilder() {
         };
       });
 
-      // Calculate the simple total
+      // Calculate the simple total (only from categories, not headings)
       let total = 0;
       if (servicesWithTotals && servicesWithTotals.length > 0) {
-        servicesWithTotals.forEach((category) => {
-          category.items.forEach((item) => {
-            total += item.total;
-          });
+        servicesWithTotals.forEach((service) => {
+          // Only calculate totals for categories, not headings
+          if (service.type === "category" || !service.type) {
+            // !service.type for backward compatibility
+            service.items.forEach((item) => {
+              total += item.total;
+            });
+          }
         });
       }
 
@@ -351,6 +472,22 @@ export default function QuoteBuilder() {
           Date.now() + 30 * 24 * 60 * 60 * 1000,
         ).toISOString(),
       };
+
+      // Only include linkedUser and linkedLead if they have valid values
+      if (
+        formData.linkedUser &&
+        typeof formData.linkedUser === "string" &&
+        formData.linkedUser.length === 24
+      ) {
+        completeQuote.linkedUser = formData.linkedUser;
+      }
+      if (
+        formData.linkedLead &&
+        typeof formData.linkedLead === "string" &&
+        formData.linkedLead.length === 24
+      ) {
+        completeQuote.linkedLead = formData.linkedLead;
+      }
 
       // Save quote to database via API
       const response = await fetch("/api/admin/quoting", {

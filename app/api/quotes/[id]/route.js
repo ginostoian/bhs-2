@@ -7,8 +7,20 @@ export async function GET(request, { params }) {
     await connectMongo();
     const { id } = params;
 
-    // Find the quote by ID
-    const quote = await Quote.findById(id).lean();
+    // Find the quote by publicToken (for public access) or by MongoDB ID (for admin access)
+    let quote;
+
+    // First try to find by publicToken
+    quote = await Quote.findOne({ publicToken: id }).lean();
+
+    // If not found by publicToken, try by MongoDB ID (for backward compatibility)
+    if (!quote) {
+      try {
+        quote = await Quote.findById(id).lean();
+      } catch (error) {
+        // Not a valid MongoDB ObjectId, continue
+      }
+    }
 
     if (!quote) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });

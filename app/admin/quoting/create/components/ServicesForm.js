@@ -31,6 +31,11 @@ export default function ServicesForm({
   const [showAddCategory, setShowAddCategory] = useState(false);
   const [showAddItem, setShowAddItem] = useState(false);
 
+  // Heading state
+  const [newHeadingText, setNewHeadingText] = useState("");
+  const [newHeadingDescription, setNewHeadingDescription] = useState("");
+  const [showAddHeading, setShowAddHeading] = useState(false);
+
   // New state for enhanced service addition
   const [showServiceOptions, setShowServiceOptions] = useState(false);
   const [selectedServiceOption, setSelectedServiceOption] = useState("");
@@ -107,13 +112,33 @@ export default function ServicesForm({
     if (!newCategory.trim()) return;
 
     const newServiceCategory = {
+      type: "category",
       categoryName: newCategory.trim(),
       items: [],
+      categoryTotal: 0,
+      order: formData.services.length,
     };
 
     updateFormData({ services: [...formData.services, newServiceCategory] });
     setNewCategory("");
     setShowAddCategory(false);
+  };
+
+  const addHeading = () => {
+    if (!newHeadingText.trim()) return;
+
+    const newHeading = {
+      type: "heading",
+      headingText: newHeadingText.trim(),
+      headingDescription: newHeadingDescription.trim(),
+      items: [],
+      order: formData.services.length,
+    };
+
+    updateFormData({ services: [...formData.services, newHeading] });
+    setNewHeadingText("");
+    setNewHeadingDescription("");
+    setShowAddHeading(false);
   };
 
   const removeCategory = (categoryIndex) => {
@@ -342,7 +367,7 @@ export default function ServicesForm({
     updateFormData({ services: updatedServices });
   };
 
-  // Handle drag and drop reordering
+  // Handle drag and drop reordering for both categories and headings
   const handleDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -350,13 +375,19 @@ export default function ServicesForm({
 
     const { source, destination } = result;
 
-    // Handle category reordering
-    if (result.type === "category") {
+    // Handle service section reordering (categories and headings)
+    if (result.type === "services") {
       const items = Array.from(formData.services);
       const [reorderedItem] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reorderedItem);
 
-      updateFormData({ services: items });
+      // Update order values
+      const reorderedServices = items.map((item, index) => ({
+        ...item,
+        order: index,
+      }));
+
+      updateFormData({ services: reorderedServices });
       return;
     }
 
@@ -374,22 +405,23 @@ export default function ServicesForm({
         return;
       }
 
-      const updatedServices = formData.services.map(
-        (category, categoryIndex) => {
-          if (categoryIndex === sourceCategoryIndex) {
-            const items = Array.from(category.items);
-            const [reorderedItem] = items.splice(source.index, 1);
-            items.splice(destination.index, 0, reorderedItem);
+      const updatedServices = formData.services.map((service, serviceIndex) => {
+        if (
+          serviceIndex === sourceCategoryIndex &&
+          service.type === "category"
+        ) {
+          const items = Array.from(service.items);
+          const [reorderedItem] = items.splice(source.index, 1);
+          items.splice(destination.index, 0, reorderedItem);
 
-            return {
-              ...category,
-              items: items,
-              categoryTotal: calculateCategoryTotal(items),
-            };
-          }
-          return category;
-        },
-      );
+          return {
+            ...service,
+            items: items,
+            categoryTotal: calculateCategoryTotal(items),
+          };
+        }
+        return service;
+      });
 
       updateFormData({ services: updatedServices });
     }
@@ -526,16 +558,16 @@ export default function ServicesForm({
           </p>
         </div>
         <div className="p-6">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <button
-              onClick={openServiceOptions}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-blue-500 hover:text-blue-600"
+              onClick={() => setShowAddHeading(true)}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-purple-500 hover:text-purple-600"
             >
               <div className="text-center">
                 <FileText className="mx-auto mb-2 h-8 w-8" />
-                <span className="block text-sm font-medium">From Template</span>
+                <span className="block text-sm font-medium">Add Heading</span>
                 <span className="block text-xs text-gray-500">
-                  Use predefined services
+                  Section title/divider
                 </span>
               </div>
             </button>
@@ -549,6 +581,19 @@ export default function ServicesForm({
                 <span className="block text-sm font-medium">Add Category</span>
                 <span className="block text-xs text-gray-500">
                   Create new category
+                </span>
+              </div>
+            </button>
+
+            <button
+              onClick={openServiceOptions}
+              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-blue-500 hover:text-blue-600"
+            >
+              <div className="text-center">
+                <FileText className="mx-auto mb-2 h-8 w-8" />
+                <span className="block text-sm font-medium">From Template</span>
+                <span className="block text-xs text-gray-500">
+                  Use predefined services
                 </span>
               </div>
             </button>
@@ -896,176 +941,223 @@ export default function ServicesForm({
             </div>
           </div>
           <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="categories" type="category">
+            <Droppable droppableId="services" type="services">
               {(provided) => (
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   className="space-y-6"
                 >
-                  {formData.services.map((category, categoryIndex) => (
+                  {formData.services.map((service, serviceIndex) => (
                     <Draggable
-                      key={`category-${categoryIndex}`}
-                      draggableId={`category-${categoryIndex}`}
-                      index={categoryIndex}
-                      type="category"
+                      key={`service-${serviceIndex}`}
+                      draggableId={`service-${serviceIndex}`}
+                      index={serviceIndex}
                     >
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          className={`rounded-lg border border-gray-200 bg-white transition-shadow ${
-                            snapshot.isDragging ? "shadow-lg" : ""
-                          }`}
-                        >
-                          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-                            <div className="flex items-center space-x-4">
-                              <div
-                                {...provided.dragHandleProps}
-                                className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
-                              >
-                                <GripVertical className="h-5 w-5" />
-                              </div>
-                              <h3 className="text-lg font-medium text-gray-900">
-                                {category.categoryName}
-                              </h3>
-                              <span className="text-sm font-medium text-gray-600">
-                                Total: £
-                                {(category.categoryTotal || 0).toFixed(2)}
-                              </span>
-                            </div>
-                            <button
-                              onClick={() => removeCategory(categoryIndex)}
-                              className="text-red-600 hover:text-red-800"
+                      {(provided, snapshot) => {
+                        // Render different UI based on service type
+                        if (service.type === "heading") {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              className={`rounded-lg border border-purple-200 bg-purple-50 transition-shadow ${
+                                snapshot.isDragging ? "shadow-lg" : ""
+                              }`}
                             >
-                              <Trash2 className="h-5 w-5" />
-                            </button>
-                          </div>
-
-                          {category.items.length > 0 && (
-                            <div className="p-4">
-                              <Droppable
-                                droppableId={`category-${categoryIndex}`}
-                                type="item"
-                              >
-                                {(provided) => (
+                              <div className="flex items-center justify-between px-4 py-4">
+                                <div className="flex items-center space-x-4">
                                   <div
-                                    {...provided.droppableProps}
-                                    ref={provided.innerRef}
-                                    className="space-y-3"
+                                    {...provided.dragHandleProps}
+                                    className="cursor-grab text-purple-400 hover:text-purple-600 active:cursor-grabbing"
                                   >
-                                    {category.items.map((item, itemIndex) => (
-                                      <Draggable
-                                        key={`item-${categoryIndex}-${itemIndex}`}
-                                        draggableId={`item-${categoryIndex}-${itemIndex}`}
-                                        index={itemIndex}
-                                      >
-                                        {(provided, snapshot) => (
-                                          <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            className={`flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3 transition-shadow ${
-                                              snapshot.isDragging
-                                                ? "bg-white shadow-md"
-                                                : ""
-                                            }`}
-                                          >
-                                            <div className="flex flex-1 items-center space-x-3">
-                                              <div
-                                                {...provided.dragHandleProps}
-                                                className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
-                                              >
-                                                <GripVertical className="h-4 w-4" />
-                                              </div>
-                                              <div className="flex-1">
-                                                <div className="flex items-center space-x-3">
-                                                  <h4 className="font-medium text-gray-900">
-                                                    {item.name}
-                                                  </h4>
-                                                  {item.source && (
-                                                    <span
-                                                      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                                                        item.source ===
+                                    <GripVertical className="h-5 w-5" />
+                                  </div>
+                                  <div>
+                                    <h2 className="text-xl font-bold text-purple-900">
+                                      {service.headingText}
+                                    </h2>
+                                    {service.headingDescription && (
+                                      <p className="mt-1 text-sm text-purple-700">
+                                        {service.headingDescription}
+                                      </p>
+                                    )}
+                                  </div>
+                                  <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
+                                    Heading
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => removeCategory(serviceIndex)}
+                                  className="text-purple-600 hover:text-purple-800"
+                                >
+                                  <Trash2 className="h-5 w-5" />
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        // Render category UI
+                        return (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            className={`rounded-lg border border-gray-200 bg-white transition-shadow ${
+                              snapshot.isDragging ? "shadow-lg" : ""
+                            }`}
+                          >
+                            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+                              <div className="flex items-center space-x-4">
+                                <div
+                                  {...provided.dragHandleProps}
+                                  className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
+                                >
+                                  <GripVertical className="h-5 w-5" />
+                                </div>
+                                <h3 className="text-lg font-medium text-gray-900">
+                                  {service.categoryName}
+                                </h3>
+                                <span className="text-sm font-medium text-gray-600">
+                                  Total: £
+                                  {(service.categoryTotal || 0).toFixed(2)}
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => removeCategory(serviceIndex)}
+                                className="text-red-600 hover:text-red-800"
+                              >
+                                <Trash2 className="h-5 w-5" />
+                              </button>
+                            </div>
+
+                            {service.items && service.items.length > 0 && (
+                              <div className="p-4">
+                                <Droppable
+                                  droppableId={`category-${serviceIndex}`}
+                                  type="item"
+                                >
+                                  {(provided) => (
+                                    <div
+                                      {...provided.droppableProps}
+                                      ref={provided.innerRef}
+                                      className="space-y-3"
+                                    >
+                                      {service.items.map((item, itemIndex) => (
+                                        <Draggable
+                                          key={`item-${serviceIndex}-${itemIndex}`}
+                                          draggableId={`item-${serviceIndex}-${itemIndex}`}
+                                          index={itemIndex}
+                                        >
+                                          {(provided, snapshot) => (
+                                            <div
+                                              ref={provided.innerRef}
+                                              {...provided.draggableProps}
+                                              className={`flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3 transition-shadow ${
+                                                snapshot.isDragging
+                                                  ? "bg-white shadow-md"
+                                                  : ""
+                                              }`}
+                                            >
+                                              <div className="flex flex-1 items-center space-x-3">
+                                                <div
+                                                  {...provided.dragHandleProps}
+                                                  className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
+                                                >
+                                                  <GripVertical className="h-4 w-4" />
+                                                </div>
+                                                <div className="flex-1">
+                                                  <div className="flex items-center space-x-3">
+                                                    <h4 className="font-medium text-gray-900">
+                                                      {item.name}
+                                                    </h4>
+                                                    {item.source && (
+                                                      <span
+                                                        className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                                          item.source ===
+                                                          "template"
+                                                            ? "bg-blue-100 text-blue-800"
+                                                            : "bg-gray-100 text-gray-800"
+                                                        }`}
+                                                      >
+                                                        {item.source ===
                                                         "template"
-                                                          ? "bg-blue-100 text-blue-800"
-                                                          : "bg-gray-100 text-gray-800"
-                                                      }`}
-                                                    >
-                                                      {item.source ===
-                                                      "template"
-                                                        ? "Template"
-                                                        : "Custom"}
+                                                          ? "Template"
+                                                          : "Custom"}
+                                                      </span>
+                                                    )}
+                                                  </div>
+                                                  {item.description && (
+                                                    <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
+                                                      {item.description}
+                                                    </p>
+                                                  )}
+                                                  <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                                    <span>
+                                                      Unit: {item.unit}
                                                     </span>
+                                                    <span>
+                                                      Quantity: {item.quantity}
+                                                    </span>
+                                                    <span>
+                                                      Price: £
+                                                      {(
+                                                        item.unitPrice || 0
+                                                      ).toFixed(2)}
+                                                    </span>
+                                                    <span className="font-medium text-gray-900">
+                                                      Total: £
+                                                      {(
+                                                        item.total || 0
+                                                      ).toFixed(2)}
+                                                    </span>
+                                                  </div>
+                                                  {item.notes && (
+                                                    <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
+                                                      {item.notes}
+                                                    </p>
                                                   )}
                                                 </div>
-                                                {item.description && (
-                                                  <p className="mt-1 whitespace-pre-line text-sm text-gray-600">
-                                                    {item.description}
-                                                  </p>
-                                                )}
-                                                <div className="mt-2 flex items-center space-x-4 text-sm text-gray-500">
-                                                  <span>Unit: {item.unit}</span>
-                                                  <span>
-                                                    Quantity: {item.quantity}
-                                                  </span>
-                                                  <span>
-                                                    Price: £
-                                                    {(
-                                                      item.unitPrice || 0
-                                                    ).toFixed(2)}
-                                                  </span>
-                                                  <span className="font-medium text-gray-900">
-                                                    Total: £
-                                                    {(item.total || 0).toFixed(
-                                                      2,
-                                                    )}
-                                                  </span>
-                                                </div>
-                                                {item.notes && (
-                                                  <p className="mt-1 whitespace-pre-line text-sm text-gray-500">
-                                                    {item.notes}
-                                                  </p>
-                                                )}
+                                              </div>
+
+                                              <div className="ml-3 flex items-center space-x-2">
+                                                <button
+                                                  onClick={() =>
+                                                    startEditItem(
+                                                      serviceIndex,
+                                                      itemIndex,
+                                                      item,
+                                                    )
+                                                  }
+                                                  className="text-blue-600 hover:text-blue-800"
+                                                >
+                                                  <Edit3 className="h-4 w-4" />
+                                                </button>
+                                                <button
+                                                  onClick={() =>
+                                                    removeItem(
+                                                      serviceIndex,
+                                                      itemIndex,
+                                                    )
+                                                  }
+                                                  className="text-red-600 hover:text-red-800"
+                                                >
+                                                  <Trash2 className="h-4 w-4" />
+                                                </button>
                                               </div>
                                             </div>
-
-                                            <div className="ml-3 flex items-center space-x-2">
-                                              <button
-                                                onClick={() =>
-                                                  startEditItem(
-                                                    categoryIndex,
-                                                    itemIndex,
-                                                    item,
-                                                  )
-                                                }
-                                                className="text-blue-600 hover:text-blue-800"
-                                              >
-                                                <Edit3 className="h-4 w-4" />
-                                              </button>
-                                              <button
-                                                onClick={() =>
-                                                  removeItem(
-                                                    categoryIndex,
-                                                    itemIndex,
-                                                  )
-                                                }
-                                                className="text-red-600 hover:text-red-800"
-                                              >
-                                                <Trash2 className="h-4 w-4" />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        )}
-                                      </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                  </div>
-                                )}
-                              </Droppable>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                                          )}
+                                        </Draggable>
+                                      ))}
+                                      {provided.placeholder}
+                                    </div>
+                                  )}
+                                </Droppable>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }}
                     </Draggable>
                   ))}
                   {provided.placeholder}
@@ -1081,6 +1173,7 @@ export default function ServicesForm({
               <span className="text-xl font-bold text-gray-900">
                 £
                 {formData.services
+                  .filter((service) => service.type === "category")
                   .reduce(
                     (sum, category) => sum + (category.categoryTotal || 0),
                     0,
@@ -1435,6 +1528,121 @@ export default function ServicesForm({
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Add Heading Modal */}
+        {showAddHeading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="relative w-full max-w-lg rounded-lg bg-white shadow-xl">
+              <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Add Heading
+                </h2>
+                <button
+                  onClick={() => setShowAddHeading(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="space-y-4 p-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Heading Text *
+                  </label>
+                  <input
+                    type="text"
+                    value={newHeadingText}
+                    onChange={(e) => setNewHeadingText(e.target.value)}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                    placeholder="e.g., Bathroom Renovation"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Description (optional)
+                  </label>
+                  <textarea
+                    value={newHeadingDescription}
+                    onChange={(e) => setNewHeadingDescription(e.target.value)}
+                    rows={3}
+                    className="mt-1 block w-full resize-none rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                    placeholder="Brief description of this section..."
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={() => setShowAddHeading(false)}
+                    className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={addHeading}
+                    disabled={!newHeadingText.trim()}
+                    className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
+                  >
+                    Add Heading
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add Category Modal */}
+        {showAddCategory && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="relative w-full max-w-lg rounded-lg bg-white shadow-xl">
+              <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Add Category
+                </h2>
+                <button
+                  onClick={() => setShowAddCategory(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="space-y-4 p-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Category Name *
+                  </label>
+                  <input
+                    type="text"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                    placeholder="e.g., Tiling Work"
+                    required
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3">
+                  <button
+                    onClick={() => setShowAddCategory(false)}
+                    className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={addCategory}
+                    disabled={!newCategory.trim()}
+                    className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+                  >
+                    Add Category
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

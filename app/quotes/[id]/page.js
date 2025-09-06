@@ -587,105 +587,126 @@ export default function PublicQuotePage({ params }) {
                 </p>
               </div>
               <div className="p-8">
-                {quote.services.map((category, categoryIndex) => (
-                  <div key={categoryIndex} className="mb-8 last:mb-0">
-                    {/* Category Header */}
-                    <div className="mb-4 flex items-center justify-between rounded-lg bg-blue-50 px-4 py-3">
-                      <h4 className="text-lg font-semibold text-gray-900">
-                        {category.categoryName}
-                      </h4>
-                      <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-600 shadow-sm">
-                        {formatCurrency(
-                          category.items?.reduce(
-                            (total, item) =>
-                              total + (item.customerTotal || item.total || 0),
-                            0,
-                          ) || 0,
-                        )}
-                      </span>
-                    </div>
+                {quote.services.map((service, serviceIndex) => {
+                  // Handle headings as decorative separators
+                  if (service.type === "heading") {
+                    return (
+                      <div key={serviceIndex} className="mb-8 last:mb-0">
+                        <div className="to-blue-25 rounded-r-lg border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 px-6 py-4">
+                          <h4 className="mb-2 text-xl font-bold text-gray-900">
+                            {service.headingText}
+                          </h4>
+                          {service.headingDescription && (
+                            <p className="text-sm leading-relaxed text-gray-600">
+                              {service.headingDescription}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
 
-                    {/* Services Table */}
-                    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-                      {/* Table Container with Horizontal Scroll on Mobile */}
-                      <div className="overflow-x-auto">
-                        <div className="min-w-[600px]">
-                          {/* Table Header */}
-                          <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
-                            <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
-                              <div className="col-span-5">Service Item</div>
-                              <div className="col-span-2">Quantity</div>
-                              <div className="col-span-2">Unit Price</div>
-                              <div className="col-span-3">Total</div>
+                  // Handle categories with items and totals
+                  return (
+                    <div key={serviceIndex} className="mb-8 last:mb-0">
+                      {/* Category Header */}
+                      <div className="mb-4 flex items-center justify-between rounded-lg bg-blue-50 px-4 py-3">
+                        <h4 className="text-lg font-semibold text-gray-900">
+                          {service.categoryName}
+                        </h4>
+                        <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-600 shadow-sm">
+                          {formatCurrency(
+                            service.items?.reduce(
+                              (total, item) =>
+                                total + (item.customerTotal || item.total || 0),
+                              0,
+                            ) || 0,
+                          )}
+                        </span>
+                      </div>
+
+                      {/* Services Table */}
+                      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+                        {/* Table Container with Horizontal Scroll on Mobile */}
+                        <div className="overflow-x-auto">
+                          <div className="min-w-[600px]">
+                            {/* Table Header */}
+                            <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-3">
+                              <div className="grid grid-cols-12 gap-4 text-sm font-semibold text-gray-700">
+                                <div className="col-span-5">Service Item</div>
+                                <div className="col-span-2">Quantity</div>
+                                <div className="col-span-2">Unit Price</div>
+                                <div className="col-span-3">Total</div>
+                              </div>
                             </div>
-                          </div>
 
-                          {/* Table Body */}
-                          <div className="divide-y divide-gray-200">
-                            {category.items.map((item, itemIndex) => (
-                              <div
-                                key={itemIndex}
-                                className="px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
-                              >
-                                <div className="grid grid-cols-12 items-center gap-4 text-sm">
-                                  {/* Service Item */}
-                                  <div className="col-span-5">
-                                    <div className="space-y-1">
-                                      <h5 className="font-medium text-gray-900">
-                                        {item.name}
-                                      </h5>
-                                      {item.description && (
-                                        <p className="whitespace-pre-line text-xs text-gray-600">
-                                          {item.description}
-                                        </p>
-                                      )}
-                                      {item.notes && (
-                                        <div className="mt-1 text-xs text-blue-700">
-                                          <span className="font-medium">
-                                            Notes:
-                                          </span>{" "}
-                                          <span className="whitespace-pre-line">
-                                            {item.notes}
-                                          </span>
-                                        </div>
-                                      )}
+                            {/* Table Body */}
+                            <div className="divide-y divide-gray-200">
+                              {service.items.map((item, itemIndex) => (
+                                <div
+                                  key={itemIndex}
+                                  className="px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
+                                >
+                                  <div className="grid grid-cols-12 items-center gap-4 text-sm">
+                                    {/* Service Item */}
+                                    <div className="col-span-5">
+                                      <div className="space-y-1">
+                                        <h5 className="font-medium text-gray-900">
+                                          {item.name}
+                                        </h5>
+                                        {item.description && (
+                                          <p className="whitespace-pre-line text-xs text-gray-600">
+                                            {item.description}
+                                          </p>
+                                        )}
+                                        {item.notes && (
+                                          <div className="mt-1 text-xs text-blue-700">
+                                            <span className="font-medium">
+                                              Notes:
+                                            </span>{" "}
+                                            <span className="whitespace-pre-line">
+                                              {item.notes}
+                                            </span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Quantity */}
+                                    <div className="col-span-2">
+                                      <span className="text-gray-700">
+                                        {item.quantity} {item.unit}
+                                      </span>
+                                    </div>
+
+                                    {/* Unit Price */}
+                                    <div className="col-span-2">
+                                      <span className="font-medium text-gray-700">
+                                        {formatCurrency(
+                                          item.customerUnitPrice ||
+                                            item.unitPrice,
+                                        )}
+                                      </span>
+                                    </div>
+
+                                    {/* Total */}
+                                    <div className="col-span-3">
+                                      <span className="font-bold text-gray-900">
+                                        {formatCurrency(
+                                          item.customerTotal || item.total,
+                                        )}
+                                      </span>
                                     </div>
                                   </div>
-
-                                  {/* Quantity */}
-                                  <div className="col-span-2">
-                                    <span className="text-gray-700">
-                                      {item.quantity} {item.unit}
-                                    </span>
-                                  </div>
-
-                                  {/* Unit Price */}
-                                  <div className="col-span-2">
-                                    <span className="font-medium text-gray-700">
-                                      {formatCurrency(
-                                        item.customerUnitPrice ||
-                                          item.unitPrice,
-                                      )}
-                                    </span>
-                                  </div>
-
-                                  {/* Total */}
-                                  <div className="col-span-3">
-                                    <span className="font-bold text-gray-900">
-                                      {formatCurrency(
-                                        item.customerTotal || item.total,
-                                      )}
-                                    </span>
-                                  </div>
                                 </div>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -710,14 +731,16 @@ export default function PublicQuotePage({ params }) {
                   <span className="font-semibold text-gray-900">
                     {formatCurrency(
                       quote.services?.reduce(
-                        (total, category) =>
+                        (total, service) =>
                           total +
-                          (category.items?.reduce(
-                            (catTotal, item) =>
-                              catTotal +
-                              (item.customerTotal || item.total || 0),
-                            0,
-                          ) || 0),
+                          (service.type === "category" || !service.type
+                            ? service.items?.reduce(
+                                (catTotal, item) =>
+                                  catTotal +
+                                  (item.customerTotal || item.total || 0),
+                                0,
+                              ) || 0
+                            : 0),
                         0,
                       ) || 0,
                     )}
@@ -731,14 +754,16 @@ export default function PublicQuotePage({ params }) {
                   <span className="font-semibold text-gray-900">
                     {formatCurrency(
                       (quote.services?.reduce(
-                        (total, category) =>
+                        (total, service) =>
                           total +
-                          (category.items?.reduce(
-                            (catTotal, item) =>
-                              catTotal +
-                              (item.customerTotal || item.total || 0),
-                            0,
-                          ) || 0),
+                          (service.type === "category" || !service.type
+                            ? service.items?.reduce(
+                                (catTotal, item) =>
+                                  catTotal +
+                                  (item.customerTotal || item.total || 0),
+                                0,
+                              ) || 0
+                            : 0),
                         0,
                       ) || 0) *
                         ((quote.pricing?.vatRate || 20) / 100),
@@ -753,13 +778,16 @@ export default function PublicQuotePage({ params }) {
                 <span className="text-2xl font-bold text-blue-600">
                   {formatCurrency(
                     (quote.services?.reduce(
-                      (total, category) =>
+                      (total, service) =>
                         total +
-                        (category.items?.reduce(
-                          (catTotal, item) =>
-                            catTotal + (item.customerTotal || item.total || 0),
-                          0,
-                        ) || 0),
+                        (service.type === "category" || !service.type
+                          ? service.items?.reduce(
+                              (catTotal, item) =>
+                                catTotal +
+                                (item.customerTotal || item.total || 0),
+                              0,
+                            ) || 0
+                          : 0),
                       0,
                     ) || 0) *
                       (1 + (quote.pricing?.vatRate || 20) / 100),

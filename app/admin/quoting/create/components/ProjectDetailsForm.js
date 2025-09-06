@@ -11,8 +11,11 @@ export default function ProjectDetailsForm({
   originalData = null,
 }) {
   const [availableTemplates, setAvailableTemplates] = useState([]);
+  const [allTemplates, setAllTemplates] = useState([]);
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [showAllTemplates, setShowAllTemplates] = useState(false);
+  const [loadingAllTemplates, setLoadingAllTemplates] = useState(false);
 
   // Ensure formData has the required structure
   const safeFormData = useMemo(
@@ -91,11 +94,34 @@ export default function ProjectDetailsForm({
     }
   };
 
+  const fetchAllTemplates = async () => {
+    setLoadingAllTemplates(true);
+    try {
+      const response = await fetch(`/api/admin/quoting/templates`);
+      if (response.ok) {
+        const templates = await response.json();
+        setAllTemplates(templates);
+      }
+    } catch (error) {
+      console.error("Error fetching all templates:", error);
+    } finally {
+      setLoadingAllTemplates(false);
+    }
+  };
+
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
     // Only set the template ID - the QuoteBuilder will handle the transformation
     updateFormData({
       template: template._id,
+    });
+  };
+
+  const handleAddTemplate = (template) => {
+    // This will add the template services to existing services rather than replacing them
+    // We'll let the QuoteBuilder handle this logic through a new method
+    updateFormData({
+      addTemplate: template._id, // Special key to indicate we want to add, not replace
     });
   };
   const projectTypes = getProjectTypes();
@@ -237,6 +263,132 @@ export default function ProjectDetailsForm({
                 </div>
               </div>
             )}
+
+            {/* Browse All Templates */}
+            <div className="mt-6 border-t border-gray-200 pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-md font-medium text-gray-900">
+                    Browse All Templates
+                  </h4>
+                  <p className="text-sm text-gray-500">
+                    Add services from any template to your quote
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setShowAllTemplates(!showAllTemplates);
+                    if (!showAllTemplates && allTemplates.length === 0) {
+                      fetchAllTemplates();
+                    }
+                  }}
+                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                >
+                  {showAllTemplates ? "Hide" : "Browse"} All Templates
+                </button>
+              </div>
+
+              {showAllTemplates && (
+                <div className="mt-4">
+                  {loadingAllTemplates ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                      <span className="ml-2 text-sm text-gray-500">
+                        Loading all templates...
+                      </span>
+                    </div>
+                  ) : allTemplates.length > 0 ? (
+                    <div className="space-y-3">
+                      {allTemplates.map((template) => {
+                        const isCurrentProjectType =
+                          template.projectType === safeFormData.project?.type;
+                        const isAlreadySelected =
+                          selectedTemplate?._id === template._id;
+
+                        return (
+                          <div
+                            key={template._id}
+                            className={`rounded-lg border p-4 transition-all ${
+                              isAlreadySelected
+                                ? "border-blue-500 bg-blue-50"
+                                : "border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3">
+                                <FileText className="h-5 w-5 text-blue-600" />
+                                <div>
+                                  <div className="flex items-center space-x-2">
+                                    <h4 className="font-medium text-gray-900">
+                                      {template.name}
+                                    </h4>
+                                    <span
+                                      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+                                        isCurrentProjectType
+                                          ? "bg-green-100 text-green-800"
+                                          : "bg-gray-100 text-gray-800"
+                                      }`}
+                                    >
+                                      {template.projectType.replace("-", " ")}
+                                    </span>
+                                    {isCurrentProjectType && (
+                                      <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
+                                        Current Type
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-sm text-gray-600">
+                                    {template.description || "No description"}
+                                  </p>
+                                  {template.baseServices && (
+                                    <p className="text-xs text-gray-500">
+                                      {template.baseServices.length} service
+                                      categories
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="flex space-x-2">
+                                {!isAlreadySelected && (
+                                  <>
+                                    <button
+                                      onClick={() =>
+                                        handleTemplateSelect(template)
+                                      }
+                                      className="inline-flex items-center rounded-md border border-blue-600 bg-blue-600 px-3 py-1 text-xs font-medium text-white shadow-sm hover:bg-blue-700"
+                                    >
+                                      Use as Base
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        handleAddTemplate(template)
+                                      }
+                                      className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-1 text-xs font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                                    >
+                                      Add Services
+                                    </button>
+                                  </>
+                                )}
+                                {isAlreadySelected && (
+                                  <span className="inline-flex items-center text-xs text-green-600">
+                                    <CheckCircle className="mr-1 h-4 w-4" />
+                                    Selected as Base
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="py-8 text-center text-sm text-gray-500">
+                      No templates found.
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
