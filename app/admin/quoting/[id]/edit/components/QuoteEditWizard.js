@@ -305,13 +305,13 @@ export default function QuoteEditWizard({ quoteId }) {
         if (original.quantity !== edited.quantity) {
           changes[`service_${serviceIndex}_item_${i}_quantity`] = {
             type: "modified",
-            message: `Item quantity changed from ${original.quantity} to ${edited.quantity}`,
+            message: `"${original.name}" quantity changed from ${original.quantity} to ${edited.quantity}`,
           };
         }
         if (original.unitPrice !== edited.unitPrice) {
           changes[`service_${serviceIndex}_item_${i}_price`] = {
             type: "modified",
-            message: `Item price changed from £${original.unitPrice} to £${edited.unitPrice}`,
+            message: `"${original.name}" price changed from £${original.unitPrice} to £${edited.unitPrice}`,
           };
         }
       }
