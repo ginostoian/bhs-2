@@ -8,6 +8,7 @@ import {
   Search,
   FileText,
   Edit3,
+  Pencil,
   Save,
   X,
   GripVertical,
@@ -50,6 +51,12 @@ export default function ServicesForm({
   // Edit state
   const [editingItem, setEditingItem] = useState(null);
   const [editFormData, setEditFormData] = useState({});
+
+  // Category/Heading edit state
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [editingHeading, setEditingHeading] = useState(null);
+  const [editCategoryFormData, setEditCategoryFormData] = useState({});
+  const [editHeadingFormData, setEditHeadingFormData] = useState({});
 
   const isUsingTemplate = formData.template && formData.services.length > 0;
 
@@ -269,6 +276,72 @@ export default function ServicesForm({
   const cancelEditItem = () => {
     setEditingItem(null);
     setEditFormData({});
+  };
+
+  // Category edit functions
+  const startEditCategory = (categoryIndex, category) => {
+    setEditingCategory(categoryIndex);
+    setEditCategoryFormData({
+      categoryName: category.categoryName,
+    });
+  };
+
+  const saveEditCategory = () => {
+    if (editingCategory === null) return;
+
+    const updatedServices = formData.services.map((service, serviceIndex) => {
+      if (serviceIndex === editingCategory) {
+        return {
+          ...service,
+          categoryName: editCategoryFormData.categoryName,
+        };
+      }
+      return service;
+    });
+
+    updateFormData({ services: updatedServices });
+    setEditingCategory(null);
+    setEditCategoryFormData({});
+    toast.success("Category updated successfully!");
+  };
+
+  const cancelEditCategory = () => {
+    setEditingCategory(null);
+    setEditCategoryFormData({});
+  };
+
+  // Heading edit functions
+  const startEditHeading = (headingIndex, heading) => {
+    setEditingHeading(headingIndex);
+    setEditHeadingFormData({
+      headingText: heading.headingText,
+      headingDescription: heading.headingDescription || "",
+    });
+  };
+
+  const saveEditHeading = () => {
+    if (editingHeading === null) return;
+
+    const updatedServices = formData.services.map((service, serviceIndex) => {
+      if (serviceIndex === editingHeading) {
+        return {
+          ...service,
+          headingText: editHeadingFormData.headingText,
+          headingDescription: editHeadingFormData.headingDescription,
+        };
+      }
+      return service;
+    });
+
+    updateFormData({ services: updatedServices });
+    setEditingHeading(null);
+    setEditHeadingFormData({});
+    toast.success("Heading updated successfully!");
+  };
+
+  const cancelEditHeading = () => {
+    setEditingHeading(null);
+    setEditHeadingFormData({});
   };
 
   const updateItemQuantity = (categoryIndex, itemIndex, newQuantity) => {
@@ -987,12 +1060,22 @@ export default function ServicesForm({
                                     Heading
                                   </span>
                                 </div>
-                                <button
-                                  onClick={() => removeCategory(serviceIndex)}
-                                  className="text-purple-600 hover:text-purple-800"
-                                >
-                                  <Trash2 className="h-5 w-5" />
-                                </button>
+                                <div className="flex items-center space-x-2">
+                                  <button
+                                    onClick={() =>
+                                      startEditHeading(serviceIndex, service)
+                                    }
+                                    className="text-blue-600 hover:text-blue-800"
+                                  >
+                                    <Pencil className="h-5 w-5" />
+                                  </button>
+                                  <button
+                                    onClick={() => removeCategory(serviceIndex)}
+                                    className="text-purple-600 hover:text-purple-800"
+                                  >
+                                    <Trash2 className="h-5 w-5" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           );
@@ -1023,12 +1106,22 @@ export default function ServicesForm({
                                   {(service.categoryTotal || 0).toFixed(2)}
                                 </span>
                               </div>
-                              <button
-                                onClick={() => removeCategory(serviceIndex)}
-                                className="text-red-600 hover:text-red-800"
-                              >
-                                <Trash2 className="h-5 w-5" />
-                              </button>
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() =>
+                                    startEditCategory(serviceIndex, service)
+                                  }
+                                  className="text-blue-600 hover:text-blue-800"
+                                >
+                                  <Pencil className="h-5 w-5" />
+                                </button>
+                                <button
+                                  onClick={() => removeCategory(serviceIndex)}
+                                  className="text-red-600 hover:text-red-800"
+                                >
+                                  <Trash2 className="h-5 w-5" />
+                                </button>
+                              </div>
                             </div>
 
                             {service.items && service.items.length > 0 && (
@@ -1323,6 +1416,136 @@ export default function ServicesForm({
                 </button>
                 <button
                   onClick={saveEditItem}
+                  className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Category Modal */}
+      {editingCategory !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-lg font-medium text-gray-900">
+                Edit Category
+              </h2>
+              <button
+                onClick={cancelEditCategory}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  value={editCategoryFormData.categoryName}
+                  onChange={(e) =>
+                    setEditCategoryFormData({
+                      ...editCategoryFormData,
+                      categoryName: e.target.value,
+                    })
+                  }
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4">
+                <button
+                  onClick={cancelEditCategory}
+                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Cancel
+                </button>
+                <button
+                  onClick={saveEditCategory}
+                  className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Heading Modal */}
+      {editingHeading !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-lg font-medium text-gray-900">
+                Edit Heading
+              </h2>
+              <button
+                onClick={cancelEditHeading}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="space-y-4 p-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Heading Text
+                </label>
+                <input
+                  type="text"
+                  value={editHeadingFormData.headingText}
+                  onChange={(e) =>
+                    setEditHeadingFormData({
+                      ...editHeadingFormData,
+                      headingText: e.target.value,
+                    })
+                  }
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Description (Optional)
+                </label>
+                <textarea
+                  value={editHeadingFormData.headingDescription}
+                  onChange={(e) =>
+                    setEditHeadingFormData({
+                      ...editHeadingFormData,
+                      headingDescription: e.target.value,
+                    })
+                  }
+                  rows={3}
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  placeholder="Optional description for this section..."
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3 pt-4">
+                <button
+                  onClick={cancelEditHeading}
+                  className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                >
+                  <X className="mr-2 h-4 w-4" />
+                  Cancel
+                </button>
+                <button
+                  onClick={saveEditHeading}
                   className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
                 >
                   <Save className="mr-2 h-4 w-4" />

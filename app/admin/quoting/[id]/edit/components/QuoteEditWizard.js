@@ -176,15 +176,18 @@ export default function QuoteEditWizard({ quoteId }) {
       changes.client = { from: originalQuote.client, to: editedQuote.client };
     }
 
-    // Compare services
+    // Compare services with detailed diff
     if (
       JSON.stringify(originalQuote.services) !==
       JSON.stringify(editedQuote.services)
     ) {
-      changes.services = {
-        from: originalQuote.services,
-        to: editedQuote.services,
-      };
+      const serviceChanges = getServiceChanges(
+        originalQuote.services,
+        editedQuote.services,
+      );
+      if (Object.keys(serviceChanges).length > 0) {
+        changes.services = serviceChanges;
+      }
     }
 
     // Compare other fields
@@ -208,6 +211,111 @@ export default function QuoteEditWizard({ quoteId }) {
         from: originalQuote.leadTime,
         to: editedQuote.leadTime,
       };
+
+    return changes;
+  };
+
+  const getServiceChanges = (originalServices, editedServices) => {
+    const changes = {};
+    // Compare each service by index and ID
+    const maxLength = Math.max(originalServices.length, editedServices.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const original = originalServices[i];
+      const edited = editedServices[i];
+
+      if (!original && edited) {
+        // Service was added
+        changes[`service_${i}_added`] = {
+          type: "added",
+          message: `Added ${edited.type === "heading" ? "heading" : "category"}: "${edited.headingText || edited.categoryName}"`,
+        };
+      } else if (original && !edited) {
+        // Service was removed
+        changes[`service_${i}_removed`] = {
+          type: "removed",
+          message: `Removed ${original.type === "heading" ? "heading" : "category"}: "${original.headingText || original.categoryName}"`,
+        };
+      } else if (original && edited) {
+        // Compare service properties
+        if (original.type !== edited.type) {
+          changes[`service_${i}_type`] = {
+            type: "modified",
+            message: `Changed service type from "${original.type}" to "${edited.type}"`,
+          };
+        }
+
+        if (original.categoryName !== edited.categoryName) {
+          changes[`service_${i}_categoryName`] = {
+            type: "modified",
+            message: `Category name changed from "${original.categoryName}" to "${edited.categoryName}"`,
+          };
+        }
+
+        if (original.headingText !== edited.headingText) {
+          changes[`service_${i}_headingText`] = {
+            type: "modified",
+            message: `Heading text changed from "${original.headingText}" to "${edited.headingText}"`,
+          };
+        }
+
+        if (original.headingDescription !== edited.headingDescription) {
+          changes[`service_${i}_headingDescription`] = {
+            type: "modified",
+            message: `Heading description changed from "${original.headingDescription || "none"}" to "${edited.headingDescription || "none"}"`,
+          };
+        }
+
+        // Compare items if they exist
+        if (original.items && edited.items) {
+          const itemChanges = getItemChanges(original.items, edited.items, i);
+          Object.assign(changes, itemChanges);
+        }
+      }
+    }
+
+    return changes;
+  };
+
+  const getItemChanges = (originalItems, editedItems, serviceIndex) => {
+    const changes = {};
+    const maxLength = Math.max(originalItems.length, editedItems.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      const original = originalItems[i];
+      const edited = editedItems[i];
+
+      if (!original && edited) {
+        changes[`service_${serviceIndex}_item_${i}_added`] = {
+          type: "added",
+          message: `Added item: "${edited.name}"`,
+        };
+      } else if (original && !edited) {
+        changes[`service_${serviceIndex}_item_${i}_removed`] = {
+          type: "removed",
+          message: `Removed item: "${original.name}"`,
+        };
+      } else if (original && edited) {
+        if (original.name !== edited.name) {
+          changes[`service_${serviceIndex}_item_${i}_name`] = {
+            type: "modified",
+            message: `Item name changed from "${original.name}" to "${edited.name}"`,
+          };
+        }
+        if (original.quantity !== edited.quantity) {
+          changes[`service_${serviceIndex}_item_${i}_quantity`] = {
+            type: "modified",
+            message: `Item quantity changed from ${original.quantity} to ${edited.quantity}`,
+          };
+        }
+        if (original.unitPrice !== edited.unitPrice) {
+          changes[`service_${serviceIndex}_item_${i}_price`] = {
+            type: "modified",
+            message: `Item price changed from £${original.unitPrice} to £${edited.unitPrice}`,
+          };
+        }
+      }
+    }
 
     return changes;
   };
@@ -415,27 +523,112 @@ export default function QuoteEditWizard({ quoteId }) {
                         Changes Made:
                       </h4>
                       <div className="space-y-2 text-sm text-gray-700">
-                        {Object.entries(JSON.parse(revision.changes)).map(
-                          ([field, change], changeIndex) => (
-                            <div
-                              key={changeIndex}
-                              className="flex items-start space-x-2"
-                            >
-                              <span className="mt-1 h-2 w-2 rounded-full bg-blue-500"></span>
-                              <div>
-                                <span className="font-medium">{field}:</span>
-                                <div className="ml-2 text-gray-600">
-                                  <div className="text-red-500 line-through">
-                                    {change.from || "Not set"}
-                                  </div>
-                                  <div className="text-green-600">
-                                    {change.to || "Not set"}
+                        {(() => {
+                          const parsedChanges = JSON.parse(revision.changes);
+                          const allChanges = [];
+
+                          // Flatten the changes structure
+                          Object.entries(parsedChanges).forEach(
+                            ([field, change]) => {
+                              if (
+                                field === "services" &&
+                                typeof change === "object"
+                              ) {
+                                // Handle services changes
+                                Object.entries(change).forEach(
+                                  ([serviceKey, serviceChange]) => {
+                                    if (
+                                      serviceChange.type &&
+                                      serviceChange.message
+                                    ) {
+                                      allChanges.push(serviceChange);
+                                    }
+                                  },
+                                );
+                              } else if (change.type && change.message) {
+                                // Handle other structured changes
+                                allChanges.push(change);
+                              } else {
+                                // Handle legacy format
+                                allChanges.push({
+                                  field,
+                                  change,
+                                  isLegacy: true,
+                                });
+                              }
+                            },
+                          );
+
+                          return allChanges.map((change, changeIndex) => {
+                            // Handle new structured change format
+                            if (change.type && change.message) {
+                              const colorClass =
+                                change.type === "added"
+                                  ? "text-green-600"
+                                  : change.type === "removed"
+                                    ? "text-red-600"
+                                    : "text-blue-600";
+                              return (
+                                <div
+                                  key={changeIndex}
+                                  className="flex items-start space-x-2"
+                                >
+                                  <span
+                                    className={`mt-1 h-2 w-2 rounded-full ${
+                                      change.type === "added"
+                                        ? "bg-green-500"
+                                        : change.type === "removed"
+                                          ? "bg-red-500"
+                                          : "bg-blue-500"
+                                    }`}
+                                  ></span>
+                                  <div className={colorClass}>
+                                    {change.message}
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          ),
-                        )}
+                              );
+                            }
+
+                            // Handle legacy change format (from/to)
+                            if (change.isLegacy) {
+                              return (
+                                <div
+                                  key={changeIndex}
+                                  className="flex items-start space-x-2"
+                                >
+                                  <span className="mt-1 h-2 w-2 rounded-full bg-blue-500"></span>
+                                  <div>
+                                    <span className="font-medium">
+                                      {change.field}:
+                                    </span>
+                                    <div className="ml-2 text-gray-600">
+                                      <div className="text-red-500 line-through">
+                                        {typeof change.change.from === "object"
+                                          ? JSON.stringify(
+                                              change.change.from,
+                                              null,
+                                              2,
+                                            )
+                                          : change.change.from || "Not set"}
+                                      </div>
+                                      <div className="text-green-600">
+                                        {typeof change.change.to === "object"
+                                          ? JSON.stringify(
+                                              change.change.to,
+                                              null,
+                                              2,
+                                            )
+                                          : change.change.to || "Not set"}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            }
+
+                            return null;
+                          });
+                        })()}
                       </div>
                     </div>
                   )}
