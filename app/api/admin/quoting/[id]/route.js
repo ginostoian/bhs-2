@@ -50,8 +50,18 @@ export async function PUT(request, { params }) {
     const { id } = params;
     const body = await request.json();
 
-    // Debug: Log what we're updating
-    console.log("API: Updating quote", id, "with body:", body);
+    // Recalculate total if services are being updated
+    if (body.services) {
+      let total = 0;
+      body.services.forEach((service) => {
+        if (service.type === "category" && service.items) {
+          service.items.forEach((item) => {
+            total += (item.quantity || 0) * (item.unitPrice || 0);
+          });
+        }
+      });
+      body.total = total;
+    }
 
     // Find and update the quote
     const updatedQuote = await Quote.findByIdAndUpdate(
@@ -59,12 +69,6 @@ export async function PUT(request, { params }) {
       { $set: body },
       { new: true, runValidators: true },
     );
-
-    // Debug: Log the updated quote
-    console.log("API: Updated quote result:", {
-      id: updatedQuote._id,
-      status: updatedQuote.status,
-    });
 
     if (!updatedQuote) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });

@@ -29,6 +29,27 @@ export default function QuoteHistory() {
     loadQuotes();
   }, [currentPage, statusFilter, projectTypeFilter]);
 
+  // Listen for quote updates from other components
+  useEffect(() => {
+    const handleQuoteUpdate = () => {
+      loadQuotes();
+    };
+
+    // Listen for custom events when quotes are updated
+    window.addEventListener("quoteUpdated", handleQuoteUpdate);
+
+    // Also listen for focus events to refresh when user returns to this tab
+    const handleFocus = () => {
+      loadQuotes();
+    };
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("quoteUpdated", handleQuoteUpdate);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
   const loadQuotes = async () => {
     setIsLoading(true);
     try {
@@ -213,12 +234,24 @@ export default function QuoteHistory() {
           <h1 className="text-2xl font-bold text-gray-900">Quote History</h1>
           <p className="text-gray-600">View and manage all generated quotes</p>
         </div>
-        <Link
-          href="/admin/quoting/create"
-          className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Create New Quote
-        </Link>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={loadQuotes}
+            disabled={isLoading}
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          >
+            <RefreshCw
+              className={`mr-2 h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+            />
+            Refresh
+          </button>
+          <Link
+            href="/admin/quoting/create"
+            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Create New Quote
+          </Link>
+        </div>
       </div>
 
       {/* Filters and Search */}

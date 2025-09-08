@@ -371,6 +371,14 @@ export default function QuoteEditWizard({ quoteId }) {
       const result = await response.json();
       if (result.success) {
         toast.success("Quote updated successfully");
+
+        // Dispatch custom event to notify other components of quote update
+        window.dispatchEvent(
+          new CustomEvent("quoteUpdated", {
+            detail: { quoteId, quote: result.quote },
+          }),
+        );
+
         setOriginalQuote(result.quote);
 
         // Transform the updated quote back to form data structure

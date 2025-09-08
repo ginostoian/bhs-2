@@ -31,6 +31,27 @@ export default function QuotingDashboard() {
     fetchQuotes();
   }, []);
 
+  // Listen for quote updates from other components
+  useEffect(() => {
+    const handleQuoteUpdate = () => {
+      fetchQuotes();
+    };
+
+    // Listen for custom events when quotes are updated
+    window.addEventListener("quoteUpdated", handleQuoteUpdate);
+
+    // Also listen for focus events to refresh when user returns to this tab
+    const handleFocus = () => {
+      fetchQuotes();
+    };
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("quoteUpdated", handleQuoteUpdate);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, []);
+
   const fetchQuotes = async () => {
     try {
       // Add cache-busting parameter and no-cache headers to ensure fresh data
