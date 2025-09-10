@@ -9,6 +9,9 @@ import {
   Copy,
   ExternalLink,
   BarChart3,
+  UserPlus,
+  Search,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -33,6 +36,13 @@ export default function QuotePreviewPage() {
   const [quote, setQuote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
+
+  // User linking state
+  const [showUserSearch, setShowUserSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isLinking, setIsLinking] = useState(false);
 
   useEffect(() => {
     // Load quote from database API
@@ -230,6 +240,99 @@ export default function QuotePreviewPage() {
     }).format(amount);
   };
 
+  // User search and linking functions
+  const searchUsers = async (query) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch(
+        `/api/admin/invoicing/clients/search?q=${encodeURIComponent(query)}&limit=10`,
+      );
+      if (response.ok) {
+        const result = await response.json();
+        setSearchResults(result.clients || []);
+      } else {
+        toast.error("Failed to search users");
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error searching users:", error);
+      toast.error("Failed to search users");
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const linkQuoteToUser = async (userId) => {
+    setIsLinking(true);
+    try {
+      const response = await fetch(`/api/admin/quoting/${quoteId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ linkedUser: userId }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setQuote(result.quote);
+          toast.success("Quote linked to user successfully!");
+          setShowUserSearch(false);
+          setSearchQuery("");
+          setSearchResults([]);
+        } else {
+          toast.error("Failed to link quote to user");
+        }
+      } else {
+        toast.error("Failed to link quote to user");
+      }
+    } catch (error) {
+      console.error("Error linking quote to user:", error);
+      toast.error("Failed to link quote to user");
+    } finally {
+      setIsLinking(false);
+    }
+  };
+
+  const unlinkQuoteFromUser = async () => {
+    setIsLinking(true);
+    try {
+      const response = await fetch(`/api/admin/quoting/${quoteId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ linkedUser: null }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          setQuote(result.quote);
+          toast.success("Quote unlinked from user successfully!");
+        } else {
+          toast.error("Failed to unlink quote from user");
+        }
+      } else {
+        toast.error("Failed to unlink quote from user");
+      }
+    } catch (error) {
+      console.error("Error unlinking quote from user:", error);
+      toast.error("Failed to unlink quote from user");
+    } finally {
+      setIsLinking(false);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    searchUsers(query);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -297,6 +400,24 @@ export default function QuotePreviewPage() {
             <Edit className="mr-2 h-4 w-4" />
             Edit Quote
           </Link>
+          {quote?.linkedUser ? (
+            <button
+              onClick={unlinkQuoteFromUser}
+              disabled={isLinking}
+              className="inline-flex items-center rounded-md border border-transparent bg-orange-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50"
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              {isLinking ? "Unlinking..." : "Unlink User"}
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowUserSearch(true)}
+              className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              <UserPlus className="mr-2 h-4 w-4" />
+              Link to User
+            </button>
+          )}
           <button
             onClick={copyShareLink}
             className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -889,6 +1010,109 @@ export default function QuotePreviewPage() {
           </p>
         </div>
       </div>
+
+      {/* User Search Modal */}
+      {showUserSearch && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative w-full max-w-2xl rounded-lg bg-white shadow-xl">
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+              <h2 className="text-lg font-medium text-gray-900">
+                Link Quote to User
+              </h2>
+              <button
+                onClick={() => {
+                  setShowUserSearch(false);
+                  setSearchQuery("");
+                  setSearchResults([]);
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-6">
+              <div className="mb-4">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Search for a user by name or email:
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    placeholder="Type name or email..."
+                    className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-4 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500"
+                  />
+                </div>
+              </div>
+
+              {isSearching && (
+                <div className="flex items-center justify-center py-4">
+                  <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-indigo-600"></div>
+                  <span className="ml-2 text-gray-600">Searching...</span>
+                </div>
+              )}
+
+              {searchResults.length > 0 && (
+                <div className="max-h-64 overflow-y-auto">
+                  <div className="space-y-2">
+                    {searchResults.map((client) => (
+                      <div
+                        key={client.id}
+                        className="flex items-center justify-between rounded-lg border border-gray-200 p-3 hover:bg-gray-50"
+                      >
+                        <div className="flex-1">
+                          <div className="flex items-center">
+                            <div className="font-medium text-gray-900">
+                              {client.name}
+                            </div>
+                            <span
+                              className={`ml-2 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                                client.type === "user"
+                                  ? "bg-blue-100 text-blue-800"
+                                  : "bg-green-100 text-green-800"
+                              }`}
+                            >
+                              {client.source}
+                            </span>
+                          </div>
+                          <div className="text-sm text-gray-500">
+                            {client.email}
+                          </div>
+                          {client.phone && (
+                            <div className="text-sm text-gray-500">
+                              {client.phone}
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => linkQuoteToUser(client.id)}
+                          disabled={isLinking || client.type !== "user"}
+                          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          {isLinking
+                            ? "Linking..."
+                            : client.type === "user"
+                              ? "Link"
+                              : "Users Only"}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {searchQuery && !isSearching && searchResults.length === 0 && (
+                <div className="py-4 text-center text-gray-500">
+                  No users found matching "{searchQuery}"
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

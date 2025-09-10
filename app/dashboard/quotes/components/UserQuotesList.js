@@ -203,35 +203,33 @@ export default function UserQuotesList({ quotes }) {
                 </div>
 
                 <div className="flex space-x-2">
+                  <a
+                    href={`/quotes/${quote.publicToken || quote.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                  >
+                    <Eye className="mr-2 h-4 w-4" />
+                    View Quote
+                  </a>
                   {quote.publicToken && (
-                    <>
-                      <a
-                        href={`/quotes/${quote.publicToken}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-                      >
-                        <Eye className="mr-2 h-4 w-4" />
-                        View
-                      </a>
-                      <button
-                        onClick={() => handleDownloadPDF(quote)}
-                        disabled={downloadingPDF === quote.id}
-                        className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
-                      >
-                        {downloadingPDF === quote.id ? (
-                          <>
-                            <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
-                            Downloading...
-                          </>
-                        ) : (
-                          <>
-                            <Download className="mr-2 h-4 w-4" />
-                            Download PDF
-                          </>
-                        )}
-                      </button>
-                    </>
+                    <button
+                      onClick={() => handleDownloadPDF(quote)}
+                      disabled={downloadingPDF === quote.id}
+                      className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      {downloadingPDF === quote.id ? (
+                        <>
+                          <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white"></div>
+                          Downloading...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="mr-2 h-4 w-4" />
+                          Download PDF
+                        </>
+                      )}
+                    </button>
                   )}
                 </div>
               </div>
