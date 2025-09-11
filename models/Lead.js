@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
 
 /**
  * Enhanced Lead Schema for CRM System
@@ -354,7 +354,7 @@ leadSchema.virtual("fullSource").get(function () {
 
 // Virtual for full project types (including custom)
 leadSchema.virtual("fullProjectTypes").get(function () {
-  const types = [...this.projectTypes];
+  const types = [...(this.projectTypes || [])];
   if (this.customProjectType) {
     types.push(this.customProjectType);
   }

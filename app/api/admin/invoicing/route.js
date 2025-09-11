@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
-import connectMongo from "@/libs/mongoose";
+import connectMongoose from "@/libs/mongoose";
 import Invoice from "@/models/Invoice";
 
 // Import referenced models to ensure they're registered
@@ -16,7 +16,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await connectMongo();
+    await connectMongoose();
     const body = await request.json();
 
     // Create new invoice
@@ -45,13 +45,28 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
+    console.log("=== INVOICE API GET REQUEST START ===");
+
     const session = await getServerSession(authOptions);
+    console.log(
+      "Session:",
+      session
+        ? {
+            id: session.user?.id,
+            role: session.user?.role,
+            email: session.user?.email,
+          }
+        : "No session",
+    );
+
     if (!session || session.user.role !== "admin") {
+      console.log("❌ Unauthorized access attempt");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    console.log("✅ User authenticated as admin");
     console.log("Connecting to MongoDB...");
-    await connectMongo();
+    await connectMongoose();
     console.log("MongoDB connected successfully");
 
     const { searchParams } = new URL(request.url);
@@ -118,7 +133,8 @@ export async function GET(request) {
             .populate("lastModifiedBy", "name email")
             .sort(sortOptions)
             .skip(skip)
-            .limit(limit);
+            .limit(limit)
+            .lean(); // Use lean() to avoid virtual property issues
           console.log("Populate operations successful");
         } catch (populateError) {
           console.error("Error during populate operations:", populateError);
@@ -150,8 +166,14 @@ export async function GET(request) {
       },
     });
   } catch (error) {
+    console.error("=== INVOICE API ERROR ===");
     console.error("Error fetching invoices:", error);
+    console.error("Error message:", error.message);
+    console.error("Error name:", error.name);
     console.error("Error stack:", error.stack);
+    console.error("Error cause:", error.cause);
+    console.error("=== END ERROR ===");
+
     return NextResponse.json(
       {
         error: "Failed to fetch invoices",

@@ -34,7 +34,7 @@
     "bcryptjs": "^3.0.2",
     "crisp-sdk-web": "^1.0.21",
     "date-fns": "^4.1.0",
-    "dotenv": "^17.0.0",
+    "dotenv": "^17.2.2",
     "eslint": "8.47.0",
     "eslint-config-next": "^14.2.3",
     "esm": "^3.2.25",
