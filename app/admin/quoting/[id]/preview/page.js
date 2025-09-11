@@ -1106,7 +1106,7 @@ export default function QuotePreviewPage() {
 
               {searchQuery && !isSearching && searchResults.length === 0 && (
                 <div className="py-4 text-center text-gray-500">
-                  No users found matching "{searchQuery}"
+                  No users found matching &quot;{searchQuery}&quot;
                 </div>
               )}
             </div>
