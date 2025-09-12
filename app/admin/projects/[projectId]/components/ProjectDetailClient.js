@@ -397,20 +397,20 @@ export default function ProjectDetailClient({
           </div>
 
           <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-lg">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-xl font-bold text-white shadow-lg sm:h-20 sm:w-20 sm:text-2xl">
               🏗️
             </div>
             <div className="min-w-0 flex-1">
-              <h1 className="truncate text-2xl font-bold text-gray-900 sm:text-3xl">
+              <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl">
                 {project.name}
               </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-2 sm:space-x-3">
-                <p className="text-base text-gray-600 sm:text-lg">
+              <div className="mt-2 flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
+                <p className="text-sm text-gray-600 sm:text-base md:text-lg">
                   {project.user.name || project.user.email}
                 </p>
                 <Link
                   href={`/admin/users/${project.user.id}`}
-                  className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="inline-flex w-fit items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   View User
                 </Link>
@@ -469,9 +469,9 @@ export default function ProjectDetailClient({
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 lg:px-8">
         {/* Progress Overview */}
-        <div className="mb-8 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+        <div className="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200 sm:mb-8 sm:p-6">
           <div className="mb-4">
             <h3 className="text-lg font-semibold text-gray-900">
               Project Progress
@@ -500,15 +500,16 @@ export default function ProjectDetailClient({
                 <button
                   key={tab.id}
                   onClick={() => handleTabChange(tab.id)}
-                  className={`group relative min-w-[140px] flex-shrink-0 rounded-t-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                  className={`group relative min-w-[100px] flex-shrink-0 rounded-t-lg px-2 py-2 text-xs font-medium transition-all duration-200 sm:min-w-[120px] sm:px-3 sm:py-3 sm:text-sm md:min-w-[140px] md:px-4 ${
                     activeTab === tab.id
                       ? "bg-white text-blue-600 shadow-sm ring-1 ring-blue-500 ring-opacity-50"
                       : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                   }`}
                 >
-                  <div className="flex items-center justify-center space-x-2">
-                    <span className="text-base">{tab.icon}</span>
-                    <span>{tab.name}</span>
+                  <div className="flex items-center justify-center space-x-1 sm:space-x-2">
+                    <span className="text-sm sm:text-base">{tab.icon}</span>
+                    <span className="xs:inline hidden">{tab.name}</span>
+                    <span className="xs:hidden">{tab.name.split(" ")[0]}</span>
                   </div>
                   {activeTab === tab.id && (
                     <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
@@ -522,7 +523,7 @@ export default function ProjectDetailClient({
         {/* Tab Content */}
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
           {activeTab === "overview" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Project Overview
@@ -548,51 +549,53 @@ export default function ProjectDetailClient({
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2">
                 {/* Project Details */}
                 <div>
                   <h3 className="mb-4 text-lg font-medium text-gray-900">
                     Project Information
                   </h3>
-                  <div className="space-y-4 text-sm">
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                  <div className="space-y-3 text-sm sm:space-y-4">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Type:</span>
-                      <span className="font-medium">{project.type}</span>
+                      <span className="text-right font-medium sm:text-left">
+                        {project.type}
+                      </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Location:</span>
-                      <span className="font-medium">
+                      <span className="text-right font-medium sm:text-left">
                         {project.location || "Not specified"}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Budget:</span>
-                      <span className="font-medium">
+                      <span className="text-right font-medium sm:text-left">
                         {formatBudget(project.budget)}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Start Date:</span>
-                      <span className="font-medium">
+                      <span className="text-right font-medium sm:text-left">
                         {getProjectStartDate()}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Projected Finish:</span>
-                      <span className="font-medium">
+                      <span className="text-right font-medium sm:text-left">
                         {getProjectedFinishDate()}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                    <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                       <span className="text-gray-600">Completion Date:</span>
-                      <span className="font-medium">
+                      <span className="text-right font-medium sm:text-left">
                         {getProjectCompletionDate()}
                       </span>
                     </div>
                     {project.projectManager && (
-                      <div className="flex items-center justify-between rounded-lg bg-gray-50 p-3">
+                      <div className="flex flex-col space-y-1 rounded-lg bg-gray-50 p-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                         <span className="text-gray-600">Project Manager:</span>
-                        <span className="font-medium">
+                        <span className="text-right font-medium sm:text-left">
                           {project.projectManager.name} (
                           {project.projectManager.position})
                         </span>
@@ -606,30 +609,38 @@ export default function ProjectDetailClient({
                   <h3 className="mb-4 text-lg font-medium text-gray-900">
                     Task Statistics
                   </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="rounded-lg bg-blue-50 p-4 text-center">
-                      <div className="text-2xl font-bold text-blue-600">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div className="rounded-lg bg-blue-50 p-3 text-center sm:p-4">
+                      <div className="text-xl font-bold text-blue-600 sm:text-2xl">
                         {tasks.length}
                       </div>
-                      <div className="text-sm text-gray-600">Total Tasks</div>
+                      <div className="text-xs text-gray-600 sm:text-sm">
+                        Total Tasks
+                      </div>
                     </div>
-                    <div className="rounded-lg bg-green-50 p-4 text-center">
-                      <div className="text-2xl font-bold text-green-600">
+                    <div className="rounded-lg bg-green-50 p-3 text-center sm:p-4">
+                      <div className="text-xl font-bold text-green-600 sm:text-2xl">
                         {tasks.filter((t) => t.status === "Done").length}
                       </div>
-                      <div className="text-sm text-gray-600">Completed</div>
+                      <div className="text-xs text-gray-600 sm:text-sm">
+                        Completed
+                      </div>
                     </div>
-                    <div className="rounded-lg bg-yellow-50 p-4 text-center">
-                      <div className="text-2xl font-bold text-yellow-600">
+                    <div className="rounded-lg bg-yellow-50 p-3 text-center sm:p-4">
+                      <div className="text-xl font-bold text-yellow-600 sm:text-2xl">
                         {tasks.filter((t) => t.status === "In Progress").length}
                       </div>
-                      <div className="text-sm text-gray-600">In Progress</div>
+                      <div className="text-xs text-gray-600 sm:text-sm">
+                        In Progress
+                      </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-4 text-center">
-                      <div className="text-2xl font-bold text-gray-600">
+                    <div className="rounded-lg bg-gray-50 p-3 text-center sm:p-4">
+                      <div className="text-xl font-bold text-gray-600 sm:text-2xl">
                         {tasks.filter((t) => t.status === "Scheduled").length}
                       </div>
-                      <div className="text-sm text-gray-600">Scheduled</div>
+                      <div className="text-xs text-gray-600 sm:text-sm">
+                        Scheduled
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -638,7 +649,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "tasks" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Project Tasks
@@ -649,7 +660,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "admin-tasks" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <AdminTasksTable
                 projectId={project.id}
                 onTasksUpdate={() => {
@@ -677,7 +688,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "milestones" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="mb-6 flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-semibold text-gray-900">
@@ -943,7 +954,7 @@ export default function ProjectDetailClient({
                     </div>
 
                     {/* Milestone Details */}
-                    <div className="p-6">
+                    <div className="p-4 sm:p-6">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <div className="flex items-center space-x-3">
                           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
@@ -1087,7 +1098,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "documents" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Project Documents
@@ -1146,7 +1157,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "payments" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="mb-6">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Payment Plan
@@ -1510,7 +1521,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "changes" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <ChangesTab
                 projectId={project.id}
                 projectName={project.name}
@@ -1521,7 +1532,7 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "expenses" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <ExpensesTab
                 projectId={project.id}
                 projectName={project.name}
@@ -1533,13 +1544,13 @@ export default function ProjectDetailClient({
           )}
 
           {activeTab === "notes" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <EnhancedNotesTab projectId={project.id} />
             </div>
           )}
 
           {activeTab === "gantt" && (
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <GanttChart
                 projectId={project.id}
                 projectName={project.name}
