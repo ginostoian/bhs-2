@@ -37,6 +37,12 @@ export default function MoodboardView({
   // Handle product approval status change
   const handleApprovalChange = async (sectionId, productId, approvalStatus) => {
     try {
+      console.log("Updating approval status:", {
+        sectionId,
+        productId,
+        approvalStatus,
+      });
+
       const response = await fetch(
         `/api/moodboards/${moodboard.id}/sections/${sectionId}/products/${productId}/approval`,
         {
@@ -46,7 +52,14 @@ export default function MoodboardView({
         },
       );
 
-      if (!response.ok) throw new Error("Failed to update approval status");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        throw new Error(errorData.error || "Failed to update approval status");
+      }
+
+      const result = await response.json();
+      console.log("Approval update successful:", result);
 
       // Update local state
       setSections((prevSections) =>
@@ -65,13 +78,21 @@ export default function MoodboardView({
       );
     } catch (error) {
       console.error("Error updating approval status:", error);
-      alert("Failed to update approval status. Please try again.");
+      alert(
+        `Failed to update approval status: ${error.message}. Please try again.`,
+      );
     }
   };
 
   // Handle comment submission
   const handleCommentSubmit = async (comment) => {
     try {
+      console.log("Saving comment:", {
+        sectionId: commentModal.sectionId,
+        productId: commentModal.product.id,
+        comment,
+      });
+
       const response = await fetch(
         `/api/moodboards/${moodboard.id}/sections/${commentModal.sectionId}/products/${commentModal.product.id}/approval`,
         {
@@ -81,7 +102,14 @@ export default function MoodboardView({
         },
       );
 
-      if (!response.ok) throw new Error("Failed to save comment");
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        throw new Error(errorData.error || "Failed to save comment");
+      }
+
+      const result = await response.json();
+      console.log("Comment save successful:", result);
 
       // Update local state
       setSections((prevSections) =>
@@ -102,7 +130,7 @@ export default function MoodboardView({
       setCommentModal({ isOpen: false, product: null, sectionId: null });
     } catch (error) {
       console.error("Error saving comment:", error);
-      alert("Failed to save comment. Please try again.");
+      alert(`Failed to save comment: ${error.message}. Please try again.`);
     }
   };
 
