@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
+import apiClient from "@/libs/api";
 import TasksTable from "./TasksTable";
 import AdminTasksTable from "./AdminTasksTable";
 import MilestoneModal from "./MilestoneModal";
@@ -220,22 +222,25 @@ export default function ProjectDetailClient({
   // Helper function to handle mark as finished
   const handleMarkAsFinished = async () => {
     try {
-      const response = await fetch(`/api/projects/${project.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ status: "Finished" }),
+      setLoading(true);
+      const response = await apiClient.patch(`/projects/${project.id}`, {
+        status: "Finished",
       });
 
-      if (response.ok) {
-        window.location.reload();
+      if (response.project) {
+        // Update the local project state
+        setProject(response.project);
+        setMarkAsFinishedModal({ isOpen: false });
+        toast.success("Project marked as finished successfully!");
       } else {
         console.error("Failed to mark project as finished");
+        toast.error("Failed to mark project as finished");
       }
     } catch (error) {
       console.error("Error marking project as finished:", error);
+      toast.error("Failed to mark project as finished");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1593,9 +1598,10 @@ export default function ProjectDetailClient({
               </button>
               <button
                 onClick={handleMarkAsFinished}
-                className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                disabled={loading}
+                className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Mark as Finished
+                {loading ? "Processing..." : "Mark as Finished"}
               </button>
             </div>
           </div>

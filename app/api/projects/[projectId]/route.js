@@ -135,6 +135,73 @@ export async function PUT(req, { params }) {
 }
 
 /**
+ * PATCH /api/projects/[projectId]
+ * Update a specific project (admin only) - simplified for status updates
+ */
+export async function PATCH(req, { params }) {
+  try {
+    await requireAdmin(req);
+    await connectMongoose();
+    const { projectId } = params;
+    const body = await req.json();
+
+    // Find the project
+    const project = await Project.findById(projectId);
+    if (!project) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    // Track if status is being changed to Finished
+    const isChangingToFinished =
+      body.status === "Finished" && project.status !== "Finished";
+
+    // Update the project
+    const updateData = {};
+    if (body.status !== undefined) updateData.status = body.status;
+
+    // If changing to Finished, set completion date
+    if (isChangingToFinished) {
+      updateData.completionDate = new Date();
+    }
+
+    try {
+      // Use findByIdAndUpdate with explicit $set
+      const updatedProject = await Project.findByIdAndUpdate(
+        projectId,
+        { $set: updateData },
+        { new: true, runValidators: true },
+      )
+        .populate("user", "name email projectStatus")
+        .populate("projectManager", "name position");
+
+      if (!updatedProject) {
+        return NextResponse.json(
+          { error: "Failed to update project" },
+          { status: 500 },
+        );
+      }
+
+      // If project status changed to Finished, also update user's projectStatus
+      if (isChangingToFinished && updatedProject.user) {
+        await User.findByIdAndUpdate(updatedProject.user._id, {
+          projectStatus: "Finished",
+        });
+      }
+
+      return NextResponse.json({ project: updatedProject });
+    } catch (updateError) {
+      console.error("Database update error:", updateError);
+      throw updateError;
+    }
+  } catch (error) {
+    return NextResponse.json(
+      { error: error.message || "Failed to update project" },
+      { status: 500 },
+    );
+  }
+}
+
+/**
  * DELETE /api/projects/[projectId]
  * Delete a specific project (admin only)
  */
