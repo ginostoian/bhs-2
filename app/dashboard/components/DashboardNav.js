@@ -27,6 +27,11 @@ export default function DashboardNav() {
       href: "/dashboard/email-preferences",
       icon: "✉️",
     },
+    {
+      name: "Account Settings",
+      href: "/dashboard/account-settings",
+      icon: "⚙️",
+    },
   ];
 
   return (
