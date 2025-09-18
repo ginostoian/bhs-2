@@ -5,8 +5,7 @@ import connectMongoose from "@/libs/mongoose";
 import Product from "@/models/Product";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/products/[id]
@@ -46,7 +45,10 @@ export async function PUT(request, { params }) {
   try {
     // Check authentication and admin role
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    if (
+      !session ||
+      (session.user.role !== "admin" && session.user.role !== "designer")
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -106,7 +108,10 @@ export async function DELETE(request, { params }) {
   try {
     // Check authentication and admin role
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    if (
+      !session ||
+      (session.user.role !== "admin" && session.user.role !== "designer")
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

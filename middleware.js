@@ -26,6 +26,14 @@ export default withAuth(
       }
     }
 
+    // Designer routes - require designer role
+    if (pathname.startsWith("/designer")) {
+      if (token?.role !== "designer") {
+        // Redirect non-designer users to sign in page
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
+      }
+    }
+
     // Dashboard routes - require authentication (any role)
     if (pathname.startsWith("/dashboard")) {
       if (!token) {
@@ -42,10 +50,11 @@ export default withAuth(
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
 
-        // Run middleware for admin, employee, and dashboard routes
+        // Run middleware for admin, employee, designer, and dashboard routes
         if (
           pathname.startsWith("/admin") ||
           pathname.startsWith("/employee") ||
+          pathname.startsWith("/designer") ||
           pathname.startsWith("/dashboard")
         ) {
           return !!token; // Return true if token exists
@@ -59,5 +68,10 @@ export default withAuth(
 
 // Configure which paths the middleware should run on
 export const config = {
-  matcher: ["/admin/:path*", "/employee/:path*", "/dashboard/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/employee/:path*",
+    "/designer/:path*",
+    "/dashboard/:path*",
+  ],
 };

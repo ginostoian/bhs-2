@@ -7,8 +7,7 @@ import MoodboardSection from "@/models/MoodboardSection";
 import Product from "@/models/Product";
 
 // Force dynamic rendering for this route
-export const dynamic = 'force-dynamic';
-
+export const dynamic = "force-dynamic";
 
 /**
  * GET /api/moodboards/[id]/sections/[sectionId]/products
@@ -48,9 +47,12 @@ export async function GET(request, { params }) {
  */
 export async function POST(request, { params }) {
   try {
-    // Check authentication and admin role
+    // Check authentication and admin/designer role
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    if (
+      !session ||
+      (session.user.role !== "admin" && session.user.role !== "designer")
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

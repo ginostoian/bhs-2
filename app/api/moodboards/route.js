@@ -30,8 +30,11 @@ export async function GET(request) {
 
     let query = {};
 
-    // If admin and userId specified, get that user's moodboards
-    if (session.user.role === "admin" && userId) {
+    // If admin or designer and userId specified, get that user's moodboards
+    if (
+      (session.user.role === "admin" || session.user.role === "designer") &&
+      userId
+    ) {
       query.user = userId;
     }
     // If regular user, only get their own moodboards
@@ -59,9 +62,12 @@ export async function GET(request) {
  */
 export async function POST(request) {
   try {
-    // Check authentication and admin role
+    // Check authentication and admin/designer role
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    if (
+      !session ||
+      (session.user.role !== "admin" && session.user.role !== "designer")
+    ) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
