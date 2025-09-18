@@ -48,6 +48,13 @@ export default function ServicesForm({
   const [selectedTemplateService, setSelectedTemplateService] = useState(null);
   const [templateServiceQuantity, setTemplateServiceQuantity] = useState("");
 
+  // Save as template state
+  const [showSaveAsTemplate, setShowSaveAsTemplate] = useState(false);
+  const [templateCategory, setTemplateCategory] = useState("");
+  const [showSaveExistingAsTemplate, setShowSaveExistingAsTemplate] =
+    useState(false);
+  const [existingItemToSave, setExistingItemToSave] = useState(null);
+
   // Edit state
   const [editingItem, setEditingItem] = useState(null);
   const [editFormData, setEditFormData] = useState({});
@@ -204,6 +211,101 @@ export default function ServicesForm({
     setNewItemPrice("");
     setNewItemNotes("");
     setShowAddItem(false);
+  };
+
+  const saveAsTemplate = async () => {
+    if (
+      !newItemName.trim() ||
+      !newItemUnit ||
+      !newItemQuantity ||
+      !newItemPrice ||
+      !templateCategory.trim()
+    ) {
+      toast.error("Please fill in all required fields including category");
+      return;
+    }
+
+    try {
+      const unitPrice = parseFloat(newItemPrice);
+
+      const templateData = {
+        name: newItemName.trim(),
+        description: newItemDescription.trim(),
+        category: templateCategory.trim(),
+        unit: newItemUnit,
+        pricingType: "fixed",
+        fixedPrice: unitPrice,
+        notes: newItemNotes.trim(),
+        isActive: true,
+      };
+
+      const response = await fetch("/api/admin/quoting/template-services", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(templateData),
+      });
+
+      if (response.ok) {
+        const newTemplate = await response.json();
+        setTemplateServices((prev) => [...prev, newTemplate]);
+        toast.success("Service saved as template successfully!");
+        setShowSaveAsTemplate(false);
+        setTemplateCategory("");
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || "Failed to save template service");
+      }
+    } catch (error) {
+      console.error("Error saving template service:", error);
+      toast.error("Failed to save template service");
+    }
+  };
+
+  const saveExistingAsTemplate = async () => {
+    if (!existingItemToSave || !templateCategory.trim()) {
+      toast.error("Please fill in all required fields including category");
+      return;
+    }
+
+    try {
+      const templateData = {
+        name: existingItemToSave.name,
+        description: existingItemToSave.description || "",
+        category: templateCategory.trim(),
+        unit: existingItemToSave.unit,
+        pricingType: "fixed",
+        fixedPrice: existingItemToSave.unitPrice,
+        notes: existingItemToSave.notes || "",
+        isActive: true,
+      };
+
+      const response = await fetch("/api/admin/quoting/template-services", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(templateData),
+      });
+
+      if (response.ok) {
+        const newTemplate = await response.json();
+        setTemplateServices((prev) => [...prev, newTemplate]);
+        toast.success("Service saved as template successfully!");
+        setShowSaveExistingAsTemplate(false);
+        setExistingItemToSave(null);
+        setTemplateCategory("");
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message || "Failed to save template service");
+      }
+    } catch (error) {
+      console.error("Error saving template service:", error);
+      toast.error("Failed to save template service");
+    }
   };
 
   const removeItem = (categoryIndex, itemIndex) => {
@@ -561,24 +663,32 @@ export default function ServicesForm({
     let targetCategory = formData.services.find(
       (cat) => cat.categoryName === selectedTemplateService.category,
     );
+
+    let updatedServices;
     if (!targetCategory) {
-      targetCategory = {
+      // Create new category with the item
+      const newCategory = {
         categoryName: selectedTemplateService.category,
-        items: [],
+        items: [newItem],
+        categoryTotal: calculateCategoryTotal([newItem]),
+        type: "category",
+        order: formData.services.length,
       };
-      updateFormData({ services: [...formData.services, targetCategory] });
+      updatedServices = [...formData.services, newCategory];
+    } else {
+      // Add to existing category
+      updatedServices = formData.services.map((cat) => {
+        if (cat.categoryName === selectedTemplateService.category) {
+          const updatedCategory = { ...cat, items: [...cat.items, newItem] };
+          return {
+            ...updatedCategory,
+            categoryTotal: calculateCategoryTotal(updatedCategory.items),
+          };
+        }
+        return cat;
+      });
     }
 
-    const updatedServices = formData.services.map((cat) => {
-      if (cat.categoryName === targetCategory.categoryName) {
-        const updatedCategory = { ...cat, items: [...cat.items, newItem] };
-        return {
-          ...updatedCategory,
-          categoryTotal: calculateCategoryTotal(updatedCategory.items),
-        };
-      }
-      return cat;
-    });
     updateFormData({ services: updatedServices });
 
     closeServiceOptions();
@@ -972,25 +1082,41 @@ export default function ServicesForm({
                       />
                     </div>
 
-                    <div className="flex justify-end space-x-3">
+                    <div className="flex justify-between">
                       <button
-                        onClick={closeServiceOptions}
-                        className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={addItem}
+                        onClick={() => setShowSaveAsTemplate(true)}
                         disabled={
                           !newItemName ||
                           !newItemUnit ||
                           !newItemQuantity ||
                           !newItemPrice
                         }
-                        className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
+                        className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                       >
-                        Add Custom Service
+                        <Save className="mr-2 h-4 w-4" />
+                        Save as Template
                       </button>
+
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={closeServiceOptions}
+                          className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={addItem}
+                          disabled={
+                            !newItemName ||
+                            !newItemUnit ||
+                            !newItemQuantity ||
+                            !newItemPrice
+                          }
+                          className="inline-flex items-center rounded-md border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
+                        >
+                          Add Custom Service
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1223,8 +1349,21 @@ export default function ServicesForm({
                                                     )
                                                   }
                                                   className="text-blue-600 hover:text-blue-800"
+                                                  title="Edit item"
                                                 >
                                                   <Edit3 className="h-4 w-4" />
+                                                </button>
+                                                <button
+                                                  onClick={() => {
+                                                    setExistingItemToSave(item);
+                                                    setShowSaveExistingAsTemplate(
+                                                      true,
+                                                    );
+                                                  }}
+                                                  className="text-green-600 hover:text-green-800"
+                                                  title="Save as template"
+                                                >
+                                                  <Save className="h-4 w-4" />
                                                 </button>
                                                 <button
                                                   onClick={() =>
@@ -1234,6 +1373,7 @@ export default function ServicesForm({
                                                     )
                                                   }
                                                   className="text-red-600 hover:text-red-800"
+                                                  title="Delete item"
                                                 >
                                                   <Trash2 className="h-4 w-4" />
                                                 </button>
@@ -1862,6 +2002,197 @@ export default function ServicesForm({
                     className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                   >
                     Add Category
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Save as Template Modal */}
+        {showSaveAsTemplate && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+              <div
+                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                onClick={() => setShowSaveAsTemplate(false)}
+              ></div>
+
+              <span className="hidden sm:inline-block sm:h-screen sm:align-middle">
+                &#8203;
+              </span>
+
+              <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <Save className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <h3 className="text-lg font-medium leading-6 text-gray-900">
+                        Save as Template Service
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Save this service as a reusable template for future
+                          quotes.
+                        </p>
+                      </div>
+
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Template Category *
+                        </label>
+                        <input
+                          type="text"
+                          value={templateCategory}
+                          onChange={(e) => setTemplateCategory(e.target.value)}
+                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                          placeholder="e.g., Plumbing, Electrical, Flooring"
+                          required
+                        />
+                      </div>
+
+                      <div className="mt-4 rounded-md bg-gray-50 p-3">
+                        <h4 className="mb-2 text-sm font-medium text-gray-700">
+                          Service Details:
+                        </h4>
+                        <div className="space-y-1 text-sm text-gray-600">
+                          <p>
+                            <strong>Name:</strong> {newItemName}
+                          </p>
+                          <p>
+                            <strong>Description:</strong>{" "}
+                            {newItemDescription || "No description"}
+                          </p>
+                          <p>
+                            <strong>Unit:</strong> {newItemUnit}
+                          </p>
+                          <p>
+                            <strong>Price:</strong> £{newItemPrice}
+                          </p>
+                          {newItemNotes && (
+                            <p>
+                              <strong>Notes:</strong> {newItemNotes}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <button
+                    onClick={saveAsTemplate}
+                    disabled={!templateCategory.trim()}
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    Save Template
+                  </button>
+                  <button
+                    onClick={() => setShowSaveAsTemplate(false)}
+                    className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Save Existing Item as Template Modal */}
+        {showSaveExistingAsTemplate && existingItemToSave && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+              <div
+                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                onClick={() => {
+                  setShowSaveExistingAsTemplate(false);
+                  setExistingItemToSave(null);
+                }}
+              ></div>
+
+              <span className="hidden sm:inline-block sm:h-screen sm:align-middle">
+                &#8203;
+              </span>
+
+              <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="sm:flex sm:items-start">
+                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                      <Save className="h-6 w-6 text-green-600" />
+                    </div>
+                    <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <h3 className="text-lg font-medium leading-6 text-gray-900">
+                        Save as Template Service
+                      </h3>
+                      <div className="mt-2">
+                        <p className="text-sm text-gray-500">
+                          Save this existing service as a reusable template for
+                          future quotes.
+                        </p>
+                      </div>
+
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Template Category *
+                        </label>
+                        <input
+                          type="text"
+                          value={templateCategory}
+                          onChange={(e) => setTemplateCategory(e.target.value)}
+                          className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                          placeholder="e.g., Plumbing, Electrical, Flooring"
+                          required
+                        />
+                      </div>
+
+                      <div className="mt-4 rounded-md bg-gray-50 p-3">
+                        <h4 className="mb-2 text-sm font-medium text-gray-700">
+                          Service Details:
+                        </h4>
+                        <div className="space-y-1 text-sm text-gray-600">
+                          <p>
+                            <strong>Name:</strong> {existingItemToSave.name}
+                          </p>
+                          <p>
+                            <strong>Description:</strong>{" "}
+                            {existingItemToSave.description || "No description"}
+                          </p>
+                          <p>
+                            <strong>Unit:</strong> {existingItemToSave.unit}
+                          </p>
+                          <p>
+                            <strong>Price:</strong> £
+                            {existingItemToSave.unitPrice}
+                          </p>
+                          {existingItemToSave.notes && (
+                            <p>
+                              <strong>Notes:</strong> {existingItemToSave.notes}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                  <button
+                    onClick={saveExistingAsTemplate}
+                    disabled={!templateCategory.trim()}
+                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    Save Template
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowSaveExistingAsTemplate(false);
+                      setExistingItemToSave(null);
+                    }}
+                    className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
+                  >
+                    Cancel
                   </button>
                 </div>
               </div>
