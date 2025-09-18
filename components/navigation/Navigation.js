@@ -199,10 +199,16 @@ function Navigation() {
                   href={
                     session.user.role === "employee"
                       ? "/employee"
-                      : "/dashboard"
+                      : session.user.role === "designer"
+                        ? "/designer"
+                        : "/dashboard"
                   }
                 >
-                  {session.user.role === "employee" ? "Employee" : "Dashboard"}
+                  {session.user.role === "employee"
+                    ? "Employee"
+                    : session.user.role === "designer"
+                      ? "Designer"
+                      : "Dashboard"}
                 </Link>
               </li>
             ) : (
@@ -386,12 +392,16 @@ function Navigation() {
                     href={
                       session.user.role === "employee"
                         ? "/employee"
-                        : "/dashboard"
+                        : session.user.role === "designer"
+                          ? "/designer"
+                          : "/dashboard"
                     }
                   >
                     {session.user.role === "employee"
                       ? "Employee"
-                      : "Dashboard"}
+                      : session.user.role === "designer"
+                        ? "Designer"
+                        : "Dashboard"}
                   </Link>
                 </li>
               ) : (
