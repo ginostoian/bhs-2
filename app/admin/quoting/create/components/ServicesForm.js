@@ -2332,8 +2332,9 @@ export default function ServicesForm({
               <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl">
                 <div className="border-b border-gray-200 px-8 py-6">
                   <h3 className="text-2xl font-bold text-gray-900">
-                    Add Item to "
-                    {formData.services[selectedCategoryIndex]?.categoryName}"
+                    Add Item to &quot;
+                    {formData.services[selectedCategoryIndex]?.categoryName}
+                    &quot;
                   </h3>
                   <p className="mt-2 text-lg text-gray-600">
                     Choose how you want to add an item to this category
