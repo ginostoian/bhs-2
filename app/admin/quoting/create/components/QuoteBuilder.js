@@ -96,6 +96,7 @@ export default function QuoteBuilder() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [quoteId, setQuoteId] = useState(null);
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
 
   // Load default template when project type is selected
   useEffect(() => {
@@ -103,6 +104,13 @@ export default function QuoteBuilder() {
       loadDefaultTemplate(formData.project.type);
     }
   }, [formData.project.type]);
+
+  // Reset draft saved state when form data changes significantly
+  useEffect(() => {
+    if (isDraftSaved) {
+      setIsDraftSaved(false);
+    }
+  }, [formData.client?.name, formData.project?.address, formData.services]);
 
   // Apply template when template ID is set manually
   useEffect(() => {
@@ -398,10 +406,125 @@ export default function QuoteBuilder() {
   const handleSaveDraft = async () => {
     setIsLoading(true);
     try {
-      // Save as draft
-      toast.success("Quote saved as draft");
+      // Basic validation - check if we have at least some essential data
+      if (!formData.client?.name || !formData.project?.address) {
+        toast.error(
+          "Please fill in client name and project address before saving draft",
+        );
+        return;
+      }
+
+      // Calculate built-in prices for each service item
+      const servicesWithTotals = formData.services.map((category) => {
+        const itemsWithTotals = category.items.map((item) => ({
+          ...item,
+          total:
+            Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) /
+            100,
+        }));
+
+        // Calculate category total
+        const categoryTotal = itemsWithTotals.reduce(
+          (sum, item) => sum + item.total,
+          0,
+        );
+
+        return {
+          ...category,
+          items: itemsWithTotals,
+          categoryTotal: Math.round(categoryTotal * 100) / 100,
+        };
+      });
+
+      // Calculate the simple total (only from categories, not headings)
+      let total = 0;
+      if (servicesWithTotals && servicesWithTotals.length > 0) {
+        servicesWithTotals.forEach((service) => {
+          // Only calculate totals for categories, not headings
+          if (service.type === "category" || !service.type) {
+            // !service.type for backward compatibility
+            service.items.forEach((item) => {
+              total += item.total;
+            });
+          }
+        });
+      }
+
+      // Create the draft quote object
+      const draftQuote = {
+        title: formData.title || "Draft Quote",
+        projectType: formData.project.type || "custom",
+        client: formData.client,
+        projectAddress: formData.project.address,
+        projectDescription:
+          formData.project.description || "Draft project description",
+        startDate: formData.project.startDate,
+        estimatedDuration: formData.project.estimatedDuration || "TBD",
+        services: servicesWithTotals,
+        total: total,
+        pricing: formData.pricing || {
+          depositRequired: false,
+          depositAmount: 0,
+          depositPercentage: 0,
+          vatRate: 20,
+        },
+        paymentTerms: {
+          deposit: formData.pricing?.depositAmount || 0,
+          milestones: [],
+        },
+        termsAndConditions: "Draft - terms to be finalized",
+        warrantyInformation: "Draft - warranty information to be finalized",
+        leadTime: "Draft - lead time to be finalized",
+        validUntil: new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000,
+        ).toISOString(),
+        status: "draft", // Explicitly set as draft
+      };
+
+      // Only include linkedUser and linkedLead if they have valid values
+      if (
+        formData.linkedUser &&
+        typeof formData.linkedUser === "string" &&
+        formData.linkedUser.length === 24
+      ) {
+        draftQuote.linkedUser = formData.linkedUser;
+      }
+      if (
+        formData.linkedLead &&
+        typeof formData.linkedLead === "string" &&
+        formData.linkedLead.length === 24
+      ) {
+        draftQuote.linkedLead = formData.linkedLead;
+      }
+
+      // Save quote to database via API
+      const response = await fetch("/api/admin/quoting", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(draftQuote),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to save draft quote");
+      }
+
+      const result = await response.json();
+      if (!result.success) {
+        throw new Error(result.error || "Failed to save draft quote");
+      }
+
+      toast.success("Quote saved as draft successfully!");
+      setIsDraftSaved(true);
+
+      // Optionally redirect to the quote or stay on the form
+      // You can uncomment the next line if you want to redirect to the saved quote
+      // router.push(`/admin/quoting/${result.quote._id}`);
     } catch (error) {
-      toast.error("Error saving quote");
+      console.error("Error saving draft quote:", error);
+      toast.error(error.message || "Error saving quote as draft");
     } finally {
       setIsLoading(false);
     }
@@ -551,10 +674,14 @@ export default function QuoteBuilder() {
             <button
               onClick={handleSaveDraft}
               disabled={isLoading}
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+              className={`inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 ${
+                isDraftSaved
+                  ? "border-green-300 bg-green-50 text-green-700 hover:bg-green-100 focus:ring-green-500"
+                  : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500"
+              }`}
             >
               <Save className="mr-2 h-4 w-4" />
-              Save Draft
+              {isDraftSaved ? "Draft Saved" : "Save Draft"}
             </button>
 
             <button
