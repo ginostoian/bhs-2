@@ -275,6 +275,68 @@ export default function DesignerMoodboardManager({
     );
   };
 
+  // Handle CSV export
+  const handleExportCSV = () => {
+    // Prepare CSV data
+    const csvData = [];
+
+    // Add header row
+    csvData.push([
+      "Product Name",
+      "Price",
+      "Link",
+      "Section",
+      "Quantity",
+      "Status",
+    ]);
+
+    // Add product rows
+    sections.forEach((section) => {
+      section.products?.forEach((product) => {
+        const productName =
+          product.customTitle || product.product?.name || "Unknown Product";
+        const price = product.customPrice || product.product?.price || 0;
+        const link =
+          product.customProductUrl || product.product?.productUrl || "";
+        const sectionName = section.name || "Unknown Section";
+        const quantity = product.quantity || 1;
+        const status = product.approvalStatus || "pending";
+
+        csvData.push([
+          productName,
+          `£${price.toFixed(2)}`,
+          link,
+          sectionName,
+          quantity,
+          status,
+        ]);
+      });
+    });
+
+    // Convert to CSV string
+    const csvContent = csvData
+      .map((row) =>
+        row
+          .map((field) => `"${field.toString().replace(/"/g, '""')}"`)
+          .join(","),
+      )
+      .join("\n");
+
+    // Create and download file
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `${moodboard.name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}_products.csv`,
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   // Calculate statistics
   const totalProducts = sections.reduce(
     (total, section) => total + (section.products?.length || 0),
@@ -334,22 +396,45 @@ export default function DesignerMoodboardManager({
             </p>
           )}
 
-          {/* Status Management */}
-          <div className="mt-4 flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm font-medium text-gray-700">Status:</span>
-              {getStatusBadge(moodboard.status)}
+          {/* Status Management and Export */}
+          <div className="mt-4 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-sm font-medium text-gray-700">
+                  Status:
+                </span>
+                {getStatusBadge(moodboard.status)}
+              </div>
+              <select
+                value={moodboard.status}
+                onChange={(e) => handleStatusUpdate(e.target.value)}
+                className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+              >
+                <option value="draft">Draft</option>
+                <option value="shared">Shared</option>
+                <option value="approved">Approved</option>
+                <option value="completed">Completed</option>
+              </select>
             </div>
-            <select
-              value={moodboard.status}
-              onChange={(e) => handleStatusUpdate(e.target.value)}
-              className="rounded-md border border-gray-300 px-3 py-1 text-sm focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            <button
+              onClick={handleExportCSV}
+              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              <option value="draft">Draft</option>
-              <option value="shared">Shared</option>
-              <option value="approved">Approved</option>
-              <option value="completed">Completed</option>
-            </select>
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              Export CSV
+            </button>
           </div>
         </div>
       </div>
