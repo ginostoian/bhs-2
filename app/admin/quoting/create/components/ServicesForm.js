@@ -55,6 +55,11 @@ export default function ServicesForm({
     useState(false);
   const [existingItemToSave, setExistingItemToSave] = useState(null);
 
+  // Category-specific item addition state
+  const [showCategoryItemOptions, setShowCategoryItemOptions] = useState(false);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
+  const [categoryItemOption, setCategoryItemOption] = useState("");
+
   // Edit state
   const [editingItem, setEditingItem] = useState(null);
   const [editFormData, setEditFormData] = useState({});
@@ -211,6 +216,52 @@ export default function ServicesForm({
     setNewItemPrice("");
     setNewItemNotes("");
     setShowAddItem(false);
+  };
+
+  const addItemToCategory = () => {
+    if (
+      !newItemName.trim() ||
+      !newItemUnit ||
+      !newItemQuantity ||
+      !newItemPrice ||
+      selectedCategoryIndex === null
+    )
+      return;
+
+    const quantity = parseFloat(newItemQuantity);
+    const unitPrice = parseFloat(newItemPrice);
+    const total = Math.round(quantity * unitPrice * 100) / 100;
+
+    const newItem = {
+      name: newItemName.trim(),
+      description: newItemDescription.trim(),
+      unit: newItemUnit,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      notes: newItemNotes.trim(),
+      total: total,
+    };
+
+    const updatedServices = formData.services.map((cat, index) => {
+      if (index === selectedCategoryIndex) {
+        const updatedCategory = { ...cat, items: [...cat.items, newItem] };
+        return {
+          ...updatedCategory,
+          categoryTotal: calculateCategoryTotal(updatedCategory.items),
+        };
+      }
+      return cat;
+    });
+    updateFormData({ services: updatedServices });
+
+    // Reset form
+    setNewItemName("");
+    setNewItemDescription("");
+    setNewItemUnit("");
+    setNewItemQuantity("");
+    setNewItemPrice("");
+    setNewItemNotes("");
+    closeCategoryItemOptions();
   };
 
   const saveAsTemplate = async () => {
@@ -615,6 +666,20 @@ export default function ServicesForm({
     setTemplateServiceQuantity("");
   };
 
+  const openCategoryItemOptions = (categoryIndex) => {
+    setSelectedCategoryIndex(categoryIndex);
+    setShowCategoryItemOptions(true);
+    setCategoryItemOption("");
+  };
+
+  const closeCategoryItemOptions = () => {
+    setShowCategoryItemOptions(false);
+    setSelectedCategoryIndex(null);
+    setCategoryItemOption("");
+    setSelectedTemplateService(null);
+    setTemplateServiceQuantity("");
+  };
+
   // Template Service method
   const addTemplateService = () => {
     if (!selectedTemplateService || !templateServiceQuantity) return;
@@ -659,26 +724,12 @@ export default function ServicesForm({
       templateServiceId: selectedTemplateService._id,
     };
 
-    // Add to selected category or create new one
-    let targetCategory = formData.services.find(
-      (cat) => cat.categoryName === selectedTemplateService.category,
-    );
-
     let updatedServices;
-    if (!targetCategory) {
-      // Create new category with the item
-      const newCategory = {
-        categoryName: selectedTemplateService.category,
-        items: [newItem],
-        categoryTotal: calculateCategoryTotal([newItem]),
-        type: "category",
-        order: formData.services.length,
-      };
-      updatedServices = [...formData.services, newCategory];
-    } else {
-      // Add to existing category
-      updatedServices = formData.services.map((cat) => {
-        if (cat.categoryName === selectedTemplateService.category) {
+
+    // If adding to a specific category (from category header)
+    if (selectedCategoryIndex !== null) {
+      updatedServices = formData.services.map((cat, index) => {
+        if (index === selectedCategoryIndex) {
           const updatedCategory = { ...cat, items: [...cat.items, newItem] };
           return {
             ...updatedCategory,
@@ -687,11 +738,45 @@ export default function ServicesForm({
         }
         return cat;
       });
+    } else {
+      // Add to selected category or create new one (from main service options)
+      let targetCategory = formData.services.find(
+        (cat) => cat.categoryName === selectedTemplateService.category,
+      );
+
+      if (!targetCategory) {
+        // Create new category with the item
+        const newCategory = {
+          categoryName: selectedTemplateService.category,
+          items: [newItem],
+          categoryTotal: calculateCategoryTotal([newItem]),
+          type: "category",
+          order: formData.services.length,
+        };
+        updatedServices = [...formData.services, newCategory];
+      } else {
+        // Add to existing category
+        updatedServices = formData.services.map((cat) => {
+          if (cat.categoryName === selectedTemplateService.category) {
+            const updatedCategory = { ...cat, items: [...cat.items, newItem] };
+            return {
+              ...updatedCategory,
+              categoryTotal: calculateCategoryTotal(updatedCategory.items),
+            };
+          }
+          return cat;
+        });
+      }
     }
 
     updateFormData({ services: updatedServices });
 
-    closeServiceOptions();
+    // Close the appropriate modal
+    if (selectedCategoryIndex !== null) {
+      closeCategoryItemOptions();
+    } else {
+      closeServiceOptions();
+    }
   };
 
   const filteredTemplateServices = templateServices.filter(
@@ -702,54 +787,61 @@ export default function ServicesForm({
   );
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-medium text-gray-900">
+    <div className="space-y-8">
+      {/* Enhanced Header */}
+      <div className="text-center">
+        <h2 className="text-3xl font-bold text-gray-900">
           Services & Quantities
         </h2>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-2 text-lg text-gray-600">
           Add service categories and individual items with quantities and
-          pricing.
+          pricing
         </p>
-        {isUsingTemplate && (
-          <div className="mt-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <div className="h-2 w-2 rounded-full bg-blue-600"></div>
-                <span className="text-sm text-blue-800">
-                  Template services loaded. You can modify quantities, add new
-                  items, or remove existing ones.
-                </span>
-              </div>
-              <button
-                onClick={recalculateAllTotals}
-                className="inline-flex items-center rounded-md border border-blue-300 bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 hover:bg-blue-200"
-              >
-                Recalculate Totals
-              </button>
-            </div>
-          </div>
-        )}
+        <div className="mt-4 inline-flex items-center rounded-full bg-blue-50 px-4 py-2 text-sm text-blue-700">
+          <span className="mr-2">💡</span>
+          Drag the grip handles to reorder categories and items
+        </div>
       </div>
+      {isUsingTemplate && (
+        <div className="mt-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-blue-600"></div>
+              <span className="text-sm text-blue-800">
+                Template services loaded. You can modify quantities, add new
+                items, or remove existing ones.
+              </span>
+            </div>
+            <button
+              onClick={recalculateAllTotals}
+              className="inline-flex items-center rounded-md border border-blue-300 bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 hover:bg-blue-200"
+            >
+              Recalculate Totals
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* Simplified Service Addition */}
-      <div className="rounded-lg border border-gray-200 bg-white">
-        <div className="border-b border-gray-200 px-6 py-4">
-          <h3 className="text-lg font-medium text-gray-900">Add Services</h3>
-          <p className="mt-1 text-sm text-gray-500">
+      {/* Enhanced Service Addition */}
+      <div className="rounded-2xl border border-gray-200 bg-white shadow-lg">
+        <div className="border-b border-gray-200 px-8 py-6">
+          <h3 className="text-2xl font-bold text-gray-900">Add Services</h3>
+          <p className="mt-2 text-lg text-gray-600">
             Add services from templates or create custom services
           </p>
         </div>
-        <div className="p-6">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="p-8">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <button
               onClick={() => setShowAddHeading(true)}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-purple-500 hover:text-purple-600"
+              className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-gray-300 bg-gradient-to-br from-purple-50 to-purple-100 p-8 text-gray-600 transition-all duration-200 hover:border-purple-400 hover:from-purple-100 hover:to-purple-200 hover:text-purple-700 hover:shadow-lg"
             >
               <div className="text-center">
-                <FileText className="mx-auto mb-2 h-8 w-8" />
-                <span className="block text-sm font-medium">Add Heading</span>
-                <span className="block text-xs text-gray-500">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 group-hover:bg-purple-200">
+                  <FileText className="h-8 w-8" />
+                </div>
+                <span className="block text-lg font-semibold">Add Heading</span>
+                <span className="block text-sm text-gray-500">
                   Section title/divider
                 </span>
               </div>
@@ -757,12 +849,16 @@ export default function ServicesForm({
 
             <button
               onClick={() => setShowAddCategory(true)}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-green-500 hover:text-green-600"
+              className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-gray-300 bg-gradient-to-br from-green-50 to-green-100 p-8 text-gray-600 transition-all duration-200 hover:border-green-400 hover:from-green-100 hover:to-green-200 hover:text-green-700 hover:shadow-lg"
             >
               <div className="text-center">
-                <Plus className="mx-auto mb-2 h-8 w-8" />
-                <span className="block text-sm font-medium">Add Category</span>
-                <span className="block text-xs text-gray-500">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 group-hover:bg-green-200">
+                  <Plus className="h-8 w-8" />
+                </div>
+                <span className="block text-lg font-semibold">
+                  Add Category
+                </span>
+                <span className="block text-sm text-gray-500">
                   Create new category
                 </span>
               </div>
@@ -770,12 +866,16 @@ export default function ServicesForm({
 
             <button
               onClick={openServiceOptions}
-              className="inline-flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-6 text-gray-600 hover:border-blue-500 hover:text-blue-600"
+              className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-gray-300 bg-gradient-to-br from-blue-50 to-blue-100 p-8 text-gray-600 transition-all duration-200 hover:border-blue-400 hover:from-blue-100 hover:to-blue-200 hover:text-blue-700 hover:shadow-lg"
             >
               <div className="text-center">
-                <FileText className="mx-auto mb-2 h-8 w-8" />
-                <span className="block text-sm font-medium">From Template</span>
-                <span className="block text-xs text-gray-500">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 group-hover:bg-blue-200">
+                  <FileText className="h-8 w-8" />
+                </div>
+                <span className="block text-lg font-semibold">
+                  From Template
+                </span>
+                <span className="block text-sm text-gray-500">
                   Use predefined services
                 </span>
               </div>
@@ -1212,38 +1312,58 @@ export default function ServicesForm({
                           <div
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            className={`rounded-lg border border-gray-200 bg-white transition-shadow ${
-                              snapshot.isDragging ? "shadow-lg" : ""
+                            className={`rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-200 ${
+                              snapshot.isDragging
+                                ? "scale-105 shadow-2xl"
+                                : "hover:shadow-xl"
                             }`}
                           >
-                            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+                            <div className="flex items-center justify-between rounded-t-2xl border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4">
                               <div className="flex items-center space-x-4">
                                 <div
                                   {...provided.dragHandleProps}
-                                  className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
+                                  className="cursor-grab rounded-lg p-2 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-600 active:cursor-grabbing"
                                 >
                                   <GripVertical className="h-5 w-5" />
                                 </div>
-                                <h3 className="text-lg font-medium text-gray-900">
-                                  {service.categoryName}
-                                </h3>
-                                <span className="text-sm font-medium text-gray-600">
-                                  Total: £
-                                  {(service.categoryTotal || 0).toFixed(2)}
-                                </span>
+                                <div>
+                                  <h3 className="text-xl font-bold text-gray-900">
+                                    {service.categoryName}
+                                  </h3>
+                                  <div className="mt-1 flex items-center space-x-4">
+                                    <span className="text-sm text-gray-500">
+                                      {service.items.length} item
+                                      {service.items.length !== 1 ? "s" : ""}
+                                    </span>
+                                    <span className="text-lg font-bold text-green-600">
+                                      £{(service.categoryTotal || 0).toFixed(2)}
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <button
                                   onClick={() =>
+                                    openCategoryItemOptions(serviceIndex)
+                                  }
+                                  className="rounded-lg p-2 text-green-600 transition-colors hover:bg-green-50 hover:text-green-800"
+                                  title="Add item to this category"
+                                >
+                                  <Plus className="h-5 w-5" />
+                                </button>
+                                <button
+                                  onClick={() =>
                                     startEditCategory(serviceIndex, service)
                                   }
-                                  className="text-blue-600 hover:text-blue-800"
+                                  className="rounded-lg p-2 text-blue-600 transition-colors hover:bg-blue-50 hover:text-blue-800"
+                                  title="Edit category"
                                 >
                                   <Pencil className="h-5 w-5" />
                                 </button>
                                 <button
                                   onClick={() => removeCategory(serviceIndex)}
-                                  className="text-red-600 hover:text-red-800"
+                                  className="rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50 hover:text-red-800"
+                                  title="Delete category"
                                 >
                                   <Trash2 className="h-5 w-5" />
                                 </button>
@@ -1272,10 +1392,10 @@ export default function ServicesForm({
                                             <div
                                               ref={provided.innerRef}
                                               {...provided.draggableProps}
-                                              className={`flex items-center justify-between rounded-lg border border-gray-100 bg-gray-50 p-3 transition-shadow ${
+                                              className={`rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-200 ${
                                                 snapshot.isDragging
-                                                  ? "bg-white shadow-md"
-                                                  : ""
+                                                  ? "scale-105 shadow-xl"
+                                                  : "hover:shadow-md"
                                               }`}
                                             >
                                               <div className="flex flex-1 items-center space-x-3">
@@ -2199,7 +2319,355 @@ export default function ServicesForm({
             </div>
           </div>
         )}
+
+        {/* Category Item Options Modal */}
+        {showCategoryItemOptions && selectedCategoryIndex !== null && (
+          <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div className="flex min-h-screen items-center justify-center p-4">
+              <div
+                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+                onClick={closeCategoryItemOptions}
+              ></div>
+
+              <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl">
+                <div className="border-b border-gray-200 px-8 py-6">
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Add Item to "
+                    {formData.services[selectedCategoryIndex]?.categoryName}"
+                  </h3>
+                  <p className="mt-2 text-lg text-gray-600">
+                    Choose how you want to add an item to this category
+                  </p>
+                </div>
+
+                <div className="p-8">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <button
+                      onClick={() => setCategoryItemOption("custom")}
+                      className={`group relative overflow-hidden rounded-2xl border-2 border-dashed p-8 text-gray-600 transition-all duration-200 ${
+                        categoryItemOption === "custom"
+                          ? "border-purple-400 bg-purple-100 text-purple-700 shadow-lg"
+                          : "border-gray-300 bg-gradient-to-br from-purple-50 to-purple-100 hover:border-purple-400 hover:from-purple-100 hover:to-purple-200 hover:text-purple-700 hover:shadow-lg"
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100 group-hover:bg-purple-200">
+                          <Edit3 className="h-8 w-8" />
+                        </div>
+                        <span className="block text-lg font-semibold">
+                          Custom Item
+                        </span>
+                        <span className="block text-sm text-gray-500">
+                          Create a new item manually
+                        </span>
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => setCategoryItemOption("template")}
+                      className={`group relative overflow-hidden rounded-2xl border-2 border-dashed p-8 text-gray-600 transition-all duration-200 ${
+                        categoryItemOption === "template"
+                          ? "border-blue-400 bg-blue-100 text-blue-700 shadow-lg"
+                          : "border-gray-300 bg-gradient-to-br from-blue-50 to-blue-100 hover:border-blue-400 hover:from-blue-100 hover:to-blue-200 hover:text-blue-700 hover:shadow-lg"
+                      }`}
+                    >
+                      <div className="text-center">
+                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 group-hover:bg-blue-200">
+                          <FileText className="h-8 w-8" />
+                        </div>
+                        <span className="block text-lg font-semibold">
+                          From Template
+                        </span>
+                        <span className="block text-sm text-gray-500">
+                          Use a predefined service
+                        </span>
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Custom Item Form */}
+                  {categoryItemOption === "custom" && (
+                    <div className="mt-8 space-y-6">
+                      <h4 className="text-xl font-semibold text-gray-900">
+                        Add Custom Item
+                      </h4>
+
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Service Name *
+                          </label>
+                          <input
+                            type="text"
+                            value={newItemName}
+                            onChange={(e) => setNewItemName(e.target.value)}
+                            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                            placeholder="e.g., Custom Installation"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Unit *
+                          </label>
+                          <select
+                            value={newItemUnit}
+                            onChange={(e) => setNewItemUnit(e.target.value)}
+                            className={`mt-1 block w-full rounded-lg px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500 ${
+                              !newItemUnit
+                                ? "border-red-300"
+                                : "border-gray-300"
+                            }`}
+                            required
+                          >
+                            <option value="">Select unit</option>
+                            <option value="sqm">sqm</option>
+                            <option value="linear m">linear m</option>
+                            <option value="piece">piece</option>
+                            <option value="set">set</option>
+                            <option value="day">day</option>
+                            <option value="hour">hour</option>
+                            <option value="job">job</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Quantity *
+                          </label>
+                          <input
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            value={newItemQuantity}
+                            onChange={(e) => setNewItemQuantity(e.target.value)}
+                            className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                            placeholder="1.0"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">
+                            Price per Unit *
+                          </label>
+                          <div className="relative mt-1">
+                            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                              <span className="text-gray-500 sm:text-sm">
+                                £
+                              </span>
+                            </div>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={newItemPrice}
+                              onChange={(e) => setNewItemPrice(e.target.value)}
+                              className="block w-full rounded-lg border border-gray-300 py-2 pl-7 pr-3 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                              placeholder="0.00"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Description
+                        </label>
+                        <textarea
+                          value={newItemDescription}
+                          onChange={(e) =>
+                            setNewItemDescription(e.target.value)
+                          }
+                          rows={2}
+                          className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                          placeholder="Describe what this service includes..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                          Notes
+                        </label>
+                        <textarea
+                          value={newItemNotes}
+                          onChange={(e) => setNewItemNotes(e.target.value)}
+                          rows={2}
+                          className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
+                          placeholder="Additional notes or special instructions..."
+                        />
+                      </div>
+
+                      <div className="flex justify-end space-x-3">
+                        <button
+                          onClick={closeCategoryItemOptions}
+                          className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          onClick={addItemToCategory}
+                          disabled={
+                            !newItemName ||
+                            !newItemUnit ||
+                            !newItemQuantity ||
+                            !newItemPrice
+                          }
+                          className="inline-flex items-center rounded-lg border border-transparent bg-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50"
+                        >
+                          Add to Category
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Template Service Selection */}
+                  {categoryItemOption === "template" && (
+                    <div className="mt-8 space-y-6">
+                      <h4 className="text-xl font-semibold text-gray-900">
+                        Select Template Service
+                      </h4>
+
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder="Search template services..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                        />
+                      </div>
+
+                      <div className="max-h-60 space-y-2 overflow-y-auto">
+                        {filteredTemplateServices.map((service) => (
+                          <div
+                            key={service._id}
+                            onClick={() => setSelectedTemplateService(service)}
+                            className={`cursor-pointer rounded-lg border p-4 transition-colors ${
+                              selectedTemplateService?._id === service._id
+                                ? "border-blue-500 bg-blue-50"
+                                : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex-1">
+                                <h5 className="font-medium text-gray-900">
+                                  {service.name}
+                                </h5>
+                                <p className="text-sm text-gray-600">
+                                  {service.description}
+                                </p>
+                                <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
+                                  <span>Category: {service.category}</span>
+                                  <span>Unit: {service.unit}</span>
+                                  {service.pricingType === "fixed" && (
+                                    <span>Price: £{service.fixedPrice}</span>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                {service.pricingType === "fixed" ? (
+                                  <span className="text-sm font-medium text-green-600">
+                                    £{service.fixedPrice?.toFixed(2)}/
+                                    {service.unit}
+                                  </span>
+                                ) : (
+                                  <span className="text-sm font-medium text-blue-600">
+                                    Calculated
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {selectedTemplateService && (
+                        <div className="space-y-4">
+                          <div className="rounded-lg border border-green-200 bg-green-50 p-3">
+                            <div className="flex items-center space-x-2">
+                              <div className="h-2 w-2 rounded-full bg-green-600"></div>
+                              <span className="text-sm text-green-800">
+                                Selected: {selectedTemplateService.name}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                              Quantity *
+                            </label>
+                            <input
+                              type="number"
+                              step="0.01"
+                              min="0"
+                              value={templateServiceQuantity}
+                              onChange={(e) =>
+                                setTemplateServiceQuantity(e.target.value)
+                              }
+                              className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                              placeholder="1.0"
+                              required
+                            />
+                          </div>
+
+                          <div className="flex justify-end space-x-3">
+                            <button
+                              onClick={closeCategoryItemOptions}
+                              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              onClick={addTemplateService}
+                              disabled={!templateServiceQuantity}
+                              className="inline-flex items-center rounded-lg border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+                            >
+                              Add to Category
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Floating Add Item Buttons */}
+      {formData.services.length > 0 && (
+        <div className="fixed bottom-8 right-8 z-40 flex flex-col space-y-3">
+          <button
+            onClick={() => setShowAddCategory(true)}
+            className="group flex h-14 w-14 items-center justify-center rounded-full bg-green-600 shadow-lg transition-all hover:bg-green-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            title="Add Category"
+          >
+            <Plus className="h-6 w-6 text-white" />
+          </button>
+
+          <button
+            onClick={() => setShowAddHeading(true)}
+            className="group flex h-14 w-14 items-center justify-center rounded-full bg-purple-600 shadow-lg transition-all hover:bg-purple-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            title="Add Heading"
+          >
+            <FileText className="h-6 w-6 text-white" />
+          </button>
+
+          <button
+            onClick={openServiceOptions}
+            className="group flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            title="Add from Template"
+          >
+            <FileText className="h-6 w-6 text-white" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -650,60 +650,79 @@ export default function QuoteBuilder() {
   )?.component;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="border-b border-gray-200 bg-white px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={() => router.push("/admin/quoting")}
-              className="inline-flex items-center text-gray-600 hover:text-gray-900"
-            >
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Quotes
-            </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Create Quote</h1>
-              <p className="text-sm text-gray-500">
-                {formData.title || "New quote"}
-              </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      {/* Enhanced Header */}
+      <div className="border-b border-gray-200 bg-white shadow-sm">
+        <div className="px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
+              <button
+                onClick={() => router.push("/admin/quoting")}
+                className="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              >
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Quotes
+              </button>
+              <div className="h-8 w-px bg-gray-300"></div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  Create Quote
+                </h1>
+                <p className="mt-1 text-lg text-gray-600">
+                  {formData.title || "New quote"}
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={handleSaveDraft}
-              disabled={isLoading}
-              className={`inline-flex items-center rounded-md border px-4 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 ${
-                isDraftSaved
-                  ? "border-green-300 bg-green-50 text-green-700 hover:bg-green-100 focus:ring-green-500"
-                  : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-blue-500"
-              }`}
-            >
-              <Save className="mr-2 h-4 w-4" />
-              {isDraftSaved ? "Draft Saved" : "Save Draft"}
-            </button>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="text-sm text-gray-500">Quote Total</div>
+                <div className="text-2xl font-bold text-gray-900">
+                  £{formData.total?.toFixed(2) || "0.00"}
+                </div>
+              </div>
+              <div className="h-8 w-px bg-gray-300"></div>
+              <div className="flex space-x-3">
+                <button
+                  onClick={handleSaveDraft}
+                  disabled={isLoading}
+                  className={`inline-flex items-center rounded-xl px-6 py-3 text-sm font-semibold shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 ${
+                    isDraftSaved
+                      ? "border-2 border-green-300 bg-green-50 text-green-700 hover:bg-green-100 focus:ring-green-500"
+                      : "border-2 border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 focus:ring-blue-500"
+                  }`}
+                >
+                  <Save className="mr-2 h-4 w-4" />
+                  {isDraftSaved ? "Draft Saved ✓" : "Save Draft"}
+                </button>
 
-            <button
-              onClick={handleGenerateQuote}
-              disabled={isLoading || !canGenerateQuote()}
-              className="inline-flex items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              <Eye className="mr-2 h-4 w-4" />
-              Generate Quote
-            </button>
+                <button
+                  onClick={handleGenerateQuote}
+                  disabled={isLoading || !canGenerateQuote()}
+                  className="inline-flex items-center rounded-xl bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                >
+                  <Eye className="mr-2 h-4 w-4" />
+                  Generate Quote
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="flex min-h-screen">
-        {/* Sidebar Navigation */}
-        <div className="w-80 overflow-y-auto border-r border-gray-200 bg-white">
+        {/* Enhanced Sidebar Navigation */}
+        <div className="w-80 overflow-y-auto border-r border-gray-200 bg-white shadow-lg">
           <div className="p-6">
-            <h2 className="mb-4 text-lg font-medium text-gray-900">
-              Quote Sections
-            </h2>
-            <nav className="space-y-2">
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-gray-900">
+                Quote Sections
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Complete each section to build your quote
+              </p>
+            </div>
+            <nav className="space-y-3">
               {SECTIONS.map((section) => {
                 const Icon = section.icon;
                 const status = getSectionStatus(section.id);
@@ -713,29 +732,29 @@ export default function QuoteBuilder() {
                   <button
                     key={section.id}
                     onClick={() => switchSection(section.id)}
-                    className={`flex w-full items-start rounded-lg border-2 p-4 text-left transition-all ${
+                    className={`group flex w-full items-start rounded-xl border-2 p-5 text-left transition-all duration-200 ${
                       status === "active"
-                        ? "border-blue-500 bg-blue-50"
+                        ? "border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200"
                         : status === "completed"
-                          ? "border-green-200 bg-green-50"
-                          : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
+                          ? "border-green-300 bg-green-50 shadow-sm hover:border-green-400"
+                          : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 hover:shadow-sm"
                     }`}
                   >
                     <div className="flex-shrink-0">
                       <div
-                        className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                        className={`flex h-10 w-10 items-center justify-center rounded-full transition-all ${
                           status === "completed"
-                            ? "bg-green-500 text-white"
+                            ? "bg-green-500 text-white shadow-lg"
                             : status === "active"
-                              ? "bg-blue-500 text-white"
+                              ? "bg-blue-500 text-white shadow-lg"
                               : isValid
-                                ? "bg-gray-100 text-gray-600"
+                                ? "bg-gray-100 text-gray-600 group-hover:bg-gray-200"
                                 : "bg-gray-100 text-gray-400"
                         }`}
                       >
                         {status === "completed" ? (
                           <svg
-                            className="h-4 w-4"
+                            className="h-5 w-5"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -746,33 +765,26 @@ export default function QuoteBuilder() {
                             />
                           </svg>
                         ) : (
-                          <Icon className="h-4 w-4" />
+                          <Icon className="h-5 w-5" />
                         )}
                       </div>
                     </div>
-                    <div className="ml-3 min-w-0 flex-1">
-                      <p
-                        className={`text-sm font-medium ${
-                          status === "active"
-                            ? "text-blue-900"
-                            : "text-gray-900"
-                        }`}
-                      >
+                    <div className="ml-4 flex-1">
+                      <h3 className="text-sm font-semibold text-gray-900">
                         {section.title}
-                      </p>
-                      <p
-                        className={`text-xs ${
-                          status === "active"
-                            ? "text-blue-700"
-                            : "text-gray-500"
-                        }`}
-                      >
+                      </h3>
+                      <p className="mt-1 text-xs text-gray-500">
                         {section.description}
                       </p>
+                      {status === "completed" && (
+                        <div className="mt-2 text-xs font-medium text-green-600">
+                          ✓ Completed
+                        </div>
+                      )}
                       {!isValid && status !== "completed" && (
-                        <p className="mt-1 text-xs text-red-500">
-                          Required fields missing
-                        </p>
+                        <div className="mt-2 text-xs font-medium text-red-500">
+                          ⚠ Required fields missing
+                        </div>
                       )}
                     </div>
                   </button>
@@ -818,16 +830,20 @@ export default function QuoteBuilder() {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="flex-1 overflow-auto">
-          <div className="p-6">
-            {activeComponent &&
-              createElement(activeComponent, {
-                formData,
-                updateFormData,
-                onComplete: () => markSectionComplete(activeSection),
-                quoteId,
-              })}
+        {/* Enhanced Main Content */}
+        <div className="flex-1 overflow-auto bg-gradient-to-br from-gray-50 to-gray-100">
+          <div className="mx-auto max-w-6xl p-8">
+            <div className="rounded-2xl bg-white shadow-xl">
+              <div className="p-8">
+                {activeComponent &&
+                  createElement(activeComponent, {
+                    formData,
+                    updateFormData,
+                    onComplete: () => markSectionComplete(activeSection),
+                    quoteId,
+                  })}
+              </div>
+            </div>
           </div>
         </div>
       </div>
