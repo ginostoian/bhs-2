@@ -7,7 +7,7 @@ const Avatar = ({ article }) => {
     <Link
       href={`/blog/author/${article.author.slug}`}
       title={`Posts by ${article.author.name}`}
-      className="inline-flex items-center gap-2 group"
+      className="group flex items-center gap-3 transition-all duration-200 hover:scale-105"
       rel="author"
     >
       <span itemProp="author">
@@ -15,12 +15,17 @@ const Avatar = ({ article }) => {
           src={article.author.avatar}
           // alt={`Avatar of ${article.author.name}`}
           alt=""
-          className="w-7 h-7 rounded-full object-cover object-center"
-          width={28}
-          height={28}
+          className="h-12 w-12 rounded-full object-cover object-center ring-2 ring-base-content/10 transition-all duration-200 group-hover:ring-[#266bf1]/30"
+          width={48}
+          height={48}
         />
       </span>
-      <span className="group-hover:underline">{article.author.name}</span>
+      <div className="flex flex-col">
+        <span className="font-semibold text-[#100b47] transition-colors duration-200 group-hover:text-[#266bf1]">
+          {article.author.name}
+        </span>
+        <span className="text-xs text-base-content/60">Author</span>
+      </div>
     </Link>
   );
 };

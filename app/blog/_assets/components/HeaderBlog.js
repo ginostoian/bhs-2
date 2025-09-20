@@ -154,16 +154,21 @@ const HeaderBlog = () => {
   }, [searchParams]);
 
   return (
-    <header className="containeer mt-6">
-      <nav className="mx-auto flex max-w-[88%] items-center justify-between px-8 py-3">
-        <Image
-          src="/assets/logo/bh-logo.svg"
-          alt={`${config.appName} logo`}
-          className="w-12"
-          priority={true}
-          width={40}
-          height={40}
-        />
+    <header className="sticky top-0 z-50 mt-10 border-b border-base-content/10 bg-white/95 backdrop-blur-sm">
+      <nav className="mx-auto flex max-w-[85%] items-center justify-between px-8 py-4">
+        <Link href="/" className="group mr-3 flex items-center gap-5">
+          <Image
+            src="/assets/logo/bh-logo.svg"
+            alt={`${config.appName} logo`}
+            className="w-12 transition-transform duration-200 group-hover:scale-105"
+            priority={true}
+            width={40}
+            height={40}
+          />
+          <span className="hidden text-xl font-bold text-[#100b47] md:block">
+            {config.appName}
+          </span>
+        </Link>
         {/* Burger button to open menu on mobile */}
         <div className="flex lg:hidden">
           <button
@@ -212,7 +217,7 @@ const HeaderBlog = () => {
       {/* Mobile menu, show/hide based on menu state. */}
       <div className={`relative z-50 ${isOpen ? "" : "hidden"}`}>
         <div
-          className={`fixed inset-y-0 right-0 z-10 w-full origin-right transform overflow-y-auto bg-base-200 px-8 py-3 transition duration-300 ease-in-out sm:max-w-sm sm:ring-1 sm:ring-neutral/10`}
+          className={`fixed inset-y-0 right-0 z-10 w-full origin-right transform overflow-y-auto bg-white/95 px-8 py-6 shadow-xl backdrop-blur-sm transition duration-300 ease-in-out sm:max-w-sm sm:ring-1 sm:ring-base-content/10`}
         >
           {/* Your logo/name on small screens */}
           <div className="flex items-center justify-between">
