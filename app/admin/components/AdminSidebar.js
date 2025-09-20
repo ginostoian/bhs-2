@@ -126,6 +126,11 @@ export default function AdminSidebar() {
         { name: "Instructions", href: "/admin/instructions", icon: "📋" },
         { name: "Add Document", href: "/admin/add-document", icon: "📄" },
         { name: "Files", href: "/admin/files", icon: "📁" },
+        {
+          name: "Template Messages",
+          href: "/admin/template-messages",
+          icon: "📝",
+        },
       ],
     },
     {

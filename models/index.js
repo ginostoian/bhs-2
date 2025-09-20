@@ -33,6 +33,7 @@ import EmailAutomation from "./EmailAutomation.js";
 import EmailPreference from "./EmailPreference.js";
 import EmailStats from "./EmailStats.js";
 import TaskStatusUpdate from "./TaskStatusUpdate.js";
+import TemplateMessage from "./TemplateMessage.js";
 
 // Export all models
 export {
@@ -68,4 +69,5 @@ export {
   EmailPreference,
   EmailStats,
   TaskStatusUpdate,
+  TemplateMessage,
 };
