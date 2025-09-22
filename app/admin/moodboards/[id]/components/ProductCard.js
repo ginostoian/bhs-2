@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 /**
  * Product Card Component for Admin Interface
  * Displays product information with admin actions
@@ -10,6 +12,14 @@ export default function ProductCard({
   onDelete,
   onAdminComment,
 }) {
+  const [showUserCommentModal, setShowUserCommentModal] = useState(false);
+  const [showAdminCommentModal, setShowAdminCommentModal] = useState(false);
+
+  // Helper function to check if comment is long enough to truncate
+  const isCommentLong = (comment) => {
+    return comment && comment.length > 100; // Adjust threshold as needed
+  };
+
   // Format price for display
   const formatPrice = (price) => {
     return new Intl.NumberFormat("en-GB", {
@@ -124,6 +134,14 @@ export default function ProductCard({
           <div className="rounded bg-blue-50 p-2 text-xs text-blue-700">
             <div className="font-medium">User Comment:</div>
             <div className="line-clamp-2">{product.userComment}</div>
+            {isCommentLong(product.userComment) && (
+              <button
+                onClick={() => setShowUserCommentModal(true)}
+                className="mt-1 text-blue-600 underline hover:text-blue-800"
+              >
+                Show more...
+              </button>
+            )}
           </div>
         )}
 
@@ -132,6 +150,14 @@ export default function ProductCard({
           <div className="rounded bg-purple-50 p-2 text-xs text-purple-700">
             <div className="font-medium">Admin Comment:</div>
             <div className="line-clamp-2">{product.adminComment}</div>
+            {isCommentLong(product.adminComment) && (
+              <button
+                onClick={() => setShowAdminCommentModal(true)}
+                className="mt-1 text-purple-600 underline hover:text-purple-800"
+              >
+                Show more...
+              </button>
+            )}
           </div>
         )}
 
@@ -167,6 +193,80 @@ export default function ProductCard({
           </button>
         </div>
       </div>
+
+      {/* User Comment Modal */}
+      {showUserCommentModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  User Comment
+                </h3>
+                <button
+                  onClick={() => setShowUserCommentModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="rounded-lg bg-blue-50 p-4">
+                <p className="text-sm text-blue-700">{product.userComment}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Comment Modal */}
+      {showAdminCommentModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Admin Comment
+                </h3>
+                <button
+                  onClick={() => setShowAdminCommentModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="rounded-lg bg-purple-50 p-4">
+                <p className="text-sm text-purple-700">
+                  {product.adminComment}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
