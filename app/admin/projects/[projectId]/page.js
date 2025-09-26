@@ -7,6 +7,7 @@ import Document from "@/models/Document";
 import Payment from "@/models/Payment";
 import Expense from "@/models/Expense";
 import ProjectChange from "@/models/ProjectChange";
+import ItemPurchase from "@/models/ItemPurchase";
 import { notFound } from "next/navigation";
 import ProjectDetailClient from "./components/ProjectDetailClient";
 
@@ -99,6 +100,28 @@ export default async function ProjectDetailPage({ params, searchParams }) {
       })),
     );
 
+  // Fetch project item purchases
+  const itemPurchases = await ItemPurchase.find({ project: projectId })
+    .sort({ order: 1 })
+    .lean()
+    .then((docs) =>
+      docs.map((doc) => ({
+        _id: doc._id.toString(),
+        project: doc.project.toString(),
+        itemName: doc.itemName,
+        store: doc.store,
+        quotedPrice: doc.quotedPrice,
+        paidPrice: doc.paidPrice,
+        tradeDiscount: doc.tradeDiscount,
+        purchaseDate: doc.purchaseDate,
+        deliveryDate: doc.deliveryDate,
+        notes: doc.notes,
+        order: doc.order,
+        createdAt: doc.createdAt,
+        updatedAt: doc.updatedAt,
+      })),
+    );
+
   // Fetch project changes
   const changes = await ProjectChange.find({ project: projectId })
     .sort({ order: 1 })
@@ -180,6 +203,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
         payments={payments}
         expenses={expenses}
         changes={changes}
+        itemPurchases={itemPurchases}
         activeTab={activeTab}
       />
     </div>

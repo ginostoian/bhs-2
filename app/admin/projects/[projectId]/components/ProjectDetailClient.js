@@ -13,6 +13,7 @@ import EnhancedNotesTab from "./EnhancedNotesTab";
 import GanttChart from "./GanttChart";
 import ExpensesTab from "./ExpensesTab";
 import ChangesTab from "./ChangesTab";
+import ItemPurchasesTab from "./ItemPurchasesTab";
 
 /**
  * Project Detail Client Component
@@ -24,6 +25,7 @@ export default function ProjectDetailClient({
   payments: initialPayments,
   expenses: initialExpenses,
   changes: initialChanges,
+  itemPurchases: initialItemPurchases,
   activeTab: initialActiveTab,
 }) {
   const router = useRouter();
@@ -34,6 +36,7 @@ export default function ProjectDetailClient({
   const [payments] = useState(initialPayments);
   const [expenses] = useState(initialExpenses);
   const [changes] = useState(initialChanges);
+  const [itemPurchases] = useState(initialItemPurchases);
   const [milestones, setMilestones] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [sections, setSections] = useState([]);
@@ -359,6 +362,7 @@ export default function ProjectDetailClient({
     { id: "payments", name: "Payment Plan", icon: "💰" },
     { id: "changes", name: "Changes", icon: "🔄" },
     { id: "expenses", name: "Expenses", icon: "💳" },
+    { id: "item-purchases", name: "Item Purchases", icon: "🛒" },
     { id: "notes", name: "Notes", icon: "📝" },
     { id: "gantt", name: "Gantt Chart", icon: "📈" },
   ];
@@ -508,7 +512,7 @@ export default function ProjectDetailClient({
                 >
                   <div className="flex items-center justify-center space-x-1 sm:space-x-2">
                     <span className="text-sm sm:text-base">{tab.icon}</span>
-                    <span className="xs:inline hidden">{tab.name}</span>
+                    <span className="hidden xs:inline">{tab.name}</span>
                     <span className="xs:hidden">{tab.name.split(" ")[0]}</span>
                   </div>
                   {activeTab === tab.id && (
@@ -1539,6 +1543,18 @@ export default function ProjectDetailClient({
                 userName={project.user.name || project.user.email}
                 userAddress={project.location}
                 expenses={expenses}
+              />
+            </div>
+          )}
+
+          {activeTab === "item-purchases" && (
+            <div className="p-4 sm:p-6">
+              <ItemPurchasesTab
+                projectId={project.id}
+                projectName={project.name}
+                userName={project.user.name || project.user.email}
+                userAddress={project.location}
+                itemPurchases={itemPurchases}
               />
             </div>
           )}
