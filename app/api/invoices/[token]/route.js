@@ -29,6 +29,18 @@ export async function GET(request, { params }) {
       );
     }
 
+    // Calculate virtual properties manually since they don't serialize
+    const isOverdue =
+      invoice.status !== "paid" &&
+      invoice.dueDate &&
+      new Date() > new Date(invoice.dueDate);
+    const daysToDue =
+      invoice.dueDate && invoice.status !== "paid"
+        ? Math.ceil(
+            (new Date(invoice.dueDate) - new Date()) / (1000 * 60 * 60 * 24),
+          )
+        : null;
+
     // Remove sensitive information
     const publicInvoice = {
       invoiceNumber: invoice.invoiceNumber,
@@ -43,8 +55,8 @@ export async function GET(request, { params }) {
       issueDate: invoice.issueDate,
       terms: invoice.terms,
       notes: invoice.notes,
-      isOverdue: invoice.isOverdue,
-      daysToDue: invoice.daysToDue,
+      isOverdue: isOverdue,
+      daysToDue: daysToDue,
     };
 
     return NextResponse.json({ invoice: publicInvoice });

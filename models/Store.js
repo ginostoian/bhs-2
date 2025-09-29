@@ -41,3 +41,4 @@ storeSchema.index({ name: 1 });
 const Store = mongoose.models.Store || mongoose.model("Store", storeSchema);
 
 export default Store;
+

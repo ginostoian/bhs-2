@@ -517,7 +517,7 @@ export default function ItemPurchasesTab({
           isOpen={editModal.isOpen}
           onClose={() => setEditModal({ isOpen: false, itemPurchase: null })}
           onSubmit={(formData) =>
-            editModal.itemPurchase?._id 
+            editModal.itemPurchase?._id
               ? handleUpdate(editModal.itemPurchase._id, formData)
               : toast.error("Invalid item purchase data")
           }

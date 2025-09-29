@@ -47,3 +47,4 @@ async function seedStores() {
 
 // Run the seeding function
 seedStores();
+
