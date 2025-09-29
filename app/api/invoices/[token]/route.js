@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Invoice from "@/models/Invoice";
 
+// Import referenced models to ensure they're registered
+import "@/models/User";
+import "@/models/Lead";
+
 // Force dynamic rendering for this route to prevent caching issues
 export const dynamic = "force-dynamic";
 
