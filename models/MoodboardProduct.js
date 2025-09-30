@@ -35,11 +35,11 @@ const moodboardProductSchema = mongoose.Schema(
       min: 1,
       default: 1,
     },
-    // User's approval status (approved, declined)
+    // User's approval status (pending, approved, declined)
     approvalStatus: {
       type: String,
-      enum: ["approved", "declined"],
-      default: "approved",
+      enum: ["pending", "approved", "declined"],
+      default: "pending",
     },
     // User's comment on this product
     userComment: {

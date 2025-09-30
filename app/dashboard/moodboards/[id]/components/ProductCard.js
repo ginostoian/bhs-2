@@ -18,6 +18,7 @@ export default function ProductCard({
   // Get approval status badge styling
   const getApprovalBadge = (status) => {
     const styles = {
+      pending: "bg-yellow-100 text-yellow-800",
       approved: "bg-green-100 text-green-800",
       declined: "bg-red-100 text-red-800",
     };

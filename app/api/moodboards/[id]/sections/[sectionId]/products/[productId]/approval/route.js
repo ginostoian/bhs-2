@@ -76,11 +76,12 @@ export async function PUT(request, { params }) {
     // Update approval status (users can update their own approval)
     if (approvalStatus !== undefined) {
       // Validate approval status
-      if (!["approved", "declined"].includes(approvalStatus)) {
+      if (!["pending", "approved", "declined"].includes(approvalStatus)) {
         console.error("Invalid approval status:", approvalStatus);
         return NextResponse.json(
           {
-            error: "Invalid approval status. Must be 'approved' or 'declined'",
+            error:
+              "Invalid approval status. Must be 'pending', 'approved', or 'declined'",
           },
           { status: 400 },
         );

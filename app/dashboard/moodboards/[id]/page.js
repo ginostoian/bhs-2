@@ -99,7 +99,7 @@ export default async function MoodboardPage({ params }) {
         .map((product) => ({
           id: product._id?.toString() || "",
           quantity: product.quantity || 1,
-          approvalStatus: product.approvalStatus || "approved",
+          approvalStatus: product.approvalStatus || "pending",
           userComment: product.userComment || "",
           adminComment: product.adminComment || "",
           order: product.order || 0,
