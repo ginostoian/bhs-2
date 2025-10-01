@@ -258,124 +258,119 @@ export default function AttendanceAdminPage() {
   });
 
   // Consolidated data fetching function
-  const fetchAttendanceData = useCallback(
-    async (forceRefresh = false) => {
-      if (!mounted || status !== "authenticated") {
-        console.log("🚫 Skipping fetch - not mounted or not authenticated:", {
-          mounted,
-          status,
-        });
-        return;
-      }
+  const fetchAttendanceData = useCallback(async () => {
+    if (!mounted || status !== "authenticated") {
+      return;
+    }
 
-      console.log("🔍 Fetching attendance data:", {
-        date: date.toISOString(),
-        selectedWorkerId,
-        selectedProjectId,
-        listPage,
-        listLimit,
-        forceRefresh,
-        sessionStatus: status,
-        userId: session?.user?.id,
-      });
-
-      const { start, end } = getCurrentMonthRange(date);
-      const params = new URLSearchParams({
-        start: start.toISOString(),
-        end: end.toISOString(),
-      });
-      if (selectedWorkerId) params.set("workerId", selectedWorkerId);
-      if (selectedProjectId) params.set("projectId", selectedProjectId);
-
-      try {
-        // Fetch calendar events and list items in parallel
-        const [calendarRes, listRes] = await Promise.all([
-          fetch(`/api/attendance?${params.toString()}`, {
-            credentials: "include", // Ensure cookies are sent
-          }),
-          fetch(
-            `/api/attendance?${params.toString()}&page=${listPage}&limit=${listLimit}`,
-            {
-              credentials: "include", // Ensure cookies are sent
-            },
-          ),
-        ]);
-
-        if (!calendarRes.ok || !listRes.ok) {
-          throw new Error(
-            `Failed to fetch attendance data: Calendar ${calendarRes.status}, List ${listRes.status}`,
-          );
-        }
-
-        const [calendarData, listData] = await Promise.all([
-          calendarRes.json(),
-          listRes.json(),
-        ]);
-
-        console.log("📊 Calendar data received:", {
-          itemsCount: calendarData.items?.length || 0,
-          total: calendarData.total || 0,
-        });
-
-        console.log("📋 List data received:", {
-          itemsCount: listData.items?.length || 0,
-          total: listData.total || 0,
-        });
-
-        // Update calendar events
-        const evts = (calendarData.items || []).map((a, index) => ({
-          id: a._id || a.id || `event-${index}`,
-          title: `${a.worker?.name || a.worker?.position || "Worker"} → ${a.project?.name || a.projectName || "Project"}`,
-          start: new Date(a.date),
-          end: new Date(a.date),
-          resource: a,
-        }));
-        setEvents(evts);
-        setIsLoadingCalendar(false);
-
-        // Update list items
-        setListItems(listData.items || []);
-        setListTotal(listData.total || 0);
-        setIsLoadingList(false);
-
-        // Set overall loading to false
-        setIsLoading(false);
-
-        console.log("✅ Data updated successfully:", {
-          eventsCount: evts.length,
-          listItemsCount: listData.items?.length || 0,
-        });
-      } catch (error) {
-        console.error("❌ Failed to fetch attendance data:", error);
-        setIsLoading(false);
-        setIsLoadingCalendar(false);
-        setIsLoadingList(false);
-
-        // Capture error for UI display
-        setError(`Failed to load attendance data: ${error.message}`);
-        setLastError({
-          message: error.message,
-          stack: error.stack,
-          timestamp: new Date().toISOString(),
-          url: window.location.href,
-          userAgent: navigator.userAgent,
-        });
-
-        // Show error to user
-        alert(`Failed to load attendance data: ${error.message}`);
-      }
-    },
-    [
-      mounted,
-      date,
+    console.log("🔍 Fetching attendance data:", {
+      date: date.toISOString(),
       selectedWorkerId,
       selectedProjectId,
       listPage,
       listLimit,
-      status,
-      session,
-    ],
-  );
+    });
+
+    const { start, end } = getCurrentMonthRange(date);
+    const params = new URLSearchParams({
+      start: start.toISOString(),
+      end: end.toISOString(),
+    });
+    if (selectedWorkerId) params.set("workerId", selectedWorkerId);
+    if (selectedProjectId) params.set("projectId", selectedProjectId);
+
+    try {
+      // Fetch all data for the month (calendar view) - use higher limit
+      const calendarParams = new URLSearchParams(params);
+      calendarParams.set("limit", "1000"); // Get all records for the month for calendar
+
+      // Fetch paginated list data
+      const listParams = new URLSearchParams(params);
+      listParams.set("page", String(listPage));
+      listParams.set("limit", String(listLimit));
+
+      // Fetch both in parallel
+      const [calendarRes, listRes] = await Promise.all([
+        fetch(`/api/attendance?${calendarParams.toString()}`, {
+          credentials: "include",
+        }),
+        fetch(`/api/attendance?${listParams.toString()}`, {
+          credentials: "include",
+        }),
+      ]);
+
+      if (!calendarRes.ok || !listRes.ok) {
+        throw new Error(
+          `Failed to fetch attendance data: Calendar ${calendarRes.status}, List ${listRes.status}`,
+        );
+      }
+
+      const [calendarData, listData] = await Promise.all([
+        calendarRes.json(),
+        listRes.json(),
+      ]);
+
+      console.log("📊 Calendar data received:", {
+        itemsCount: calendarData.items?.length || 0,
+        total: calendarData.total || 0,
+      });
+
+      console.log("📋 List data received:", {
+        itemsCount: listData.items?.length || 0,
+        total: listData.total || 0,
+      });
+
+      // Update calendar events
+      const evts = (calendarData.items || []).map((a, index) => ({
+        id: a._id || a.id || `event-${index}`,
+        title: `${a.worker?.name || a.worker?.position || "Worker"} → ${a.project?.name || a.projectName || "Project"}`,
+        start: new Date(a.date),
+        end: new Date(a.date),
+        resource: a,
+      }));
+      setEvents(evts);
+      setIsLoadingCalendar(false);
+
+      // Update list items
+      setListItems(listData.items || []);
+      setListTotal(listData.total || 0);
+      setIsLoadingList(false);
+
+      // Set overall loading to false
+      setIsLoading(false);
+
+      console.log("✅ Data updated successfully:", {
+        eventsCount: evts.length,
+        listItemsCount: listData.items?.length || 0,
+      });
+    } catch (error) {
+      console.error("❌ Failed to fetch attendance data:", error);
+      setIsLoading(false);
+      setIsLoadingCalendar(false);
+      setIsLoadingList(false);
+
+      // Capture error for UI display
+      setError(`Failed to load attendance data: ${error.message}`);
+      setLastError({
+        message: error.message,
+        stack: error.stack,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+      });
+
+      // Show error to user
+      alert(`Failed to load attendance data: ${error.message}`);
+    }
+  }, [
+    mounted,
+    date,
+    selectedWorkerId,
+    selectedProjectId,
+    listPage,
+    listLimit,
+    status,
+  ]);
 
   // Load employees/projects basic lists
   useEffect(() => {
@@ -424,23 +419,36 @@ export default function AttendanceAdminPage() {
 
   const localizer = useCalendarLocalizer();
 
-  // Main data fetching effect - consolidated and simplified
+  // Debounced filter changes to prevent excessive API calls
   useEffect(() => {
-    if (mounted && status === "authenticated") {
+    if (!mounted || status !== "authenticated") return;
+
+    // Debounce filter changes by 300ms
+    const timeoutId = setTimeout(() => {
       fetchAttendanceData();
-    }
-  }, [mounted, status, fetchAttendanceData]);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [
+    mounted,
+    status,
+    date,
+    selectedWorkerId,
+    selectedProjectId,
+    listPage,
+    listLimit,
+  ]);
 
   // Load additional workers/projects that appear in attendance for current month
+  // Debounced to avoid excessive API calls
   useEffect(() => {
-    const loadDistinctData = async () => {
-      if (!mounted || status !== "authenticated") return;
+    if (!mounted || status !== "authenticated") return;
 
+    const timeoutId = setTimeout(async () => {
       const { start, end } = getCurrentMonthRange(date);
       const qs = `start=${start.toISOString()}&end=${end.toISOString()}`;
 
       try {
-        console.log("🔍 Loading distinct workers and projects...");
         const [w, p] = await Promise.all([
           fetch(`/api/attendance/distinct/workers?${qs}`, {
             credentials: "include",
@@ -459,9 +467,6 @@ export default function AttendanceAdminPage() {
             })
             .catch(() => ({ projects: [] })),
         ]);
-
-        console.log("📊 Distinct workers loaded:", w.workers?.length || 0);
-        console.log("📊 Distinct projects loaded:", p.projects?.length || 0);
 
         // Merge distinct workers with existing workers list
         if (Array.isArray(w.workers) && w.workers.length) {
@@ -494,9 +499,9 @@ export default function AttendanceAdminPage() {
         console.error("❌ Failed to load distinct workers/projects:", error);
         // Don't show alert for this as it's not critical
       }
-    };
+    }, 500); // Debounce by 500ms
 
-    loadDistinctData();
+    return () => clearTimeout(timeoutId);
   }, [mounted, date, status]);
 
   function openAddModal(dayDate) {
@@ -576,8 +581,8 @@ export default function AttendanceAdminPage() {
     setIsSaving(false);
     if (res.ok) {
       setIsAddOpen(false);
-      // Refresh data instead of just setting date
-      await fetchAttendanceData(true);
+      // Refresh data
+      await fetchAttendanceData();
       if (isDrawerOpen) setDrawerPage((p) => p);
     } else {
       const e = await res.json();
@@ -606,8 +611,8 @@ export default function AttendanceAdminPage() {
       });
 
       if (res.ok) {
-        // Refresh data instead of just setting date
-        await fetchAttendanceData(true);
+        // Refresh data
+        await fetchAttendanceData();
         // Refresh drawer data if open
         if (isDrawerOpen) {
           setDrawerPage((p) => p);
@@ -783,7 +788,7 @@ export default function AttendanceAdminPage() {
             onClick={() => {
               setError(null);
               setLastError(null);
-              fetchAttendanceData(true);
+              fetchAttendanceData();
             }}
             className="mt-2 rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
           >
@@ -998,7 +1003,7 @@ export default function AttendanceAdminPage() {
                     ))}
                   </div>
                   <button
-                    onClick={() => fetchAttendanceData(true)}
+                    onClick={() => fetchAttendanceData()}
                     disabled={isLoading}
                     className="rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
                   >

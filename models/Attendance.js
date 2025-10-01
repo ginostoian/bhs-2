@@ -69,6 +69,10 @@ attendanceSchema.plugin(toJSON);
 // Unique compound index to prevent duplicate assignment per day
 attendanceSchema.index({ worker: 1, project: 1, date: 1 }, { unique: true });
 
+// Index for common query patterns (date range queries)
+attendanceSchema.index({ date: -1, worker: 1 });
+attendanceSchema.index({ date: -1, project: 1 });
+
 // Validate that either project or projectName is provided
 attendanceSchema.pre("save", function (next) {
   if (!this.project && !this.projectName) {

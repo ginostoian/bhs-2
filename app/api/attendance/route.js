@@ -33,6 +33,8 @@ export async function GET(req) {
     }
 
     const skip = (page - 1) * limit;
+
+    // Optimize queries with lean() and only select needed fields
     const [items, total] = await Promise.all([
       Attendance.find(filter)
         .populate("worker", "name position email")
@@ -40,6 +42,7 @@ export async function GET(req) {
         .sort({ date: -1 })
         .skip(skip)
         .limit(limit)
+        .lean() // Convert to plain JS objects for better performance
         .exec(),
       Attendance.countDocuments(filter),
     ]);
