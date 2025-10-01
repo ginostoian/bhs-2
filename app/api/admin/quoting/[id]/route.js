@@ -50,6 +50,52 @@ export async function PUT(request, { params }) {
     const { id } = params;
     const body = await request.json();
 
+    // First, fetch the current quote to check if we need to replace draft placeholders
+    const currentQuote = await Quote.findById(id);
+    if (!currentQuote) {
+      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
+    }
+
+    // Check if status is being changed from draft to a non-draft status
+    const isFinalizingDraft =
+      currentQuote.status === "draft" && body.status && body.status !== "draft";
+
+    // If finalizing a draft, replace placeholder text with actual terms
+    if (isFinalizingDraft) {
+      // Replace draft termsAndConditions if it's still the placeholder
+      if (
+        currentQuote.termsAndConditions === "Draft - terms to be finalized" ||
+        currentQuote.termsAndConditions?.startsWith("Draft -")
+      ) {
+        body.termsAndConditions =
+          "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
+      }
+
+      // Replace draft warrantyInformation if it's still the placeholder
+      if (
+        currentQuote.warrantyInformation ===
+          "Draft - warranty information to be finalized" ||
+        currentQuote.warrantyInformation?.startsWith("Draft -")
+      ) {
+        body.warrantyInformation =
+          "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.";
+      }
+
+      // Replace draft leadTime if it's still the placeholder
+      if (
+        currentQuote.leadTime === "Draft - lead time to be finalized" ||
+        currentQuote.leadTime?.startsWith("Draft -")
+      ) {
+        body.leadTime =
+          "We typically require 2 weeks notice to start a project.";
+      }
+
+      // Set sentAt timestamp when quote is sent for the first time
+      if (body.status === "sent" && !currentQuote.sentAt) {
+        body.sentAt = new Date();
+      }
+    }
+
     // Recalculate total if services are being updated
     if (body.services) {
       let total = 0;
