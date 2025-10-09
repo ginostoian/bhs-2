@@ -31,6 +31,55 @@ export async function POST(request) {
       quoteNumber = `${year}0001`;
     }
 
+    // Clean and validate services data if provided
+    if (body.services) {
+      let total = 0;
+
+      body.services = body.services.map((service) => {
+        if (service.type === "category" && service.items) {
+          // Clean items data
+          const cleanedItems = service.items.map((item) => {
+            const quantity = parseFloat(item.quantity) || 0;
+            const unitPrice = parseFloat(item.unitPrice) || 0;
+            const itemTotal = Math.round(quantity * unitPrice * 100) / 100;
+
+            total += itemTotal;
+
+            return {
+              name: item.name || "",
+              description: item.description || "",
+              quantity: quantity,
+              unit: item.unit || "",
+              unitPrice: unitPrice,
+              total: itemTotal,
+              notes: item.notes || "",
+              // Include optional fields if they exist
+              ...(item.customerUnitPrice !== undefined && {
+                customerUnitPrice: parseFloat(item.customerUnitPrice) || 0,
+              }),
+              ...(item.customerTotal !== undefined && {
+                customerTotal: parseFloat(item.customerTotal) || 0,
+              }),
+            };
+          });
+
+          const categoryTotal = cleanedItems.reduce(
+            (sum, item) => sum + item.total,
+            0,
+          );
+
+          return {
+            ...service,
+            items: cleanedItems,
+            categoryTotal: Math.round(categoryTotal * 100) / 100,
+          };
+        }
+        return service;
+      });
+
+      body.total = Math.round(total * 100) / 100;
+    }
+
     // Create new quote
     const quoteData = {
       ...body,
@@ -87,7 +136,10 @@ export async function GET(request) {
       .lean();
 
     // Debug: Log the quotes being returned
-    console.log("API: Returning quotes with statuses:", quotes.map(q => ({ id: q._id, status: q.status, title: q.title })));
+    console.log(
+      "API: Returning quotes with statuses:",
+      quotes.map((q) => ({ id: q._id, status: q.status, title: q.title })),
+    );
 
     // Get total count
     const total = await Quote.countDocuments(query);

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import ProjectDetailsForm from "../../../create/components/ProjectDetailsForm";
 import ServicesForm from "../../../create/components/ServicesForm";
+import PricingForm from "../../../create/components/PricingForm";
 import QuotePreview from "../../../create/components/QuotePreview";
 import { ChevronLeft, ChevronRight, Save, History } from "lucide-react";
 
@@ -15,10 +16,16 @@ const STEPS = [
     component: ProjectDetailsForm,
   },
   { id: "services", title: "Services & Items", component: ServicesForm },
+  { id: "pricing", title: "Pricing & Deposit", component: PricingForm },
   { id: "preview", title: "Preview & Save", component: QuotePreview },
 ];
 
 export default function QuoteEditWizard({ quoteId }) {
+  console.log(
+    "QuoteEditWizard loaded with STEPS:",
+    STEPS.length,
+    STEPS.map((s) => s.title),
+  );
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [originalQuote, setOriginalQuote] = useState(null);
@@ -211,6 +218,17 @@ export default function QuoteEditWizard({ quoteId }) {
         from: originalQuote.leadTime,
         to: editedQuote.leadTime,
       };
+
+    // Compare pricing/deposit settings
+    if (
+      JSON.stringify(originalQuote.pricing) !==
+      JSON.stringify(editedQuote.pricing)
+    ) {
+      changes.pricing = {
+        from: originalQuote.pricing,
+        to: editedQuote.pricing,
+      };
+    }
 
     return changes;
   };

@@ -25,6 +25,16 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
 
+    // Ensure pricing object exists for older quotes
+    if (!quote.pricing) {
+      quote.pricing = {
+        depositRequired: false,
+        depositAmount: 0,
+        depositPercentage: 0,
+        vatRate: 20,
+      };
+    }
+
     return NextResponse.json({
       success: true,
       quote,
@@ -96,17 +106,54 @@ export async function PUT(request, { params }) {
       }
     }
 
-    // Recalculate total if services are being updated
+    // Recalculate total and clean services data if being updated
     if (body.services) {
       let total = 0;
-      body.services.forEach((service) => {
+
+      // Clean and validate services data
+      body.services = body.services.map((service) => {
         if (service.type === "category" && service.items) {
-          service.items.forEach((item) => {
-            total += (item.quantity || 0) * (item.unitPrice || 0);
+          // Clean items data
+          const cleanedItems = service.items.map((item) => {
+            const quantity = parseFloat(item.quantity) || 0;
+            const unitPrice = parseFloat(item.unitPrice) || 0;
+            const itemTotal = Math.round(quantity * unitPrice * 100) / 100;
+
+            total += itemTotal;
+
+            return {
+              name: item.name || "",
+              description: item.description || "",
+              quantity: quantity,
+              unit: item.unit || "",
+              unitPrice: unitPrice,
+              total: itemTotal,
+              notes: item.notes || "",
+              // Include optional fields if they exist
+              ...(item.customerUnitPrice !== undefined && {
+                customerUnitPrice: parseFloat(item.customerUnitPrice) || 0,
+              }),
+              ...(item.customerTotal !== undefined && {
+                customerTotal: parseFloat(item.customerTotal) || 0,
+              }),
+            };
           });
+
+          const categoryTotal = cleanedItems.reduce(
+            (sum, item) => sum + item.total,
+            0,
+          );
+
+          return {
+            ...service,
+            items: cleanedItems,
+            categoryTotal: Math.round(categoryTotal * 100) / 100,
+          };
         }
+        return service;
       });
-      body.total = total;
+
+      body.total = Math.round(total * 100) / 100;
     }
 
     // Find and update the quote

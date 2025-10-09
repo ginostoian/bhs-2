@@ -171,7 +171,9 @@ export default function ServicesForm({
       !newItemName.trim() ||
       !newItemUnit ||
       !newItemQuantity ||
-      !newItemPrice
+      newItemPrice === "" ||
+      newItemPrice === null ||
+      newItemPrice === undefined
     )
       return;
 
@@ -184,6 +186,13 @@ export default function ServicesForm({
 
     const quantity = parseFloat(newItemQuantity);
     const unitPrice = parseFloat(newItemPrice);
+
+    // Check for invalid numbers
+    if (isNaN(quantity) || isNaN(unitPrice)) {
+      toast.error("Please enter valid numbers for quantity and price");
+      return;
+    }
+
     const total = Math.round(quantity * unitPrice * 100) / 100; // Simple calculation with precision fix
 
     const newItem = {
@@ -223,13 +232,22 @@ export default function ServicesForm({
       !newItemName.trim() ||
       !newItemUnit ||
       !newItemQuantity ||
-      !newItemPrice ||
+      newItemPrice === "" ||
+      newItemPrice === null ||
+      newItemPrice === undefined ||
       selectedCategoryIndex === null
     )
       return;
 
     const quantity = parseFloat(newItemQuantity);
     const unitPrice = parseFloat(newItemPrice);
+
+    // Check for invalid numbers
+    if (isNaN(quantity) || isNaN(unitPrice)) {
+      toast.error("Please enter valid numbers for quantity and price");
+      return;
+    }
+
     const total = Math.round(quantity * unitPrice * 100) / 100;
 
     const newItem = {
@@ -269,7 +287,9 @@ export default function ServicesForm({
       !newItemName.trim() ||
       !newItemUnit ||
       !newItemQuantity ||
-      !newItemPrice ||
+      newItemPrice === "" ||
+      newItemPrice === null ||
+      newItemPrice === undefined ||
       !templateCategory.trim()
     ) {
       toast.error("Please fill in all required fields including category");
@@ -278,6 +298,11 @@ export default function ServicesForm({
 
     try {
       const unitPrice = parseFloat(newItemPrice);
+
+      if (isNaN(unitPrice)) {
+        toast.error("Please enter a valid price");
+        return;
+      }
 
       const templateData = {
         name: newItemName.trim(),
@@ -1145,7 +1170,6 @@ export default function ServicesForm({
                           <input
                             type="number"
                             step="0.01"
-                            min="0"
                             value={newItemPrice}
                             onChange={(e) => setNewItemPrice(e.target.value)}
                             className="block w-full rounded-md border border-gray-300 py-2 pl-7 pr-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -1970,7 +1994,6 @@ export default function ServicesForm({
                       <input
                         type="number"
                         step="0.01"
-                        min="0"
                         value={newItemPrice}
                         onChange={(e) => setNewItemPrice(e.target.value)}
                         className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-7 pr-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
@@ -2462,7 +2485,6 @@ export default function ServicesForm({
                             <input
                               type="number"
                               step="0.01"
-                              min="0"
                               value={newItemPrice}
                               onChange={(e) => setNewItemPrice(e.target.value)}
                               className="block w-full rounded-lg border border-gray-300 py-2 pl-7 pr-3 text-sm focus:border-purple-500 focus:outline-none focus:ring-purple-500"
