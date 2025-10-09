@@ -475,6 +475,7 @@ export default function ChangesTab({
 
       {/* Change Modal */}
       <ChangeModal
+        key={changeModal.change?.id || "new"}
         isOpen={changeModal.isOpen}
         change={changeModal.change}
         mode={changeModal.mode}

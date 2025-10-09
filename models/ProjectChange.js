@@ -348,20 +348,24 @@ projectChangeSchema.pre("save", async function (next) {
 
 // Static method to get changes for a project
 projectChangeSchema.statics.getProjectChanges = async function (projectId) {
-  return await this.find({ project: projectId })
+  const changes = await this.find({ project: projectId })
     .sort({ order: 1 })
     .populate("user", "name email")
-    .populate("decidedBy", "name")
-    .lean();
+    .populate("decidedBy", "name");
+
+  // Convert to JSON to apply toJSON transformation (converts _id to id)
+  return changes.map((change) => change.toJSON());
 };
 
 // Static method to get changes for a user
 projectChangeSchema.statics.getUserChanges = async function (userId) {
-  return await this.find({ user: userId })
+  const changes = await this.find({ user: userId })
     .sort({ order: 1 })
     .populate("project", "name")
-    .populate("decidedBy", "name")
-    .lean();
+    .populate("decidedBy", "name");
+
+  // Convert to JSON to apply toJSON transformation (converts _id to id)
+  return changes.map((change) => change.toJSON());
 };
 
 const ProjectChange =
