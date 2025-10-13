@@ -7,6 +7,7 @@ import extensionGuide2025Img from "/public/assets/img/extension/double-storey-ex
 import extensionTypes2025Img from "/public/assets/img/extension/diagram-of-popular-house-extensions.webp";
 import kitchenCostGuide2025Img from "/public/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp";
 import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-5.webp";
+import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import Link from "next/link";
 
 // ==================================================================================================================================================================
@@ -219,993 +220,592 @@ export const articles = [
     // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
     author: authors.find((author) => author.slug === authorSlugs.gino),
     // The date of the article. It&apos;s used to generate the meta date.
-    publishedAt: "2025-09-27",
+    publishedAt: "2025-10-14",
     image: {
       // The image to display in <CardArticle /> components.
-      src: extensionTypes2025Img,
+      src: PermittedDevelopmentImg,
       // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
-      urlRelative:
-        "/assets/img/extension/diagram-of-popular-house-extensions.webp",
-      alt: "Diagram showing types of house extensions in a typical London home, including rear, loft, side return, garage, and garden room extensions.",
+      urlRelative: "/assets/illustrations/Permitted-development-in-london.jpg",
+      alt: "Infographic about permitted development in London",
     },
     // The actual content of the article that will be shown under the <h1> title in the article page.
     content: (
       <>
         <Image
-          src={extensionTypes2025Img}
+          src={PermittedDevelopmentImg}
           alt="Diagram showing types of house extensions in a typical London home, including rear, loft, side return, garage, and garden room extensions."
           width={700}
           height={500}
           priority={true}
-          className="rounded-box"
+          className="rounded-box mb-10"
           placeholder="blur"
         />
         <section>
-          <h2 className={styles.h2}>Table of Contents</h2>
+          <>
+            <h2 id="toc" className={styles.h2}>
+              Contents
+            </h2>
+            <ul className={`${styles.p} space-y-2`}>
+              <li className="py-1">
+                <Link href="#what-is-pd">What is permitted development?</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#who-can-use">
+                  Who can use it in London &dash; and who cannot
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#pd-vs-prior">
+                  Permitted development vs prior approval
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#extensions">
+                  Rear and side extensions under PD
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#lofts">Loft conversions and roof works</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#outbuildings">
+                  Outbuildings, garden rooms and home offices
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#driveways">
+                  Driveways and front gardens: the 5 m² rule
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#green-upgrades">
+                  Solar, heat pumps and green upgrades
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#upward">
+                  Upward extensions (additional storeys)
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#article4">Article 4 and conservation areas</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#ldc">Lawful Development Certificates</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#fees">Fees and timelines in 2025</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#regs-party">
+                  Building Regulations and Party Wall
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#takeaways">Quick takeaways</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#faqs">FAQs</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#conclusion">Conclusion</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#references">References and Further Reading</Link>
+              </li>
+            </ul>
+            {/* IMAGE: Insert Concept 1 decision tree here */}
 
-          <ul className={styles.p}>
-            <li>
-              <Link href="#introduction-to-house-extensions">
-                Introduction to House Extensions
-              </Link>
-            </li>
-            <li>
-              <Link href="#single-storey-extensions">
-                Single-Storey Extensions
-              </Link>
-            </li>
-            <li>
-              <Link href="#double-storey-extensions">
-                Double-Storey Extensions
-              </Link>
-            </li>
-            <li>
-              <Link href="#loft-conversions">Loft Conversions</Link>
-            </li>
-            <li>
-              <Link href="#basement-conversions">Basement Conversions</Link>
-            </li>
-            <li>
-              <Link href="#conservatories-and-orangeries">
-                Conservatories and Orangeries
-              </Link>
-            </li>
-            <li>
-              <Link href="#garage-conversions">Garage Conversions</Link>
-            </li>
-            <li>
-              <Link href="#outbuildings-and-garden-rooms">
-                Outbuildings and Garden Rooms
-              </Link>
-            </li>
-            <li>
-              <Link href="#planning-permission-and-building-regulations">
-                Planning Permission and Building Regulations
-              </Link>
-            </li>
-            <li>
-              <Link href="#cost-considerations">Cost Considerations</Link>
-            </li>
-            <li>
-              <Link href="#choosing-the-right-extension-for-your-home">
-                Choosing the Right Extension for Your Home
-              </Link>
-            </li>
-            <li>
-              <Link href="#case-studies-of-london-extensions">
-                Case Studies of London Extensions
-              </Link>
-            </li>
-            <li>
-              <Link href="#sustainability-and-eco-friendly-extensions">
-                Sustainability and Eco-Friendly Extensions
-              </Link>
-            </li>
-            <li>
-              <Link href="#conclusion-and-next-steps">
-                Conclusion and Next Steps
-              </Link>
-            </li>
-            <li>
-              <Link href="#quick-takeaways">Quick Takeaways</Link>
-            </li>
-            <li>
-              <Link href="#frequently-asked-questions">
-                Frequently Asked Questions
-              </Link>
-            </li>
-            <li>
-              <Link href="#wed-love-to-hear-from-you">
-                We&apos;d Love to Hear from You
-              </Link>
-            </li>
-            <li>
-              <Link href="#references">References</Link>
-            </li>
-          </ul>
+            <h2 id="what-is-pd" className={styles.h2}>
+              What is permitted development?
+            </h2>
+            <p className={styles.p}>
+              Permitted development (PD) is a national planning permission that
+              allows many common home improvements to proceed without a full
+              planning application, provided your project meets specific limits
+              and conditions. In practice, PD can streamline smart upgrades to
+              London houses — extensions, lofts, outbuildings, solar — while
+              keeping quality safeguards through measurements, materials and
+              siting rules. PD does not remove the need to comply with Building
+              Regulations or other consents.
+            </p>
 
-          <p className={styles.p}>
-            Thinking of expanding your living space without the hassle of
-            moving? A well-designed house extension can transform your home, add
-            significant value, and give your family the extra room it needs to
-            grow — especially in a city like London, where space is a premium.
-          </p>
+            <h2 id="who-can-use" className={styles.h2}>
+              Who can use it in London &dash; and who cannot
+            </h2>
+            <p className={styles.p}>
+              PD rights principally apply to <strong>dwelling houses</strong>.
+              Most flats and maisonettes do not benefit, and{" "}
+              <strong>listed buildings</strong> are outside typical householder
+              PD. If your home sits on designated &ldquo;article 2(3)
+              land&rdquo; &dash; such as a conservation area &dash; some rights
+              are restricted. Always check if an{" "}
+              <strong>Article 4 Direction</strong> has removed specific PD on
+              your street.
+            </p>
 
-          <p className={styles.p}>
-            In this ultimate guide to house extensions in London, we&apos;ll
-            walk you through all the options available — from rear extensions to
-            loft conversions, basement builds, and even stylish garden rooms.
-            Whether you live in a classic Victorian terrace, a semi-detached
-            home, or a modern build, there&apos;s a smart solution that fits
-            your lifestyle and property type.
-          </p>
+            <h2 id="pd-vs-prior" className={styles.h2}>
+              Permitted development vs prior approval
+            </h2>
+            <p className={styles.p}>
+              Some PD classes require you to obtain the council&apos;s{" "}
+              <strong>prior approval</strong> before starting work. This is not
+              a full planning application; instead, the authority assesses
+              defined impacts (for example, neighbour amenity or external
+              appearance) within a set period. Typical examples: larger
+              single-storey rear extensions and upward extensions. If prior
+              approval is silent after the deadline, your development may
+              proceed &dash; but do not start before the decision period ends.
+            </p>
 
-          <p className={styles.p}>
-            We&apos;ll also cover the planning process, cost considerations,
-            design tips, and real-world examples from London homeowners
-            who&apos;ve made it work. Whether you&apos;re just exploring ideas
-            or already sketching out plans, this guide is packed with everything
-            you need to know about creating your dream house extension.
-          </p>
+            <h2 id="extensions" className={styles.h2}>
+              Rear and side extensions under PD
+            </h2>
+            <p className={styles.p}>
+              Under PD, many London homes can build single-storey rear
+              extensions up to 3 m deep for attached houses and 4 m for detached
+              homes, subject to height, eaves, and materials matching
+              conditions. The &ldquo;larger home extension&rdquo; route allows
+              up to 6 m (attached) or 8 m (detached) provided you secure prior
+              approval through the neighbour consultation scheme. Side
+              extensions are typically single-storey, no greater than 4 m in
+              height and no more than half the width of the original house.
+              Wrap-around schemes must be designed so each element complies in
+              its own right, or they will fall outside PD.
+            </p>
+            {/* IMAGE: Insert Concept 2 &ldquo;42-day timeline&rdquo; here */}
 
-          <h2 className={styles.h2}>Introduction to House Extensions</h2>
+            <h2 id="lofts" className={styles.h2}>
+              Loft conversions and roof works
+            </h2>
+            <p className={styles.p}>
+              Loft conversions and dormers can fall under PD when volume limits,
+              set-backs and height rules are met. Rear-roof dormers are common
+              in London terraces; front dormers are more sensitive and often
+              excluded under PD, particularly in conservation areas. Materials
+              should be similar in appearance to the existing house and any
+              side-facing windows at first floor and above should be
+              obscure-glazed and non-opening below 1.7 m internal height.
+            </p>
 
-          <h3 className={styles.h3}>Understanding the Need for Extensions</h3>
-          <p className={styles.p}>
-            In a fast-paced city like London, where property prices soar and
-            families outgrow their homes quicker than ever, house extensions
-            have become a smart alternative to moving. Whether you&apos;re
-            working from home, welcoming a new family member, or simply craving
-            more space and light, extending your home can be a game-changer.
-          </p>
-          <p className={styles.p}>
-            For many homeowners, especially those in desirable areas, moving is
-            either too expensive or simply not worth the hassle. Instead,
-            they&apos;re turning to extensions as a more affordable and personal
-            way to tailor their homes to their needs. From side returns to lofts
-            and garden rooms, the options are more diverse than ever.
-          </p>
+            <h2 id="outbuildings" className={styles.h2}>
+              Outbuildings, garden rooms and home offices
+            </h2>
+            <p className={styles.p}>
+              PD allows many outbuildings within the curtilage if they are for
+              &ldquo;incidental&rdquo; purposes &dash; think gym, studio or
+              store &dash; not self-contained accommodation. Respect total
+              coverage limits, heights (with tighter rules near boundaries), and
+              ensure garden rooms remain ancillary. In London, careful massing,
+              materials and positioning mitigate neighbour impact while
+              preserving usable garden.
+            </p>
 
-          <h3 className={styles.h3}>Benefits of Extending Your Home</h3>
-          <p className={styles.p}>
-            The most obvious benefit of a house extension is the additional
-            space it creates — but there&apos;s more to it than that. Done
-            right, an extension can enhance your quality of life, improve your
-            home&apos;s flow, and boost its market value. In London, where
-            square footage is gold, a smart extension can add anywhere from 10%
-            to 25% to your property&apos;s value, according to property experts.
-          </p>
-          <p className={styles.p}>
-            You also get the chance to modernise your layout, improve energy
-            efficiency, and future-proof your home. Plus, since you&apos;re
-            staying put, there&apos;s no need to say goodbye to the local
-            school, your favourite bakery, or the neighbours you actually like.
-          </p>
-          <p className={styles.p}>
-            All in all, a house extension is not just an upgrade — it&apos;s a
-            lifestyle move, and often a long-term investment that pays off both
-            financially and emotionally.
-          </p>
+            <h2 id="driveways" className={styles.h2}>
+              Driveways and front gardens: the 5 m² rule
+            </h2>
+            <p className={styles.p}>
+              Converting front gardens to parking is PD where the area is 5 m²
+              or less, or where you use a <strong>permeable</strong> surface or
+              permeable sub-base with suitable drainage. Non-permeable surfacing
+              over 5 m² that sheds water to the highway typically needs planning
+              permission. Don&apos;t forget that a dropped kerb is a separate
+              highways consent. For many London plots, resin-bound or permeable
+              block systems balance kerb appeal and compliance.
+            </p>
+            {/* IMAGE: Insert Concept 3 permeable v impermeable surfacing here */}
 
-          <h2 className={styles.h2}>Single-Storey Extensions</h2>
+            <h2 id="green-upgrades" className={styles.h2}>
+              Solar, heat pumps and green upgrades under PD
+            </h2>
+            <p className={styles.p}>
+              Roof-mounted solar is generally PD subject to size, siting and
+              glare conditions. Air source heat pumps can be PD if they meet
+              siting and <strong>MCS-020</strong> noise criteria. Current
+              guidance works to an effective <strong>37 dB LAeq,5min</strong> at
+              the assessment point to protect neighbours. Placement, acoustic
+              screening and selecting a quieter unit help achieve compliance on
+              tight London plots. As an added incentive, qualifying
+              energy-saving installations are <strong>0% VAT</strong> until{" "}
+              <strong>31 March 2027</strong>, improving payback on solar and
+              heat pumps.
+            </p>
 
-          <h3 className={styles.h3}>Rear Extensions</h3>
-          <p className={styles.p}>
-            Rear extensions are among the most popular choices for London
-            homeowners, especially those with garden access. They allow you to
-            push out the back of your home to create open-plan kitchens, dining
-            areas, or multifunctional family spaces. These types of house
-            extensions are especially effective in terraced and semi-detached
-            homes, where rear-facing expansion can dramatically improve light
-            and flow.
-          </p>
-          <p className={styles.p}>
-            One of the biggest appeals of a rear extension is how it seamlessly
-            connects indoor and outdoor living. Bi-fold or sliding doors are
-            often used to bring in natural light and blur the lines between your
-            kitchen and garden. For homeowners who love entertaining or want a
-            more social family space, this layout is a dream.
-          </p>
+            <h2 id="upward" className={styles.h2}>
+              Upward extensions (additional storeys)
+            </h2>
+            <p className={styles.p}>
+              PD allows additional storeys on some houses via Class AA, but it
+              is always subject to <strong>prior approval</strong>. Expect
+              checks on design, height parameters, neighbour amenity and
+              transport/highways impacts. In period terraces, townscape
+              sensitivity often drives design refinements; early 3D massing
+              helps demonstrate a considerate approach.
+            </p>
 
-          <h3 className={styles.h3}>Side Return Extensions</h3>
-          <p className={styles.p}>
-            A side return extension utilises the narrow alleyway or dead space
-            to the side of many Victorian and Edwardian properties. It may not
-            seem like much, but gaining just 1.5 to 2 metres of width can
-            completely change the way a kitchen or living area functions.
-          </p>
-          <p className={styles.p}>
-            These extensions often involve removing part of the rear wall,
-            replacing it with steel supports and glazed panels to flood the
-            space with light. They&apos;re a perfect option for homeowners who
-            want to extend without sacrificing too much garden space — a major
-            concern in many parts of London.
-          </p>
+            <h2 id="article4" className={styles.h2}>
+              Article 4 streets and conservation areas
+            </h2>
+            <p className={styles.p}>
+              Many inner-London neighbourhoods sit within conservation areas
+              where PD rights are restricted, and Article 4 Directions may
+              further remove specific rights such as changes to front elevations
+              or roofs. Your solicitor&apos;s searches or the borough website
+              will confirm if you are affected. If in doubt, ask for written
+              confirmation before committing to works.
+            </p>
 
-          <h3 className={styles.h3}>Wrap-Around Extensions</h3>
-          <p className={styles.p}>
-            For those looking for a more dramatic transformation, a wrap-around
-            extension combines both a rear and side return extension. This
-            L-shaped design maximises footprint while creating a stunning
-            open-plan layout inside. It&apos;s especially popular in family
-            homes where space for a large kitchen-diner, utility area, and
-            lounging zone is needed.
-          </p>
-          <p className={styles.p}>
-            Wrap-arounds do require more structural work and planning
-            considerations, but they&apos;re one of the most impactful ways to
-            reimagine how you use your home. Architects often play a big role in
-            designing these to maintain flow, light, and proportion.
-          </p>
-          <p className={styles.p}>
-            In short, single-storey extensions are one of the most flexible
-            options for upgrading your home — whether you want subtle
-            improvements or a full ground-floor transformation.
-          </p>
+            <h2 id="ldc" className={styles.h2}>
+              Lawful Development Certificates: planning certainty
+            </h2>
+            <p className={styles.p}>
+              An LDC is a formal decision that your <strong>proposed</strong>{" "}
+              (or existing) development is lawful for planning purposes. It is
+              optional but strongly recommended before committing to structural
+              works, especially in conservation areas or where measurements are
+              tight. LPAs aim to determine LDCs in around{" "}
+              <strong>8 weeks</strong>. Think of it as your insurance policy
+              against future enforcement or conveyancing headaches.
+            </p>
 
-          <h2 className={styles.h2}>Double-Storey Extensions</h2>
+            <h2 id="fees" className={styles.h2}>
+              Fees and timelines in 2025
+            </h2>
+            <p className={styles.p}>
+              From <strong>1 April 2025</strong> in England the{" "}
+              <strong>householder planning application fee is £528</strong>.
+              Prior approval fees vary by class (e.g., larger home extensions),
+              while an LDC for <strong>proposed</strong> development is
+              generally <strong>half</strong> the equivalent planning fee. Build
+              this into your budget alongside surveys and drawings, and allow
+              for statutory decision periods: prior approval windows (e.g., 42
+              days for larger rear extensions) and the LDC&apos;s 8-week target.
+            </p>
 
-          <h3 className={styles.h3}>Enhancing Vertical Space</h3>
-          <p className={styles.p}>
-            Double-storey extensions are ideal for homeowners who want to add
-            significant space without eating too much into their garden. By
-            building upward rather than outward, you can double your square
-            footage gain while keeping a relatively compact footprint.
-            Typically, these extensions include a kitchen or living area
-            downstairs, and an additional bedroom, bathroom, or office space
-            above.
-          </p>
-          <p className={styles.p}>
-            In London, where land is tight and every square meter counts, going
-            up instead of out is often a smart move — especially for growing
-            families who need extra rooms without compromising on outdoor space.
-            These extensions are commonly built above existing ground floor
-            additions or as part of a full redesign of the rear or side of a
-            property.
-          </p>
+            <h2 id="regs-party" className={styles.h2}>
+              Building Regulations and the Party Wall Act
+            </h2>
+            <p className={styles.p}>
+              PD never replaces Building Regulations. Expect energy performance
+              under <strong>Part L</strong> and summer comfort under{" "}
+              <strong>Part O</strong> for new residential spaces, plus
+              structural, fire and drainage compliance. Where you cut into party
+              structures or build near boundaries, the{" "}
+              <strong>Party Wall etc. Act 1996</strong> may require notices and
+              agreements. Early neighbour dialogue is good practice in
+              London&apos;s dense streets, reducing risk to programme.
+            </p>
 
-          <h3 className={styles.h3}>Planning and Structural Considerations</h3>
-          <p className={styles.p}>
-            Unlike most single-storey extensions, double-storey builds almost
-            always require planning permission. Councils in London tend to be
-            cautious about how these extensions affect neighbouring properties —
-            particularly in terms of privacy, light loss, and overlooking. If
-            you&apos;re in a conservation area or your home is listed, expect
-            stricter rules and possibly additional architectural input.
-          </p>
-          <p className={styles.p}>
-            Structurally, you&apos;ll also need to consider the foundation. Your
-            existing home may require underpinning or reinforcement to support
-            the extra weight of a second storey. This is where structural
-            engineers come in, working alongside your architect to ensure safety
-            and stability.
-          </p>
-          <p className={styles.p}>
-            Although more expensive than single-storey options, double-storey
-            house extensions offer a strong return on investment, especially in
-            high-demand areas of London. They give you much more usable space
-            and can be designed to blend in seamlessly with your existing
-            property.
-          </p>
+            <h2 id="takeaways" className={styles.h2}>
+              Quick takeaways
+            </h2>
+            <h3 className={styles.h3}>What to remember</h3>
+            <p className={styles.p}>
+              • PD is rule-based permission for houses; flats and listed
+              buildings are mostly excluded.
+            </p>
+            <p className={styles.p}>
+              • Some PD needs prior approval &dash; do not start works until the
+              decision/expiry date.
+            </p>
+            <p className={styles.p}>
+              • An LDC provides binding certainty; target determination is
+              around 8 weeks.
+            </p>
+            <p className={styles.p}>
+              • 2025 fees are updated; plan for £528 if you pivot to full
+              householder consent.
+            </p>
+            <p className={styles.p}>
+              • Use permeable front paving, quiet heat pumps and fabric upgrades
+              to meet rules and reduce running costs.
+            </p>
 
-          <h2 className={styles.h2}>Loft Conversions</h2>
+            <h2 id="faqs" className={styles.h2}>
+              FAQs
+            </h2>
+            <h3 className={styles.h3}>
+              Do flats have permitted development rights?
+            </h3>
+            <p className={styles.p}>
+              Generally no. Most PD rights are for houses. If you&apos;re in a
+              flat or maisonette, seek specific advice.
+            </p>
+            <h3 className={styles.h3}>
+              What is prior approval &dash; and when do I need it?
+            </h3>
+            <p className={styles.p}>
+              It&apos;s a targeted consent used by some PD classes (e.g., larger
+              rears; upward extensions) to check defined impacts before you
+              build.
+            </p>
+            <h3 className={styles.h3}>Should I get an LDC?</h3>
+            <p className={styles.p}>
+              If you want certainty, yes. It is optional but recommended where
+              dimensions are tight, in conservation areas, or before exchange of
+              contracts.
+            </p>
+            <h3 className={styles.h3}>How big can I extend at the rear?</h3>
+            <p className={styles.p}>
+              Typically up to 3 m (attached) or 4 m (detached) as straight PD.
+              Larger depths up to 6 m/8 m require prior approval.
+            </p>
+            <h3 className={styles.h3}>Is front garden paving PD?</h3>
+            <p className={styles.p}>
+              Yes if you use permeable systems or keep it ≤5 m², otherwise
+              permission is likely needed.
+            </p>
+            <h3 className={styles.h3}>Are heat pumps allowed under PD?</h3>
+            <p className={styles.p}>
+              Often, if MCS-020 noise calculations pass and siting/size rules
+              are met. Placement and screening are key on tight sites.
+            </p>
+            <h3 className={styles.h3}>
+              Does PD override Building Regulations?
+            </h3>
+            <p className={styles.p}>
+              No. You must still comply with Parts L, O and other applicable
+              regulations.
+            </p>
+            <h3 className={styles.h3}>What are 2025 fees?</h3>
+            <p className={styles.p}>
+              Householder applications are £528; prior approval and LDC fees
+              differ by class and basis.
+            </p>
+            <h3 className={styles.h3}>
+              What if my borough has an Article 4 Direction?
+            </h3>
+            <p className={styles.p}>
+              Some PD rights may be removed locally. Check your address and, if
+              needed, apply for planning permission instead.
+            </p>
+            <h3 className={styles.h3}>Any tax reliefs for green upgrades?</h3>
+            <p className={styles.p}>
+              Yes. Qualifying energy-saving installations are 0% VAT until 31
+              March 2027.
+            </p>
 
-          <h3 className={styles.h3}>Dormer Conversions</h3>
-          <p className={styles.p}>
-            Dormer loft conversions are the most popular type in London homes,
-            especially in Victorian and Edwardian terraces. They involve
-            extending the existing roof vertically to create a box-like
-            structure, adding headroom and floor space. A dormer often allows
-            for a full-sized bedroom, en-suite bathroom, or even a home office —
-            all flooded with natural light through rear-facing windows or French
-            doors with a Juliet balcony.
-          </p>
-          <p className={styles.p}>
-            The beauty of a dormer is that it typically falls under permitted
-            development rights, meaning you might not need full planning
-            permission. It&apos;s a great choice for homeowners looking to add
-            functional space without radically altering the roofline or
-            street-facing aesthetic.
-          </p>
+            <h2 id="conclusion" className={styles.h2}>
+              Conclusion
+            </h2>
+            <p className={styles.p}>
+              Used strategically, permitted development is a powerful route to
+              add space and value to London homes without the cost and wait of
+              full planning. The key is precision: measure twice, design once,
+              and confirm eligibility early &dash; via prior approval where
+              required or an LDC for certainty. Align your scheme with Building
+              Regulations and neighbour relations, and you will enjoy a smoother
+              build and a better result.
+            </p>
+            <p className={styles.p}>
+              If you want an expert partner to translate your brief into a
+              compliant, beautiful design, Better Homes Studio can audit your
+              address, optimise the layout within PD, prepare drawings, and
+              manage any LDC or prior approval &dash; so you can get building
+              with confidence.
+            </p>
 
-          <h3 className={styles.h3}>Mansard Conversions</h3>
-          <p className={styles.p}>
-            Mansard conversions are more involved — they essentially rebuild one
-            side of the roof to create an almost flat surface with a steep slope
-            at the rear. This offers the maximum possible space and is often
-            used in high-end conversions where homeowners want a full additional
-            floor. They&apos;re common in central London, where maximizing
-            property value is a top priority.
-          </p>
-          <p className={styles.p}>
-            While they offer the most space, mansards almost always require
-            planning permission due to the dramatic change in the roof shape and
-            structure. But the payoff is worth it for those who want to create
-            something truly transformative.
-          </p>
+            {/* References Section */}
+            <h2 id="references" className={styles.h2}>
+              References and Further Reading
+            </h2>
+            <div className="mb-10 space-y-3">
+              <p className={styles.p}>
+                <strong>Government Planning Guidance:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/planning-permission-england-wales"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Planning Permission in England and Wales - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Permitted Development Rights for Householders - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.planningportal.co.uk/info/200130/common_projects/9/loft_conversion"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Loft Conversion Planning Portal Guide
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.planningportal.co.uk/info/200130/common_projects/10/extension"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    House Extension Planning Portal Guide
+                  </Link>
+                </li>
+              </ul>
 
-          <h3 className={styles.h3}>Hip-to-Gable Conversions</h3>
-          <p className={styles.p}>
-            In semi-detached or end-of-terrace houses, hip-to-gable conversions
-            are a clever way to make use of the sloped side of the roof (the
-            “hip”) by building it up into a vertical wall (a “gable”). This
-            opens up internal space and is often combined with a rear dormer to
-            maximise room size.
-          </p>
-          <p className={styles.p}>
-            They&apos;re popular in London suburbs where 1930s houses with
-            hipped roofs are common, and they usually fall under permitted
-            development.
-          </p>
+              <p className={styles.p}>
+                <strong>Building Regulations and Legal Requirements:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/building-regulations-approval"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Building Regulations Approval - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls/the-party-wall-etc-act-1996-explanatory-booklet"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Party Wall Act 1996 Explanatory Booklet - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/lawful-development-certificates"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Lawful Development Certificates - GOV.UK
+                  </Link>
+                </li>
+              </ul>
 
-          <h3 className={styles.h3}>Velux (Rooflight) Conversions</h3>
-          <p className={styles.p}>
-            For those on a tighter budget — or looking for a home office or
-            guest room without heavy construction — a Velux loft conversion
-            might be the perfect fit. These involve adding skylights (Velux is
-            just the brand name) to the existing roof without altering the shape
-            or structure.
-          </p>
-          <p className={styles.p}>
-            They require less time and disruption and usually don&apos;t need
-            planning permission, but you&apos;ll need sufficient headroom and
-            insulation to make the space truly comfortable. It&apos;s a great
-            entry-level extension that works well in homes with generous loft
-            height.
-          </p>
+              <p className={styles.p}>
+                <strong>Energy Efficiency and Green Upgrades:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/guidance/domestic-renewable-heat-incentive"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Domestic Renewable Heat Incentive - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://mcscertified.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Microgeneration Certification Scheme (MCS)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/feed-in-tariffs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Feed-in Tariffs and Smart Export Guarantee - GOV.UK
+                  </Link>
+                </li>
+              </ul>
 
-          <p className={styles.p}>
-            Loft conversions are not just practical — they&apos;re among the
-            most cost-effective house extensions in London. They turn previously
-            unused space into valuable real estate and can increase your
-            home&apos;s value by up to 20%, all while staying within your
-            existing footprint.
-          </p>
+              <p className={styles.p}>
+                <strong>London-Specific Planning Information:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.london.gov.uk/what-we-do/planning"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    London Planning Information - Greater London Authority
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/find-local-council"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Find Your Local Council - GOV.UK
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          <h2 className={styles.h2}>Basement Conversions</h2>
+            {/* SCHEMA: Inject Article + FAQPage JSON-LD at build time */}
+            {/* EXTERNAL LINKS: Replace source mentions with Next.js <Link> to GOV.UK, Planning Portal, MCS */}
+          </>
 
-          <h3 className={styles.h3}>Creating Functional Underground Spaces</h3>
-          <p className={styles.p}>
-            In high-end London postcodes where land is limited and building
-            outward or upward isn&apos;t always an option, basement conversions
-            offer a creative way to add serious square footage. Homeowners are
-            transforming these below-ground spaces into home cinemas, gyms, wine
-            cellars, utility rooms, or even full guest suites with private
-            entrances.
-          </p>
-          <p className={styles.p}>
-            Basement conversions are particularly popular in period townhouses,
-            where maintaining the exterior aesthetic is essential but space is
-            at a premium. They&apos;re also a great solution for homeowners who
-            want to preserve garden space while still gaining an extra floor of
-            usable space.
-          </p>
-
-          <h3 className={styles.h3}>Waterproofing and Structural Integrity</h3>
-          <p className={styles.p}>
-            Basements come with unique challenges that other house extensions
-            don&apos;t — primarily, waterproofing and structural safety. The key
-            to a successful conversion is a method called “tanking,” which
-            involves sealing the walls and floor to prevent water ingress.
-            Drainage systems and sump pumps are often installed to manage
-            groundwater and protect your investment.
-          </p>
-          <p className={styles.p}>
-            You&apos;ll also need to consider underpinning the existing
-            foundations to allow for safe excavation — this isn&apos;t a light
-            job. It requires experienced contractors, structural engineers, and
-            often extensive liaison with your local council, especially in
-            boroughs like Kensington & Chelsea or Westminster, where strict
-            regulations are in place.
-          </p>
-          <p className={styles.p}>
-            While basement conversions are among the most expensive types of
-            house extensions (often £3,000+ per m²), they can add massive value
-            to properties in prime locations — sometimes increasing a
-            home&apos;s worth by hundreds of thousands of pounds.
-          </p>
-          <p className={styles.p}>
-            If you&apos;re not afraid of a bit of complexity and want to
-            maximise every inch of your property, a basement extension could be
-            the bold move that takes your home to the next level — literally.
-          </p>
-
-          <h2 className={styles.h2}>Conservatories and Orangeries</h2>
-
-          <h3 className={styles.h3}>Conservatories</h3>
-          <p className={styles.p}>
-            Conservatories have been a classic house extension option in the UK
-            for decades. Built mainly from glass with a uPVC or aluminium frame,
-            they&apos;re often attached to the rear of the property and used as
-            sunrooms, play areas, or secondary lounges. For London homeowners
-            looking for a cost-effective way to extend without major
-            construction, a conservatory can be a great entry point.
-          </p>
-          <p className={styles.p}>
-            Modern conservatories are far more advanced than their draughty
-            predecessors. Today&apos;s designs use thermally efficient glazing,
-            solid roof options, and better insulation, meaning they&apos;re
-            usable year-round. And thanks to permitted development rights, many
-            conservatories can be built without needing full planning permission
-            — especially if they fall within size limits.
-          </p>
-          <p className={styles.p}>
-            However, because they are still predominantly glass, heat retention
-            in winter and overheating in summer can be concerns if not designed
-            properly. Positioning, ventilation, and glazing choice are all
-            critical to making a conservatory feel like a proper part of the
-            home rather than just a bolt-on.
-          </p>
-
-          <h3 className={styles.h3}>Orangeries</h3>
-          <p className={styles.p}>
-            If you want something more solid and integrated than a conservatory,
-            an orangery might be the better choice. Originally designed for
-            growing citrus trees in the 17th century, modern orangeries are
-            elegant hybrid extensions that combine brickwork with large glazed
-            panels and often feature a lantern-style roof for light.
-          </p>
-          <p className={styles.p}>
-            Orangeries strike a perfect balance between extension and feature
-            room. They feel more like a natural continuation of your living
-            space and can be used comfortably all year round. They&apos;re
-            especially popular in more traditional or period properties, where a
-            full-glass conservatory might look out of place.
-          </p>
-          <p className={styles.p}>
-            Costs are higher than for a conservatory but still typically lower
-            than a full rear extension. Plus, the visual impact they add — both
-            inside and out — often makes them a favourite for homeowners wanting
-            to increase space and wow factor at the same time.
-          </p>
-
-          <h2 className={styles.h2}>Garage Conversions</h2>
-
-          <h3 className={styles.h3}>Transforming Unused Garages</h3>
-          <p className={styles.p}>
-            If your garage is more storage unit than parking space, you&apos;re
-            not alone — and you might be sitting on prime real estate. Garage
-            conversions are one of the simplest and most cost-effective house
-            extension options, especially in suburban areas of London where many
-            homes have integral or attached garages that are rarely used for
-            cars.
-          </p>
-          <p className={styles.p}>
-            These conversions typically involve upgrading insulation, replacing
-            the garage door with a wall and window, and integrating the space
-            into your existing floor plan. The result? A new bedroom, home
-            office, gym, playroom, or even an en-suite guest suite — without
-            expanding your home&apos;s footprint at all.
-          </p>
-          <p className={styles.p}>
-            One of the best things about garage conversions is that they often
-            fall under permitted development, meaning you won&apos;t need full
-            planning permission — though you&apos;ll still need to meet building
-            regulations. Plus, because the structural shell is already there,
-            the construction time and cost are significantly lower than other
-            extension types.
-          </p>
-
-          <h3 className={styles.h3}>Insulation and Access Considerations</h3>
-          <p className={styles.p}>
-            When converting a garage, insulation is key. These spaces
-            weren&apos;t originally designed for living, so proper floor, wall,
-            and roof insulation is essential to keep the room comfortable
-            year-round. You&apos;ll also need to ensure there&apos;s adequate
-            heating and ventilation, and if you&apos;re adding a bathroom or
-            kitchen, that the plumbing can be extended easily.
-          </p>
-          <p className={styles.p}>
-            Another big consideration is access. If your garage is detached or
-            separated from the main living space, you&apos;ll need to plan how
-            it connects — either with a new internal doorway or as a completely
-            self-contained annexe. This can be a huge plus if you&apos;re
-            planning to use it as a rental or guest space.
-          </p>
-          <p className={styles.p}>
-            Garage conversions are a great way to breathe new life into dead
-            space. With the right design, they can blend seamlessly into the
-            rest of your home and boost both functionality and value.
-          </p>
-
-          <h2 className={styles.h2}>Outbuildings and Garden Rooms</h2>
-
-          <h3 className={styles.h3}>Detached Structures for Various Uses</h3>
-          <p className={styles.p}>
-            With remote work becoming the norm and personal space at a premium,
-            garden rooms and outbuildings have become a hot trend in London.
-            These detached structures — often timber-framed and built at the end
-            of the garden — offer a stylish, flexible solution for home offices,
-            creative studios, gyms, or even guest accommodation.
-          </p>
-          <p className={styles.p}>
-            One of the biggest appeals is separation. Unlike a rear or loft
-            extension, a garden room gives you a dedicated space away from the
-            main home, perfect for uninterrupted work or quiet downtime. It also
-            offers lifestyle value — think yoga studio, art space, or even a
-            teenage den.
-          </p>
-          <p className={styles.p}>
-            These builds are usually highly insulated, fully powered, and can be
-            tailored to match your aesthetic — from modern minimalist cubes to
-            rustic cabins. And because they&apos;re technically “outbuildings,”
-            they often fall under permitted development, provided they meet
-            certain height, size, and usage restrictions.
-          </p>
-
-          <h3 className={styles.h3}>Planning Permissions and Regulations</h3>
-          <p className={styles.p}>
-            Garden rooms generally don&apos;t require planning permission if
-            they are single-storey, under 2.5 metres high (if within 2m of a
-            boundary), and not used as permanent living accommodation. However,
-            if you&apos;re adding plumbing for a bathroom or planning to rent it
-            out, you may need full planning approval and building regulations
-            sign-off.
-          </p>
-          <p className={styles.p}>
-            Also, if your property is in a conservation area or has listed
-            status — which is fairly common in certain London boroughs —
-            additional permissions will likely be required. Always check with
-            your local authority before starting work.
-          </p>
-          <p className={styles.p}>
-            Well-executed garden rooms can add value to your home, especially if
-            they serve a clear, year-round function. And from a lifestyle
-            perspective, having a peaceful, custom-built space just steps away
-            from your back door is hard to beat.
-          </p>
-
-          <h2 className={styles.h2}>
-            Planning Permission and Building Regulations
-          </h2>
-
-          <h3 className={styles.h3}>Navigating the Legal Landscape</h3>
-          <p className={styles.p}>
-            One of the biggest questions London homeowners ask before starting a
-            house extension is: “Do I need planning permission?” The answer
-            depends on the type, size, and location of the extension — but
-            knowing the rules early can save you a lot of time, stress, and
-            money.
-          </p>
-          <p className={styles.p}>
-            Many common extensions, like single-storey rear additions or loft
-            conversions, fall under what&apos;s called “permitted development
-            rights.” This means you can go ahead without full planning
-            permission, as long as you follow strict size and design limits.
-            However, if your home is in a conservation area, is listed, or has
-            had rights removed (common in central boroughs), you&apos;ll need
-            full planning approval.
-          </p>
-          <p className={styles.p}>
-            Planning rules also cover things like how the extension affects
-            neighbours, especially when it comes to light, privacy, and the
-            overall appearance of the street. If you&apos;re doing something
-            more complex — like a double-storey build, basement excavation, or
-            wraparound — assume you&apos;ll need planning consent.
-          </p>
-
-          <h3 className={styles.h3}>Building Regulations Compliance</h3>
-          <p className={styles.p}>
-            Even if you don&apos;t need planning permission, your extension will
-            still need to meet UK Building Regulations. These ensure your
-            extension is structurally sound, energy-efficient, fire-safe, and
-            accessible.
-          </p>
-          <p className={styles.p}>
-            Regulations cover things like foundations, insulation, drainage,
-            ventilation, electrical safety, and even how stairs are designed.
-            You&apos;ll usually work with a building control officer or an
-            approved inspector, who will visit the site at key stages to sign
-            off the work.
-          </p>
-          <p className={styles.p}>
-            Skipping this step isn&apos;t just risky — it&apos;s illegal.
-            Without proper sign-off, you might struggle to sell or remortgage
-            the home later. The good news? A competent architect or builder will
-            guide you through the whole process, so you&apos;re not left dealing
-            with it alone.
-          </p>
-          <p className={styles.p}>
-            When it comes to house extensions in London, planning and
-            regulations can feel like red tape — but they&apos;re really there
-            to protect your investment and your neighbours&apos; peace of mind.
-            Do it right from the start, and the rest of your project will be
-            much smoother.
-          </p>
-
-          <h2 className={styles.h2}>Cost Considerations</h2>
-
-          <h3 className={styles.h3}>Budgeting for Your Extension</h3>
-          <p className={styles.p}>
-            When it comes to house extensions, costs can vary wildly —
-            especially in London, where materials, labour, and demand all run
-            higher than the national average. On average, here&apos;s what you
-            can expect to pay per square metre in 2025:
-          </p>
-          <ul className={styles.p}>
-            <li>Single-storey extension: £2,000 – £3,200 per m²</li>
-            <li>Double-storey extension: £2,500 – £3,800 per m²</li>
-            <li>Loft conversion: £1,500 – £2,500 per m²</li>
-            <li>Basement conversion: £3,000 – £5,000+ per m²</li>
-            <li>Garage conversion: £1,200 – £2,000 per m²</li>
-            <li>Garden room: £15,000 – £40,000 total (depending on spec)</li>
-          </ul>
-          <p className={styles.p}>
-            Keep in mind these are ballpark figures — your final cost will
-            depend on location, size, finish level, access, and existing site
-            conditions. In London, things like tight access, permit delays, or
-            heritage property requirements can add to the bill.
-          </p>
-
-          <h3 className={styles.h3}>Hidden Costs to Anticipate</h3>
-          <p className={styles.p}>
-            It&apos;s easy to focus on the headline build cost, but there are a
-            few “surprise” costs that homeowners often forget to budget for:
-          </p>
-          <ul className={styles.p}>
-            <li>
-              <strong>Planning and architect fees:</strong> Expect 8–15% of your
-              project value.
-            </li>
-            <li>
-              <strong>Structural engineering:</strong> Around £1,000–£2,000
-              depending on complexity.
-            </li>
-            <li>
-              <strong>Party Wall Agreements:</strong> Required for many London
-              builds, especially terraces.
-            </li>
-            <li>
-              <strong>VAT:</strong> 20% on most work, unless you qualify for
-              exemptions (e.g. listed buildings).
-            </li>
-            <li>
-              <strong>Finishing costs:</strong> Flooring, lighting, kitchens,
-              bathrooms — these add up quickly.
-            </li>
-            <li>
-              <strong>Temporary accommodation:</strong> If your home becomes
-              unliveable during the build.
-            </li>
-          </ul>
-          <p className={styles.p}>
-            A good rule of thumb? Add 10–15% contingency on top of your
-            estimated build cost to stay covered. It&apos;s better to be
-            pleasantly surprised than caught off guard mid-project.
-          </p>
-          <p className={styles.p}>
-            Being realistic from the start is key. The right extension will add
-            value to your home — but only if the cost is managed wisely. Get
-            quotes from multiple contractors, ask for breakdowns, and don&apos;t
-            be afraid to question what&apos;s included (and what&apos;s not).
-          </p>
-
-          <h2 className={styles.h2}>
-            Choosing the Right Extension for Your Home
-          </h2>
-
-          <h3 className={styles.h3}>Assessing Your Needs and Property</h3>
-          <p className={styles.p}>
-            Before you dive into floorplans or Pinterest boards, take a step
-            back and ask: What do I actually need from this extension? Is it
-            more living space? Another bedroom? A home office? Or just a better
-            connection to the garden? Being crystal clear on the function will
-            guide every decision after that.
-          </p>
-          <p className={styles.p}>
-            Your property type matters too. A side return works wonders for
-            Victorian terraces, while a loft conversion might be the best route
-            for 1930s semis. Got a wide plot in a newer build? A rear or
-            wraparound extension might be a better fit. Understanding your
-            home&apos;s layout and limitations will help you avoid costly
-            mistakes or wasted space.
-          </p>
-          <p className={styles.p}>
-            Also consider the long-term: Will your family grow? Could you rent
-            out part of the space later? Will this impact resale value or
-            planning down the line? These aren&apos;t just add-ons — they shape
-            the core of a good design.
-          </p>
-
-          <h3 className={styles.h3}>Consulting with Professionals</h3>
-          <p className={styles.p}>
-            Once you&apos;ve nailed down your goals, speak to an architect or
-            experienced design-and-build company. They&apos;ll help translate
-            your wishlist into something structurally sound and
-            planning-friendly. In many cases, they&apos;ll also spot
-            opportunities you haven&apos;t thought of — like natural light
-            tricks, flow improvements, or layout optimisations.
-          </p>
-          <p className={styles.p}>
-            In London, where planning nuances can vary street by street,
-            it&apos;s worth getting someone on board who knows your
-            borough&apos;s planning quirks. The right professional can
-            streamline permissions, liaise with surveyors, and help you avoid
-            red tape.
-          </p>
-          <p className={styles.p}>
-            A house extension is a big investment — not just financially, but in
-            how you live. So take your time, plan with purpose, and don&apos;t
-            just choose what looks good online. Choose what fits your home, your
-            lifestyle, and your future.
-          </p>
-
-          <h2 className={styles.h2}>
-            Sustainability and Eco-Friendly Extensions
-          </h2>
-
-          <h3 className={styles.h3}>Incorporating Green Building Practices</h3>
-          <p className={styles.p}>
-            In a city as environmentally conscious as London, many homeowners
-            are now prioritising sustainability when extending their homes. From
-            materials to energy systems, there are plenty of smart, eco-friendly
-            choices that not only reduce your carbon footprint but can also
-            lower your bills over time.
-          </p>
-          <p className={styles.p}>
-            One of the simplest ways to make your house extension greener is
-            through high-performance insulation and airtight construction.
-            Combine this with double or triple glazing, and you&apos;ll
-            instantly improve energy efficiency. Many architects are now
-            incorporating passive solar design too — orienting extensions to
-            make the most of natural light and heat throughout the day.
-          </p>
-          <p className={styles.p}>
-            Material choice matters as well. Reclaimed timber, low-VOC paints,
-            recycled insulation, and sustainably sourced bricks or cladding can
-            all reduce environmental impact. Some homeowners even opt for green
-            roofs, which help manage rainwater, improve insulation, and attract
-            biodiversity.
-          </p>
-
-          <h3 className={styles.h3}>Long-Term Benefits</h3>
-          <p className={styles.p}>
-            While eco-friendly extensions may come with slightly higher upfront
-            costs, they offer long-term payoffs: reduced heating bills, improved
-            indoor air quality, and even higher property values. In fact, energy
-            efficiency is becoming a major factor for buyers in the London
-            property market — and a well-insulated extension can make your EPC
-            rating more competitive.
-          </p>
-          <p className={styles.p}>
-            Plus, with the UK pushing for net-zero carbon emissions, future
-            regulations may demand higher energy standards. Building with
-            sustainability in mind now means your home will already be ahead of
-            the curve — saving you from future retrofits and keeping your home
-            more resilient in the long run.
-          </p>
-          <p className={styles.p}>
-            So whether you&apos;re planning a modest side return or a full
-            double-storey build, thinking green isn&apos;t just a trend —
-            it&apos;s a wise, future-proof investment.
-          </p>
-
-          <h2 className={styles.h2}>Conclusion and Next Steps</h2>
-
-          <h3 className={styles.h3}>Recap of Extension Options</h3>
-          <p className={styles.p}>
-            Whether you&apos;re dreaming of an airy open-plan kitchen, a
-            peaceful loft retreat, or a sleek home office at the bottom of the
-            garden, there&apos;s a house extension that can bring your vision to
-            life. In this guide, we&apos;ve explored every major type — from
-            single-storey builds and garage conversions to ambitious basements
-            and eco-friendly garden rooms.
-          </p>
-          <p className={styles.p}>
-            Each option has its own strengths, costs, and planning
-            considerations — and the right choice depends entirely on your
-            property, your budget, and your lifestyle. What works for a young
-            couple in a Clapham terrace might not be right for a growing family
-            in Ealing or a professional duo in Islington.
-          </p>
-
-          <h3 className={styles.h3}>Planning Your Extension Journey</h3>
-          <p className={styles.p}>
-            The key takeaway? Don&apos;t rush it. Start with a clear purpose, do
-            your research, and speak to professionals who understand your local
-            area and your long-term goals. An architect, builder, or
-            design-and-build team can help turn ideas into a practical plan —
-            and spot opportunities you might miss.
-          </p>
-          <p className={styles.p}>
-            In London&apos;s ever-changing housing market, a thoughtful,
-            well-executed extension can be a game-changer — giving you more
-            space, more comfort, and more value. So whether you&apos;re ready to
-            start drawing up plans or just daydreaming, you&apos;re already on
-            the right track by learning what&apos;s possible.
-          </p>
-          <p className={styles.p}>
-            From here, it&apos;s all about taking the next step — and turning
-            that extra space into a better way of living.
-          </p>
-
-          <h2 className={styles.h2}>Quick Takeaways</h2>
-
-          <ul className={styles.p}>
-            <li>
-              There are many types of house extensions in London, from side
-              returns and lofts to basements and garden rooms — each suited to
-              different needs and property types.
-            </li>
-            <li>
-              Single-storey and loft conversions are the most popular, offering
-              strong ROI with relatively low disruption.
-            </li>
-            <li>
-              Double-storey and basement extensions offer the most space but
-              come with higher costs and planning requirements.
-            </li>
-            <li>
-              Garage and garden room conversions are budget-friendly options
-              that don&apos;t typically require full planning permission.
-            </li>
-            <li>
-              Planning permission and building regulations vary by borough —
-              always check with your local authority before starting work.
-            </li>
-            <li>
-              Eco-friendly materials and energy-efficient design are becoming
-              key features of modern house extensions.
-            </li>
-            <li>
-              Costs can range from £1,200 to £5,000+ per m² — always add a
-              contingency budget of 10–15% to cover hidden expenses.
-            </li>
-          </ul>
-
-          <h2 className={styles.h2}>Frequently Asked Questions</h2>
-
-          <h3 className={styles.h3}>
-            1. What is the most cost-effective house extension in London?
-          </h3>
-          <p className={styles.p}>
-            Garage conversions and Velux loft conversions tend to be the most
-            affordable. Since they often use existing structures and fall under
-            permitted development, they&apos;re quicker and cheaper than full
-            builds — typically starting around £1,200–£1,500 per m².
-          </p>
-
-          <h3 className={styles.h3}>
-            2. Do I need planning permission for a single-storey rear extension?
-          </h3>
-          <p className={styles.p}>
-            In many cases, no — single-storey rear extensions often fall under
-            permitted development. However, size limits apply, and if
-            you&apos;re in a conservation area or listed property, you&apos;ll
-            likely need planning permission. Always check with your local
-            council before proceeding.
-          </p>
-
-          <h3 className={styles.h3}>
-            3. How long does a typical house extension take in London?
-          </h3>
-          <p className={styles.p}>
-            Most extensions take between 8 to 16 weeks to build, depending on
-            the size and complexity. Add time for planning, design, and approval
-            — so from idea to completion, expect 4–6 months on average.
-          </p>
-
-          <h3 className={styles.h3}>
-            4. Will a house extension add value to my property?
-          </h3>
-          <p className={styles.p}>
-            Yes — a well-designed extension can add 10–25% to your home&apos;s
-            value, especially in sought-after areas of London. Loft conversions,
-            side returns, and kitchen extensions are particularly
-            high-performing in terms of ROI.
-          </p>
-
-          <h3 className={styles.h3}>
-            5. What is the best house extension for a terraced house?
-          </h3>
-          <p className={styles.p}>
-            Side return and rear extensions are often ideal for terraced houses.
-            They optimise narrow plots without sacrificing garden space. Loft
-            conversions are also a great way to gain an extra bedroom or office
-            without extending outward.
-          </p>
-
-          <h2 className={styles.h2}>We&apos;d Love to Hear from You!</h2>
-
-          <p className={styles.p}>
-            Thinking about extending your London home? Already been through the
-            process and have tips to share? We&apos;d love to hear your
-            thoughts, questions, or experiences in the comments below.
-          </p>
-
-          <p className={styles.p}>
-            If you found this guide helpful, feel free to share it with friends
-            or family who might be planning a house extension — it might just
-            save them some serious time and stress!
-          </p>
-
-          <p className={styles.p}>
-            Here&apos;s a question to get the conversation going:{" "}
-            <strong>
-              What&apos;s your dream extension — and what would you use the
-              extra space for?
-            </strong>
-          </p>
-
-          <h2 className={styles.h2}>References</h2>
-
-          <ul className={styles.p}>
-            <li>
-              <a
-                href="https://www.gov.uk/planning-permission-england-wales"
-                target="_blank"
-                rel="noopener noreferrer"
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
               >
-                GOV.UK – Planning Permission: When You Need It
-              </a>
-              <br />
-              Official guidance on when planning permission is required for home
-              extensions in England and Wales.
-            </li>
-            <li>
-              <a
-                href="https://www.gov.uk/building-regulations-approval"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GOV.UK – Building Regulations Approval
-              </a>
-              <br />
-              Comprehensive information on building regulations approval for
-              construction and extension projects.
-            </li>
-            <li>
-              <a
-                href="https://www.livingetc.com/advice/home-extension-cost"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Livingetc – How Much Does an Extension Cost in 2025?
-              </a>
-              <br />
-              Detailed breakdown of home extension costs in the UK for 2025,
-              including factors affecting pricing.
-            </li>
-            <li>
-              <a
-                href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GOV.UK – Permitted Development Rights for Householders:
-                Technical Guidance
-              </a>
-              <br />
-              Technical guidance on permitted development rights, outlining what
-              home improvements can be made without planning permission.
-            </li>
-            <li>
-              <a
-                href="https://www.theguardian.com/artanddesign/2025/apr/08/material-cultures-radical-designers-let-nothing-go-to-waste-bark-cactus-plaster-straw"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                The Guardian – &apos;Bark is the Original Dampproof
-                Membrane!&apos;
-              </a>
-              <br />
-              An article exploring innovative sustainable materials used in
-              modern architecture, highlighting eco-friendly building practices.
-            </li>
-          </ul>
-
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -2200,18 +1800,53 @@ export const articles = [
             </li>
           </ul>
 
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -3504,18 +3139,53 @@ export const articles = [
             </li>
           </ul>
 
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -5256,18 +4926,53 @@ export const articles = [
             </li>
           </ul>
 
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -6156,18 +5861,53 @@ export const articles = [
             research, get professional advice, and be prepared for some
             challenges along the way. Good luck!
           </p>
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -6680,18 +6420,53 @@ export const articles = [
             <b className={styles.accent}>bathroom fitter</b> to ensure a smooth
             and successful renovation.
           </p>
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -6870,18 +6645,53 @@ export const articles = [
             this recognition makes us even more motivated to offer the most
             spectacular results.
           </p>
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
@@ -7409,18 +7219,53 @@ export const articles = [
             questions, and trust your instincts. Your dream bathroom is within
             reach!
           </p>
-          <a
-            href="/contact"
-            className="mb-10 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-            data-tally-open="wQEoXw"
-            data-tally-align-left="1"
-            data-tally-overlay="1"
-            data-tally-emoji-text="📋"
-            data-tally-emoji-animation="rubber-band"
-            data-tally-auto-close="2000"
-          >
-            Contact us now!
-          </a>
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </section>
       </>
     ),
