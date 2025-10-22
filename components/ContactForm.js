@@ -15,6 +15,9 @@ const ContactForm = () => {
     topic: "",
     customTopic: "",
     message: "",
+    // Honeypot fields (hidden from users)
+    website: "", // Bots often fill this
+    company: "", // Another common bot field
   });
 
   const topics = [
@@ -65,6 +68,13 @@ const ContactForm = () => {
     }
     if (!formData.message.trim()) {
       toast.error("Message is required");
+      return;
+    }
+
+    // Honeypot validation - reject if honeypot fields are filled
+    if (formData.website.trim() || formData.company.trim()) {
+      console.warn("Bot detected: Honeypot fields filled");
+      toast.error("Invalid submission detected");
       return;
     }
 
@@ -266,6 +276,26 @@ const ContactForm = () => {
                   Please provide as much detail as possible to help us better
                   assist you.
                 </p>
+              </div>
+
+              {/* Honeypot Fields - Hidden from users */}
+              <div style={{ display: "none" }}>
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleInputChange}
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
+                <input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
               </div>
 
               {/* Submit Button */}

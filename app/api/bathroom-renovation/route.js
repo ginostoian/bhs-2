@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import BathroomRenovation from "@/models/BathroomRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { rateLimitMiddleware } from "@/libs/rateLimiter";
 
 /**
  * POST /api/bathroom-renovation
  * Handle bathroom renovation form submissions
  */
-export async function POST(request) {
+async function handleBathroomRenovationSubmission(request) {
   try {
     const body = await request.json();
     const {
@@ -31,7 +32,44 @@ export async function POST(request) {
       tiling,
       decorating,
       additionalInfo,
+      website, // Honeypot field
+      company, // Honeypot field
     } = body;
+
+    // Honeypot validation - reject if honeypot fields are filled
+    if (website?.trim() || company?.trim()) {
+      console.warn("Bot detected: Honeypot fields filled", {
+        website,
+        company,
+      });
+      return NextResponse.json(
+        { error: "Invalid submission" },
+        { status: 400 },
+      );
+    }
+
+    // Content validation - detect bot patterns
+    const isBotName = (name) => {
+      if (!name || typeof name !== "string") return false;
+      const trimmed = name.trim();
+
+      const randomPattern = /^[A-Za-z0-9]{20,}$/;
+      const hasRandomPattern = randomPattern.test(trimmed);
+      const isTooLong = trimmed.length > 50;
+      const hasRepeatedChars = /(.)\1{3,}/.test(trimmed);
+      const noSpaces = trimmed.length > 15 && !trimmed.includes(" ");
+
+      return hasRandomPattern || isTooLong || hasRepeatedChars || noSpaces;
+    };
+
+    // Validate name for bot patterns
+    if (isBotName(name)) {
+      console.warn("Bot detected: Suspicious name pattern", { name });
+      return NextResponse.json(
+        { error: "Invalid submission" },
+        { status: 400 },
+      );
+    }
 
     // Validate required fields
     if (!name?.trim()) {
@@ -171,6 +209,9 @@ export async function POST(request) {
     );
   }
 }
+
+// Export the rate-limited handler
+export const POST = rateLimitMiddleware(handleBathroomRenovationSubmission);
 
 /**
  * Generate confirmation email for customer

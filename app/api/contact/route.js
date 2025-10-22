@@ -2,16 +2,72 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Contact from "@/models/Contact";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { rateLimitMiddleware } from "@/libs/rateLimiter";
 
 /**
  * POST /api/contact
  * Handle contact form submissions
  */
-export async function POST(request) {
+async function handleContactSubmission(request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, phone, topic, customTopic, message } =
-      body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      topic,
+      customTopic,
+      message,
+      website,
+      company,
+    } = body;
+
+    // Honeypot validation - reject if honeypot fields are filled
+    if (website?.trim() || company?.trim()) {
+      console.warn("Bot detected: Honeypot fields filled", {
+        website,
+        company,
+      });
+      return NextResponse.json(
+        { error: "Invalid submission" },
+        { status: 400 },
+      );
+    }
+
+    // Content validation - detect bot patterns
+    const isBotName = (name) => {
+      if (!name || typeof name !== "string") return false;
+      const trimmed = name.trim();
+
+      // Check for random character patterns (like the ones in your screenshot)
+      // Pattern: long strings with mixed case, numbers, and special chars
+      const randomPattern = /^[A-Za-z0-9]{20,}$/;
+      const hasRandomPattern = randomPattern.test(trimmed);
+
+      // Check for excessive length (normal names are shorter)
+      const isTooLong = trimmed.length > 50;
+
+      // Check for repeated characters
+      const hasRepeatedChars = /(.)\1{3,}/.test(trimmed);
+
+      // Check for no spaces in long names (real names usually have spaces)
+      const noSpaces = trimmed.length > 15 && !trimmed.includes(" ");
+
+      return hasRandomPattern || isTooLong || hasRepeatedChars || noSpaces;
+    };
+
+    // Validate names for bot patterns
+    if (isBotName(firstName) || isBotName(lastName)) {
+      console.warn("Bot detected: Suspicious name pattern", {
+        firstName,
+        lastName,
+      });
+      return NextResponse.json(
+        { error: "Invalid submission" },
+        { status: 400 },
+      );
+    }
 
     // Validate required fields
     if (!firstName?.trim()) {
@@ -145,6 +201,9 @@ export async function POST(request) {
     );
   }
 }
+
+// Export the rate-limited handler
+export const POST = rateLimitMiddleware(handleContactSubmission);
 
 /**
  * Generate confirmation email for customer

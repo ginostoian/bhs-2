@@ -812,6 +812,612 @@ export const articles = [
   },
   {
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
+    slug: "permitted-development-guide",
+    // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
+    title:
+      "Permitted development in the UK: the complete London homeowners guide",
+    // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
+    description:
+      "Permitted development is one of the fastest, most reliable routes to improving your London home without a full planning application. Yet many owners discover too late that the rules are nuanced",
+    // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    // The author of the article. It&apos;s used to generate a link to the author&apos;s bio page.
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    // The date of the article. It&apos;s used to generate the meta date.
+    publishedAt: "2025-10-14",
+    image: {
+      // The image to display in <CardArticle /> components.
+      src: PermittedDevelopmentImg,
+      // The relative URL of the same image to use in the Open Graph meta tags & the Schema Markup JSON-LD.
+      urlRelative: "/assets/illustrations/Permitted-development-in-london.jpg",
+      alt: "Infographic about permitted development in London",
+    },
+    // The actual content of the article that will be shown under the <h1> title in the article page.
+    content: (
+      <>
+        <Image
+          src={PermittedDevelopmentImg}
+          alt="Diagram showing types of house extensions in a typical London home, including rear, loft, side return, garage, and garden room extensions."
+          width={700}
+          height={500}
+          priority={true}
+          className="rounded-box mb-10"
+          placeholder="blur"
+        />
+        <section>
+          <>
+            <h2 id="toc" className={styles.h2}>
+              Contents
+            </h2>
+            <ul className={`${styles.p} space-y-2`}>
+              <li className="py-1">
+                <Link href="#what-is-pd">What is permitted development?</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#who-can-use">
+                  Who can use it in London &dash; and who cannot
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#pd-vs-prior">
+                  Permitted development vs prior approval
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#extensions">
+                  Rear and side extensions under PD
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#lofts">Loft conversions and roof works</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#outbuildings">
+                  Outbuildings, garden rooms and home offices
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#driveways">
+                  Driveways and front gardens: the 5 m² rule
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#green-upgrades">
+                  Solar, heat pumps and green upgrades
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#upward">
+                  Upward extensions (additional storeys)
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#article4">Article 4 and conservation areas</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#ldc">Lawful Development Certificates</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#fees">Fees and timelines in 2025</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#regs-party">
+                  Building Regulations and Party Wall
+                </Link>
+              </li>
+              <li className="py-1">
+                <Link href="#takeaways">Quick takeaways</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#faqs">FAQs</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#conclusion">Conclusion</Link>
+              </li>
+              <li className="py-1">
+                <Link href="#references">References and Further Reading</Link>
+              </li>
+            </ul>
+            {/* IMAGE: Insert Concept 1 decision tree here */}
+
+            <h2 id="what-is-pd" className={styles.h2}>
+              What is permitted development?
+            </h2>
+            <p className={styles.p}>
+              Permitted development (PD) is a national planning permission that
+              allows many common home improvements to proceed without a full
+              planning application, provided your project meets specific limits
+              and conditions. In practice, PD can streamline smart upgrades to
+              London houses — extensions, lofts, outbuildings, solar — while
+              keeping quality safeguards through measurements, materials and
+              siting rules. PD does not remove the need to comply with Building
+              Regulations or other consents.
+            </p>
+
+            <h2 id="who-can-use" className={styles.h2}>
+              Who can use it in London &dash; and who cannot
+            </h2>
+            <p className={styles.p}>
+              PD rights principally apply to <strong>dwelling houses</strong>.
+              Most flats and maisonettes do not benefit, and{" "}
+              <strong>listed buildings</strong> are outside typical householder
+              PD. If your home sits on designated &ldquo;article 2(3)
+              land&rdquo; &dash; such as a conservation area &dash; some rights
+              are restricted. Always check if an{" "}
+              <strong>Article 4 Direction</strong> has removed specific PD on
+              your street.
+            </p>
+
+            <h2 id="pd-vs-prior" className={styles.h2}>
+              Permitted development vs prior approval
+            </h2>
+            <p className={styles.p}>
+              Some PD classes require you to obtain the council&apos;s{" "}
+              <strong>prior approval</strong> before starting work. This is not
+              a full planning application; instead, the authority assesses
+              defined impacts (for example, neighbour amenity or external
+              appearance) within a set period. Typical examples: larger
+              single-storey rear extensions and upward extensions. If prior
+              approval is silent after the deadline, your development may
+              proceed &dash; but do not start before the decision period ends.
+            </p>
+
+            <h2 id="extensions" className={styles.h2}>
+              Rear and side extensions under PD
+            </h2>
+            <p className={styles.p}>
+              Under PD, many London homes can build single-storey rear
+              extensions up to 3 m deep for attached houses and 4 m for detached
+              homes, subject to height, eaves, and materials matching
+              conditions. The &ldquo;larger home extension&rdquo; route allows
+              up to 6 m (attached) or 8 m (detached) provided you secure prior
+              approval through the neighbour consultation scheme. Side
+              extensions are typically single-storey, no greater than 4 m in
+              height and no more than half the width of the original house.
+              Wrap-around schemes must be designed so each element complies in
+              its own right, or they will fall outside PD.
+            </p>
+            {/* IMAGE: Insert Concept 2 &ldquo;42-day timeline&rdquo; here */}
+
+            <h2 id="lofts" className={styles.h2}>
+              Loft conversions and roof works
+            </h2>
+            <p className={styles.p}>
+              Loft conversions and dormers can fall under PD when volume limits,
+              set-backs and height rules are met. Rear-roof dormers are common
+              in London terraces; front dormers are more sensitive and often
+              excluded under PD, particularly in conservation areas. Materials
+              should be similar in appearance to the existing house and any
+              side-facing windows at first floor and above should be
+              obscure-glazed and non-opening below 1.7 m internal height.
+            </p>
+
+            <h2 id="outbuildings" className={styles.h2}>
+              Outbuildings, garden rooms and home offices
+            </h2>
+            <p className={styles.p}>
+              PD allows many outbuildings within the curtilage if they are for
+              &ldquo;incidental&rdquo; purposes &dash; think gym, studio or
+              store &dash; not self-contained accommodation. Respect total
+              coverage limits, heights (with tighter rules near boundaries), and
+              ensure garden rooms remain ancillary. In London, careful massing,
+              materials and positioning mitigate neighbour impact while
+              preserving usable garden.
+            </p>
+
+            <h2 id="driveways" className={styles.h2}>
+              Driveways and front gardens: the 5 m² rule
+            </h2>
+            <p className={styles.p}>
+              Converting front gardens to parking is PD where the area is 5 m²
+              or less, or where you use a <strong>permeable</strong> surface or
+              permeable sub-base with suitable drainage. Non-permeable surfacing
+              over 5 m² that sheds water to the highway typically needs planning
+              permission. Don&apos;t forget that a dropped kerb is a separate
+              highways consent. For many London plots, resin-bound or permeable
+              block systems balance kerb appeal and compliance.
+            </p>
+            {/* IMAGE: Insert Concept 3 permeable v impermeable surfacing here */}
+
+            <h2 id="green-upgrades" className={styles.h2}>
+              Solar, heat pumps and green upgrades under PD
+            </h2>
+            <p className={styles.p}>
+              Roof-mounted solar is generally PD subject to size, siting and
+              glare conditions. Air source heat pumps can be PD if they meet
+              siting and <strong>MCS-020</strong> noise criteria. Current
+              guidance works to an effective <strong>37 dB LAeq,5min</strong> at
+              the assessment point to protect neighbours. Placement, acoustic
+              screening and selecting a quieter unit help achieve compliance on
+              tight London plots. As an added incentive, qualifying
+              energy-saving installations are <strong>0% VAT</strong> until{" "}
+              <strong>31 March 2027</strong>, improving payback on solar and
+              heat pumps.
+            </p>
+
+            <h2 id="upward" className={styles.h2}>
+              Upward extensions (additional storeys)
+            </h2>
+            <p className={styles.p}>
+              PD allows additional storeys on some houses via Class AA, but it
+              is always subject to <strong>prior approval</strong>. Expect
+              checks on design, height parameters, neighbour amenity and
+              transport/highways impacts. In period terraces, townscape
+              sensitivity often drives design refinements; early 3D massing
+              helps demonstrate a considerate approach.
+            </p>
+
+            <h2 id="article4" className={styles.h2}>
+              Article 4 streets and conservation areas
+            </h2>
+            <p className={styles.p}>
+              Many inner-London neighbourhoods sit within conservation areas
+              where PD rights are restricted, and Article 4 Directions may
+              further remove specific rights such as changes to front elevations
+              or roofs. Your solicitor&apos;s searches or the borough website
+              will confirm if you are affected. If in doubt, ask for written
+              confirmation before committing to works.
+            </p>
+
+            <h2 id="ldc" className={styles.h2}>
+              Lawful Development Certificates: planning certainty
+            </h2>
+            <p className={styles.p}>
+              An LDC is a formal decision that your <strong>proposed</strong>{" "}
+              (or existing) development is lawful for planning purposes. It is
+              optional but strongly recommended before committing to structural
+              works, especially in conservation areas or where measurements are
+              tight. LPAs aim to determine LDCs in around{" "}
+              <strong>8 weeks</strong>. Think of it as your insurance policy
+              against future enforcement or conveyancing headaches.
+            </p>
+
+            <h2 id="fees" className={styles.h2}>
+              Fees and timelines in 2025
+            </h2>
+            <p className={styles.p}>
+              From <strong>1 April 2025</strong> in England the{" "}
+              <strong>householder planning application fee is £528</strong>.
+              Prior approval fees vary by class (e.g., larger home extensions),
+              while an LDC for <strong>proposed</strong> development is
+              generally <strong>half</strong> the equivalent planning fee. Build
+              this into your budget alongside surveys and drawings, and allow
+              for statutory decision periods: prior approval windows (e.g., 42
+              days for larger rear extensions) and the LDC&apos;s 8-week target.
+            </p>
+
+            <h2 id="regs-party" className={styles.h2}>
+              Building Regulations and the Party Wall Act
+            </h2>
+            <p className={styles.p}>
+              PD never replaces Building Regulations. Expect energy performance
+              under <strong>Part L</strong> and summer comfort under{" "}
+              <strong>Part O</strong> for new residential spaces, plus
+              structural, fire and drainage compliance. Where you cut into party
+              structures or build near boundaries, the{" "}
+              <strong>Party Wall etc. Act 1996</strong> may require notices and
+              agreements. Early neighbour dialogue is good practice in
+              London&apos;s dense streets, reducing risk to programme.
+            </p>
+
+            <h2 id="takeaways" className={styles.h2}>
+              Quick takeaways
+            </h2>
+            <h3 className={styles.h3}>What to remember</h3>
+            <p className={styles.p}>
+              • PD is rule-based permission for houses; flats and listed
+              buildings are mostly excluded.
+            </p>
+            <p className={styles.p}>
+              • Some PD needs prior approval &dash; do not start works until the
+              decision/expiry date.
+            </p>
+            <p className={styles.p}>
+              • An LDC provides binding certainty; target determination is
+              around 8 weeks.
+            </p>
+            <p className={styles.p}>
+              • 2025 fees are updated; plan for £528 if you pivot to full
+              householder consent.
+            </p>
+            <p className={styles.p}>
+              • Use permeable front paving, quiet heat pumps and fabric upgrades
+              to meet rules and reduce running costs.
+            </p>
+
+            <h2 id="faqs" className={styles.h2}>
+              FAQs
+            </h2>
+            <h3 className={styles.h3}>
+              Do flats have permitted development rights?
+            </h3>
+            <p className={styles.p}>
+              Generally no. Most PD rights are for houses. If you&apos;re in a
+              flat or maisonette, seek specific advice.
+            </p>
+            <h3 className={styles.h3}>
+              What is prior approval &dash; and when do I need it?
+            </h3>
+            <p className={styles.p}>
+              It&apos;s a targeted consent used by some PD classes (e.g., larger
+              rears; upward extensions) to check defined impacts before you
+              build.
+            </p>
+            <h3 className={styles.h3}>Should I get an LDC?</h3>
+            <p className={styles.p}>
+              If you want certainty, yes. It is optional but recommended where
+              dimensions are tight, in conservation areas, or before exchange of
+              contracts.
+            </p>
+            <h3 className={styles.h3}>How big can I extend at the rear?</h3>
+            <p className={styles.p}>
+              Typically up to 3 m (attached) or 4 m (detached) as straight PD.
+              Larger depths up to 6 m/8 m require prior approval.
+            </p>
+            <h3 className={styles.h3}>Is front garden paving PD?</h3>
+            <p className={styles.p}>
+              Yes if you use permeable systems or keep it ≤5 m², otherwise
+              permission is likely needed.
+            </p>
+            <h3 className={styles.h3}>Are heat pumps allowed under PD?</h3>
+            <p className={styles.p}>
+              Often, if MCS-020 noise calculations pass and siting/size rules
+              are met. Placement and screening are key on tight sites.
+            </p>
+            <h3 className={styles.h3}>
+              Does PD override Building Regulations?
+            </h3>
+            <p className={styles.p}>
+              No. You must still comply with Parts L, O and other applicable
+              regulations.
+            </p>
+            <h3 className={styles.h3}>What are 2025 fees?</h3>
+            <p className={styles.p}>
+              Householder applications are £528; prior approval and LDC fees
+              differ by class and basis.
+            </p>
+            <h3 className={styles.h3}>
+              What if my borough has an Article 4 Direction?
+            </h3>
+            <p className={styles.p}>
+              Some PD rights may be removed locally. Check your address and, if
+              needed, apply for planning permission instead.
+            </p>
+            <h3 className={styles.h3}>Any tax reliefs for green upgrades?</h3>
+            <p className={styles.p}>
+              Yes. Qualifying energy-saving installations are 0% VAT until 31
+              March 2027.
+            </p>
+
+            <h2 id="conclusion" className={styles.h2}>
+              Conclusion
+            </h2>
+            <p className={styles.p}>
+              Used strategically, permitted development is a powerful route to
+              add space and value to London homes without the cost and wait of
+              full planning. The key is precision: measure twice, design once,
+              and confirm eligibility early &dash; via prior approval where
+              required or an LDC for certainty. Align your scheme with Building
+              Regulations and neighbour relations, and you will enjoy a smoother
+              build and a better result.
+            </p>
+            <p className={styles.p}>
+              If you want an expert partner to translate your brief into a
+              compliant, beautiful design, Better Homes Studio can audit your
+              address, optimise the layout within PD, prepare drawings, and
+              manage any LDC or prior approval &dash; so you can get building
+              with confidence.
+            </p>
+
+            {/* References Section */}
+            <h2 id="references" className={styles.h2}>
+              References and Further Reading
+            </h2>
+            <div className="mb-10 space-y-3">
+              <p className={styles.p}>
+                <strong>Government Planning Guidance:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/planning-permission-england-wales"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Planning Permission in England and Wales - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Permitted Development Rights for Householders - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.planningportal.co.uk/info/200130/common_projects/9/loft_conversion"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Loft Conversion Planning Portal Guide
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.planningportal.co.uk/info/200130/common_projects/10/extension"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    House Extension Planning Portal Guide
+                  </Link>
+                </li>
+              </ul>
+
+              <p className={styles.p}>
+                <strong>Building Regulations and Legal Requirements:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/building-regulations-approval"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Building Regulations Approval - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls/the-party-wall-etc-act-1996-explanatory-booklet"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Party Wall Act 1996 Explanatory Booklet - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/government/publications/lawful-development-certificates"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Lawful Development Certificates - GOV.UK
+                  </Link>
+                </li>
+              </ul>
+
+              <p className={styles.p}>
+                <strong>Energy Efficiency and Green Upgrades:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/guidance/domestic-renewable-heat-incentive"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Domestic Renewable Heat Incentive - GOV.UK
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://mcscertified.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Microgeneration Certification Scheme (MCS)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/feed-in-tariffs"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Feed-in Tariffs and Smart Export Guarantee - GOV.UK
+                  </Link>
+                </li>
+              </ul>
+
+              <p className={styles.p}>
+                <strong>London-Specific Planning Information:</strong>
+              </p>
+              <ul className={`${styles.p} ml-4 space-y-2`}>
+                <li>
+                  <Link
+                    href="https://www.london.gov.uk/what-we-do/planning"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    London Planning Information - Greater London Authority
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="https://www.gov.uk/find-local-council"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#266bf1] hover:underline"
+                  >
+                    Find Your Local Council - GOV.UK
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* SCHEMA: Inject Article + FAQPage JSON-LD at build time */}
+            {/* EXTERNAL LINKS: Replace source mentions with Next.js <Link> to GOV.UK, Planning Portal, MCS */}
+          </>
+
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+            <div className="text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="rounded-full bg-[#266bf1] p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+                Ready to Start Your Project?
+              </h3>
+              <p className="mb-4 text-sm text-base-content/70">
+                Get expert guidance for your London home renovation. From design
+                to planning approval, we&apos;re here to help.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+              >
+                Get Free Consultation
+                <svg
+                  className="ml-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </>
+    ),
+  },
+  {
+    // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "house-extension-types",
     // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
     title: "The Ultimate Guide to Types of House Extensions",
