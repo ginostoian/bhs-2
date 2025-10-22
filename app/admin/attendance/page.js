@@ -1022,66 +1022,74 @@ export default function AttendanceAdminPage() {
             {/* Calendar Body */}
             <div className="calendar-container p-6">
               {mounted && localizer ? (
-                <div className="attendance-calendar">
-                  {isLoadingCalendar ? (
-                    <div className="flex items-center justify-center py-12">
-                      <div className="text-center">
-                        <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-                        <div className="text-gray-500">Loading calendar...</div>
-                      </div>
-                    </div>
-                  ) : events.length === 0 ? (
-                    <div className="flex items-center justify-center py-12">
-                      <div className="text-center">
-                        <div className="mb-2 text-gray-500">
-                          No attendance records found for this month
+                <div className="overflow-x-auto">
+                  <div className="max-w-[1200px]">
+                    <div className="attendance-calendar">
+                      {isLoadingCalendar ? (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center">
+                            <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                            <div className="text-gray-500">
+                              Loading calendar...
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-sm text-gray-400">
-                          Try changing the date or filters
+                      ) : events.length === 0 ? (
+                        <div className="flex items-center justify-center py-12">
+                          <div className="text-center">
+                            <div className="mb-2 text-gray-500">
+                              No attendance records found for this month
+                            </div>
+                            <div className="text-sm text-gray-400">
+                              Try changing the date or filters
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <Calendar
-                      localizer={localizer}
-                      events={events}
-                      views={["month", "week", "day"]}
-                      view={view}
-                      onView={setView}
-                      date={date}
-                      onNavigate={onNavigate}
-                      onSelectSlot={(slotInfo) => openAddModal(slotInfo.start)}
-                      onSelectEvent={(evt) =>
-                        openWorkerDrawer(evt.resource?.worker)
-                      }
-                      selectable
-                      style={{ height: 600 }}
-                      eventPropGetter={(event) => ({
-                        style: {
-                          backgroundColor: "#3b82f6",
-                          borderColor: "#2563eb",
-                          color: "white",
-                          borderRadius: "4px",
-                          border: "1px solid #2563eb",
-                        },
-                      })}
-                      dayPropGetter={(date) => {
-                        const today = new Date();
-                        const isToday =
-                          date.getDate() === today.getDate() &&
-                          date.getMonth() === today.getMonth() &&
-                          date.getFullYear() === today.getFullYear();
+                      ) : (
+                        <Calendar
+                          localizer={localizer}
+                          events={events}
+                          views={["month", "week", "day"]}
+                          view={view}
+                          onView={setView}
+                          date={date}
+                          onNavigate={onNavigate}
+                          onSelectSlot={(slotInfo) =>
+                            openAddModal(slotInfo.start)
+                          }
+                          onSelectEvent={(evt) =>
+                            openWorkerDrawer(evt.resource?.worker)
+                          }
+                          selectable
+                          style={{ height: 600 }}
+                          eventPropGetter={(event) => ({
+                            style: {
+                              backgroundColor: "#3b82f6",
+                              borderColor: "#2563eb",
+                              color: "white",
+                              borderRadius: "4px",
+                              border: "1px solid #2563eb",
+                            },
+                          })}
+                          dayPropGetter={(date) => {
+                            const today = new Date();
+                            const isToday =
+                              date.getDate() === today.getDate() &&
+                              date.getMonth() === today.getMonth() &&
+                              date.getFullYear() === today.getFullYear();
 
-                        return {
-                          style: {
-                            backgroundColor: isToday
-                              ? "#eff6ff"
-                              : "transparent",
-                          },
-                        };
-                      }}
-                    />
-                  )}
+                            return {
+                              style: {
+                                backgroundColor: isToday
+                                  ? "#eff6ff"
+                                  : "transparent",
+                              },
+                            };
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center justify-center py-12">
