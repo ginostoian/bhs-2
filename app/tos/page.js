@@ -72,8 +72,86 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
+            <h2 className="mb-4 text-2xl font-semibold">3. Promotions</h2>
+            <p>
+              Better Homes Studio may offer promotional discounts and special
+              offers from time to time. The following terms apply to our current
+              promotional offers:
+            </p>
+            <div className="mt-4 rounded-lg bg-green-50 p-4">
+              <h3 className="mb-3 text-lg font-semibold text-green-800">
+                Current Promotion: Book a Call Discount
+              </h3>
+              <p className="mb-3 text-green-700">
+                Book a consultation call with our team to unlock exclusive
+                discounts on your renovation project. Discount amounts are
+                determined by project value and type:
+              </p>
+              <ul className="list-disc pl-6 text-green-700">
+                <li>
+                  <strong>Projects over £150,000:</strong> Up to £3,000 discount
+                </li>
+                <li>
+                  <strong>Projects £100,000 - £149,999:</strong> Up to £2,000
+                  discount
+                </li>
+                <li>
+                  <strong>Projects £50,000 - £99,999:</strong> Up to £1,500
+                  discount
+                </li>
+                <li>
+                  <strong>Bathroom renovations:</strong> Up to £700 discount
+                </li>
+                <li>
+                  <strong>Kitchen renovations:</strong> Up to £1,200 discount
+                </li>
+                <li>
+                  <strong>General renovations £25,000 - £49,999:</strong> Up to
+                  £800 discount
+                </li>
+                <li>
+                  <strong>General renovations under £25,000:</strong> Up to £500
+                  discount
+                </li>
+              </ul>
+            </div>
+            <div className="mt-4">
+              <h4 className="mb-2 font-semibold">Promotional Terms:</h4>
+              <ul className="list-disc pl-6">
+                <li>
+                  Discounts are only available to clients who book and attend a
+                  consultation call
+                </li>
+                <li>
+                  Discounts cannot be combined with other promotional offers
+                </li>
+                <li>
+                  Discount amounts are calculated based on the final project
+                  value as agreed in the contract
+                </li>
+                <li>
+                  Discounts will be applied to the final invoice upon project
+                  completion
+                </li>
+                <li>
+                  Promotional offers are subject to availability and may be
+                  withdrawn at any time without notice
+                </li>
+                <li>
+                  Better Homes Studio reserves the right to modify or cancel
+                  promotional offers at its discretion
+                </li>
+                <li>
+                  Discounts are not applicable to materials-only purchases or
+                  design-only services
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              3. Quotations and Estimates
+              4. Quotations and Estimates
             </h2>
             <p>
               All quotations and estimates provided by Better Homes Studio are
@@ -84,7 +162,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold">4. Payment Terms</h2>
+            <h2 className="mb-4 text-2xl font-semibold">5. Payment Terms</h2>
             <p>
               Payment terms will be specified in your individual contract.
               Typically, we require:
@@ -103,7 +181,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold">5. Project Timeline</h2>
+            <h2 className="mb-4 text-2xl font-semibold">6. Project Timeline</h2>
             <p>
               While we strive to complete projects within the estimated
               timeframe, construction timelines may be affected by factors
@@ -115,7 +193,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              6. Quality and Standards
+              7. Quality and Standards
             </h2>
             <p>
               Better Homes Studio is committed to delivering high-quality
@@ -127,7 +205,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              7. Warranties and Guarantees
+              8. Warranties and Guarantees
             </h2>
             <p>
               We provide warranties on our workmanship and materials as follows:
@@ -145,7 +223,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              8. Client Responsibilities
+              9. Client Responsibilities
             </h2>
             <p>Clients are responsible for:</p>
             <ul className="mt-4 list-disc pl-6">
@@ -167,7 +245,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              9. Health and Safety
+              10. Health and Safety
             </h2>
             <p>
               We are committed to maintaining high health and safety standards.
@@ -183,7 +261,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              10. Insurance and Liability
+              11. Insurance and Liability
             </h2>
             <p>
               Better Homes Studio maintains appropriate insurance coverage
@@ -195,7 +273,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              11. Dispute Resolution
+              12. Dispute Resolution
             </h2>
             <p>
               In the event of any disputes, we encourage open communication to
@@ -207,7 +285,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              12. Privacy and Data Protection
+              13. Privacy and Data Protection
             </h2>
             <p>
               We are committed to protecting your privacy and handling your
@@ -218,7 +296,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold">13. Website Terms</h2>
+            <h2 className="mb-4 text-2xl font-semibold">14. Website Terms</h2>
             <p>By using our website, you agree to:</p>
             <ul className="mt-4 list-disc pl-6">
               <li>Use the website for lawful purposes only</li>
@@ -230,7 +308,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              14. Changes to Terms
+              15. Changes to Terms
             </h2>
             <p>
               We reserve the right to modify these Terms at any time. Changes
@@ -242,7 +320,7 @@ export default function TermsAndConditions() {
 
           <section>
             <h2 className="mb-4 text-2xl font-semibold">
-              15. Contact Information
+              16. Contact Information
             </h2>
             <p>
               If you have any questions about these Terms and Conditions, please
@@ -261,7 +339,7 @@ export default function TermsAndConditions() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold">16. Governing Law</h2>
+            <h2 className="mb-4 text-2xl font-semibold">17. Governing Law</h2>
             <p>
               These Terms and Conditions are governed by and construed in
               accordance with the laws of the United Kingdom. Any disputes
