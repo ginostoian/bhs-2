@@ -26,15 +26,24 @@ progress::-webkit-progress-value {
   /* Safari and Chrome */
 }
 
-/* @layer base {
-  .btn-gradient {
-    @apply !bg-gradient !bg-[length:300%_300%] hover:saturate-[1.2] shadow duration-100 !border-0 !border-transparent !bg-transparent animate-shimmer disabled: !bg-none disabled: !bg-gray-500/30 !text-white;
-  }
+/* Premium Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
 
-  .btn {
-    @apply !capitalize;
-  }
-} */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
 
 @font-face {
   font-family: Satoshi;

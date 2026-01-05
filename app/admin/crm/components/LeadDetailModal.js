@@ -364,879 +364,558 @@ export default function LeadDetailModal({
       setProcessingResume(false);
     }
   };
-
-  return (
-    <div className="modal modal-open">
-      <div className="modal-box max-h-[90vh] max-w-4xl overflow-hidden">
-        {/* Header */}
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-lg font-bold">Lead Details</h3>
-          <CRMButton
-            onClick={onClose}
-            variant="outline"
-            className="flex h-10 w-10 items-center justify-center rounded-full p-0"
-            aria-label="Close"
-          >
-            <span className="text-2xl leading-none">✕</span>
-          </CRMButton>
-        </div>
-
-        {/* Tabs */}
-        <div className="tabs-bordered tabs mb-4 flex gap-2">
-          {tabs.map((tab) => (
-            <CRMButton
-              key={tab.id}
-              variant={activeTab === tab.id ? "primary" : "outline"}
-              className={`tab flex items-center justify-center gap-2 rounded-md px-4 py-2 font-semibold ${activeTab === tab.id ? "tab-active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                minHeight: "40px",
-                fontSize: "1.05rem",
-                lineHeight: "1.2",
-              }}
-            >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </CRMButton>
-          ))}
-        </div>
-
-        {/* Content */}
-        <div className="max-h-[60vh] overflow-y-auto">
-          {activeTab === "overview" && (
-            <div className="space-y-4">
-              {/* Basic Information */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Name</span>
-                  </label>
-                  {editing ? (
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) =>
-                        handleInputChange("name", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                    />
-                  ) : (
-                    <p className="text-gray-900">{lead.name}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Email</span>
-                  </label>
-                  {editing ? (
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                    />
-                  ) : (
-                    <p className="text-gray-900">{lead.email}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Phone</span>
-                  </label>
-                  {editing ? (
-                    <input
-                      type="tel"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        handleInputChange("phone", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                    />
-                  ) : (
-                    <p className="text-gray-900">
-                      {lead.phone || "Not provided"}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Address</span>
-                  </label>
-                  {editing ? (
-                    <input
-                      type="text"
-                      value={formData.address}
-                      onChange={(e) =>
-                        handleInputChange("address", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                    />
-                  ) : (
-                    <p className="text-gray-900">
-                      {lead.address || "Not provided"}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Lead Classification */}
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Stage</span>
-                  </label>
-                  {editing ? (
-                    <select
-                      value={formData.stage}
-                      onChange={(e) =>
-                        handleInputChange("stage", e.target.value)
-                      }
-                      className="crm-select"
-                    >
-                      <option value="Lead">Lead</option>
-                      <option value="Never replied">Never replied</option>
-                      <option value="Qualified">Qualified</option>
-                      <option value="Proposal Sent">Proposal Sent</option>
-                      <option value="Negotiations">Negotiations</option>
-                      <option value="Won">Won</option>
-                      <option value="Lost">Lost</option>
-                    </select>
-                  ) : (
-                    <span className="badge badge-primary">{lead.stage}</span>
-                  )}
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Value</span>
-                  </label>
-                  {editing ? (
-                    <input
-                      type="number"
-                      value={formData.value}
-                      onChange={(e) =>
-                        handleInputChange("value", e.target.value)
-                      }
-                      className="input input-bordered w-full"
-                      min="0"
-                      step="1000"
-                    />
-                  ) : (
-                    <p className="text-gray-900">
-                      {formatCurrency(lead.value)}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Budget</span>
-                  </label>
-                  {editing ? (
-                    <select
-                      value={formData.budget}
-                      onChange={(e) =>
-                        handleInputChange("budget", e.target.value)
-                      }
-                      className="crm-select"
-                    >
-                      <option value="£">£ (0-10k)</option>
-                      <option value="££">££ (10k-25k)</option>
-                      <option value="£££">£££ (25k-50k)</option>
-                      <option value="££££">££££ (50k+)</option>
-                    </select>
-                  ) : (
-                    <p className="text-gray-900">{lead.budget}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">
-                      Client Health
+  
+ return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="relative flex h-full max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/5">
+        
+        {/* Header - Glassmorphic */}
+        <div className="flex-none border-b border-gray-100 bg-white/80 backdrop-blur-md p-6">
+          <div className="flex items-start justify-between gap-4">
+             <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-1">
+                    <h2 className="text-2xl font-bold text-gray-900 truncate">{lead.name}</h2>
+                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-semibold text-blue-800">
+                         {lead.stage}
                     </span>
-                  </label>
-                  {editing ? (
-                    <select
-                      value={formData.clientHealth}
-                      onChange={(e) =>
-                        handleInputChange("clientHealth", e.target.value)
-                      }
-                      className="crm-select"
-                    >
-                      <option value="Unknown">Unknown</option>
-                      <option value="Excellent">Excellent</option>
-                      <option value="Good">Good</option>
-                      <option value="Fair">Fair</option>
-                      <option value="Poor">Poor</option>
-                    </select>
-                  ) : (
-                    <p className="text-gray-900">{lead.clientHealth}</p>
-                  )}
                 </div>
-
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Source</span>
-                  </label>
-                  <p className="text-gray-900">
-                    {lead.source === "Other" && lead.customSource
-                      ? lead.customSource
-                      : lead.source}
-                  </p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                     <span className="flex items-center gap-1.5">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                        {lead.email}
+                     </span>
+                     {lead.phone && (
+                        <span className="flex items-center gap-1.5">
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                            {lead.phone}
+                        </span>
+                     )}
+                     <span className="flex items-center gap-1.5">
+                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        Last updated {new Date(lead.updatedAt).toLocaleDateString()}
+                     </span>
                 </div>
-              </div>
+             </div>
 
-              {/* Project Types */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Project Types</span>
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {lead.projectTypes?.map((type, index) => (
-                    <span key={index} className="badge badge-outline">
-                      {type}
-                    </span>
-                  ))}
-                  {lead.customProjectType && (
-                    <span className="badge badge-outline">
-                      {lead.customProjectType}
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Assignment */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Assigned To</span>
-                </label>
-                {editing ? (
-                  <select
-                    value={formData.assignedTo || ""}
-                    onChange={(e) =>
-                      handleInputChange("assignedTo", e.target.value || null)
-                    }
-                    className="crm-select"
-                  >
-                    <option value="">Unassigned</option>
-                    {admins.map((admin) => (
-                      <option key={admin.id} value={admin.id}>
-                        {admin.name || admin.email}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <p className="text-gray-900">
-                    {lead.assignedTo
-                      ? lead.assignedTo.name || lead.assignedTo.email
-                      : "Unassigned"}
-                  </p>
-                )}
-              </div>
-
-              {/* Linked User */}
-              {lead.linkedUser && (
-                <div>
-                  <label className="label">
-                    <span className="label-text font-medium">Linked User</span>
-                  </label>
-                  <a
-                    href={`/admin/users/${lead.linkedUser.id}`}
-                    className="text-blue-600 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {lead.linkedUser.name || lead.linkedUser.email}
-                  </a>
-                </div>
-              )}
-
-              {/* Aging */}
-              <div>
-                <label className="label">
-                  <span className="label-text font-medium">Aging</span>
-                </label>
-                <div className="flex items-center gap-2">
-                  <p className="text-gray-900">
-                    {lead.agingPaused ? "⏸️ " : ""}
-                    {lead.agingDays} days since last contact
-                    {lead.agingPaused && lead.agingPausedReason && (
-                      <span className="ml-2 text-sm text-gray-500">
-                        (Paused: {lead.agingPausedReason})
-                      </span>
-                    )}
-                  </p>
+             <div className="flex items-center gap-2">
                   <CRMButton
-                    onClick={handleAgingPauseToggle}
-                    disabled={isPausingAging}
+                    onClick={() => setEditing(!editing)}
                     variant="outline"
-                    size="sm"
-                    className="ml-2"
+                    className="flex h-8 items-center gap-2 border-gray-200 hover:bg-gray-100 text-xs font-medium px-3"
                   >
-                    {isPausingAging ? (
-                      <div className="loading loading-spinner loading-xs"></div>
-                    ) : lead.agingPaused ? (
-                      "▶️ Resume"
-                    ) : (
-                      "⏸️ Pause"
-                    )}
-                  </CRMButton>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "activities" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xl font-semibold text-gray-900">
-                  Activity Timeline
-                </h4>
-                <div className="flex gap-2">
-                  <CRMButton
-                    size="sm"
-                    onClick={() => setShowAddActivity((v) => !v)}
-                    className="bg-blue-600 text-white hover:bg-blue-700"
-                  >
-                    {showAddActivity ? "Cancel" : "+ Add Activity"}
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                    {editing ? "Done" : "Edit"}
                   </CRMButton>
                   <CRMButton
-                    size="sm"
-                    onClick={() => setShowReplyModal(true)}
-                    className="bg-green-600 text-white hover:bg-green-700"
+                    onClick={onClose}
+                    variant="outline"
+                    className="flex h-8 w-8 items-center justify-center rounded-full p-0 border-gray-200 hover:bg-gray-100"
+                    aria-label="Close"
                   >
-                    📧 Mark as Replied
+                    <span className="text-xl leading-none text-gray-500">×</span>
                   </CRMButton>
-                  {/* Show resume button if automation is paused or lead has replied */}
-                  {(lead.emailAutomation?.leadReplied ||
-                    (lead.emailAutomation &&
-                      !lead.emailAutomation.isActive)) && (
-                    <CRMButton
-                      size="sm"
-                      onClick={handleResumeAutomation}
-                      disabled={processingResume}
-                      className="bg-orange-600 text-white hover:bg-orange-700"
-                    >
-                      {processingResume
-                        ? "Resuming..."
-                        : "▶️ Resume Automation"}
-                    </CRMButton>
-                  )}
-                </div>
-              </div>
-
-              {showAddActivity && (
-                <div className="space-y-3 rounded-lg bg-gray-50 p-4">
-                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                    <select
-                      value={newActivity.type}
-                      onChange={(e) =>
-                        setNewActivity((a) => ({ ...a, type: e.target.value }))
-                      }
-                      className="crm-select bg-white"
-                    >
-                      <option value="call">📞 Call</option>
-                      <option value="email">📧 Email</option>
-                      <option value="site_visit">🏠 Site Visit</option>
-                      <option value="meeting">🤝 Meeting</option>
-                      <option value="note">📝 Note</option>
-                      <option value="attachment">📎 Attachment</option>
-                    </select>
-                    <input
-                      type="text"
-                      placeholder="Activity title"
-                      value={newActivity.title}
-                      onChange={(e) =>
-                        setNewActivity((a) => ({ ...a, title: e.target.value }))
-                      }
-                      className="input input-bordered bg-white"
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                    <input
-                      type="datetime-local"
-                      placeholder="Due date (optional)"
-                      value={newActivity.dueDate}
-                      onChange={(e) =>
-                        setNewActivity((a) => ({
-                          ...a,
-                          dueDate: e.target.value,
-                        }))
-                      }
-                      className="input input-bordered bg-white"
-                    />
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        id="contactMade"
-                        checked={newActivity.contactMade}
-                        onChange={(e) =>
-                          setNewActivity((a) => ({
-                            ...a,
-                            contactMade: e.target.checked,
-                          }))
-                        }
-                        className="checkbox checkbox-sm"
-                      />
-                      <label
-                        htmlFor="contactMade"
-                        className="text-sm text-gray-700"
-                      >
-                        Contact was made with the lead (resets aging timer)
-                      </label>
-                    </div>
-                  </div>
-                  <textarea
-                    placeholder="Description (optional)"
-                    value={newActivity.description}
-                    onChange={(e) =>
-                      setNewActivity((a) => ({
-                        ...a,
-                        description: e.target.value,
-                      }))
-                    }
-                    className="textarea textarea-bordered bg-white"
-                    rows="3"
-                  />
-                  <div className="flex justify-end">
-                    <CRMButton
-                      size="sm"
-                      onClick={handleAddActivity}
-                      className="bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Save Activity
-                    </CRMButton>
-                  </div>
-                </div>
-              )}
-
-              {activities.length === 0 ? (
-                <div className="py-8 text-center">
-                  <div className="mb-4 text-6xl text-gray-400">📋</div>
-                  <p className="text-lg text-gray-500">
-                    No activities recorded yet
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    Add your first activity to start tracking progress
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {activities.map((activity, index) => {
-                    console.log(`Rendering activity ${index}:`, {
-                      id: activity._id || activity.id,
-                      title: activity.title,
-                      status: activity.status,
-                      statusCheck: activity.status === "done",
-                    });
-
-                    const isDone = activity.status === "done";
-                    const getActivityIcon = (type) => {
-                      const icons = {
-                        call: "📞",
-                        email: "📧",
-                        site_visit: "🏠",
-                        meeting: "🤝",
-                        note: "📝",
-                        attachment: "📎",
-                      };
-                      return icons[type] || "📋";
-                    };
-
-                    const isOverdue =
-                      activity.dueDate &&
-                      new Date(activity.dueDate) < new Date();
-
-                    return (
-                      <div
-                        key={index}
-                        className={`relative rounded-lg border p-4 transition-all duration-200 ${
-                          isDone
-                            ? "border-green-200 bg-green-50 opacity-75"
-                            : isOverdue
-                              ? "border-red-300 bg-red-50 hover:border-red-400 hover:shadow-sm"
-                              : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
+             </div>
+          </div>
+          
+           {/* Tabs */}
+          <div className="mt-6 flex space-x-1 rounded-xl bg-gray-100/50 p-1">
+             {tabs.map((tab) => (
+                <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium leading-5 transition-all
+                        ${activeTab === tab.id 
+                            ? 'bg-white shadow text-blue-700' 
+                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'
                         }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex flex-1 items-start space-x-3">
-                            <div
-                              className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-lg ${
-                                isDone
-                                  ? "bg-green-100 text-green-600"
-                                  : "bg-blue-100 text-blue-600"
-                              }`}
-                            >
-                              {getActivityIcon(activity.type)}
+                >
+                    <span className="text-lg">{tab.icon}</span>
+                    {tab.label}
+                </button>
+             ))}
+          </div>
+        </div>
+
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto bg-gray-50/30 p-6">
+           {activeTab === "overview" && (
+             <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
+                {/* Main Info Column */}
+                <div className="lg:col-span-2 space-y-6">
+                    {/* Basic Info Card */}
+                    <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-bold text-gray-900">Lead Information</h3>
+
+                        </div>
+                         
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Name</label>
+                                {editing ? (
+                                    <input type="text" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                                ) : (
+                                    <p className="text-gray-900 font-medium">{lead.name}</p>
+                                )}
                             </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="mb-1 flex items-center space-x-2">
-                                <h5
-                                  className={`font-medium text-gray-900 ${
-                                    isDone ? "text-gray-500 line-through" : ""
-                                  }`}
-                                >
-                                  {activity.title}
-                                </h5>
-                                <div className="flex items-center space-x-2">
-                                  <span
-                                    className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
-                                      isDone
-                                        ? "bg-green-100 text-green-800"
-                                        : "bg-gray-100 text-gray-800"
-                                    }`}
-                                  >
-                                    {isDone
-                                      ? "✓ Completed"
-                                      : activity.status || "pending"}
-                                  </span>
-                                  {activity.contactMade && (
-                                    <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-                                      📞 Contact
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</label>
+                                {editing ? (
+                                    <input type="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                                ) : (
+                                    <p className="text-gray-900 font-medium">{lead.email}</p>
+                                )}
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone</label>
+                                {editing ? (
+                                    <input type="tel" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                                ) : (
+                                    <p className="text-gray-900 font-medium">{lead.phone || "—"}</p>
+                                )}
+                            </div>
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Stage</label>
+                                {editing ? (
+                                    <select value={formData.stage} onChange={(e) => handleInputChange("stage", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                        <option value="Lead">Lead</option>
+                                        <option value="Never replied">Never replied</option>
+                                        <option value="Qualified">Qualified</option>
+                                        <option value="Proposal Sent">Proposal Sent</option>
+                                        <option value="Negotiations">Negotiations</option>
+                                        <option value="Won">Won</option>
+                                        <option value="Lost">Lost</option>
+                                    </select>
+                                ) : (
+                                    <div className="flex items-center gap-2">
+                                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-800`}>
+                                            {lead.stage}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                             <div className="md:col-span-2 space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Address</label>
+                                {editing ? (
+                                    <input type="text" value={formData.address} onChange={(e) => handleInputChange("address", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" />
+                                ) : (
+                                    <p className="text-gray-900 font-medium">{lead.address || "—"}</p>
+                                )}
+                            </div>
+                        </div>
+                        {editing && (
+                            <div className="mt-6 flex justify-end">
+                                <CRMButton onClick={handleSave} variant="primary">Save Changes</CRMButton>
+                            </div>
+                        )}
+                    </section>
+                    
+                    {/* Project & Financials */}
+                    <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4">Project & Financials</h3>
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Potential Value</label>
+                                {editing ? (
+                                    <div className="relative rounded-md shadow-sm">
+                                        <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                          <span className="text-gray-500 sm:text-sm">£</span>
+                                        </div>
+                                        <input
+                                          type="number"
+                                          value={formData.value}
+                                          onChange={(e) => handleInputChange("value", e.target.value)}
+                                          className="block w-full rounded-lg border-gray-300 pl-7 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                          placeholder="0.00"
+                                        />
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-900 font-medium text-lg">{formatCurrency(lead.value)}</p>
+                                )}
+                            </div>
+
+                             <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Budget Range</label>
+                                {editing ? (
+                                    <select value={formData.budget} onChange={(e) => handleInputChange("budget", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                      <option value="£">£ (0-10k)</option>
+                                      <option value="££">££ (10k-25k)</option>
+                                      <option value="£££">£££ (25k-50k)</option>
+                                      <option value="££££">££££ (50k+)</option>
+                                    </select>
+                                ) : (
+                                    <p className="text-gray-900 font-medium">{lead.budget}</p>
+                                )}
+                            </div>
+                            
+                            <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Client Health</label>
+                                {editing ? (
+                                    <select value={formData.clientHealth} onChange={(e) => handleInputChange("clientHealth", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                      <option value="Unknown">Unknown</option>
+                                      <option value="Excellent">Excellent</option>
+                                      <option value="Good">Good</option>
+                                      <option value="Fair">Fair</option>
+                                      <option value="Poor">Poor</option>
+                                    </select>
+                                ) : (
+                                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-sm font-medium ring-1 ring-inset ${
+                                        lead.clientHealth === 'Excellent' ? 'bg-green-50 text-green-700 ring-green-600/20' :
+                                        lead.clientHealth === 'Good' ? 'bg-blue-50 text-blue-700 ring-blue-600/20' :
+                                        lead.clientHealth === 'Fair' ? 'bg-yellow-50 text-yellow-700 ring-yellow-600/20' :
+                                        'bg-gray-50 text-gray-600 ring-gray-500/10'
+                                    }`}>
+                                        {lead.clientHealth}
+                                    </span>
+                                )}
+                            </div>
+                            
+                             <div className="space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Source</label>
+                                {editing ? (
+                                    <select value={formData.source} onChange={(e) => handleInputChange("source", e.target.value)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                        <option value="Other">Other</option>
+                                        <option value="Houzz">Houzz</option>
+                                        <option value="MyBuilder">MyBuilder</option>
+                                        <option value="Recommendation">Recommendation</option>
+                                        <option value="Google">Google</option>
+                                        <option value="Meta Ads">Meta Ads</option>
+                                        <option value="Google Ads">Google Ads</option>
+                                        <option value="Referral">Referral</option>
+                                    </select>
+                                ) : (
+                                    <p className="text-gray-900 font-medium">
+                                        {lead.source === "Other" && lead.customSource ? lead.customSource : lead.source}
+                                    </p>
+                                )}
+                                {editing && formData.source === "Other" && (
+                                     <input
+                                        type="text"
+                                        value={formData.customSource || ""}
+                                        onChange={(e) => handleInputChange("customSource", e.target.value)}
+                                        className="mt-2 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                        placeholder="Specific source..."
+                                     />
+                                )}
+                            </div>
+                             <div className="md:col-span-2 space-y-1">
+                                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 block">Project Types</label>
+                                <div className="flex flex-wrap gap-2">
+                                  {lead.projectTypes?.map((type, index) => (
+                                    <span key={index} className="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                                      {type}
+                                    </span>
+                                  ))}
+                                  {lead.customProjectType && (
+                                     <span className="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                                      {lead.customProjectType}
                                     </span>
                                   )}
+                                  {(!lead.projectTypes?.length && !lead.customProjectType) && (
+                                    <span className="text-sm text-gray-400 italic">No types selected</span>
+                                  )}
                                 </div>
-                              </div>
-                              {activity.description && (
-                                <p
-                                  className={`mb-2 text-sm ${
-                                    isDone
-                                      ? "text-gray-400 line-through"
-                                      : "text-gray-600"
-                                  }`}
-                                >
-                                  {activity.description}
-                                </p>
-                              )}
-                              <div className="flex items-center space-x-4 text-xs text-gray-500">
-                                <span>
-                                  By{" "}
-                                  {activity.createdBy?.name ||
-                                    activity.createdBy?.email}
-                                </span>
-                                <span>•</span>
-                                <span>{formatDate(activity.date)}</span>
-                                {activity.dueDate && (
-                                  <>
-                                    <span>•</span>
-                                    <span
-                                      className={
-                                        new Date(activity.dueDate) < new Date()
-                                          ? "font-semibold text-red-600"
-                                          : "text-gray-500"
-                                      }
-                                    >
-                                      Due: {formatDate(activity.dueDate)}
-                                      {new Date(activity.dueDate) <
-                                        new Date() && " (Overdue)"}
-                                    </span>
-                                  </>
+                                {editing && (
+                                    <div className="mt-3 space-y-2">
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {["Bathroom renovation", "Kitchen renovation", "Extension", "Home renovation", "Loft Conversion", "Commercial"].map((type) => (
+                                            <label key={type} className="flex items-center gap-2 text-xs">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={formData.projectTypes?.includes(type)}
+                                                    onChange={(e) => {
+                                                        const current = formData.projectTypes || [];
+                                                        const updated = e.target.checked 
+                                                            ? [...current, type]
+                                                            : current.filter(t => t !== type);
+                                                        handleInputChange("projectTypes", updated);
+                                                    }}
+                                                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 h-3.5 w-3.5"
+                                                />
+                                                <span className="text-gray-700">{type}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                    <div className="mt-2">
+                                        <input
+                                            type="text"
+                                            value={formData.customProjectType || ""}
+                                            onChange={(e) => handleInputChange("customProjectType", e.target.value)}
+                                            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                                            placeholder="Other project type..."
+                                        />
+                                    </div>
+                                    </div>
                                 )}
-                              </div>
                             </div>
-                          </div>
-                          {!isDone && (
-                            <CRMButton
-                              size="sm"
-                              onClick={() =>
-                                handleMarkActivityDone(
-                                  activity._id || activity.id,
-                                )
-                              }
-                              className="bg-green-600 text-white hover:bg-green-700"
-                            >
-                              Mark Done
-                            </CRMButton>
-                          )}
                         </div>
-                      </div>
-                    );
-                  })}
+                    </section>
                 </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === "notes" && (
-            <div className="space-y-4">
-              <h4 className="flex items-center justify-between font-semibold">
-                Notes
-                <CRMButton size="sm" onClick={() => setShowAddNote((v) => !v)}>
-                  {showAddNote ? "Cancel" : "Add Note"}
-                </CRMButton>
-              </h4>
-              {showAddNote && (
-                <div className="mb-2 flex flex-col gap-2">
-                  <input
-                    type="text"
-                    placeholder="Note title"
-                    value={newNote.title}
-                    onChange={(e) =>
-                      setNewNote((n) => ({ ...n, title: e.target.value }))
-                    }
-                    className="input input-bordered"
-                  />
-                  <textarea
-                    placeholder="Note content"
-                    value={newNote.content}
-                    onChange={(e) =>
-                      setNewNote((n) => ({ ...n, content: e.target.value }))
-                    }
-                    className="textarea textarea-bordered"
-                  />
-                  <CRMButton size="sm" onClick={handleAddNote}>
-                    Save Note
-                  </CRMButton>
-                </div>
-              )}
-              {notes.length === 0 ? (
-                <p className="text-gray-500">No notes recorded</p>
-              ) : (
-                <div className="space-y-3">
-                  {notes.map((note, index) => (
-                    <div key={index} className="rounded bg-gray-50 p-3">
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-sm font-semibold text-gray-900">
-                          {note.title ||
-                            note.content?.slice(0, 32) ||
-                            "Untitled"}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {formatDate(note.createdAt)}
-                        </span>
-                        {note.isImportant && (
-                          <span className="badge badge-warning badge-sm">
-                            Important
-                          </span>
+                
+                {/* Secondary Column */}
+                <div className="space-y-6">
+                    {/* Assignment Card */}
+                    <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                         <h3 className="text-lg font-bold text-gray-900 mb-4">Assignment</h3>
+                         <div className="space-y-4">
+                            <div>
+                                <label className="label pt-0"><span className="label-text font-medium text-gray-600">Assigned Agent</span></label>
+                                {editing ? (
+                                    <select value={formData.assignedTo || ""} onChange={(e) => handleInputChange("assignedTo", e.target.value || null)} className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                        <option value="">Unassigned</option>
+                                        {admins.map((admin) => (
+                                            <option key={admin.id} value={admin.id}>{admin.name || admin.email}</option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <div className="flex items-center gap-3 p-2 rounded-lg bg-gray-50 border border-gray-200">
+                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white text-xs font-bold">
+                                            {lead.assignedTo?.name?.charAt(0) || "?"}
+                                        </div>
+                                        <span className="font-medium text-gray-900">{lead.assignedTo?.name || "Unassigned"}</span>
+                                    </div>
+                                )}
+                            </div>
+                            
+                            {lead.linkedUser && (
+                                <div>
+                                    <label className="label"><span className="label-text font-medium text-gray-600">Linked User Account</span></label>
+                                    <a href={`/admin/users/${lead.linkedUser.id}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-lg bg-green-50 border border-green-200 hover:bg-green-100 transition-colors group">
+                                         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-600 text-white text-xs font-bold group-hover:scale-110 transition-transform">
+                                            👤
+                                        </div>
+                                        <span className="font-medium text-green-700">{lead.linkedUser.name || lead.linkedUser.email}</span>
+                                    </a>
+                                </div>
+                            )}
+                         </div>
+                    </section>
+                    
+                    {/* Aging Status */}
+                    <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                         <div className="flex items-center justify-between mb-2">
+                             <h3 className="text-lg font-bold text-gray-900">Lead Aging</h3>
+                             {lead.agingDays > 7 && <span className="badge badge-error badge-sm">At Risk</span>}
+                         </div>
+                         <div className="text-center py-4">
+                             <div className="text-4xl font-bold text-gray-900 mb-1">{lead.agingDays}</div>
+                             <div className="text-sm text-gray-500 mb-4">days inactive</div>
+                             
+                              <div className="flex flex-col items-center gap-2">
+                                   {lead.agingPaused ? (
+                                        <div className="w-full bg-yellow-50 text-yellow-800 p-3 rounded-lg text-sm mb-2 border border-yellow-200">
+                                            <p className="font-semibold">⏸️ Aging Paused</p>
+                                            <p className="opacity-80 mt-1">{lead.agingPausedReason}</p>
+                                        </div>
+                                   ) : (
+                                       <div className="text-xs text-gray-400 mb-2">Timer is active</div>
+                                   )}
+                                   
+                                   <CRMButton onClick={handleAgingPauseToggle} disabled={isPausingAging} variant="outline" size="sm" className="w-full">
+                                    {isPausingAging ? <span className="loading loading-spinner loading-xs"></span> : (lead.agingPaused ? "Resume Timer" : "Pause Timer")}
+                                   </CRMButton>
+                              </div>
+                         </div>
+                         
+                         {/* Email Automation Status */}
+                        {lead.emailAutomation && (
+                            <div className="mt-6 pt-6 border-t border-gray-100">
+                                <h4 className="text-sm font-semibold text-gray-900 mb-3">Email Automation</h4>
+                                <div className={`p-3 rounded-lg border ${lead.emailAutomation.isActive ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200'}`}>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <div className={`h-2.5 w-2.5 rounded-full ${lead.emailAutomation.isActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                                        <span className={`text-sm font-medium ${lead.emailAutomation.isActive ? 'text-green-700' : 'text-gray-600'}`}>
+                                            {lead.emailAutomation.isActive ? 'Active' : 'Paused'}
+                                        </span>
+                                    </div>
+                                    {!lead.emailAutomation.isActive && (
+                                        <p className="text-xs text-gray-500 mb-2">{lead.emailAutomation.pausedReason}</p>
+                                    )}
+                                     {(lead.emailAutomation?.leadReplied || (!lead.emailAutomation.isActive)) && (
+                                        <button 
+                                            onClick={handleResumeAutomation} 
+                                            disabled={processingResume}
+                                            className="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline disabled:opacity-50"
+                                        >
+                                            {processingResume ? "Resuming..." : "Force Resume Workflow"}
+                                        </button>
+                                     )}
+                                </div>
+                            </div>
                         )}
-                      </div>
-                      <p className="text-gray-900">{note.content}</p>
-                      <p className="mt-2 text-xs text-gray-500">
-                        By: {note.createdBy?.name || note.createdBy?.email}
-                      </p>
+                    </section>
+                    
+                    {/* Delete Danger Zone */}
+                    <div className="pt-4">
+                         <button onClick={handleDeleteLead} className="w-full rounded-xl border border-red-200 bg-white px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 hover:border-red-300 transition-colors">
+                            🗑️ Delete Lead
+                        </button>
                     </div>
-                  ))}
                 </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === "tasks" && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xl font-semibold text-gray-900">Tasks</h4>
-                <CRMButton
-                  size="sm"
-                  onClick={() => setShowAddTask((v) => !v)}
-                  className="bg-purple-600 text-white hover:bg-purple-700"
-                >
-                  {showAddTask ? "Cancel" : "+ Add Task"}
-                </CRMButton>
-              </div>
-
-              {showAddTask && (
-                <div className="space-y-3 rounded-lg bg-gray-50 p-4">
-                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Task title"
-                      value={newTask.title}
-                      onChange={(e) =>
-                        setNewTask((t) => ({ ...t, title: e.target.value }))
-                      }
-                      className="input input-bordered bg-white"
-                    />
-                    <select
-                      value={newTask.priority}
-                      onChange={(e) =>
-                        setNewTask((t) => ({ ...t, priority: e.target.value }))
-                      }
-                      className="crm-select bg-white"
-                    >
-                      <option value="low">🟢 Low Priority</option>
-                      <option value="medium">🟡 Medium Priority</option>
-                      <option value="high">🟠 High Priority</option>
-                      <option value="urgent">🔴 Urgent</option>
-                    </select>
-                  </div>
-                  <textarea
-                    placeholder="Task description (optional)"
-                    value={newTask.description}
-                    onChange={(e) =>
-                      setNewTask((t) => ({ ...t, description: e.target.value }))
-                    }
-                    className="textarea textarea-bordered bg-white"
-                    rows="3"
-                  />
-                  <div className="flex justify-end">
-                    <CRMButton
-                      size="sm"
-                      onClick={handleAddTask}
-                      className="bg-purple-600 text-white hover:bg-purple-700"
-                    >
-                      Save Task
-                    </CRMButton>
-                  </div>
-                </div>
-              )}
-
-              {tasks.length === 0 ? (
-                <div className="py-8 text-center">
-                  <div className="mb-4 text-6xl text-gray-400">✅</div>
-                  <p className="text-lg text-gray-500">No tasks assigned yet</p>
-                  <p className="text-sm text-gray-400">
-                    Add your first task to start organizing work
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {tasks.map((task, index) => {
-                    const isCompleted = task.status === "completed";
-                    const getPriorityColor = (priority) => {
-                      const colors = {
-                        low: "bg-green-100 text-green-800",
-                        medium: "bg-yellow-100 text-yellow-800",
-                        high: "bg-orange-100 text-orange-800",
-                        urgent: "bg-red-100 text-red-800",
-                      };
-                      return colors[priority] || "bg-gray-100 text-gray-800";
-                    };
-
-                    const getStatusColor = (status) => {
-                      const colors = {
-                        completed: "bg-green-100 text-green-800",
-                        overdue: "bg-red-100 text-red-800",
-                        in_progress: "bg-blue-100 text-blue-800",
-                        pending: "bg-gray-100 text-gray-800",
-                      };
-                      return colors[status] || "bg-gray-100 text-gray-800";
-                    };
-
-                    return (
-                      <div
-                        key={index}
-                        className={`relative rounded-lg border p-4 transition-all duration-200 ${
-                          isCompleted
-                            ? "border-green-200 bg-green-50 opacity-75"
-                            : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
-                        }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex flex-1 items-start space-x-3">
-                            <div
-                              className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-lg ${
-                                isCompleted
-                                  ? "bg-green-100 text-green-600"
-                                  : "bg-purple-100 text-purple-600"
-                              }`}
-                            >
-                              {isCompleted ? "✅" : "📋"}
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="mb-1 flex items-center space-x-2">
-                                <h5
-                                  className={`font-medium text-gray-900 ${
-                                    isCompleted
-                                      ? "text-gray-500 line-through"
-                                      : ""
-                                  }`}
-                                >
-                                  {task.title}
-                                </h5>
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(task.status)}`}
-                                >
-                                  {task.status === "completed"
-                                    ? "✓ Completed"
-                                    : task.status || "pending"}
-                                </span>
-                              </div>
-                              {task.description && (
-                                <p
-                                  className={`mb-2 text-sm ${
-                                    isCompleted
-                                      ? "text-gray-400 line-through"
-                                      : "text-gray-600"
-                                  }`}
-                                >
-                                  {task.description}
-                                </p>
-                              )}
-                              <div className="flex items-center space-x-4 text-xs text-gray-500">
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2 py-1 font-medium ${getPriorityColor(task.priority)}`}
-                                >
-                                  {task.priority} priority
-                                </span>
-                                {task.dueDate && (
-                                  <>
-                                    <span>•</span>
-                                    <span>Due {formatDate(task.dueDate)}</span>
-                                  </>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          {!isCompleted && (
-                            <CRMButton
-                              size="sm"
-                              onClick={() =>
-                                handleMarkTaskDone(task._id || task.id)
-                              }
-                              className="bg-green-600 text-white hover:bg-green-700"
-                            >
-                              Mark Done
-                            </CRMButton>
-                          )}
+             </div>
+           )}
+           
+           {/* ACTIVITIES TAB */}
+           {activeTab === "activities" && (
+             <div className="space-y-6">
+               <div className="flex items-center justify-between">
+                 <h3 className="text-lg font-bold text-gray-900">Activity Timeline</h3>
+                 <div className="flex gap-2">
+                   <CRMButton size="sm" onClick={() => setShowAddActivity(v => !v)}>
+                     {showAddActivity ? "Cancel" : "+ Log Activity"}
+                   </CRMButton>
+                    <CRMButton size="sm" variant="secondary" onClick={() => setShowReplyModal(true)}>
+                     📧 Log Reply
+                   </CRMButton>
+                 </div>
+               </div>
+               
+               {showAddActivity && (
+                 <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 animate-in slide-in-from-top-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                             <label className="block text-xs font-medium text-gray-700 mb-1">Type</label>
+                             <select value={newActivity.type} onChange={(e) => setNewActivity(a => ({...a, type: e.target.value}))} className="w-full rounded-lg border-gray-300 text-sm">
+                                <option value="call">📞 Call</option>
+                                <option value="email">📧 Email</option>
+                                <option value="site_visit">🏠 Site Visit</option>
+                                <option value="meeting">🤝 Meeting</option>
+                                <option value="note">📝 Note</option>
+                             </select>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
+                         <div>
+                             <label className="block text-xs font-medium text-gray-700 mb-1">Title</label>
+                             <input type="text" value={newActivity.title} onChange={(e) => setNewActivity(a => ({...a, title: e.target.value}))} className="w-full rounded-lg border-gray-300 text-sm" placeholder="e.g. Initial consultation" />
+                        </div>
+                    </div>
+                     <div className="mb-4">
+                         <label className="block text-xs font-medium text-gray-700 mb-1">Description</label>
+                         <textarea value={newActivity.description} onChange={(e) => setNewActivity(a => ({...a, description: e.target.value}))} className="w-full rounded-lg border-gray-300 text-sm" rows={2} placeholder="Details about the activity..."></textarea>
+                    </div>
+                     <div className="flex justify-end gap-2">
+                         <CRMButton size="sm" variant="primary" onClick={handleAddActivity}>Save Activity</CRMButton>
+                    </div>
+                 </div>
+               )}
 
-          {activeTab === "history" && (
+               <div className="relative border-l-2 border-gray-200 ml-3 space-y-8 pl-6 pb-2">
+                 {activities.map((activity, idx) => (
+                    <div key={idx} className="relative">
+                         <div className="absolute -left-[31px] bg-white rounded-full border-2 border-gray-200 p-1">
+                             <span className="text-lg leading-none block">
+                                 {activity.type === 'call' ? '📞' : activity.type === 'email' ? '📧' : activity.type === 'site_visit' ? '🏠' : '📝'}
+                             </span>
+                         </div>
+                         <div className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
+                             <div className="flex justify-between items-start mb-1">
+                                 <h4 className="font-semibold text-gray-900">{activity.title}</h4>
+                                 <span className="text-xs text-gray-500">{new Date(activity.createdAt).toLocaleString()}</span>
+                             </div>
+                             <p className="text-sm text-gray-600 whitespace-pre-wrap">{activity.description}</p>
+                             <div className="mt-2 flex items-center gap-2">
+                                <span className={`text-xs px-2 py-0.5 rounded-full ${activity.status === 'done' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                                    {activity.status || 'Active'}
+                                </span>
+                                {(activity.status !== 'done') && (
+                                     <button onClick={() => handleMarkActivityDone(activity._id || activity.id)} className="text-xs text-blue-600 hover:underline">Mark Done</button>
+                                )}
+                             </div>
+                         </div>
+                    </div>
+                 ))}
+                 {activities.length === 0 && <div className="text-gray-500 italic text-sm">No activities recorded yet.</div>}
+               </div>
+             </div>
+           )}
+
+           {/* NOTES TAB */}
+           {activeTab === "notes" && (
+             <div className="space-y-4">
+                <div className="flex gap-2 mb-4">
+                     <input type="text" value={newNote.content} onChange={(e) => setNewNote(n => ({...n, content: e.target.value, title: "Note" }))} className="flex-1 rounded-lg border-gray-300 shadow-sm text-sm" placeholder="Add a quick note..." />
+                     <CRMButton onClick={handleAddNote} disabled={!newNote.content.trim()}>Add</CRMButton>
+                </div>
+                <div className="grid gap-4">
+                     {notes.map((note, idx) => (
+                         <div key={idx} className="bg-yellow-50/50 p-4 rounded-xl border border-yellow-100/50 relative group">
+                             <p className="text-gray-800 text-sm whitespace-pre-wrap">{note.content}</p>
+                              <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
+                                  <span>{new Date(note.createdAt).toLocaleString()}</span>
+                                  <span>•</span>
+                                  <span className="font-medium text-gray-700">{note.createdBy?.name || "Admin"}</span>
+                              </div>
+                         </div>
+                     ))}
+                     {notes.length === 0 && <div className="text-center py-8 text-gray-500">No notes yet.</div>}
+                </div>
+             </div>
+           )}
+           
+           {/* TASKS TAB */}
+           {activeTab === "tasks" && (
+                <div className="space-y-4">
+                   <div className="flex justify-between items-center">
+                       <h3 className="font-bold">Tasks</h3>
+                       <button onClick={() => setShowAddTask(v => !v)} className="text-sm text-blue-600 hover:underline">+ New Task</button>
+                   </div>
+                   
+                   {showAddTask && (
+                       <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 space-y-3">
+                           <input type="text" placeholder="Task title" value={newTask.title} onChange={(e) => setNewTask(t => ({...t, title: e.target.value}))} className="w-full rounded-lg border-gray-300 text-sm" />
+                           <select value={newTask.priority} onChange={(e) => setNewTask(t => ({...t, priority: e.target.value}))} className="w-full rounded-lg border-gray-300 text-sm">
+                               <option value="low">Low Priority</option>
+                               <option value="medium">Medium Priority</option>
+                               <option value="high">High Priority</option>
+                           </select>
+                           <CRMButton size="sm" onClick={handleAddTask}>Create Task</CRMButton>
+                       </div>
+                   )}
+                   
+                   <div className="space-y-2">
+                       {tasks.map((task, idx) => (
+                           <div key={idx} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-white shadow-sm">
+                               <input type="checkbox" checked={task.status === "completed"} onChange={() => handleMarkTaskDone(task._id || task.id)} className="checkbox checkbox-sm checkbox-primary" />
+                               <div className="flex-1">
+                                   <p className={`font-medium text-sm ${task.status === "completed" ? "line-through text-gray-400" : "text-gray-900"}`}>{task.title}</p>
+                                   <span className={`text-xs px-1.5 py-0.5 rounded ${task.priority === 'high' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600'}`}>{task.priority}</span>
+                               </div>
+                           </div>
+                       ))}
+                        {tasks.length === 0 && <div className="text-center py-8 text-gray-500">No tasks pending.</div>}
+                   </div>
+                </div>
+           )}
+           {/* HISTORY TAB */}
+           {activeTab === "history" && (
             <div className="space-y-4">
-              <h4 className="font-semibold">Version History</h4>
-              {console.log("Version history:", lead.versionHistory)}
+              <h4 className="font-semibold text-gray-900">Version History</h4>
               {lead.versionHistory?.length === 0 ? (
-                <p className="text-gray-500">No changes recorded</p>
+                <p className="text-gray-500 text-sm">No changes recorded</p>
               ) : (
                 <div className="space-y-3">
                   {lead.versionHistory?.map((change, index) => (
                     <div
                       key={index}
-                      className="border-l-4 border-gray-300 pl-4"
+                      className="border-l-4 border-gray-200 pl-4 py-1"
                     >
                       <div className="flex items-center justify-between">
-                        <h5 className="font-medium">{change.field}</h5>
-                        <span className="text-sm text-gray-500">
+                        <h5 className="font-medium text-sm text-gray-900">{change.field}</h5>
+                        <span className="text-xs text-gray-400">
                           {formatDate(change.changedAt)}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">
-                        {change.oldValue} → {change.newValue}
+                      <p className="text-sm text-gray-600 mt-1">
+                        <span className="bg-red-50 text-red-600 px-1 rounded">{change.oldValue || 'Empty'}</span> 
+                        <span className="mx-2">→</span>
+                        <span className="bg-green-50 text-green-600 px-1 rounded">{change.newValue || 'Empty'}</span>
                       </p>
                       {change.comment && (
-                        <p className="mt-1 text-xs text-gray-500">
-                          {change.comment}
+                        <p className="mt-1 text-xs text-gray-500 italic">
+                          "{change.comment}"
                         </p>
                       )}
-                      <p className="text-xs text-gray-500">
-                        By:{" "}
-                        {change.changedBy?.name ||
-                          change.changedBy?.email ||
-                          "Unknown"}
+                      <p className="text-xs text-gray-400 mt-1">
+                        By: {change.changedBy?.name || change.changedBy?.email || "System"}
                       </p>
                     </div>
                   ))}
@@ -1245,99 +924,37 @@ export default function LeadDetailModal({
             </div>
           )}
         </div>
-
-        {/* Footer Actions */}
-        <div className="modal-action">
-          {activeTab === "overview" && (
-            <>
-              {editing ? (
-                <>
-                  <CRMButton
-                    onClick={() => setEditing(false)}
-                    variant="outline"
-                  >
-                    Cancel
-                  </CRMButton>
-                  <CRMButton onClick={handleSave} variant="primary">
-                    Save Changes
-                  </CRMButton>
-                </>
-              ) : (
-                <>
-                  <CRMButton onClick={() => setEditing(true)} variant="primary">
-                    Edit Lead
-                  </CRMButton>
-                  <CRMButton
-                    onClick={handleDeleteLead}
-                    variant="outline"
-                    className="border-red-600 text-red-600 hover:bg-red-50"
-                  >
-                    Delete Lead
-                  </CRMButton>
-                </>
-              )}
-            </>
-          )}
-          <CRMButton onClick={onClose} variant="outline">
-            Close
-          </CRMButton>
-        </div>
       </div>
-
-      {/* Pause Reason Modal */}
-      {showPauseReasonModal && (
-        <div className="modal modal-open">
-          <div className="modal-box max-w-md">
-            <h3 className="mb-4 text-lg font-bold">Pause Aging Timer</h3>
-            <p className="mb-4 text-gray-600">
-              Please provide a reason for pausing the aging timer (optional):
-            </p>
-            <textarea
-              value={pauseReason}
-              onChange={(e) => setPauseReason(e.target.value)}
-              placeholder="e.g., Customer asked to call back in 3 months"
-              className="textarea textarea-bordered mb-4 w-full"
-              rows={3}
-            />
-            <div className="modal-action">
-              <CRMButton
-                onClick={() => {
-                  setShowPauseReasonModal(false);
-                  setPauseReason("");
-                }}
-                variant="outline"
-              >
-                Cancel
-              </CRMButton>
-              <CRMButton
-                onClick={handlePauseReasonSubmit}
-                variant="primary"
-                disabled={isPausingAging}
-                loading={isPausingAging}
-              >
-                {isPausingAging ? "Pausing..." : "Pause Aging"}
-              </CRMButton>
+      
+       {/* Other Modals (Pause Reason, Reply) */}
+       {showPauseReasonModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/20 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200">
+          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl ring-1 ring-gray-900/5">
+            <h3 className="mb-4 text-lg font-bold text-gray-900">Pause Aging Timer</h3>
+             <textarea
+                value={pauseReason}
+                onChange={(e) => setPauseReason(e.target.value)}
+                className="w-full rounded-lg border-gray-300 shadow-sm mb-4 text-sm"
+                rows={3}
+                placeholder="Reason for pausing..."
+            ></textarea>
+            <div className="flex justify-end gap-2">
+                 <button onClick={() => setShowPauseReasonModal(false)} className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg font-medium">Cancel</button>
+                 <button onClick={handlePauseReasonSubmit} className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-colors">Pause</button>
             </div>
           </div>
         </div>
-      )}
+       )}
 
       {/* Reply Modal */}
       {showReplyModal && (
-        <div className="modal modal-open">
-          <div className="modal-box max-w-md">
-            <h3 className="mb-4 text-lg font-bold">Mark Lead as Replied</h3>
-            <p className="mb-4 text-gray-600">
-              This will pause the email automation and reset the aging timer for{" "}
-              {lead.name}.
-            </p>
-
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/20 backdrop-blur-sm p-4 animate-in fade-in zoom-in duration-200">
+           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl ring-1 ring-gray-900/5">
+            <h3 className="mb-4 text-lg font-bold text-gray-900">Log Lead Reply</h3>
             <div className="space-y-4">
               <div>
-                <label className="label">
-                  <span className="label-text font-medium">
-                    Reply Subject (optional)
-                  </span>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Subject
                 </label>
                 <input
                   type="text"
@@ -1348,16 +965,14 @@ export default function LeadDetailModal({
                       replySubject: e.target.value,
                     }))
                   }
-                  placeholder="e.g., Re: Kitchen Renovation Quote"
-                  className="input input-bordered w-full"
+                  className="w-full rounded-lg border-gray-300 shadow-sm text-sm"
+                  placeholder="Re: Project inquiry"
                 />
               </div>
 
               <div>
-                <label className="label">
-                  <span className="label-text font-medium">
-                    Reply Content (optional)
-                  </span>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Content Summary
                 </label>
                 <textarea
                   value={replyData.replyContent}
@@ -1367,35 +982,33 @@ export default function LeadDetailModal({
                       replyContent: e.target.value,
                     }))
                   }
-                  placeholder="Brief description of what the lead replied with..."
-                  className="textarea textarea-bordered w-full"
+                  className="w-full rounded-lg border-gray-300 shadow-sm text-sm"
                   rows={4}
-                />
+                  placeholder="Lead mentioned they are interested in..."
+                ></textarea>
               </div>
             </div>
 
-            <div className="modal-action">
-              <CRMButton
-                onClick={() => {
-                  setShowReplyModal(false);
-                  setReplyData({ replySubject: "", replyContent: "" });
-                }}
-                variant="outline"
+            <div className="mt-6 flex justify-end gap-2">
+              <button
+                onClick={() => setShowReplyModal(false)}
+                className="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg font-medium"
+                disabled={processingReply}
               >
                 Cancel
-              </CRMButton>
-              <CRMButton
+              </button>
+              <button
                 onClick={handleLeadReply}
-                variant="primary"
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium shadow-sm transition-colors"
                 disabled={processingReply}
-                loading={processingReply}
               >
-                {processingReply ? "Processing..." : "Mark as Replied"}
-              </CRMButton>
+                {processingReply ? "Processing..." : "Log Reply"}
+              </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 }

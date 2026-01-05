@@ -44,11 +44,8 @@ export default function CreateLeadModal({ onClose, onSubmit }) {
     try {
       setLoading(true);
       const response = await apiClient.get("/admin/check-users");
-      console.log("CreateLeadModal - Full API response:", response);
       const adminUsers =
         response.users?.filter((user) => user.role === "admin") || [];
-      console.log("CreateLeadModal - Fetched admins:", adminUsers);
-      console.log("CreateLeadModal - All users from response:", response.users);
       setAdmins(adminUsers);
     } catch (error) {
       console.error("Error fetching admins:", error);
@@ -83,17 +80,12 @@ export default function CreateLeadModal({ onClose, onSubmit }) {
 
     setSubmitting(true);
     try {
-      // Clean up the form data before submission
       const cleanFormData = {
         ...formData,
-        // Convert empty string to null for assignedTo
         assignedTo: formData.assignedTo || null,
-        // Convert empty string to null for customSource if source is "Other"
         customSource:
           formData.source === "Other" ? formData.customSource || null : null,
-        // Convert empty string to null for customProjectType
         customProjectType: formData.customProjectType || null,
-        // Ensure value is a number or null
         value: formData.value ? parseFloat(formData.value) : null,
       };
 
@@ -106,236 +98,230 @@ export default function CreateLeadModal({ onClose, onSubmit }) {
   };
 
   return (
-    <div className="modal modal-open">
-      <div className="modal-box max-w-2xl">
-        <h3 className="mb-4 text-lg font-bold">Create New Lead</h3>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Basic Information */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div>
-              <label className="label">
-                <span className="label-text">Name *</span>
-              </label>
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                className="input input-bordered w-full"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Email *</span>
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                className="input input-bordered w-full"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Phone</span>
-              </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Address</span>
-              </label>
-              <input
-                type="text"
-                value={formData.address}
-                onChange={(e) => handleInputChange("address", e.target.value)}
-                className="input input-bordered w-full"
-              />
-            </div>
-          </div>
-
-          {/* Lead Classification */}
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div>
-              <label className="label">
-                <span className="label-text">Stage</span>
-              </label>
-              <select
-                value={formData.stage}
-                onChange={(e) => handleInputChange("stage", e.target.value)}
-                className="crm-select"
-              >
-                <option value="Lead">Lead</option>
-                <option value="Never replied">Never replied</option>
-                <option value="Qualified">Qualified</option>
-                <option value="Proposal Sent">Proposal Sent</option>
-                <option value="Negotiations">Negotiations</option>
-                <option value="Won">Won</option>
-                <option value="Lost">Lost</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Value (£)</span>
-              </label>
-              <input
-                type="number"
-                value={formData.value}
-                onChange={(e) => handleInputChange("value", e.target.value)}
-                className="input input-bordered w-full"
-                min="0"
-                step="1000"
-              />
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Budget</span>
-              </label>
-              <select
-                value={formData.budget}
-                onChange={(e) => handleInputChange("budget", e.target.value)}
-                className="crm-select"
-              >
-                <option value="£">£ (0-10k)</option>
-                <option value="££">££ (10k-25k)</option>
-                <option value="£££">£££ (25k-50k)</option>
-                <option value="££££">££££ (50k+)</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div>
-              <label className="label">
-                <span className="label-text">Client Health</span>
-              </label>
-              <select
-                value={formData.clientHealth}
-                onChange={(e) =>
-                  handleInputChange("clientHealth", e.target.value)
-                }
-                className="crm-select"
-              >
-                <option value="Unknown">Unknown</option>
-                <option value="Excellent">Excellent</option>
-                <option value="Good">Good</option>
-                <option value="Fair">Fair</option>
-                <option value="Poor">Poor</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="label">
-                <span className="label-text">Source</span>
-              </label>
-              <select
-                value={formData.source}
-                onChange={(e) => handleInputChange("source", e.target.value)}
-                className="crm-select"
-              >
-                <option value="Other">Other</option>
-                <option value="Houzz">Houzz</option>
-                <option value="MyBuilder">MyBuilder</option>
-                <option value="Recommendation">Recommendation</option>
-                <option value="Google">Google</option>
-                <option value="Meta Ads">Meta Ads</option>
-                <option value="Google Ads">Google Ads</option>
-                <option value="Referral">Referral</option>
-              </select>
-            </div>
-          </div>
-
-          {formData.source === "Other" && (
-            <div>
-              <label className="label">
-                <span className="label-text">Custom Source</span>
-              </label>
-              <input
-                type="text"
-                value={formData.customSource}
-                onChange={(e) =>
-                  handleInputChange("customSource", e.target.value)
-                }
-                className="input input-bordered w-full"
-                placeholder="Enter custom source"
-              />
-            </div>
-          )}
-
-          {/* Project Types */}
-          <div>
-            <label className="label">
-              <span className="label-text">Project Types</span>
-            </label>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-              {PROJECT_TYPES.map((type) => (
-                <label key={type} className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.projectTypes.includes(type)}
-                    onChange={(e) =>
-                      handleProjectTypeChange(type, e.target.checked)
-                    }
-                    className="checkbox checkbox-sm"
-                  />
-                  <span className="text-sm">{type}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {formData.projectTypes.includes("Custom") && (
-            <div>
-              <label className="label">
-                <span className="label-text">Custom Project Type</span>
-              </label>
-              <input
-                type="text"
-                value={formData.customProjectType}
-                onChange={(e) =>
-                  handleInputChange("customProjectType", e.target.value)
-                }
-                className="input input-bordered w-full"
-                placeholder="Enter custom project type"
-              />
-            </div>
-          )}
-
-          {/* Assignment */}
-          <div>
-            <label className="label">
-              <span className="label-text">Assign To</span>
-            </label>
-            <select
-              value={formData.assignedTo}
-              onChange={(e) => handleInputChange("assignedTo", e.target.value)}
-              className="crm-select"
-              disabled={loading}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm px-2 py-4 md:p-4 animate-in fade-in duration-200">
+      <div className="relative flex max-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/5">
+        
+        {/* Header */}
+        <div className="flex-none border-b border-gray-100 bg-white/80 backdrop-blur-md p-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold text-gray-900">Create New Lead</h3>
+            <button
+              onClick={onClose}
+              className="rounded-full p-2 hover:bg-gray-100 transition-colors"
             >
-              <option value="">Unassigned</option>
-              {admins.map((admin) => (
-                <option key={admin.id} value={admin.id}>
-                  {admin.name || admin.email}
-                </option>
-              ))}
-            </select>
+              <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
+        </div>
 
-          {/* Modal Actions */}
-          <div className="modal-action">
-            <CRMButton
+        {/* Scrollable Form Content */}
+        <div className="flex-1 overflow-y-auto p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            
+            {/* Section: Basic Info */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 border-b border-gray-100 pb-2">Client Details</h4>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Name *</label>
+                  <input
+                    type="text"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="John Doe"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Email *</label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Phone</label>
+                  <input
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="+44 7700 900000"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Address</label>
+                  <input
+                    type="text"
+                    value={formData.address}
+                    onChange={(e) => handleInputChange("address", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="123 High St, London"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Section: Project Info */}
+            <div className="space-y-4">
+               <h4 className="text-sm font-semibold text-gray-900 border-b border-gray-100 pb-2">Project Details</h4>
+               <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Stage</label>
+                  <select
+                    value={formData.stage}
+                    onChange={(e) => handleInputChange("stage", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  >
+                    <option value="Lead">Lead</option>
+                    <option value="Never replied">Never replied</option>
+                    <option value="Qualified">Qualified</option>
+                    <option value="Proposal Sent">Proposal Sent</option>
+                    <option value="Negotiations">Negotiations</option>
+                    <option value="Won">Won</option>
+                    <option value="Lost">Lost</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Value (£)</label>
+                  <input
+                    type="number"
+                    value={formData.value}
+                    onChange={(e) => handleInputChange("value", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    min="0"
+                    step="1000"
+                    placeholder="0.00"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Budget</label>
+                  <select
+                    value={formData.budget}
+                    onChange={(e) => handleInputChange("budget", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  >
+                    <option value="£">£ (0-10k)</option>
+                    <option value="££">££ (10k-25k)</option>
+                    <option value="£££">£££ (25k-50k)</option>
+                    <option value="££££">££££ (50k+)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                 <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Client Health</label>
+                  <select
+                    value={formData.clientHealth}
+                    onChange={(e) => handleInputChange("clientHealth", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  >
+                    <option value="Unknown">Unknown</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Poor">Poor</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Source</label>
+                  <select
+                    value={formData.source}
+                    onChange={(e) => handleInputChange("source", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  >
+                    <option value="Other">Other</option>
+                    <option value="Houzz">Houzz</option>
+                    <option value="MyBuilder">MyBuilder</option>
+                    <option value="Recommendation">Recommendation</option>
+                    <option value="Google">Google</option>
+                    <option value="Meta Ads">Meta Ads</option>
+                    <option value="Google Ads">Google Ads</option>
+                    <option value="Referral">Referral</option>
+                  </select>
+                </div>
+              </div>
+              
+              {formData.source === "Other" && (
+                <div className="space-y-1 animate-in slide-in-from-top-2">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Custom Source</label>
+                  <input
+                    type="text"
+                    value={formData.customSource}
+                    onChange={(e) => handleInputChange("customSource", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Enter custom source"
+                  />
+                </div>
+              )}
+              
+               <div className="space-y-2">
+                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Project Types</label>
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                  {PROJECT_TYPES.map((type) => (
+                    <label key={type} className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors">
+                      <input
+                        type="checkbox"
+                        checked={formData.projectTypes.includes(type)}
+                        onChange={(e) => handleProjectTypeChange(type, e.target.checked)}
+                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="text-sm text-gray-700">{type}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+              
+               {formData.projectTypes.includes("Custom") && (
+                <div className="space-y-1 animate-in slide-in-from-top-2">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Custom Project Type</label>
+                  <input
+                    type="text"
+                    value={formData.customProjectType}
+                    onChange={(e) => handleInputChange("customProjectType", e.target.value)}
+                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    placeholder="Enter custom project type"
+                  />
+                </div>
+              )}
+              
+              <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Assign Agent</label>
+                   <select
+                      value={formData.assignedTo}
+                      onChange={(e) => handleInputChange("assignedTo", e.target.value)}
+                      className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                      disabled={loading}
+                    >
+                      <option value="">Unassigned</option>
+                      {admins.map((admin) => (
+                        <option key={admin.id} value={admin.id}>
+                          {admin.name || admin.email}
+                        </option>
+                      ))}
+                    </select>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+        
+        {/* Footer Actions */}
+        <div className="flex-none border-t border-gray-100 bg-gray-50/50 p-6 flex justify-end gap-3">
+             <CRMButton
               type="button"
               onClick={onClose}
               variant="outline"
@@ -344,15 +330,14 @@ export default function CreateLeadModal({ onClose, onSubmit }) {
               Cancel
             </CRMButton>
             <CRMButton
-              type="submit"
+              onClick={handleSubmit}
               variant="primary"
               disabled={submitting}
               loading={submitting}
             >
               {submitting ? "Creating..." : "Create Lead"}
             </CRMButton>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );
