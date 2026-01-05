@@ -139,6 +139,34 @@ projectSchema.statics.getOngoingProjects = function () {
     .sort({ priority: -1, startDate: -1 });
 };
 
+// Static method to get ongoing projects with pagination
+projectSchema.statics.getOngoingProjectsPaginated = async function ({
+  page = 1,
+  limit = 10,
+} = {}) {
+  const skip = (page - 1) * limit;
+
+  const [projects, total] = await Promise.all([
+    this.find({ status: "On Going" })
+      .populate("user", "name email")
+      .populate("projectManager", "name position")
+      .sort({ priority: -1, startDate: -1 })
+      .skip(skip)
+      .limit(limit),
+    this.countDocuments({ status: "On Going" }),
+  ]);
+
+  return {
+    projects,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    },
+  };
+};
+
 // Static method to get finished projects
 projectSchema.statics.getFinishedProjects = function () {
   return this.find({ status: "Finished" })

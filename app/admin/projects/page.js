@@ -10,18 +10,25 @@ import Task from "@/models/Task";
  * Admin Projects Page
  * Displays all ongoing projects for management
  */
-export default async function AdminProjectsPage() {
+export default async function AdminProjectsPage({ searchParams }) {
   // Get admin session
   const session = await getServerSession(authOptions);
 
   // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch all ongoing projects with populated user data
-  const projects = await Project.getOngoingProjects();
+  const page = parseInt(searchParams?.page) || 1;
+  const limit = 10; // Set to 10 as per user preference
+
+  // Fetch paginated ongoing projects
+  const { projects, pagination } = await Project.getOngoingProjectsPaginated({
+    page,
+    limit,
+  });
+  
   const projectIds = projects.map((p) => p._id);
 
-  // Fetch all tasks for these projects
+  // Fetch tasks ONLY for the displayed projects
   const allTasks = await Task.find({ project: { $in: projectIds } }).lean();
 
   // Group tasks by project and compute stats
@@ -142,7 +149,10 @@ export default async function AdminProjectsPage() {
         </div>
 
         {/* Projects List */}
-        <ProjectsList projects={projectsWithUserInfo} />
+        <ProjectsList
+          projects={projectsWithUserInfo}
+          pagination={pagination}
+        />
       </div>
     </div>
   );

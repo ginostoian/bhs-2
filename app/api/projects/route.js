@@ -7,6 +7,7 @@ import { requireAdmin } from "@/libs/requireAdmin";
 /**
  * GET /api/projects
  * List all projects (admin only)
+ * Supports pagination with ?page=1&limit=10
  */
 export async function GET(req) {
   try {
@@ -15,6 +16,8 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
+    const page = parseInt(searchParams.get("page"));
+    const limit = parseInt(searchParams.get("limit")) || 10;
 
     // Build filter
     const filter = {};
@@ -22,6 +25,32 @@ export async function GET(req) {
       filter.status = status;
     }
 
+    // If page is provided, use pagination
+    if (page) {
+      const skip = (page - 1) * limit;
+
+      const [projects, total] = await Promise.all([
+        Project.find(filter)
+          .populate("user", "name email")
+          .populate("projectManager", "name position")
+          .sort({ createdAt: -1 })
+          .skip(skip)
+          .limit(limit),
+        Project.countDocuments(filter),
+      ]);
+
+      return NextResponse.json({
+        projects,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+      });
+    }
+
+    // Legacy behavior: return all projects
     const projects = await Project.find(filter)
       .populate("user", "name email")
       .populate("projectManager", "name position")
@@ -29,9 +58,11 @@ export async function GET(req) {
 
     return NextResponse.json({ projects });
   } catch (error) {
+    console.error("Error in GET /api/projects:", error);
+    const status = error.message === "Authentication required" ? 401 : 403;
     return NextResponse.json(
       { error: error.message || "Failed to fetch projects" },
-      { status: 401 },
+      { status: status === 403 && !error.message ? 500 : status },
     );
   }
 }
