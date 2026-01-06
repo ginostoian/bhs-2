@@ -4,6 +4,12 @@ import CardCategory from "../../_assets/components/CardCategory";
 import { getSEOTags } from "@/libs/seo";
 import config from "@/config";
 
+export async function generateStaticParams() {
+  return categories.map((category) => ({
+    categoryId: category.slug,
+  }));
+}
+
 export async function generateMetadata({ params }) {
   const category = categories.find(
     (category) => category.slug === params.categoryId,

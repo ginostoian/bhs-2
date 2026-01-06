@@ -4,6 +4,12 @@ import CardArticle from "../../_assets/components/CardArticle";
 import { getSEOTags } from "@/libs/seo";
 import config from "@/config";
 
+export async function generateStaticParams() {
+  return authors.map((author) => ({
+    authorId: author.slug,
+  }));
+}
+
 export async function generateMetadata({ params }) {
   const author = authors.find((author) => author.slug === params.authorId);
 
