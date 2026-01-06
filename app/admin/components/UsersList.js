@@ -8,9 +8,9 @@ const PAGE_SIZE = 12;
 
 /**
  * Users List Component
- * Displays all users with management capabilities
+ * Displays all users with premium glassmorphism design
  */
-export default function UsersList({ users: initialUsers }) {
+export default function UsersList({ users: initialUsers, totalUsers = 0 }) {
   const [users, setUsers] = useState(initialUsers);
   const [filteredUsers, setFilteredUsers] = useState(initialUsers);
   const [statusFilter, setStatusFilter] = useState("All");
@@ -26,7 +26,7 @@ export default function UsersList({ users: initialUsers }) {
     user: null,
   });
   const [page, setPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(initialUsers.length);
+  const [totalCount, setTotalCount] = useState(totalUsers || initialUsers.length); // Use totalUsers prop
   const [loading, setLoading] = useState(false);
 
   // Fetch users from API with pagination and search
@@ -59,19 +59,21 @@ export default function UsersList({ users: initialUsers }) {
 
   // Fetch users when page, search, or status changes
   useEffect(() => {
-    // Only fetch from API if we have search terms or pagination, otherwise use initial data
     if (searchTerm || page > 1 || statusFilter !== "All") {
       fetchUsers(page, searchTerm, statusFilter);
     } else {
-      // Use initial data and apply status filter locally
+      // Use initial data if on page 1 and no filters
       let filtered = initialUsers;
-      if (statusFilter !== "All") {
+       if (statusFilter !== "All") {
         filtered = initialUsers.filter(
           (user) => user.projectStatus === statusFilter,
         );
       }
       setFilteredUsers(filtered);
-      setTotalCount(filtered.length);
+      // Only set total count if we haven't fetched from API yet (approximate)
+      if (initialUsers.length < PAGE_SIZE) {
+          setTotalCount(initialUsers.length);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, searchTerm, statusFilter]);
@@ -95,70 +97,40 @@ export default function UsersList({ users: initialUsers }) {
 
   // Handle status update
   const handleStatusUpdate = async (userId, newStatus) => {
-    console.log("Updating user status:", userId, "to:", newStatus);
-
     try {
       const response = await fetch(`/api/users/${userId}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ projectStatus: newStatus }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("API error:", errorData);
-        throw new Error(errorData.error || "Failed to update user status");
-      }
+      if (!response.ok) throw new Error("Failed to update status");
 
       const { user } = await response.json();
-      console.log("Updated user data:", user);
 
-      // Update user in state
       const updatedUsers = users.map((u) =>
         u.id === userId ? { ...u, ...user } : u,
       );
-      console.log(
-        "Updated users state:",
-        updatedUsers.map((u) => ({
-          id: u.id,
-          name: u.name,
-          projectStatus: u.projectStatus,
-        })),
-      );
       setUsers(updatedUsers);
-
-      // Update filtered users with the same data
-      const updatedFilteredUsers = filteredUsers.map((u) =>
-        u.id === userId ? { ...u, ...user } : u,
-      );
-      setFilteredUsers(updatedFilteredUsers);
-
+      setFilteredUsers(updatedUsers.filter(u => statusFilter === "All" || u.projectStatus === statusFilter));
       setEditModal({ isOpen: false, user: null });
     } catch (error) {
       console.error("Error updating user status:", error);
-      setModalState({
-        isOpen: true,
-        title: "Error",
-        message: "Failed to update user status. Please try again.",
-        type: "alert",
-        confirmText: "OK",
-      });
+      alert("Failed to update status");
     }
   };
 
   // Get status badge styling
   const getStatusBadge = (status) => {
     const styles = {
-      Lead: "bg-blue-100 text-blue-800",
-      "On Going": "bg-yellow-100 text-yellow-800",
-      Finished: "bg-green-100 text-green-800",
+      Lead: "bg-blue-100 text-blue-700 border-blue-200",
+      "On Going": "bg-yellow-100 text-yellow-700 border-yellow-200",
+      Finished: "bg-green-100 text-green-700 border-green-200",
     };
 
     return (
       <span
-        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status] || "bg-gray-100 text-gray-800"}`}
+        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-bold border ${styles[status] || "bg-gray-100 text-gray-800 border-gray-200"}`}
       >
         {status || "Lead"}
       </span>
@@ -168,323 +140,211 @@ export default function UsersList({ users: initialUsers }) {
   // Handle user deletion
   const handleDeleteUser = async (userId) => {
     setIsDeleting(true);
-
     try {
-      const response = await fetch(`/api/users/${userId}`, {
-        method: "DELETE",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete user");
-      }
-
-      // Remove user from state
+      const response = await fetch(`/api/users/${userId}`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Failed to delete user");
       setUsers(users.filter((user) => user.id !== userId));
+      setFilteredUsers(filteredUsers.filter((user) => user.id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
-      // Show error modal
-      setModalState({
-        isOpen: true,
-        title: "Error",
-        message: "Failed to delete user. Please try again.",
-        type: "alert",
-        confirmText: "OK",
-      });
+      alert("Failed to delete user");
     } finally {
       setIsDeleting(false);
     }
   };
 
-  // Open delete confirmation modal
-  const openDeleteModal = (userId, userName) => {
-    setModalState({
-      isOpen: true,
-      userId,
-      userName,
-      title: "Delete User",
-      message: `Are you sure you want to delete ${userName || "this user"}? This action cannot be undone.`,
-      type: "confirm",
-      confirmText: "Delete",
-      cancelText: "Cancel",
-    });
-  };
-
-  // Format date for display
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
 
   return (
-    <div>
-      <div className="mb-8">
-        <h2 className="mb-2 text-2xl font-bold text-gray-900">
-          User Management
-        </h2>
-        <p className="text-gray-600">View and manage all registered users</p>
-      </div>
-
-      {/* Filter Controls */}
-      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6">
-        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Filter by Status
-              </label>
-              <div className="mt-1 flex flex-wrap items-center gap-2">
+    <div className="space-y-6">
+      {/* Filter Bar */}
+      <div className="rounded-2xl border border-gray-100 bg-white/70 backdrop-blur-md p-4 shadow-sm">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            {/* Search */}
+            <div className="relative w-full md:w-64">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <span className="text-gray-400">🔍</span>
+                </div>
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    placeholder="Search users..."
+                    className="block w-full rounded-xl border-gray-200 bg-white/50 pl-10 pr-3 py-2 text-sm placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                />
+            </div>
+          
+            {/* Status Filter */}
+            <div className="flex flex-wrap items-center gap-2">
                 {["All", "Lead", "On Going", "Finished"].map((status) => (
                   <button
                     key={status}
                     onClick={() => handleStatusFilterChange(status)}
-                    className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                    className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all ${
                       statusFilter === status
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                        ? "bg-blue-600 text-white shadow-md shadow-blue-200"
+                        : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-100"
                     }`}
                   >
                     {status}
                   </button>
                 ))}
-              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Search
-              </label>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                placeholder="Search by name or email..."
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-64"
-              />
-            </div>
-          </div>
-          <div className="text-sm text-gray-600">
-            Showing {filteredUsers.length} of {users.length} users
-          </div>
         </div>
       </div>
 
+      {/* Grid */}
       {filteredUsers.length === 0 && !loading ? (
-        <div className="py-12 text-center">
-          <div className="mb-4 text-6xl">👥</div>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">
-            {totalCount === 0
-              ? "No users found"
-              : "No users match your filters"}
-          </h3>
-          <p className="text-gray-600">
-            {totalCount === 0
-              ? "No users have registered yet."
-              : "Try adjusting your search or filter criteria."}
-          </p>
+        <div className="py-12 text-center rounded-2xl bg-white/40 border border-dashed border-gray-200">
+          <div className="text-4xl mb-3">👥</div>
+          <h3 className="text-lg font-bold text-gray-900">No users found</h3>
+          <p className="text-gray-500 text-sm">Try adjusting your filters.</p>
         </div>
       ) : loading ? (
-        <div className="py-12 text-center">
-          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-          <p className="mt-2 text-gray-600">Loading users...</p>
+        <div className="py-20 text-center">
+          <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
         </div>
       ) : (
-        <>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredUsers.map((user) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+             {filteredUsers.map((user) => (
               <div
                 key={user.id}
-                className="flex h-full flex-col rounded-lg border border-gray-200 bg-white p-5 shadow"
+                className="group relative flex flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:shadow-md hover:border-blue-100"
               >
-                <div className="mb-4 flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-lg font-medium text-white">
-                      {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
+                 <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm ${
+                            user.role === 'admin' ? 'bg-gradient-to-br from-purple-500 to-indigo-600' : 'bg-gradient-to-br from-blue-400 to-blue-600'
+                        }`}>
+                          {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
+                        </div>
+                        <div className="min-w-0">
+                            <Link href={`/admin/users/${user.id}`} className="block truncate text-sm font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                                {user.name || "Unknown User"}
+                            </Link>
+                            <div className="truncate text-xs text-gray-500">{user.email}</div>
+                        </div>
                     </div>
-                  </div>
-                  <div className="ml-4 min-w-0 flex-1">
-                    <Link
-                      href={`/admin/users/${user.id}`}
-                      className="block truncate text-base font-semibold text-blue-700 hover:text-blue-900 hover:underline"
-                    >
-                      {user.name || "Unknown User"}
+                    {user.role === 'admin' && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-1 rounded-md">Admin</span>
+                    )}
+                 </div>
+
+                 <div className="space-y-3 mb-4">
+                    <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-500 font-medium">Status</span>
+                        <button 
+                            onClick={() => setEditModal({ isOpen: true, user })}
+                            className="hover:opacity-80 transition-opacity"
+                        >
+                            {getStatusBadge(user.projectStatus)}
+                        </button>
+                    </div>
+                     <div className="flex items-center justify-between text-xs">
+                        <span className="text-gray-500 font-medium">Joined</span>
+                        <span className="text-gray-700">{new Date(user.createdAt).toLocaleDateString('en-GB')}</span>
+                    </div>
+                     {(user.phone || user.address) && (
+                        <div className="pt-3 border-t border-gray-50 space-y-1">
+                             {user.phone && <div className="text-xs text-gray-600 flex items-center gap-2"><span className="opacity-50">📞</span> {user.phone}</div>}
+                             {user.address && <div className="text-xs text-gray-600 flex items-center gap-2 truncate"><span className="opacity-50">📍</span> {user.address}</div>}
+                        </div>
+                     )}
+                 </div>
+
+                 <div className="mt-auto pt-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <Link href={`/admin/users/${user.id}`} className="flex-1 rounded-lg border border-gray-200 bg-white py-1.5 text-center text-xs font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                        View Profile
                     </Link>
-                    <div className="truncate text-xs text-gray-500">
-                      {user.email}
-                    </div>
-                  </div>
-                </div>
-                <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-gray-600">
-                  <span className="font-medium">Role:</span>{" "}
-                  {user.role || "user"}
-                  <span className="ml-2 font-medium">Joined:</span>{" "}
-                  {formatDate(user.createdAt)}
-                </div>
-                <div className="mb-3 flex items-center gap-2 text-xs">
-                  <span className="font-medium">Status:</span>
-                  {getStatusBadge(user.projectStatus)}
-                  <button
-                    onClick={() => setEditModal({ isOpen: true, user })}
-                    className="ml-2 text-xs text-blue-600 hover:text-blue-800 hover:underline"
-                  >
-                    Edit
-                  </button>
-                </div>
-                {/* Contact Information */}
-                <div className="mb-3 space-y-1 text-xs text-gray-600">
-                  {user.phone && (
-                    <div className="flex items-center">
-                      <span className="mr-1">📞</span>
-                      <span className="truncate">{user.phone}</span>
-                    </div>
-                  )}
-                  {user.address && (
-                    <div className="flex items-start">
-                      <span className="mr-1 mt-0.5">📍</span>
-                      <span className="truncate">{user.address}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-auto flex gap-2">
-                  <Link
-                    href={`/admin/users/${user.id}`}
-                    className="flex-1 rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-center text-xs font-medium text-blue-700 hover:bg-blue-100"
-                  >
-                    View
-                  </Link>
-                  <button
-                    onClick={() =>
-                      openDeleteModal(user.id, user.name || user.email)
-                    }
-                    disabled={isDeleting}
-                    className="flex-1 rounded-md border border-red-300 bg-red-50 px-3 py-1 text-center text-xs font-medium text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    {isDeleting ? "Deleting..." : "Delete"}
-                  </button>
-                </div>
+                    <button 
+                         onClick={() => setModalState({
+                            isOpen: true,
+                            userId: user.id,
+                            userName: user.name || user.email,
+                            title: "Delete User",
+                            message: `Are you sure you want to delete ${user.name}? This cannot be undone.`,
+                            type: "confirm",
+                            confirmText: "Delete",
+                            cancelText: "Cancel"
+                          })}
+                        disabled={isDeleting}
+                        className="rounded-lg border border-red-100 bg-red-50 p-1.5 text-red-600 hover:bg-red-100 transition-colors"
+                    >
+                        🗑️
+                    </button>
+                 </div>
               </div>
-            ))}
-          </div>
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div className="mt-8 flex items-center justify-center gap-2">
-              <button
-                onClick={() => canPrev && setPage(page - 1)}
-                disabled={!canPrev}
-                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
-              >
-                Previous
-              </button>
-              <span className="mx-2 text-sm">
-                Page {page} of {totalPages}
-              </span>
-              <button
-                onClick={() => canNext && setPage(page + 1)}
-                disabled={!canNext}
-                className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          )}
-        </>
+             ))}
+        </div>
       )}
 
-      {/* Statistics */}
-      <div className="mt-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h3 className="mb-4 text-lg font-medium text-gray-900">Statistics</h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
-          <div className="rounded-lg bg-blue-50 p-4">
-            <div className="text-2xl font-bold text-blue-600">
-              {users.length}
-            </div>
-            <div className="text-sm text-blue-600">Total Users</div>
-          </div>
-          <div className="rounded-lg bg-green-50 p-4">
-            <div className="text-2xl font-bold text-green-600">
-              {users.filter((u) => u.role === "admin").length}
-            </div>
-            <div className="text-sm text-green-600">Admin Users</div>
-          </div>
-          <div className="rounded-lg bg-blue-100 p-4">
-            <div className="text-2xl font-bold text-blue-700">
-              {users.filter((u) => u.projectStatus === "Lead").length}
-            </div>
-            <div className="text-sm text-blue-700">Leads</div>
-          </div>
-          <div className="rounded-lg bg-yellow-100 p-4">
-            <div className="text-2xl font-bold text-yellow-700">
-              {users.filter((u) => u.projectStatus === "On Going").length}
-            </div>
-            <div className="text-sm text-yellow-700">On Going</div>
-          </div>
-          <div className="rounded-lg bg-green-100 p-4">
-            <div className="text-2xl font-bold text-green-700">
-              {users.filter((u) => u.projectStatus === "Finished").length}
-            </div>
-            <div className="text-sm text-green-700">Finished</div>
-          </div>
+      {/* Pagination */}
+       {totalPages > 1 && (
+        <div className="flex justify-center mt-8">
+            <nav className="flex items-center gap-2 rounded-xl bg-white p-1 border border-gray-100 shadow-sm">
+                <button
+                    onClick={() => canPrev && setPage(page - 1)}
+                    disabled={!canPrev}
+                    className="px-3 py-1 text-sm font-medium text-gray-500 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                >
+                    Previous
+                </button>
+                <div className="h-4 w-px bg-gray-200"></div>
+                <span className="px-3 text-xs font-bold text-gray-900">Page {page} of {totalPages}</span>
+                <div className="h-4 w-px bg-gray-200"></div>
+                <button
+                    onClick={() => canNext && setPage(page + 1)}
+                    disabled={!canNext}
+                    className="px-3 py-1 text-sm font-medium text-gray-500 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                >
+                    Next
+                </button>
+            </nav>
         </div>
-      </div>
+       )}
 
-      {/* Edit Status Modal */}
+      {/* Edit Modal */}
       {editModal.isOpen && editModal.user && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="mb-4 text-lg font-medium text-gray-900">
-              Update Project Status
-            </h3>
-            <p className="mb-4 text-sm text-gray-600">
-              Update the project status for{" "}
-              <span className="font-medium">
-                {editModal.user.name || editModal.user.email}
-              </span>
-            </p>
-            <div className="mb-6">
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                Project Status
-              </label>
-              <select
-                className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                defaultValue={editModal.user.projectStatus || "Lead"}
-                onChange={(e) => {
-                  const newStatus = e.target.value;
-                  console.log(
-                    "Status changed to:",
-                    newStatus,
-                    "for user:",
-                    editModal.user.id,
-                  );
-                  handleStatusUpdate(editModal.user.id, newStatus);
-                }}
-              >
-                <option value="Lead">Lead</option>
-                <option value="On Going">On Going</option>
-                <option value="Finished">Finished</option>
-              </select>
-            </div>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setEditModal({ isOpen: false, user: null })}
-                className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/20 backdrop-blur-sm animate-in fade-in duration-200">
+           <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl border border-gray-100">
+             <h3 className="text-lg font-bold text-gray-900 mb-1">Update Status</h3>
+             <p className="text-sm text-gray-500 mb-6">Change project status for <span className="font-semibold text-gray-700">{editModal.user.name}</span></p>
+             
+             <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-2">
+                    {["Lead", "On Going", "Finished"].map(status => (
+                        <button
+                            key={status}
+                            onClick={() => handleStatusUpdate(editModal.user.id, status)}
+                            className={`w-full p-3 rounded-xl border text-sm font-bold transition-all flex items-center justify-between ${
+                                editModal.user.projectStatus === status 
+                                ? 'border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-100 ring-offset-1' 
+                                : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300'
+                            }`}
+                        >
+                            {status}
+                            {editModal.user.projectStatus === status && <span>✓</span>}
+                        </button>
+                    ))}
+                </div>
+                <button 
+                    onClick={() => setEditModal({isOpen: false, user: null})}
+                    className="w-full py-2.5 text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors"
+                >
+                    Cancel
+                </button>
+             </div>
+           </div>
+         </div>
       )}
 
-      {/* Modal */}
+      {/* Alert/Confirm Modal */}
       <Modal
         isOpen={modalState.isOpen}
-        onClose={() =>
-          setModalState({ isOpen: false, userId: null, userName: "" })
-        }
+        onClose={() => setModalState({ isOpen: false, userId: null, userName: "" })}
         onConfirm={() => {
           if (modalState.userId && modalState.type === "confirm") {
             handleDeleteUser(modalState.userId);
+            setModalState({ isOpen: false });
           }
         }}
         title={modalState.title}

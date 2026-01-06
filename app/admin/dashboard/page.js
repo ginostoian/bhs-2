@@ -345,7 +345,7 @@ function UrgentCard({ type, data }) {
                     <span className="text-[10px] uppercase font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">Overdue Task</span>
                 </div>
                 <p className="text-sm font-bold text-gray-900 line-clamp-1">{data.name}</p>
-                 <p className="text-xs text-red-500 mt-1 font-medium">Due: {new Date(data.dueDate).toLocaleDateString()}</p>
+                 <p className="text-xs text-red-500 mt-1 font-medium">Due: {new Date(data.dueDate).toLocaleDateString('en-GB')}</p>
             </Link>
         )
     }
