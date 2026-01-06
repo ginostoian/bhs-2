@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Project from "@/models/Project";
 import User from "@/models/User";
+import Link from "next/link";
 import ProjectsList from "./components/ProjectsList";
 import Task from "@/models/Task";
 
@@ -20,57 +21,15 @@ export default async function AdminProjectsPage({ searchParams }) {
   const page = parseInt(searchParams?.page) || 1;
   const limit = 10; // Set to 10 as per user preference
 
-  // Fetch paginated ongoing projects
+  // Fetch paginated ongoing projects with task statistics automatically included
   const { projects, pagination } = await Project.getOngoingProjectsPaginated({
     page,
     limit,
   });
-  
-  const projectIds = projects.map((p) => p._id);
 
-  // Fetch tasks ONLY for the displayed projects
-  const allTasks = await Task.find({ project: { $in: projectIds } }).lean();
-
-  // Group tasks by project and compute stats
-  const tasksByProject = {};
-  for (const task of allTasks) {
-    const pid = task.project.toString();
-    if (!tasksByProject[pid]) {
-      tasksByProject[pid] = [];
-    }
-    tasksByProject[pid].push(task);
-  }
-
-  // Convert to plain objects and add user info and accurate stats
-  const projectsWithUserInfo = projects.map((project) => {
-    const pid = project._id.toString();
-    const projectTasks = tasksByProject[pid] || [];
-    return {
-      id: project._id.toString(),
-      name: project.name,
-      type: project.type,
-      status: project.status,
-      priority: project.priority,
-      progress: project.progress,
-      startDate: project.startDate,
-      location: project.location,
-      budget: project.budget,
-      projectManager: project.projectManager,
-      user: {
-        id: project.user._id.toString(),
-        name: project.user.name,
-        email: project.user.email,
-      },
-      tasksCount: projectTasks.length,
-      completedTasksCount: projectTasks.filter((t) => t.status === "Done")
-        .length,
-      inProgressTasks: projectTasks.filter((t) => t.status === "In Progress")
-        .length,
-      scheduledTasks: projectTasks.filter((t) => t.status === "Scheduled")
-        .length,
-      blockedTasks: projectTasks.filter((t) => t.status === "Blocked").length,
-    };
-  });
+  // Ensure data is plain serializable objects for Client Components
+  // Using JSON serialization is the most robust way to handle all Mongoose-specific types in one go
+  const projectsWithUserInfo = JSON.parse(JSON.stringify(projects));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -135,12 +94,12 @@ export default async function AdminProjectsPage({ searchParams }) {
               </h3>
               <p className="mt-1 text-sm text-blue-700">
                 Finished projects are moved to the{" "}
-                <a
+                <Link
                   href="/admin/finished-projects"
                   className="font-medium underline hover:text-blue-600"
                 >
                   Finished Projects
-                </a>{" "}
+                </Link>{" "}
                 section where you can review completed work and project
                 outcomes.
               </p>

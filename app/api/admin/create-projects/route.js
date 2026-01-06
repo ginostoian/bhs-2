@@ -23,36 +23,41 @@ export async function POST() {
     await connectMongoose();
 
     console.log("📋 Finding users with 'On Going' status...");
-    const ongoingUsers = await User.find({ projectStatus: "On Going" });
+    const ongoingUsers = await User.find({ projectStatus: "On Going" }).lean();
     console.log(`Found ${ongoingUsers.length} users with 'On Going' status`);
 
-    let createdCount = 0;
-    let skippedCount = 0;
-    const results = [];
+    if (ongoingUsers.length === 0) {
+      return NextResponse.json({
+        success: true,
+        summary: { totalUsers: 0, projectsCreated: 0, projectsSkipped: 0 },
+        results: [],
+      });
+    }
 
-    for (const user of ongoingUsers) {
-      // Check if project already exists for this user
-      const existingProject = await Project.findOne({ user: user._id });
+    // Get all existing project user IDs in one go
+    const userIds = ongoingUsers.map(u => u._id);
+    const existingProjects = await Project.find({ user: { $in: userIds } }, { user: 1 }).lean();
+    const existingUserIdsWithProjects = new Set(existingProjects.map(p => p.user.toString()));
 
-      if (existingProject) {
-        console.log(
-          `⏭️  Project already exists for ${user.name || user.email} - skipping`,
-        );
-        results.push({
-          user: user.name || user.email,
-          status: "skipped",
-          reason: "Project already exists",
-        });
-        skippedCount++;
-        continue;
-      }
+    const usersToCreateFor = ongoingUsers.filter(u => !existingUserIdsWithProjects.has(u._id.toString()));
+    const skippedCount = ongoingUsers.length - usersToCreateFor.length;
 
-      // Create a new project
+    const results = ongoingUsers.map(user => {
+      const exists = existingUserIdsWithProjects.has(user._id.toString());
+      return {
+        user: user.name || user.email,
+        status: exists ? "skipped" : "created",
+        reason: exists ? "Project already exists" : null
+      };
+    });
+
+    // Create missing projects in parallel
+    const createdProjects = await Promise.all(usersToCreateFor.map(async (user) => {
       const projectData = {
         user: user._id,
         name: `${user.name || "Project"} - On Going`,
         description: `Project for ${user.name || user.email}`,
-        type: "renovation", // Default type
+        type: "General Renovation", // More realistic default
         status: "On Going",
         startDate: user.createdAt || new Date(),
         location: "Not specified",
@@ -60,30 +65,16 @@ export async function POST() {
         progress: 0,
         tags: ["auto-created"],
       };
+      return Project.create(projectData);
+    }));
 
-      const project = await Project.create(projectData);
-      console.log(
-        `✅ Created project for ${user.name || user.email}: ${project.name}`,
-      );
-
-      results.push({
-        user: user.name || user.email,
-        status: "created",
-        projectName: project.name,
-      });
-      createdCount++;
-    }
-
-    console.log("\n📊 Migration Summary:");
-    console.log(`- Total users with 'On Going' status: ${ongoingUsers.length}`);
-    console.log(`- Projects created: ${createdCount}`);
-    console.log(`- Projects skipped (already existed): ${skippedCount}`);
+    console.log(`✅ Created ${createdProjects.length} new projects`);
 
     return NextResponse.json({
       success: true,
       summary: {
         totalUsers: ongoingUsers.length,
-        projectsCreated: createdCount,
+        projectsCreated: createdProjects.length,
         projectsSkipped: skippedCount,
       },
       results: results,

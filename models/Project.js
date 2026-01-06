@@ -139,22 +139,119 @@ projectSchema.statics.getOngoingProjects = function () {
     .sort({ priority: -1, startDate: -1 });
 };
 
-// Static method to get ongoing projects with pagination
+// Static method to get ongoing projects with pagination and task statistics
 projectSchema.statics.getOngoingProjectsPaginated = async function ({
   page = 1,
   limit = 10,
 } = {}) {
   const skip = (page - 1) * limit;
 
-  const [projects, total] = await Promise.all([
-    this.find({ status: "On Going" })
-      .populate("user", "name email")
-      .populate("projectManager", "name position")
-      .sort({ priority: -1, startDate: -1 })
-      .skip(skip)
-      .limit(limit),
-    this.countDocuments({ status: "On Going" }),
+  // Use aggregation to fetch projects and their task counts in one go
+  const projectsAggregation = await this.aggregate([
+    { $match: { status: "On Going" } },
+    { $sort: { priority: -1, startDate: -1 } },
+    { $skip: skip },
+    { $limit: limit },
+    // Lookup user info
+    {
+      $lookup: {
+        from: "users",
+        localField: "user",
+        foreignField: "_id",
+        as: "userData",
+      },
+    },
+    { $unwind: "$userData" },
+    // Lookup project manager info (Employee model)
+    {
+      $lookup: {
+        from: "employees",
+        localField: "projectManager",
+        foreignField: "_id",
+        as: "pmData",
+      },
+    },
+    { $unwind: { path: "$pmData", preserveNullAndEmptyArrays: true } },
+    // Lookup task counts
+    {
+      $lookup: {
+        from: "tasks",
+        localField: "_id",
+        foreignField: "project",
+        as: "tasks",
+      },
+    },
+    {
+      $addFields: {
+        tasksCount: { $size: "$tasks" },
+        completedTasksCount: {
+          $size: {
+            $filter: {
+              input: "$tasks",
+              as: "task",
+              cond: { $eq: ["$$task.status", "Done"] },
+            },
+          },
+        },
+        inProgressTasks: {
+          $size: {
+            $filter: {
+              input: "$tasks",
+              as: "task",
+              cond: { $eq: ["$$task.status", "In Progress"] },
+            },
+          },
+        },
+        scheduledTasks: {
+          $size: {
+            $filter: {
+              input: "$tasks",
+              as: "task",
+              cond: { $eq: ["$$task.status", "Scheduled"] },
+            },
+          },
+        },
+        blockedTasks: {
+          $size: {
+            $filter: {
+              input: "$tasks",
+              as: "task",
+              cond: { $eq: ["$$task.status", "Blocked"] },
+            },
+          },
+        },
+      },
+    },
+    // Project only needed fields to keep response light
+    {
+      $project: {
+        tasks: 0,
+        "userData.password": 0,
+        "userData.emailVerificationToken": 0,
+      },
+    },
   ]);
+
+  const total = await this.countDocuments({ status: "On Going" });
+
+  // Map to the format the UI expects (matching lean() and populate() output)
+  const projects = projectsAggregation.map((p) => ({
+    ...p,
+    id: p._id.toString(),
+    user: {
+      _id: p.userData._id,
+      id: p.userData._id.toString(),
+      name: p.userData.name,
+      email: p.userData.email,
+    },
+    projectManager: p.pmData
+      ? {
+          _id: p.pmData._id,
+          name: p.pmData.name,
+          position: p.pmData.position,
+        }
+      : null,
+  }));
 
   return {
     projects,

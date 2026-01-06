@@ -39,35 +39,35 @@ export async function GET() {
 
     await connectMongoose();
 
-    // Get all users with their project status
-    const users = await User.find(
-      {},
-      { email: 1, name: 1, projectStatus: 1, role: 1 },
-    ).lean();
+    // Fetch users and projects in parallel
+    const [users, projects] = await Promise.all([
+      User.find({}, { email: 1, name: 1, projectStatus: 1, role: 1 }).lean(),
+      Project.find({}, { user: 1 }).lean()
+    ]);
 
-    console.log("All users from database:", users);
-
-    // Get all projects
-    const projects = await Project.find({}, { user: 1, name: 1 }).lean();
-
+    // Grouping and processing
+    const projectUserIds = new Set(projects.map((p) => p.user.toString()));
+    
     // Count users by status
-    const statusCounts = users.reduce((acc, user) => {
+    const statusCounts = {};
+    const ongoingUsers = [];
+    const usersWithoutProjects = [];
+    const usersWithProjects = [];
+
+    for (const user of users) {
       const status = user.projectStatus || "Lead";
-      acc[status] = (acc[status] || 0) + 1;
-      return acc;
-    }, {});
-
-    // Check which users with "On Going" status have projects
-    const ongoingUsers = users.filter((u) => u.projectStatus === "On Going");
-    const projectUserIds = projects.map((p) => p.user.toString());
-
-    const usersWithoutProjects = ongoingUsers.filter(
-      (u) => !projectUserIds.includes(u._id.toString()),
-    );
-
-    const usersWithProjects = ongoingUsers.filter((u) =>
-      projectUserIds.includes(u._id.toString()),
-    );
+      statusCounts[status] = (statusCounts[status] || 0) + 1;
+      
+      if (user.projectStatus === "On Going") {
+        const hasProject = projectUserIds.has(user._id.toString());
+        ongoingUsers.push({ ...user, hasProject });
+        if (!hasProject) {
+          usersWithoutProjects.push(user);
+        } else {
+          usersWithProjects.push(user);
+        }
+      }
+    }
 
     return NextResponse.json({
       success: true,
@@ -90,7 +90,7 @@ export async function GET() {
         id: u._id.toString(),
         name: u.name,
         email: u.email,
-        hasProject: projectUserIds.includes(u._id.toString()),
+        hasProject: u.hasProject,
       })),
       usersWithoutProjects: usersWithoutProjects.map((u) => ({
         id: u._id.toString(),

@@ -36,10 +36,18 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     notFound();
   }
 
-  // Fetch user's documents
-  const documents = await Document.find({ user: project.user._id })
-    .sort({ createdAt: -1 })
-    .lean();
+  // Fetch all related data in parallel after getting project to improve performance
+  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw] = await Promise.all([
+    Document.find({ user: project.user._id }).sort({ createdAt: -1 }).lean(),
+    Payment.find({ user: project.user._id }).sort({ order: 1 }).lean(),
+    Expense.find({ project: projectId }).sort({ order: 1 }).lean(),
+    ItemPurchase.find({ project: projectId }).sort({ order: 1 }).lean(),
+    ProjectChange.find({ project: projectId })
+      .sort({ order: 1 })
+      .populate("user", "name email")
+      .populate("decidedBy", "name")
+      .lean(),
+  ]);
 
   // Group documents by type
   const documentsByType = documents.reduce((acc, doc) => {
@@ -57,109 +65,87 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   }, {});
 
   // Fetch user's payments
-  const payments = await Payment.find({ user: project.user._id })
-    .sort({ order: 1 })
-    .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        id: doc._id.toString(),
-        user: doc.user.toString(),
-        name: doc.name,
-        dueDate: doc.dueDate,
-        amount: doc.amount,
-        status: doc.status,
-        order: doc.order,
-        paymentNumber: doc.paymentNumber,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
-        statusChangeEmailSent: doc.statusChangeEmailSent,
-      })),
-    );
+  const payments = paymentsRaw.map((doc) => ({
+    id: doc._id.toString(),
+    user: doc.user.toString(),
+    name: doc.name,
+    dueDate: doc.dueDate,
+    amount: doc.amount,
+    status: doc.status,
+    order: doc.order,
+    paymentNumber: doc.paymentNumber,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+    statusChangeEmailSent: doc.statusChangeEmailSent,
+  }));
 
   // Fetch project expenses
-  const expenses = await Expense.find({ project: projectId })
-    .sort({ order: 1 })
-    .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        id: doc._id.toString(),
-        project: doc.project.toString(),
-        name: doc.name,
-        amount: doc.amount,
-        purchaseDate: doc.purchaseDate,
-        type: doc.type,
-        category: doc.category,
-        customCategory: doc.customCategory,
-        purchaseLink: doc.purchaseLink,
-        notes: doc.notes,
-        files: doc.files,
-        order: doc.order,
-        status: doc.status,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
-      })),
-    );
+  const expenses = expensesRaw.map((doc) => ({
+    id: doc._id.toString(),
+    project: doc.project.toString(),
+    name: doc.name,
+    amount: doc.amount,
+    purchaseDate: doc.purchaseDate,
+    type: doc.type,
+    category: doc.category,
+    customCategory: doc.customCategory,
+    purchaseLink: doc.purchaseLink,
+    notes: doc.notes,
+    files: doc.files,
+    order: doc.order,
+    status: doc.status,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+  }));
 
   // Fetch project item purchases
-  const itemPurchases = await ItemPurchase.find({ project: projectId })
-    .sort({ order: 1 })
-    .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        _id: doc._id.toString(),
-        project: doc.project.toString(),
-        itemName: doc.itemName,
-        store: doc.store,
-        quotedPrice: doc.quotedPrice,
-        paidPrice: doc.paidPrice,
-        tradeDiscount: doc.tradeDiscount,
-        purchaseDate: doc.purchaseDate,
-        deliveryDate: doc.deliveryDate,
-        notes: doc.notes,
-        order: doc.order,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
-      })),
-    );
+  const itemPurchases = itemPurchasesRaw.map((doc) => ({
+    _id: doc._id.toString(),
+    project: doc.project.toString(),
+    itemName: doc.itemName,
+    store: doc.store,
+    quotedPrice: doc.quotedPrice,
+    paidPrice: doc.paidPrice,
+    tradeDiscount: doc.tradeDiscount,
+    purchaseDate: doc.purchaseDate,
+    deliveryDate: doc.deliveryDate,
+    notes: doc.notes,
+    order: doc.order,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+  }));
 
   // Fetch project changes
-  const changes = await ProjectChange.find({ project: projectId })
-    .sort({ order: 1 })
-    .populate("user", "name email")
-    .populate("decidedBy", "name")
-    .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        id: doc._id.toString(),
-        project: doc.project.toString(),
-        user: doc.user
-          ? {
-              id: doc.user._id.toString(),
-              name: doc.user.name,
-              email: doc.user.email,
-            }
-          : null,
-        changeNumber: doc.changeNumber,
-        name: doc.name,
-        description: doc.description,
-        cost: doc.cost,
-        status: doc.status,
-        includedInPaymentPlan: doc.includedInPaymentPlan,
-        type: doc.type,
-        order: doc.order,
-        adminNotes: doc.adminNotes,
-        requestedDate: doc.requestedDate,
-        decisionDate: doc.decisionDate,
-        decidedBy: doc.decidedBy
-          ? {
-              id: doc.decidedBy._id.toString(),
-              name: doc.decidedBy.name,
-            }
-          : null,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
-      })),
-    );
+  const changes = changesRaw.map((doc) => ({
+    id: doc._id.toString(),
+    project: doc.project.toString(),
+    user: doc.user
+      ? {
+          id: doc.user._id.toString(),
+          name: doc.user.name,
+          email: doc.user.email,
+        }
+      : null,
+    changeNumber: doc.changeNumber,
+    name: doc.name,
+    description: doc.description,
+    cost: doc.cost,
+    status: doc.status,
+    includedInPaymentPlan: doc.includedInPaymentPlan,
+    type: doc.type,
+    order: doc.order,
+    adminNotes: doc.adminNotes,
+    requestedDate: doc.requestedDate,
+    decisionDate: doc.decisionDate,
+    decidedBy: doc.decidedBy
+      ? {
+          id: doc.decidedBy._id.toString(),
+          name: doc.decidedBy.name,
+        }
+      : null,
+    createdAt: doc.createdAt,
+    updatedAt: doc.updatedAt,
+  }));
 
   // Convert project to plain object
   const projectData = {
