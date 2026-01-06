@@ -392,7 +392,7 @@ export default function LeadDetailModal({
                      )}
                      <span className="flex items-center gap-1.5">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        Last updated {new Date(lead.updatedAt).toLocaleDateString()}
+                        Last updated {new Date(lead.updatedAt).toLocaleDateString('en-GB')}
                      </span>
                 </div>
              </div>
@@ -809,7 +809,7 @@ export default function LeadDetailModal({
                          <div className="rounded-lg border border-gray-100 bg-white p-4 shadow-sm hover:shadow-md transition-shadow">
                              <div className="flex justify-between items-start mb-1">
                                  <h4 className="font-semibold text-gray-900">{activity.title}</h4>
-                                 <span className="text-xs text-gray-500">{new Date(activity.createdAt).toLocaleString()}</span>
+                                 <span className="text-xs text-gray-500">{new Date(activity.createdAt).toLocaleString('en-GB')}</span>
                              </div>
                              <p className="text-sm text-gray-600 whitespace-pre-wrap">{activity.description}</p>
                              <div className="mt-2 flex items-center gap-2">
@@ -840,7 +840,7 @@ export default function LeadDetailModal({
                          <div key={idx} className="bg-yellow-50/50 p-4 rounded-xl border border-yellow-100/50 relative group">
                              <p className="text-gray-800 text-sm whitespace-pre-wrap">{note.content}</p>
                               <div className="mt-2 flex items-center gap-2 text-xs text-gray-500">
-                                  <span>{new Date(note.createdAt).toLocaleString()}</span>
+                                  <span>{new Date(note.createdAt).toLocaleString('en-GB')}</span>
                                   <span>•</span>
                                   <span className="font-medium text-gray-700">{note.createdBy?.name || "Admin"}</span>
                               </div>
@@ -911,7 +911,7 @@ export default function LeadDetailModal({
                       </p>
                       {change.comment && (
                         <p className="mt-1 text-xs text-gray-500 italic">
-                          "{change.comment}"
+                          &quot;{change.comment}&quot;
                         </p>
                       )}
                       <p className="text-xs text-gray-400 mt-1">
