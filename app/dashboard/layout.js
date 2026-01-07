@@ -5,6 +5,8 @@ import DashboardNav from "./components/DashboardNav";
 import SignOutButton from "./components/SignOutButton";
 import ProfileImage from "./components/ProfileImage";
 import NotificationBell from "./components/NotificationBell";
+import { ProjectProvider } from "./components/ProjectContext";
+import ProjectSelector from "./components/ProjectSelector";
 
 /**
  * Dashboard Layout
@@ -19,39 +21,44 @@ export default async function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="mx-auto mt-10 max-w-[85%] rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-8">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                Dashboard
-              </h1>
-              <p className="mt-1 text-lg text-gray-600">
-                Welcome back, {session.user.name || session.user.email}
-              </p>
-            </div>
-            <div className="flex items-center space-x-4">
-              {/* Notification Bell */}
-              <NotificationBell
-                userProjectStatus={session.user.projectStatus}
-              />
+    <ProjectProvider>
+      <div className="min-h-screen">
+        {/* Header */}
+        <div className="mx-auto mt-10 max-w-[85%] rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between py-8">
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                  Dashboard
+                </h1>
+                <p className="mt-1 text-lg text-gray-600">
+                  Welcome back, {session.user.name || session.user.email}
+                </p>
+              </div>
+              <div className="flex items-center space-x-4">
+                {/* Project Selector */}
+                <ProjectSelector />
 
-              {/* Profile Image */}
-              <ProfileImage user={session.user} />
+                {/* Notification Bell */}
+                <NotificationBell
+                  userProjectStatus={session.user.projectStatus}
+                />
 
-              <SignOutButton />
+                {/* Profile Image */}
+                <ProfileImage user={session.user} />
+
+                <SignOutButton />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Navigation and Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <DashboardNav />
-        <main className="mt-8">{children}</main>
+        {/* Navigation and Content */}
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <DashboardNav />
+          <main className="mt-8">{children}</main>
+        </div>
       </div>
-    </div>
+    </ProjectProvider>
   );
 }

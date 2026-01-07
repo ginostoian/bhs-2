@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
 import Link from "next/link";
+import { cookies } from "next/headers";
 
 /**
  * Payments Dashboard Page
@@ -15,10 +16,20 @@ export default async function PaymentsPage() {
   // Connect to MongoDB
   await connectMongoose();
 
+  // Get selected project from cookies
+  const cookieStore = cookies();
+  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
+
   // Fetch user's payments and convert to plain objects
-  const payments = await Payment.find({
+  const query = {
     user: session.user.id,
-  })
+  };
+
+  if (selectedProjectId) {
+    query.project = selectedProjectId;
+  }
+
+  const payments = await Payment.find(query)
     .sort({ order: 1 })
     .populate("user", "name email")
     .lean()

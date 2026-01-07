@@ -17,7 +17,7 @@ export async function POST(req) {
     await requireAdmin(req);
 
     // Parse request body
-    const { userId, type, content, status } = await req.json();
+    const { userId, type, content, status, project } = await req.json();
 
     // Validate required fields
     if (!userId || !type || !content) {
@@ -58,6 +58,7 @@ export async function POST(req) {
       user: userId,
       type,
       content,
+      project: project || null,
       ...(type === "invoice" && status && { status }),
     });
 

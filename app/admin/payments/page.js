@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
+import Project from "@/models/Project";
 import User from "@/models/User";
 import AdminPaymentsClient from "./components/AdminPaymentsClient";
 
@@ -15,11 +16,13 @@ export default async function AdminPaymentsPage() {
 
   // Connect to MongoDB
   await connectMongoose();
+  console.log("Payment Schema Paths:", Object.keys(Payment.schema.paths));
 
   // Fetch all payments and convert to plain objects
   const payments = await Payment.find({})
     .sort({ order: 1 })
     .populate("user", "name email projectStatus")
+    .populate({ path: "project", select: "name status", strictPopulate: false })
     .lean()
     .then((docs) =>
       docs.map((doc) => ({

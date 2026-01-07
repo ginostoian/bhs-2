@@ -16,6 +16,12 @@ const paymentSchema = mongoose.Schema(
       required: true,
       index: true, // Index for faster queries when fetching user's payments
     },
+    // Reference to the project this payment belongs to
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      index: true,
+    },
     // Payment number (auto-incremented per user)
     paymentNumber: {
       type: Number,
@@ -59,6 +65,7 @@ const paymentSchema = mongoose.Schema(
   {
     timestamps: true,
     toJSON: { virtuals: true },
+    strictPopulate: false,
   },
 );
 
@@ -66,7 +73,8 @@ const paymentSchema = mongoose.Schema(
 paymentSchema.plugin(toJSON);
 
 // Compound index for user and order to ensure proper ordering
-paymentSchema.index({ user: 1, order: 1 });
+paymentSchema.index({ user: 1, project: 1, order: 1 });
+paymentSchema.index({ project: 1, order: 1 });
 
 // Index for user and paymentNumber (no uniqueness constraint)
 paymentSchema.index({ user: 1, paymentNumber: 1 }, { unique: false });
@@ -192,7 +200,15 @@ paymentSchema.statics.updateAllStatuses = async function () {
   }
 };
 
+// Force re-registration of the model if it exists but doesn't have the project field
+// This helps during development when schema changes aren't picked up by HMR
+if (mongoose.models.Payment && !mongoose.models.Payment.schema.paths.project) {
+  console.log("⚠️ Deleting old Payment model from cache to update schema");
+  delete mongoose.models.Payment;
+}
+
 const Payment =
   mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
 
+console.log("--- Payment Model Evaluated ---");
 export default Payment;

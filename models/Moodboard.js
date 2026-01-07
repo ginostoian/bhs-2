@@ -14,6 +14,12 @@ const moodboardSchema = mongoose.Schema(
       required: true,
       index: true,
     },
+    // Reference to the project this moodboard belongs to
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      index: true,
+    },
     // Moodboard name/title
     name: {
       type: String,

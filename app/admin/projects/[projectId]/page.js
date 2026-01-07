@@ -37,9 +37,24 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   }
 
   // Fetch all related data in parallel after getting project to improve performance
-  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw] = await Promise.all([
-    Document.find({ user: project.user._id }).sort({ createdAt: -1 }).lean(),
-    Payment.find({ user: project.user._id }).sort({ order: 1 }).lean(),
+  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw] =
+    await Promise.all([
+      Document.find({
+        $or: [
+          { project: projectId },
+          { project: { $exists: false }, user: project.user._id },
+        ],
+      })
+        .sort({ createdAt: -1 })
+        .lean(),
+      Payment.find({
+        $or: [
+          { project: projectId },
+          { project: { $exists: false }, user: project.user._id },
+        ],
+      })
+        .sort({ order: 1 })
+        .lean(),
     Expense.find({ project: projectId }).sort({ order: 1 }).lean(),
     ItemPurchase.find({ project: projectId }).sort({ order: 1 }).lean(),
     ProjectChange.find({ project: projectId })

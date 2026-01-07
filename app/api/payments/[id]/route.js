@@ -71,7 +71,7 @@ export async function PUT(req, { params }) {
     }
 
     // Parse request body
-    const { name, dueDate, amount, status } = await req.json();
+    const { name, project, dueDate, amount, status } = await req.json();
 
     // Connect to MongoDB
     await connectMongoose();
@@ -84,6 +84,7 @@ export async function PUT(req, { params }) {
 
     // Update fields if provided
     if (name !== undefined) payment.name = name;
+    if (project !== undefined) payment.project = project || null;
     if (dueDate !== undefined) payment.dueDate = new Date(dueDate);
     if (amount !== undefined) payment.amount = parseFloat(amount);
     if (status !== undefined) payment.status = status;
@@ -95,8 +96,11 @@ export async function PUT(req, { params }) {
 
     await payment.save();
 
-    // Populate user info for response
-    await payment.populate("user", "name email");
+    // Populate user and project info for response
+    await payment.populate([
+      { path: "user", select: "name email" },
+      { path: "project", select: "name status", strictPopulate: false },
+    ]);
 
     return NextResponse.json({
       payment: {
@@ -107,6 +111,7 @@ export async function PUT(req, { params }) {
         status: payment.status,
         order: payment.order,
         user: payment.user,
+        project: payment.project,
         createdAt: payment.createdAt,
       },
     });

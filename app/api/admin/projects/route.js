@@ -19,7 +19,15 @@ export async function GET(request) {
 
     await connectMongoose();
 
-    const projects = await Project.find()
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("userId");
+
+    let query = {};
+    if (userId) {
+      query.user = userId;
+    }
+
+    const projects = await Project.find(query)
       .select("_id name type status user")
       .populate("user", "name email")
       .sort({ createdAt: -1 });

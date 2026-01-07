@@ -76,6 +76,7 @@ export default function InvoiceBuilder() {
     // Linked entities (will be set when client is selected)
     linkedUser: null,
     linkedLead: null,
+    linkedProject: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -197,6 +198,13 @@ export default function InvoiceBuilder() {
         formData.linkedLead.length === 24
       ) {
         completeInvoice.linkedLead = formData.linkedLead;
+      }
+      if (
+        formData.linkedProject &&
+        typeof formData.linkedProject === "string" &&
+        formData.linkedProject.length === 24
+      ) {
+        completeInvoice.project = formData.linkedProject;
       }
 
       // Save invoice to database via API

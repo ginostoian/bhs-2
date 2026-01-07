@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
 import DocumentList from "./components/DocumentList";
+import { cookies } from "next/headers";
 
 /**
  * Dashboard Main Page - Quotes
@@ -15,11 +16,21 @@ export default async function DashboardPage() {
   // Connect to MongoDB
   await connectMongoose();
 
+  // Get selected project from cookies
+  const cookieStore = cookies();
+  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
+
   // Fetch user's quotes and convert to plain objects
-  const quotes = await Document.find({
+  const query = {
     user: session.user.id,
     type: "quote",
-  })
+  };
+
+  if (selectedProjectId) {
+    query.project = selectedProjectId;
+  }
+
+  const quotes = await Document.find(query)
     .sort({ createdAt: -1 })
     .populate("user", "name email")
     .lean()

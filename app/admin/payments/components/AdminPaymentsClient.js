@@ -40,9 +40,11 @@ export default function AdminPaymentsClient({
   const [collapsedUsers, setCollapsedUsers] = useState(new Set()); // All users start collapsed
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter users to only show "On Going" users for payment creation
-  const onGoingUsers = users.filter(
-    (user) => user.projectStatus === "On Going",
+  // Filter users to show all potential clients for payment creation
+  const availableUsers = users.filter((user) =>
+    ["Lead", "Planning", "On Going", "Finished"].includes(
+      user.projectStatus,
+    ),
   );
 
   // Format date for display
@@ -79,35 +81,42 @@ export default function AdminPaymentsClient({
     );
   };
 
-  // Group payments by user
+  // Group payments by user and project
   const groupedPayments = payments.reduce((groups, payment) => {
     const userId = payment.user?.id || payment.user?._id || "unknown";
+    const projectId =
+      payment.project?.id || payment.project?._id || "no-project";
+    const groupKey = `${userId}_${projectId}`;
     const userName =
       payment.user?.name || payment.user?.email || "Unknown User";
+    const projectName = payment.project?.name || "General / No Project";
 
-    if (!groups[userId]) {
-      groups[userId] = {
+    if (!groups[groupKey]) {
+      groups[groupKey] = {
         user: payment.user,
+        userId,
         userName,
+        project: payment.project,
+        projectName,
         payments: [],
       };
     }
 
-    groups[userId].payments.push(payment);
+    groups[groupKey].payments.push(payment);
     return groups;
   }, {});
 
-  // Initialize all users as collapsed if collapsedUsers is empty
+  // Initialize all groups as collapsed if collapsedUsers is empty
   useEffect(() => {
     if (collapsedUsers.size === 0 && Object.keys(groupedPayments).length > 0) {
-      const allUserIds = Object.keys(groupedPayments);
-      setCollapsedUsers(new Set(allUserIds));
+      const allGroupKeys = Object.keys(groupedPayments);
+      setCollapsedUsers(new Set(allGroupKeys));
     }
   }, [groupedPayments, collapsedUsers.size]);
 
   // Filter and search logic
   const filteredGroupedPayments = Object.entries(groupedPayments)
-    .filter(([userId, userGroup]) => {
+    .filter(([groupKey, userGroup]) => {
       // Filter by user status
       if (filterStatus !== "all") {
         const userStatus = userGroup.user?.projectStatus || "Lead";
@@ -124,10 +133,14 @@ export default function AdminPaymentsClient({
         const userNameMatch = userGroup.userName
           .toLowerCase()
           .includes(searchLower);
+        const projectNameMatch = userGroup.projectName
+          .toLowerCase()
+          .includes(searchLower);
         const paymentNameMatch = userGroup.payments.some((payment) =>
           payment.name.toLowerCase().includes(searchLower),
         );
-        if (!userNameMatch && !paymentNameMatch) return false;
+        if (!userNameMatch && !paymentNameMatch && !projectNameMatch)
+          return false;
       }
 
       return true;
@@ -143,14 +156,14 @@ export default function AdminPaymentsClient({
     endIndex,
   );
 
-  // Toggle collapse state for a user
-  const toggleUserCollapse = (userId) => {
+  // Toggle collapse state for a group
+  const toggleUserCollapse = (groupKey) => {
     setCollapsedUsers((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(userId)) {
-        newSet.delete(userId);
+      if (newSet.has(groupKey)) {
+        newSet.delete(groupKey);
       } else {
-        newSet.add(userId);
+        newSet.add(groupKey);
       }
       return newSet;
     });
@@ -167,7 +180,7 @@ export default function AdminPaymentsClient({
     setCurrentPage(1);
   };
 
-  // Handle drag and drop reordering within a user group
+  // Handle drag and drop reordering within a group
   const handleDragEnd = async (result) => {
     console.log("Drag end result:", result);
 
@@ -177,45 +190,31 @@ export default function AdminPaymentsClient({
     }
 
     const { source, destination } = result;
-    const sourceUserId = source.droppableId;
-    const destUserId = destination.droppableId;
+    const sourceGroupKey = source.droppableId;
+    const destGroupKey = destination.droppableId;
 
-    // Only allow reordering within the same user group
-    if (sourceUserId !== destUserId) {
-      console.log("Cannot move payments between users");
+    // Only allow reordering within the same group
+    if (sourceGroupKey !== destGroupKey) {
+      console.log("Cannot move payments between groups");
       return;
     }
 
-    const userGroup = groupedPayments[sourceUserId];
+    const userGroup = groupedPayments[sourceGroupKey];
     if (!userGroup) return;
 
     const items = Array.from(userGroup.payments);
     const [reorderedItem] = items.splice(source.index, 1);
     items.splice(destination.index, 0, reorderedItem);
 
-    console.log(
-      "Reordered items for user:",
-      sourceUserId,
-      items.map((item) => ({
-        id: item.id,
-        name: item.name,
-        order: item.order,
-      })),
-    );
-
     // Update local state immediately for better UX
-    setPayments((prevPayments) =>
-      prevPayments.map((payment) => {
-        if (
-          payment.user?.id === sourceUserId ||
-          payment.user?._id === sourceUserId
-        ) {
-          const newPayment = items.find((item) => item.id === payment.id);
-          return newPayment || payment;
-        }
-        return payment;
-      }),
-    );
+    setPayments((prevPayments) => {
+      const otherPayments = prevPayments.filter((p) => {
+        const pUserId = p.user?.id || p.user?._id || "unknown";
+        const pProjectId = p.project?.id || p.project?._id || "no-project";
+        return `${pUserId}_${pProjectId}` !== sourceGroupKey;
+      });
+      return [...otherPayments, ...items];
+    });
 
     // Update order and payment numbers in database
     try {
@@ -227,7 +226,7 @@ export default function AdminPaymentsClient({
         body: JSON.stringify({
           payments: items.map((item, index) => ({
             id: item.id,
-            userId: sourceUserId,
+            userId: userGroup.userId,
             order: index + 1,
             paymentNumber: index + 1,
           })),
@@ -244,20 +243,14 @@ export default function AdminPaymentsClient({
         order: index + 1,
       }));
 
-      setPayments((prevPayments) =>
-        prevPayments.map((payment) => {
-          if (
-            payment.user?.id === sourceUserId ||
-            payment.user?._id === sourceUserId
-          ) {
-            const newPayment = updatedItems.find(
-              (item) => item.id === payment.id,
-            );
-            return newPayment || payment;
-          }
-          return payment;
-        }),
-      );
+      setPayments((prevPayments) => {
+        const otherPayments = prevPayments.filter((p) => {
+          const pUserId = p.user?.id || p.user?._id || "unknown";
+          const pProjectId = p.project?.id || p.project?._id || "no-project";
+          return `${pUserId}_${pProjectId}` !== sourceGroupKey;
+        });
+        return [...otherPayments, ...updatedItems];
+      });
 
       console.log("Reorder successful");
     } catch (error) {
@@ -559,26 +552,26 @@ export default function AdminPaymentsClient({
         <>
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="space-y-6">
-              {paginatedGroupedPayments.map(([userId, userGroup]) => {
-                const isCollapsed = collapsedUsers.has(userId);
+              {paginatedGroupedPayments.map(([groupKey, userGroup]) => {
+                const isCollapsed = collapsedUsers.has(groupKey);
                 const userStatus = userGroup.user?.projectStatus || "Lead";
 
                 return (
                   <div
-                    key={userId}
+                    key={groupKey}
                     className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
                   >
                     {/* User Header - Clickable to toggle collapse */}
                     <div
                       className="cursor-pointer border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 transition-colors hover:from-gray-100 hover:to-gray-200"
-                      onClick={() => toggleUserCollapse(userId)}
+                      onClick={() => toggleUserCollapse(groupKey)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
                           <button className="text-gray-400 hover:text-gray-600">
                             <svg
                               className={`h-5 w-5 transform transition-transform ${
-                                isCollapsed ? "rotate-90" : ""
+                                isCollapsed ? "" : "rotate-90"
                               }`}
                               fill="none"
                               stroke="currentColor"
@@ -597,6 +590,10 @@ export default function AdminPaymentsClient({
                               {userGroup.userName}
                             </h3>
                             <div className="flex items-center space-x-2">
+                              <span className="text-sm font-medium text-blue-600">
+                                {userGroup.projectName}
+                              </span>
+                              <span className="text-sm text-gray-400">•</span>
                               <span className="text-sm text-gray-600">
                                 {userGroup.payments.length} payment
                                 {userGroup.payments.length !== 1 ? "s" : ""}
@@ -747,7 +744,7 @@ export default function AdminPaymentsClient({
                         </div>
 
                         {/* Payment Schedule with Drag & Drop */}
-                        <Droppable droppableId={userId}>
+                        <Droppable droppableId={groupKey}>
                           {(provided) => (
                             <div
                               {...provided.droppableProps}
@@ -834,14 +831,32 @@ export default function AdminPaymentsClient({
                                                             stroke="currentColor"
                                                             viewBox="0 0 24 24"
                                                           >
+                                                          <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth={2}
+                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                          />
+                                                          </svg>
+                                                          Paid
+                                                        </span>
+                                                      )}
+                                                      {payment.project && (
+                                                        <span className="flex items-center text-blue-600 font-medium">
+                                                          <svg
+                                                            className="mr-1 h-3 w-3"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            viewBox="0 0 24 24"
+                                                          >
                                                             <path
                                                               strokeLinecap="round"
                                                               strokeLinejoin="round"
                                                               strokeWidth={2}
-                                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                                                             />
                                                           </svg>
-                                                          Paid
+                                                          Project: {payment.project.name}
                                                         </span>
                                                       )}
                                                     </div>
@@ -1064,7 +1079,7 @@ export default function AdminPaymentsClient({
       {/* Create Payment Modal */}
       {createModal.isOpen && (
         <CreatePaymentModal
-          users={onGoingUsers}
+          users={availableUsers}
           onClose={() => setCreateModal({ isOpen: false })}
           onSubmit={handleCreatePayment}
           isSubmitting={isSubmitting}
@@ -1084,7 +1099,7 @@ export default function AdminPaymentsClient({
       {/* Bulk Create Payment Modal */}
       {bulkCreateModal.isOpen && (
         <BulkCreatePaymentModal
-          users={onGoingUsers}
+          users={availableUsers}
           onClose={() => setBulkCreateModal({ isOpen: false })}
           onSubmit={handleCreatePayment}
           isSubmitting={isSubmitting}
@@ -1119,11 +1134,51 @@ export default function AdminPaymentsClient({
 function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
   const [formData, setFormData] = useState({
     userId: "",
+    project: "",
     name: "",
     dueDate: "",
     amount: "",
     status: "Scheduled",
   });
+
+  const [projects, setProjects] = useState([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false);
+
+  // Fetch projects when user is selected
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (formData.userId) {
+        setIsLoadingProjects(true);
+        try {
+          const response = await fetch(
+            `/api/admin/projects?userId=${formData.userId}`,
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data.projects || []);
+            // Automatically select if there's only one project
+            if (data.projects?.length === 1) {
+              setFormData((prev) => ({
+                ...prev,
+                project: data.projects[0]._id,
+              }));
+            } else {
+              setFormData((prev) => ({ ...prev, project: "" }));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching projects:", error);
+        } finally {
+          setIsLoadingProjects(false);
+        }
+      } else {
+        setProjects([]);
+        setFormData((prev) => ({ ...prev, project: "" }));
+      }
+    };
+
+    fetchProjects();
+  }, [formData.userId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -1172,6 +1227,40 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
               </p>
             )}
           </div>
+
+          {/* Project Selection */}
+          {formData.userId && (
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Project (Optional)
+              </label>
+              {isLoadingProjects ? (
+                <div className="flex items-center text-sm text-gray-500">
+                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                  Loading projects...
+                </div>
+              ) : projects.length > 0 ? (
+                <select
+                  value={formData.project}
+                  onChange={(e) =>
+                    setFormData({ ...formData, project: e.target.value })
+                  }
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                >
+                  <option value="">-- No Project --</option>
+                  {projects.map((project) => (
+                    <option key={project._id} value={project._id}>
+                      {project.name} ({project.status})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <p className="text-sm text-amber-600 italic">
+                  No projects found for this user.
+                </p>
+              )}
+            </div>
+          )}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Payment Name
@@ -1266,8 +1355,48 @@ function BulkCreatePaymentModal({
 }) {
   const [formData, setFormData] = useState({
     userId: "",
+    project: "",
     payments: [{ name: "", amount: "", dueDate: "", status: "Scheduled" }],
   });
+
+  const [projects, setProjects] = useState([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false);
+
+  // Fetch projects when user is selected
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (formData.userId) {
+        setIsLoadingProjects(true);
+        try {
+          const response = await fetch(
+            `/api/admin/projects?userId=${formData.userId}`,
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data.projects || []);
+            // Automatically select if there's only one project
+            if (data.projects?.length === 1) {
+              setFormData((prev) => ({
+                ...prev,
+                project: data.projects[0]._id,
+              }));
+            } else {
+              setFormData((prev) => ({ ...prev, project: "" }));
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching projects:", error);
+        } finally {
+          setIsLoadingProjects(false);
+        }
+      } else {
+        setProjects([]);
+        setFormData((prev) => ({ ...prev, project: "" }));
+      }
+    };
+
+    fetchProjects();
+  }, [formData.userId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -1284,6 +1413,7 @@ function BulkCreatePaymentModal({
       try {
         await onSubmit({
           userId: formData.userId,
+          project: formData.project,
           name: payment.name,
           amount: payment.amount,
           dueDate: payment.dueDate,
@@ -1383,6 +1513,40 @@ function BulkCreatePaymentModal({
                 </p>
               )}
             </div>
+
+            {/* Project Selection */}
+            {formData.userId && (
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Project (Optional)
+                </label>
+                {isLoadingProjects ? (
+                  <div className="flex items-center text-sm text-gray-500">
+                    <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                    Loading projects...
+                  </div>
+                ) : projects.length > 0 ? (
+                  <select
+                    value={formData.project}
+                    onChange={(e) =>
+                      setFormData({ ...formData, project: e.target.value })
+                    }
+                    className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  >
+                    <option value="">-- No Project --</option>
+                    {projects.map((project) => (
+                      <option key={project._id} value={project._id}>
+                        {project.name} ({project.status})
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p className="text-sm text-amber-600 italic">
+                    No projects found for this user.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -1499,10 +1663,37 @@ function BulkCreatePaymentModal({
 function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
   const [formData, setFormData] = useState({
     name: payment.name,
+    project: payment.project?.id || payment.project?._id || "",
     dueDate: new Date(payment.dueDate).toISOString().split("T")[0],
     amount: payment.amount,
     status: payment.status,
   });
+
+  const [projects, setProjects] = useState([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false);
+
+  // Fetch projects for the user
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const userId = payment.user?.id || payment.user?._id;
+      if (userId) {
+        setIsLoadingProjects(true);
+        try {
+          const response = await fetch(`/api/admin/projects?userId=${userId}`);
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data.projects || []);
+          }
+        } catch (error) {
+          console.error("Error fetching projects:", error);
+        } finally {
+          setIsLoadingProjects(false);
+        }
+      }
+    };
+
+    fetchProjects();
+  }, [payment.user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -1533,6 +1724,36 @@ function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
               required
               className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             />
+          </div>
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              Project (Optional)
+            </label>
+            {isLoadingProjects ? (
+              <div className="flex items-center text-sm text-gray-500">
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
+                Loading projects...
+              </div>
+            ) : projects.length > 0 ? (
+              <select
+                value={formData.project}
+                onChange={(e) =>
+                  setFormData({ ...formData, project: e.target.value })
+                }
+                className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+              >
+                <option value="">-- No Project --</option>
+                {projects.map((p) => (
+                  <option key={p._id} value={p._id}>
+                    {p.name} ({p.status})
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-sm text-amber-600 italic">
+                No projects found for this user.
+              </p>
+            )}
           </div>
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">

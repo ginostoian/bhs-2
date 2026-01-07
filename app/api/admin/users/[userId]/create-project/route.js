@@ -30,15 +30,6 @@ export async function POST(request, { params }) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Check if project already exists for this user
-    const existingProject = await Project.findOne({ user: userId });
-    if (existingProject) {
-      return NextResponse.json(
-        { error: "Project already exists for this user" },
-        { status: 409 },
-      );
-    }
-
     // Extract project data from request body
     const {
       name,

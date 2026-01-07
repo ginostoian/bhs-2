@@ -15,6 +15,12 @@ const documentSchema = mongoose.Schema(
       required: true,
       index: true, // Index for faster queries when fetching user's documents
     },
+    // Reference to the project this document belongs to
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      index: true,
+    },
     // Type of document (quote, invoice, comment, photo)
     type: {
       type: String,

@@ -263,6 +263,12 @@ const QuoteSchema = new mongoose.Schema(
       ref: "Lead",
       index: true,
     },
+    // Project linking for data separation
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      index: true,
+    },
 
     // Public viewing token for shareable links
     publicToken: {

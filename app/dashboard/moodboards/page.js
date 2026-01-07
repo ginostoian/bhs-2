@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Moodboard from "@/models/Moodboard";
 import MoodboardsList from "./components/MoodboardsList";
+import { cookies } from "next/headers";
 
 /**
  * User Moodboards Page
@@ -15,11 +16,21 @@ export default async function MoodboardsPage() {
   // Connect to MongoDB
   await connectMongoose();
 
+  // Get selected project from cookies
+  const cookieStore = cookies();
+  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
+
   // Fetch user's moodboards and convert to plain objects
-  const moodboards = await Moodboard.find({
+  const query = {
     user: session.user.id,
     isActive: true,
-  })
+  };
+
+  if (selectedProjectId) {
+    query.project = selectedProjectId;
+  }
+
+  const moodboards = await Moodboard.find(query)
     .sort({ updatedAt: -1 })
     .populate("user", "name email")
     .lean()

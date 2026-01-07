@@ -75,7 +75,7 @@ export async function POST(request) {
     await connectMongoose();
 
     const body = await request.json();
-    const { userId, name, description, projectType, notes } = body;
+    const { userId, name, description, projectType, notes, project } = body;
 
     // Validate required fields
     if (!userId || !name) {
@@ -98,6 +98,7 @@ export async function POST(request) {
       description,
       projectType,
       notes,
+      project: project || null,
     });
 
     await moodboard.save();

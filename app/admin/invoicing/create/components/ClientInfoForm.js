@@ -96,6 +96,39 @@ export default function ClientInfoForm({
     setShowSearchResults(false);
   };
 
+  // Fetch projects when user is linked
+  const [projects, setProjects] = useState([]);
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (formData.linkedUser) {
+        setIsLoadingProjects(true);
+        try {
+          const response = await fetch(
+            `/api/admin/projects?userId=${formData.linkedUser}`,
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data.projects || []);
+            // Automatically select if there's only one project
+            if (data.projects?.length === 1 && !formData.linkedProject) {
+              updateFormData("linkedProject", data.projects[0]._id);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching projects:", error);
+        } finally {
+          setIsLoadingProjects(false);
+        }
+      } else {
+        setProjects([]);
+      }
+    };
+
+    fetchProjects();
+  }, [formData.linkedUser]);
+
   const isFormValid = !!(
     formData.client.name &&
     formData.client.email &&
@@ -186,6 +219,46 @@ export default function ClientInfoForm({
           </div>
         )}
       </div>
+
+      {/* Linked Status & Project Selector */}
+      {formData.linkedUser && (
+        <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <label
+            htmlFor="project-select"
+            className="mb-2 block text-sm font-medium text-blue-800"
+          >
+            Assign to Project
+          </label>
+          {isLoadingProjects ? (
+            <div className="flex items-center text-sm text-blue-600">
+              <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-blue-600"></div>
+              Loading projects...
+            </div>
+          ) : projects.length > 0 ? (
+            <select
+              id="project-select"
+              value={formData.linkedProject || ""}
+              onChange={(e) => updateFormData("linkedProject", e.target.value)}
+              className="block w-full rounded-md border-blue-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            >
+              <option value="">-- Select a project (optional) --</option>
+              {projects.map((project) => (
+                <option key={project._id} value={project._id}>
+                  {project.name} ({project.status})
+                </option>
+              ))}
+            </select>
+          ) : (
+            <div className="text-sm text-blue-600 italic">
+              No projects found for this user.
+            </div>
+          )}
+          <p className="mt-2 text-xs text-blue-500">
+            Assigning a project ensures the invoice is visible in the correct
+            project dashboard.
+          </p>
+        </div>
+      )}
 
       {/* Manual Input Fields */}
       <div className="border-t border-gray-200 pt-6">

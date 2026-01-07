@@ -378,7 +378,7 @@ export default function UserDetailClient({
       }
 
       // Add the new project to the local state
-      setProjects([result.project]);
+      setProjects((prev) => [result.project, ...(prev || [])]);
 
       // Update user status if they were a lead
       if (currentUser.projectStatus === "Lead") {
@@ -1322,25 +1322,46 @@ export default function UserDetailClient({
                 View and manage projects for {user.name || user.email}
               </p>
             </div>
-            <Link
-              href="/admin/projects"
-              className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setCreateProjectModal({ isOpen: true })}
+                className="inline-flex items-center rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-              View All Projects
-            </Link>
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
+                Create Project
+              </button>
+              <Link
+                href="/admin/projects"
+                className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+                View All Projects
+              </Link>
+            </div>
           </div>
 
           {/* Projects List */}
@@ -2025,6 +2046,7 @@ export default function UserDetailClient({
           onClose={() => setCreateModal({ isOpen: false })}
           onSubmit={handleCreatePayment}
           isSubmitting={isSubmitting}
+          projects={projects}
         />
       )}
 
@@ -2035,6 +2057,7 @@ export default function UserDetailClient({
           onClose={() => setEditModal({ isOpen: false, payment: null })}
           onSubmit={handleUpdatePayment}
           isSubmitting={isSubmitting}
+          projects={projects}
         />
       )}
 
@@ -2060,12 +2083,13 @@ export default function UserDetailClient({
 }
 
 // Create Payment Modal Component
-function CreatePaymentModal({ onClose, onSubmit, isSubmitting }) {
+function CreatePaymentModal({ onClose, onSubmit, isSubmitting, projects }) {
   const [formData, setFormData] = useState({
     name: "",
     amount: "",
     dueDate: "",
     status: "Scheduled",
+    project: projects?.length === 1 ? projects[0].id : "",
   });
 
   const handleSubmit = (e) => {
@@ -2145,6 +2169,25 @@ function CreatePaymentModal({ onClose, onSubmit, isSubmitting }) {
               <option value="Paid">Paid</option>
             </select>
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Project (Optional)
+            </label>
+            <select
+              value={formData.project || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, project: e.target.value })
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            >
+              <option value="">-- No Project --</option>
+              {projects?.map((project) => (
+                <option key={project.id} value={project.id}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex justify-end space-x-3">
             <button
               type="button"
@@ -2168,7 +2211,7 @@ function CreatePaymentModal({ onClose, onSubmit, isSubmitting }) {
 }
 
 // Edit Payment Modal Component
-function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
+function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting, projects }) {
   const [formData, setFormData] = useState({
     id: payment.id,
     name: payment.name,
@@ -2177,6 +2220,7 @@ function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
       ? new Date(payment.dueDate).toISOString().split("T")[0]
       : "",
     status: payment.status,
+    project: payment.project?.id || payment.project || "",
   });
 
   const handleSubmit = (e) => {
@@ -2252,6 +2296,25 @@ function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
               <option value="Scheduled">Scheduled</option>
               <option value="Due">Due</option>
               <option value="Paid">Paid</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Project (Optional)
+            </label>
+            <select
+              value={formData.project || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, project: e.target.value })
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            >
+              <option value="">-- No Project --</option>
+              {projects?.map((project) => (
+                <option key={project.id} value={project.id}>
+                  {project.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex justify-end space-x-3">

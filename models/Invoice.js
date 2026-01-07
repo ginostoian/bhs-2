@@ -130,6 +130,13 @@ const InvoiceSchema = new mongoose.Schema(
       index: true,
     },
 
+    // Project linking for data separation
+    project: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Project",
+      index: true,
+    },
+
     // Lead linking (if created from CRM lead)
     linkedLead: {
       type: mongoose.Schema.Types.ObjectId,
@@ -288,7 +295,8 @@ InvoiceSchema.methods.reorderLineItems = function (newOrder) {
 
 // Indexes for better query performance
 InvoiceSchema.index({ status: 1, createdAt: -1 });
-InvoiceSchema.index({ linkedUser: 1, status: 1 });
+InvoiceSchema.index({ linkedUser: 1, project: 1, status: 1 });
+InvoiceSchema.index({ project: 1, status: 1 });
 InvoiceSchema.index({ linkedLead: 1 });
 InvoiceSchema.index({ createdBy: 1, createdAt: -1 });
 InvoiceSchema.index({ dueDate: 1, status: 1 });

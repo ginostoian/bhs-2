@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Document from "@/models/Document";
 import PhotoSlideshow from "../components/PhotoSlideshow";
+import { cookies } from "next/headers";
 
 /**
  * Photos Dashboard Page
@@ -15,11 +16,21 @@ export default async function PhotosPage() {
   // Connect to MongoDB
   await connectMongoose();
 
+  // Get selected project from cookies
+  const cookieStore = cookies();
+  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
+
   // Fetch user's photos and convert to plain objects
-  const photos = await Document.find({
+  const query = {
     user: session.user.id,
     type: "photo",
-  })
+  };
+
+  if (selectedProjectId) {
+    query.project = selectedProjectId;
+  }
+
+  const photos = await Document.find(query)
     .sort({ createdAt: -1 })
     .populate("user", "name email")
     .lean()

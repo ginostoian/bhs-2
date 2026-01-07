@@ -88,7 +88,8 @@ export async function POST(req) {
     const requestBody = await req.json();
     console.log("Payment creation request body:", requestBody);
 
-    const { userId, user, name, dueDate, amount, status } = requestBody;
+    const { userId, user, project, name, dueDate, amount, status } =
+      requestBody;
 
     // Handle both userId and user field names
     const targetUserId = userId || user;
@@ -128,14 +129,18 @@ export async function POST(req) {
     // Create payment
     const payment = await Payment.create({
       user: targetUserId,
+      project: project || null,
       name,
       dueDate: new Date(dueDate),
       amount: parsedAmount,
       status: status || "Scheduled",
     });
 
-    // Populate user info for response
-    await payment.populate("user", "name email");
+    // Populate user and project info for response
+    await payment.populate([
+      { path: "user", select: "name email" },
+      { path: "project", select: "name status", strictPopulate: false },
+    ]);
 
     // Create notification for the user
     try {
@@ -226,6 +231,7 @@ export async function POST(req) {
           status: payment.status,
           order: payment.order,
           user: payment.user,
+          project: payment.project,
           createdAt: payment.createdAt,
         },
       },

@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+mongoose.set("strictPopulate", false);
+
 const connectMongo = async () => {
   console.log("=== MONGOOSE CONNECTION ATTEMPT ===");
   console.log("Environment:", process.env.NODE_ENV);

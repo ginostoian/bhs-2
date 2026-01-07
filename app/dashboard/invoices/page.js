@@ -3,6 +3,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Invoice from "@/models/Invoice";
 import UserInvoicesList from "./components/UserInvoicesList";
+import { cookies } from "next/headers";
 
 /**
  * Invoices Dashboard Page
@@ -15,11 +16,21 @@ export default async function InvoicesPage() {
   // Connect to MongoDB
   await connectMongoose();
 
+  // Get selected project from cookies
+  const cookieStore = cookies();
+  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
+
   // Fetch user's invoices from the new Invoice model
-  const invoices = await Invoice.find({
+  const query = {
     linkedUser: session.user.id,
     status: { $ne: "draft" }, // Only show sent and paid invoices to users
-  })
+  };
+
+  if (selectedProjectId) {
+    query.project = selectedProjectId;
+  }
+
+  const invoices = await Invoice.find(query)
     .sort({ createdAt: -1 })
     .lean()
     .then((docs) =>

@@ -6,10 +6,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Modal from "@/components/Modal";
+import { useProject } from "../components/ProjectContext";
 
 export default function TicketsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { selectedProject } = useProject();
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
@@ -29,12 +31,15 @@ export default function TicketsPage() {
     }
 
     fetchTickets();
-  }, [session, status, router]);
+  }, [session, status, router, selectedProject]);
 
   const fetchTickets = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/tickets");
+      const url = selectedProject
+        ? `/api/tickets?project=${selectedProject.id}`
+        : "/api/tickets";
+      const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setTickets(data.tickets || []);

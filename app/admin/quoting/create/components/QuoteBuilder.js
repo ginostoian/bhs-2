@@ -89,9 +89,10 @@ export default function QuoteBuilder() {
     // Template
     template: null,
 
-    // User/Lead linking
+    // User/Lead/Project linking
     linkedUser: null,
     linkedLead: null,
+    linkedProject: null,
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -496,6 +497,13 @@ export default function QuoteBuilder() {
       ) {
         draftQuote.linkedLead = formData.linkedLead;
       }
+      if (
+        formData.linkedProject &&
+        typeof formData.linkedProject === "string" &&
+        formData.linkedProject.length === 24
+      ) {
+        draftQuote.project = formData.linkedProject;
+      }
 
       // Save quote to database via API
       const response = await fetch("/api/admin/quoting", {
@@ -610,6 +618,13 @@ export default function QuoteBuilder() {
         formData.linkedLead.length === 24
       ) {
         completeQuote.linkedLead = formData.linkedLead;
+      }
+      if (
+        formData.linkedProject &&
+        typeof formData.linkedProject === "string" &&
+        formData.linkedProject.length === 24
+      ) {
+        completeQuote.project = formData.linkedProject;
       }
 
       // Save quote to database via API
