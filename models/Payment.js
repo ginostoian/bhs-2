@@ -200,15 +200,12 @@ paymentSchema.statics.updateAllStatuses = async function () {
   }
 };
 
-// Force re-registration of the model if it exists but doesn't have the project field
-// This helps during development when schema changes aren't picked up by HMR
-if (mongoose.models.Payment && !mongoose.models.Payment.schema.paths.project) {
-  console.log("⚠️ Deleting old Payment model from cache to update schema");
+// Force re-registration of the model to ensure schema changes are picked up
+if (mongoose.models.Payment) {
   delete mongoose.models.Payment;
 }
 
 const Payment =
   mongoose.models.Payment || mongoose.model("Payment", paymentSchema);
 
-console.log("--- Payment Model Evaluated ---");
 export default Payment;

@@ -293,5 +293,10 @@ projectSchema.methods.updateProgress = async function () {
   return this.save();
 };
 
+// Force re-registration of the model to ensure static methods are updated
+if (mongoose.models.Project) {
+  delete mongoose.models.Project;
+}
+
 export default mongoose.models.Project ||
   mongoose.model("Project", projectSchema);
