@@ -1,13 +1,6 @@
-# https://www.robotstxt.org/robotstxt.html
+# *
 User-agent: *
 Allow: /
-
-# Block protected routes from crawlers
-Disallow: /admin
-Disallow: /dashboard
-Disallow: /employee
-Disallow: /designer
-Disallow: /api/
 
 # Host
 Host: https://bhstudio.co.uk

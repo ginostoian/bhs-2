@@ -1,11 +1,11 @@
 import { Inter } from "next/font/google";
-import { GoogleTagManager } from "@next/third-parties/google";
 import PlausibleProvider from "next-plausible";
 
 import Header from "@/components/navigation/Navigation";
 import Footer from "@/components/footer/Footer";
 import WhereWeWork from "@/components/WhereWeWork";
 import ClientLayout from "@/components/LayoutClient";
+import CookieConsent from "@/components/CookieConsent";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 import "./globals.css";
@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       {config.domainName && (
         <head>
           <PlausibleProvider domain={config.domainName} />
-          <GoogleTagManager gtmId="GTM-KBRRN8ZZ" />
+          {/* GTM is now loaded by CookieConsent component with proper consent mode */}
         </head>
       )}
       <body>
@@ -42,6 +42,8 @@ export default function RootLayout({ children }) {
           <WhereWeWork />
           <Footer />
         </ClientLayout>
+        {/* Cookie Consent Banner - handles GTM loading with consent mode */}
+        <CookieConsent />
       </body>
     </html>
   );

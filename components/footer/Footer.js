@@ -252,6 +252,12 @@ const Footer = () => {
               <Link href="/tos" className={classes["footer__quarter-link"]}>
                 T's & C's
               </Link>
+              <button
+                onClick={() => window.reopenCookieConsent?.()}
+                className={`${classes["footer__quarter-link"]} cursor-pointer border-none bg-transparent p-0 text-left`}
+              >
+                Cookie Preferences
+              </button>
             </div>
           </div>
         </div>
