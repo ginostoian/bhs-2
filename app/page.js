@@ -58,7 +58,7 @@ export default function Page() {
       question: "Is Better Homes Studio insured?",
       answer: (
         <div className="space-y-2 leading-relaxed">
-          Yes, we have comprehensive insurance that covers all our project.
+          Yes, we have comprehensive insurance that covers all our projects.
           Contact us if you&apos;d like to find out more.
         </div>
       ),
