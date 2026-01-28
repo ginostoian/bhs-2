@@ -134,11 +134,12 @@ export default function Page() {
           title={contactPageCopy.title}
           titleAccent={contactPageCopy.titleAccent}
           subtitle={contactPageCopy.subtitle}
-          heroCTA={contactPageCopy.heroCTA}
+          heroCTA={'Scroll Down for more info'}
           heroImgUrl={contactPageCopy.heroImgUrl}
-          ctaTallyFormLink={contactPageCopy.ctaTallyFormLink}
         />
         <SocialProof />
+
+        <ContactForm />
 
         {/* Warranty/Ticket Section */}
         <section className="mx-auto max-w-[85%] py-16">
@@ -278,7 +279,6 @@ export default function Page() {
           </div>
         </section>
 
-        <ContactForm />
         <SectionTitle
           title="Why choose us"
           subtitle="Our values are our promises to you"
