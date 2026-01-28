@@ -3,6 +3,10 @@ import Link from "next/link";
 
 const Guarantee = () => {
   const stats = [
+  {
+      data: "10 years",
+      desc: "Extension and loft conversion guarantee",
+    },
     {
       data: "2 years",
       desc: "Bathroom fitting and renovation guarantee",
@@ -15,10 +19,7 @@ const Guarantee = () => {
       data: "1 years",
       desc: "Painting and decorating guarantee",
     },
-    {
-      data: "10 years",
-      desc: "Extension and loft conversion guarantee",
-    },
+    
   ];
   return (
     <section className="relative mx-auto mb-24 mt-6 max-w-[85%] rounded-xl bg-gray-900 py-28">
@@ -29,7 +30,7 @@ const Guarantee = () => {
           </h3>
           <p className="mt-6 text-lg text-gray-300">
             We want you to feel confident that we build to last. Our workmanship
-            guarantee is top notch and is included with every project.
+            guarantee is industry leading and is included with every project.
           </p>
         </div>
         <div className="mt-12">
