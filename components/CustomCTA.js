@@ -17,7 +17,7 @@ const CustomCTA = () => {
             <div className="flex gap-4">
               <div className="mb-8">
                 <p className="text-sm">Limited availability</p>
-                <p className="text-xl text-[#266bf1]">Increase your home's value</p>
+                <p className="text-xl text-[#266bf1]">Increase your home&apos;s value</p>
               </div>
               <div>
                 <Image
