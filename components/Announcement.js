@@ -45,14 +45,14 @@ const Announcement = () => {
           </svg>
           <span className="flex items-center gap-1.5">
             <span className="hidden xs:inline">
-              Limited {nextMonth} availability: 3 premium projects remaining
+              Limited availability: 65% booked for 2026
             </span>
             <span className="xs:hidden">
-              Limited {nextMonth} availability
+              Limited availability
             </span>
             <span className="opacity-40 font-light mx-1">·</span>
             <span className="text-white/90 group-hover:text-white transition-colors">
-              Secure Consultation
+              Book a Consultation
             </span>
           </span>
         </span>
