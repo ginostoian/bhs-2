@@ -26,7 +26,6 @@ export default function Page() {
     whatWeDoCopy.kitchen,
     whatWeDoCopy.generalRenovation,
     whatWeDoCopy.houseExtension,
-    whatWeDoCopy.smartHome,
   ];
   const howWeDoItCopy = config.copy.homepage.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
