@@ -97,10 +97,10 @@ const config = {
   },
   copy: {
     homepage: {
-      title: "Renovate stress-free with ",
-      titleAccent: "Better Homes Studio",
+      title: "Extensions & full-home refurbishments ",
+      titleAccent: "in London",
       subtitle:
-        "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze.",
+        "Design + build, run properly: clear scope, transparent pricing, and weekly updates - so you get a high-finish result without the chaos.",
       heroCTA: "Book your consultation",
       heroImgUrl: "modern-living-room-trustworthy.webp",
       servicesSectionTitle: "What we do",
