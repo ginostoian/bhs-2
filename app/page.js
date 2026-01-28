@@ -22,10 +22,10 @@ export default function Page() {
   const homepageCopy = config.copy.homepage;
   const whatWeDoCopy = config.copy.homepage.whatWeDoSection;
   const whatWeDoArr = [
+    whatWeDoCopy.houseExtension,
+    whatWeDoCopy.generalRenovation,
     whatWeDoCopy.bathroom,
     whatWeDoCopy.kitchen,
-    whatWeDoCopy.generalRenovation,
-    whatWeDoCopy.houseExtension,
   ];
   const howWeDoItCopy = config.copy.homepage.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;

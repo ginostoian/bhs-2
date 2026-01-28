@@ -101,11 +101,31 @@ const config = {
       titleAccent: "Better Homes Studio",
       subtitle:
         "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze.",
-      heroCTA: "Get your free estimate now",
+      heroCTA: "Book your consultation",
       heroImgUrl: "modern-living-room-trustworthy.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
+        houseExtension: {
+          title: "House Extensions",
+          subtitle: "Increase your houses square footage. ",
+          subtitleAccent: "It's value will grow as a bonus.",
+          p1: "When you need more space but you're in love with your current home or simply dread the idea of moving, the solution is quite simple.",
+          p2: "Our team will help you make the best decisions when planning for your house extension to maximise both space and value.",
+          CTA: "Extend your home",
+          imgSrc: "/assets/img/extension/extension-1.webp",
+          slug: "house-extension",
+        },
+        generalRenovation: {
+          title: "Home Renovation",
+          subtitle: "We create stunning interiors. ",
+          subtitleAccent: "Design, Flooring, Decorating, Structural and more.",
+          p1: "Your house should feel like home. It doesn't matter if it is a flat, house or container house. It should match your style.",
+          p2: "Forever home or not, your home should represent you. A well done house renovation can greatly increase your comfort level and your house's value!",
+          CTA: "Renovate your home",
+          imgSrc: "/assets/img/general/london-grey-living-room.webp",
+          slug: "general-renovation",
+        },
         bathroom: {
           title: "Bathroom renovation",
           subtitle: "We create outstanding bathrooms. ",
@@ -156,16 +176,7 @@ const config = {
           imgSrc: "/assets/img/smarthome/smarthome-1.webp",
           slug: "smart-home",
         },
-        houseExtension: {
-          title: "House Extensions",
-          subtitle: "Increase your houses square footage. ",
-          subtitleAccent: "It's value will grow as a bonus.",
-          p1: "When you need more space but you're in love with your current home or simply dread the idea of moving, the solution is quite simple.",
-          p2: "Our team will help you make the best decisions when planning for your house extension to maximise both space and value.",
-          CTA: "Extend your home",
-          imgSrc: "/assets/img/extension/extension-1.webp",
-          slug: "house-extension",
-        },
+        
       },
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
@@ -294,7 +305,7 @@ const config = {
       titleAccent: "A hassle-free experience.",
       subtitle:
         "Bathroom design, supply and renovation. We take care of every aspect of the project so you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes Studio way.",
-      heroCTA: "Get your quote now - it's free",
+      heroCTA: "Book your consultation",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -489,7 +500,7 @@ const config = {
       titleAccent: "Renovate with the best.",
       subtitle:
         "Kitchen fitting and renovation done right - On Time, On Budget, 5-Star Guarantee. From 0 to 100 without you having to lift a finger. Renovate smarter and easier - The Better Homes Studio way.",
-      heroCTA: "Get your quote now - it's free",
+      heroCTA: "Book your consultation",
       heroImgUrl: "kitchen/modern-kitchen.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -685,7 +696,7 @@ const config = {
       titleAccent: "Hello, dream home!",
       subtitle:
         "Tired of unreliable contractors and surprise costs? Say goodbye to renovation nightmares and endless contractor headaches. Our streamlined process, transparent communication, and skilled team will take you from 0 to 100 in no time.",
-      heroCTA: "Get your quote now - it's free",
+      heroCTA: "Book your consultation",
       heroImgUrl: "general/living-room-1.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -875,12 +886,12 @@ const config = {
     },
     extensionPage: {
       ctaTallyFormLink:
-        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "/contact",
       title: "Extending your home the right way. ",
       titleAccent: "It's hard but we make it easier.",
       subtitle:
         "Looking to create an inviting space bathed in natural light? Need extra space for a growing family? Want to experience the ease and functionality of open-plan living? Our team will work with you to bring your dream extension to life.",
-      heroCTA: "Get your quote now - it's free",
+      heroCTA: "Book your consultation",
       heroImgUrl: "extension/single-storey-extension.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -1265,12 +1276,12 @@ const config = {
     },
     aboutPage: {
       ctaTallyFormLink:
-        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "/contact",
       title: "Better Homes Studio! ",
       titleAccent: "Full service renovation company",
       subtitle:
         "We are a London-based, full-service renovation company with over 12 years of experience in the field. From bathroom renovations to home extensions, our team has you covered from design to build. We are also the proud winners of the Best of Houzz Award two years in a row.",
-      heroCTA: "Reach out now",
+      heroCTA: "Book your consultation",
       heroImgUrl: "social/bh-logo.png",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -1460,12 +1471,12 @@ const config = {
     },
     contactPage: {
       ctaTallyFormLink:
-        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "/contact",
       title: "We are always ready to talk. ",
       titleAccent: "Ask us anything!",
       subtitle:
         "Want to discuss your project, ask questions about our services and understand how we can help you? Or maybe you'd like to work with us. Fill out the below form and we'll happily answer any query.",
-      heroCTA: "Reach out now",
+      heroCTA: "Book your consultation",
       heroImgUrl: "general/happy-couple-bhs.WEBP",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -1655,12 +1666,12 @@ const config = {
     },
     faqPage: {
       ctaTallyFormLink:
-        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "/contact",
       title: "Frequently asked ",
       titleAccent: "questions.",
       subtitle:
         "Read on to find answers to some of the most frequent questions clients ask us. If you don't find what you're looking for, click the button below to get in touch.",
-      heroCTA: "Reach out now",
+      heroCTA: "Book your consultation",
       heroImgUrl: "illustrations/faq.jpg",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
@@ -1850,12 +1861,12 @@ const config = {
     },
     portfolioPage: {
       ctaTallyFormLink:
-        "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
+        "/contact",
       title: " ",
       titleAccent: "Take a peek at what your home could look like.",
       subtitle:
         "12 years of experience in the field and proud winners of the Best of Houzz Award two years in a row. We've completed hundreds of projects, from bathroom renovations to home extensions. Below are just a couple of examples to give you a taste.",
-      heroCTA: "Start your project with us",
+      heroCTA: "Book your consultation",
       heroImgUrl: "social/bh-logo.png",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
