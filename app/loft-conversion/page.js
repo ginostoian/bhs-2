@@ -47,7 +47,7 @@ export default function Page() {
         <div className="space-y-2 leading-relaxed">
           At this time, we offer our renovation services in London, specifically
           East, North and Central London. If the project is right, please
-          contact us if you are located anywhere else in the London so we can
+          contact us if you are located anywhere else in the London area so we can
           see if we can work together.
         </div>
       ),

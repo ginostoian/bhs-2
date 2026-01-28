@@ -2175,7 +2175,7 @@ export const articles = [
             While eco-friendly extensions may come with slightly higher upfront
             costs, they offer long-term payoffs: reduced heating bills, improved
             indoor air quality, and even higher property values. In fact, energy
-            efficiency is becoming a major factor for buyers in the London
+            efficiency is becoming a major factor for buyers in the London area
             property market — and a well-insulated extension can make your EPC
             rating more competitive.
           </p>
