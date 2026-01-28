@@ -44,7 +44,7 @@ function Navigation() {
                 className={classes["dropdown-item"]}
                 onMouseEnter={toggleCostsDropdown}
               >
-                <span>Free Tools</span>
+                <span>Cost Guides</span>
                 <MdOutlineKeyboardArrowDown />
               </Link>
               <ul
@@ -125,12 +125,7 @@ function Navigation() {
                 >
                   <Link href="/general-renovation">General renovation</Link>
                 </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/interior-design">Interior design</Link>
-                </li>
+
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
@@ -181,9 +176,6 @@ function Navigation() {
         </div>
         <div className={classes["main-nav__right"]}>
           <ul className={classes["main-nav__list"]}>
-            <li className={classes["main-nav__list-item"]}>
-              <Link href="/partner-with-us">Partner with us</Link>
-            </li>
             <li className={classes["main-nav__list-item"]}>
               <Link href="/about">About</Link>
             </li>
@@ -247,7 +239,7 @@ function Navigation() {
                   className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
                   onClick={toggleCostsDropdown}
                 >
-                  <span>Free Tools</span>
+                  <span>Cost Guides</span>
                   <MdOutlineKeyboardArrowDown />
                 </Link>
                 <ul
@@ -335,12 +327,7 @@ function Navigation() {
                   >
                     <Link href="/general-renovation">General renovation</Link>
                   </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/interior-design">Interior design</Link>
-                  </li>
+
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
@@ -359,12 +346,7 @@ function Navigation() {
           </div>
           <div className={classes["mobile-nav__right"]}>
             <ul className={classes["mobile-nav__list"]}>
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/partner-with-us">Partner with us</Link>
-              </li>
+
               <li
                 className={classes["mobile-nav__list-item"]}
                 onClick={handleNavLinkClick}

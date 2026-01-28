@@ -97,14 +97,14 @@ const config = {
   },
   copy: {
     homepage: {
-      title: "Renovate stress free with ",
+      title: "Renovate stress-free with ",
       titleAccent: "Better Homes Studio",
       subtitle:
         "Builders don't have to be unreliable and hard to work with. We make your house renovation and refurbishment a breeze.",
       heroCTA: "Get your free estimate now",
       heroImgUrl: "modern-living-room-trustworthy.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         bathroom: {
           title: "Bathroom renovation",
@@ -139,7 +139,7 @@ const config = {
         interiorDesign: {
           title: "Interior Design",
           subtitle: "Our team does more than design homes. ",
-          subtitleAccent: "The create living experiences.",
+          subtitleAccent: "We create living experiences.",
           p1: "Our team of designers interpret each client's passions and style to provide innovative and exquisite interiors, curating furniture, textiles, even art and antiques.",
           p2: "Interior spaces are often completely re-imagined beyond the decorative, to eliminate boundaries between the built environment and a better way of life.",
           CTA: "Do your home a favour",
@@ -150,7 +150,7 @@ const config = {
           title: "Smart Homes",
           subtitle: "We get smarter as times passes ",
           subtitleAccent: "Our homes should do the same.",
-          p1: "Our team of trained proffesionals will transform your home into a tech fest.",
+          p1: "Our team of trained professionals will transform your home into a tech fest.",
           p2: "Letting your home deal with menial tasks enables you and your family to focus on what matters most to you.",
           CTA: "Automate your home",
           imgSrc: "/assets/img/smarthome/smarthome-1.webp",
@@ -200,8 +200,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -247,7 +247,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -291,13 +291,13 @@ const config = {
     bathroomPage: {
       ctaTallyFormLink: "/bathroom-renovation-form",
       title: "Renovate your bathroom with BHS. ",
-      titleAccent: "A hassle free experience.",
+      titleAccent: "A hassle-free experience.",
       subtitle:
         "Bathroom design, supply and renovation. We take care of every aspect of the project so you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes Studio way.",
       heroCTA: "Get your quote now - it's free",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         bathroomDesign: {
           title: "Bathroom design",
@@ -395,8 +395,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -442,7 +442,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -492,7 +492,7 @@ const config = {
       heroCTA: "Get your quote now - it's free",
       heroImgUrl: "kitchen/modern-kitchen.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         kitchenDesign: {
           title: "Kitchen design",
@@ -549,9 +549,9 @@ const config = {
         kitchenInExtension: {
           title: "Kitchen in extension",
           subtitle:
-            "Kitchen extensions don't have to be huge, sprawling design to  ",
+            "Kitchen extensions don't have to be huge, sprawling designs to ",
           subtitleAccent: "transform an existing house.",
-          p1: "When designing a kitchen extension, spend time and effort on making sure plenty natural light infiltrates the space.",
+          p1: "When designing a kitchen extension, spend time and effort on making sure plenty of natural light infiltrates the space.",
           p2: "Bifold or sliding patio doors are fantastic options that offer views out all year round, while installing a large roof lantern can bring in plenty of natural light to the new space.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/kitchen/kitchen-extension.webp",
@@ -591,8 +591,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -638,7 +638,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -688,7 +688,7 @@ const config = {
       heroCTA: "Get your quote now - it's free",
       heroImgUrl: "general/living-room-1.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         fullHome: {
           title: "Full home renovation",
@@ -736,7 +736,7 @@ const config = {
           subtitle: "As great as your home is,",
           subtitleAccent: " it could do with some layout changes.",
           p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
-          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          p2: "Create another room for your baby, convert your space to open-plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
           slug: "/general-renovation-form",
@@ -785,8 +785,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -832,7 +832,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -883,7 +883,7 @@ const config = {
       heroCTA: "Get your quote now - it's free",
       heroImgUrl: "extension/single-storey-extension.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         singleStoreyExtension: {
           title: "Single storey extension",
@@ -891,14 +891,14 @@ const config = {
           subtitleAccent: "significant value to your home.",
           p1: "Single storey house extensions are built onto a part of the house whereby one or more sides of the extension is attached to the property, and there is only the ground floor plus any basement built to it.",
           p2: "Single storey extensions require building control, but they might not need planning permission.",
-          CTA: "Extent your home",
+          CTA: "Extend your home",
           imgSrc: "/assets/img/extension/single-storey-extension.webp",
           slug: "contact",
         },
         sideReturnExtension: {
           title: "Side return extension",
           subtitle: "Perfect for a bit of additional space without causing",
-          subtitleAccent: " too much disruption .",
+          subtitleAccent: " too much disruption.",
           p1: "Side return extension functions similarly to a rear extension, with the difference being that rather than extending do the rear, the property is extended to the side, making use of the side return, or small 'alleyway' between yours and your neighbour's property.",
           p2: "Simplicity and cost are again the main selling points here, with the side return extension being relatively easy to build, taking less time than some of the other options and consequently also being among the least expensive of all options.",
           CTA: "Extend your home",
@@ -980,8 +980,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1027,7 +1027,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -1078,7 +1078,7 @@ const config = {
       heroCTA: "Get your quote now - it's free",
       heroImgUrl: "general/living-room-1.webp",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         fullHome: {
           title: "Full home renovation",
@@ -1126,7 +1126,7 @@ const config = {
           subtitle: "As great as your home is,",
           subtitleAccent: " it could do with some layout changes.",
           p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
-          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          p2: "Create another room for your baby, convert your space to open-plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
           slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
@@ -1175,8 +1175,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1222,7 +1222,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -1269,11 +1269,11 @@ const config = {
       title: "Better Homes Studio! ",
       titleAccent: "Full service renovation company",
       subtitle:
-        "We are London based full service renovation company with over 12 years of experience in the field. From bathroom renovations to home extensions, our team has you covered design to build. We are also the proud winners of the Best of Houzz Award two years in a row.",
+        "We are a London-based, full-service renovation company with over 12 years of experience in the field. From bathroom renovations to home extensions, our team has you covered from design to build. We are also the proud winners of the Best of Houzz Award two years in a row.",
       heroCTA: "Reach out now",
       heroImgUrl: "social/bh-logo.png",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         fullHome: {
           title: "Full home renovation",
@@ -1321,7 +1321,7 @@ const config = {
           subtitle: "As great as your home is,",
           subtitleAccent: " it could do with some layout changes.",
           p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
-          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          p2: "Create another room for your baby, convert your space to open-plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
           slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
@@ -1370,8 +1370,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1417,7 +1417,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -1461,14 +1461,14 @@ const config = {
     contactPage: {
       ctaTallyFormLink:
         "#tally-open=wQEoXw&tally-emoji-text=👋&tally-emoji-animation=wave",
-      title: "We are always ready talk. ",
+      title: "We are always ready to talk. ",
       titleAccent: "Ask us anything!",
       subtitle:
         "Want to discuss your project, ask questions about our services and understand how we can help you? Or maybe you'd like to work with us. Fill out the below form and we'll happily answer any query.",
       heroCTA: "Reach out now",
       heroImgUrl: "general/happy-couple-bhs.WEBP",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         fullHome: {
           title: "Full home renovation",
@@ -1516,7 +1516,7 @@ const config = {
           subtitle: "As great as your home is,",
           subtitleAccent: " it could do with some layout changes.",
           p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
-          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          p2: "Create another room for your baby, convert your space to open-plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
           slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
@@ -1565,8 +1565,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1612,7 +1612,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -1663,7 +1663,7 @@ const config = {
       heroCTA: "Reach out now",
       heroImgUrl: "illustrations/faq.jpg",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {
         fullHome: {
           title: "Full home renovation",
@@ -1711,7 +1711,7 @@ const config = {
           subtitle: "As great as your home is,",
           subtitleAccent: " it could do with some layout changes.",
           p1: "Circumstances change. What once worked, might not now. Your home can adapt to your needs.",
-          p2: "Create another room for your baby, convert your space to open plan or add a new bathroom. Whatever you need, our team can make it happen.",
+          p2: "Create another room for your baby, convert your space to open-plan or add a new bathroom. Whatever you need, our team can make it happen.",
           CTA: "Let's discuss your project",
           imgSrc: "/assets/img/general/structural-1.webp",
           slug: "#tally-open=w2XXag&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave",
@@ -1760,8 +1760,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1807,7 +1807,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },
@@ -1858,7 +1858,7 @@ const config = {
       heroCTA: "Start your project with us",
       heroImgUrl: "social/bh-logo.png",
       servicesSectionTitle: "What we do",
-      servicesSectionSubtitle: "Full service renovation company",
+      servicesSectionSubtitle: "Full-service renovation company",
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
@@ -1892,8 +1892,8 @@ const config = {
           question: "Who is Better Homes Studio?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              We are a full service renovation company based in London. We do
-              everything from interior design to building extensions and
+              We are a full-service renovation company based in London. We do
+              everything from kitchen renovations to building extensions and
               converting lofts. We bet there is nothing you can throw at us that
               we can&apos;t do.
             </div>
@@ -1939,7 +1939,7 @@ const config = {
           ),
         },
         {
-          question: "Do you offer refferal rewards?",
+          question: "Do you offer referral rewards?",
           answer:
             "Yes, we run the BHS Scheme. This allows you to win a reward for every client you refer that we end up working with. For more information, please reach out.",
         },

@@ -28,7 +28,7 @@ const Stats = () => {
           </g>
         </svg>
       ),
-      title: "Workmanishp guarantee",
+      title: "Workmanship guarantee",
       desc: "From bathroom renovations to extensions, our workmanship is guaranteed for up to 10 years, giving you peace of mind and lasting value.",
     },
     {

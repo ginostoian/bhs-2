@@ -178,10 +178,10 @@ const Features = () => {
                 </svg>
                 <div className="grow">
                   <h3 className="text-2xl font-semibold text-gray-800">
-                    Convenient and hassle free
+                    Convenient and hassle-free
                   </h3>
                   <p className="mt-1 text-gray-600 leading-6 tracking-wide">
-                    We handle all services under one roof, wmaking your project
+                    We handle all services under one roof, making your project
                     more convenient and saving you time and effort. Planning,
                     design, construction, and finishing touches.
                   </p>

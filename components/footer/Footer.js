@@ -161,7 +161,7 @@ const Footer = () => {
                 FAQ
               </Link>
               <Link href="/tools" className={classes["footer__quarter-link"]}>
-                Free Tools
+                Cost Guides
               </Link>
               <Link href="/contact" className={classes["footer__quarter-link"]}>
                 Contact

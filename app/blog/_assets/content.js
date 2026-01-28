@@ -3193,7 +3193,7 @@ export const articles = [
             years. Unlike traditional retailers, they operate primarily online
             and sell directly to consumers—cutting out the middleman and
             offering factory-direct pricing. Their national delivery network
-            includes full service across Greater London.
+            includes full-service across Greater London.
           </p>
 
           <h3 className={styles.h3}>Design Styles and Customisation</h3>

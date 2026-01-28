@@ -25,7 +25,6 @@ export default function Page() {
     whatWeDoCopy.bathroom,
     whatWeDoCopy.kitchen,
     whatWeDoCopy.generalRenovation,
-    whatWeDoCopy.interiorDesign,
     whatWeDoCopy.houseExtension,
     whatWeDoCopy.smartHome,
   ];
@@ -39,9 +38,9 @@ export default function Page() {
       question: "Who is Better Homes Studio?",
       answer: (
         <div className="space-y-2 leading-relaxed">
-          We are a full service renovation company. We manage everything from
-          interior design to building extensions and converting lofts. We bet
-          there is nothing you can throw at us that we can&apos;t do.
+          We are a full-service renovation company. We manage everything from
+          kitchen renovations to building extensions and converting lofts. We
+          bet there is nothing you can throw at us that we can&apos;t do.
         </div>
       ),
     },
