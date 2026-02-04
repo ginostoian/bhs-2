@@ -381,7 +381,9 @@ export default function AttendanceAdminPage() {
         console.log("🔍 Loading workers and projects...");
         const [wRes, pRes] = await Promise.all([
           fetch("/api/workers?active=true", { credentials: "include" }),
-          fetch("/api/projects?status=On Going", { credentials: "include" }),
+          fetch("/api/admin/projects?status=On Going", {
+            credentials: "include",
+          }),
         ]);
 
         if (!wRes.ok || !pRes.ok) {

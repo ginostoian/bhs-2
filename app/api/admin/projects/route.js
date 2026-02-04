@@ -21,10 +21,14 @@ export async function GET(request) {
 
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
+    const status = searchParams.get("status");
 
     let query = {};
     if (userId) {
       query.user = userId;
+    }
+    if (status) {
+      query.status = status;
     }
 
     const projects = await Project.find(query)
