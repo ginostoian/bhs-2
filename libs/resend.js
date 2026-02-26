@@ -19,9 +19,17 @@ if (!process.env.RESEND_API_KEY && process.env.NODE_ENV === "development") {
  * @param {string} text - The plain text content of the email.
  * @param {string} html - The HTML content of the email.
  * @param {string} replyTo - The email address to set as the "Reply-To" address.
+ * @param {Array} attachments - Optional Resend attachments array.
  * @returns {Promise} A Promise that resolves when the email is sent.
  */
-export const sendEmail = async ({ to, subject, text, html, replyTo }) => {
+export const sendEmail = async ({
+  to,
+  subject,
+  text,
+  html,
+  replyTo,
+  attachments,
+}) => {
   const data = {
     from: config.resend.fromAdmin,
     to: [to],
@@ -29,6 +37,7 @@ export const sendEmail = async ({ to, subject, text, html, replyTo }) => {
     text,
     html,
     ...(replyTo && { replyTo }),
+    ...(attachments?.length ? { attachments } : {}),
   };
 
   const result = await resend.emails.send(data);

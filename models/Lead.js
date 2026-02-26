@@ -102,6 +102,18 @@ const leadSchema = mongoose.Schema(
       trim: true,
     },
 
+    // Calculator lead metadata (kept flexible so calculators can evolve)
+    calculatorData: {
+      latestSubmission: {
+        type: mongoose.Schema.Types.Mixed,
+        default: null,
+      },
+      submissions: {
+        type: [mongoose.Schema.Types.Mixed],
+        default: [],
+      },
+    },
+
     // User Linking
     linkedUser: {
       type: mongoose.Schema.Types.ObjectId,
@@ -344,6 +356,7 @@ leadSchema.index({ nextFollowUpDate: 1 });
 leadSchema.index({ isActive: 1, isArchived: 1 });
 leadSchema.index({ archivedAt: -1 });
 leadSchema.index({ archivedBy: 1 });
+leadSchema.index({ customSource: 1, updatedAt: -1 });
 
 // Virtual for full source (including custom source)
 leadSchema.virtual("fullSource").get(function () {

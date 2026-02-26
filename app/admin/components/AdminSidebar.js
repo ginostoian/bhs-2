@@ -158,6 +158,11 @@ export default function AdminSidebar() {
           href: "/admin/general-renovations",
           icon: "🏠",
         },
+        {
+          name: "Extension Calculator Leads",
+          href: "/admin/extension-calculator-leads",
+          icon: "🧮",
+        },
       ],
     },
     {

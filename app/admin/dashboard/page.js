@@ -263,6 +263,7 @@ export default async function AdminDashboardPage() {
                     <QuickAction href="/admin/quoting" icon="📜" label="Quotes" color="orange" />
                     <QuickAction href="/admin/payments" icon="💳" label="Payments" color="green" />
                     <QuickAction href="/admin/users" icon="👥" label="Users" color="purple" />
+                    <QuickAction href="/admin/extension-calculator-leads" icon="🧮" label="Ext Leads" color="blue" />
                 </div>
             </div>
 

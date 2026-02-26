@@ -2,106 +2,123 @@
 
 import React from "react";
 import { EXTENSION_TYPES } from "../../lib/config";
+import { costEngine } from "../../lib/costEngine";
 
 const StepType = ({ formData, setFormData, onNext, onBack }) => {
-  const handleExtensionTypeChange = (extensionType) => {
-    setFormData((prev) => ({ ...prev, extensionType }));
-  };
-
-  const canProceed = formData.extensionType;
+  const canProceed = !!formData.extensionType;
+  const previewSize = formData.size > 0 ? formData.size : 25;
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">
-          What type of extension are you planning?
+    <div className="mx-auto max-w-4xl">
+      <div className="mb-8 rounded-2xl border border-stone-200 bg-gradient-to-br from-stone-50 to-white p-6">
+        <h2 className="text-3xl font-semibold tracking-tight text-stone-900">
+          Choose your project type
         </h2>
-        <p className="text-lg text-gray-600">
-          Choose the type that best describes your project
+        <p className="mt-2 text-stone-600">
+          We’ll use this to apply a different build rate, timeline, and risk
+          profile. Example ranges below are for a typical {previewSize} m²
+          London project and will update once you enter more details.
         </p>
       </div>
 
-      <div className="grid gap-6">
-        {EXTENSION_TYPES.map((extension) => (
-          <div
-            key={extension.id}
-            className={`cursor-pointer rounded-lg border-2 p-6 transition-all ${
-              formData.extensionType === extension.id
-                ? "border-blue-500 bg-blue-50"
-                : "border-gray-200 hover:border-gray-300"
-            }`}
-            onClick={() => handleExtensionTypeChange(extension.id)}
-          >
-            <div className="flex items-start">
-              <div
-                className={`mr-4 mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border-2 ${
-                  formData.extensionType === extension.id
-                    ? "border-blue-500 bg-blue-500"
-                    : "border-gray-300"
-                }`}
-              >
-                {formData.extensionType === extension.id && (
-                  <div className="h-3 w-3 rounded-full bg-white"></div>
-                )}
-              </div>
-              <div className="flex-1">
-                <h3 className="mb-2 text-xl font-semibold text-gray-900">
-                  {extension.name}
-                </h3>
-                <p className="mb-3 text-gray-600">{extension.description}</p>
+      <div className="grid gap-4">
+        {EXTENSION_TYPES.map((extension) => {
+          const selected = formData.extensionType === extension.id;
+          const range = costEngine.getCostRange(extension.id, previewSize);
 
-                {/* Additional details based on extension type */}
-                <div className="space-y-1 text-sm text-gray-500">
-                  {extension.id === "singleStorey" && (
-                    <>
-                      <p>• Typically 8-12 weeks to complete</p>
-                      <p>• Average cost: £2,500 per square metre</p>
-                      <p>• Perfect for kitchen extensions, living rooms</p>
-                    </>
-                  )}
-                  {extension.id === "doubleStorey" && (
-                    <>
-                      <p>• Typically 12-16 weeks to complete</p>
-                      <p>• Average cost: £3,200 per square metre</p>
-                      <p>• Great for adding bedrooms and living space</p>
-                    </>
-                  )}
-                  {extension.id === "basement" && (
-                    <>
-                      <p>• Typically 16-20 weeks to complete</p>
-                      <p>• Average cost: £4,500 per square metre</p>
-                      <p>• Ideal for creating additional living space</p>
-                    </>
-                  )}
-                  {extension.id === "loft" && (
-                    <>
-                      <p>• Typically 10-14 weeks to complete</p>
-                      <p>• Average cost: £2,800 per square metre</p>
-                      <p>• Perfect for adding bedrooms or home office</p>
-                    </>
-                  )}
+          return (
+            <label
+              key={extension.id}
+              className={`cursor-pointer rounded-2xl border p-5 transition-all ${
+                selected
+                  ? "border-slate-900 bg-slate-900 text-white shadow-xl shadow-slate-900/10"
+                  : "border-stone-200 bg-white hover:border-stone-300"
+              }`}
+            >
+              <input
+                type="radio"
+                name="extensionType"
+                value={extension.id}
+                checked={selected}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, extensionType: extension.id }))
+                }
+                className="sr-only"
+              />
+
+              <div className="grid gap-4 md:grid-cols-[1.2fr_1fr] md:items-start">
+                <div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`inline-flex h-5 w-5 items-center justify-center rounded-full border ${
+                        selected
+                          ? "border-white bg-white text-slate-900"
+                          : "border-stone-300 text-transparent"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      •
+                    </span>
+                    <h3 className="text-xl font-semibold">{extension.name}</h3>
+                  </div>
+                  <p
+                    className={`mt-2 text-sm ${
+                      selected ? "text-stone-200" : "text-stone-600"
+                    }`}
+                  >
+                    {extension.description}
+                  </p>
+                </div>
+
+                <div
+                  className={`rounded-xl border p-4 ${
+                    selected
+                      ? "border-white/20 bg-white/10"
+                      : "border-stone-200 bg-stone-50"
+                  }`}
+                >
+                  <p
+                    className={`text-xs font-semibold uppercase tracking-[0.18em] ${
+                      selected ? "text-stone-200" : "text-stone-500"
+                    }`}
+                  >
+                    Typical Range (Ballpark)
+                  </p>
+                  <p className="mt-2 text-lg font-semibold">
+                    {costEngine.formatCurrency(range.min)} -{" "}
+                    {costEngine.formatCurrency(range.max)}
+                  </p>
+                  <p
+                    className={`mt-2 text-xs ${
+                      selected ? "text-stone-200" : "text-stone-600"
+                    }`}
+                  >
+                    Includes contingency + VAT assumptions. Final range narrows
+                    once you add specs and planning status.
+                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </label>
+          );
+        })}
       </div>
 
-      {/* Navigation */}
       <div className="mt-8 flex justify-between">
         <button
+          type="button"
           onClick={onBack}
-          className="rounded-lg bg-gray-100 px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-200"
+          className="rounded-xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onNext}
           disabled={!canProceed}
-          className={`rounded-lg px-6 py-3 font-medium transition-colors ${
+          className={`rounded-xl px-6 py-3 text-sm font-semibold tracking-wide transition ${
             canProceed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "cursor-not-allowed bg-gray-300 text-gray-500"
+              ? "bg-slate-900 text-white hover:bg-black"
+              : "cursor-not-allowed bg-stone-200 text-stone-400"
           }`}
         >
           Continue
