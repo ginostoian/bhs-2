@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <!-- Alt text: Decision flowchart helping London homeowners choose the best house extension type based on their property, budget, and goals -->
+  <title>Which Home Extension Is Right for Your London Property?</title>
+  
+  <rect width="800" height="520" fill="#f8f7f4" rx="12"/>
+  
+  <text x="400" y="35" text-anchor="middle" font-size="18" font-weight="700" fill="#1a1a1a">Which Extension Is Right for Your London Home?</text>
+  <text x="400" y="55" text-anchor="middle" font-size="12" fill="#777">A quick-reference decision guide</text>
+  
+  <!-- START -->
+  <rect x="310" y="72" width="180" height="40" fill="#2d5a3d" rx="20"/>
+  <text x="400" y="97" text-anchor="middle" font-size="13" font-weight="600" fill="#fff">What do you need most?</text>
+  
+  <!-- Lines from start -->
+  <line x1="340" y1="112" x2="150" y2="155" stroke="#999" stroke-width="1.5"/>
+  <line x1="400" y1="112" x2="400" y2="155" stroke="#999" stroke-width="1.5"/>
+  <line x1="460" y1="112" x2="650" y2="155" stroke="#999" stroke-width="1.5"/>
+  
+  <!-- Option 1: More bedrooms -->
+  <rect x="50" y="155" width="200" height="36" fill="#fff" rx="8" stroke="#c4a882" stroke-width="2"/>
+  <text x="150" y="178" text-anchor="middle" font-size="12" font-weight="600" fill="#1a1a1a">More bedrooms</text>
+  
+  <!-- Option 2: Bigger living space -->
+  <rect x="300" y="155" width="200" height="36" fill="#fff" rx="8" stroke="#c4a882" stroke-width="2"/>
+  <text x="400" y="178" text-anchor="middle" font-size="12" font-weight="600" fill="#1a1a1a">Bigger living space</text>
+  
+  <!-- Option 3: Premium / luxury -->
+  <rect x="550" y="155" width="200" height="36" fill="#fff" rx="8" stroke="#c4a882" stroke-width="2"/>
+  <text x="650" y="178" text-anchor="middle" font-size="12" font-weight="600" fill="#1a1a1a">Premium / luxury space</text>
+  
+  <!-- Lines to Q2 -->
+  <line x1="150" y1="191" x2="150" y2="225" stroke="#999" stroke-width="1.5"/>
+  <line x1="400" y1="191" x2="400" y2="225" stroke="#999" stroke-width="1.5"/>
+  <line x1="650" y1="191" x2="650" y2="225" stroke="#999" stroke-width="1.5"/>
+  
+  <!-- Q2 Row -->
+  <rect x="55" y="225" width="190" height="32" fill="#f0ece4" rx="6"/>
+  <text x="150" y="246" text-anchor="middle" font-size="11" fill="#555">Is your loft suitable?</text>
+  
+  <rect x="305" y="225" width="190" height="32" fill="#f0ece4" rx="6"/>
+  <text x="400" y="246" text-anchor="middle" font-size="11" fill="#555">Victorian/Edwardian terrace?</text>
+  
+  <rect x="555" y="225" width="190" height="32" fill="#f0ece4" rx="6"/>
+  <text x="650" y="246" text-anchor="middle" font-size="11" fill="#555">Prime London postcode?</text>
+  
+  <!-- Lines to answers -->
+  <line x1="100" y1="257" x2="100" y2="295" stroke="#999" stroke-width="1"/>
+  <line x1="200" y1="257" x2="200" y2="295" stroke="#999" stroke-width="1"/>
+  <line x1="350" y1="257" x2="350" y2="295" stroke="#999" stroke-width="1"/>
+  <line x1="450" y1="257" x2="450" y2="295" stroke="#999" stroke-width="1"/>
+  <line x1="600" y1="257" x2="600" y2="295" stroke="#999" stroke-width="1"/>
+  <line x1="700" y1="257" x2="700" y2="295" stroke="#999" stroke-width="1"/>
+  
+  <!-- Yes/No labels -->
+  <text x="100" y="288" text-anchor="middle" font-size="10" fill="#2d5a3d" font-weight="600">Yes</text>
+  <text x="200" y="288" text-anchor="middle" font-size="10" fill="#b35c5c" font-weight="600">No</text>
+  <text x="350" y="288" text-anchor="middle" font-size="10" fill="#2d5a3d" font-weight="600">Yes</text>
+  <text x="450" y="288" text-anchor="middle" font-size="10" fill="#b35c5c" font-weight="600">No</text>
+  <text x="600" y="288" text-anchor="middle" font-size="10" fill="#2d5a3d" font-weight="600">Yes</text>
+  <text x="700" y="288" text-anchor="middle" font-size="10" fill="#b35c5c" font-weight="600">No</text>
+  
+  <!-- Results Row 1 -->
+  <rect x="30" y="300" width="140" height="80" fill="#2d5a3d" rx="8"/>
+  <text x="100" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Loft</text>
+  <text x="100" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Conversion</text>
+  <text x="100" y="365" text-anchor="middle" font-size="10" fill="#a3d9b1">+15% to 25% value</text>
+  <text x="100" y="377" text-anchor="middle" font-size="10" fill="#a3d9b1">£50k–£90k cost</text>
+  
+  <rect x="180" y="300" width="140" height="80" fill="#8b7355" rx="8"/>
+  <text x="250" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Double-Storey</text>
+  <text x="250" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Extension</text>
+  <text x="250" y="365" text-anchor="middle" font-size="10" fill="#e8dcc8">+15% to 20% value</text>
+  <text x="250" y="377" text-anchor="middle" font-size="10" fill="#e8dcc8">£100k–£180k cost</text>
+  
+  <rect x="330" y="300" width="140" height="80" fill="#c4a882" rx="8"/>
+  <text x="400" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Side Return +</text>
+  <text x="400" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Rear Extension</text>
+  <text x="400" y="365" text-anchor="middle" font-size="10" fill="#fff">+10% to 15% value</text>
+  <text x="400" y="377" text-anchor="middle" font-size="10" fill="#fff">£60k–£120k cost</text>
+  
+  <rect x="480" y="300" width="140" height="80" fill="#c4a882" rx="8"/>
+  <text x="550" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Single-Storey</text>
+  <text x="550" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Rear Extension</text>
+  <text x="550" y="365" text-anchor="middle" font-size="10" fill="#fff">+5% to 15% value</text>
+  <text x="550" y="377" text-anchor="middle" font-size="10" fill="#fff">£60k–£105k cost</text>
+  
+  <rect x="630" y="300" width="140" height="80" fill="#3d3d3d" rx="8"/>
+  <text x="700" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Basement</text>
+  <text x="700" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Conversion</text>
+  <text x="700" y="365" text-anchor="middle" font-size="10" fill="#bbb">+15% to 30%+ value</text>
+  <text x="700" y="377" text-anchor="middle" font-size="10" fill="#bbb">£150k–£300k+ cost</text>
+  
+  <!-- Bottom tip box -->
+  <rect x="100" y="410" width="600" height="80" fill="#fff" rx="10" stroke="#2d5a3d" stroke-width="1.5"/>
+  <text x="400" y="435" text-anchor="middle" font-size="12" font-weight="700" fill="#2d5a3d">💡 Pro Tip from BH Studio</text>
+  <text x="400" y="455" text-anchor="middle" font-size="11" fill="#555">Combining a loft conversion with a rear extension often delivers a higher combined return</text>
+  <text x="400" y="472" text-anchor="middle" font-size="11" fill="#555">than either project alone — and shared professional fees make it more cost-efficient.</text>
+  
+  <!-- Source -->
+  <text x="400" y="508" text-anchor="middle" font-size="9" fill="#aaa">This is a simplified guide. Every property is unique — speak to an architect for tailored advice. | bhstudio.co.uk</text>
+</svg>

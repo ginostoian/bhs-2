@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <!-- Alt text: Bar chart comparing how much value different house extension types add to a London property, showing loft conversions and basement conversions delivering the highest returns -->
+  <title>How Much Value Does Each Extension Type Add to a London Property?</title>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f8f7f4" rx="12"/>
+  
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1a1a1a">Value Added by Extension Type — London 2025</text>
+  <text x="400" y="62" text-anchor="middle" font-size="13" fill="#666">Percentage increase in property value (typical range)</text>
+  
+  <!-- Grid lines -->
+  <line x1="180" y1="90" x2="180" y2="420" stroke="#ddd" stroke-width="1"/>
+  <line x1="180" y1="420" x2="750" y2="420" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Y-axis labels -->
+  <text x="170" y="95" text-anchor="end" font-size="11" fill="#888">30%</text>
+  <line x1="175" y1="90" x2="750" y2="90" stroke="#eee" stroke-width="1" stroke-dasharray="4"/>
+  <text x="170" y="205" text-anchor="end" font-size="11" fill="#888">20%</text>
+  <line x1="175" y1="200" x2="750" y2="200" stroke="#eee" stroke-width="1" stroke-dasharray="4"/>
+  <text x="170" y="315" text-anchor="end" font-size="11" fill="#888">10%</text>
+  <line x1="175" y1="310" x2="750" y2="310" stroke="#eee" stroke-width="1" stroke-dasharray="4"/>
+  <text x="170" y="425" text-anchor="end" font-size="11" fill="#888">0%</text>
+  
+  <!-- Bar 1: Single-Storey Rear -->
+  <rect x="210" y="255" width="80" height="165" fill="#c4a882" rx="4"/>
+  <rect x="210" y="200" width="80" height="55" fill="#c4a882" opacity="0.4" rx="4" ry="0"/>
+  <text x="250" y="290" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">15%</text>
+  <text x="250" y="310" text-anchor="middle" font-size="10" fill="#fff">5-15%</text>
+  <text x="250" y="445" text-anchor="middle" font-size="10" fill="#555">Single-Storey</text>
+  <text x="250" y="458" text-anchor="middle" font-size="10" fill="#555">Rear</text>
+  
+  <!-- Bar 2: Double-Storey -->
+  <rect x="310" y="200" width="80" height="220" fill="#8b7355" rx="4"/>
+  <rect x="310" y="145" width="80" height="55" fill="#8b7355" opacity="0.4" rx="4" ry="0"/>
+  <text x="350" y="240" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">20%</text>
+  <text x="350" y="260" text-anchor="middle" font-size="10" fill="#fff">15-20%</text>
+  <text x="350" y="445" text-anchor="middle" font-size="10" fill="#555">Double-</text>
+  <text x="350" y="458" text-anchor="middle" font-size="10" fill="#555">Storey</text>
+  
+  <!-- Bar 3: Side Return -->
+  <rect x="410" y="310" width="80" height="110" fill="#d4c5a9" rx="4"/>
+  <rect x="410" y="275" width="80" height="35" fill="#d4c5a9" opacity="0.4" rx="4" ry="0"/>
+  <text x="450" y="345" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">10%</text>
+  <text x="450" y="365" text-anchor="middle" font-size="10" fill="#fff">5-10%</text>
+  <text x="450" y="445" text-anchor="middle" font-size="10" fill="#555">Side</text>
+  <text x="450" y="458" text-anchor="middle" font-size="10" fill="#555">Return</text>
+  
+  <!-- Bar 4: Loft Conversion (highlighted) -->
+  <rect x="510" y="145" width="80" height="275" fill="#2d5a3d" rx="4"/>
+  <rect x="510" y="90" width="80" height="55" fill="#2d5a3d" opacity="0.4" rx="4" ry="0"/>
+  <text x="550" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">25%</text>
+  <text x="550" y="205" text-anchor="middle" font-size="10" fill="#fff">15-25%</text>
+  <text x="550" y="445" text-anchor="middle" font-size="10" fill="#2d5a3d" font-weight="700">Loft</text>
+  <text x="550" y="458" text-anchor="middle" font-size="10" fill="#2d5a3d" font-weight="700">Conversion ★</text>
+  
+  <!-- Bar 5: Basement -->
+  <rect x="610" y="110" width="80" height="310" fill="#3d3d3d" rx="4"/>
+  <rect x="610" y="55" width="80" height="55" fill="#3d3d3d" opacity="0.4" rx="4" ry="0"/>
+  <text x="650" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">30%</text>
+  <text x="650" y="170" text-anchor="middle" font-size="10" fill="#fff">15-30%+</text>
+  <text x="650" y="445" text-anchor="middle" font-size="10" fill="#555">Basement</text>
+  <text x="650" y="458" text-anchor="middle" font-size="10" fill="#555">Conversion</text>
+  
+  <!-- Legend -->
+  <rect x="220" y="475" width="14" height="14" fill="#2d5a3d" rx="2"/>
+  <text x="240" y="487" font-size="11" fill="#555">Solid = typical value added</text>
+  <rect x="420" y="475" width="14" height="14" fill="#2d5a3d" opacity="0.4" rx="2"/>
+  <text x="440" y="487" font-size="11" fill="#555">Faded = upper range in prime locations</text>
+  
+  <!-- Source -->
+  <text x="400" y="498" text-anchor="middle" font-size="9" fill="#aaa">Sources: Nationwide Building Society, Property Investor Today, RICS | bhstudio.co.uk</text>
+</svg>

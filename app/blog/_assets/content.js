@@ -9,6 +9,7 @@ import kitchenCostGuide2025Img from "/public/assets/portfolio/kitchen-lawrence-e
 import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-5.webp";
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import Link from "next/link";
+import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -204,6 +205,24 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "house-extension-value-london-guide",
+    title: "How much value does a house extension add in London? (2025 guide)",
+    description:
+      "Data-backed London guide on extension value uplift, real cost ranges, ROI, planning routes and design decisions for homeowners in 2025.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-02",
+    image: {
+      src: extensionGuide2025Img,
+      urlRelative: "/assets/img/extension/double-storey-extension.webp",
+      alt: "London house extension value and cost guide",
+    },
+    content: <HouseExtensionValueArticle />,
+  },
   {
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "permitted-development-guide",
