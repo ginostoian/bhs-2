@@ -207,9 +207,9 @@ const styles = {
 export const articles = [
   {
     slug: "house-extension-value-london-guide",
-    title: "How much value does a house extension add in London? (2025 guide)",
+    title: "How much value does a house extension add in London? (2026 guide)",
     description:
-      "Data-backed London guide on extension value uplift, real cost ranges, ROI, planning routes and design decisions for homeowners in 2025.",
+      "Data-backed London guide on extension value uplift, real cost ranges, ROI, planning routes and design decisions for homeowners in 2026.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
       categories.find((category) => category.slug === categorySlugs.fullHome),

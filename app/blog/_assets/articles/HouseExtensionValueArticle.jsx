@@ -23,8 +23,8 @@ const styles = {
 
 /*
   SEO META (for your Next.js head/metadata):
-  Title: How Much Value Does a House Extension Add? | 2025 Guide
-  Meta Description: Discover how much value a house extension, loft conversion, or basement conversion adds to your London property. Data-backed guide with costs, ROI, and expert tips for 2025.
+  Title: How Much Value Does a House Extension Add? | 2026 Guide
+  Meta Description: Discover how much value a house extension, loft conversion, or basement conversion adds to your London property. Data-backed guide with costs, ROI, and expert tips for 2026.
   Primary Keywords: house extension, home extension, loft conversion
   Secondary Keywords: property value increase extension, extension ROI London, 
   side return extension value, double storey extension cost, permitted development London,
@@ -143,7 +143,7 @@ export default function HouseExtensionValueArticle() {
         If you own a home in London, you have almost certainly asked yourself: is it worth extending, or should I simply move? With the average cost of moving in the capital now exceeding £25,000 once you factor in stamp duty, legal fees, and estate agent commissions, more homeowners than ever are choosing to invest in a house extension instead. The numbers make a compelling case. A well-designed home extension can add between 10% and 25% to the value of your property, and in certain London boroughs that translates to a six-figure uplift.
       </p>
       <p className={styles.p}>
-        But not all extensions are created equal. The type of project you choose, the quality of the design, and even the borough you live in will dramatically affect your return. This guide breaks down exactly how much value a house extension, loft conversion, or basement conversion can add to a London property in 2025. We will walk you through real cost-versus-value data, explain which extension types deliver the strongest ROI, and share the design strategies that separate a profitable extension from an expensive mistake. Whether you are weighing up a modest side return or a full double-storey build, this is everything you need to make a confident, informed decision.
+        But not all extensions are created equal. The type of project you choose, the quality of the design, and even the borough you live in will dramatically affect your return. This guide breaks down exactly how much value a house extension, loft conversion, or basement conversion can add to a London property in 2026. We will walk you through real cost-versus-value data, explain which extension types deliver the strongest ROI, and share the design strategies that separate a profitable extension from an expensive mistake. Whether you are weighing up a modest side return or a full double-storey build, this is everything you need to make a confident, informed decision.
       </p>
 
       {/* ===================== SECTION 1 ===================== */}
@@ -179,7 +179,7 @@ export default function HouseExtensionValueArticle() {
         Extension Types Compared: Value Added at a Glance
       </h2>
       <p className={styles.p}>
-        Not every extension will add the same proportion of value, and the right choice for your property depends on its existing layout, location, and the local market. Here is a summary of how the main extension types compare for London properties in 2025. A single-storey rear extension typically adds 5% to 15% to property value. A double-storey extension can deliver 15% to 20%. Side return extensions, while smaller in footprint, tend to punch above their weight at 5% to 10% because they transform otherwise wasted space. Loft conversions consistently rank as one of the highest-ROI projects, adding 15% to 25%. Basement conversions, though more expensive, can add 15% to 30% or more in prime locations where the value per square metre is at its highest.
+        Not every extension will add the same proportion of value, and the right choice for your property depends on its existing layout, location, and the local market. Here is a summary of how the main extension types compare for London properties in 2026. A single-storey rear extension typically adds 5% to 15% to property value. A double-storey extension can deliver 15% to 20%. Side return extensions, while smaller in footprint, tend to punch above their weight at 5% to 10% because they transform otherwise wasted space. Loft conversions consistently rank as one of the highest-ROI projects, adding 15% to 25%. Basement conversions, though more expensive, can add 15% to 30% or more in prime locations where the value per square metre is at its highest.
       </p>
       <p className={styles.p}>
         The standout insight from the data is that extensions which add bedrooms and bathrooms tend to deliver stronger percentage returns than those which simply enlarge existing living areas. Estate agents value properties heavily on bedroom and bathroom counts, and additional rooms with distinct functions give buyers more reasons to pay a premium. This does not mean that a beautiful open-plan kitchen-diner is a bad investment. It absolutely is not, particularly in family-oriented London neighbourhoods. But if you are purely optimising for resale value, prioritising bedroom and bathroom additions will typically give you the strongest financial outcome.
@@ -202,7 +202,7 @@ export default function HouseExtensionValueArticle() {
         Single-Storey Rear Extensions
       </h3>
       <p className={styles.p}>
-        The single-storey rear extension is the workhorse of London home improvement. It is the most common type of extension in the capital, and for good reason. It is relatively straightforward to build, often falls within permitted development rights, and can dramatically improve the way a family uses their ground floor. In 2025, London homeowners should expect to budget between £2,000 and £3,500 per square metre for a quality single-storey rear extension, with a typical 25 to 30 square metre project coming in at £60,000 to £105,000 including professional fees.
+        The single-storey rear extension is the workhorse of London home improvement. It is the most common type of extension in the capital, and for good reason. It is relatively straightforward to build, often falls within permitted development rights, and can dramatically improve the way a family uses their ground floor. In 2026, London homeowners should expect to budget between £2,000 and £3,500 per square metre for a quality single-storey rear extension, with a typical 25 to 30 square metre project coming in at £60,000 to £105,000 including professional fees.
       </p>
       <p className={styles.p}>
         The value a rear extension adds depends heavily on how it is designed. A simple box extension that adds a few square metres to the kitchen will add modest value. But a thoughtfully designed extension that incorporates bi-fold or sliding doors opening onto the garden, rooflights flooding the space with natural light, and a seamless open-plan layout connecting kitchen, dining, and living areas can transform a property's appeal. This kind of design-led approach is where working with an experienced architect makes a measurable financial difference. Properties with architecturally considered extensions regularly achieve higher valuations than those with builder-led, off-the-shelf designs.
@@ -289,7 +289,7 @@ export default function HouseExtensionValueArticle() {
         Cost vs Value: What London Homeowners Should Budget
       </h2>
       <p className={styles.p}>
-        Understanding the true cost of an extension in London is essential for making a sound investment decision. In 2025, the average build cost for a house extension in the capital falls between £2,000 and £3,500 per square metre, depending on the specification and complexity. This places a standard 30 square metre single-storey extension at roughly £60,000 to £105,000 before professional fees, VAT, and finishes. London costs are typically 10% to 25% higher than the national average, driven by elevated labour rates, constrained site access in dense urban areas, and higher material delivery costs.
+        Understanding the true cost of an extension in London is essential for making a sound investment decision. In 2026, the average build cost for a house extension in the capital falls between £2,000 and £3,500 per square metre, depending on the specification and complexity. This places a standard 30 square metre single-storey extension at roughly £60,000 to £105,000 before professional fees, VAT, and finishes. London costs are typically 10% to 25% higher than the national average, driven by elevated labour rates, constrained site access in dense urban areas, and higher material delivery costs.
       </p>
       <p className={styles.p}>
         Professional fees are a significant but essential line item. Architect fees typically run between 5% and 12% of the construction cost, structural engineer fees range from £500 to £2,000, and planning application fees are £258 for a standard householder application. Party wall surveyor fees, if required, can add £1,500 to £3,000 per adjoining neighbour. The critical budget discipline is to include a contingency fund of 10% to 15% of the total build cost to cover unexpected issues, which are particularly common in older London properties where hidden structural challenges may emerge once work begins.
@@ -383,7 +383,7 @@ export default function HouseExtensionValueArticle() {
         Financing Your Home Extension
       </h2>
       <p className={styles.p}>
-        For most London homeowners, a major extension represents a significant financial commitment, and choosing the right funding strategy can make a meaningful difference to the overall cost and feasibility of the project. The most common option is remortgaging to release equity from the property. Data from the LMS Monthly Remortgage Snapshot showed that in early 2025, 47% of people who remortgaged increased their loan size, with an average equity release of just over £20,000. For larger extension projects, releasing equity through a remortgage typically offers the most competitive interest rates because the borrowing is secured against the property.
+        For most London homeowners, a major extension represents a significant financial commitment, and choosing the right funding strategy can make a meaningful difference to the overall cost and feasibility of the project. The most common option is remortgaging to release equity from the property. Data from the LMS Monthly Remortgage Snapshot showed that in early 2026, 47% of people who remortgaged increased their loan size, with an average equity release of just over £20,000. For larger extension projects, releasing equity through a remortgage typically offers the most competitive interest rates because the borrowing is secured against the property.
       </p>
       <p className={styles.p}>
         Alternatively, a specialist home improvement loan or bridging loan may be appropriate for homeowners who do not wish to disrupt an existing favourable mortgage deal. Some lenders offer staged drawdown facilities specifically designed for construction projects, releasing funds at agreed milestones as the work progresses. This approach aligns your borrowing with actual expenditure and avoids paying interest on the full loan amount before it is needed. Whichever route you choose, it is worth speaking to an independent mortgage advisor who can assess your options across the whole market and help you structure the financing in the most cost-effective way.
@@ -441,7 +441,7 @@ export default function HouseExtensionValueArticle() {
       </p>
 
       <h3 className={styles.h3}>
-        How much does a loft conversion cost in London in 2025?
+        How much does a loft conversion cost in London in 2026?
       </h3>
       <p className={styles.p}>
         Loft conversion costs in London typically range from £50,000 to £90,000 excluding VAT and professional fees, depending on the size and type of conversion. A basic Velux conversion may start at around £30,000 to £40,000, while a full dormer conversion usually falls between £50,000 and £70,000. Mansard conversions, which are more complex, can cost £70,000 to £100,000 or more. Inner London boroughs tend to have higher build costs due to access constraints and elevated labour rates.
@@ -513,7 +513,7 @@ export default function HouseExtensionValueArticle() {
         </li>
         <li className={styles.refItem}>
           HomeOwners Alliance and Federation of Master Builders — "House
-          Extension Costs" guide (2025). Comprehensive breakdown of extension
+          Extension Costs" guide (2026). Comprehensive breakdown of extension
           costs by type and region, including London-specific pricing data and
           guidance on finding vetted builders.{" "}
           <a
@@ -543,7 +543,7 @@ export default function HouseExtensionValueArticle() {
         </li>
         <li className={styles.refItem}>
           Property Investor Today — "Maximizing ROI on London Loft Conversions"
-          (May 2025). Analysis of loft conversion returns across inner and outer
+          (May 2026). Analysis of loft conversion returns across inner and outer
           London boroughs, with case studies and cost-versus-value breakdowns.{" "}
           <a
             href="https://www.propertyinvestortoday.co.uk/"
