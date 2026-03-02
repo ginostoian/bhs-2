@@ -106,6 +106,40 @@ Create dedicated server-side rendered location pages for London service areas, s
 - Trust-first copy and clear process framing improve conversion quality for higher-value homeowner leads.
 - Contact CTA retains location context via query parameter, supporting sales workflow continuity.
 
+## Social Proof Enhancement (Added After Initial Rollout)
+
+### What was added
+- Enhanced each location page with a dedicated social proof section:
+  - Proof-point cards focused on trust and risk reduction.
+  - Rotating client testimonial cards sourced from existing review/testimonial content.
+  - Source links to review references (Houzz and on-site testimonial section).
+
+### Why this matters
+- Strengthens conversion intent for high-consideration homeowners.
+- Reinforces credibility near service descriptions and CTAs.
+- Adds local relevance through trustworthy evidence before enquiry.
+
+### Technical implementation
+- Updated:
+  - `app/locations/[slug]/page.js`
+  - `app/locations/[slug]/page.module.css`
+- Added testimonial selection logic:
+  - Stable per-location rotation (based on slug hash) so pages are differentiated while remaining deterministic.
+- Expanded local schema:
+  - Injected `Review` objects in the location page business schema graph using selected social proof testimonials.
+
+## Rendering Strategy Update (SEO Optimization)
+
+- Updated location pages from request-time SSR to static generation with prebuilt params.
+- Implemented in `app/locations/[slug]/page.js`:
+  - `generateStaticParams()` for all London location slugs.
+  - `dynamicParams = false` for strict known-route generation.
+  - `revalidate = 86400` for daily ISR refresh.
+- Outcome:
+  - Faster first crawl/render response for Googlebot.
+  - Stable HTML output per location URL.
+  - Continued indexability with canonical tags and sitemap inclusion.
+
 ## Files Added
 - `libs/london-locations.json`
 - `libs/locations.js`
@@ -119,3 +153,5 @@ Create dedicated server-side rendered location pages for London service areas, s
 - `components/WhereWeWork.js`
 - `next-sitemap.config.js`
 - `public/sitemap-0.xml`
+- `app/locations/[slug]/page.js`
+- `app/locations/[slug]/page.module.css`

@@ -101,6 +101,12 @@
   gap: 1rem;
 }
 
+.proofGrid {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
 .infoCard,
 .serviceCard,
 .stepCard {
@@ -125,10 +131,64 @@
   margin: 0;
 }
 
+.proofCard {
+  background: #f7faff;
+  border: 1px solid #d7e4fb;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+
+.proofCard h3 {
+  color: var(--text-primary);
+  margin: 0 0 0.45rem 0;
+}
+
+.proofCard p {
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
 .serviceCard a {
   display: inline-block;
   font-weight: 700;
   margin-top: 0.9rem;
+}
+
+.testimonialGrid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.quoteCard {
+  background: #ffffff;
+  border: 1px solid #d7e4fb;
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+}
+
+.quoteText {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0;
+}
+
+.quoteMeta {
+  align-items: center;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+  margin-top: 0.9rem;
+}
+
+.quoteMeta strong {
+  color: var(--text-primary);
+}
+
+.quoteMeta a {
+  color: #266bf1;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .stepNumber {
@@ -208,6 +268,14 @@
 @media (min-width: 900px) {
   .trustGrid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .proofGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .testimonialGrid {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
   .serviceGrid {

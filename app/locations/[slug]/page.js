@@ -4,13 +4,15 @@ import { notFound } from "next/navigation";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 import {
+  LONDON_LOCATIONS,
   getAreaContext,
   getLocationBySlug,
   getNearbyLocations,
 } from "@/libs/locations";
 import classes from "./page.module.css";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+export const revalidate = 86400;
 
 const siteUrl = `https://${config.domainName}`;
 const businessId = `${siteUrl}/#better-homes-studio`;
@@ -31,6 +33,63 @@ const trustHighlights = [
   {
     title: "Single accountable team",
     text: "From design coordination to handover, you deal with one team responsible for programme, quality, and communication.",
+  },
+];
+
+const socialProofTestimonials = [
+  {
+    name: "Louise Thorogood",
+    quote:
+      "I could not recommend them more highly. The whole process was streamlined and efficient, with a detailed quote and a very high standard of work.",
+    sourceLabel: "Houzz Review",
+    sourceUrl: "https://www.houzz.co.uk/viewReview/1802745/better-homes-studio-review",
+  },
+  {
+    name: "George G",
+    quote:
+      "After comparing loft conversion companies in North East London, we chose Better Homes Studio. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
+    sourceLabel: "Houzz Review",
+    sourceUrl: "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",
+  },
+  {
+    name: "Shyra Muthusamy",
+    quote:
+      "The quality of workmanship is extremely high and they translated loose ideas into reality with excellent attention to detail.",
+    sourceLabel: "Houzz Review",
+    sourceUrl: "https://www.houzz.co.uk/viewReview/1863607/better-homes-studio-review",
+  },
+  {
+    name: "Jack Robertson",
+    quote:
+      "Better Homes did a fantastic job with our full renovation in Chingford. Project management and craftsmanship were excellent throughout.",
+    sourceLabel: "Client Testimonial",
+    sourceUrl: "/#testimonials",
+  },
+  {
+    name: "Alice Buchanan",
+    quote:
+      "We had our kitchen redone and could not be happier. The team delivered on time and to a high standard from start to finish.",
+    sourceLabel: "Client Testimonial",
+    sourceUrl: "/#testimonials",
+  },
+];
+
+const socialProofPoints = [
+  {
+    title: "500+ satisfied homeowners",
+    text: "A proven record of successful London renovation projects across kitchens, lofts, extensions, and full-home refurbishments.",
+  },
+  {
+    title: "Up to 10 years workmanship guarantee",
+    text: "Long-term protection and clear aftercare standards on qualifying works for added peace of mind.",
+  },
+  {
+    title: "Insurance cover up to £10M",
+    text: "Comprehensive project insurance and professional risk controls for high-value properties.",
+  },
+  {
+    title: "Best of Houzz service recognition",
+    text: "Consistent client feedback quality reflected in industry-recognised customer service awards.",
   },
 ];
 
@@ -80,6 +139,19 @@ const buildSteps = [
   },
 ];
 
+const stableHash = (value) =>
+  [...value].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+const pickTestimonialsForLocation = (slug, count = 3) => {
+  if (socialProofTestimonials.length === 0) return [];
+  const start = stableHash(slug) % socialProofTestimonials.length;
+
+  return Array.from({ length: count }, (_, index) => {
+    const pointer = (start + index) % socialProofTestimonials.length;
+    return socialProofTestimonials[pointer];
+  });
+};
+
 const createFaqs = (location) => [
   {
     question: `Do you handle premium house extensions in ${location.name}?`,
@@ -103,7 +175,13 @@ const createFaqs = (location) => [
   },
 ];
 
-const buildLocationSchema = (location, faqItems) => {
+export function generateStaticParams() {
+  return LONDON_LOCATIONS.map((location) => ({
+    slug: location.slug,
+  }));
+}
+
+const buildLocationSchema = (location, faqItems, selectedTestimonials) => {
   const pageUrl = `${siteUrl}/locations/${location.slug}`;
 
   return {
@@ -132,6 +210,17 @@ const buildLocationSchema = (location, faqItems) => {
             addressCountry: "GB",
           },
         ],
+        review: selectedTestimonials.map((testimonial) => ({
+          "@type": "Review",
+          author: {
+            "@type": "Person",
+            name: testimonial.name,
+          },
+          reviewBody: testimonial.quote,
+          url: testimonial.sourceUrl.startsWith("http")
+            ? testimonial.sourceUrl
+            : `${siteUrl}${testimonial.sourceUrl}`,
+        })),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: `Home Renovation Services in ${location.name}`,
@@ -283,8 +372,13 @@ export default function LocationPage({ params }) {
   if (!location) notFound();
 
   const nearbyLocations = getNearbyLocations(location.slug);
+  const selectedTestimonials = pickTestimonialsForLocation(location.slug);
   const faqItems = createFaqs(location);
-  const locationSchema = buildLocationSchema(location, faqItems);
+  const locationSchema = buildLocationSchema(
+    location,
+    faqItems,
+    selectedTestimonials
+  );
   const contactUrl = `/contact?location=${encodeURIComponent(location.name)}`;
 
   return (
@@ -334,6 +428,49 @@ export default function LocationPage({ params }) {
                 <p>{item.text}</p>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={classes.section}>
+        <div className="container">
+          <h2 className={classes.sectionTitle}>
+            Social Proof for Homeowners in {location.name}
+          </h2>
+          <p className={classes.sectionIntro}>
+            Homeowners in {location.name} typically choose us for one reason:
+            predictable delivery with a high-quality finish. These proof points
+            and client comments reflect how we operate in practice.
+          </p>
+          <div className={classes.proofGrid}>
+            {socialProofPoints.map((point) => (
+              <article key={point.title} className={classes.proofCard}>
+                <h3>{point.title}</h3>
+                <p>{point.text}</p>
+              </article>
+            ))}
+          </div>
+          <div className={classes.testimonialGrid}>
+            {selectedTestimonials.map((testimonial) => {
+              const isExternal = testimonial.sourceUrl.startsWith("http");
+              const reviewUrl = testimonial.sourceUrl;
+
+              return (
+                <article key={testimonial.name} className={classes.quoteCard}>
+                  <p className={classes.quoteText}>&ldquo;{testimonial.quote}&rdquo;</p>
+                  <div className={classes.quoteMeta}>
+                    <strong>{testimonial.name}</strong>
+                    <a
+                      href={reviewUrl}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                    >
+                      {testimonial.sourceLabel}
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
