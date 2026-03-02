@@ -1,0 +1,220 @@
+.page {
+  margin: 2rem auto;
+  max-width: 85%;
+}
+
+.hero {
+  background: linear-gradient(145deg, #ffffff, #f5faff);
+  border: 1px solid #d7e4fb;
+  border-radius: 20px;
+  padding: 2.75rem 0;
+}
+
+.breadcrumb {
+  align-items: center;
+  color: #5f6d87;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  font-weight: 600;
+  gap: 0.55rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+  line-height: 1.1;
+  margin: 0 0 1.2rem 0;
+  max-width: 950px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin: 0 0 1rem 0;
+  max-width: 900px;
+}
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.primaryCta,
+.secondaryCta {
+  border-radius: 10px;
+  display: inline-block;
+  font-weight: 700;
+  padding: 0.85rem 1.2rem;
+  transition: all 180ms ease;
+}
+
+.primaryCta {
+  background-color: #266bf1;
+  border: 1px solid #266bf1;
+  color: #ffffff;
+}
+
+.primaryCta:hover {
+  background-color: #1f58c8;
+  border-color: #1f58c8;
+  color: #ffffff;
+}
+
+.secondaryCta {
+  background-color: #ffffff;
+  border: 1px solid #bfd3f9;
+  color: var(--text-primary);
+}
+
+.secondaryCta:hover {
+  border-color: #266bf1;
+  color: #266bf1;
+}
+
+.section {
+  margin-top: 1.35rem;
+}
+
+.sectionTitle {
+  color: var(--text-primary);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.2;
+  margin: 0 0 1rem 0;
+}
+
+.sectionIntro {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 0 0 1.2rem 0;
+  max-width: 920px;
+}
+
+.trustGrid,
+.serviceGrid,
+.stepsGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.infoCard,
+.serviceCard,
+.stepCard {
+  background: #ffffff;
+  border: 1px solid #d7e4fb;
+  border-radius: 14px;
+  padding: 1.2rem;
+}
+
+.infoCard h3,
+.serviceCard h3,
+.stepCard h3 {
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.infoCard p,
+.serviceCard p,
+.stepCard p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.serviceCard a {
+  display: inline-block;
+  font-weight: 700;
+  margin-top: 0.9rem;
+}
+
+.stepNumber {
+  color: #266bf1;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 0.45rem;
+}
+
+.faqList {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.faqItem {
+  background: #ffffff;
+  border: 1px solid #d7e4fb;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.faqItem summary {
+  color: var(--text-primary);
+  cursor: pointer;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.faqItem p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0.8rem 0 0 0;
+}
+
+.bottomCta {
+  background: linear-gradient(140deg, #f4f8ff, #ebf3ff);
+  border: 1px solid #c9dcfb;
+  border-radius: 16px;
+  padding: 1.6rem;
+}
+
+.bottomCta h2 {
+  color: var(--text-primary);
+  margin: 0 0 0.6rem 0;
+}
+
+.bottomCta p {
+  color: var(--text-secondary);
+  line-height: 1.75;
+  margin: 0 0 1rem 0;
+  max-width: 880px;
+}
+
+.nearbyGrid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+}
+
+.nearbyLink {
+  background-color: #ffffff;
+  border: 1px solid #d7e4fb;
+  border-radius: 10px;
+  color: var(--text-primary);
+  display: block;
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: center;
+  transition: all 180ms ease;
+}
+
+.nearbyLink:hover {
+  border-color: #266bf1;
+  color: #266bf1;
+}
+
+@media (min-width: 900px) {
+  .trustGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .serviceGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

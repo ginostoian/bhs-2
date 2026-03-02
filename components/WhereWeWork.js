@@ -1,67 +1,13 @@
-"use client";
-
 import Link from "next/link";
 import classes from "./WhereWeWork.module.css";
+import { getGroupedLocations, LONDON_LOCATIONS } from "@/libs/locations";
 
 const WhereWeWork = () => {
-  const locations = [
-    // North East London
-    { name: "Woodford", area: "North East London" },
-    { name: "South Woodford", area: "North East London" },
-    { name: "Chigwell", area: "North East London" },
-    { name: "Loughton", area: "North East London" },
-    { name: "Theydon Bois", area: "North East London" },
-    { name: "Chingford", area: "North East London" },
-    { name: "Walthamstow", area: "North East London" },
-    { name: "Edmonton", area: "North East London" },
-    { name: "Enfield", area: "North East London" },
-    { name: "Wood Green", area: "North East London" },
-
-    // East London
-    { name: "Leyton", area: "East London" },
-    { name: "Leytonstone", area: "East London" },
-    { name: "Stratford", area: "East London" },
-    { name: "Poplar", area: "East London" },
-    { name: "Canary Wharf", area: "East London" },
-    { name: "Rotherhithe", area: "East London" },
-    { name: "Whitechapel", area: "East London" },
-
-    // South London
-    { name: "Southwark", area: "South London" },
-    { name: "Lambeth", area: "South London" },
-    { name: "South Bank", area: "South London" },
-
-    // Central London
-    { name: "Westminster", area: "Central London" },
-    { name: "Kensington", area: "Central London" },
-    { name: "Chelsea", area: "Central London" },
-    { name: "Mayfair", area: "Central London" },
-    { name: "Soho", area: "Central London" },
-    { name: "City of London", area: "Central London" },
-    { name: "Paddington", area: "Central London" },
-    { name: "Notting Hill", area: "Central London" },
-    { name: "Camden Town", area: "Central London" },
-    { name: "Islington", area: "Central London" },
-    { name: "Dalston", area: "Central London" },
-    { name: "Hackney", area: "Central London" },
-    { name: "Hampstead", area: "Central London" },
-    { name: "Marylebone", area: "Central London" },
-    { name: "Finsbury Park", area: "Central London" },
-    { name: "Alexandra Park", area: "Central London" },
-    { name: "Barnet", area: "Central London" },
-  ];
-
-  // Group locations by area
-  const groupedLocations = locations.reduce((acc, location) => {
-    if (!acc[location.area]) {
-      acc[location.area] = [];
-    }
-    acc[location.area].push(location.name);
-    return acc;
-  }, {});
+  const groupedLocations = getGroupedLocations();
+  const baseUrl = "https://bhstudio.co.uk";
 
   return (
-    <section className={classes["where-we-work"]}>
+    <section id="where-we-work" className={classes["where-we-work"]}>
       <div className="container">
         <div className={classes["where-we-work__header"]}>
           <h2 className={classes["where-we-work__title"]}>Where We Work</h2>
@@ -94,11 +40,11 @@ const WhereWeWork = () => {
                 <div className={classes["area-group__locations"]}>
                   {areaLocations.map((location) => (
                     <Link
-                      key={location}
-                      href={`/contact?location=${encodeURIComponent(location)}`}
+                      key={location.slug}
+                      href={`/locations/${location.slug}`}
                       className={classes["location-link"]}
                     >
-                      {location}
+                      {location.name}
                     </Link>
                   ))}
                 </div>
@@ -134,11 +80,15 @@ const WhereWeWork = () => {
               addressLocality: "London",
               addressCountry: "GB",
             },
-            areaServed: locations.map((location) => ({
-              "@type": "City",
+            areaServed: LONDON_LOCATIONS.map((location) => ({
+              "@type": "Place",
               name: location.name,
-              addressRegion: "London",
-              addressCountry: "GB",
+              url: `${baseUrl}/locations/${location.slug}`,
+              containedInPlace: {
+                "@type": "AdministrativeArea",
+                name: location.area,
+                addressCountry: "GB",
+              },
             })),
             serviceArea: {
               "@type": "GeoCircle",
