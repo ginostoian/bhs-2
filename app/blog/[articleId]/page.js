@@ -1,80 +1,170 @@
 import Link from "next/link";
 import Script from "next/script";
+import { notFound } from "next/navigation";
+
+import config from "@/config";
+import { getSEOTags } from "@/libs/seo";
 import { articles } from "../_assets/content";
 import BadgeCategory from "../_assets/components/BadgeCategory";
 import Avatar from "../_assets/components/Avatar";
-import { getSEOTags } from "@/libs/seo";
-import config from "@/config";
 
-export async function generateMetadata({ params }) {
-  const article = articles.find((article) => article.slug === params.articleId);
+export const dynamic = "force-static";
+export const dynamicParams = false;
+export const revalidate = 86400;
+
+const siteUrl = `https://${config.domainName}`;
+
+const socialProofTestimonials = [
+  {
+    name: "Louise Thorogood",
+    quote:
+      "The whole process was streamlined and efficient, with a detailed quote and a very high standard of work.",
+    sourceLabel: "Houzz Review",
+    sourceUrl:
+      "https://www.houzz.co.uk/viewReview/1802745/better-homes-studio-review",
+  },
+  {
+    name: "Shyra Muthusamy",
+    quote:
+      "The quality of workmanship is extremely high and they translated loose ideas into reality with excellent attention to detail.",
+    sourceLabel: "Houzz Review",
+    sourceUrl:
+      "https://www.houzz.co.uk/viewReview/1863607/better-homes-studio-review",
+  },
+];
+
+const formatDate = (value) =>
+  new Date(value).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+const buildArticleSchema = (article) => {
+  const pageUrl = `${siteUrl}/blog/${article.slug}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${pageUrl}#article`,
+        mainEntityOfPage: pageUrl,
+        headline: article.title,
+        name: article.title,
+        description: article.description,
+        image: [`${siteUrl}${article.image.urlRelative}`],
+        datePublished: article.publishedAt,
+        dateModified: article.publishedAt,
+        articleSection: article.categories.map((category) => category.title).join(", "),
+        author: {
+          "@type": "Person",
+          name: article.author.name,
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "Better Homes Studio",
+          url: siteUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Blog",
+            item: `${siteUrl}/blog`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: article.title,
+            item: pageUrl,
+          },
+        ],
+      },
+    ],
+  };
+};
+
+export function generateStaticParams() {
+  return articles.map((article) => ({
+    articleId: article.slug,
+  }));
+}
+
+export function generateMetadata({ params }) {
+  const article = articles.find((item) => item.slug === params.articleId);
+
+  if (!article) {
+    return getSEOTags({
+      title: `${config.appName} Blog`,
+      description:
+        "Practical, London-focused guidance for homeowners planning extensions, loft conversions and full renovations.",
+      canonicalUrlRelative: "/blog",
+    });
+  }
 
   return getSEOTags({
     title: article.title,
     description: article.description,
     canonicalUrlRelative: `/blog/${article.slug}`,
-    extraTags: {
-      openGraph: {
-        title: article.title,
-        description: article.description,
-        url: `/blog/${article.slug}`,
-        images: [
-          {
-            url: article.image.urlRelative,
-            width: 1200,
-            height: 660,
-          },
-        ],
-        locale: "en_GB",
-        type: "website",
-      },
+    openGraph: {
+      title: article.title,
+      description: article.description,
+      url: `${siteUrl}/blog/${article.slug}`,
+      images: [
+        {
+          url: article.image.urlRelative,
+          width: 1200,
+          height: 660,
+        },
+      ],
     },
+    keywords: [
+      article.title,
+      "London house extension advice",
+      "London loft conversion guide",
+      "home renovation planning UK",
+    ],
   });
 }
 
-export default async function Article({ params }) {
-  const article = articles.find((article) => article.slug === params.articleId);
-  const articlesRelated = articles
+export default function ArticlePage({ params }) {
+  const article = articles.find((item) => item.slug === params.articleId);
+
+  if (!article) {
+    notFound();
+  }
+
+  const categorySlugs = article.categories.map((category) => category.slug);
+  const relatedArticles = articles
     .filter(
-      (a) =>
-        a.slug !== params.articleId &&
-        a.categories.some((c) =>
-          article.categories.map((c) => c.slug).includes(c.slug),
-        ),
+      (candidate) =>
+        candidate.slug !== article.slug &&
+        candidate.categories.some((category) => categorySlugs.includes(category.slug)),
     )
     .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
     .slice(0, 3);
 
+  const trustSignals = [
+    "Written for London homeowners planning serious renovation works",
+    "Focused on budget protection, quality outcomes and practical delivery",
+    "Aligned with extension, loft conversion and full-home renovation decisions",
+  ];
+
+  const articleSchema = buildArticleSchema(article);
+
   return (
     <>
-      {/* SCHEMA JSON-LD MARKUP FOR GOOGLE */}
       <Script
         type="application/ld+json"
         id={`json-ld-article-${article.slug}`}
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": `https://${config.domainName}/blog/${article.slug}`,
-            },
-            name: article.title,
-            headline: article.title,
-            description: article.description,
-            image: `https://${config.domainName}${article.image.urlRelative}`,
-            datePublished: article.publishedAt,
-            dateModified: article.publishedAt,
-            author: {
-              "@type": "Person",
-              name: article.author.name,
-            },
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      {/* GO BACK LINK */}
-      <div className="mx-auto mb-4 max-w-[90%]">
+      <div className="mx-auto mb-4 max-w-[92%]">
         <Link
           href="/blog"
           className="group inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-base-content/70 transition-all duration-200 hover:bg-base-200/50 hover:text-base-content"
@@ -92,209 +182,179 @@ export default async function Article({ params }) {
               clipRule="evenodd"
             />
           </svg>
-          Back to articles
+          Back to all guides
         </Link>
       </div>
 
-      <article className="mx-auto max-w-[90%]">
-        {/* HEADER WITH CATEGORIES AND DATE AND TITLE */}
-        <section className="relative my-16 max-w-[900px] md:my-24">
-          {/* Background decoration */}
-          <div className="absolute -left-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 blur-3xl"></div>
-          <div className="mb-8 flex flex-wrap items-center gap-4">
-            {article.categories.map((category) => (
-              <BadgeCategory
-                category={category}
-                key={category.slug}
-                extraStyle="!badge-lg !px-4 !py-2 !text-sm !font-medium"
-              />
-            ))}
-            <div className="flex items-center gap-2 text-base-content/70">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="h-4 w-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-sm font-medium" itemProp="datePublished">
-                {new Date(article.publishedAt).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+      <article className="mx-auto max-w-[92%]">
+        <section className="relative overflow-hidden rounded-3xl border border-[#d4e1fb] bg-gradient-to-br from-[#100b47] via-[#153f9f] to-[#266bf1] px-8 py-12 md:px-12 md:py-14">
+          <div className="pointer-events-none absolute -right-24 -top-16 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -left-14 bottom-0 h-64 w-64 rounded-full bg-cyan-300/20 blur-3xl" />
+
+          <div className="relative mx-auto max-w-5xl">
+            <div className="mb-6 flex flex-wrap items-center gap-3">
+              {article.categories.map((category) => (
+                <BadgeCategory category={category} key={category.slug} />
+              ))}
+              <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/85">
+                Updated {formatDate(article.publishedAt)}
               </span>
             </div>
-          </div>
 
-          <h1 className="mb-8 text-4xl font-extrabold leading-tight tracking-tight text-[#100b47] md:mb-10 md:text-5xl lg:text-6xl">
-            {article.title}
-          </h1>
-
-          <div className="relative">
-            <div className="absolute left-0 top-0 h-full w-1 rounded-full bg-gradient-to-b from-[#266bf1] to-[#7421fc]"></div>
-            <p className="ml-6 max-w-[750px] text-lg leading-relaxed text-base-content/80 md:text-xl">
+            <h1 className="max-w-4xl text-4xl font-black leading-tight text-white md:text-6xl">
+              {article.title}
+            </h1>
+            <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/90 md:text-lg">
               {article.description}
             </p>
+
+            <div className="mt-8 grid gap-3 md:grid-cols-3">
+              {trustSignals.map((signal) => (
+                <article
+                  key={signal}
+                  className="rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm leading-relaxed text-white/90 backdrop-blur-sm"
+                >
+                  {signal}
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
-        <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
-          {/* ARTICLE CONTENT */}
-          <section className="flex-1 space-y-8 md:space-y-12">
-            <div className="prose-lg prose-headings:text-[#100b47] prose-headings:font-extrabold prose-headings:tracking-tight prose-p:text-base-content/80 prose-p:leading-relaxed prose-a:text-[#266bf1] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#100b47] prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-[#266bf1] prose-blockquote:bg-base-200/50 prose-blockquote:pl-6 prose-blockquote:py-4 prose-blockquote:rounded-r-lg prose-ul:text-base-content/80 prose-ol:text-base-content/80 prose-li:text-base-content/80 prose max-w-none">
+        <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-12">
+          <section className="min-w-0 flex-1">
+            <div className="rounded-2xl border border-[#dde8fb] bg-[#f9fbff] p-6 md:p-7">
+              <h2 className="text-xl font-black text-[#100b47]">How to use this guide</h2>
+              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-700">
+                <li>Read with your project scope and budget envelope in mind.</li>
+                <li>Use it to brief designers and compare quotations more rigorously.</li>
+                <li>
+                  Raise any project-specific constraints with us before committing to a
+                  contractor.
+                </li>
+              </ul>
+            </div>
+
+            <div className="prose prose-lg prose-headings:font-black prose-headings:tracking-tight prose-headings:text-[#100b47] prose-p:leading-relaxed prose-p:text-base-content/80 prose-a:text-[#266bf1] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#100b47] prose-strong:font-semibold prose-blockquote:rounded-r-lg prose-blockquote:border-l-4 prose-blockquote:border-[#266bf1] prose-blockquote:bg-base-200/50 prose-blockquote:py-4 prose-blockquote:pl-6 prose-ul:text-base-content/80 prose-ol:text-base-content/80 prose-li:text-base-content/80 mt-8 max-w-none">
               {article.content}
             </div>
 
-            {/* Article Footer */}
-            <div className="mt-16 rounded-2xl bg-gradient-to-r from-[#266bf1]/5 to-[#7421fc]/5 p-8">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
-                    Found this helpful?
-                  </h3>
-                  <p className="text-sm text-base-content/70">
-                    Share this article with others who might benefit from it.
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(`https://${config.domainName}/blog/${article.slug}`)}&via=iamgino_s`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-white p-3 shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md"
-                    title="Share on X (Twitter)"
-                  >
-                    <svg
-                      className="h-5 w-5 text-[#266bf1]"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                    </svg>
-                  </a>
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://${config.domainName}/blog/${article.slug}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="rounded-full bg-white p-3 shadow-sm transition-all duration-200 hover:scale-105 hover:shadow-md"
-                    title="Share on Facebook"
-                  >
-                    <svg
-                      className="h-5 w-5 text-[#266bf1]"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
-                  </a>
-                </div>
+            <div className="mt-10 rounded-2xl border border-[#dbe5fb] bg-gradient-to-r from-[#f3f7ff] to-[#eef3ff] p-7">
+              <h2 className="text-2xl font-black text-[#100b47]">
+                Want Advice for Your Own Home?
+              </h2>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-gray-700 md:text-base">
+                We can help you translate this guidance into a realistic scope and
+                execution plan for your property, whether you&apos;re considering a
+                house extension, loft conversion or a full renovation.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1f56c5]"
+                >
+                  Book a consultation
+                </Link>
+                <Link
+                  href="/portfolio"
+                  className="inline-flex items-center rounded-full border border-[#bfd3f9] bg-white px-6 py-3 text-sm font-semibold text-[#266bf1] transition hover:bg-[#f5f8ff]"
+                >
+                  View case studies
+                </Link>
               </div>
             </div>
           </section>
 
-          {/* SIDEBAR WITH AUTHORS AND 3 RELATED ARTICLES */}
-          <aside className="shrink-0 lg:w-80">
-            <div className="sticky top-8 space-y-8">
-              {/* Author Section */}
-              <div className="rounded-xl border border-base-content/10 bg-base-100 p-6 shadow-sm">
-                <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-base-content/60">
-                  Posted by
-                </p>
+          <aside className="w-full shrink-0 space-y-6 lg:w-80">
+            <section className="rounded-2xl border border-[#dde8fb] bg-white p-6 shadow-sm">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#266bf1]">
+                Written by
+              </p>
+              <div className="mt-4">
                 <Avatar article={article} />
               </div>
+              <p className="mt-4 text-sm leading-relaxed text-gray-600">
+                {article.author.description}
+              </p>
+            </section>
 
-              {/* Related Articles Section */}
-              {articlesRelated.length > 0 && (
-                <div className="rounded-xl border border-base-content/10 bg-base-100 p-6 shadow-sm">
-                  <p className="mb-6 text-sm font-semibold uppercase tracking-wide text-base-content/60">
-                    Related reading
-                  </p>
-                  <div className="space-y-6">
-                    {articlesRelated.map((relatedArticle) => (
-                      <article key={relatedArticle.slug} className="group">
-                        <Link
-                          href={`/blog/${relatedArticle.slug}`}
-                          className="block"
-                          title={relatedArticle.title}
-                          rel="bookmark"
-                        >
-                          <h3 className="mb-2 text-sm font-semibold leading-tight text-[#100b47] transition-colors duration-200 group-hover:text-[#266bf1]">
-                            {relatedArticle.title}
-                          </h3>
-                          <p className="line-clamp-3 text-xs leading-relaxed text-base-content/70">
-                            {relatedArticle.description}
-                          </p>
-                        </Link>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
+            <section className="rounded-2xl border border-[#dde8fb] bg-[#f9fbff] p-6">
+              <h2 className="text-lg font-black text-[#100b47]">Trust indicators</h2>
+              <ul className="mt-3 space-y-2 text-sm leading-relaxed text-gray-700">
+                <li>500+ London homeowners served across major renovations</li>
+                <li>Up to 10 years workmanship guarantee on qualifying works</li>
+                <li>Insurance cover up to £10M for project peace of mind</li>
+                <li>Best of Houzz service recognition</li>
+              </ul>
+            </section>
 
-              {/* Call to Action Section */}
-              <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
-                <div className="text-center">
-                  <div className="mb-4 flex justify-center">
-                    <div className="rounded-full bg-[#266bf1] p-3">
-                      <svg
-                        className="h-6 w-6 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
-                    Ready to Start Your Project?
-                  </h3>
-                  <p className="mb-4 text-sm text-base-content/70">
-                    Get expert guidance for your London home renovation. From
-                    design to planning approval, we&apos;re here to help.
-                  </p>
-                  <Link
-                    href="/contact"
-                    className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
-                  >
-                    Get Free Consultation
-                    <svg
-                      className="ml-2 h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+            <section className="rounded-2xl border border-[#dde8fb] bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-black text-[#100b47]">Social proof</h2>
+              <div className="mt-4 space-y-4">
+                {socialProofTestimonials.map((testimonial) => (
+                  <article key={testimonial.name} className="rounded-xl bg-[#f9fbff] p-4">
+                    <p className="text-sm leading-relaxed text-gray-700">
+                      &ldquo;{testimonial.quote}&rdquo;
+                    </p>
+                    <p className="mt-3 text-sm font-semibold text-[#100b47]">
+                      {testimonial.name}
+                    </p>
+                    <a
+                      href={testimonial.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex text-xs font-semibold uppercase tracking-wide text-[#266bf1] hover:underline"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 7l5 5m0 0l-5 5m5-5H6"
-                      />
-                    </svg>
-                  </Link>
-                </div>
+                      {testimonial.sourceLabel}
+                    </a>
+                  </article>
+                ))}
               </div>
-            </div>
+            </section>
+
+            {relatedArticles.length > 0 && (
+              <section className="rounded-2xl border border-[#dde8fb] bg-white p-6 shadow-sm">
+                <h2 className="text-lg font-black text-[#100b47]">Related guides</h2>
+                <div className="mt-4 space-y-4">
+                  {relatedArticles.map((relatedArticle) => (
+                    <article key={relatedArticle.slug} className="group">
+                      <Link
+                        href={`/blog/${relatedArticle.slug}`}
+                        className="block"
+                        title={relatedArticle.title}
+                        rel="bookmark"
+                      >
+                        <h3 className="text-sm font-semibold leading-tight text-[#100b47] transition-colors group-hover:text-[#266bf1]">
+                          {relatedArticle.title}
+                        </h3>
+                        <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-gray-600">
+                          {relatedArticle.description}
+                        </p>
+                      </Link>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section className="rounded-2xl border border-[#d8e5ff] bg-gradient-to-br from-[#edf3ff] to-[#f6f9ff] p-6">
+              <h2 className="text-lg font-black text-[#100b47]">
+                Discuss your project privately
+              </h2>
+              <p className="mt-2 text-sm leading-relaxed text-gray-700">
+                We help homeowners define scope, feasibility and delivery strategy
+                before they commit to major spend.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-4 inline-flex items-center justify-center rounded-full bg-[#266bf1] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f56c5]"
+              >
+                Speak with our team
+              </Link>
+            </section>
           </aside>
         </div>
       </article>
     </>
   );
-}
-
-export async function generateStaticParams() {
-  return articles.map((article) => ({
-    articleId: article.slug,
-  }));
 }
