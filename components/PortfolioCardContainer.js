@@ -1,105 +1,37 @@
-import React from "react";
-import Image from "next/image";
+import Link from "next/link";
 
 import PortfolioCard from "./PortfolioCard";
+import { getFeaturedPortfolioProjects } from "@/libs/portfolio-projects";
 
 const PortfolioCardContainer2 = () => {
-  const projects = [
-    {
-      imgURL:
-        "/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp",
-      imgAlt: "House extension London N19",
-      title: "Daniel's stunning home extension & renovation",
-      tag: "Extension",
-      projectUrl: "/portfolio/daniel-n19",
-    },
-    {
-      imgURL:
-        "/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp",
-      imgAlt: "House extension London N19",
-      title: "Lawrence's kitchen renovation and installation",
-      tag: "Kitchen",
-      projectUrl: "/portfolio/lawrence-e3",
-    },
-    {
-      imgURL: "/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp",
-      imgAlt: "Kitchen renovation and installation in E4",
-      title: "Alice's modern kitchen renovation and installation",
-      tag: "Kitchen",
-      projectUrl: "/portfolio/alice-e4",
-    },
-    {
-      imgURL: "/assets/portfolio/extension-ava-e7/side-return-extension-6.webp",
-      imgAlt: "Kitchen side return extension in E7",
-      title: "Ava's side return kitchen extension in E7",
-      tag: "Extension",
-      projectUrl: "/portfolio/ava-e7",
-    },
-  ];
+  const projects = getFeaturedPortfolioProjects(4);
 
   return (
-    // <!-- Container-->
-    <div class="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      {/* <!-- Title --> */}
-      <div class="mx-auto mb-10 max-w-2xl text-center lg:mb-14">
-        <h2 class="text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
-          Recent projects
+    <div className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="mx-auto mb-10 max-w-3xl text-center lg:mb-14">
+        <h2 className="text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
+          Recent Case Studies
         </h2>
-        <p class="mt-2 text-xl text-gray-600">
-          A showcase of the quality you can expect in your own home.
+        <p className="mt-2 text-lg leading-relaxed text-gray-600 md:text-xl">
+          A quick look at how we deliver trusted outcomes for London
+          homeowners.
         </p>
       </div>
-      {/* <!-- End Title --> */}
 
-      {/* <!-- Grid --> */}
-      <div class="lg:grid-cols-2, mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14 2xl:grid-cols-3">
-        {/* <!-- Card --> */}
-        {projects.map((project, i) => {
-          return (
-            <PortfolioCard
-              key={i}
-              imgURL={project.imgURL}
-              imgAlt={project.imgAlt}
-              title={project.title}
-              tag={project.tag}
-              projectUrl={project.projectUrl}
-            />
-          );
-        })}
-        {/* <!-- End Card --> */}
+      <div className="mb-10 grid gap-6 sm:grid-cols-2 lg:mb-14">
+        {projects.map((project) => (
+          <PortfolioCard key={project.slug} project={project} compact />
+        ))}
       </div>
-      {/* <!-- End Grid --> */}
 
-      {/* <!-- Card --> */}
-      <div class="text-center">
-        <div class="inline-block rounded-full border bg-white shadow-sm">
-          <div class="flex items-center gap-x-2 px-4 py-3">
-            <p class="text-gray-600">Want to see more?</p>
-            <a
-              class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
-              href="/portfolio"
-            >
-              Go here
-              <svg
-                class="size-4 shrink-0"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="m9 18 6-6-6-6" />
-              </svg>
-            </a>
-          </div>
-        </div>
+      <div className="text-center">
+        <Link
+          href="/portfolio"
+          className="inline-flex items-center gap-2 rounded-full border border-[#bfd3f9] bg-white px-6 py-3 text-sm font-semibold text-[#266bf1] transition hover:bg-[#266bf1] hover:text-white"
+        >
+          View all case studies
+        </Link>
       </div>
-      {/* <!-- End Card --> */}
-      {/* <!-- End Card Blog --> */}
     </div>
   );
 };
