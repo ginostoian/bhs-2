@@ -13,7 +13,20 @@ module.exports = {
   siteUrl: process.env.SITE_URL || "https://bhstudio.co.uk",
   generateRobotsTxt: true,
   // use this to exclude routes from the sitemap (i.e. a user dashboard). By default, NextJS app router metadata files are excluded (https://nextjs.org/docs/app/api-reference/file-conventions/metadata)
-  exclude: ["/twitter-image.*", "/opengraph-image.*", "/icon.*"],
+  exclude: [
+    "/twitter-image.*",
+    "/opengraph-image.*",
+    "/icon.*",
+    "/apple-icon.*",
+    "/auth/*",
+    "/contact-form-submitted",
+    "/kitchen-form-submitted",
+    "/bathroom-form-submitted",
+    "/renovation-form-submitted",
+    "/gantt/*",
+    "/invoices/*",
+    "/quotes/*",
+  ],
   additionalPaths: async (config) => {
     const locationPaths = londonLocations.map(
       (location) => `/locations/${slugifyLocation(location.name)}`

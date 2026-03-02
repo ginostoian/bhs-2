@@ -17,6 +17,28 @@ import SectionTitle from "@/components/sectionTitle/SectionTitle";
 import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
+import config from "@/config";
+import { getPageFaqs } from "@/libs/pageFaqs";
+import { getSEOTags } from "@/libs/seo";
+
+export const metadata = getSEOTags({
+  title: "Renovation Cost Calculators | Better Homes Studio",
+  description:
+    "Use our free London-focused renovation calculators for kitchens, bathrooms, home refurbishments, extensions and BTU heating estimates.",
+  canonicalUrlRelative: "/tools",
+  openGraph: {
+    title: "Renovation Cost Calculators | Better Homes Studio",
+    description:
+      "Free calculators to estimate London renovation, extension, kitchen, bathroom and heating project costs.",
+    url: `https://${config.domainName}/tools`,
+  },
+  keywords: [
+    "renovation cost calculator London",
+    "bathroom cost calculator",
+    "kitchen renovation calculator",
+    "extension cost calculator London",
+  ],
+});
 
 export default function ToolsPage() {
   const calculators = [
@@ -97,124 +119,7 @@ export default function ToolsPage() {
     },
   ];
 
-  const faqs = [
-    {
-      question: "How accurate are these renovation cost calculators?",
-      answer: (
-        <>
-          Our calculators provide estimates with 88-95% accuracy based on
-          current London market rates and our extensive project database. They
-          consider factors like property type, location, materials, and project
-          complexity. However, these are estimates and final costs may vary
-          based on specific site conditions and requirements.
-        </>
-      ),
-    },
-    {
-      question: "What factors do the calculators consider?",
-      answer: (
-        <>
-          Each calculator considers project-specific factors. Kitchen
-          calculators include size, materials, electrical work, and plumbing.
-          Bathroom calculators factor in size, layout changes, tiling, and
-          fixtures. Extension calculators consider type, size, and finishing
-          options. All calculators account for London labour rates and material
-          costs.
-        </>
-      ),
-    },
-    {
-      question: "Are the calculator results binding quotes?",
-      answer: (
-        <>
-          No, these are estimates to help you budget and plan your project. For
-          a detailed, binding quote, we recommend booking a consultation with
-          our team. We&apos;ll visit your property, discuss your specific
-          requirements, and provide a comprehensive quote based on your exact
-          needs.
-        </>
-      ),
-    },
-    {
-      question: "How long does it take to complete each calculator?",
-      answer: (
-        <>
-          Calculator completion times vary: Bathroom calculator takes 3-5
-          minutes, Kitchen calculator 5-10 minutes, Extension calculator 8-12
-          minutes, and General renovation calculator 10-15 minutes. You can save
-          your progress and return later to complete the calculation.
-        </>
-      ),
-    },
-    {
-      question: "Can I download my calculation results?",
-      answer: (
-        <>
-          Yes! Most of our calculators offer PDF download functionality. You can
-          save your detailed breakdown including costs, materials, and
-          specifications. This is perfect for sharing with partners, getting
-          additional quotes, or keeping for your records.
-        </>
-      ),
-    },
-    {
-      question: "Do the calculators include VAT and other additional costs?",
-      answer: (
-        <>
-          Our calculators include VAT and standard project costs. However, they
-          don&apos;t include planning permission fees, building regulations, or
-          unexpected structural issues. We recommend adding 10-15% to your
-          estimate for contingency and additional costs.
-        </>
-      ),
-    },
-    {
-      question: "What areas do your cost estimates cover?",
-      answer: (
-        <>
-          Our calculators are calibrated for London market rates, particularly
-          East, North, and Central London. Costs may vary for other areas. If
-          you&apos;re outside our service area, the calculators still provide
-          useful estimates, but we recommend consulting local contractors for
-          accurate pricing.
-        </>
-      ),
-    },
-    {
-      question: "How often are the calculator costs updated?",
-      answer: (
-        <>
-          We update our calculator costs quarterly to reflect current market
-          rates, material price changes, and labour cost fluctuations. This
-          ensures our estimates remain accurate and relevant to current market
-          conditions.
-        </>
-      ),
-    },
-    {
-      question: "Can I use these calculators for commercial properties?",
-      answer: (
-        <>
-          Our calculators are designed for residential properties. Commercial
-          projects have different requirements, regulations, and cost
-          structures. For commercial renovation estimates, please contact us
-          directly for a custom quote tailored to your specific needs.
-        </>
-      ),
-    },
-    {
-      question:
-        "What if my project is more complex than the calculator options?",
-      answer: (
-        <>
-          For complex projects or unique requirements, our calculators provide a
-          good starting point. We recommend booking a consultation where we can
-          discuss your specific needs, visit your property, and provide a
-          detailed custom quote that covers all aspects of your project.
-        </>
-      ),
-    },
-  ];
+  const faqs = getPageFaqs("tools");
 
   return (
     <>

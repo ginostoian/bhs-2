@@ -15,6 +15,15 @@ const ContentRow = ({
   slug,
   ctaTallyFormLink,
 }) => {
+  const destination = (ctaTallyFormLink || slug || "/contact").trim();
+  const href =
+    destination.startsWith("/") ||
+    destination.startsWith("#") ||
+    destination.startsWith("http://") ||
+    destination.startsWith("https://")
+      ? destination
+      : `/${destination}`;
+
   return (
     <div className={`${classes["service-wrapper"]} container`}>
       <div className={classes["service-wrapper-img"]}>
@@ -45,7 +54,7 @@ const ContentRow = ({
           <p className={classes["desc__body-text"]}>{p2}</p>
         </div>
         <Link
-          href={`${ctaTallyFormLink || slug} `}
+          href={href}
           className="w-max flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] mt-[4rem] px-[20px] min-h-[64px] lg:min-h-[64px] lg:px-[24px] lg:w-[245px]! rounded-full"
         >
           {cta}

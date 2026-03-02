@@ -8,6 +8,7 @@ import ClientLayout from "@/components/LayoutClient";
 import CookieConsent from "@/components/CookieConsent";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
+import { getRootSchema } from "@/libs/structuredData";
 import "./globals.css";
 import Announcement from "@/components/Announcement";
 
@@ -25,6 +26,8 @@ export const viewport = {
 export const metadata = getSEOTags();
 
 export default function RootLayout({ children }) {
+  const rootSchema = getRootSchema();
+
   return (
     <html lang="en" data-theme={config.colors.theme} className={font.className}>
       {config.domainName && (
@@ -34,6 +37,10 @@ export default function RootLayout({ children }) {
         </head>
       )}
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(rootSchema) }}
+        />
         {/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
         <ClientLayout>
           <Announcement />

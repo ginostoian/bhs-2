@@ -6,6 +6,13 @@ import TaskSection from "@/models/TaskSection";
 import { notFound } from "next/navigation";
 import PublicGanttChart from "./components/PublicGanttChart";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 /**
  * Public Gantt Chart Page
  * Displays project Gantt chart via share token (no authentication required)

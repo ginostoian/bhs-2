@@ -7,6 +7,19 @@ import SectionTitle from "@/components/sectionTitle/SectionTitle";
 import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import config from "@/config";
+import { getSEOTags } from "@/libs/seo";
+
+export const metadata = getSEOTags({
+  title: "Renovation Enquiry Submitted | Better Homes Studio",
+  description: "Your renovation enquiry has been submitted successfully.",
+  canonicalUrlRelative: "/renovation-form-submitted",
+  extraTags: {
+    robots: {
+      index: false,
+      follow: true,
+    },
+  },
+});
 
 export default function Page() {
   const contactPageCopy = config.copy.contactPage;

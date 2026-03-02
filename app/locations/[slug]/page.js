@@ -9,13 +9,19 @@ import {
   getLocationBySlug,
   getNearbyLocations,
 } from "@/libs/locations";
+import {
+  BUSINESS_IDS,
+  SITE_URL,
+  getLocalBusinessSchema,
+  getWebsiteReference,
+} from "@/libs/structuredData";
 import classes from "./page.module.css";
 
 export const dynamicParams = false;
 export const revalidate = 86400;
 
-const siteUrl = `https://${config.domainName}`;
-const businessId = `${siteUrl}/#better-homes-studio`;
+const siteUrl = SITE_URL;
+const businessId = BUSINESS_IDS.localBusiness;
 
 const trustHighlights = [
   {
@@ -188,17 +194,7 @@ const buildLocationSchema = (location, faqItems, selectedTestimonials) => {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": ["HomeAndConstructionBusiness", "GeneralContractor", "LocalBusiness"],
-        "@id": businessId,
-        name: "Better Homes Studio",
-        url: siteUrl,
-        telephone: "+447922391591",
-        priceRange: "£££",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "London",
-          addressCountry: "GB",
-        },
+        ...getLocalBusinessSchema({
         areaServed: [
           {
             "@type": "Place",
@@ -248,18 +244,14 @@ const buildLocationSchema = (location, faqItems, selectedTestimonials) => {
             },
           ],
         },
+        }),
       },
       {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
         name: `House Extensions, Loft Conversions & Renovations in ${location.name}`,
-        isPartOf: {
-          "@type": "WebSite",
-          "@id": `${siteUrl}/#website`,
-          url: siteUrl,
-          name: "Better Homes Studio",
-        },
+        isPartOf: getWebsiteReference(),
         about: {
           "@id": businessId,
         },

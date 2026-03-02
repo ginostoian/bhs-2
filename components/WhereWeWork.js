@@ -1,10 +1,79 @@
 import Link from "next/link";
 import classes from "./WhereWeWork.module.css";
 import { getGroupedLocations, LONDON_LOCATIONS } from "@/libs/locations";
+import { getLocalBusinessSchema, SITE_URL } from "@/libs/structuredData";
 
 const WhereWeWork = () => {
   const groupedLocations = getGroupedLocations();
-  const baseUrl = "https://bhstudio.co.uk";
+  const localBusinessSchema = getLocalBusinessSchema({
+    description:
+      "Professional home renovation services across London including bathroom fitting, kitchen fitting, general refurbishment and extensions",
+    areaServed: LONDON_LOCATIONS.map((location) => ({
+      "@type": "Place",
+      name: location.name,
+      url: `${SITE_URL}/locations/${location.slug}`,
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: location.area,
+        addressCountry: "GB",
+      },
+    })),
+    serviceArea: {
+      "@type": "GeoCircle",
+      geoMidpoint: {
+        "@type": "GeoCoordinates",
+        latitude: 51.5074,
+        longitude: -0.1278,
+      },
+      geoRadius: "25000",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Home Renovation Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Bathroom Renovation",
+            description: "Complete bathroom fitting and renovation services",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Kitchen Renovation",
+            description: "Professional kitchen fitting and renovation services",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "General Renovation",
+            description: "Complete home renovation and refurbishment services",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Extensions",
+            description: "Complete home extension services",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Loft Conversion",
+            description: "Complete loft conversion services",
+          },
+        },
+      ],
+    },
+  });
 
   return (
     <section id="where-we-work" className={classes["where-we-work"]}>
@@ -69,85 +138,7 @@ const WhereWeWork = () => {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            name: "Better Homes Studio",
-            description:
-              "Professional home renovation services across London including bathroom fitting, kitchen fitting, general refurbishment and extensions",
-            url: "https://bhstudio.co.uk",
-            telephone: "+447922391591",
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: "London",
-              addressCountry: "GB",
-            },
-            areaServed: LONDON_LOCATIONS.map((location) => ({
-              "@type": "Place",
-              name: location.name,
-              url: `${baseUrl}/locations/${location.slug}`,
-              containedInPlace: {
-                "@type": "AdministrativeArea",
-                name: location.area,
-                addressCountry: "GB",
-              },
-            })),
-            serviceArea: {
-              "@type": "GeoCircle",
-              geoMidpoint: {
-                "@type": "GeoCoordinates",
-                latitude: 51.5074,
-                longitude: -0.1278,
-              },
-              geoRadius: "25000",
-            },
-            hasOfferCatalog: {
-              "@type": "OfferCatalog",
-              name: "Home Renovation Services",
-              itemListElement: [
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Bathroom Renovation",
-                    description:
-                      "Complete bathroom fitting and renovation services",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Kitchen Renovation",
-                    description:
-                      "Professional kitchen fitting and renovation services",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "General Renovation",
-                    description:
-                      "Complete home renovation and refurbishment services",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Extensions",
-                    description: "Complete home extension services",
-                  },
-                },
-                {
-                  "@type": "Offer",
-                  itemOffered: {
-                    "@type": "Service",
-                    name: "Loft Conversion",
-                    description: "Complete loft conversion services",
-                  },
-                },
-              ],
-            },
+            ...localBusinessSchema,
           }),
         }}
       />
