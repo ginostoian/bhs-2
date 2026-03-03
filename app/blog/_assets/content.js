@@ -8,9 +8,11 @@ import extensionTypes2025Img from "/public/assets/img/extension/diagram-of-popul
 import kitchenCostGuide2025Img from "/public/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp";
 import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-5.webp";
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
+import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
+import BathroomRenovationArticle from "./articles/BathroomRenovationArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -206,6 +208,25 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "bathroom-renovation-london-trends-2026",
+    title: "Bathroom renovation London: design trends and ideas for 2026",
+    description:
+      "A practical 2026 guide for London homeowners covering bathroom design trends, smart technology, sustainability, realistic cost tiers and value impact.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.bathroom),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-04",
+    image: {
+      src: bathroomTrends2026Img,
+      urlRelative:
+        "/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png",
+      alt: "Bathroom renovation design trends in London for 2026",
+    },
+    content: <BathroomRenovationArticle />,
+  },
   {
     slug: "house-extension-mistakes-london",
     title: "15 house extension mistakes London homeowners make",
