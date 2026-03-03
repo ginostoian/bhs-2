@@ -10,6 +10,7 @@ import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitc
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
+import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -205,6 +206,24 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "house-extension-mistakes-london",
+    title: "15 house extension mistakes London homeowners make",
+    description:
+      "Avoid costly house extension, loft conversion and home renovation mistakes with a practical London-focused guide on budgets, planning, builders and design pitfalls.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-03",
+    image: {
+      src: extensionGuide2025Img,
+      urlRelative: "/assets/img/extension/double-storey-extension.webp",
+      alt: "House extension mistakes guide for London homeowners",
+    },
+    content: <CommonMistakesExtensionArticle />,
+  },
   {
     slug: "house-extension-value-london-guide",
     title: "How much value does a house extension add in London? (2026 guide)",
