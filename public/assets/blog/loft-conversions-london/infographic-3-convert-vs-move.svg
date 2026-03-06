@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1729"/>
+      <stop offset="100%" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="gold3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a45e"/>
+      <stop offset="100%" stop-color="#e8c96e"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d8a4e"/>
+      <stop offset="100%" stop-color="#1a5a32"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8a2d2d"/>
+      <stop offset="100%" stop-color="#5a1a1a"/>
+    </linearGradient>
+    <filter id="glow3">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg3)"/>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" fill="url(#gold3)" font-size="26" font-weight="700" letter-spacing="2" filter="url(#glow3)">LOFT CONVERSION vs MOVING HOUSE</text>
+  <line x1="330" y1="62" x2="870" y2="62" stroke="url(#gold3)" stroke-width="1" opacity="0.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#8a9cbd" font-size="13" letter-spacing="1">THE LONDON MATHS · 2-BED TERRACE IN LEWISHAM · VALUED AT £550,000</text>
+
+  <!-- Divider line -->
+  <line x1="600" y1="110" x2="600" y2="640" stroke="#2a3f66" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="600" y="105" text-anchor="middle" fill="#3a5580" font-size="11" font-weight="600">VS</text>
+
+  <!-- ===== LEFT SIDE: CONVERT ===== -->
+  <g transform="translate(40, 110)">
+    <!-- Header -->
+    <rect x="0" y="0" width="520" height="50" fill="#1a2f1a" rx="8" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="260" y="22" text-anchor="middle" fill="#4ecb71" font-size="18" font-weight="700" letter-spacing="1">CONVERT YOUR LOFT</text>
+    <text x="260" y="40" text-anchor="middle" fill="#3a7a4a" font-size="11">Rear dormer · 1 bedroom + en-suite</text>
+
+    <!-- Cost items -->
+    <g transform="translate(0, 65)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Build cost (inc. all trades &amp; materials)</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£85,000</text>
+    </g>
+    <g transform="translate(0, 118)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Architect &amp; structural engineer</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£5,000</text>
+    </g>
+    <g transform="translate(0, 171)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Party wall agreement (1 neighbour)</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£2,000</text>
+    </g>
+    <g transform="translate(0, 224)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Building Control fees</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£1,000</text>
+    </g>
+    
+    <!-- Total -->
+    <rect x="0" y="282" width="520" height="52" fill="#1a3a2a" rx="6" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="20" y="313" fill="#4ecb71" font-size="16" font-weight="700">TOTAL COST</text>
+    <text x="500" y="313" text-anchor="end" fill="#4ecb71" font-size="22" font-weight="700">£93,000</text>
+
+    <!-- Value added -->
+    <rect x="0" y="350" width="520" height="52" fill="#162240" rx="6" stroke="#c8a45e" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="20" y="375" fill="#c8a45e" font-size="14">Value added to property (est. 20%)</text>
+    <text x="500" y="381" text-anchor="end" fill="#c8a45e" font-size="22" font-weight="700">+£110,000</text>
+
+    <!-- Net position -->
+    <rect x="0" y="418" width="520" height="62" fill="url(#greenGrad)" rx="8" stroke="#4ecb71" stroke-width="2"/>
+    <text x="20" y="448" fill="#a0e8b0" font-size="14" font-weight="600">NET FINANCIAL POSITION</text>
+    <text x="500" y="448" text-anchor="end" fill="#fff" font-size="26" font-weight="700">+£17,000</text>
+    <text x="500" y="468" text-anchor="end" fill="#a0e8b0" font-size="11">Equity gained after costs</text>
+
+    <!-- Bonus points -->
+    <g transform="translate(0, 498)">
+      <text x="12" y="12" fill="#4ecb71" font-size="13">✓</text>
+      <text x="30" y="12" fill="#6a82a0" font-size="12">Keep your school catchment area</text>
+      <text x="12" y="32" fill="#4ecb71" font-size="13">✓</text>
+      <text x="30" y="32" fill="#6a82a0" font-size="12">No stamp duty, no estate agent fees</text>
+      <text x="12" y="52" fill="#4ecb71" font-size="13">✓</text>
+      <text x="30" y="52" fill="#6a82a0" font-size="12">Stay in your neighbourhood and community</text>
+    </g>
+  </g>
+
+  <!-- ===== RIGHT SIDE: MOVE ===== -->
+  <g transform="translate(640, 110)">
+    <!-- Header -->
+    <rect x="0" y="0" width="520" height="50" fill="#2a1a1a" rx="8" stroke="#8a3a3a" stroke-width="1.5"/>
+    <text x="260" y="22" text-anchor="middle" fill="#e07070" font-size="18" font-weight="700" letter-spacing="1">MOVE TO A 3-BED HOUSE</text>
+    <text x="260" y="40" text-anchor="middle" fill="#7a4a4a" font-size="11">Same area · Average 3-bed price: £700,000</text>
+
+    <!-- Cost items -->
+    <g transform="translate(0, 65)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Stamp duty on £700,000 purchase</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£22,500</text>
+    </g>
+    <g transform="translate(0, 118)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Estate agent fees to sell (1.5%)</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£8,250</text>
+    </g>
+    <g transform="translate(0, 171)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Solicitor, survey &amp; moving costs</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£5,000</text>
+    </g>
+    <g transform="translate(0, 224)">
+      <rect x="0" y="0" width="520" height="44" fill="#162240" rx="5" stroke="#1e3050"/>
+      <text x="20" y="27" fill="#8a9cbd" font-size="14">Price difference (£700k – £550k)</text>
+      <text x="500" y="27" text-anchor="end" fill="#e0e8f0" font-size="16" font-weight="600">£150,000</text>
+    </g>
+
+    <!-- Total -->
+    <rect x="0" y="282" width="520" height="52" fill="#2a1a1a" rx="6" stroke="#8a3a3a" stroke-width="1.5"/>
+    <text x="20" y="313" fill="#e07070" font-size="16" font-weight="700">TOTAL COST</text>
+    <text x="500" y="313" text-anchor="end" fill="#e07070" font-size="22" font-weight="700">£185,750</text>
+
+    <!-- Additional mortgage -->
+    <rect x="0" y="350" width="520" height="52" fill="#162240" rx="6" stroke="#8a3a3a" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="20" y="375" fill="#e07070" font-size="14">Additional mortgage required</text>
+    <text x="500" y="381" text-anchor="end" fill="#e07070" font-size="22" font-weight="700">£150,000+</text>
+
+    <!-- Net position -->
+    <rect x="0" y="418" width="520" height="62" fill="url(#redGrad)" rx="8" stroke="#e07070" stroke-width="2"/>
+    <text x="20" y="448" fill="#e0a0a0" font-size="14" font-weight="600">NET FINANCIAL POSITION</text>
+    <text x="500" y="448" text-anchor="end" fill="#fff" font-size="26" font-weight="700">−£185,750</text>
+    <text x="500" y="468" text-anchor="end" fill="#e0a0a0" font-size="11">Total outlay including price difference</text>
+
+    <!-- Downsides -->
+    <g transform="translate(0, 498)">
+      <text x="12" y="12" fill="#e07070" font-size="13">✗</text>
+      <text x="30" y="12" fill="#6a82a0" font-size="12">Risk of losing school catchment area</text>
+      <text x="12" y="32" fill="#e07070" font-size="13">✗</text>
+      <text x="30" y="32" fill="#6a82a0" font-size="12">Months of disruption, chain risk, stress</text>
+      <text x="12" y="52" fill="#e07070" font-size="13">✗</text>
+      <text x="30" y="52" fill="#6a82a0" font-size="12">Significantly higher ongoing mortgage payments</text>
+    </g>
+  </g>
+
+  <!-- Bottom verdict -->
+  <rect x="200" y="648" width="800" height="38" fill="#1a3a2a" rx="19" stroke="#2d8a4e" stroke-width="1"/>
+  <text x="600" y="672" text-anchor="middle" fill="#4ecb71" font-size="14" font-weight="700" letter-spacing="1">CONVERTING SAVES YOU APPROXIMATELY £92,750 COMPARED TO MOVING — WHILE BUILDING EQUITY</text>
+
+  <!-- Footer -->
+  <text x="1160" y="692" text-anchor="end" fill="#3a5580" font-size="10">bhstudio.co.uk · 2026 London Loft Conversion Guide</text>
+</svg>

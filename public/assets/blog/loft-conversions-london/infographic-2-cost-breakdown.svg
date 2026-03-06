@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1729"/>
+      <stop offset="100%" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a45e"/>
+      <stop offset="100%" stop-color="#e8c96e"/>
+    </linearGradient>
+    <filter id="glow2">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bgGrad2)"/>
+  
+  <!-- Subtle dots pattern -->
+  <g opacity="0.03">
+    <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="#fff"/>
+    </pattern>
+    <rect width="1200" height="700" fill="url(#dots)"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" fill="url(#goldGrad)" font-size="26" font-weight="700" letter-spacing="2" filter="url(#glow2)">LONDON LOFT CONVERSION COST BREAKDOWN</text>
+  <line x1="320" y1="62" x2="880" y2="62" stroke="url(#goldGrad)" stroke-width="1" opacity="0.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#8a9cbd" font-size="13" letter-spacing="1">TYPICAL £85,000 REAR DORMER · WHERE YOUR MONEY GOES · 2026</text>
+
+  <!-- ===== DONUT CHART ===== -->
+  <!-- Using manual arc segments for a donut chart -->
+  <!-- Total = 360 degrees. Segments: Structural 35%=126°, Roofing 15%=54°, First Fix 12%=43.2°, Insulation 8%=28.8°, Second Fix 10%=36°, Bathroom 8%=28.8°, Staircase 7%=25.2°, Prof Fees 5%=18° -->
+  
+  <g transform="translate(340, 370)">
+    <!-- Structural Work 35% - starts at -90° (top), 126° arc -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#c8a45e" stroke-width="55" 
+            stroke-dasharray="270.2 703.7" stroke-dashoffset="243.5" opacity="0.95"/>
+    
+    <!-- Roofing & External 15% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#4a8ab5" stroke-width="55" 
+            stroke-dasharray="145.8 828.1" stroke-dashoffset="117.3" opacity="0.9"/>
+    
+    <!-- First Fix 12% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#5bb88a" stroke-width="55" 
+            stroke-dasharray="116.7 857.2" stroke-dashoffset="-28.5" opacity="0.9"/>
+
+    <!-- Second Fix 10% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#8b6ec8" stroke-width="55" 
+            stroke-dasharray="97.2 876.7" stroke-dashoffset="-145.2" opacity="0.9"/>
+
+    <!-- Insulation 8% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#c76b5e" stroke-width="55" 
+            stroke-dasharray="77.8 896.1" stroke-dashoffset="-242.4" opacity="0.9"/>
+
+    <!-- Bathroom 8% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#5ec7b8" stroke-width="55" 
+            stroke-dasharray="77.8 896.1" stroke-dashoffset="-320.2" opacity="0.9"/>
+
+    <!-- Staircase 7% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#c7b35e" stroke-width="55" 
+            stroke-dasharray="68 905.9" stroke-dashoffset="-398" opacity="0.9"/>
+
+    <!-- Professional Fees 5% -->
+    <circle cx="0" cy="0" r="155" fill="none" stroke="#7a8ea8" stroke-width="55" 
+            stroke-dasharray="48.7 925.2" stroke-dashoffset="-466" opacity="0.9"/>
+
+    <!-- Centre circle -->
+    <circle cx="0" cy="0" r="120" fill="#131f38"/>
+    <circle cx="0" cy="0" r="118" fill="none" stroke="#1e3050" stroke-width="1"/>
+
+    <!-- Centre text -->
+    <text x="0" y="-18" text-anchor="middle" fill="#c8a45e" font-size="34" font-weight="700">£85,000</text>
+    <text x="0" y="8" text-anchor="middle" fill="#8a9cbd" font-size="13">Total Build Cost</text>
+    <text x="0" y="28" text-anchor="middle" fill="#5a7399" font-size="11">Rear Dormer · London</text>
+  </g>
+
+  <!-- ===== LEGEND (right side) ===== -->
+  <g transform="translate(620, 145)">
+    <!-- Item 1 -->
+    <rect x="0" y="0" width="540" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="16" width="24" height="24" fill="#c8a45e" rx="4"/>
+    <text x="52" y="28" fill="#e0e8f0" font-size="15" font-weight="600">Structural Work</text>
+    <text x="52" y="44" fill="#6a82a0" font-size="11">Steel beams, floor joists, load-bearing walls</text>
+    <text x="480" y="28" text-anchor="end" fill="#c8a45e" font-size="18" font-weight="700">35%</text>
+    <text x="520" y="28" text-anchor="end" fill="#5a7399" font-size="13">£29,750</text>
+
+    <!-- Item 2 -->
+    <rect x="0" y="65" width="540" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="81" width="24" height="24" fill="#4a8ab5" rx="4"/>
+    <text x="52" y="93" fill="#e0e8f0" font-size="15" font-weight="600">Roofing &amp; External</text>
+    <text x="52" y="109" fill="#6a82a0" font-size="11">Tiles, cladding, flashing, weatherproofing</text>
+    <text x="480" y="93" text-anchor="end" fill="#4a8ab5" font-size="18" font-weight="700">15%</text>
+    <text x="520" y="93" text-anchor="end" fill="#5a7399" font-size="13">£12,750</text>
+
+    <!-- Item 3 -->
+    <rect x="0" y="130" width="540" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="146" width="24" height="24" fill="#5bb88a" rx="4"/>
+    <text x="52" y="158" fill="#e0e8f0" font-size="15" font-weight="600">First Fix</text>
+    <text x="52" y="174" fill="#6a82a0" font-size="11">Electrics, plumbing, wiring before plastering</text>
+    <text x="480" y="158" text-anchor="end" fill="#5bb88a" font-size="18" font-weight="700">12%</text>
+    <text x="520" y="158" text-anchor="end" fill="#5a7399" font-size="13">£10,200</text>
+
+    <!-- Item 4 -->
+    <rect x="0" y="195" width="540" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="211" width="24" height="24" fill="#8b6ec8" rx="4"/>
+    <text x="52" y="223" fill="#e0e8f0" font-size="15" font-weight="600">Second Fix &amp; Plastering</text>
+    <text x="52" y="239" fill="#6a82a0" font-size="11">Sockets, switches, skirting, plasterboard, skim</text>
+    <text x="480" y="223" text-anchor="end" fill="#8b6ec8" font-size="18" font-weight="700">10%</text>
+    <text x="520" y="223" text-anchor="end" fill="#5a7399" font-size="13">£8,500</text>
+
+    <!-- Item 5 -->
+    <rect x="0" y="260" width="263" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="276" width="24" height="24" fill="#c76b5e" rx="4"/>
+    <text x="52" y="291" fill="#e0e8f0" font-size="14" font-weight="600">Insulation</text>
+    <text x="200" y="291" text-anchor="end" fill="#c76b5e" font-size="16" font-weight="700">8%</text>
+    <text x="247" y="291" text-anchor="end" fill="#5a7399" font-size="12">£6,800</text>
+
+    <!-- Item 6 -->
+    <rect x="277" y="260" width="263" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="293" y="276" width="24" height="24" fill="#5ec7b8" rx="4"/>
+    <text x="329" y="291" fill="#e0e8f0" font-size="14" font-weight="600">Bathroom</text>
+    <text x="477" y="291" text-anchor="end" fill="#5ec7b8" font-size="16" font-weight="700">8%</text>
+    <text x="524" y="291" text-anchor="end" fill="#5a7399" font-size="12">£6,800</text>
+
+    <!-- Item 7 -->
+    <rect x="0" y="325" width="263" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="16" y="341" width="24" height="24" fill="#c7b35e" rx="4"/>
+    <text x="52" y="356" fill="#e0e8f0" font-size="14" font-weight="600">Staircase</text>
+    <text x="200" y="356" text-anchor="end" fill="#c7b35e" font-size="16" font-weight="700">7%</text>
+    <text x="247" y="356" text-anchor="end" fill="#5a7399" font-size="12">£5,950</text>
+
+    <!-- Item 8 -->
+    <rect x="277" y="325" width="263" height="56" fill="#162240" rx="6" stroke="#1e3050" stroke-width="1"/>
+    <rect x="293" y="341" width="24" height="24" fill="#7a8ea8" rx="4"/>
+    <text x="329" y="356" fill="#e0e8f0" font-size="14" font-weight="600">Prof. Fees</text>
+    <text x="477" y="356" text-anchor="end" fill="#7a8ea8" font-size="16" font-weight="700">5%</text>
+    <text x="524" y="356" text-anchor="end" fill="#5a7399" font-size="12">£4,250</text>
+  </g>
+
+  <!-- Additional costs callout -->
+  <g transform="translate(620, 545)">
+    <rect x="0" y="0" width="540" height="70" fill="#1a1520" rx="8" stroke="#c76b5e" stroke-width="1" stroke-opacity="0.4"/>
+    <text x="20" y="24" fill="#c76b5e" font-size="13" font-weight="700">⚠ ADDITIONAL COSTS NOT INCLUDED ABOVE:</text>
+    <text x="20" y="44" fill="#8a9cbd" font-size="12">Party wall agreements (£1k–£3k/neighbour) · Building Control fees (£800–£1,200)</text>
+    <text x="20" y="60" fill="#8a9cbd" font-size="12">Planning application if needed (£206–£462) · Contingency fund (10–15% recommended)</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="1160" y="688" text-anchor="end" fill="#3a5580" font-size="10">bhstudio.co.uk · 2026 London Loft Conversion Guide</text>
+</svg>

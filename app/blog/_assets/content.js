@@ -13,6 +13,7 @@ import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
 import BathroomRenovationArticle from "./articles/BathroomRenovationArticle";
+import LoftConversionsLondonGuide from "./articles/LoftConversionsLondonGuide";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -208,6 +209,24 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "loft-conversions-london-complete-guide-2026",
+    title: "Loft conversions in London: the complete 2026 guide",
+    description:
+      "Comprehensive 2026 guide for London homeowners on loft conversion types, costs, planning rules, timelines and ROI, with borough-specific considerations.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-06",
+    image: {
+      src: extensionTypes2025Img,
+      urlRelative: "/assets/img/extension/diagram-of-popular-house-extensions.webp",
+      alt: "Loft conversions in London guide for homeowners in 2026",
+    },
+    content: <LoftConversionsLondonGuide />,
+  },
   {
     slug: "bathroom-renovation-london-trends-2026",
     title: "Bathroom renovation London: design trends and ideas for 2026",

@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f1729"/>
+      <stop offset="100%" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="gold5" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#c8a45e"/>
+      <stop offset="100%" stop-color="#e8c96e"/>
+    </linearGradient>
+    <filter id="glow5">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="700" fill="url(#bg5)"/>
+
+  <!-- Title -->
+  <text x="600" y="48" text-anchor="middle" fill="url(#gold5)" font-size="26" font-weight="700" letter-spacing="2" filter="url(#glow5)">LONDON BOROUGH PLANNING COMPLEXITY MAP</text>
+  <line x1="310" y1="62" x2="890" y2="62" stroke="url(#gold5)" stroke-width="1" opacity="0.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#8a9cbd" font-size="13" letter-spacing="1">LOFT CONVERSION PLANNING DIFFICULTY BY BOROUGH · 2026</text>
+
+  <!-- Simplified London borough map using approximate circles/shapes -->
+  <!-- Centre point of London roughly at 520, 360 -->
+  
+  <!-- OUTER BOROUGHS (Green - Generally Straightforward) -->
+  <!-- North -->
+  <g opacity="0.9">
+    <!-- Enfield -->
+    <ellipse cx="520" cy="145" rx="60" ry="32" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="520" y="142" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">ENFIELD</text>
+    <text x="520" y="155" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Barnet -->
+    <ellipse cx="420" cy="170" rx="50" ry="28" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="420" y="168" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">BARNET</text>
+    <text x="420" y="180" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Harrow -->
+    <ellipse cx="310" cy="210" rx="48" ry="26" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="310" y="208" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">HARROW</text>
+    <text x="310" y="220" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Havering -->
+    <ellipse cx="740" cy="240" rx="55" ry="30" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="740" y="238" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">HAVERING</text>
+    <text x="740" y="250" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Ealing -->
+    <ellipse cx="280" cy="310" rx="50" ry="28" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="280" y="308" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">EALING</text>
+    <text x="280" y="320" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Bromley -->
+    <ellipse cx="680" cy="480" rx="58" ry="32" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="680" y="478" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">BROMLEY</text>
+    <text x="680" y="490" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Croydon -->
+    <ellipse cx="560" cy="490" rx="50" ry="28" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="560" y="488" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">CROYDON</text>
+    <text x="560" y="500" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Sutton -->
+    <ellipse cx="450" cy="490" rx="42" ry="24" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="450" y="488" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">SUTTON</text>
+    <text x="450" y="500" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Hillingdon -->
+    <ellipse cx="220" cy="280" rx="48" ry="26" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="220" y="278" text-anchor="middle" fill="#4ecb71" font-size="9" font-weight="600">HILLINGDON</text>
+    <text x="220" y="290" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+  </g>
+
+  <!-- AMBER BOROUGHS (Significant conservation areas) -->
+  <g opacity="0.9">
+    <!-- Hackney -->
+    <ellipse cx="590" cy="240" rx="42" ry="24" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="590" y="238" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">HACKNEY</text>
+    <text x="590" y="250" text-anchor="middle" fill="#8a7a3a" font-size="8">Some restrictions</text>
+
+    <!-- Islington -->
+    <ellipse cx="520" cy="250" rx="38" ry="22" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="520" y="248" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">ISLINGTON</text>
+    <text x="520" y="260" text-anchor="middle" fill="#8a7a3a" font-size="8">Many CA zones</text>
+
+    <!-- Camden -->
+    <ellipse cx="460" cy="245" rx="38" ry="22" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="460" y="243" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">CAMDEN</text>
+    <text x="460" y="255" text-anchor="middle" fill="#8a7a3a" font-size="8">Article 4 areas</text>
+
+    <!-- Wandsworth -->
+    <ellipse cx="420" cy="400" rx="50" ry="26" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="420" y="398" text-anchor="middle" fill="#e8c96e" font-size="9" font-weight="600">WANDSWORTH</text>
+    <text x="420" y="410" text-anchor="middle" fill="#8a7a3a" font-size="8">Mixed areas</text>
+
+    <!-- Lambeth -->
+    <ellipse cx="490" cy="400" rx="38" ry="24" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="490" y="398" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">LAMBETH</text>
+    <text x="490" y="410" text-anchor="middle" fill="#8a7a3a" font-size="8">Some CA areas</text>
+
+    <!-- Southwark -->
+    <ellipse cx="560" cy="370" rx="42" ry="24" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="560" y="368" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">SOUTHWARK</text>
+    <text x="560" y="380" text-anchor="middle" fill="#8a7a3a" font-size="8">Varied policies</text>
+
+    <!-- Haringey -->
+    <ellipse cx="550" cy="195" rx="42" ry="22" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="550" y="193" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">HARINGEY</text>
+    <text x="550" y="205" text-anchor="middle" fill="#8a7a3a" font-size="8">Some restrictions</text>
+
+    <!-- Lewisham -->
+    <ellipse cx="620" cy="420" rx="42" ry="24" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="620" y="418" text-anchor="middle" fill="#e8c96e" font-size="10" font-weight="600">LEWISHAM</text>
+    <text x="620" y="430" text-anchor="middle" fill="#8a7a3a" font-size="8">Generally OK</text>
+
+    <!-- Richmond -->
+    <ellipse cx="320" cy="400" rx="48" ry="24" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="320" y="398" text-anchor="middle" fill="#e8c96e" font-size="9" font-weight="600">RICHMOND</text>
+    <text x="320" y="410" text-anchor="middle" fill="#8a7a3a" font-size="8">Heritage areas</text>
+
+    <!-- Hammersmith -->
+    <ellipse cx="360" cy="340" rx="44" ry="22" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="360" y="338" text-anchor="middle" fill="#e8c96e" font-size="9" font-weight="600">H'SMITH</text>
+    <text x="360" y="350" text-anchor="middle" fill="#8a7a3a" font-size="8">Mixed</text>
+  </g>
+
+  <!-- RED BOROUGHS (Extensive restrictions) -->
+  <g opacity="0.9">
+    <!-- Westminster -->
+    <ellipse cx="460" cy="310" rx="40" ry="22" fill="#2a1a1a" stroke="#c75050" stroke-width="2"/>
+    <text x="460" y="308" text-anchor="middle" fill="#e07070" font-size="9" font-weight="700">WESTMINSTER</text>
+    <text x="460" y="320" text-anchor="middle" fill="#8a3a3a" font-size="8">Very strict</text>
+
+    <!-- Kensington & Chelsea -->
+    <ellipse cx="395" cy="340" rx="30" ry="22" fill="#2a1a1a" stroke="#c75050" stroke-width="2"/>
+    <text x="395" y="335" text-anchor="middle" fill="#e07070" font-size="8" font-weight="700">K&amp;C</text>
+    <text x="395" y="348" text-anchor="middle" fill="#8a3a3a" font-size="7">Strictest</text>
+
+    <!-- City of London -->
+    <ellipse cx="530" cy="310" rx="30" ry="18" fill="#2a1a1a" stroke="#c75050" stroke-width="2"/>
+    <text x="530" y="308" text-anchor="middle" fill="#e07070" font-size="8" font-weight="700">CITY</text>
+    <text x="530" y="320" text-anchor="middle" fill="#8a3a3a" font-size="7">Heritage</text>
+  </g>
+
+  <!-- More outer green boroughs -->
+  <g opacity="0.9">
+    <!-- Redbridge -->
+    <ellipse cx="680" cy="230" rx="40" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="680" y="228" text-anchor="middle" fill="#4ecb71" font-size="9" font-weight="600">REDBRIDGE</text>
+    <text x="680" y="240" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Bexley -->
+    <ellipse cx="730" cy="380" rx="42" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="730" y="378" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">BEXLEY</text>
+    <text x="730" y="390" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Greenwich -->
+    <ellipse cx="660" cy="370" rx="38" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="660" y="368" text-anchor="middle" fill="#4ecb71" font-size="9" font-weight="600">GREENWICH</text>
+    <text x="660" y="380" text-anchor="middle" fill="#2d8a4e" font-size="8">Mostly OK</text>
+
+    <!-- Merton -->
+    <ellipse cx="420" cy="450" rx="40" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="420" y="448" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">MERTON</text>
+    <text x="420" y="460" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Kingston -->
+    <ellipse cx="340" cy="450" rx="40" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="340" y="448" text-anchor="middle" fill="#4ecb71" font-size="9" font-weight="600">KINGSTON</text>
+    <text x="340" y="460" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Hounslow -->
+    <ellipse cx="260" cy="360" rx="45" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="260" y="358" text-anchor="middle" fill="#4ecb71" font-size="9" font-weight="600">HOUNSLOW</text>
+    <text x="260" y="370" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Waltham Forest -->
+    <ellipse cx="620" cy="200" rx="40" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="620" y="195" text-anchor="middle" fill="#4ecb71" font-size="8" font-weight="600">WALTHAM F.</text>
+    <text x="620" y="208" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Newham -->
+    <ellipse cx="650" cy="290" rx="38" ry="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5"/>
+    <text x="650" y="288" text-anchor="middle" fill="#4ecb71" font-size="10" font-weight="600">NEWHAM</text>
+    <text x="650" y="300" text-anchor="middle" fill="#2d8a4e" font-size="8">Straightforward</text>
+
+    <!-- Tower Hamlets -->
+    <ellipse cx="590" cy="310" rx="38" ry="20" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5"/>
+    <text x="590" y="305" text-anchor="middle" fill="#e8c96e" font-size="8" font-weight="600">TOWER H.</text>
+    <text x="590" y="318" text-anchor="middle" fill="#8a7a3a" font-size="7">Some CA</text>
+  </g>
+
+  <!-- LEGEND -->
+  <g transform="translate(870, 130)">
+    <rect x="0" y="0" width="290" height="280" fill="#131f38" rx="10" stroke="#1e3050" stroke-width="1.5"/>
+    
+    <text x="145" y="30" text-anchor="middle" fill="#e0e8f0" font-size="14" font-weight="700" letter-spacing="1">PLANNING COMPLEXITY</text>
+    <line x1="20" y1="42" x2="270" y2="42" stroke="#1e3050"/>
+
+    <!-- Green -->
+    <rect x="20" y="58" width="22" height="22" fill="#1a3a2a" stroke="#2d8a4e" stroke-width="1.5" rx="4"/>
+    <text x="52" y="72" fill="#4ecb71" font-size="13" font-weight="600">Straightforward</text>
+    <text x="52" y="88" fill="#5a7399" font-size="10">PD usually fine. Fewer</text>
+    <text x="52" y="100" fill="#5a7399" font-size="10">conservation area issues.</text>
+
+    <!-- Amber -->
+    <rect x="20" y="118" width="22" height="22" fill="#2a2a1a" stroke="#c8a45e" stroke-width="1.5" rx="4"/>
+    <text x="52" y="132" fill="#e8c96e" font-size="13" font-weight="600">Some Restrictions</text>
+    <text x="52" y="148" fill="#5a7399" font-size="10">Conservation areas present.</text>
+    <text x="52" y="160" fill="#5a7399" font-size="10">Check PD status carefully.</text>
+
+    <!-- Red -->
+    <rect x="20" y="178" width="22" height="22" fill="#2a1a1a" stroke="#c75050" stroke-width="2" rx="4"/>
+    <text x="52" y="192" fill="#e07070" font-size="13" font-weight="600">Extensive Restrictions</text>
+    <text x="52" y="208" fill="#5a7399" font-size="10">Most areas require full</text>
+    <text x="52" y="220" fill="#5a7399" font-size="10">planning permission.</text>
+
+    <!-- Advice -->
+    <rect x="15" y="240" width="260" height="28" fill="#162240" rx="4"/>
+    <text x="145" y="258" text-anchor="middle" fill="#c8a45e" font-size="10" font-weight="600">Always check your specific property status</text>
+  </g>
+
+  <!-- Bottom callout -->
+  <g transform="translate(870, 430)">
+    <rect x="0" y="0" width="290" height="120" fill="#162240" rx="8" stroke="#1e3050"/>
+    <text x="145" y="24" text-anchor="middle" fill="#c8a45e" font-size="12" font-weight="700">KEY CONSIDERATIONS</text>
+    <text x="20" y="48" fill="#8a9cbd" font-size="11">• Over 1,000 conservation areas</text>
+    <text x="20" y="66" fill="#8a9cbd" font-size="11">• Article 4 directions vary by street</text>
+    <text x="20" y="84" fill="#8a9cbd" font-size="11">• Flats always need full permission</text>
+    <text x="20" y="102" fill="#8a9cbd" font-size="11">• Pre-application advice: £100–£300</text>
+  </g>
+
+  <!-- River Thames suggestion -->
+  <path d="M 180,345 Q 300,360 380,355 Q 440,350 500,340 Q 560,332 600,340 Q 650,350 700,345 Q 750,340 790,350" fill="none" stroke="#1a3a5a" stroke-width="3" opacity="0.3" stroke-dasharray="8,4"/>
+  <text x="200" y="358" fill="#1a3a5a" font-size="9" opacity="0.4">THAMES</text>
+
+  <!-- Footer -->
+  <text x="1160" y="688" text-anchor="end" fill="#3a5580" font-size="10">bhstudio.co.uk · 2026 London Loft Conversion Guide</text>
+</svg>
