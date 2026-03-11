@@ -9,11 +9,13 @@ import kitchenCostGuide2025Img from "/public/assets/portfolio/kitchen-lawrence-e
 import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-5.webp";
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png";
+import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
 import BathroomRenovationArticle from "./articles/BathroomRenovationArticle";
 import LoftConversionsLondonGuide from "./articles/LoftConversionsLondonGuide";
+import PlanningPermissionLoftConversionLondonArticle from "./articles/PlanningPermissionLoftConversionLondonArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -209,6 +211,26 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "planning-permission-loft-conversion-london",
+    title:
+      "Planning permission for loft conversions in London: complete 2026 guide",
+    description:
+      "Do you need planning permission for a loft conversion in London? Complete 2026 guide covering permitted development, conservation areas, Article 4 zones, costs and timelines.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-11",
+    image: {
+      src: loftPlanningGuideImg,
+      urlRelative:
+        "/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png",
+      alt: "Planning permission guide for loft conversions in London",
+    },
+    content: <PlanningPermissionLoftConversionLondonArticle />,
+  },
   {
     slug: "loft-conversions-london-complete-guide-2026",
     title: "Loft conversions in London: the complete 2026 guide",
