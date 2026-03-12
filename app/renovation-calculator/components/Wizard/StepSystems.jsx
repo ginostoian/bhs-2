@@ -1,167 +1,130 @@
 "use client";
 
 import React from "react";
+import {
+  HEATING_OPTIONS,
+  PLUMBING_OPTIONS,
+  REWIRE_OPTIONS,
+} from "../../lib/config";
 
-const StepSystems = ({ formData, setFormData, onNext, onBack }) => {
-  const handleToggle = (field) => {
-    setFormData((prev) => ({ ...prev, [field]: !prev[field] }));
-  };
-
-  const canProceed = true; // This step is optional
-
+function SelectCard({ checked, title, description, onChange }) {
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">
-          Systems & Services
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition ${
+        checked
+          ? "border-slate-900 bg-slate-50 shadow-sm"
+          : "border-stone-200 bg-white hover:border-stone-300"
+      }`}
+    >
+      <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
+      <div className="flex items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-5 w-5 rounded-full border-2 ${
+            checked ? "border-slate-900 bg-slate-900" : "border-stone-300"
+          }`}
+        >
+          {checked && <span className="m-auto h-2 w-2 rounded-full bg-white" />}
+        </span>
+        <span>
+          <span className="block font-semibold text-stone-900">{title}</span>
+          <span className="mt-1 block text-sm text-stone-600">{description}</span>
+        </span>
+      </div>
+    </label>
+  );
+}
+
+export default function StepSystems({ formData, setFormData, onNext, onBack }) {
+  return (
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+          Systems
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-900">
+          Add electrical, heating and plumbing upgrades
         </h2>
-        <p className="text-lg text-gray-600">
-          Do you need to update your electrical or heating systems?
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
+          Whole-home service upgrades are usually one of the largest hidden
+          costs in older refurbishments. This step prices them separately.
         </p>
       </div>
 
       <div className="space-y-8">
-        {/* Electrical Rewiring */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            Do you need to rewire the house?
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Electrical works
           </h3>
-          <div className="space-y-4">
-            <div
-              className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                formData.rewire
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-              onClick={() => handleToggle("rewire")}
-            >
-              <div className="flex items-start">
-                <div
-                  className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                    formData.rewire
-                      ? "border-blue-500 bg-blue-500"
-                      : "border-gray-300"
-                  }`}
-                >
-                  {formData.rewire && (
-                    <div className="h-2 w-2 rounded-full bg-white"></div>
-                  )}
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">
-                    Yes, full house rewire needed
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600">
-                    Complete electrical system upgrade including consumer unit,
-                    sockets, and lighting
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {REWIRE_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.rewireLevel === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, rewireLevel: option.id }))
+                }
+              />
+            ))}
           </div>
-        </div>
+        </section>
 
-        {/* Heating System */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            Do you need to replace the heating system?
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Heating works
           </h3>
-          <div className="space-y-4">
-            <div
-              className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                formData.replaceHeating
-                  ? "border-blue-500 bg-blue-50"
-                  : "border-gray-200 hover:border-gray-300"
-              }`}
-              onClick={() => handleToggle("replaceHeating")}
-            >
-              <div className="flex items-start">
-                <div
-                  className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                    formData.replaceHeating
-                      ? "border-blue-500 bg-blue-500"
-                      : "border-gray-300"
-                  }`}
-                >
-                  {formData.replaceHeating && (
-                    <div className="h-2 w-2 rounded-full bg-white"></div>
-                  )}
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">
-                    Yes, replace heating system
-                  </h4>
-                  <p className="mt-1 text-sm text-gray-600">
-                    New boiler, radiators, and heating controls
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {HEATING_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.heatingLevel === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, heatingLevel: option.id }))
+                }
+              />
+            ))}
           </div>
-        </div>
+        </section>
 
-        {/* Information about systems */}
-        <div className="rounded-lg bg-blue-50 p-6">
-          <h4 className="mb-3 text-lg font-semibold text-blue-900">
-            ⚡ About Electrical & Heating Systems
-          </h4>
-          <div className="space-y-2 text-sm text-blue-800">
-            <p>
-              <strong>Rewiring:</strong> Recommended for properties over 25
-              years old
-            </p>
-            <p>
-              <strong>Heating:</strong> Modern boilers are more efficient and
-              cost-effective
-            </p>
-            <p>
-              <strong>Safety:</strong> Both systems must meet current building
-              regulations
-            </p>
-            <p>
-              <strong>Certification:</strong> Work must be carried out by
-              qualified professionals
-            </p>
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Plumbing works
+          </h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {PLUMBING_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.plumbingLevel === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, plumbingLevel: option.id }))
+                }
+              />
+            ))}
           </div>
-        </div>
-
-        {/* Summary */}
-        <div className="rounded-lg bg-gray-50 p-6">
-          <h4 className="mb-3 text-lg font-semibold text-gray-900">
-            📋 Systems Summary
-          </h4>
-          <div className="space-y-2 text-sm text-gray-700">
-            {formData.rewire ? (
-              <p>• Full house rewire planned</p>
-            ) : (
-              <p>• No electrical rewiring planned</p>
-            )}
-            {formData.replaceHeating ? (
-              <p>• Heating system replacement planned</p>
-            ) : (
-              <p>• No heating system replacement planned</p>
-            )}
-          </div>
-        </div>
+        </section>
       </div>
 
-      {/* Navigation */}
       <div className="mt-8 flex justify-between">
         <button
+          type="button"
           onClick={onBack}
-          className="rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          className="rounded-2xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onNext}
-          className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700"
+          className="rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-black"
         >
           Continue
         </button>
       </div>
     </div>
   );
-};
-
-export default StepSystems;
+}

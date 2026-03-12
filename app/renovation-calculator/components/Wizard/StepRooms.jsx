@@ -1,174 +1,174 @@
 "use client";
 
 import React from "react";
+import { COVERAGE_OPTIONS } from "../../lib/config";
 
-const StepRooms = ({ formData, setFormData, onNext, onBack }) => {
-  const handleRoomCountChange = (roomType, value) => {
-    const count = parseInt(value) || 0;
-    setFormData((prev) => ({ ...prev, [roomType]: count }));
-  };
+function SelectCard({ checked, title, description, onChange }) {
+  return (
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition ${
+        checked
+          ? "border-slate-900 bg-slate-50 shadow-sm"
+          : "border-stone-200 bg-white hover:border-stone-300"
+      }`}
+    >
+      <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
+      <div className="flex items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-5 w-5 rounded-full border-2 ${
+            checked ? "border-slate-900 bg-slate-900" : "border-stone-300"
+          }`}
+        >
+          {checked && <span className="m-auto h-2 w-2 rounded-full bg-white" />}
+        </span>
+        <span>
+          <span className="block font-semibold text-stone-900">{title}</span>
+          <span className="mt-1 block text-sm text-stone-600">{description}</span>
+        </span>
+      </div>
+    </label>
+  );
+}
 
-  const canProceed =
-    formData.bedrooms > 0 && formData.bathrooms > 0 && formData.kitchens > 0;
+function CountField({ label, value, max, onChange, helper }) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-medium text-stone-700">{label}</label>
+      <input
+        type="number"
+        min="0"
+        max={max}
+        value={value || ""}
+        onChange={(e) => onChange(Number(e.target.value) || 0)}
+        className="w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-stone-900 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10"
+      />
+      {helper && <p className="mt-2 text-sm text-stone-500">{helper}</p>}
+    </div>
+  );
+}
+
+export default function StepRooms({ formData, setFormData, onNext, onBack }) {
+  const canProceed = !!formData.coverageLevel;
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">Room Count</h2>
-        <p className="text-lg text-gray-600">
-          How many bedrooms, bathrooms, and kitchens does your property have?
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+          Rooms & Coverage
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-900">
+          How much of the home is actually being touched?
+        </h2>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
+          This is one of the biggest cost drivers. Then tell us which rooms are
+          being fully refurbished so the calculator can add realistic kitchen,
+          bathroom and bedroom allowances on top.
         </p>
       </div>
 
       <div className="space-y-8">
-        {/* Bedrooms */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            How many bedrooms do you have?
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Broadly, how much of the property is affected?
           </h3>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="bedrooms"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Number of bedrooms
-              </label>
-              <input
-                type="number"
-                id="bedrooms"
-                value={formData.bedrooms || ""}
-                onChange={(e) =>
-                  handleRoomCountChange("bedrooms", e.target.value)
+          <div className="grid gap-4 md:grid-cols-2">
+            {COVERAGE_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.coverageLevel === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, coverageLevel: option.id }))
                 }
-                placeholder="e.g., 3"
-                min="1"
-                max="10"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
               />
-            </div>
-            <div className="text-sm text-gray-600">
-              <p>
-                💡 Include all bedrooms, including master bedroom, guest rooms,
-                and study rooms.
-              </p>
-            </div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        {/* Bathrooms */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            How many bathrooms do you have?
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            How many rooms are being fully refurbished?
           </h3>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="bathrooms"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Number of bathrooms
-              </label>
-              <input
-                type="number"
-                id="bathrooms"
-                value={formData.bathrooms || ""}
-                onChange={(e) =>
-                  handleRoomCountChange("bathrooms", e.target.value)
-                }
-                placeholder="e.g., 2"
-                min="1"
-                max="8"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-            </div>
-            <div className="text-sm text-gray-600">
-              <p>
-                💡 Include full bathrooms, en-suites, and shower rooms.
-                Don&apos;t include separate toilets.
-              </p>
-            </div>
+          <div className="grid gap-5 md:grid-cols-2">
+            <CountField
+              label="Kitchens included"
+              value={formData.renovateKitchenCount}
+              max={formData.kitchens || 3}
+              onChange={(renovateKitchenCount) =>
+                setFormData((prev) => ({ ...prev, renovateKitchenCount }))
+              }
+              helper={`Total kitchens in property: ${formData.kitchens || 0}`}
+            />
+            <CountField
+              label="Bathrooms included"
+              value={formData.renovateBathroomCount}
+              max={formData.bathrooms || 8}
+              onChange={(renovateBathroomCount) =>
+                setFormData((prev) => ({ ...prev, renovateBathroomCount }))
+              }
+              helper={`Total bathrooms in property: ${formData.bathrooms || 0}`}
+            />
+            <CountField
+              label="Bedrooms included"
+              value={formData.renovateBedroomCount}
+              max={formData.bedrooms || 12}
+              onChange={(renovateBedroomCount) =>
+                setFormData((prev) => ({ ...prev, renovateBedroomCount }))
+              }
+              helper={`Total bedrooms in property: ${formData.bedrooms || 0}`}
+            />
+            <CountField
+              label="Reception rooms included"
+              value={formData.renovateReceptionCount}
+              max={formData.receptionRooms || 6}
+              onChange={(renovateReceptionCount) =>
+                setFormData((prev) => ({ ...prev, renovateReceptionCount }))
+              }
+              helper={`Total reception rooms: ${formData.receptionRooms || 0}`}
+            />
           </div>
-        </div>
+        </section>
 
-        {/* Kitchens */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            How many kitchens do you have?
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="kitchens"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Number of kitchens
-              </label>
-              <input
-                type="number"
-                id="kitchens"
-                value={formData.kitchens || ""}
-                onChange={(e) =>
-                  handleRoomCountChange("kitchens", e.target.value)
-                }
-                placeholder="e.g., 1"
-                min="1"
-                max="3"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-            </div>
-            <div className="text-sm text-gray-600">
-              <p>
-                💡 Most properties have 1 kitchen. Some larger properties may
-                have a main kitchen and utility room.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Summary */}
-        <div className="rounded-lg bg-blue-50 p-6">
-          <h4 className="mb-3 text-lg font-semibold text-blue-900">
-            📋 Room Summary
-          </h4>
-          <div className="grid grid-cols-3 gap-4 text-sm">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {formData.bedrooms || 0}
-              </div>
-              <div className="text-blue-800">Bedrooms</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {formData.bathrooms || 0}
-              </div>
-              <div className="text-blue-800">Bathrooms</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {formData.kitchens || 0}
-              </div>
-              <div className="text-blue-800">Kitchens</div>
-            </div>
-          </div>
-        </div>
+        <section className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+          <label className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              checked={!!formData.includeHallway}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, includeHallway: e.target.checked }))
+              }
+              className="mt-1 h-4 w-4 rounded border-stone-300 text-slate-900 focus:ring-slate-900"
+            />
+            <span>
+              <span className="block font-semibold text-stone-900">
+                Include hallway / stairs / landing
+              </span>
+              <span className="mt-1 block text-sm text-stone-600">
+                Useful for whole-home refreshes where circulation areas are also
+                being fully upgraded.
+              </span>
+            </span>
+          </label>
+        </section>
       </div>
 
-      {/* Navigation */}
       <div className="mt-8 flex justify-between">
         <button
+          type="button"
           onClick={onBack}
-          className="rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          className="rounded-2xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onNext}
           disabled={!canProceed}
-          className={`rounded-lg px-6 py-3 font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-sm font-semibold transition ${
             canProceed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "cursor-not-allowed bg-gray-300 text-gray-500"
+              ? "bg-slate-900 text-white hover:bg-black"
+              : "cursor-not-allowed bg-stone-300 text-stone-500"
           }`}
         >
           Continue
@@ -176,6 +176,4 @@ const StepRooms = ({ formData, setFormData, onNext, onBack }) => {
       </div>
     </div>
   );
-};
-
-export default StepRooms;
+}

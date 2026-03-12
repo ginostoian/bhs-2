@@ -1,173 +1,194 @@
 "use client";
 
 import React from "react";
-import { HOUSE_TYPES, FLOOR_OPTIONS } from "../../lib/config";
+import { FLOOR_OPTIONS, HOUSE_STYLE_OPTIONS } from "../../lib/config";
 
-const StepHouseDetails = ({ formData, setFormData, onNext, onBack }) => {
-  const handleHouseTypeChange = (houseType) => {
-    setFormData((prev) => ({ ...prev, houseType }));
-  };
+function SelectCard({ checked, title, description, onChange }) {
+  return (
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition ${
+        checked
+          ? "border-slate-900 bg-slate-50 shadow-sm"
+          : "border-stone-200 bg-white hover:border-stone-300"
+      }`}
+    >
+      <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
+      <div className="flex items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-5 w-5 rounded-full border-2 ${
+            checked ? "border-slate-900 bg-slate-900" : "border-stone-300"
+          }`}
+        >
+          {checked && <span className="m-auto h-2 w-2 rounded-full bg-white" />}
+        </span>
+        <span>
+          <span className="block font-semibold text-stone-900">{title}</span>
+          <span className="mt-1 block text-sm text-stone-600">{description}</span>
+        </span>
+      </div>
+    </label>
+  );
+}
 
-  const handleFloorChange = (floor) => {
-    setFormData((prev) => ({ ...prev, floor }));
-  };
+function NumberField({ label, value, min = 0, max = 999, onChange, helper }) {
+  return (
+    <div>
+      <label className="mb-2 block text-sm font-medium text-stone-700">{label}</label>
+      <input
+        type="number"
+        min={min}
+        max={max}
+        value={value || ""}
+        onChange={(e) => onChange(Number(e.target.value) || 0)}
+        className="w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-stone-900 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10"
+      />
+      {helper && <p className="mt-2 text-sm text-stone-500">{helper}</p>}
+    </div>
+  );
+}
 
-  const handleHouseSizeChange = (e) => {
-    const size = parseInt(e.target.value) || 0;
-    setFormData((prev) => ({ ...prev, houseSize: size }));
-  };
-
+export default function StepHouseDetails({
+  formData,
+  setFormData,
+  onNext,
+  onBack,
+}) {
   const isFlat =
     formData.propertyType === "flat" || formData.propertyType === "maisonette";
   const canProceed =
-    formData.houseType && formData.houseSize > 0 && (!isFlat || formData.floor);
+    !!formData.houseStyle &&
+    formData.houseSize >= 20 &&
+    (!isFlat || !!formData.floor);
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">House Details</h2>
-        <p className="text-lg text-gray-600">
-          Tell us about your house type and size
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+          House Details
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-900">
+          Give the calculator some structure
+        </h2>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
+          Older properties and flats usually carry extra cost risk, so this
+          step helps the estimate reflect real-world London refurbishment work.
         </p>
       </div>
 
       <div className="space-y-8">
-        {/* House Type Selection */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            What type of house is it?
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            What kind of building is it?
           </h3>
-          <div className="grid gap-4">
-            {HOUSE_TYPES.map((houseType) => (
-              <div
-                key={houseType.id}
-                className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                  formData.houseType === houseType.id
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-                onClick={() => handleHouseTypeChange(houseType.id)}
-              >
-                <div className="flex items-start">
-                  <div
-                    className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                      formData.houseType === houseType.id
-                        ? "border-blue-500 bg-blue-500"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    {formData.houseType === houseType.id && (
-                      <div className="h-2 w-2 rounded-full bg-white"></div>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">
-                      {houseType.name}
-                    </h4>
-                    <p className="mt-1 text-sm text-gray-600">
-                      {houseType.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {HOUSE_STYLE_OPTIONS.map((style) => (
+              <SelectCard
+                key={style.id}
+                checked={formData.houseStyle === style.id}
+                title={style.name}
+                description={style.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, houseStyle: style.id }))
+                }
+              />
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Floor Selection (only for flats) */}
         {isFlat && (
-          <div>
-            <h3 className="mb-4 text-xl font-semibold text-gray-900">
-              Which floor is your flat on?
+          <section>
+            <h3 className="mb-4 text-lg font-semibold text-stone-900">
+              Which floor is it on?
             </h3>
-            <div className="grid gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
               {FLOOR_OPTIONS.map((floor) => (
-                <div
+                <SelectCard
                   key={floor.id}
-                  className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                    formData.floor === floor.id
-                      ? "border-blue-500 bg-blue-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                  onClick={() => handleFloorChange(floor.id)}
-                >
-                  <div className="flex items-start">
-                    <div
-                      className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                        formData.floor === floor.id
-                          ? "border-blue-500 bg-blue-500"
-                          : "border-gray-300"
-                      }`}
-                    >
-                      {formData.floor === floor.id && (
-                        <div className="h-2 w-2 rounded-full bg-white"></div>
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-gray-900">
-                        {floor.name}
-                      </h4>
-                    </div>
-                  </div>
-                </div>
+                  checked={formData.floor === floor.id}
+                  title={floor.name}
+                  description="Used to reflect access, carry-in and waste logistics."
+                  onChange={() =>
+                    setFormData((prev) => ({ ...prev, floor: floor.id }))
+                  }
+                />
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* House Size Input */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            What is the approximate size of your house?
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label
-                htmlFor="houseSize"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Total floor area in square meters
-              </label>
-              <input
-                type="number"
-                id="houseSize"
-                value={formData.houseSize || ""}
-                onChange={handleHouseSizeChange}
-                placeholder="e.g., 120"
-                min="20"
-                max="1000"
-                className="w-full rounded-lg border border-gray-300 px-4 py-3 text-lg focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-            </div>
-            <div className="text-sm text-gray-600">
-              <p>
-                💡 Tip: You can find this information on your property deeds or
-                by measuring each room.
-              </p>
-              <p>
-                Typical sizes: 1-bed flat (40-60m²), 2-bed house (70-90m²),
-                3-bed house (100-130m²)
-              </p>
-            </div>
+        <section className="grid gap-5 md:grid-cols-2">
+          <NumberField
+            label="Approximate internal size (m²)"
+            value={formData.houseSize}
+            min={20}
+            max={1000}
+            onChange={(houseSize) => setFormData((prev) => ({ ...prev, houseSize }))}
+            helper="If you only know it roughly, that is fine. Early estimates are still useful."
+          />
+          <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4 text-sm text-stone-600">
+            <p className="font-semibold text-stone-900">Typical sizes</p>
+            <p className="mt-2">1-bed flat: 40-60 m²</p>
+            <p>2-bed house: 70-95 m²</p>
+            <p>3-bed house: 95-130 m²</p>
+            <p>4-bed house: 130-180 m²</p>
           </div>
-        </div>
+        </section>
+
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            How many rooms does the property have?
+          </h3>
+          <div className="grid gap-5 md:grid-cols-2">
+            <NumberField
+              label="Bedrooms"
+              value={formData.bedrooms}
+              min={0}
+              max={12}
+              onChange={(bedrooms) => setFormData((prev) => ({ ...prev, bedrooms }))}
+            />
+            <NumberField
+              label="Bathrooms / shower rooms"
+              value={formData.bathrooms}
+              min={0}
+              max={8}
+              onChange={(bathrooms) => setFormData((prev) => ({ ...prev, bathrooms }))}
+            />
+            <NumberField
+              label="Kitchens"
+              value={formData.kitchens}
+              min={0}
+              max={3}
+              onChange={(kitchens) => setFormData((prev) => ({ ...prev, kitchens }))}
+            />
+            <NumberField
+              label="Reception / living spaces"
+              value={formData.receptionRooms}
+              min={0}
+              max={6}
+              onChange={(receptionRooms) =>
+                setFormData((prev) => ({ ...prev, receptionRooms }))
+              }
+            />
+          </div>
+        </section>
       </div>
 
-      {/* Navigation */}
       <div className="mt-8 flex justify-between">
         <button
+          type="button"
           onClick={onBack}
-          className="rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+          className="rounded-2xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onNext}
           disabled={!canProceed}
-          className={`rounded-lg px-6 py-3 font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-sm font-semibold transition ${
             canProceed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "cursor-not-allowed bg-gray-300 text-gray-500"
+              ? "bg-slate-900 text-white hover:bg-black"
+              : "cursor-not-allowed bg-stone-300 text-stone-500"
           }`}
         >
           Continue
@@ -175,6 +196,4 @@ const StepHouseDetails = ({ formData, setFormData, onNext, onBack }) => {
       </div>
     </div>
   );
-};
-
-export default StepHouseDetails;
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Modal from "@/components/Modal";
 import Stepper from "./components/Wizard/Stepper";
 import StepProperty from "./components/Wizard/StepProperty";
 import StepHouseDetails from "./components/Wizard/StepHouseDetails";
@@ -12,87 +13,139 @@ import StepFinishing from "./components/Wizard/StepFinishing";
 import StepFinish from "./components/Wizard/StepFinish";
 import ResultCard from "./components/ResultCard";
 import FAQ from "./components/FAQ";
-import Modal from "@/components/Modal";
 import { costEngine } from "./lib/costEngine";
 
-const RenovationCalculator = () => {
+const initialFormData = {
+  propertyType: "",
+  region: "london",
+  londonZone: "zone3",
+  location: "zone3",
+  postcode: "",
+  houseStyle: "",
+  floor: "ground",
+  houseSize: 0,
+  bedrooms: 0,
+  bathrooms: 0,
+  kitchens: 1,
+  receptionRooms: 1,
+  coverageLevel: "",
+  renovationLevel: "",
+  finishLevel: "standard",
+  occupancyStatus: "vacant",
+  drawingsStatus: "roughScope",
+  renovateKitchenCount: 0,
+  renovateBathroomCount: 0,
+  renovateBedroomCount: 0,
+  renovateReceptionCount: 0,
+  includeHallway: false,
+  structuralLevel: "none",
+  wallRemovalCount: 0,
+  dampAllowance: false,
+  rewireLevel: "none",
+  heatingLevel: "none",
+  plumbingLevel: "none",
+  plasteringLevel: "none",
+  decorationLevel: "none",
+  flooringLevel: "none",
+  floorFinish: "laminate",
+  doorPackage: "none",
+};
+
+const steps = [
+  { title: "Property", description: "Location + type" },
+  { title: "House Details", description: "Size and room count" },
+  { title: "Rooms", description: "Coverage and room fit-out" },
+  { title: "Scope", description: "Renovation standard" },
+  { title: "Structural", description: "Layout and hidden risk" },
+  { title: "Systems", description: "Electrical, heating, plumbing" },
+  { title: "Finishing", description: "Plaster, paint, floors, doors" },
+  { title: "Review", description: "Check before calculate" },
+];
+
+const modalReset = {
+  isOpen: false,
+  title: "",
+  message: "",
+  type: "alert",
+  confirmText: "OK",
+};
+
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount || 0);
+
+function ProgressRow({ done, label }) {
+  return (
+    <div className={`flex items-center gap-3 ${done ? "text-stone-900" : "text-stone-400"}`}>
+      <span
+        className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-semibold ${
+          done ? "bg-emerald-500 text-white" : "bg-stone-200 text-stone-500"
+        }`}
+      >
+        {done ? "✓" : ""}
+      </span>
+      <span>{label}</span>
+    </div>
+  );
+}
+
+export default function RenovationCalculator() {
   const [currentStep, setCurrentStep] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [calculationResult, setCalculationResult] = useState(null);
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    title: "",
-    message: "",
-    type: "alert",
-    confirmText: "OK",
-  });
-  const [formData, setFormData] = useState({
-    propertyType: "",
-    location: "",
-    houseType: "",
-    floor: "",
-    houseSize: 0,
-    bedrooms: 0,
-    bathrooms: 0,
-    kitchens: 0,
-    wallpapered: false,
-    renovateBathrooms: false,
-    renovateKitchen: false,
-    renovateBedrooms: false,
-    removeWalls: false,
-    structuralWalls: false,
-    rewire: false,
-    replaceHeating: false,
-    skimWalls: false,
-    skimCeilings: false,
-    replaceDoors: false,
-    replaceFloors: false,
-    floorType: "",
-  });
+  const [modalState, setModalState] = useState(modalReset);
+  const [formData, setFormData] = useState(initialFormData);
 
-  const steps = [
-    { title: "Property", description: "Tell us about your property" },
-    { title: "House Details", description: "House type and size" },
-    { title: "Rooms", description: "Number of rooms" },
-    { title: "Renovation Scope", description: "What to renovate" },
-    { title: "Structural Work", description: "Walls and structural changes" },
-    { title: "Systems", description: "Electrical and heating" },
-    { title: "Finishing", description: "Walls, doors, and floors" },
-    { title: "Review", description: "Review your details" },
-  ];
+  let livePreview = null;
+  try {
+    if (
+      formData.propertyType &&
+      formData.houseStyle &&
+      formData.houseSize > 0 &&
+      formData.coverageLevel &&
+      formData.renovationLevel
+    ) {
+      livePreview = costEngine.calculateTotalCost(formData);
+    }
+  } catch (_error) {
+    livePreview = null;
+  }
+
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-      // Scroll to top when moving to next step
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      // Calculate cost
-      try {
-        const result = costEngine.calculateTotalCost(formData);
-        setCalculationResult(result);
-        setShowResults(true);
-        // Scroll to top when showing results
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } catch (error) {
-        console.error("Calculation error:", error);
-        setModalState({
-          isOpen: true,
-          title: "Calculation Error",
-          message:
-            "There was an error calculating your cost. Please try again.",
-          type: "alert",
-          confirmText: "OK",
-        });
-      }
+      setCurrentStep((prev) => prev + 1);
+      scrollTop();
+      return;
+    }
+
+    try {
+      const result = costEngine.calculateTotalCost(formData);
+      setCalculationResult(result);
+      setShowResults(true);
+      scrollTop();
+    } catch (error) {
+      setModalState({
+        isOpen: true,
+        title: "Calculation Error",
+        message:
+          error?.message ||
+          "There was an error calculating your estimate. Please review the form and try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
     }
   };
 
   const handleBack = () => {
     if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-      // Scroll to top when going back
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      setCurrentStep((prev) => prev - 1);
+      scrollTop();
     }
   };
 
@@ -100,34 +153,25 @@ const RenovationCalculator = () => {
     setShowResults(false);
     setCurrentStep(0);
     setCalculationResult(null);
-    // Scroll to top when starting over
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setFormData(initialFormData);
+    scrollTop();
   };
 
   const handleModifySelections = () => {
     setShowResults(false);
-    // Go back to the last step (review step)
     setCurrentStep(steps.length - 1);
-    // Scroll to top when modifying selections
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollTop();
   };
 
   const handleStepClick = (stepIndex) => {
     setCurrentStep(stepIndex);
-    // Scroll to top when jumping to a step
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    scrollTop();
   };
 
   const renderStep = () => {
     switch (currentStep) {
       case 0:
-        return (
-          <StepProperty
-            formData={formData}
-            setFormData={setFormData}
-            onNext={handleNext}
-          />
-        );
+        return <StepProperty formData={formData} setFormData={setFormData} onNext={handleNext} />;
       case 1:
         return (
           <StepHouseDetails
@@ -183,42 +227,25 @@ const RenovationCalculator = () => {
           />
         );
       case 7:
-        return (
-          <StepFinish
-            formData={formData}
-            onNext={handleNext}
-            onBack={handleBack}
-          />
-        );
+        return <StepFinish formData={formData} onNext={handleNext} onBack={handleBack} />;
       default:
         return null;
     }
   };
 
-  if (showResults) {
+  if (showResults && calculationResult) {
     return (
-      <div className="min-h-screen py-12">
-        <div className="container mx-auto px-4">
-          {/* Back to Calculator Button */}
+      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-6">
             <button
               onClick={handleModifySelections}
-              className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="inline-flex items-center gap-2 rounded-xl border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
             >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Modify Selections
+              Edit Inputs
             </button>
           </div>
 
@@ -230,18 +257,9 @@ const RenovationCalculator = () => {
           />
         </div>
 
-        {/* Modal */}
         <Modal
           isOpen={modalState.isOpen}
-          onClose={() =>
-            setModalState({
-              isOpen: false,
-              title: "",
-              message: "",
-              type: "alert",
-              confirmText: "OK",
-            })
-          }
+          onClose={() => setModalState(modalReset)}
           title={modalState.title}
           message={modalState.message}
           confirmText={modalState.confirmText}
@@ -252,21 +270,36 @@ const RenovationCalculator = () => {
   }
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900">
-            Home Renovation Cost Calculator
-          </h1>
-          <p className="mx-auto max-w-2xl text-xl text-gray-600">
-            Get an accurate estimate for your home renovation project. Our
-            calculator takes into account your property type, location, and
-            specific renovation requirements.
-          </p>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-10 grid gap-6 rounded-3xl border border-stone-200 bg-white/90 p-6 shadow-2xl shadow-stone-900/5 backdrop-blur md:grid-cols-[1.3fr_1fr] md:p-8">
+          <div>
+            <div className="inline-flex items-center rounded-full border border-stone-300 bg-stone-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-stone-700">
+              London-first renovation pricing
+            </div>
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-stone-900 md:text-5xl">
+              Home Renovation Cost Calculator
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
+              A ballpark budgeting tool for refurbishments and full-home
+              renovations. It separates core scope, room fit-out, systems,
+              structural risk, finishing, fees, contingency, and VAT.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-stone-200 bg-stone-50 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+              What makes this more useful
+            </p>
+            <ul className="mt-4 space-y-2 text-sm text-stone-700">
+              <li>Scope-based pricing instead of random flat room fees</li>
+              <li>Room fit-out and house-wide works shown separately</li>
+              <li>Confidence score based on how defined the scope is</li>
+              <li>PDF includes budgeting guidance and comparison tips</li>
+            </ul>
+          </div>
         </div>
 
-        {/* Stepper */}
         <Stepper
           currentStep={currentStep}
           totalSteps={steps.length}
@@ -274,82 +307,93 @@ const RenovationCalculator = () => {
           onStepClick={handleStepClick}
         />
 
-        {/* Main Content */}
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-8 lg:grid-cols-3">
-            {/* Left Column - Wizard Steps */}
-            <div className="lg:col-span-2">
-              <div className="rounded-lg bg-white p-8 shadow-lg">
-                {renderStep()}
-              </div>
-            </div>
+        <div className="grid gap-8 lg:grid-cols-[1.5fr_0.8fr]">
+          <div className="rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
+            {renderStep()}
+          </div>
 
-            {/* Right Column - Progress and Info */}
-            <div className="space-y-6">
-              {/* Progress Card */}
-              <div className="rounded-lg bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Your Progress
+          <aside className="space-y-6">
+            <div className="sticky top-8 space-y-6">
+              <div className="rounded-2xl border border-stone-200 bg-white p-5 shadow-sm">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  Progress
                 </h3>
-                <div className="space-y-3">
-                  {steps.map((step, index) => (
-                    <div
-                      key={index}
-                      className={`flex items-center text-sm ${
-                        index <= currentStep ? "text-blue-600" : "text-gray-400"
-                      }`}
-                    >
-                      <div
-                        className={`mr-3 flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium ${
-                          index < currentStep
-                            ? "bg-green-500 text-white"
-                            : index === currentStep
-                              ? "bg-blue-500 text-white"
-                              : "bg-gray-200 text-gray-500"
-                        }`}
-                      >
-                        {index < currentStep ? "✓" : index + 1}
-                      </div>
-                      <span className="font-medium">{step.title}</span>
-                    </div>
-                  ))}
+                <div className="mt-4 space-y-2 text-sm">
+                  <ProgressRow done={!!formData.propertyType} label="Property type selected" />
+                  <ProgressRow done={!!formData.region} label="Region selected" />
+                  <ProgressRow done={!!formData.houseStyle} label="House style selected" />
+                  <ProgressRow
+                    done={formData.houseSize > 0}
+                    label={
+                      formData.houseSize > 0
+                        ? `Size entered: ${formData.houseSize} m²`
+                        : "Size not entered yet"
+                    }
+                  />
+                  <ProgressRow done={!!formData.coverageLevel} label="Coverage selected" />
+                  <ProgressRow done={!!formData.renovationLevel} label="Scope selected" />
                 </div>
               </div>
 
-              {/* Info Card */}
-              <div className="rounded-lg bg-blue-50 p-6">
-                <h3 className="mb-3 text-lg font-semibold text-blue-900">
-                  💡 Tips for Accurate Estimates
+              <div className="rounded-2xl border border-slate-900 bg-slate-900 p-5 text-white shadow-xl shadow-slate-900/15">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-300">
+                  Live Estimate Preview
                 </h3>
-                <ul className="space-y-2 text-sm text-blue-800">
-                  <li>• Measure your rooms accurately</li>
-                  <li>• Consider structural changes carefully</li>
-                  <li>• Factor in electrical and plumbing work</li>
-                  <li>• Include finishing materials in your budget</li>
+                {livePreview ? (
+                  <>
+                    <div className="mt-4 text-xs uppercase tracking-[0.14em] text-stone-300">
+                      Expected budget
+                    </div>
+                    <div className="mt-1 text-3xl font-semibold tracking-tight">
+                      {formatCurrency(livePreview.ranges.expected)}
+                    </div>
+                    <p className="mt-2 text-sm text-stone-200">
+                      {formatCurrency(livePreview.ranges.low)} -{" "}
+                      {formatCurrency(livePreview.ranges.high)}
+                    </p>
+                    <p className="mt-1 text-sm text-stone-300">
+                      {formatCurrency(livePreview.rangePerSqm.expected)} /m² expected
+                    </p>
+                    <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/10">
+                      <div
+                        className="h-full rounded-full bg-emerald-300"
+                        style={{ width: `${livePreview.confidenceScore}%` }}
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-stone-300">
+                      Confidence: {livePreview.confidenceScore}/100
+                    </p>
+                  </>
+                ) : (
+                  <p className="mt-3 text-sm text-stone-300">
+                    Complete the key scope inputs to see a live renovation budget
+                    preview.
+                  </p>
+                )}
+              </div>
+
+              <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-900">
+                  Best use of this tool
+                </h3>
+                <ul className="mt-3 space-y-2 text-sm text-amber-900">
+                  <li>Use the high range when planning finance.</li>
+                  <li>Use the PDF to compare builders on the same scope.</li>
+                  <li>Re-run once the room schedule is more detailed.</li>
                 </ul>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
 
-        {/* FAQ Section */}
-        <div className="mt-16">
+        <div className="mt-12">
           <FAQ />
         </div>
       </div>
 
-      {/* Modal */}
       <Modal
         isOpen={modalState.isOpen}
-        onClose={() =>
-          setModalState({
-            isOpen: false,
-            title: "",
-            message: "",
-            type: "alert",
-            confirmText: "OK",
-          })
-        }
+        onClose={() => setModalState(modalReset)}
         title={modalState.title}
         message={modalState.message}
         confirmText={modalState.confirmText}
@@ -357,6 +401,4 @@ const RenovationCalculator = () => {
       />
     </div>
   );
-};
-
-export default RenovationCalculator;
+}

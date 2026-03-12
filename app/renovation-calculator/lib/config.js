@@ -1,252 +1,338 @@
-// Master configuration for renovation cost calculator
 export const RENOVATION_CONFIG = {
-  // Base costs per square meter for different renovation types
-  baseCosts: {
-    bathroom: 8000, // £8,000 per bathroom
-    kitchen: 15000, // £15,000 per kitchen
-    bedroom: 3000, // £3,000 per bedroom
-    livingRoom: 5000, // £5,000 per living room
-    hallway: 2000, // £2,000 per hallway
+  version: "2026.03",
+
+  baseScopeRates: {
+    cosmetic: 140,
+    standard: 300,
+    fullRenovation: 520,
+    backToBrick: 780,
   },
 
-  // Size multipliers
-  sizeMultipliers: {
-    small: { min: 0, max: 50, multiplier: 1.2 }, // 0-50 sqm
-    medium: { min: 51, max: 100, multiplier: 1.0 }, // 51-100 sqm
-    large: { min: 101, max: 200, multiplier: 0.9 }, // 101-200 sqm
-    xlarge: { min: 201, max: 500, multiplier: 0.85 }, // 201-500 sqm
+  coverageFactors: {
+    singleArea: 0.2,
+    partialHome: 0.45,
+    mostRooms: 0.75,
+    wholeHome: 1.0,
   },
 
-  // Location multipliers (London zones)
-  locationMultipliers: {
-    zone1: 1.4, // Central London
-    zone2: 1.3, // Inner London
-    zone3: 1.2, // Outer London
-    zone4: 1.1, // Greater London
-    zone5: 1.0, // Beyond Greater London
+  regionMultipliers: {
+    london: 1.1,
+    southEast: 1.03,
+    eastEngland: 1.0,
+    southWest: 0.98,
+    midlands: 0.94,
+    northEngland: 0.9,
+    scotlandWales: 0.95,
   },
 
-  // Property type multipliers
+  londonZoneMultipliers: {
+    zone1: 1.12,
+    zone2: 1.08,
+    zone3: 1.05,
+    zone4: 1.02,
+    zone5: 1.0,
+  },
+
   propertyMultipliers: {
     terraced: 1.0,
-    semiDetached: 1.05,
-    detached: 1.1,
-    flat: 1.2,
-    maisonette: 1.15,
+    semiDetached: 1.02,
+    detached: 1.05,
+    flat: 1.08,
+    maisonette: 1.06,
   },
 
-  // House type multipliers
-  houseTypeMultipliers: {
-    victorian: 1.2,
-    edwardian: 1.15,
+  houseStyleMultipliers: {
+    newBuild: 0.95,
     modern: 1.0,
-    newBuild: 0.9,
-    period: 1.25,
+    victorian: 1.08,
+    edwardian: 1.06,
+    period: 1.1,
   },
 
-  // Floor multipliers (for flats)
   floorMultipliers: {
     ground: 1.0,
-    first: 1.05,
-    second: 1.1,
-    third: 1.15,
-    fourth: 1.2,
-    fifth: 1.25,
+    first: 1.02,
+    second: 1.04,
+    thirdPlus: 1.08,
   },
 
-  // Wallpaper removal costs
-  wallpaperRemoval: {
-    perSqm: 15, // £15 per sqm
+  finishLevelMultipliers: {
+    budget: 0.92,
+    standard: 1.0,
+    premium: 1.15,
   },
 
-  // Structural work costs
+  occupancyMultipliers: {
+    vacant: 0.97,
+    partiallyOccupied: 1.05,
+    occupied: 1.12,
+  },
+
+  roomRates: {
+    kitchen: {
+      cosmetic: 9000,
+      standard: 18000,
+      fullRenovation: 28000,
+      backToBrick: 36000,
+    },
+    bathroom: {
+      cosmetic: 7500,
+      standard: 12500,
+      fullRenovation: 18500,
+      backToBrick: 23000,
+    },
+    bedroom: {
+      cosmetic: 1200,
+      standard: 3500,
+      fullRenovation: 6500,
+      backToBrick: 9000,
+    },
+    reception: {
+      cosmetic: 2000,
+      standard: 5000,
+      fullRenovation: 8500,
+      backToBrick: 12000,
+    },
+    hallway: {
+      cosmetic: 1500,
+      standard: 3500,
+      fullRenovation: 6500,
+      backToBrick: 9000,
+    },
+  },
+
   structuralWork: {
-    wallRemoval: 800, // £800 per wall
-    structuralWallRemoval: 2500, // £2,500 per structural wall
-    steelBeam: 3000, // £3,000 per beam
-    loadBearingSupport: 1500, // £1,500 per support
+    nonStructuralWallRemoval: 1800,
+    loadBearingWallRemoval: 6500,
+    dampRepairAllowance: 4500,
   },
 
-  // Electrical work costs
-  electricalWork: {
-    rewire: 45, // £45 per sqm
-    newConsumerUnit: 800,
-    additionalSockets: 80, // per socket
-    lighting: 120, // per light
+  systems: {
+    rewire: {
+      none: { fixed: 0, perM2: 0 },
+      partial: { fixed: 900, perM2: 35 },
+      full: { fixed: 1250, perM2: 70 },
+    },
+    heating: {
+      none: { fixed: 0, perM2: 0 },
+      controlsOnly: { fixed: 600, perM2: 0 },
+      boilerOnly: { fixed: 3800, perM2: 0 },
+      fullSystem: { fixed: 3800, perM2: 85 },
+    },
+    plumbing: {
+      none: { fixed: 0, perM2: 0 },
+      localised: { fixed: 0, perM2: 25 },
+      fullDistribution: { fixed: 0, perM2: 55 },
+    },
   },
 
-  // Heating system costs
-  heatingWork: {
-    newBoiler: 3500,
-    radiators: 400, // per radiator
-    underfloorHeating: 120, // per sqm
-    smartThermostat: 300,
+  finishing: {
+    plastering: {
+      none: { areaFactor: 0, rate: 0 },
+      patchRepairs: { areaFactor: 0.35, rate: 12 },
+      selectedRooms: { areaFactor: 0.5, rate: 25 },
+      fullAffectedArea: { areaFactor: 1, rate: 35 },
+    },
+    decoration: {
+      none: { areaFactor: 0, rate: 0 },
+      refresh: { areaFactor: 0.6, rate: 10 },
+      fullAffectedArea: { areaFactor: 1, rate: 18 },
+    },
+    flooringCoverage: {
+      none: 0,
+      selectedRooms: 0.5,
+      fullAffectedArea: 1,
+    },
+    floorRates: {
+      laminate: 35,
+      carpet: 28,
+      lvt: 55,
+      engineeredWood: 85,
+      tile: 70,
+      polishedConcrete: 110,
+    },
+    doorPackages: {
+      none: 0,
+      someDoors: 1800,
+      mostDoors: 4200,
+      fullHouse: 6500,
+    },
   },
 
-  // Wall and ceiling work
-  wallCeilingWork: {
-    skimWalls: 25, // £25 per sqm
-    skimCeilings: 30, // £30 per sqm
-    plastering: 35, // £35 per sqm
-    painting: 15, // £15 per sqm
+  professionalFees: {
+    measuredSurvey: 650,
+    structuralEngineer: 1200,
+    buildingControl: 900,
+    partyWallAllowance: 1500,
   },
 
-  // Door and frame costs
-  doorWork: {
-    internalDoor: 300, // per door
-    doorFrame: 150, // per frame
-    externalDoor: 1200, // per door
-    slidingDoor: 800, // per door
+  contingencyRates: {
+    cosmetic: 0.08,
+    standard: 0.1,
+    fullRenovation: 0.12,
+    backToBrick: 0.15,
   },
 
-  // Flooring costs
-  flooringWork: {
-    woodFloor: 80, // £80 per sqm
-    laminateFloor: 35, // £35 per sqm
-    carpet: 25, // £25 per sqm
-    tiles: 60, // £60 per sqm
-    underlay: 8, // £8 per sqm
+  confidenceModifiers: {
+    noPlansYet: 1.12,
+    roughScope: 1.07,
+    roomByRoomPlan: 1.03,
+    detailedSchedule: 1.0,
   },
 
-  // Additional features and their costs
-  additionalFeatures: {
-    // Bathroom features
-    luxuryBathroom: 5000, // additional cost
-    walkInShower: 2000,
-    freestandingBath: 1500,
-    heatedTowelRail: 300,
-
-    // Kitchen features
-    highEndKitchen: 10000, // additional cost
-    island: 3000,
-    integratedAppliances: 2000,
-    quartzWorktop: 150, // per sqm
-
-    // Bedroom features
-    fittedWardrobes: 2000,
-    enSuite: 8000,
-    walkInWardrobe: 5000,
-
-    // General features
-    smartHome: 2000,
-    soundSystem: 1500,
-    homeOffice: 3000,
-    storageSolutions: 100, // per sqm
-  },
-
-  // Planning and legal costs
-  planningCosts: {
-    buildingRegulations: 1500,
-    structuralEngineer: 2000,
-    architect: 5000,
-    partyWallAgreement: 3000,
-  },
-
-  // Contingency percentages
-  contingency: {
-    standard: 0.1, // 10%
-    complex: 0.15, // 15%
-    veryComplex: 0.2, // 20%
-  },
+  vatRate: 0.2,
 };
 
-// Property types for selection
 export const PROPERTY_TYPES = [
   {
     id: "terraced",
-    name: "Terraced House",
-    description: "Connected to neighbouring properties",
+    name: "Terraced house",
+    description: "Party-wall property with typical London access constraints.",
   },
   {
     id: "semiDetached",
-    name: "Semi-Detached House",
-    description: "Connected to one neighbouring property",
+    name: "Semi-detached house",
+    description: "Attached on one side with moderate access and party-wall risk.",
   },
   {
     id: "detached",
-    name: "Detached House",
-    description: "Standalone property",
+    name: "Detached house",
+    description: "Standalone property with fewer shared-wall constraints.",
   },
   {
     id: "flat",
-    name: "Flat/Apartment",
-    description: "Part of a larger building",
+    name: "Flat / apartment",
+    description: "Internal refurbishment often has access and logistics constraints.",
   },
   {
     id: "maisonette",
     name: "Maisonette",
-    description: "Two-storey flat",
+    description: "Split-level flat with stair and access considerations.",
   },
 ];
 
-// House types
-export const HOUSE_TYPES = [
-  {
-    id: "victorian",
-    name: "Victorian",
-    description: "Built between 1837-1901",
-  },
-  {
-    id: "edwardian",
-    name: "Edwardian",
-    description: "Built between 1901-1910",
-  },
-  {
-    id: "modern",
-    name: "Modern",
-    description: "Built after 1950",
-  },
-  {
-    id: "newBuild",
-    name: "New Build",
-    description: "Built in the last 10 years",
-  },
-  {
-    id: "period",
-    name: "Period Property",
-    description: "Pre-1900s with period features",
-  },
+export const REGION_OPTIONS = [
+  { id: "london", name: "London", description: "Primary service area and highest-cost benchmark." },
+  { id: "southEast", name: "South East", description: "Typically close to London rates." },
+  { id: "eastEngland", name: "East of England", description: "Often slightly below South East pricing." },
+  { id: "southWest", name: "South West", description: "Moderate regional build costs." },
+  { id: "midlands", name: "Midlands", description: "Usually below South East and London costs." },
+  { id: "northEngland", name: "North of England", description: "Often lower labour and fit-out rates." },
+  { id: "scotlandWales", name: "Scotland / Wales", description: "Regional ballpark only." },
 ];
 
-// Floor options for flats
-export const FLOOR_OPTIONS = [
-  { id: "ground", name: "Ground Floor" },
-  { id: "first", name: "First Floor" },
-  { id: "second", name: "Second Floor" },
-  { id: "third", name: "Third Floor" },
-  { id: "fourth", name: "Fourth Floor" },
-  { id: "fifth", name: "Fifth Floor" },
-];
-
-// London zones
 export const LONDON_ZONES = [
   { id: "zone1", name: "Zone 1", description: "Central London" },
   { id: "zone2", name: "Zone 2", description: "Inner London" },
   { id: "zone3", name: "Zone 3", description: "Outer London" },
   { id: "zone4", name: "Zone 4", description: "Greater London" },
-  { id: "zone5", name: "Zone 5+", description: "Beyond Greater London" },
+  { id: "zone5", name: "Zone 5+", description: "Outer Greater London" },
 ];
 
-// Floor types
-export const FLOOR_TYPES = [
-  {
-    id: "wood",
-    name: "Wood Flooring",
-    description: "Solid or engineered wood",
-  },
-  {
-    id: "laminate",
-    name: "Laminate Flooring",
-    description: "Budget-friendly laminate",
-  },
-  {
-    id: "carpet",
-    name: "Carpet",
-    description: "Soft carpet flooring",
-  },
-  {
-    id: "tiles",
-    name: "Tiles",
-    description: "Ceramic or porcelain tiles",
-  },
+export const HOUSE_STYLE_OPTIONS = [
+  { id: "newBuild", name: "New build", description: "Newer services and fewer hidden-condition risks." },
+  { id: "modern", name: "Modern", description: "Typically post-war / standard construction." },
+  { id: "victorian", name: "Victorian", description: "Often needs more allowance for levelling, services, and repairs." },
+  { id: "edwardian", name: "Edwardian", description: "Period home with similar complexity to Victorian stock." },
+  { id: "period", name: "Older / character property", description: "Use this when the property is older and likely to hide surprises." },
+];
+
+export const FLOOR_OPTIONS = [
+  { id: "ground", name: "Ground floor" },
+  { id: "first", name: "First floor" },
+  { id: "second", name: "Second floor" },
+  { id: "thirdPlus", name: "Third floor or above" },
+];
+
+export const COVERAGE_OPTIONS = [
+  { id: "singleArea", name: "Single area", description: "One part of the home is being heavily upgraded." },
+  { id: "partialHome", name: "Roughly half the home", description: "Several rooms and some linked finishes." },
+  { id: "mostRooms", name: "Most rooms", description: "A substantial multi-room refurbishment." },
+  { id: "wholeHome", name: "Whole home", description: "Nearly everything is being touched." },
+];
+
+export const RENOVATION_LEVEL_OPTIONS = [
+  { id: "cosmetic", name: "Cosmetic refresh", description: "Decorating, floors, light upgrades, minimal service moves." },
+  { id: "standard", name: "Mid-range refurbishment", description: "Typical London renovation with selected replacements and finishes." },
+  { id: "fullRenovation", name: "Full renovation", description: "Major multi-room works with broad service and finish upgrades." },
+  { id: "backToBrick", name: "Back-to-brick", description: "Strip-back refurbishment with high uncertainty and wider scope." },
+];
+
+export const FINISH_LEVEL_OPTIONS = [
+  { id: "budget", name: "Budget-conscious", description: "Practical finishes and lower-cost product selections." },
+  { id: "standard", name: "Standard", description: "Typical mid-market products and workmanship allowances." },
+  { id: "premium", name: "Premium", description: "Higher-end joinery, finishes, ironmongery, and fittings." },
+];
+
+export const OCCUPANCY_OPTIONS = [
+  { id: "vacant", name: "Property vacant", description: "Best-case access and sequencing." },
+  { id: "partiallyOccupied", name: "Living in part of it", description: "Some working-around and phasing costs." },
+  { id: "occupied", name: "Living in throughout", description: "More protection, phasing, and slower progress." },
+];
+
+export const DRAWINGS_STATUS_OPTIONS = [
+  { id: "noPlansYet", name: "No plans yet", description: "Just exploring budget." },
+  { id: "roughScope", name: "Rough room list", description: "You know what rooms are involved, not every detail." },
+  { id: "roomByRoomPlan", name: "Room-by-room plan", description: "You have a clearer schedule of intended works." },
+  { id: "detailedSchedule", name: "Detailed schedule / quotes", description: "You already have strong scope clarity." },
+];
+
+export const STRUCTURAL_OPTIONS = [
+  { id: "none", name: "No wall removal", description: "Layout broadly stays as it is." },
+  { id: "nonStructural", name: "Non-structural walls only", description: "Opening up lightweight or non-loadbearing walls." },
+  { id: "loadBearing", name: "Load-bearing walls", description: "Requires engineering, steelwork, and approvals." },
+];
+
+export const REWIRE_OPTIONS = [
+  { id: "none", name: "No major rewire", description: "Leave the electrical system broadly as-is." },
+  { id: "partial", name: "Partial rewire", description: "Upgrade affected rooms/circuits only." },
+  { id: "full", name: "Full rewire", description: "Whole-home electrical overhaul." },
+];
+
+export const HEATING_OPTIONS = [
+  { id: "none", name: "No heating upgrade", description: "Retain the current heating system." },
+  { id: "controlsOnly", name: "Controls / smart thermostat", description: "Minor controls upgrade only." },
+  { id: "boilerOnly", name: "Boiler replacement", description: "Replace the boiler but not the full distribution." },
+  { id: "fullSystem", name: "Full system upgrade", description: "Boiler plus broad pipework/radiator/heating changes." },
+];
+
+export const PLUMBING_OPTIONS = [
+  { id: "none", name: "Minimal plumbing changes", description: "No broad plumbing redistribution." },
+  { id: "localised", name: "Localised plumbing changes", description: "Bathroom/kitchen pipework changes in affected zones." },
+  { id: "fullDistribution", name: "Wide plumbing upgrade", description: "Broader hot/cold/waste reworking across the home." },
+];
+
+export const PLASTERING_OPTIONS = [
+  { id: "none", name: "Minimal plastering", description: "Only local making-good." },
+  { id: "patchRepairs", name: "Patch repairs", description: "Skim patches and local repairs where needed." },
+  { id: "selectedRooms", name: "Selected rooms", description: "Replaster / skim a meaningful number of rooms." },
+  { id: "fullAffectedArea", name: "All affected areas", description: "Plastering across the full impacted scope." },
+];
+
+export const DECORATION_OPTIONS = [
+  { id: "none", name: "Not included", description: "Decoration to be handled separately." },
+  { id: "refresh", name: "Some decorating", description: "A lighter decoration allowance." },
+  { id: "fullAffectedArea", name: "Full decorating", description: "Decorator-ready finishing across the affected scope." },
+];
+
+export const FLOORING_COVERAGE_OPTIONS = [
+  { id: "none", name: "Keep existing floors", description: "No broad flooring replacement." },
+  { id: "selectedRooms", name: "Selected rooms only", description: "Replace flooring in some rooms." },
+  { id: "fullAffectedArea", name: "Throughout affected area", description: "Flooring across the impacted renovation area." },
+];
+
+export const FLOOR_FINISH_OPTIONS = [
+  { id: "laminate", name: "Laminate", description: "Lower-cost installed finish." },
+  { id: "carpet", name: "Carpet", description: "Soft-floor installed allowance." },
+  { id: "lvt", name: "LVT / vinyl", description: "Mid-range resilient flooring." },
+  { id: "engineeredWood", name: "Engineered wood", description: "Premium timber floor allowance." },
+  { id: "tile", name: "Porcelain / ceramic tile", description: "Hard floor with more labour and prep." },
+  { id: "polishedConcrete", name: "Polished concrete", description: "High-spec specialist finish." },
+];
+
+export const DOOR_PACKAGE_OPTIONS = [
+  { id: "none", name: "Keep most doors", description: "No broad door replacement allowance." },
+  { id: "someDoors", name: "Some doors", description: "Selected internal door replacements." },
+  { id: "mostDoors", name: "Most doors", description: "Large proportion of internal doors." },
+  { id: "fullHouse", name: "Whole-house doors", description: "Broad door and ironmongery replacement." },
 ];
