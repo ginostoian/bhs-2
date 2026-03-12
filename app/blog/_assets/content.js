@@ -10,12 +10,14 @@ import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitc
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png";
 import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
+import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
 import BathroomRenovationArticle from "./articles/BathroomRenovationArticle";
 import LoftConversionsLondonGuide from "./articles/LoftConversionsLondonGuide";
 import PlanningPermissionLoftConversionLondonArticle from "./articles/PlanningPermissionLoftConversionLondonArticle";
+import HomeRenovationCostLondon2026Article from "./articles/HomeRenovationCostLondon2026Article";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -211,6 +213,24 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "home-renovation-cost-london-2026",
+    title: "Home renovation cost in London: the complete 2026 price guide",
+    description:
+      "London-focused 2026 guide to full home renovation costs, hidden fees, room-by-room budgets, realistic timelines and renovate-vs-move economics.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-12",
+    image: {
+      src: homeRenovationCostGuideImg,
+      urlRelative:
+        "/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png",
+      alt: "Home renovation cost ranges in London for 2026 by specification level",
+    },
+    content: <HomeRenovationCostLondon2026Article />,
+  },
   {
     slug: "planning-permission-loft-conversion-london",
     title:
