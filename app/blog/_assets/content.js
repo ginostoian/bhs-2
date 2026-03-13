@@ -11,6 +11,7 @@ import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-deve
 import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png";
 import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
+import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -18,6 +19,7 @@ import BathroomRenovationArticle from "./articles/BathroomRenovationArticle";
 import LoftConversionsLondonGuide from "./articles/LoftConversionsLondonGuide";
 import PlanningPermissionLoftConversionLondonArticle from "./articles/PlanningPermissionLoftConversionLondonArticle";
 import HomeRenovationCostLondon2026Article from "./articles/HomeRenovationCostLondon2026Article";
+import PropertyBuyingChecklistLondon2026Article from "./articles/PropertyBuyingChecklistLondon2026Article";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -213,6 +215,25 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "property-buying-checklist-london-2026",
+    title:
+      "Property buying checklist London 2026: what to check before you buy",
+    description:
+      "Practical London property buying checklist for 2026 covering viewings, surveys, stamp duty, hidden costs, legal process, timeline and negotiation strategy.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-13",
+    image: {
+      src: propertyBuyingChecklistGuideImg,
+      urlRelative:
+        "/assets/blog/property-buying-checklist-london-2026/red-flags.png",
+      alt: "London property buying red flags checklist for home buyers",
+    },
+    content: <PropertyBuyingChecklistLondon2026Article />,
+  },
   {
     slug: "home-renovation-cost-london-2026",
     title: "Home renovation cost in London: the complete 2026 price guide",
