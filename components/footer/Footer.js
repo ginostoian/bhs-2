@@ -180,7 +180,7 @@ const Footer = () => {
 
             <div className={`${classes["footer__quarter-link-wrapper"]} mb-3`}>
               <a
-                href="https://www.houzz.co.uk/pro/betterhomesstudio/better-homes-studio-celli"
+                href="https://www.houzz.co.uk/pro/betterhomeslondon/better-homes"
                 className={classes["footer__quarter-link"]}
                 target="_blank"
               >
