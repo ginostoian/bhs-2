@@ -128,22 +128,34 @@ const Footer = () => {
 
             <div className={classes["footer__quarter-link-wrapper"]}>
               <Link
-                href="/bathroom-renovation"
+                href="/house-extension"
                 className={classes["footer__quarter-link"]}
               >
-                Bathrooms
+                House extension
               </Link>
               <Link
-                href="/kitchen-renovation"
+                href="/loft-conversion"
                 className={classes["footer__quarter-link"]}
               >
-                Kitchens
+                Loft conversion
               </Link>
               <Link
                 href="/general-renovation"
                 className={classes["footer__quarter-link"]}
               >
-                Renovation
+                Full home renovation
+              </Link>
+              <Link
+                href="/bathroom-renovation"
+                className={classes["footer__quarter-link"]}
+              >
+                Bathroom renovations
+              </Link>
+              <Link
+                href="/kitchen-renovation"
+                className={classes["footer__quarter-link"]}
+              >
+                Kitchen renovation
               </Link>
               <Link
                 href="/partner-with-us"

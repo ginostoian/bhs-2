@@ -111,26 +111,31 @@ function Navigation() {
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
-                  <Link href="/bathroom-renovation">Bathroom renovation</Link>
+                  <Link href="/house-extension">House extension</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/loft-conversion">Loft conversion</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/general-renovation">Full home renovation</Link>
+                </li>
+                <li
+                  className={classes["dropdown__list-item"]}
+                  onClick={handleNavLinkClick}
+                >
+                  <Link href="/bathroom-renovation">Bathroom renovations</Link>
                 </li>
                 <li
                   className={classes["dropdown__list-item"]}
                   onClick={handleNavLinkClick}
                 >
                   <Link href="/kitchen-renovation">Kitchen renovation</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/general-renovation">General renovation</Link>
-                </li>
-
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/house-extension">House extension</Link>
                 </li>
               </ul>
             </li>
@@ -313,26 +318,33 @@ function Navigation() {
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
-                    <Link href="/bathroom-renovation">Bathroom renovation</Link>
+                    <Link href="/house-extension">House extension</Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/loft-conversion">Loft conversion</Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/general-renovation">Full home renovation</Link>
+                  </li>
+                  <li
+                    className={classes["dropdown__list-item"]}
+                    onClick={handleNavLinkClick}
+                  >
+                    <Link href="/bathroom-renovation">
+                      Bathroom renovations
+                    </Link>
                   </li>
                   <li
                     className={classes["dropdown__list-item"]}
                     onClick={handleNavLinkClick}
                   >
                     <Link href="/kitchen-renovation">Kitchen renovation</Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/general-renovation">General renovation</Link>
-                  </li>
-
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/house-extension">House extension</Link>
                   </li>
                 </ul>
               </li>
