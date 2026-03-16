@@ -347,6 +347,25 @@ export default function ExtensionCalculator() {
           </aside>
         </div>
 
+        <section className="mx-auto mt-14 max-w-4xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
+          <h2 className="text-2xl font-bold text-stone-900">
+            Extension cost calculator for realistic London project planning
+          </h2>
+          <p className="mt-4 leading-7 text-stone-700">
+            This extension cost calculator is built for homeowners who need a
+            more realistic starting budget before they move into planning,
+            drawings, or detailed builder quotes. It helps you compare house
+            extension cost ranges by size, type, finish level, and professional
+            fees instead of relying on oversimplified online averages.
+          </p>
+          <p className="mt-4 leading-7 text-stone-700">
+            Whether you are looking at a single storey extension, double
+            storey extension, or a more complex scheme, the calculator makes it
+            easier to understand likely extension cost in London and to budget
+            properly for extras, contingency, and VAT from the start.
+          </p>
+        </section>
+
         <div className="mt-12">
           <FAQ
             content={[

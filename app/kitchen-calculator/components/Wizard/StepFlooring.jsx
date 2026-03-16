@@ -1,72 +1,109 @@
 "use client";
 
 import React from "react";
+import { DECORATION_OPTIONS, FLOORING_OPTIONS } from "../../lib/config";
 
-const FLOORING_TYPES = [
-  { id: "wood", name: "Wood" },
-  { id: "tiles", name: "Tiles" },
-  { id: "lvt", name: "LVT (Luxury Vinyl Tile)" },
-  { id: "other", name: "Other" },
-];
+function SelectCard({ checked, title, description, onChange }) {
+  return (
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition ${
+        checked
+          ? "border-slate-900 bg-slate-50 shadow-sm"
+          : "border-stone-200 bg-white hover:border-stone-300"
+      }`}
+    >
+      <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
+      <div className="flex items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-5 w-5 rounded-full border-2 ${
+            checked ? "border-slate-900 bg-slate-900" : "border-stone-300"
+          }`}
+        >
+          {checked && <span className="m-auto h-2 w-2 rounded-full bg-white" />}
+        </span>
+        <span>
+          <span className="block font-semibold text-stone-900">{title}</span>
+          <span className="mt-1 block text-sm text-stone-600">{description}</span>
+        </span>
+      </div>
+    </label>
+  );
+}
 
-const StepFlooring = ({ formData, setFormData, onNext, onBack }) => {
-  const handleSelect = (flooringType) => {
-    setFormData((prev) => ({ ...prev, flooringType }));
-  };
-  const canProceed = !!formData.flooringType;
+export default function StepFlooring({ formData, setFormData, onNext, onBack }) {
+  const canProceed = !!formData.flooringType && !!formData.decorationLevel;
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">
-          Kitchen Flooring
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+          Flooring & Decoration
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-900">
+          Decide what happens to the floor and walls
         </h2>
-        <p className="text-lg text-gray-600">
-          What type of flooring do you want in your kitchen?
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
+          Many kitchen budgets miss the floor finish and final decorating even
+          though they are usually part of a complete installed project.
         </p>
       </div>
-      <div className="mb-8 grid gap-4">
-        {FLOORING_TYPES.map((type) => (
-          <div
-            key={type.id}
-            className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-              formData.flooringType === type.id
-                ? "border-blue-500 bg-blue-50"
-                : "border-gray-200 hover:border-gray-300"
-            }`}
-            onClick={() => handleSelect(type.id)}
-          >
-            <div className="flex items-center">
-              <div
-                className={`mr-3 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                  formData.flooringType === type.id
-                    ? "border-blue-500 bg-blue-500"
-                    : "border-gray-300"
-                }`}
-              >
-                {formData.flooringType === type.id && (
-                  <div className="h-2 w-2 rounded-full bg-white"></div>
-                )}
-              </div>
-              <span className="font-medium text-gray-900">{type.name}</span>
-            </div>
+
+      <div className="space-y-8">
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Flooring
+          </h3>
+          <div className="grid gap-4 md:grid-cols-2">
+            {FLOORING_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.flooringType === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, flooringType: option.id }))
+                }
+              />
+            ))}
           </div>
-        ))}
+        </section>
+
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Decoration level
+          </h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {DECORATION_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.decorationLevel === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, decorationLevel: option.id }))
+                }
+              />
+            ))}
+          </div>
+        </section>
       </div>
+
       <div className="mt-8 flex justify-between">
         <button
+          type="button"
           onClick={onBack}
-          className="rounded-lg bg-gray-200 px-6 py-3 font-medium text-gray-700 hover:bg-gray-300"
+          className="rounded-2xl border border-stone-300 bg-white px-6 py-3 text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
         >
           Back
         </button>
         <button
+          type="button"
           onClick={onNext}
           disabled={!canProceed}
-          className={`rounded-lg px-6 py-3 font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-sm font-semibold transition ${
             canProceed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "cursor-not-allowed bg-gray-300 text-gray-500"
+              ? "bg-slate-900 text-white hover:bg-black"
+              : "cursor-not-allowed bg-stone-300 text-stone-500"
           }`}
         >
           Continue
@@ -74,6 +111,4 @@ const StepFlooring = ({ formData, setFormData, onNext, onBack }) => {
       </div>
     </div>
   );
-};
-
-export default StepFlooring;
+}

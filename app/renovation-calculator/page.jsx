@@ -386,6 +386,25 @@ export default function RenovationCalculator() {
           </aside>
         </div>
 
+        <section className="mx-auto mt-14 max-w-4xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
+          <h2 className="text-2xl font-bold text-stone-900">
+            Home renovation cost calculator for full refurbishment budgeting
+          </h2>
+          <p className="mt-4 leading-7 text-stone-700">
+            This home renovation cost calculator is designed to give homeowners
+            a stronger early view of full home renovation cost in London. It
+            looks beyond headline numbers by separating room fit-out,
+            structural work, systems, finishing, fees, contingency, and VAT.
+          </p>
+          <p className="mt-4 leading-7 text-stone-700">
+            If you are planning a flat refurbishment, house refurbishment, or a
+            wider remodel, the calculator helps you compare different scope
+            levels before asking contractors for detailed quotes. That makes it
+            a useful first step for budgeting, prioritising works, and setting
+            realistic expectations around home renovation cost.
+          </p>
+        </section>
+
         <div className="mt-12">
           <FAQ />
         </div>

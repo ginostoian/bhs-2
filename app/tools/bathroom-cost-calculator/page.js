@@ -374,6 +374,25 @@ const BathroomCalculator = () => {
           </dialog>
         </div>
       </div>
+      <section className="mx-auto mb-12 max-w-[85%] rounded-2xl border border-stone-200 bg-white px-8 py-8 shadow-sm md:max-w-[70%]">
+        <h2 className="text-2xl font-bold text-gray-900">
+          Bathroom renovation cost calculator for London homeowners
+        </h2>
+        <p className="mt-4 leading-7 text-gray-700">
+          Our bathroom renovation cost calculator gives you a practical early
+          estimate based on bathroom size, layout changes, tiling, fixtures,
+          and underfloor heating. It is designed for homeowners who want a
+          clearer idea of bathroom renovation cost in London before requesting
+          a full quote.
+        </p>
+        <p className="mt-4 leading-7 text-gray-700">
+          If you are comparing quotes from a bathroom fitter or planning a full
+          bathroom refurbishment, this tool helps you sense-check the likely
+          range and see which choices move the budget fastest. It is a
+          budgeting guide rather than a final price, but it makes early
+          decision-making much easier.
+        </p>
+      </section>
       <PortfolioCardContainer />
       <Features />
       <Testimonials3 />

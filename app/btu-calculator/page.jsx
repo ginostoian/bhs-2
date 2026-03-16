@@ -289,6 +289,26 @@ const BTUCalculator = () => {
           </div>
         </div>
 
+        <section className="mx-auto mt-14 max-w-4xl rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+          <h2 className="text-2xl font-bold text-gray-900">
+            BTU calculator for radiators and room heating decisions
+          </h2>
+          <p className="mt-4 leading-7 text-gray-700">
+            Our BTU calculator helps you estimate the heating output needed for
+            a room before choosing a radiator. By using room dimensions,
+            insulation, window count, and heating type, this radiator BTU
+            calculator gives a more useful result than guessing from radiator
+            size alone.
+          </p>
+          <p className="mt-4 leading-7 text-gray-700">
+            If you are comparing gas or electric radiators, replacing old
+            units, or planning a room upgrade, this BTU calculator for
+            radiators gives you a solid starting point. It helps you avoid
+            undersized heating, while also reducing the risk of paying for more
+            output than the room actually needs.
+          </p>
+        </section>
+
         {/* FAQ Section */}
         <FAQ
           content={[
@@ -473,121 +493,6 @@ const BTUCalculator = () => {
           ]}
         />
 
-        {/* SEO Content Section */}
-        <div className="mx-auto mt-16 max-w-4xl">
-          <div className="prose-lg prose max-w-none">
-            <h2 className="mb-6 text-3xl font-bold text-gray-900">
-              Complete Guide to BTU Calculator for Radiators
-            </h2>
-
-            <div className="space-y-6 leading-relaxed text-gray-700">
-              <p>
-                Choosing the right radiator size is crucial for efficient home
-                heating. Our BTU calculator helps you determine the exact
-                heating capacity needed for any room, whether you&apos;re
-                installing gas radiators or electric radiators. Understanding
-                BTU requirements ensures your home stays warm and comfortable
-                while keeping energy costs under control.
-              </p>
-
-              <h3 className="mb-4 mt-8 text-2xl font-semibold text-gray-900">
-                Why BTU Calculation Matters
-              </h3>
-
-              <p>
-                BTU (British Thermal Unit) calculation is essential for several
-                reasons. First, it prevents you from buying radiators that are
-                too small, which would leave your room cold and uncomfortable.
-                Second, it avoids oversizing radiators, which wastes energy and
-                money. Third, accurate BTU calculation ensures even heat
-                distribution throughout your space.
-              </p>
-
-              <p>
-                Modern homes with good insulation require different BTU
-                calculations than older properties. Our calculator considers
-                insulation levels, room type, and the number of windows and
-                doors to provide precise heating requirements.
-              </p>
-
-              <h3 className="mb-4 mt-8 text-2xl font-semibold text-gray-900">
-                Gas vs Electric Radiators: BTU Considerations
-              </h3>
-
-              <p>
-                Both gas and electric radiators can provide the same BTU output,
-                but they work differently. Gas radiators are part of your
-                central heating system and are generally more cost-effective for
-                whole-house heating. Electric radiators are independent units
-                that can be installed anywhere with electrical access.
-              </p>
-
-              <p>
-                When calculating BTU for gas radiators, consider your boiler
-                capacity and the total heating load of your home. For electric
-                radiators, ensure your electrical system can handle the power
-                requirements. Our calculator helps you understand these
-                differences and make informed decisions.
-              </p>
-
-              <h3 className="mb-4 mt-8 text-2xl font-semibold text-gray-900">
-                Factors Affecting BTU Requirements
-              </h3>
-
-              <p>
-                Several factors influence how much BTU you need for effective
-                heating:
-              </p>
-
-              <ul className="list-disc space-y-2 pl-6">
-                <li>
-                  <strong>Room size:</strong> Larger rooms need more BTU to
-                  maintain comfortable temperatures
-                </li>
-                <li>
-                  <strong>Insulation quality:</strong> Well-insulated rooms
-                  retain heat better and need less BTU
-                </li>
-                <li>
-                  <strong>Window and door count:</strong> More openings mean
-                  more heat loss and higher BTU requirements
-                </li>
-                <li>
-                  <strong>Room type:</strong> Bathrooms need higher BTU for
-                  quick warm-up, while kitchens may need less due to cooking
-                  heat
-                </li>
-                <li>
-                  <strong>Ceiling height:</strong> Higher ceilings increase the
-                  volume of air to be heated
-                </li>
-                <li>
-                  <strong>External walls:</strong> Rooms with more external
-                  walls lose more heat
-                </li>
-              </ul>
-
-              <h3 className="mb-4 mt-8 text-2xl font-semibold text-gray-900">
-                Professional Heating Solutions
-              </h3>
-
-              <p>
-                While our BTU calculator provides accurate estimates,
-                professional heating installation ensures optimal performance.
-                Our experienced team can help you choose the right radiators,
-                plan the installation, and ensure your heating system works
-                efficiently for years to come.
-              </p>
-
-              <p>
-                We work with leading radiator manufacturers to provide
-                high-quality gas and electric radiators that meet your exact BTU
-                requirements. From traditional panel radiators to modern
-                designer radiators, we have solutions for every home and budget.
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Modal */}

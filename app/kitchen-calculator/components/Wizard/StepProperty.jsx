@@ -2,142 +2,203 @@
 
 import React from "react";
 import {
-  PROPERTY_TYPES,
+  DRAWINGS_STATUS_OPTIONS,
   LONDON_ZONES,
-} from "../../../renovation-calculator/lib/config";
+  OCCUPANCY_OPTIONS,
+  PROPERTY_TYPES,
+  REGION_OPTIONS,
+} from "../../lib/config";
 
-const StepProperty = ({ formData, setFormData, onNext }) => {
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+function SelectCard({ checked, title, description, onChange }) {
+  return (
+    <label
+      className={`block cursor-pointer rounded-2xl border p-4 transition ${
+        checked
+          ? "border-slate-900 bg-slate-50 shadow-sm"
+          : "border-stone-200 bg-white hover:border-stone-300"
+      }`}
+    >
+      <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
+      <div className="flex items-start gap-3">
+        <span
+          className={`mt-0.5 inline-flex h-5 w-5 rounded-full border-2 ${
+            checked ? "border-slate-900 bg-slate-900" : "border-stone-300"
+          }`}
+        >
+          {checked && <span className="m-auto h-2 w-2 rounded-full bg-white" />}
+        </span>
+        <span>
+          <span className="block font-semibold text-stone-900">{title}</span>
+          <span className="mt-1 block text-sm text-stone-600">{description}</span>
+        </span>
+      </div>
+    </label>
+  );
+}
 
-  const handlePropertyTypeChange = (propertyType) => {
-    setFormData((prev) => ({ ...prev, propertyType }));
-  };
-
-  const handleLocationChange = (location) => {
-    setFormData((prev) => ({ ...prev, location }));
-  };
-
+export default function StepProperty({ formData, setFormData, onNext }) {
   const canProceed =
-    formData.address && formData.propertyType && formData.location;
+    !!formData.propertyType &&
+    !!formData.region &&
+    !!formData.occupancyStatus &&
+    !!formData.drawingsStatus;
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="mb-8 text-center">
-        <h2 className="mb-4 text-3xl font-bold text-gray-900">
-          Tell us about your property
+    <div className="mx-auto max-w-3xl">
+      <div className="mb-8">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+          Property Context
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-stone-900">
+          Start with location and project certainty
         </h2>
-        <p className="text-lg text-gray-600">
-          This helps us provide a more accurate kitchen cost estimate
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
+          London is the primary pricing focus. We also use occupancy and scope
+          clarity because those two factors change kitchen install cost more
+          than most online tools admit.
         </p>
       </div>
+
       <div className="space-y-8">
-        {/* Address Input */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            House address
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Property type
           </h3>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-base focus:border-blue-500 focus:outline-none"
-            placeholder="Enter your house address"
-            autoComplete="address-line1"
-          />
-        </div>
-        {/* Property Type Selection */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            What type of property do you have?
-          </h3>
-          <div className="grid gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             {PROPERTY_TYPES.map((property) => (
-              <div
+              <SelectCard
                 key={property.id}
-                className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                  formData.propertyType === property.id
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-                onClick={() => handlePropertyTypeChange(property.id)}
-              >
-                <div className="flex items-start">
-                  <div
-                    className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                      formData.propertyType === property.id
-                        ? "border-blue-500 bg-blue-500"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    {formData.propertyType === property.id && (
-                      <div className="h-2 w-2 rounded-full bg-white"></div>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">
-                      {property.name}
-                    </h4>
-                    <p className="mt-1 text-sm text-gray-600">
-                      {property.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                checked={formData.propertyType === property.id}
+                title={property.name}
+                description={property.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, propertyType: property.id }))
+                }
+              />
             ))}
           </div>
-        </div>
-        {/* Location Selection */}
-        <div>
-          <h3 className="mb-4 text-xl font-semibold text-gray-900">
-            Where is your property located?
+        </section>
+
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">Region</h3>
+          <div className="grid gap-4 md:grid-cols-2">
+            {REGION_OPTIONS.map((region) => (
+              <SelectCard
+                key={region.id}
+                checked={formData.region === region.id}
+                title={region.name}
+                description={region.description}
+                onChange={() =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    region: region.id,
+                    location: region.id === "london" ? prev.londonZone || "zone3" : region.id,
+                    londonZone: region.id === "london" ? prev.londonZone || "zone3" : "",
+                  }))
+                }
+              />
+            ))}
+          </div>
+        </section>
+
+        {formData.region === "london" && (
+          <section>
+            <h3 className="mb-4 text-lg font-semibold text-stone-900">
+              London zone
+            </h3>
+            <div className="grid gap-4 md:grid-cols-2">
+              {LONDON_ZONES.map((zone) => (
+                <SelectCard
+                  key={zone.id}
+                  checked={formData.londonZone === zone.id}
+                  title={zone.name}
+                  description={zone.description}
+                  onChange={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      londonZone: zone.id,
+                      location: zone.id,
+                    }))
+                  }
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="grid gap-5 md:grid-cols-2">
+          <div>
+            <label
+              htmlFor="postcode"
+              className="mb-2 block text-sm font-medium text-stone-700"
+            >
+              Postcode (optional)
+            </label>
+            <input
+              id="postcode"
+              type="text"
+              value={formData.postcode || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, postcode: e.target.value.toUpperCase() }))
+              }
+              placeholder="e.g. E8 3PH"
+              className="w-full rounded-2xl border border-stone-300 bg-white px-4 py-3 text-stone-900 outline-none transition focus:border-slate-900 focus:ring-2 focus:ring-slate-900/10"
+            />
+          </div>
+          <div className="rounded-2xl border border-stone-200 bg-stone-50 p-4 text-sm text-stone-600">
+            Postcode is only used as context for follow-up and regional pricing
+            accuracy. It does not need to be exact.
+          </div>
+        </section>
+
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            Will the home be occupied during the works?
           </h3>
-          <div className="grid gap-4">
-            {LONDON_ZONES.map((zone) => (
-              <div
-                key={zone.id}
-                className={`cursor-pointer rounded-lg border-2 p-4 transition-all ${
-                  formData.location === zone.id
-                    ? "border-blue-500 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-                onClick={() => handleLocationChange(zone.id)}
-              >
-                <div className="flex items-start">
-                  <div
-                    className={`mr-3 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full border-2 ${
-                      formData.location === zone.id
-                        ? "border-blue-500 bg-blue-500"
-                        : "border-gray-300"
-                    }`}
-                  >
-                    {formData.location === zone.id && (
-                      <div className="h-2 w-2 rounded-full bg-white"></div>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-900">{zone.name}</h4>
-                    <p className="mt-1 text-sm text-gray-600">
-                      {zone.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {OCCUPANCY_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.occupancyStatus === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, occupancyStatus: option.id }))
+                }
+              />
             ))}
           </div>
-        </div>
+        </section>
+
+        <section>
+          <h3 className="mb-4 text-lg font-semibold text-stone-900">
+            How defined is the kitchen scope today?
+          </h3>
+          <div className="grid gap-4 md:grid-cols-2">
+            {DRAWINGS_STATUS_OPTIONS.map((option) => (
+              <SelectCard
+                key={option.id}
+                checked={formData.drawingsStatus === option.id}
+                title={option.name}
+                description={option.description}
+                onChange={() =>
+                  setFormData((prev) => ({ ...prev, drawingsStatus: option.id }))
+                }
+              />
+            ))}
+          </div>
+        </section>
       </div>
-      {/* Navigation */}
+
       <div className="mt-8 flex justify-end">
         <button
+          type="button"
           onClick={onNext}
           disabled={!canProceed}
-          className={`rounded-lg px-6 py-3 font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-sm font-semibold transition ${
             canProceed
-              ? "bg-blue-600 text-white hover:bg-blue-700"
-              : "cursor-not-allowed bg-gray-300 text-gray-500"
+              ? "bg-slate-900 text-white hover:bg-black"
+              : "cursor-not-allowed bg-stone-300 text-stone-500"
           }`}
         >
           Continue
@@ -145,6 +206,4 @@ const StepProperty = ({ formData, setFormData, onNext }) => {
       </div>
     </div>
   );
-};
-
-export default StepProperty;
+}

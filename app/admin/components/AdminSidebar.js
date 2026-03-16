@@ -154,6 +154,11 @@ export default function AdminSidebar() {
           icon: "🍳",
         },
         {
+          name: "Kitchen Calculator Leads",
+          href: "/admin/kitchen-calculator-leads",
+          icon: "🍽️",
+        },
+        {
           name: "General Renovations",
           href: "/admin/general-renovations",
           icon: "🏠",
