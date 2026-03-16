@@ -152,7 +152,7 @@ async function handleBathroomRenovationSubmission(request) {
     // Send confirmation email to customer (async)
     try {
       const confirmationEmail = generateConfirmationEmail(bathroomRenovation);
-      await sendEmailWithRetry({
+      const confirmationResult = await sendEmailWithRetry({
         to: bathroomRenovation.email,
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
@@ -163,9 +163,15 @@ async function handleBathroomRenovationSubmission(request) {
         },
       });
 
-      // Update submission record
-      bathroomRenovation.confirmationEmailSent = true;
-      await bathroomRenovation.save();
+      if (confirmationResult?.success) {
+        bathroomRenovation.confirmationEmailSent = true;
+        await bathroomRenovation.save();
+      } else {
+        console.error(
+          "Failed to send confirmation email:",
+          confirmationResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
       // Don't fail the request if email fails
@@ -174,7 +180,7 @@ async function handleBathroomRenovationSubmission(request) {
     // Send notification email to admin (async)
     try {
       const adminEmail = generateAdminNotificationEmail(bathroomRenovation);
-      await sendEmailWithRetry({
+      const adminResult = await sendEmailWithRetry({
         to: "contact@celli.co.uk",
         subject: adminEmail.subject,
         html: adminEmail.html,
@@ -185,9 +191,15 @@ async function handleBathroomRenovationSubmission(request) {
         },
       });
 
-      // Update submission record
-      bathroomRenovation.adminNotificationSent = true;
-      await bathroomRenovation.save();
+      if (adminResult?.success) {
+        bathroomRenovation.adminNotificationSent = true;
+        await bathroomRenovation.save();
+      } else {
+        console.error(
+          "Failed to send admin notification email:",
+          adminResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send admin notification email:", emailError);
       // Don't fail the request if email fails

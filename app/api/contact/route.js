@@ -144,7 +144,7 @@ async function handleContactSubmission(request) {
     // Send confirmation email to customer (async)
     try {
       const confirmationEmail = generateConfirmationEmail(contact);
-      await sendEmailWithRetry({
+      const confirmationResult = await sendEmailWithRetry({
         to: contact.email,
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
@@ -155,9 +155,15 @@ async function handleContactSubmission(request) {
         },
       });
 
-      // Update contact record
-      contact.confirmationEmailSent = true;
-      await contact.save();
+      if (confirmationResult?.success) {
+        contact.confirmationEmailSent = true;
+        await contact.save();
+      } else {
+        console.error(
+          "Failed to send confirmation email:",
+          confirmationResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
       // Don't fail the request if email fails
@@ -166,7 +172,7 @@ async function handleContactSubmission(request) {
     // Send notification email to admin (async)
     try {
       const adminEmail = generateAdminNotificationEmail(contact);
-      await sendEmailWithRetry({
+      const adminResult = await sendEmailWithRetry({
         to: "contact@celli.co.uk",
         subject: adminEmail.subject,
         html: adminEmail.html,
@@ -177,9 +183,15 @@ async function handleContactSubmission(request) {
         },
       });
 
-      // Update contact record
-      contact.adminNotificationSent = true;
-      await contact.save();
+      if (adminResult?.success) {
+        contact.adminNotificationSent = true;
+        await contact.save();
+      } else {
+        console.error(
+          "Failed to send admin notification email:",
+          adminResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send admin notification email:", emailError);
       // Don't fail the request if email fails

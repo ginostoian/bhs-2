@@ -7,6 +7,7 @@ import { costEngine } from "@/app/extension-calculator/lib/costEngine";
 import { generateCostEstimatePDF } from "@/app/extension-calculator/lib/pdfGenerator";
 
 const CALCULATOR_SOURCE = "Extension Calculator";
+const ADMIN_NOTIFICATION_EMAIL = "contact@celli.co.uk";
 const MIN_SUBMIT_MS = 2500;
 const MAX_FORM_AGE_MS = 24 * 60 * 60 * 1000;
 
@@ -95,6 +96,47 @@ function buildEmailContent({ estimate, formData }) {
       </div>
       <p style="margin:0 0 12px;">The PDF includes a line-item breakdown, assumptions, and next-step guidance so you can budget more confidently before requesting formal quotes.</p>
       <p style="margin:0;color:#6b7280;font-size:12px;">This is a budgeting estimate, not a final quote. Final costs depend on survey findings, drawings, engineering and specification.</p>
+    </div>
+  `;
+
+  return { subject, text, html };
+}
+
+function buildAdminNotificationContent({ estimate, formData, leadName, email }) {
+  const extensionName =
+    {
+      singleStorey: "Single-storey extension",
+      doubleStorey: "Double-storey extension",
+      basement: "Basement extension",
+      loft: "Loft conversion",
+    }[formData.extensionType] || "Extension project";
+  const subject = `New extension calculator lead: ${leadName || email}`;
+
+  const text = [
+    "New extension calculator submission.",
+    "",
+    `Name: ${leadName || "Not provided"}`,
+    `Email: ${email}`,
+    `Project: ${extensionName}`,
+    `Approx. size: ${formData.size || 0} m²`,
+    `Low estimate: ${costEngine.formatCurrency(estimate.ranges.low)}`,
+    `Expected estimate: ${costEngine.formatCurrency(estimate.ranges.expected)}`,
+    `High estimate: ${costEngine.formatCurrency(estimate.ranges.high)}`,
+    "",
+    `Source: ${CALCULATOR_SOURCE}`,
+  ].join("\n");
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;color:#1f2937;line-height:1.5;max-width:640px">
+      <h2 style="margin:0 0 12px;color:#0f172a;">New Extension Calculator Lead</h2>
+      <p style="margin:0 0 8px;"><strong>Name:</strong> ${leadName || "Not provided"}</p>
+      <p style="margin:0 0 8px;"><strong>Email:</strong> ${email}</p>
+      <p style="margin:0 0 8px;"><strong>Project:</strong> ${extensionName}</p>
+      <p style="margin:0 0 8px;"><strong>Approx. size:</strong> ${formData.size || 0} m²</p>
+      <p style="margin:0 0 8px;"><strong>Low estimate:</strong> ${costEngine.formatCurrency(estimate.ranges.low)}</p>
+      <p style="margin:0 0 8px;"><strong>Expected estimate:</strong> ${costEngine.formatCurrency(estimate.ranges.expected)}</p>
+      <p style="margin:0 0 8px;"><strong>High estimate:</strong> ${costEngine.formatCurrency(estimate.ranges.high)}</p>
+      <p style="margin:16px 0 0;color:#6b7280;font-size:12px;">Source: ${CALCULATOR_SOURCE}</p>
     </div>
   `;
 
@@ -283,6 +325,8 @@ async function handleLeadPost(request) {
 
     let emailSent = false;
     let emailError = null;
+    let adminEmailSent = false;
+    let adminEmailError = null;
 
     try {
       const attachment = await generatePdfAttachment(estimate, sanitizedInputs, email);
@@ -315,6 +359,37 @@ async function handleLeadPost(request) {
       emailSent = false;
     }
 
+    try {
+      const adminEmail = buildAdminNotificationContent({
+        estimate,
+        formData: sanitizedInputs,
+        leadName,
+        email,
+      });
+
+      const adminEmailResult = await sendEmailWithRetry({
+        to: ADMIN_NOTIFICATION_EMAIL,
+        subject: adminEmail.subject,
+        text: adminEmail.text,
+        html: adminEmail.html,
+        metadata: {
+          type: "extension_calculator_admin_notification",
+          source: CALCULATOR_SOURCE,
+          calculatorType: "extension",
+        },
+      });
+
+      adminEmailSent = !!(adminEmailResult && adminEmailResult.success);
+      adminEmailError =
+        adminEmailResult && adminEmailResult.success
+          ? null
+          : (adminEmailResult && adminEmailResult.error) || null;
+    } catch (err) {
+      console.error("Failed to email extension calculator admin notification:", err);
+      adminEmailError = err.message;
+      adminEmailSent = false;
+    }
+
     // Update latest submission delivery metadata after email attempt.
     if (lead && lead.calculatorData && lead.calculatorData.latestSubmission) {
       lead.calculatorData.latestSubmission.emailDelivery = {
@@ -322,12 +397,22 @@ async function handleLeadPost(request) {
         attemptedAt: new Date(),
         error: emailError,
       };
+      lead.calculatorData.latestSubmission.adminNotificationDelivery = {
+        sent: adminEmailSent,
+        attemptedAt: new Date(),
+        error: adminEmailError,
+      };
 
       if (Array.isArray(lead.calculatorData.submissions) && lead.calculatorData.submissions.length > 0) {
         lead.calculatorData.submissions[lead.calculatorData.submissions.length - 1].emailDelivery = {
           sent: emailSent,
           attemptedAt: new Date(),
           error: emailError,
+        };
+        lead.calculatorData.submissions[lead.calculatorData.submissions.length - 1].adminNotificationDelivery = {
+          sent: adminEmailSent,
+          attemptedAt: new Date(),
+          error: adminEmailError,
         };
       }
     }

@@ -144,7 +144,7 @@ export async function POST(request) {
     // Send confirmation email to customer (async)
     try {
       const confirmationEmail = generateConfirmationEmail(generalRenovation);
-      await sendEmailWithRetry({
+      const confirmationResult = await sendEmailWithRetry({
         to: generalRenovation.email,
         subject: confirmationEmail.subject,
         html: confirmationEmail.html,
@@ -155,9 +155,15 @@ export async function POST(request) {
         },
       });
 
-      // Update submission record
-      generalRenovation.confirmationEmailSent = true;
-      await generalRenovation.save();
+      if (confirmationResult?.success) {
+        generalRenovation.confirmationEmailSent = true;
+        await generalRenovation.save();
+      } else {
+        console.error(
+          "Failed to send confirmation email:",
+          confirmationResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
       // Don't fail the request if email fails
@@ -166,7 +172,7 @@ export async function POST(request) {
     // Send notification email to admin (async)
     try {
       const adminEmail = generateAdminNotificationEmail(generalRenovation);
-      await sendEmailWithRetry({
+      const adminResult = await sendEmailWithRetry({
         to: "contact@celli.co.uk",
         subject: adminEmail.subject,
         html: adminEmail.html,
@@ -177,9 +183,15 @@ export async function POST(request) {
         },
       });
 
-      // Update submission record
-      generalRenovation.adminNotificationSent = true;
-      await generalRenovation.save();
+      if (adminResult?.success) {
+        generalRenovation.adminNotificationSent = true;
+        await generalRenovation.save();
+      } else {
+        console.error(
+          "Failed to send admin notification email:",
+          adminResult?.error || "Unknown email error",
+        );
+      }
     } catch (emailError) {
       console.error("Failed to send admin notification email:", emailError);
       // Don't fail the request if email fails
