@@ -1,7 +1,11 @@
 import Approach from "@/components/Approach";
 import FAQ from "@/components/FAQ";
+import Features from "@/components/Features";
 import Guarantee from "@/components/Guarantee";
+import PortfolioCardContainer from "@/components/PortfolioCardContainer";
+import Stats from "@/components/Stats";
 import Testimonials11 from "@/components/Testimonials11";
+import Testimonials3 from "@/components/Testimonials3";
 import BlogHighlight from "@/components/blog/BlogHighlight";
 import Hero from "@/components/hero/Hero";
 import SectionTitle from "@/components/sectionTitle/SectionTitle";
@@ -188,6 +192,15 @@ export default function Page() {
       <SocialProof />
 
       <SectionTitle
+        title="Why choose us"
+        subtitle="Our values are our promises to you"
+      />
+
+      <Features />
+      <Testimonials3 />
+      <Stats />
+
+      <SectionTitle
         title="Why homeowners choose a loft conversion"
         subtitle="The right project should solve a space problem and remove decision stress at the same time."
       />
@@ -255,6 +268,7 @@ export default function Page() {
       />
 
       <Testimonials11 />
+      <PortfolioCardContainer />
 
       <Guarantee />
 
