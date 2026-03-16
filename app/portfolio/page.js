@@ -14,6 +14,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import PortfolioPageContainer from "@/components/PortfolioPageContainer";
 import Stats from "@/components/Stats";
@@ -51,7 +52,7 @@ export default function Page() {
   //   ];
   const howWeDoItCopy = portfolioCopy.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const blogHighlightCopy = portfolioCopy.blogHighlights;
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("portfolio");
 
   const faqs = getPageFaqs("portfolio");
 
@@ -86,7 +87,7 @@ export default function Page() {
           title="The Knowledge Center"
           subtitle="Where you actually learn new things"
         />
-        <BlogHighlight articles={blogHighlightCopy} />
+        <BlogHighlight articles={knowledgeCenterArticles} />
       </main>
     </>
   );

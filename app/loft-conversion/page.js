@@ -13,6 +13,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 
@@ -129,28 +130,6 @@ const consultationCtaCopy = {
   darkBgTextBtn: "Discuss your loft project",
 };
 
-const loftBlogHighlights = [
-  {
-    title: "Planning permission for loft conversions in London: complete 2026 guide",
-    date: "11 March 2026",
-    imgUrl:
-      "/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png",
-    slug: "planning-permission-loft-conversion-london",
-  },
-  {
-    title: "Loft conversions in London: the complete 2026 guide",
-    date: "6 March 2026",
-    imgUrl: "/assets/img/extension/diagram-of-popular-house-extensions.webp",
-    slug: "loft-conversions-london-complete-guide-2026",
-  },
-  {
-    title: "15 house extension mistakes London homeowners make",
-    date: "3 March 2026",
-    imgUrl: "/assets/img/extension/double-storey-extension.webp",
-    slug: "house-extension-mistakes-london",
-  },
-];
-
 function InsightCard({ title, body, eyebrow }) {
   return (
     <article className="rounded-3xl border border-base-content/10 bg-white p-8 shadow-[0_16px_50px_rgba(16,11,71,0.06)]">
@@ -177,6 +156,7 @@ function LoftTypeCard({ title, body, fit }) {
 
 export default function Page() {
   const faqs = getPageFaqs("loft");
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("loft");
 
   return (
     <main>
@@ -281,7 +261,7 @@ export default function Page() {
         subtitle="Useful reading if you are still comparing loft options, planning routes or next steps."
       />
 
-      <BlogHighlight articles={loftBlogHighlights} />
+      <BlogHighlight articles={knowledgeCenterArticles} />
     </main>
   );
 }

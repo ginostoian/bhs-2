@@ -18,6 +18,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 
@@ -41,6 +42,7 @@ export const metadata = getSEOTags({
 });
 
 export default function ToolsPage() {
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("tools");
   const calculators = [
     {
       title: "Kitchen Renovation Calculator",
@@ -297,31 +299,7 @@ export default function ToolsPage() {
           subtitle="Where you actually learn new things"
         />
 
-        <BlogHighlight
-          articles={[
-            {
-              title: "Kitchen Renovation Guide: From Planning to Completion",
-              excerpt:
-                "Everything you need to know about renovating your kitchen, from initial planning to final finishing touches.",
-              image: "/assets/img/kitchen/contemporary-kitchen.webp",
-              slug: "kitchen-renovation-guide",
-            },
-            {
-              title: "Bathroom Renovation Costs: What to Expect in 2024",
-              excerpt:
-                "A comprehensive breakdown of bathroom renovation costs in London, including materials, labour, and hidden expenses.",
-              image: "/assets/img/bathroom/industrial-bathroom.webp",
-              slug: "bathroom-renovation-costs-2024",
-            },
-            {
-              title: "House Extensions: Planning Permission and Costs",
-              excerpt:
-                "Essential information about planning permission, building regulations, and cost considerations for house extensions.",
-              image: "/assets/img/extension/extension-1.webp",
-              slug: "house-extensions-planning-permission",
-            },
-          ]}
-        />
+        <BlogHighlight articles={knowledgeCenterArticles} />
       </main>
     </>
   );

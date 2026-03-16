@@ -8,6 +8,7 @@ import SectionTitle from "@/components/sectionTitle/SectionTitle";
 import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
@@ -26,7 +27,7 @@ export default function Page() {
   const contactPageCopy = config.copy.contactPage;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
   const faqCopy = contactPageCopy.faqs;
-  const blogHighlightCopy = contactPageCopy.blogHighlights;
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("bathroom");
 
   return (
     <>
@@ -48,7 +49,7 @@ export default function Page() {
           title="The Knowledge Center"
           subtitle="Where you actually learn new things"
         />
-        <BlogHighlight articles={blogHighlightCopy} />
+        <BlogHighlight articles={knowledgeCenterArticles} />
       </main>
     </>
   );

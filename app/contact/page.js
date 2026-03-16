@@ -17,6 +17,7 @@ import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import CustomCTA from "@/components/CustomCTA";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 
@@ -51,7 +52,7 @@ export default function Page() {
   //   ];
   const howWeDoItCopy = contactPageCopy.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const blogHighlightCopy = contactPageCopy.blogHighlights;
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("contact");
 
   const faqs = getPageFaqs("contact");
 
@@ -231,7 +232,7 @@ export default function Page() {
           title="The Knowledge Center"
           subtitle="Where you actually learn new things"
         />
-        <BlogHighlight articles={blogHighlightCopy} />
+        <BlogHighlight articles={knowledgeCenterArticles} />
       </main>
     </>
   );

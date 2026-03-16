@@ -16,6 +16,7 @@ import SocialProof from "@/components/socialProof/SocialProof";
 import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
 import TextGrid from "@/components/textGrid/TextGrid";
 import config from "@/config";
+import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 import { getLocalBusinessSchema } from "@/libs/structuredData";
@@ -43,7 +44,7 @@ export default function Page() {
   const faqPageCopy = config.copy.faqPage;
   const howWeDoItCopy = faqPageCopy.howWeDoItSection;
   const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const blogHighlightCopy = faqPageCopy.blogHighlights;
+  const knowledgeCenterArticles = getKnowledgeCenterArticles("faq");
   const faqs = getPageFaqs("faq");
 
   // Schema markup for FAQ page
@@ -119,7 +120,7 @@ export default function Page() {
           title="The Knowledge Center"
           subtitle="Where you actually learn new things"
         />
-        <BlogHighlight articles={blogHighlightCopy} />
+        <BlogHighlight articles={knowledgeCenterArticles} />
       </main>
     </>
   );
