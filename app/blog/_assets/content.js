@@ -12,6 +12,7 @@ import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/
 import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
+import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -20,6 +21,7 @@ import LoftConversionsLondonGuide from "./articles/LoftConversionsLondonGuide";
 import PlanningPermissionLoftConversionLondonArticle from "./articles/PlanningPermissionLoftConversionLondonArticle";
 import HomeRenovationCostLondon2026Article from "./articles/HomeRenovationCostLondon2026Article";
 import PropertyBuyingChecklistLondon2026Article from "./articles/PropertyBuyingChecklistLondon2026Article";
+import LoftConversionVsHouseExtensionArticle from "./articles/LoftConversionVsHouseExtensionArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -215,6 +217,25 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "loft-conversion-vs-house-extension-london",
+    title:
+      "Loft conversion vs house extension in London: which adds more value? (2026 guide)",
+    description:
+      "London-focused comparison of loft conversions versus house extensions covering costs, ROI, planning permission, timelines, disruption, property types and move-vs-improve economics.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-17",
+    image: {
+      src: loftVsExtensionGuideImg,
+      urlRelative:
+        "/assets/blog/loft-conversion-vs-house-extension/02-value-added.png",
+      alt: "Loft conversion versus house extension value uplift in London",
+    },
+    content: <LoftConversionVsHouseExtensionArticle />,
+  },
   {
     slug: "property-buying-checklist-london-2026",
     title:
