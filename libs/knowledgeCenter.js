@@ -3,6 +3,7 @@ import { articles } from "@/app/blog/_assets/content";
 const CONTEXT_PROFILES = {
   home: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "house-extension-mistakes-london",
       "bathroom-renovation-london-trends-2026",
@@ -14,6 +15,7 @@ const CONTEXT_PROFILES = {
   },
   extension: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "house-extension-mistakes-london",
       "house-extension-value-london-guide",
       "permitted-development-guide",
@@ -25,6 +27,7 @@ const CONTEXT_PROFILES = {
   },
   loft: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "planning-permission-loft-conversion-london",
       "loft-conversions-london-complete-guide-2026",
       "house-extension-mistakes-london",
@@ -36,6 +39,7 @@ const CONTEXT_PROFILES = {
   },
   renovation: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "property-buying-checklist-london-2026",
       "house-extension-mistakes-london",
@@ -69,6 +73,7 @@ const CONTEXT_PROFILES = {
   },
   about: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "planning-permission-loft-conversion-london",
       "bathroom-renovation-london-trends-2026",
@@ -80,6 +85,7 @@ const CONTEXT_PROFILES = {
   },
   contact: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "planning-permission-loft-conversion-london",
       "bathroom-renovation-london-trends-2026",
@@ -91,6 +97,7 @@ const CONTEXT_PROFILES = {
   },
   faq: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "house-extension-mistakes-london",
       "planning-permission-loft-conversion-london",
@@ -102,6 +109,7 @@ const CONTEXT_PROFILES = {
   },
   portfolio: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "house-extension-value-london-guide",
       "loft-conversions-london-complete-guide-2026",
       "kitchen-renovation-full-guide-2025",
@@ -113,6 +121,7 @@ const CONTEXT_PROFILES = {
   },
   tools: {
     preferredSlugs: [
+      "how-to-finance-house-extension-renovation-london-2026",
       "home-renovation-cost-london-2026",
       "bathroom-renovation-cost-2025",
       "kitchen-renovation-full-guide-2025",

@@ -13,6 +13,7 @@ import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-de
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
+import homeExtensionFinanceGuideImg from "/public/assets/blog/home-extension-finance/london-project-costs-2026.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -22,6 +23,7 @@ import PlanningPermissionLoftConversionLondonArticle from "./articles/PlanningPe
 import HomeRenovationCostLondon2026Article from "./articles/HomeRenovationCostLondon2026Article";
 import PropertyBuyingChecklistLondon2026Article from "./articles/PropertyBuyingChecklistLondon2026Article";
 import LoftConversionVsHouseExtensionArticle from "./articles/LoftConversionVsHouseExtensionArticle";
+import HomeExtensionFinanceArticle from "./articles/HomeExtensionFinanceArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -217,6 +219,25 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "how-to-finance-house-extension-renovation-london-2026",
+    title:
+      "How to finance a house extension or renovation in London (2026 guide)",
+    description:
+      "Complete 2026 guide to financing your London house extension, loft conversion or renovation. Compare remortgaging, further advances, loans, grants and move-vs-improve economics with London-specific costs.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-19",
+    image: {
+      src: homeExtensionFinanceGuideImg,
+      urlRelative: "/assets/blog/home-extension-finance/london-project-costs-2026.png",
+      alt: "London extension, loft conversion and renovation finance guide for 2026",
+    },
+    content: <HomeExtensionFinanceArticle />,
+  },
   {
     slug: "loft-conversion-vs-house-extension-london",
     title:
