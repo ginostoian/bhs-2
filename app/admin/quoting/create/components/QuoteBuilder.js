@@ -404,6 +404,71 @@ export default function QuoteBuilder() {
     return SECTIONS.every((section) => isSectionValid(section.id));
   };
 
+  const buildServicesWithTotals = () => {
+    return formData.services.map((category) => {
+      const itemsWithTotals = category.items.map((item) => ({
+        ...item,
+        total:
+          Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) / 100,
+      }));
+
+      const categoryTotal = itemsWithTotals.reduce(
+        (sum, item) => sum + item.total,
+        0,
+      );
+
+      return {
+        ...category,
+        items: itemsWithTotals,
+        categoryTotal: Math.round(categoryTotal * 100) / 100,
+      };
+    });
+  };
+
+  const calculateQuoteTotal = (services) => {
+    let total = 0;
+
+    if (services && services.length > 0) {
+      services.forEach((service) => {
+        if (service.type === "category" || !service.type) {
+          service.items.forEach((item) => {
+            total += item.total;
+          });
+        }
+      });
+    }
+
+    return total;
+  };
+
+  const persistQuote = async (quoteData) => {
+    const isUpdatingExistingQuote = Boolean(quoteId);
+    const response = await fetch(
+      isUpdatingExistingQuote
+        ? `/api/admin/quoting/${quoteId}`
+        : "/api/admin/quoting",
+      {
+        method: isUpdatingExistingQuote ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quoteData),
+      },
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Failed to save quote");
+    }
+
+    if (result.quote?._id) {
+      setQuoteId(result.quote._id);
+    }
+
+    return result;
+  };
+
   const handleSaveDraft = async () => {
     setIsLoading(true);
     try {
@@ -415,41 +480,8 @@ export default function QuoteBuilder() {
         return;
       }
 
-      // Calculate built-in prices for each service item
-      const servicesWithTotals = formData.services.map((category) => {
-        const itemsWithTotals = category.items.map((item) => ({
-          ...item,
-          total:
-            Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) /
-            100,
-        }));
-
-        // Calculate category total
-        const categoryTotal = itemsWithTotals.reduce(
-          (sum, item) => sum + item.total,
-          0,
-        );
-
-        return {
-          ...category,
-          items: itemsWithTotals,
-          categoryTotal: Math.round(categoryTotal * 100) / 100,
-        };
-      });
-
-      // Calculate the simple total (only from categories, not headings)
-      let total = 0;
-      if (servicesWithTotals && servicesWithTotals.length > 0) {
-        servicesWithTotals.forEach((service) => {
-          // Only calculate totals for categories, not headings
-          if (service.type === "category" || !service.type) {
-            // !service.type for backward compatibility
-            service.items.forEach((item) => {
-              total += item.total;
-            });
-          }
-        });
-      }
+      const servicesWithTotals = buildServicesWithTotals();
+      const total = calculateQuoteTotal(servicesWithTotals);
 
       // Create the draft quote object
       const draftQuote = {
@@ -473,6 +505,7 @@ export default function QuoteBuilder() {
           deposit: formData.pricing?.depositAmount || 0,
           milestones: [],
         },
+        template: formData.template || null,
         termsAndConditions: "Draft - terms to be finalized",
         warrantyInformation: "Draft - warranty information to be finalized",
         leadTime: "Draft - lead time to be finalized",
@@ -505,26 +538,13 @@ export default function QuoteBuilder() {
         draftQuote.project = formData.linkedProject;
       }
 
-      // Save quote to database via API
-      const response = await fetch("/api/admin/quoting", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(draftQuote),
-      });
+      await persistQuote(draftQuote);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to save draft quote");
-      }
-
-      const result = await response.json();
-      if (!result.success) {
-        throw new Error(result.error || "Failed to save draft quote");
-      }
-
-      toast.success("Quote saved as draft successfully!");
+      toast.success(
+        quoteId
+          ? "Draft quote updated successfully!"
+          : "Quote saved as draft successfully!",
+      );
       setIsDraftSaved(true);
 
       // Optionally redirect to the quote or stay on the form
@@ -541,42 +561,8 @@ export default function QuoteBuilder() {
   const handleGenerateQuote = async () => {
     setIsLoading(true);
     try {
-      // Calculate built-in prices for each service item
-      // Calculate simple total from services
-      const servicesWithTotals = formData.services.map((category) => {
-        const itemsWithTotals = category.items.map((item) => ({
-          ...item,
-          total:
-            Math.round((item.quantity || 1) * (item.unitPrice || 0) * 100) /
-            100,
-        }));
-
-        // Calculate category total
-        const categoryTotal = itemsWithTotals.reduce(
-          (sum, item) => sum + item.total,
-          0,
-        );
-
-        return {
-          ...category,
-          items: itemsWithTotals,
-          categoryTotal: Math.round(categoryTotal * 100) / 100,
-        };
-      });
-
-      // Calculate the simple total (only from categories, not headings)
-      let total = 0;
-      if (servicesWithTotals && servicesWithTotals.length > 0) {
-        servicesWithTotals.forEach((service) => {
-          // Only calculate totals for categories, not headings
-          if (service.type === "category" || !service.type) {
-            // !service.type for backward compatibility
-            service.items.forEach((item) => {
-              total += item.total;
-            });
-          }
-        });
-      }
+      const servicesWithTotals = buildServicesWithTotals();
+      const total = calculateQuoteTotal(servicesWithTotals);
 
       // Create the complete quote object
       const completeQuote = {
@@ -590,6 +576,7 @@ export default function QuoteBuilder() {
         services: servicesWithTotals,
         total: total,
         pricing: formData.pricing,
+        template: formData.template || null,
         paymentTerms: {
           deposit: formData.pricing.depositAmount || 0,
           milestones: [],
@@ -627,23 +614,7 @@ export default function QuoteBuilder() {
         completeQuote.project = formData.linkedProject;
       }
 
-      // Save quote to database via API
-      const response = await fetch("/api/admin/quoting", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(completeQuote),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save quote to database");
-      }
-
-      const result = await response.json();
-      if (!result.success) {
-        throw new Error(result.error || "Failed to save quote");
-      }
+      const result = await persistQuote(completeQuote);
 
       setQuoteId(result.quote._id);
       toast.success("Quote generated successfully!");

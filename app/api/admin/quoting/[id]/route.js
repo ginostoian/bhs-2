@@ -156,21 +156,31 @@ export async function PUT(request, { params }) {
       body.total = Math.round(total * 100) / 100;
     }
 
-    // Find and update the quote
-    const updatedQuote = await Quote.findByIdAndUpdate(
-      id,
-      { $set: body },
-      { new: true, runValidators: true },
-    );
+    const immutableFields = new Set([
+      "_id",
+      "quoteNumber",
+      "createdBy",
+      "createdAt",
+    ]);
 
-    if (!updatedQuote) {
-      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
-    }
+    Object.keys(body).forEach((key) => {
+      if (!immutableFields.has(key)) {
+        currentQuote[key] = body[key];
+      }
+    });
+
+    currentQuote.lastModifiedBy = session.user.id;
+
+    await currentQuote.save();
+    await currentQuote.populate([
+      { path: "createdBy", select: "name email" },
+      { path: "lastModifiedBy", select: "name email" },
+    ]);
 
     return NextResponse.json({
       success: true,
       message: "Quote updated successfully",
-      quote: updatedQuote,
+      quote: currentQuote,
     });
   } catch (error) {
     console.error("Error updating quote:", error);
