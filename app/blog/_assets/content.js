@@ -14,6 +14,7 @@ import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guid
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
 import homeExtensionFinanceGuideImg from "/public/assets/blog/home-extension-finance/london-project-costs-2026.png";
+import planningPermissionRefusedGuideImg from "/public/assets/blog/planning-permission-refused-london/planning-refusal-reasons-london-infographic.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -24,6 +25,7 @@ import HomeRenovationCostLondon2026Article from "./articles/HomeRenovationCostLo
 import PropertyBuyingChecklistLondon2026Article from "./articles/PropertyBuyingChecklistLondon2026Article";
 import LoftConversionVsHouseExtensionArticle from "./articles/LoftConversionVsHouseExtensionArticle";
 import HomeExtensionFinanceArticle from "./articles/HomeExtensionFinanceArticle";
+import PlanningPermissionRefusedArticle from "./articles/PlanningPermissionRefusedArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -219,6 +221,25 @@ const styles = {
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "planning-permission-refused-london",
+    title:
+      "Planning permission refused in London? Why it happens and what to do next",
+    description:
+      "Had your extension or loft conversion planning permission refused in London? Learn the top refusal reasons, appeal options, resubmission strategy and how to improve approval chances next time.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-03-20",
+    image: {
+      src: planningPermissionRefusedGuideImg,
+      urlRelative:
+        "/assets/blog/planning-permission-refused-london/planning-refusal-reasons-london-infographic.png",
+      alt: "Common reasons planning permission gets refused in London",
+    },
+    content: <PlanningPermissionRefusedArticle />,
+  },
   {
     slug: "how-to-finance-house-extension-renovation-london-2026",
     title:
