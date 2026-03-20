@@ -3,6 +3,7 @@ import Link from "next/link";
 import config from "@/config";
 import { articles, categories } from "./_assets/content";
 import CardArticle from "./_assets/components/CardArticle";
+import BlogArchive from "./_assets/components/BlogArchive";
 import { getSEOTags } from "@/libs/seo";
 
 const formatDate = (value) =>
@@ -34,6 +35,7 @@ export const metadata = getSEOTags({
 
 export const dynamic = "force-static";
 export const revalidate = 86400;
+const POSTS_PER_PAGE = 6;
 
 export default function Blog() {
   const sortedArticles = [...articles].sort(
@@ -41,12 +43,31 @@ export default function Blog() {
   );
   const featuredArticle = sortedArticles[0];
   const latestArticles = sortedArticles.slice(1, 7);
+  const archiveArticles = sortedArticles.map((article) => ({
+    slug: article.slug,
+    title: article.title,
+    description: article.description,
+    publishedAt: article.publishedAt,
+    image: article.image,
+    categories: article.categories.map((category) => ({
+      slug: category.slug,
+      title: category.title,
+      titleShort: category.titleShort,
+    })),
+    author: {
+      slug: article.author.slug,
+      name: article.author.name,
+      avatar: article.author.avatar,
+    },
+  }));
   const trustedStats = [
     { label: "In-depth guides", value: `${articles.length}+` },
     { label: "Learning tracks", value: `${categories.length}` },
     {
       label: "Most recent update",
-      value: sortedArticles[0] ? formatDate(sortedArticles[0].publishedAt) : "N/A",
+      value: sortedArticles[0]
+        ? formatDate(sortedArticles[0].publishedAt)
+        : "N/A",
     },
   ];
 
@@ -117,7 +138,9 @@ export default function Blog() {
                 <p className="text-xs uppercase tracking-wide text-white/70">
                   {stat.label}
                 </p>
-                <p className="mt-1 text-lg font-bold text-white">{stat.value}</p>
+                <p className="mt-1 text-lg font-bold text-white">
+                  {stat.value}
+                </p>
               </article>
             ))}
           </div>
@@ -168,7 +191,9 @@ export default function Blog() {
               key={point.title}
               className="rounded-2xl border border-[#dde8fb] bg-[#f9fbff] p-5"
             >
-              <h3 className="text-lg font-bold text-[#100b47]">{point.title}</h3>
+              <h3 className="text-lg font-bold text-[#100b47]">
+                {point.title}
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-gray-600">
                 {point.text}
               </p>
@@ -215,9 +240,9 @@ export default function Blog() {
                   Knowledge Quality Signals
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-gray-700">
-                  Every guide includes a clear context, practical recommendations
-                  and actionable next steps rather than generic “inspiration”
-                  content.
+                  Every guide includes a clear context, practical
+                  recommendations and actionable next steps rather than generic
+                  “inspiration” content.
                 </p>
               </article>
             </div>
@@ -284,6 +309,8 @@ export default function Blog() {
           ))}
         </div>
       </section>
+
+      <BlogArchive articles={archiveArticles} postsPerPage={POSTS_PER_PAGE} />
 
       <section className="mt-8 rounded-3xl border border-[#d7e4fb] bg-gradient-to-r from-[#f5f9ff] to-white p-8 text-center md:p-10">
         <h2 className="text-2xl font-black text-[#100b47] md:text-3xl">
