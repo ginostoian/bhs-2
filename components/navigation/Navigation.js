@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -8,139 +8,220 @@ import { useSession, signIn } from "next-auth/react";
 
 import classes from "./Navigation.module.css";
 
+const COST_GUIDE_LINKS = [
+  { href: "/tools", label: "All cost guides" },
+  { href: "/extension-calculator", label: "Extension Calculator" },
+  { href: "/renovation-calculator", label: "Renovation Calculator" },
+  { href: "/kitchen-calculator", label: "Kitchen Calculator" },
+  {
+    href: "/tools/bathroom-cost-calculator",
+    label: "Bathroom Calculator",
+  },
+  { href: "/btu-calculator", label: "BTU Calculator" },
+];
+
+const SERVICE_LINKS = [
+  { href: "/house-extension", label: "House extension" },
+  { href: "/loft-conversion", label: "Loft conversion" },
+  { href: "/general-renovation", label: "Full home renovation" },
+  { href: "/bathroom-renovation", label: "Bathroom renovations" },
+  { href: "/kitchen-renovation", label: "Kitchen renovation" },
+];
+
 function Navigation() {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [isCostsDropdownVisible, setIsCostsDropdownVisible] = useState(false);
+  const [activeDesktopDropdown, setActiveDesktopDropdown] = useState(null);
+  const [activeMobileDropdown, setActiveMobileDropdown] = useState(null);
   const [isMobileNavVisible, setIsMobileNavVisible] = useState(false);
+  const navRef = useRef(null);
   const { data: session } = useSession();
 
-  const toggleDropdown = () => {
-    setIsDropdownVisible((prevState) => !prevState);
+  const closeDropdowns = useCallback(() => {
+    setActiveDesktopDropdown(null);
+    setActiveMobileDropdown(null);
+  }, []);
+
+  const closeAllMenus = useCallback(() => {
+    closeDropdowns();
+    setIsMobileNavVisible(false);
+  }, [closeDropdowns]);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        closeAllMenus();
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        closeAllMenus();
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeAllMenus]);
+
+  const toggleDesktopDropdown = (dropdownName) => {
+    setActiveDesktopDropdown((currentDropdown) =>
+      currentDropdown === dropdownName ? null : dropdownName,
+    );
   };
 
-  const toggleCostsDropdown = () => {
-    setIsCostsDropdownVisible((prevState) => !prevState);
+  const toggleMobileDropdown = (dropdownName) => {
+    setActiveMobileDropdown((currentDropdown) =>
+      currentDropdown === dropdownName ? null : dropdownName,
+    );
   };
 
-  const toggleMobileNav = (e) => {
-    e.preventDefault();
-    setIsMobileNavVisible((prevState) => !prevState);
+  const toggleMobileNav = () => {
+    const nextState = !isMobileNavVisible;
+
+    setIsMobileNavVisible(nextState);
+    setActiveDesktopDropdown(null);
+
+    if (!nextState) {
+      setActiveMobileDropdown(null);
+    }
   };
 
   const handleNavLinkClick = () => {
-    setIsMobileNavVisible(false);
-    setIsDropdownVisible(false);
-    setIsCostsDropdownVisible(false);
+    closeAllMenus();
   };
+
+  const handleDesktopDropdownBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setActiveDesktopDropdown(null);
+    }
+  };
+
+  const dashboardHref = session
+    ? session.user.role === "employee"
+      ? "/employee"
+      : session.user.role === "designer"
+        ? "/designer"
+        : "/dashboard"
+    : null;
+
+  const dashboardLabel = session
+    ? session.user.role === "employee"
+      ? "Employee"
+      : session.user.role === "designer"
+        ? "Designer"
+        : "Dashboard"
+    : null;
 
   return (
     <header>
-      <nav className={`${classes["main-nav"]} container`}>
+      <nav ref={navRef} className={`${classes["main-nav"]} container`}>
         <div className={classes["main-nav__left"]}>
           <ul className={classes["main-nav__list"]}>
-            <li className={classes["main-nav__list-item"]}>
-              <Link
-                href="/tools"
-                className={classes["dropdown-item"]}
-                onMouseEnter={toggleCostsDropdown}
+            <li
+              className={`${classes["main-nav__list-item"]} ${classes["dropdown-wrapper"]}`}
+              onMouseEnter={() => setActiveDesktopDropdown("cost-guides")}
+              onMouseLeave={() => setActiveDesktopDropdown(null)}
+              onBlur={handleDesktopDropdownBlur}
+            >
+              <button
+                type="button"
+                className={`${classes["dropdown-trigger"]} ${
+                  activeDesktopDropdown === "cost-guides"
+                    ? classes["dropdown-trigger-active"]
+                    : ""
+                }`}
+                aria-expanded={activeDesktopDropdown === "cost-guides"}
+                aria-controls="desktop-cost-guides-menu"
+                onClick={() => toggleDesktopDropdown("cost-guides")}
+                onFocus={() => setActiveDesktopDropdown("cost-guides")}
               >
                 <span>Cost Guides</span>
-                <MdOutlineKeyboardArrowDown />
-              </Link>
+                <MdOutlineKeyboardArrowDown className={classes["dropdown-chevron"]} />
+              </button>
               <ul
+                id="desktop-cost-guides-menu"
                 className={`${classes["dropdown-menu"]} ${
-                  isCostsDropdownVisible ? classes["dropdown-menu-visible"] : ""
+                  activeDesktopDropdown === "cost-guides"
+                    ? classes["dropdown-menu-visible"]
+                    : ""
                 }`}
-                onMouseLeave={handleNavLinkClick}
               >
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/extension-calculator">Extension Calculator</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/renovation-calculator">
-                    Renovation Calculator
-                  </Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/kitchen-calculator">Kitchen Calculator</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/tools/bathroom-cost-calculator">
-                    Bathroom Calculator
-                  </Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/btu-calculator">BTU Calculator</Link>
-                </li>
+                {COST_GUIDE_LINKS.map((item) => (
+                  <li key={item.href} className={classes["dropdown__list-item"]}>
+                    <Link
+                      href={item.href}
+                      className={classes["dropdown__link"]}
+                      onClick={handleNavLinkClick}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
-            </li>
-            <li className={classes["main-nav__list-item"]}>
-              <Link href="/portfolio">Our work</Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
               <Link
-                href=""
-                className={classes["dropdown-item"]}
-                onMouseEnter={toggleDropdown}
+                href="/portfolio"
+                className={classes["main-nav__link"]}
+                onClick={handleNavLinkClick}
+              >
+                Our work
+              </Link>
+            </li>
+            <li
+              className={`${classes["main-nav__list-item"]} ${classes["dropdown-wrapper"]}`}
+              onMouseEnter={() => setActiveDesktopDropdown("services")}
+              onMouseLeave={() => setActiveDesktopDropdown(null)}
+              onBlur={handleDesktopDropdownBlur}
+            >
+              <button
+                type="button"
+                className={`${classes["dropdown-trigger"]} ${
+                  activeDesktopDropdown === "services"
+                    ? classes["dropdown-trigger-active"]
+                    : ""
+                }`}
+                aria-expanded={activeDesktopDropdown === "services"}
+                aria-controls="desktop-services-menu"
+                onClick={() => toggleDesktopDropdown("services")}
+                onFocus={() => setActiveDesktopDropdown("services")}
               >
                 <span>Services</span>
-                <MdOutlineKeyboardArrowDown />
-              </Link>
+                <MdOutlineKeyboardArrowDown className={classes["dropdown-chevron"]} />
+              </button>
               <ul
+                id="desktop-services-menu"
                 className={`${classes["dropdown-menu"]} ${
-                  isDropdownVisible ? classes["dropdown-menu-visible"] : ""
+                  activeDesktopDropdown === "services"
+                    ? classes["dropdown-menu-visible"]
+                    : ""
                 }`}
-                onMouseLeave={handleNavLinkClick}
               >
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/house-extension">House extension</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/loft-conversion">Loft conversion</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/general-renovation">Full home renovation</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/bathroom-renovation">Bathroom renovations</Link>
-                </li>
-                <li
-                  className={classes["dropdown__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <Link href="/kitchen-renovation">Kitchen renovation</Link>
-                </li>
+                {SERVICE_LINKS.map((item) => (
+                  <li key={item.href} className={classes["dropdown__list-item"]}>
+                    <Link
+                      href={item.href}
+                      className={classes["dropdown__link"]}
+                      onClick={handleNavLinkClick}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/contact">Contact</Link>
+              <Link
+                href="/contact"
+                className={classes["main-nav__link"]}
+                onClick={handleNavLinkClick}
+              >
+                Contact
+              </Link>
             </li>
           </ul>
         </div>
@@ -163,56 +244,68 @@ function Navigation() {
           </Link>
         </div>
 
-        <div
+        <button
+          type="button"
           className={classes["main-nav__menu"]}
-          aria-label="menu"
-          role="button"
-          tabIndex="0"
+          aria-label={isMobileNavVisible ? "Close menu" : "Open menu"}
           aria-controls="mobile-nav"
+          aria-expanded={isMobileNavVisible}
           onClick={toggleMobileNav}
         >
           <Image
             className={classes["main-nav__icon"]}
             src="/assets/icons/menu.svg"
-            alt="better homes studio logo"
+            alt="menu icon"
             width={100}
             height={100}
           />
-        </div>
+        </button>
+
         <div className={classes["main-nav__right"]}>
           <ul className={classes["main-nav__list"]}>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/about">About</Link>
+              <Link
+                href="/about"
+                className={classes["main-nav__link"]}
+                onClick={handleNavLinkClick}
+              >
+                About
+              </Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/blog">Learn</Link>
+              <Link
+                href="/blog"
+                className={classes["main-nav__link"]}
+                onClick={handleNavLinkClick}
+              >
+                Learn
+              </Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
-              <Link href="/faq">FAQ</Link>
+              <Link
+                href="/faq"
+                className={classes["main-nav__link"]}
+                onClick={handleNavLinkClick}
+              >
+                FAQ
+              </Link>
             </li>
             {session ? (
               <li className={classes["main-nav__list-item"]}>
                 <Link
-                  href={
-                    session.user.role === "employee"
-                      ? "/employee"
-                      : session.user.role === "designer"
-                        ? "/designer"
-                        : "/dashboard"
-                  }
+                  href={dashboardHref}
+                  className={classes["main-nav__link"]}
+                  onClick={handleNavLinkClick}
                 >
-                  {session.user.role === "employee"
-                    ? "Employee"
-                    : session.user.role === "designer"
-                      ? "Designer"
-                      : "Dashboard"}
+                  {dashboardLabel}
                 </Link>
               </li>
             ) : (
               <li className={classes["main-nav__list-item"]}>
                 <button
+                  type="button"
                   onClick={() => signIn()}
-                  className="font-medium text-gray-700 transition-colors duration-200 hover:text-blue-600"
+                  className={classes["main-nav__link-button"]}
                 >
                   Sign In
                 </button>
@@ -229,9 +322,8 @@ function Navigation() {
           </ul>
         </div>
 
-        {/* { Mobile nav } */}
-
         <div
+          id="mobile-nav"
           className={`${classes["mobile-nav"]} ${
             isMobileNavVisible ? classes["mobile-nav--visbile"] : ""
           }`}
@@ -239,171 +331,151 @@ function Navigation() {
           <div className={classes["mobile-nav__left"]}>
             <ul className={classes["mobile-nav__list"]}>
               <li className={classes["mobile-nav__list-item"]}>
-                <Link
-                  href="/tools"
-                  className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
-                  onClick={toggleCostsDropdown}
+                <button
+                  type="button"
+                  className={`${classes["dropdown-trigger"]} ${
+                    classes["dropdown-item-mobile"]
+                  } ${
+                    activeMobileDropdown === "cost-guides"
+                      ? classes["dropdown-trigger-active"]
+                      : ""
+                  }`}
+                  aria-expanded={activeMobileDropdown === "cost-guides"}
+                  aria-controls="mobile-cost-guides-menu"
+                  onClick={() => toggleMobileDropdown("cost-guides")}
                 >
                   <span>Cost Guides</span>
-                  <MdOutlineKeyboardArrowDown />
-                </Link>
+                  <MdOutlineKeyboardArrowDown className={classes["dropdown-chevron"]} />
+                </button>
                 <ul
+                  id="mobile-cost-guides-menu"
                   className={`${classes["dropdown-menu"]} ${
                     classes["dropdown-menu-mobile"]
                   } ${
-                    isCostsDropdownVisible
+                    activeMobileDropdown === "cost-guides"
                       ? classes["dropdown-menu-visible-mobile"]
                       : ""
                   }`}
-                  onMouseLeave={handleNavLinkClick}
                 >
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/extension-calculator">
-                      Extension Calculator
-                    </Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/renovation-calculator">
-                      Renovation Calculator
-                    </Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/kitchen-calculator">Kitchen Calculator</Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/tools/bathroom-cost-calculator">
-                      Bathroom Calculator
-                    </Link>
-                  </li>
+                  {COST_GUIDE_LINKS.map((item) => (
+                    <li key={item.href} className={classes["dropdown__list-item"]}>
+                      <Link
+                        href={item.href}
+                        className={classes["dropdown__link"]}
+                        onClick={handleNavLinkClick}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
-              </li>
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/portfolio">Our work</Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>
                 <Link
-                  href=""
-                  className={`${classes["dropdown-item"]} ${classes["dropdown-item-mobile"]}`}
-                  onClick={toggleDropdown}
+                  href="/portfolio"
+                  className={classes["mobile-nav__link"]}
+                  onClick={handleNavLinkClick}
+                >
+                  Our work
+                </Link>
+              </li>
+              <li className={classes["mobile-nav__list-item"]}>
+                <button
+                  type="button"
+                  className={`${classes["dropdown-trigger"]} ${
+                    classes["dropdown-item-mobile"]
+                  } ${
+                    activeMobileDropdown === "services"
+                      ? classes["dropdown-trigger-active"]
+                      : ""
+                  }`}
+                  aria-expanded={activeMobileDropdown === "services"}
+                  aria-controls="mobile-services-menu"
+                  onClick={() => toggleMobileDropdown("services")}
                 >
                   <span>Services</span>
-                  <MdOutlineKeyboardArrowDown />
-                </Link>
+                  <MdOutlineKeyboardArrowDown className={classes["dropdown-chevron"]} />
+                </button>
                 <ul
+                  id="mobile-services-menu"
                   className={`${classes["dropdown-menu"]} ${
                     classes["dropdown-menu-mobile"]
                   } ${
-                    isDropdownVisible
+                    activeMobileDropdown === "services"
                       ? classes["dropdown-menu-visible-mobile"]
                       : ""
                   }`}
-                  onMouseLeave={handleNavLinkClick}
                 >
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/house-extension">House extension</Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/loft-conversion">Loft conversion</Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/general-renovation">Full home renovation</Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/bathroom-renovation">
-                      Bathroom renovations
-                    </Link>
-                  </li>
-                  <li
-                    className={classes["dropdown__list-item"]}
-                    onClick={handleNavLinkClick}
-                  >
-                    <Link href="/kitchen-renovation">Kitchen renovation</Link>
-                  </li>
+                  {SERVICE_LINKS.map((item) => (
+                    <li key={item.href} className={classes["dropdown__list-item"]}>
+                      <Link
+                        href={item.href}
+                        className={classes["dropdown__link"]}
+                        onClick={handleNavLinkClick}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </li>
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/contact">Contact</Link>
+              <li className={classes["mobile-nav__list-item"]}>
+                <Link
+                  href="/contact"
+                  className={classes["mobile-nav__link"]}
+                  onClick={handleNavLinkClick}
+                >
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
           <div className={classes["mobile-nav__right"]}>
             <ul className={classes["mobile-nav__list"]}>
-
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/about">About</Link>
-              </li>
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/blog">Learn</Link>
-              </li>
-              <li
-                className={classes["mobile-nav__list-item"]}
-                onClick={handleNavLinkClick}
-              >
-                <Link href="/faq">FAQ</Link>
-              </li>
-              {session ? (
-                <li
-                  className={classes["mobile-nav__list-item"]}
+              <li className={classes["mobile-nav__list-item"]}>
+                <Link
+                  href="/about"
+                  className={classes["mobile-nav__link"]}
                   onClick={handleNavLinkClick}
                 >
+                  About
+                </Link>
+              </li>
+              <li className={classes["mobile-nav__list-item"]}>
+                <Link
+                  href="/blog"
+                  className={classes["mobile-nav__link"]}
+                  onClick={handleNavLinkClick}
+                >
+                  Learn
+                </Link>
+              </li>
+              <li className={classes["mobile-nav__list-item"]}>
+                <Link
+                  href="/faq"
+                  className={classes["mobile-nav__link"]}
+                  onClick={handleNavLinkClick}
+                >
+                  FAQ
+                </Link>
+              </li>
+              {session ? (
+                <li className={classes["mobile-nav__list-item"]}>
                   <Link
-                    href={
-                      session.user.role === "employee"
-                        ? "/employee"
-                        : session.user.role === "designer"
-                          ? "/designer"
-                          : "/dashboard"
-                    }
+                    href={dashboardHref}
+                    className={classes["mobile-nav__link"]}
+                    onClick={handleNavLinkClick}
                   >
-                    {session.user.role === "employee"
-                      ? "Employee"
-                      : session.user.role === "designer"
-                        ? "Designer"
-                        : "Dashboard"}
+                    {dashboardLabel}
                   </Link>
                 </li>
               ) : (
-                <li
-                  className={classes["mobile-nav__list-item"]}
-                  onClick={handleNavLinkClick}
-                >
-                  <button onClick={() => signIn()} className="w-full text-left">
+                <li className={classes["mobile-nav__list-item"]}>
+                  <button
+                    type="button"
+                    onClick={() => signIn()}
+                    className={classes["mobile-nav__button"]}
+                  >
                     Sign In
                   </button>
                 </li>
