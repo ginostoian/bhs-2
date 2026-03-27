@@ -25,8 +25,11 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get("category");
     const supplier = searchParams.get("supplier");
+    const brand = searchParams.get("brand");
+    const catalogueCategory = searchParams.get("catalogueCategory");
     const search = searchParams.get("search");
     const active = searchParams.get("active");
+    const sort = searchParams.get("sort") || "name";
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "12", 10);
 
@@ -42,6 +45,14 @@ export async function GET(request) {
       query.supplier = supplier;
     }
 
+    if (brand) {
+      query.brand = brand;
+    }
+
+    if (catalogueCategory) {
+      query.catalogueCategory = catalogueCategory;
+    }
+
     // Filter by active status
     if (active !== null) {
       query.isActive = active === "true";
@@ -55,14 +66,23 @@ export async function GET(request) {
           { name: { $regex: search, $options: "i" } },
           { description: { $regex: search, $options: "i" } },
           { supplier: { $regex: search, $options: "i" } },
+          { brand: { $regex: search, $options: "i" } },
+          { catalogueCategory: { $regex: search, $options: "i" } },
           { tags: { $in: [new RegExp(search, "i")] } },
         ],
       };
     }
 
+    const sortQuery =
+      sort === "updated"
+        ? { updatedAt: -1 }
+        : sort === "price"
+          ? { price: 1, name: 1 }
+          : { name: 1 };
+
     const totalCount = await Product.countDocuments(query);
     const products = await Product.find(query)
-      .sort({ name: 1 })
+      .sort(sortQuery)
       .skip((page - 1) * limit)
       .limit(limit);
 
@@ -106,10 +126,29 @@ export async function POST(request) {
       sku,
       tags,
       specifications,
+      slug,
+      brand,
+      catalogueCategory,
+      catalogueEnabled,
+      stockStatus,
+      gallery,
+      finish,
+      material,
+      leadTimeDays,
+      variants,
+      isActive,
     } = body;
 
     // Validate required fields
-    if (!name || !imageUrl || !productUrl || !price || !supplier || !category) {
+    if (
+      !name ||
+      !imageUrl ||
+      !supplier ||
+      !category ||
+      price === undefined ||
+      price === null ||
+      Number.isNaN(Number(price))
+    ) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -121,13 +160,27 @@ export async function POST(request) {
       name,
       description,
       imageUrl,
-      productUrl,
+      productUrl: productUrl || undefined,
       price: parseFloat(price),
       supplier,
       category,
       sku,
       tags: tags || [],
       specifications: specifications || {},
+      slug: slug || undefined,
+      brand,
+      catalogueCategory: catalogueCategory || undefined,
+      catalogueEnabled,
+      stockStatus,
+      gallery: Array.isArray(gallery) ? gallery : [],
+      finish: finish || undefined,
+      material: material || undefined,
+      leadTimeDays:
+        leadTimeDays === undefined || leadTimeDays === null || leadTimeDays === ""
+          ? undefined
+          : parseInt(leadTimeDays, 10),
+      variants: Array.isArray(variants) ? variants : [],
+      isActive,
     });
 
     await product.save();

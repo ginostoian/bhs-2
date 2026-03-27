@@ -67,6 +67,16 @@ export async function PUT(request, { params }) {
       sku,
       tags,
       specifications,
+      slug,
+      brand,
+      catalogueCategory,
+      catalogueEnabled,
+      stockStatus,
+      gallery,
+      finish,
+      material,
+      leadTimeDays,
+      variants,
       isActive,
     } = body;
 
@@ -79,13 +89,30 @@ export async function PUT(request, { params }) {
     if (name !== undefined) product.name = name;
     if (description !== undefined) product.description = description;
     if (imageUrl !== undefined) product.imageUrl = imageUrl;
-    if (productUrl !== undefined) product.productUrl = productUrl;
+    if (productUrl !== undefined) product.productUrl = productUrl || undefined;
     if (price !== undefined) product.price = parseFloat(price);
     if (supplier !== undefined) product.supplier = supplier;
     if (category !== undefined) product.category = category;
     if (sku !== undefined) product.sku = sku;
     if (tags !== undefined) product.tags = tags;
     if (specifications !== undefined) product.specifications = specifications;
+    if (slug !== undefined) product.slug = slug || undefined;
+    if (brand !== undefined) product.brand = brand;
+    if (catalogueCategory !== undefined)
+      product.catalogueCategory = catalogueCategory || undefined;
+    if (catalogueEnabled !== undefined)
+      product.catalogueEnabled = catalogueEnabled;
+    if (stockStatus !== undefined) product.stockStatus = stockStatus;
+    if (gallery !== undefined) product.gallery = gallery;
+    if (finish !== undefined) product.finish = finish || undefined;
+    if (material !== undefined) product.material = material || undefined;
+    if (leadTimeDays !== undefined) {
+      product.leadTimeDays =
+        leadTimeDays === null || leadTimeDays === "" || leadTimeDays === undefined
+          ? undefined
+          : parseInt(leadTimeDays, 10);
+    }
+    if (variants !== undefined) product.variants = variants;
     if (isActive !== undefined) product.isActive = isActive;
 
     await product.save();
