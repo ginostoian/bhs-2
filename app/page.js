@@ -10,16 +10,19 @@ import CustomCTA from "@/components/CustomCTA";
 import Guarantee from "@/components/Guarantee";
 import { getSEOTags } from "@/libs/seo";
 import HomepageServiceGrid from "@/components/homepage/HomepageServiceGrid";
+import HomepageTestimonialStrip from "@/components/homepage/HomepageTestimonialStrip";
 import HomepageTimeline from "@/components/homepage/HomepageTimeline";
 import { SITE_URL } from "@/libs/structuredData";
 
 export const metadata = getSEOTags({
-  title: "Extensions & Full-Home Refurbishments in London | Better Homes Studio",
+  title:
+    "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes Studio",
   description:
     "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions with transparent pricing and weekly updates.",
   canonicalUrlRelative: "/",
   openGraph: {
-    title: "Extensions & Full-Home Refurbishments in London | Better Homes Studio",
+    title:
+      "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes Studio",
     description:
       "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions.",
     url: `https://${config.domainName}/`,
@@ -150,6 +153,7 @@ export default function Page() {
         <Stats />
         <HomepageServiceGrid services={homepageServices} />
         <PortfolioCardContainer />
+        <HomepageTestimonialStrip />
         <HomepageTimeline steps={homepageTimeline} />
         <Guarantee />
         <CustomCTA />
