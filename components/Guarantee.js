@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Guarantee = () => {
   const stats = [
-  {
+    {
       data: "10 years",
       desc: "Extension and loft conversion guarantee",
     },
@@ -16,21 +16,22 @@ const Guarantee = () => {
       desc: "Kitchen fitting and renovation guarantee",
     },
     {
-      data: "1 years",
+      data: "1 year",
       desc: "Painting and decorating guarantee",
     },
-    
   ];
+
   return (
     <section className="relative mx-auto mb-24 mt-6 max-w-[85%] rounded-xl bg-gray-900 py-28">
       <div className="relative z-10 mx-auto max-w-screen-xl px-4 md:px-8">
         <div className="max-w-2xl xl:mx-auto xl:text-center">
           <h3 className="text-3xl font-semibold text-white sm:text-5xl">
-            The best workmanship guarantee on the market?
+            Guarantees that protect the work after handover
           </h3>
           <p className="mt-6 text-lg text-gray-300">
-            We want you to feel confident that we build to last. Our workmanship
-            guarantee is industry leading and is included with every project.
+            When you invest heavily in your home, you should know what happens
+            after the builders leave. Our workmanship guarantees are there to
+            give you clear protection and peace of mind.
           </p>
         </div>
         <div className="mt-12">
@@ -55,26 +56,26 @@ const Guarantee = () => {
         }}
       ></div>
 
-      <div class="mt-20 px-4 md:text-center">
-        <div class="inline-block rounded-full border bg-white shadow-sm">
-          <div class="flex items-center gap-x-2 px-4 py-3">
-            <p class="text-gray-600">Want to read more?</p>
+      <div className="mt-20 px-4 md:text-center">
+        <div className="inline-block rounded-full border bg-white shadow-sm">
+          <div className="flex items-center gap-x-2 px-4 py-3">
+            <p className="text-gray-600">Want the full guarantee breakdown?</p>
             <Link
-              class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
+              className="inline-flex items-center gap-x-1.5 font-medium text-blue-600 decoration-2 hover:underline focus:underline focus:outline-none"
               href="/our-guarantee"
             >
-              Go here
+              Read it here
               <svg
-                class="size-4 shrink-0"
+                className="size-4 shrink-0"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="m9 18 6-6-6-6" />
               </svg>

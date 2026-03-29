@@ -1,24 +1,24 @@
 const PAGE_FAQS = {
   home: [
     {
-      question: "What services do you cover across London?",
+      question: "How much does a typical London project cost?",
       answer:
-        "We deliver house extensions, loft conversions, full-home renovations, kitchens, and bathrooms with one accountable design and build team.",
+        "It depends on scope, size, and finish level, but most serious projects start from clear budget bands. Bathrooms usually begin around £12,000, kitchens from around £20,000, loft conversions from around £50,000, and extensions from around £80,000. We will tell you quickly if your target budget is realistic.",
     },
     {
-      question: "Do you provide free project consultations?",
+      question: "Do you handle planning permission and design coordination?",
       answer:
-        "Yes. Initial consultations are free and focused on scope clarity, practical timelines, and realistic budget guidance.",
+        "Yes. We can support the full route from early feasibility and quoting through design coordination, planning input, and build delivery, so you are not left managing multiple disconnected parties.",
     },
     {
-      question: "How do you keep renovation projects on track?",
+      question: "How do you keep projects on track once work starts?",
       answer:
-        "We front-load planning, run clear weekly updates, and follow staged quality checks so budget and programme risks are controlled early.",
+        "We front-load scope, sequence the work properly, and give weekly updates during the build. That reduces avoidable delays, keeps decisions moving, and gives you visibility before small issues become expensive ones.",
     },
     {
-      question: "Do you offer a workmanship guarantee?",
+      question: "What happens if something goes wrong after completion?",
       answer:
-        "Yes. Workmanship guarantees are provided based on project type and scope, with clear aftercare expectations at handover.",
+        "Your project is backed by workmanship cover based on the scope delivered, including up to a 10-year guarantee on qualifying works. We set out the aftercare expectation clearly at handover so you know exactly where you stand.",
     },
   ],
   bathroom: [

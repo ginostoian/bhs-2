@@ -7,17 +7,19 @@ const CustomCTA = () => {
     <section className="mx-auto flex max-w-[85%] flex-col justify-around gap-10 rounded-xl bg-white px-10 py-10 xl:flex-row xl:items-center 2xl:gap-32">
       <div className="">
         <h2 className="mb-8 max-w-2xl text-2xl font-extrabold text-[#100b47] md:text-4xl lg:mx-auto">
-          Premium Renovations and Home Extensions: On Time, On Budget
+          Extensions, loft conversions and renovations run properly
         </h2>
         <div className="flex max-w-2xl flex-col rounded-xl bg-[#f0f0f0] px-10 py-14 md:flex-row md:items-center md:justify-between lg:mx-auto">
           <div>
             <h3 className="mb-4 text-xl text-[#100b47]">
-              Ready to start your project?
+              Ready to talk through your project?
             </h3>
             <div className="flex gap-4">
               <div className="mb-8">
-                <p className="text-sm">Limited availability</p>
-                <p className="text-xl text-[#266bf1]">Increase your home&apos;s value</p>
+                <p className="text-sm">Clear scope. Real guidance. No pressure.</p>
+                <p className="text-xl text-[#266bf1]">
+                  Start with the right plan, not the cheapest promise
+                </p>
               </div>
               <div>
                 <Image

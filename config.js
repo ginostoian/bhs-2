@@ -97,12 +97,13 @@ const config = {
   },
   copy: {
     homepage: {
-      title: "Extensions & full-home refurbishments ",
-      titleAccent: "in London",
+      title: "One team. One contract. A better London home ",
+      titleAccent: "without the handoffs",
       subtitle:
-        "Design + build, run properly: clear scope, transparent pricing, and weekly updates - so you get a high-finish result without the chaos.",
+        "For extensions, loft conversions, and full renovations: clear scope, transparent pricing, and weekly updates, so you get a high-finish result without the usual builder chaos.",
       heroCTA: "Book your consultation",
-      heroImgUrl: "modern-living-room-trustworthy.webp",
+      heroImgUrl:
+        "/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp",
       servicesSectionTitle: "What we do",
       servicesSectionSubtitle: "Full-service renovation company",
       whatWeDoSection: {

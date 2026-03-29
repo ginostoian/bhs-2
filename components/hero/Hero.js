@@ -12,7 +12,13 @@ const Hero = ({
   heroCTA,
   heroImgUrl,
   ctaTallyFormLink,
+  proofPoints,
+  projectProof,
 }) => {
+  const heroImageSrc = heroImgUrl?.startsWith("/")
+    ? heroImgUrl
+    : `/assets/img/${heroImgUrl}`;
+
   return (
     <section className={`${classes["hero"]} container`}>
       <Image
@@ -27,29 +33,67 @@ const Hero = ({
           {title} <span className="text-[#266bf1]">{titleAccent}</span>
         </h1>
         <p className={classes["hero__subtitle"]}>{subtitle}</p>
-        <div className={classes["hero__left-info"]}>
-          <div className={classes["hero__info-1"]}>
-            <p className={classes["hero__info-title"]}>12+</p>
-            <p className={classes["hero__info-subtitle"]}>Years Experience</p>
+        {proofPoints?.length ? (
+          <div className={classes["hero__proof-strip"]}>
+            {proofPoints.map((point) => (
+              <span key={point} className={classes["hero__proof-pill"]}>
+                {point}
+              </span>
+            ))}
           </div>
-          <div className={classes["hero__info-2"]}>
-            <p className={classes["hero__info-title"]}>500+</p>
-            <p className={classes["hero__info-subtitle"]}>Satisfied Clients</p>
+        ) : (
+          <div className={classes["hero__left-info"]}>
+            <div className={classes["hero__info-1"]}>
+              <p className={classes["hero__info-title"]}>12+</p>
+              <p className={classes["hero__info-subtitle"]}>Years Experience</p>
+            </div>
+            <div className={classes["hero__info-2"]}>
+              <p className={classes["hero__info-title"]}>500+</p>
+              <p className={classes["hero__info-subtitle"]}>Satisfied Clients</p>
+            </div>
           </div>
-        </div>
+        )}
         <Link
           href={ctaTallyFormLink || "/contact"}
-          // className={`${classes["hero__btn"]}`}
           className="lg:w-[245px]! mb-10 flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
         >
           {heroCTA}
         </Link>
-        <TestimonialsAvatars />
+        {projectProof?.length ? (
+          <div className={classes["hero__project-proof"]}>
+            {projectProof.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/portfolio/${project.slug}`}
+                className={classes["hero__project-card"]}
+              >
+                <div className={classes["hero__project-image"]}>
+                  <Image
+                    src={project.coverImage}
+                    alt={project.coverImageAlt}
+                    fill
+                    sizes="(max-width: 980px) 33vw, 140px"
+                  />
+                </div>
+                <div>
+                  <p className={classes["hero__project-label"]}>
+                    {project.category}
+                  </p>
+                  <p className={classes["hero__project-title"]}>
+                    {project.location}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <TestimonialsAvatars />
+        )}
       </div>
       <div className={classes["hero__right"]}>
         <div className={classes["hero__right-img-fill"]}>
           <Image
-            src={`/assets/img/${heroImgUrl}`}
+            src={heroImageSrc}
             objectFit="cover"
             fill
             alt="cover photos"
