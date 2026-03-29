@@ -25,88 +25,113 @@ const PAGE_FAQS = {
     {
       question: "How much does a bathroom renovation cost in London?",
       answer:
-        "Most London bathroom renovations depend on size, layout changes, specification level, and service upgrades. We provide scope-first estimates before final quoting.",
+        "Most London bathroom renovations sit between roughly £6,000 and £35,000+, depending on size, layout changes, waterproofing complexity and finish level. Many serious bathroom redesigns in London start from around £12,000 once proper installation quality and good material choices matter.",
     },
     {
-      question: "Can you handle bathroom design and installation together?",
+      question: "What is included in a full bathroom renovation?",
       answer:
-        "Yes. We can manage design, product selection, and full installation so decisions stay coordinated from concept to completion.",
+        "A full bathroom renovation usually includes strip-out, prep work, waterproofing, plumbing first-fix, electrics, tiling, sanitaryware installation, second-fix, decorating and final snagging. The exact scope changes depending on whether the layout stays put or is being redesigned.",
     },
     {
       question: "How long does a typical bathroom project take?",
       answer:
-        "Programme length depends on complexity and lead times, but most projects follow a clearly staged process from strip-out to snagging.",
+        "Most bathroom renovations take around 2 to 4 weeks on site. Simpler bathrooms can be quicker, while wet rooms, premium detailing or more complex service changes can extend the programme.",
     },
     {
-      question: "Do you work on small bathrooms and premium finishes?",
+      question: "Can you handle bathroom design, supply and installation together?",
       answer:
-        "Yes. We deliver both compact, practical layouts and high-end bathroom specifications, depending on your priorities.",
+        "Yes. We can manage the full route from design direction and product choices through to installation and finishing, so the room is not designed one way and built another.",
+    },
+    {
+      question: "Do you work on en-suites, wet rooms and small bathrooms?",
+      answer:
+        "Yes. We deliver compact bathrooms, family bathrooms, en-suites and more premium wet-room style spaces, depending on the room, the brief and the budget.",
     },
   ],
   kitchen: [
     {
-      question: "What drives kitchen renovation costs most?",
+      question: "How much does a kitchen renovation cost in London?",
       answer:
-        "The main cost drivers are layout changes, cabinetry specification, worktops, MEP upgrades, and finishing detail levels.",
+        "Most London kitchen renovations sit between roughly £12,000 and £60,000+, depending on the size of the room, cabinetry level, worktops, appliances and whether layout or structural changes are involved. Many serious kitchen projects start from around £20,000.",
     },
     {
-      question: "Can you coordinate design, supply and installation?",
+      question: "What is included in a kitchen renovation?",
       answer:
-        "Yes. We support clients through design planning, technical coordination, procurement input, and final installation.",
+        "A full kitchen renovation usually includes strip-out, plumbing and electrics, cabinetry installation, worktops, tiling, appliance fitting, decorating and final snagging. Some projects also include layout changes or structural opening works where needed.",
     },
     {
-      question: "How do you protect quality in kitchen projects?",
+      question: "How long does a typical kitchen project take?",
       answer:
-        "We run strict installation standards, staged inspections, and final snagging control before formal handover.",
+        "Most kitchen installations take around 3 to 6 weeks on site. Straight replacements can be quicker, while structural work, supplier lead times and wider layout changes can extend the overall programme.",
+    },
+    {
+      question: "Do you offer both design-build and installation-only kitchen projects?",
+      answer:
+        "Yes. We can manage the full design, supply and install route, or step in as the installation team if your kitchen has already been designed and sourced.",
     },
     {
       question: "Do you handle structural kitchen reconfiguration?",
       answer:
-        "Yes. We can deliver structural modifications where required, including layout opening and integrated service coordination.",
+        "Yes. We can deliver structural modifications where required, including layout opening, service coordination and the integration work needed when a kitchen project is part of a bigger change to the home.",
     },
   ],
   renovation: [
     {
+      question: "How much does a full home renovation cost in London?",
+      answer:
+        "A full home renovation in London typically costs from around £80,000 for smaller, lighter-scope properties and can rise well beyond £250,000 for larger or high-spec homes. A useful early benchmark is roughly £500 to £800 per square metre for basic work, £800 to £1,400 per square metre for mid-range renovation, and £1,400 to £2,500+ per square metre for high-end or structurally heavier projects.",
+    },
+    {
       question: "What is included in a full-home renovation?",
       answer:
-        "Typical scopes include structural changes, kitchen and bathroom works, flooring, decoration, MEP upgrades, and final finishing.",
+        "A true full-home renovation usually includes structural changes where needed, rewiring, plumbing, heating upgrades, kitchens, bathrooms, plastering, flooring, joinery, decoration, final fit-off and snagging. The exact scope depends on the property condition and what you are trying to fix or improve.",
     },
     {
-      question: "Do you manage projects end-to-end?",
+      question: "How long does a full renovation usually take?",
       answer:
-        "Yes. We manage planning, sequencing, site delivery, quality control, and handover through one central delivery process.",
+        "A full home renovation in London typically takes around 7 to 8 months from early planning through to handover. Simpler projects can move faster, while structurally heavier work, listed buildings, conservation constraints or wider design coordination can extend the programme.",
     },
     {
-      question: "How do you reduce budget risk during refurbishment?",
+      question: "Do I need to move out during a full renovation?",
       answer:
-        "We define clear scope early, keep allowances transparent, and track progress against staged commercial checkpoints.",
+        "Often, yes. If the project involves rewiring, replumbing, plastering, multiple bathrooms, kitchen replacement and heavy dust-generating work throughout, living in the property can become more stressful and more expensive than many homeowners expect. We can advise on that early based on the scope.",
     },
     {
-      question: "Can you renovate occupied homes?",
+      question: "Can one team manage the structural work, M&E, kitchens, bathrooms and finishes together?",
       answer:
-        "Yes, where practical. We plan sequencing and site controls to reduce disruption while maintaining safe delivery standards.",
+        "Yes. That is the point of full-scope renovation delivery. The advantage is not just convenience, but better coordination between trades, fewer missed details, clearer accountability and a final result that feels coherent instead of pieced together.",
     },
   ],
   extension: [
     {
-      question: "What extension types do you deliver?",
+      question: "How much does a house extension cost in London?",
       answer:
-        "We deliver single-storey, double-storey, side return, over-structure, and basement-linked extension projects.",
+        "Most London house extensions sit somewhere between roughly £50,000 and £200,000+, depending on the type. Side returns are usually the lightest route, rear extensions are the most common, and wraparound or double-storey schemes sit at the heavier end because they involve more structure, approvals and programme time. If the project also includes a new kitchen, that can materially increase the all-in budget.",
     },
     {
-      question: "Do you support planning and pre-construction coordination?",
+      question: "Do I need planning permission for a house extension?",
       answer:
-        "Yes. We help align design, approvals, technical planning, and build readiness before site delivery begins.",
+        "Not always. Many simpler rear extensions can proceed under permitted development if they stay within the relevant size limits, but wraparound, side, conservation-area and more ambitious schemes usually need more planning input. We check that early, because getting the planning route wrong at the start is one of the easiest ways for an extension project to become slower and more stressful than it needs to be.",
     },
     {
-      question: "How long does a house extension usually take?",
+      question: "How long does a house extension usually take from start to finish?",
       answer:
-        "Timelines vary by scope and complexity, but we provide staged programmes with milestone reporting before work starts.",
+        "The on-site build phase is often around 12 to 24 weeks depending on the type, but the full journey including design, approvals, party wall matters and pre-construction coordination is usually closer to 6 to 10 months. That is why a realistic early plan matters more than a seductive start-date promise.",
     },
     {
-      question: "Can you combine extensions with full internal renovation?",
+      question: "Is extending usually better than moving?",
       answer:
-        "Yes. Many projects combine extension delivery with interior reconfiguration and full finishing packages.",
+        "For many London homeowners, yes. If you already like the street, the area and the basic house, extending can be a smarter use of money than paying stamp duty, agent fees, legal costs and the upheaval of moving. The real question is whether your house can be improved in the specific way you need without overspending for the area.",
+    },
+    {
+      question: "Which extension type is usually best for a London terrace?",
+      answer:
+        "It depends on the plot and the goal, but rear and side return extensions are often the strongest fit for London terraces. If the side passage exists and the kitchen feels cramped, a side return or wraparound can transform the whole ground floor far more effectively than simply extending straight out the back.",
+    },
+    {
+      question: "Can an extension be combined with a new kitchen or wider renovation?",
+      answer:
+        "Yes. In fact, many of the strongest extension projects combine the structural build with kitchen installation, layout reconfiguration and selected internal upgrades so the finished home feels coherent rather than half-old and half-new.",
     },
   ],
   loft: [
