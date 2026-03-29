@@ -111,24 +111,29 @@ const PAGE_FAQS = {
   ],
   loft: [
     {
-      question: "Which loft conversion types do you handle?",
+      question: "How much does a loft conversion cost in London?",
       answer:
-        "We support roof-light, dormer, hip-to-gable, and mansard-style loft conversion solutions depending on property constraints.",
+        "Most London loft conversions sit between roughly £45,000 and £130,000+, depending on the type. Rooflight conversions are the cheapest, rear dormers are the most common, and mansards sit at the premium end because they usually involve more planning and structural change.",
     },
     {
-      question: "Do you assess structural and planning constraints early?",
+      question: "Do I need planning permission for a loft conversion?",
       answer:
-        "Yes. We review practical feasibility early so scope, approvals, and delivery sequencing are realistic before commitment.",
+        "Often not on standard houses, because many loft conversions can proceed under permitted development. But flats, maisonettes, listed homes, conservation-area properties, and mansard proposals usually need more planning work. We assess that early so you do not build assumptions on the wrong route.",
     },
     {
-      question: "Can loft conversions include en-suites and storage joinery?",
+      question: "How long does a loft conversion usually take?",
       answer:
-        "Yes. Loft projects can include integrated bathrooms, bespoke joinery, and tailored layout optimisation.",
+        "The build phase is often around 8 to 16 weeks depending on the type, but the full journey including design, approvals, party wall matters and contractor scheduling is usually closer to 4 to 6 months.",
     },
     {
-      question: "How do you maintain finish quality in loft projects?",
+      question: "What is the minimum head height for a loft conversion?",
       answer:
-        "We use staged quality controls across structure, insulation, second fix, and final snagging before handover.",
+        "As a rule of thumb, you want around 2.2 metres from the top of the existing ceiling joists to the underside of the ridge. Borderline lofts may still work, but only after a proper feasibility check.",
+    },
+    {
+      question: "Can a loft conversion include an en-suite and fitted storage?",
+      answer:
+        "Yes. Many loft projects work best when the room, storage and bathroom are planned together rather than treated as separate add-ons later.",
     },
   ],
   about: [
