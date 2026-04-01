@@ -112,22 +112,6 @@ export default function ProjectPage({ params }) {
           "@id": caseStudyUrl,
         },
       },
-      {
-        "@type": "Review",
-        itemReviewed: {
-          "@type": "Service",
-          name: project.category,
-          provider: {
-            "@type": "Organization",
-            name: "Better Homes Studio",
-          },
-        },
-        reviewBody: project.caseStudy.testimonial.quote,
-        author: {
-          "@type": "Person",
-          name: project.caseStudy.testimonial.author,
-        },
-      },
     ],
   };
 

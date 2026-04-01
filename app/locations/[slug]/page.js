@@ -187,7 +187,7 @@ export function generateStaticParams() {
   }));
 }
 
-const buildLocationSchema = (location, faqItems, selectedTestimonials) => {
+const buildLocationSchema = (location, faqItems) => {
   const pageUrl = `${siteUrl}/locations/${location.slug}`;
 
   return {
@@ -206,17 +206,6 @@ const buildLocationSchema = (location, faqItems, selectedTestimonials) => {
             addressCountry: "GB",
           },
         ],
-        review: selectedTestimonials.map((testimonial) => ({
-          "@type": "Review",
-          author: {
-            "@type": "Person",
-            name: testimonial.name,
-          },
-          reviewBody: testimonial.quote,
-          url: testimonial.sourceUrl.startsWith("http")
-            ? testimonial.sourceUrl
-            : `${siteUrl}${testimonial.sourceUrl}`,
-        })),
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: `Home Renovation Services in ${location.name}`,
@@ -366,11 +355,7 @@ export default function LocationPage({ params }) {
   const nearbyLocations = getNearbyLocations(location.slug);
   const selectedTestimonials = pickTestimonialsForLocation(location.slug);
   const faqItems = createFaqs(location);
-  const locationSchema = buildLocationSchema(
-    location,
-    faqItems,
-    selectedTestimonials
-  );
+  const locationSchema = buildLocationSchema(location, faqItems);
   const contactUrl = `/contact?location=${encodeURIComponent(location.name)}`;
 
   return (
