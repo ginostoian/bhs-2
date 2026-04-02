@@ -2,37 +2,24 @@
 
 import { useState } from "react";
 
+const MIN_COMMISSION = 350;
+const MAX_COMMISSION = 5000;
+const COMMISSION_RATE = 0.025;
+
 const RevenueCalculator = () => {
   const [referrals, setReferrals] = useState(1);
-  const [projectSize, setProjectSize] = useState("medium");
+  const [projectValue, setProjectValue] = useState(50000);
 
-  const getReferralAmount = (size) => {
-    switch (size) {
-      case "small":
-        return 500;
-      case "medium":
-        return 1500;
-      case "large":
-        return 3000;
-      default:
-        return 1500;
-    }
-  };
+  const getReferralAmount = (value) =>
+    Math.min(
+      MAX_COMMISSION,
+      Math.max(MIN_COMMISSION, Math.round(value * COMMISSION_RATE))
+    );
 
-  const getProjectSizeLabel = (size) => {
-    switch (size) {
-      case "small":
-        return "Small projects (under £50k)";
-      case "medium":
-        return "Medium projects (£50k - £200k)";
-      case "large":
-        return "Large projects (over £200k)";
-      default:
-        return "Medium projects (£50k - £200k)";
-    }
-  };
+  const formatCurrency = (value) => `£${value.toLocaleString()}`;
 
-  const totalRevenue = referrals * getReferralAmount(projectSize);
+  const commissionPerReferral = getReferralAmount(projectValue);
+  const totalRevenue = referrals * commissionPerReferral;
 
   return (
     <div className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -42,7 +29,7 @@ const RevenueCalculator = () => {
             Calculate Your Earning Potential
           </h2>
           <p className="text-lg text-gray-600">
-            See how much you could earn by referring clients to Better Homes
+            Estimate your referral earnings based on project value
           </p>
         </div>
 
@@ -79,47 +66,27 @@ const RevenueCalculator = () => {
             </div>
 
             <div>
-              <label className="mb-3 block text-sm font-semibold text-gray-700">
-                Typical project size
+              <label className="mb-2 block text-sm font-semibold text-gray-700">
+                Typical project value
               </label>
-              <div className="space-y-3">
-                {[
-                  {
-                    value: "small",
-                    label: "Small projects (under £50k)",
-                    amount: "£500",
-                  },
-                  {
-                    value: "medium",
-                    label: "Medium projects (£50k - £200k)",
-                    amount: "£1,500",
-                  },
-                  {
-                    value: "large",
-                    label: "Large projects (over £200k)",
-                    amount: "£3,000",
-                  },
-                ].map((option) => (
-                  <label
-                    key={option.value}
-                    className="flex cursor-pointer items-center space-x-3"
-                  >
-                    <input
-                      type="radio"
-                      name="projectSize"
-                      value={option.value}
-                      checked={projectSize === option.value}
-                      onChange={(e) => setProjectSize(e.target.value)}
-                      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <div className="flex-1">
-                      <span className="text-gray-700">{option.label}</span>
-                      <span className="ml-2 text-sm font-semibold text-blue-600">
-                        {option.amount} per successful referral
-                      </span>
-                    </div>
-                  </label>
-                ))}
+              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl font-semibold text-gray-500">£</span>
+                  <input
+                    type="number"
+                    value={projectValue}
+                    onChange={(e) =>
+                      setProjectValue(Math.max(0, parseInt(e.target.value, 10) || 0))
+                    }
+                    className="w-full rounded-lg border-2 border-gray-200 bg-white px-4 py-3 text-2xl font-bold text-gray-800"
+                    min="0"
+                    step="1000"
+                  />
+                </div>
+                <p className="mt-3 text-sm text-gray-600">
+                  Commission is 2.5% of project value, with a minimum of £350 and
+                  a cap of £5,000 per successful referral.
+                </p>
               </div>
             </div>
           </div>
@@ -133,7 +100,7 @@ const RevenueCalculator = () => {
 
               <div className="mb-6 rounded-lg bg-white p-6 shadow-sm">
                 <div className="mb-2 text-4xl font-bold text-blue-600 lg:text-5xl">
-                  £{totalRevenue.toLocaleString()}
+                  {formatCurrency(totalRevenue)}
                 </div>
                 <div className="text-gray-600">per month</div>
               </div>
@@ -145,14 +112,18 @@ const RevenueCalculator = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Per referral:</span>
-                  <span className="font-semibold">
-                    £{getReferralAmount(projectSize).toLocaleString()}
+                  <span className="font-semibold">{formatCurrency(commissionPerReferral)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Project value:</span>
+                  <span className="max-w-[200px] text-right font-semibold">
+                    {formatCurrency(projectValue)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Project type:</span>
+                  <span>Commission formula:</span>
                   <span className="max-w-[200px] text-right font-semibold">
-                    {getProjectSizeLabel(projectSize)}
+                    2.5% (min £350, max £5,000)
                   </span>
                 </div>
               </div>
@@ -162,7 +133,7 @@ const RevenueCalculator = () => {
                   Annual Potential
                 </div>
                 <div className="text-2xl font-bold text-blue-600">
-                  £{(totalRevenue * 12).toLocaleString()}
+                  {formatCurrency(totalRevenue * 12)}
                 </div>
               </div>
             </div>
@@ -171,7 +142,7 @@ const RevenueCalculator = () => {
 
         <div className="mt-8 text-center">
           <p className="mb-4 text-gray-600">
-            Ready to start earning? Join our partner program today!
+            Ready to start earning? Join our referral program today!
           </p>
           <a
             href="https://tally.so/r/nPvjxV"

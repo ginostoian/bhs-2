@@ -161,7 +161,7 @@ const Footer = () => {
                 href="/partner-with-us"
                 className={classes["footer__quarter-link"]}
               >
-                Partner with us
+                Referral Program
               </Link>
               <Link href="/about" className={classes["footer__quarter-link"]}>
                 About us

@@ -116,7 +116,7 @@ export default function Page() {
         <Hero
           title="Tap into the Better Homes Network."
           titleAccent="Unlock new revenue opportunities."
-          subtitle="Refer your clients to our trusted renovation services, and we will reward you for every successful project-ensuring both you and your clients benefit from our expertise. You could earn up to £3,000 for every successful referral"
+          subtitle="Refer your clients to our trusted renovation services and earn a 2.5% commission on every successful project, with a minimum referral fee of £350 and a maximum of £5,000 per referral."
           heroCTA="Start Application - Start earning more"
           heroImgUrl="professionals-hero.webp"
           ctaTallyFormLink="https://tally.so/r/nPvjxV"
