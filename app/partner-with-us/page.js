@@ -114,8 +114,8 @@ export default function Page() {
     <>
       <main>
         <Hero
-          title="Tap into the Better Homes Network."
-          titleAccent="Unlock new revenue opportunities."
+          title="Turn your network into income."
+          titleAccent="Earn up to £5,000 per referral."
           subtitle="Refer your clients to our trusted renovation services and earn a 2.5% commission on every successful project, with a minimum referral fee of £350 and a maximum of £5,000 per referral."
           heroCTA="Start Application - Start earning more"
           heroImgUrl="professionals-hero.webp"

@@ -49,8 +49,8 @@ export default function Page() {
       title: "House Extensions",
       description:
         "Rear, side-return and double-storey extensions that create more space, more light, and more value.",
-      kicker: "Guide budgets from £80,000",
-      price: "From £80,000",
+      kicker: "Guide budgets from £50,000",
+      price: "From £50,000",
       href: "/house-extension",
       image: "/assets/img/extension/single-storey-extension.webp",
       imageAlt: "House extension project by Better Homes Studio",
@@ -79,8 +79,8 @@ export default function Page() {
       title: "Kitchen Renovations",
       description:
         "Design-led kitchens that improve workflow, storage, finish quality, and the value of your home.",
-      kicker: "Guide budgets from £20,000",
-      price: "From £20,000",
+      kicker: "Guide budgets from £15,000",
+      price: "From £15,000",
       href: "/kitchen-renovation",
       image: "/assets/img/kitchen/modern-kitchen.webp",
       imageAlt: "Kitchen renovation by Better Homes Studio",
@@ -89,8 +89,8 @@ export default function Page() {
       title: "Bathroom Renovations",
       description:
         "Bathroom design, supply and installation done properly, with clean detailing and high everyday usability.",
-      kicker: "Guide budgets from £12,000",
-      price: "From £12,000",
+      kicker: "Guide budgets from £10,000",
+      price: "From £10,000",
       href: "/bathroom-renovation",
       image: "/assets/img/bathroom/modern-bathroom-v2.webp",
       imageAlt: "Bathroom renovation by Better Homes Studio",
