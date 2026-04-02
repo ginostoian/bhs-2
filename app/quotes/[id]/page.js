@@ -597,7 +597,7 @@ export default function PublicQuotePage({ params }) {
                             {service.headingText}
                           </h4>
                           {service.headingDescription && (
-                            <p className="text-sm leading-relaxed text-gray-600">
+                            <p className="whitespace-pre-line text-sm leading-relaxed text-gray-600">
                               {service.headingDescription}
                             </p>
                           )}

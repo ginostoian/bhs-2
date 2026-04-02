@@ -1301,7 +1301,7 @@ export default function ServicesForm({
                                       {service.headingText}
                                     </h2>
                                     {service.headingDescription && (
-                                      <p className="mt-1 text-sm text-purple-700">
+                                      <p className="mt-1 whitespace-pre-line text-sm text-purple-700">
                                         {service.headingDescription}
                                       </p>
                                     )}
