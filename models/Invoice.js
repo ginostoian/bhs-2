@@ -137,6 +137,15 @@ const InvoiceSchema = new mongoose.Schema(
       index: true,
     },
 
+    // Source payment row when invoice is generated from a payment plan entry
+    sourcePayment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Payment",
+      unique: true,
+      sparse: true,
+      index: true,
+    },
+
     // Lead linking (if created from CRM lead)
     linkedLead: {
       type: mongoose.Schema.Types.ObjectId,

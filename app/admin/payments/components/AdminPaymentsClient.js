@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Modal from "@/components/Modal";
 
@@ -12,9 +13,11 @@ export default function AdminPaymentsClient({
   payments: initialPayments,
   users,
 }) {
+  const router = useRouter();
   const [payments, setPayments] = useState(initialPayments);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [generatingInvoiceId, setGeneratingInvoiceId] = useState(null);
   const [modalState, setModalState] = useState({
     isOpen: false,
     title: "",
@@ -389,6 +392,43 @@ export default function AdminPaymentsClient({
       cancelText: "Cancel",
       onConfirm: () => handleDeletePayment(payment.id),
     });
+  };
+
+  const handleGenerateInvoice = async (payment) => {
+    setGeneratingInvoiceId(payment.id);
+
+    try {
+      const response = await fetch(`/api/payments/${payment.id}/generate-invoice`, {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const missingFieldsText = Array.isArray(data.missingFields)
+          ? ` Missing fields: ${data.missingFields.join(", ")}.`
+          : "";
+
+        throw new Error(
+          (data.error || "Failed to generate invoice") + missingFieldsText,
+        );
+      }
+
+      router.push(`/admin/invoicing/${data.invoice._id}/edit`);
+    } catch (error) {
+      console.error("Error generating invoice:", error);
+      setModalState({
+        isOpen: true,
+        title: "Unable to Generate Invoice",
+        message:
+          error.message ||
+          "Failed to generate invoice from this payment. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
+    } finally {
+      setGeneratingInvoiceId(null);
+    }
   };
 
   return (
@@ -925,6 +965,23 @@ export default function AdminPaymentsClient({
                                                     {payment.status}
                                                   </span>
                                                   <div className="flex space-x-2">
+                                                    <button
+                                                      onClick={() =>
+                                                        handleGenerateInvoice(
+                                                          payment,
+                                                        )
+                                                      }
+                                                      disabled={
+                                                        generatingInvoiceId ===
+                                                        payment.id
+                                                      }
+                                                      className="rounded-md border border-violet-300 bg-violet-50 px-2 py-1 text-xs font-medium text-violet-700 hover:bg-violet-100 disabled:cursor-not-allowed disabled:opacity-50"
+                                                    >
+                                                      {generatingInvoiceId ===
+                                                      payment.id
+                                                        ? "Generating..."
+                                                        : "Invoice"}
+                                                    </button>
                                                     <button
                                                       onClick={() =>
                                                         setEditModal({
