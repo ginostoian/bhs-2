@@ -76,6 +76,19 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
     );
   };
 
+  const getStatusSelectClasses = (status) => {
+    const styles = {
+      Scheduled:
+        "border-gray-300 bg-white text-gray-700 focus:border-gray-400 focus:ring-gray-200",
+      "In Progress":
+        "border-blue-300 bg-blue-50 text-blue-800 focus:border-blue-500 focus:ring-blue-200",
+      Done:
+        "border-green-300 bg-green-50 text-green-800 focus:border-green-500 focus:ring-green-200",
+    };
+
+    return styles[status] || styles.Scheduled;
+  };
+
   // Helper function to get priority badge
   const getPriorityBadge = (priority) => {
     const badges = {
@@ -418,7 +431,7 @@ export default function AdminTasksTable({ projectId, onTasksUpdate }) {
                                       )
                                     }
                                     onClick={(e) => e.stopPropagation()}
-                                    className="w-full rounded-md border-gray-300 text-xs focus:border-blue-500 focus:ring-blue-500"
+                                    className={`w-full rounded-md border text-xs font-medium transition-colors ${getStatusSelectClasses(task.status)}`}
                                   >
                                     <option value="Scheduled">Scheduled</option>
                                     <option value="In Progress">

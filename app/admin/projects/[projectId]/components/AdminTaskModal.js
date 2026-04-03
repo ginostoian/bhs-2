@@ -27,6 +27,19 @@ export default function AdminTaskModal({
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
+  const getStatusSelectClasses = (status) => {
+    const styles = {
+      Scheduled:
+        "border-gray-300 bg-white text-gray-700 focus:border-gray-400 focus:ring-gray-200",
+      "In Progress":
+        "border-blue-300 bg-blue-50 text-blue-800 focus:border-blue-500 focus:ring-blue-200",
+      Done:
+        "border-green-300 bg-green-50 text-green-800 focus:border-green-500 focus:ring-green-200",
+    };
+
+    return styles[status] || styles.Scheduled;
+  };
+
   // Initialize form data when task changes
   useEffect(() => {
     if (task) {
@@ -270,7 +283,7 @@ export default function AdminTaskModal({
                 name="status"
                 value={formData.status}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className={`mt-1 block w-full rounded-md border shadow-sm sm:text-sm ${getStatusSelectClasses(formData.status)}`}
               >
                 <option value="Scheduled">Scheduled</option>
                 <option value="In Progress">In Progress</option>
