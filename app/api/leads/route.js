@@ -3,6 +3,7 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/extension-calculator/lib/costEngine";
 import { generateCostEstimatePDF } from "@/app/extension-calculator/lib/pdfGenerator";
 
@@ -388,6 +389,28 @@ async function handleLeadPost(request) {
       console.error("Failed to email extension calculator admin notification:", err);
       adminEmailError = err.message;
       adminEmailSent = false;
+    }
+
+    try {
+      await notifyAdminCalculatorLead({
+        title: "New Extension Calculator Lead",
+        message: `${leadName} requested an extension estimate${sanitizedInputs.size ? ` for ${sanitizedInputs.size} m²` : ""}.`,
+        metadata: {
+          calculatorType: "extension",
+          source: CALCULATOR_SOURCE,
+          leadId: lead._id.toString(),
+          leadName,
+          email,
+          estimateExpected: estimate.ranges.expected,
+          extensionType: sanitizedInputs.extensionType,
+          size: sanitizedInputs.size,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for extension calculator lead:",
+        notificationError,
+      );
     }
 
     // Update latest submission delivery metadata after email attempt.

@@ -7,6 +7,7 @@ import {
   sendWelcomeEmail,
   sendAdminNewUserNotification,
 } from "@/libs/emailService";
+import { notifyAdmins } from "@/libs/notificationService";
 
 /**
  * GET /api/users
@@ -70,7 +71,7 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     // Verify admin access
-    await requireAdmin(req);
+    const session = await requireAdmin(req);
 
     // Parse request body
     const {
@@ -142,10 +143,23 @@ export async function POST(req) {
 
     // Send admin notification (async, don't wait for it)
     try {
+      await notifyAdmins({
+        type: "new_user_registered",
+        title: "New User Added",
+        message: `A new user account was created: ${user.name || user.email}`,
+        priority: "medium",
+        metadata: {
+          userId: user._id.toString(),
+          email: user.email,
+          name: user.name,
+          createdBy: session.user.email,
+        },
+      });
+
       await sendAdminNewUserNotification(
         user.email,
         user.name,
-        session?.user?.email || "Admin",
+        session.user.email || "Admin",
       );
       console.log(`✅ Admin notification sent for new user ${user.email}`);
     } catch (error) {

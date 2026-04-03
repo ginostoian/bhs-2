@@ -5,6 +5,7 @@ import connectMongoose from "@/libs/mongoose";
 import { Ticket, User, Project, Employee } from "@/models/index.js";
 import bunnyStorage from "@/libs/bunnyStorage";
 import { sendEmailWithRetry, sendEmail } from "@/libs/emailService";
+import { notifyTicketCreated } from "@/libs/notificationService";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // GET /api/tickets - List tickets (admin only or user's own tickets)
@@ -141,6 +142,23 @@ export async function POST(request) {
 
     const ticket = new Ticket(ticketData);
     await ticket.save();
+
+    try {
+      await notifyTicketCreated({
+        id: ticket._id.toString(),
+        ticketNumber: ticket.ticketNumber,
+        title: ticket.title,
+        category: ticket.category,
+        priority: ticket.priority,
+        customerName: user.name,
+        customerEmail: user.email,
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for new ticket:",
+        notificationError,
+      );
+    }
 
     // Handle file uploads if any
     const files = formData.getAll("files");

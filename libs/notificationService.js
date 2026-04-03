@@ -293,6 +293,71 @@ export async function notifyPaymentOverdue(userId, paymentData) {
   });
 }
 
+// Form submission notification for admins
+export async function notifyAdminFormSubmission({
+  title,
+  message,
+  metadata = {},
+  priority = "high",
+}) {
+  return await notifyAdmins({
+    type: "new_form_submission",
+    title,
+    message,
+    priority,
+    metadata,
+  });
+}
+
+// Calculator lead notification for admins
+export async function notifyAdminCalculatorLead({
+  title,
+  message,
+  metadata = {},
+  priority = "high",
+}) {
+  return await notifyAdmins({
+    type: "new_calculator_lead",
+    title,
+    message,
+    priority,
+    metadata,
+  });
+}
+
+// Admin task assignment notification for a specific admin
+export async function notifyAdminTaskAssigned(adminId, taskData) {
+  return await notifyUser(adminId, {
+    type: "admin_task_assigned",
+    title: "New Admin Task Assigned",
+    message: `You have been assigned admin task "${taskData.name}"${taskData.projectName ? ` for ${taskData.projectName}` : ""}.`,
+    priority: "high",
+    metadata: { taskData },
+  });
+}
+
+// Admin task reassignment notification for a specific admin
+export async function notifyAdminTaskReassigned(adminId, taskData) {
+  return await notifyUser(adminId, {
+    type: "admin_task_reassigned",
+    title: "Admin Task Reassigned",
+    message: `Admin task "${taskData.name}" has been assigned to you${taskData.projectName ? ` for ${taskData.projectName}` : ""}.`,
+    priority: "high",
+    metadata: { taskData },
+  });
+}
+
+// Ticket created notification for admins
+export async function notifyTicketCreated(ticketData) {
+  return await notifyAdmins({
+    type: "ticket_created",
+    title: "New Support Ticket",
+    message: `${ticketData.customerName || ticketData.customerEmail || "A customer"} created ticket "${ticketData.title}".`,
+    priority: "high",
+    metadata: { ticketData },
+  });
+}
+
 // System alert notification for admins
 export async function notifySystemAlert(message, priority = "medium") {
   return await notifyAdmins({

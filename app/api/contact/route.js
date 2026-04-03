@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Contact from "@/models/Contact";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminFormSubmission } from "@/libs/notificationService";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
 
 /**
@@ -140,6 +141,28 @@ async function handleContactSubmission(request) {
     };
 
     const contact = await Contact.create(contactData);
+
+    try {
+      const topicLabel =
+        topic === "Other" ? customTopic?.trim() || "Other" : topic;
+      await notifyAdminFormSubmission({
+        title: "New Contact Form Submission",
+        message: `${contact.firstName} ${contact.lastName} submitted a contact enquiry about ${topicLabel}.`,
+        metadata: {
+          formType: "contact",
+          contactId: contact._id.toString(),
+          name: `${contact.firstName} ${contact.lastName}`,
+          email: contact.email,
+          phone: contact.phone,
+          topic: topicLabel,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for contact submission:",
+        notificationError,
+      );
+    }
 
     // Send confirmation email to customer (async)
     try {

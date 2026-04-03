@@ -45,6 +45,11 @@ const notificationSchema = mongoose.Schema(
         "task_status_update_request",
         "payment_received",
         "project_completed",
+        "new_form_submission",
+        "new_calculator_lead",
+        "admin_task_assigned",
+        "admin_task_reassigned",
+        "ticket_created",
         "system_alert",
       ],
       required: true,
@@ -200,6 +205,10 @@ notificationSchema.statics.createNotificationForRecipient = async function (
   await notification.save();
   return notification;
 };
+
+if (mongoose.models.Notification) {
+  delete mongoose.models.Notification;
+}
 
 const Notification =
   mongoose.models.Notification ||

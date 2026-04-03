@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import BathroomRenovation from "@/models/BathroomRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminFormSubmission } from "@/libs/notificationService";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
 
 /**
@@ -148,6 +149,27 @@ async function handleBathroomRenovationSubmission(request) {
     }
 
     const bathroomRenovation = await BathroomRenovation.create(bathroomData);
+
+    try {
+      await notifyAdminFormSubmission({
+        title: "New Bathroom Renovation Enquiry",
+        message: `${bathroomRenovation.name} submitted a bathroom renovation enquiry for ${bathroomRenovation.address}.`,
+        metadata: {
+          formType: "bathroom-renovation",
+          submissionId: bathroomRenovation._id.toString(),
+          name: bathroomRenovation.name,
+          email: bathroomRenovation.email,
+          phone: bathroomRenovation.phone,
+          address: bathroomRenovation.address,
+          budget: bathroomRenovation.budget,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for bathroom renovation submission:",
+        notificationError,
+      );
+    }
 
     // Send confirmation email to customer (async)
     try {

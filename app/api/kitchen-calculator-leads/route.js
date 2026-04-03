@@ -3,6 +3,7 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/kitchen-calculator/lib/costEngine";
 import { generateKitchenEstimatePDF } from "@/app/kitchen-calculator/lib/pdfGenerator";
 
@@ -374,6 +375,29 @@ async function handleLeadPost(request) {
     } catch (error) {
       adminEmailError = error.message;
       adminEmailSent = false;
+    }
+
+    try {
+      await notifyAdminCalculatorLead({
+        title: "New Kitchen Calculator Lead",
+        message: `${leadName} requested a kitchen estimate${sanitizedInputs.kitchenSize ? ` for ${sanitizedInputs.kitchenSize} m²` : ""}.`,
+        metadata: {
+          calculatorType: "kitchen",
+          source: CALCULATOR_SOURCE,
+          leadId: lead._id.toString(),
+          leadName,
+          email,
+          estimateExpected: estimate.ranges.expected,
+          kitchenSize: sanitizedInputs.kitchenSize,
+          kitchenRange: sanitizedInputs.kitchenRange,
+          layoutType: sanitizedInputs.layoutType,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for kitchen calculator lead:",
+        notificationError,
+      );
     }
 
     if (lead && lead.calculatorData && lead.calculatorData.latestSubmission) {

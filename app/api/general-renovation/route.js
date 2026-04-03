@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import GeneralRenovation from "@/models/GeneralRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminFormSubmission } from "@/libs/notificationService";
 
 /**
  * POST /api/general-renovation
@@ -140,6 +141,27 @@ export async function POST(request) {
     }
 
     const generalRenovation = await GeneralRenovation.create(renovationData);
+
+    try {
+      await notifyAdminFormSubmission({
+        title: "New General Renovation Enquiry",
+        message: `${generalRenovation.name} submitted a general renovation enquiry for ${generalRenovation.address}.`,
+        metadata: {
+          formType: "general-renovation",
+          submissionId: generalRenovation._id.toString(),
+          name: generalRenovation.name,
+          email: generalRenovation.email,
+          phone: generalRenovation.phone,
+          address: generalRenovation.address,
+          propertyType: generalRenovation.propertyType,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for general renovation submission:",
+        notificationError,
+      );
+    }
 
     // Send confirmation email to customer (async)
     try {

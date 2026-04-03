@@ -5,6 +5,7 @@ import User from "@/models/User";
 import { requireAdmin } from "@/libs/requireAdmin";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import Project from "@/models/Project";
+import { notifyAdminTaskReassigned } from "@/libs/notificationService";
 
 /**
  * PATCH /api/admin-tasks/[taskId]
@@ -72,6 +73,23 @@ export async function PATCH(req, { params }) {
         const project = await Project.findById(updatedTask.project);
 
         if (newAssignee && project) {
+          try {
+            await notifyAdminTaskReassigned(newAssignee._id, {
+              id: updatedTask._id.toString(),
+              name: updatedTask.name,
+              description: updatedTask.description,
+              dueDate: updatedTask.dueDate,
+              priority: updatedTask.priority,
+              projectId: project._id.toString(),
+              projectName: project.name,
+            });
+          } catch (internalNotificationError) {
+            console.error(
+              "Failed to create internal admin task reassignment notification:",
+              internalNotificationError,
+            );
+          }
+
           const emailResult = await sendEmailWithRetry({
             to: newAssignee.email,
             subject: `Admin Task Reassigned: ${updatedTask.name}`,

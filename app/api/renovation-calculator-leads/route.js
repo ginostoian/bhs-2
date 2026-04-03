@@ -3,6 +3,7 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/renovation-calculator/lib/costEngine";
 import { generateRenovationEstimatePDF } from "@/app/renovation-calculator/lib/pdfGenerator";
 
@@ -373,6 +374,28 @@ async function handleLeadPost(request) {
     } catch (error) {
       adminEmailError = error.message;
       adminEmailSent = false;
+    }
+
+    try {
+      await notifyAdminCalculatorLead({
+        title: "New Renovation Calculator Lead",
+        message: `${leadName} requested a renovation estimate${sanitizedInputs.houseSize ? ` for ${sanitizedInputs.houseSize} m²` : ""}.`,
+        metadata: {
+          calculatorType: "renovation",
+          source: CALCULATOR_SOURCE,
+          leadId: lead._id.toString(),
+          leadName,
+          email,
+          estimateExpected: estimate.ranges.expected,
+          houseSize: sanitizedInputs.houseSize,
+          renovationLevel: sanitizedInputs.renovationLevel,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for renovation calculator lead:",
+        notificationError,
+      );
     }
 
     if (lead && lead.calculatorData && lead.calculatorData.latestSubmission) {

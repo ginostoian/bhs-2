@@ -38,7 +38,9 @@ const NotificationBell = () => {
   const fetchNotifications = async () => {
     if (!document.hidden) {
       try {
-        const response = await fetch("/api/notifications?limit=10");
+        const response = await fetch("/api/notifications?limit=10", {
+          cache: "no-store",
+        });
         if (response.ok) {
           const data = await response.json();
           setNotifications(data.notifications);
@@ -111,6 +113,14 @@ const NotificationBell = () => {
         return <DollarSign className="h-4 w-4 text-green-500" />;
       case "project_completed":
         return <CheckCircle className="h-4 w-4 text-purple-500" />;
+      case "new_form_submission":
+      case "new_calculator_lead":
+        return <FileText className="h-4 w-4 text-indigo-500" />;
+      case "admin_task_assigned":
+      case "admin_task_reassigned":
+        return <Clock className="h-4 w-4 text-blue-500" />;
+      case "ticket_created":
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
       case "system_alert":
         return <Settings className="h-4 w-4 text-red-500" />;
       case "document_added":

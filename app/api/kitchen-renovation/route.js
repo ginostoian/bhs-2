@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import KitchenRenovation from "@/models/KitchenRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminFormSubmission } from "@/libs/notificationService";
 
 export async function POST(request) {
   try {
@@ -115,6 +116,27 @@ export async function POST(request) {
     }
 
     const kitchenRenovation = await KitchenRenovation.create(renovationData);
+
+    try {
+      await notifyAdminFormSubmission({
+        title: "New Kitchen Renovation Enquiry",
+        message: `${kitchenRenovation.name} submitted a kitchen renovation enquiry for ${kitchenRenovation.address}.`,
+        metadata: {
+          formType: "kitchen-renovation",
+          submissionId: kitchenRenovation._id.toString(),
+          name: kitchenRenovation.name,
+          email: kitchenRenovation.email,
+          phone: kitchenRenovation.phone,
+          address: kitchenRenovation.address,
+          propertyType: kitchenRenovation.propertyType,
+        },
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal notification for kitchen renovation submission:",
+        notificationError,
+      );
+    }
 
     // Send confirmation email to customer (async)
     try {

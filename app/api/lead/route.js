@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import { notifyAdminFormSubmission } from "@/libs/notificationService";
 
 // This route is used to store the leads that are generated from the landing page.
 // The API call is initiated by <ButtonLead /> component
@@ -18,7 +19,24 @@ export async function POST(req) {
     const lead = await Lead.findOne({ email: body.email });
 
     if (!lead) {
-      await Lead.create({ email: body.email });
+      const createdLead = await Lead.create({ email: body.email });
+
+      try {
+        await notifyAdminFormSubmission({
+          title: "New Lead Captured",
+          message: `${createdLead.email} was captured from the landing page form.`,
+          metadata: {
+            formType: "lead-capture",
+            leadId: createdLead._id.toString(),
+            email: createdLead.email,
+          },
+        });
+      } catch (notificationError) {
+        console.error(
+          "Failed to create internal notification for landing page lead:",
+          notificationError,
+        );
+      }
 
       // Here you can add your own logic
       // For instance, sending a welcome email (use the sendEmail helper function from /libs/resend)

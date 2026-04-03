@@ -5,6 +5,7 @@ import Project from "@/models/Project";
 import User from "@/models/User";
 import { requireAdmin } from "@/libs/requireAdmin";
 import { sendEmailWithRetry } from "@/libs/emailService";
+import { notifyAdminTaskAssigned } from "@/libs/notificationService";
 
 /**
  * GET /api/projects/[projectId]/admin-tasks
@@ -80,6 +81,23 @@ export async function POST(req, { params }) {
 
     // Populate the task before returning
     await task.populate("assignedTo", "name email role");
+
+    try {
+      await notifyAdminTaskAssigned(assignedAdmin._id, {
+        id: task._id.toString(),
+        name: task.name,
+        description: task.description,
+        dueDate: task.dueDate,
+        priority: task.priority,
+        projectId: project._id.toString(),
+        projectName: project.name,
+      });
+    } catch (notificationError) {
+      console.error(
+        "Failed to create internal admin task notification:",
+        notificationError,
+      );
+    }
 
     // Send notification to assigned admin
     try {
