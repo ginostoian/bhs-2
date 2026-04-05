@@ -5,6 +5,7 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
 import EmailAutomation from "@/models/EmailAutomation";
+import { syncPartnerReferralFromLead } from "@/libs/referrals";
 
 // GET - Fetch all leads with filtering and pagination
 export async function GET(request) {
@@ -133,6 +134,8 @@ export async function POST(request) {
       customProjectType,
       assignedTo,
       tags,
+      referredBy,
+      referralSource,
     } = body;
 
     // Validate required fields
@@ -189,6 +192,8 @@ export async function POST(request) {
       assignedTo:
         assignedTo && assignedTo.trim() !== "" ? assignedTo : undefined, // Convert empty string to undefined
       linkedUser,
+      referredBy: referredBy || null,
+      referralSource: referralSource || null,
       tags: tags || [],
     };
 
@@ -204,6 +209,7 @@ export async function POST(request) {
     });
 
     await lead.save();
+    await syncPartnerReferralFromLead(lead);
 
     // Populate references
     await lead.populate("assignedTo", "name email");

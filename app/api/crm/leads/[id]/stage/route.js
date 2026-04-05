@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import { syncPartnerReferralFromLead } from "@/libs/referrals";
 
 // PUT - Update lead stage
 export async function PUT(request, { params }) {
@@ -58,6 +59,7 @@ export async function PUT(request, { params }) {
     // Update stage with version history
     console.log("🔄 Updating stage from", lead.stage, "to", stage);
     await lead.updateStage(stage, session.user.id, comment);
+    await syncPartnerReferralFromLead(lead);
     console.log("✅ Stage updated successfully");
 
     // Update email automation stage

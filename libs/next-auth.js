@@ -6,6 +6,9 @@ import config from "../config.js";
 import connectMongo from "./mongo.js";
 import connectMongoose from "./mongoose.js";
 import User from "../models/User.js";
+import { ensurePartnerForReferrerUser } from "./referrals.js";
+import { notifyReferrerSignup } from "./notificationService.js";
+import { sendAdminReferrerSignupNotifications } from "./emailService.js";
 
 export const authOptions = {
   // Set any random key in .env.local
@@ -33,18 +36,28 @@ export const authOptions = {
         name: { label: "Name", type: "text" },
         isSignUp: { label: "Is Sign Up", type: "boolean" },
         isSetPassword: { label: "Is Set Password", type: "boolean" },
+        signUpRole: { label: "Sign Up Role", type: "text" },
       },
       async authorize(credentials) {
         try {
           await connectMongoose();
 
-          const { email, password, name, isSignUp, isSetPassword } =
+          const {
+            email,
+            password,
+            name,
+            isSignUp,
+            isSetPassword,
+            signUpRole,
+          } =
             credentials;
 
           // Convert boolean flags if they're strings
           const isSignUpBool = isSignUp === true || isSignUp === "true";
           const isSetPasswordBool =
             isSetPassword === true || isSetPassword === "true";
+          const requestedRole =
+            signUpRole === "referrer" ? "referrer" : "user";
 
           if (!email || !password) {
             return null;
@@ -67,7 +80,35 @@ export const authOptions = {
               email: email.toLowerCase(),
               name,
               password: hashedPassword,
+              role: requestedRole,
             });
+
+            if (requestedRole === "referrer") {
+              const partner = await ensurePartnerForReferrerUser(newUser, {
+                accountStatus: "pending",
+                isActive: true,
+              });
+
+              try {
+                await notifyReferrerSignup({
+                  partnerId: partner._id,
+                  userId: newUser._id,
+                  name: newUser.name,
+                  email: newUser.email,
+                });
+                await sendAdminReferrerSignupNotifications({
+                  partnerId: partner._id.toString(),
+                  userId: newUser._id.toString(),
+                  name: newUser.name,
+                  email: newUser.email,
+                });
+              } catch (notificationError) {
+                console.error(
+                  "Failed to notify admins about referrer signup:",
+                  notificationError,
+                );
+              }
+            }
 
             return {
               id: newUser._id.toString(),

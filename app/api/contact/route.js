@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Contact from "@/models/Contact";
+import Lead from "@/models/Lead";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminFormSubmission } from "@/libs/notificationService";
 import { rateLimitMiddleware } from "@/libs/rateLimiter";
+import {
+  findPartnerByReferralCode,
+  syncPartnerReferralFromLead,
+} from "@/libs/referrals";
 
 /**
  * POST /api/contact
@@ -22,6 +27,7 @@ async function handleContactSubmission(request) {
       message,
       website,
       company,
+      referralCode: referralCodeFromBody,
     } = body;
 
     // Honeypot validation - reject if honeypot fields are filled
@@ -141,6 +147,12 @@ async function handleContactSubmission(request) {
     };
 
     const contact = await Contact.create(contactData);
+    const referralCode =
+      referralCodeFromBody?.trim().toLowerCase() ||
+      request.cookies.get("bhs_referral_code")?.value?.trim().toLowerCase() ||
+      "";
+
+    await createOrUpdateReferralLead({ contact, referralCode });
 
     try {
       const topicLabel =
@@ -235,6 +247,48 @@ async function handleContactSubmission(request) {
       { status: 500 },
     );
   }
+}
+
+async function createOrUpdateReferralLead({ contact, referralCode }) {
+  if (!referralCode) {
+    return null;
+  }
+
+  const partner = await findPartnerByReferralCode(referralCode);
+  if (!partner) {
+    return null;
+  }
+
+  const leadName = `${contact.firstName} ${contact.lastName}`.trim();
+  const existingLead = await Lead.findOne({ email: contact.email }).select("_id");
+
+  if (existingLead) {
+    return existingLead;
+  }
+
+  const lead = new Lead({
+    name: leadName,
+    email: contact.email,
+    phone: contact.phone,
+    source: "Referral",
+    referredBy: partner._id,
+    referralSource: "share_link",
+    stage: "Lead",
+  });
+
+  await lead.save();
+  await syncPartnerReferralFromLead(lead);
+
+  try {
+    const { initializeEmailAutomation } = await import(
+      "@/libs/crmEmailAutomation"
+    );
+    await initializeEmailAutomation(lead._id, lead.stage);
+  } catch (error) {
+    console.error("Failed to initialize email automation for referral lead:", error);
+  }
+
+  return lead;
 }
 
 // Export the rate-limited handler

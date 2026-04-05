@@ -76,6 +76,13 @@ export default withAuth(
       }
     }
 
+    // Referrer routes - require referrer role
+    if (pathname.startsWith("/referrer")) {
+      if (token?.role !== "referrer") {
+        return NextResponse.redirect(new URL("/auth/signin", req.url));
+      }
+    }
+
     // Dashboard routes - require authentication (any role)
     if (pathname.startsWith("/dashboard")) {
       if (!token) {
@@ -97,6 +104,7 @@ export default withAuth(
           pathname.startsWith("/admin") ||
           pathname.startsWith("/employee") ||
           pathname.startsWith("/designer") ||
+          pathname.startsWith("/referrer") ||
           pathname.startsWith("/dashboard")
         ) {
           return !!token; // Return true if token exists
@@ -114,6 +122,7 @@ export const config = {
     "/admin/:path*",
     "/employee/:path*",
     "/designer/:path*",
+    "/referrer/:path*",
     "/dashboard/:path*",
   ],
 };

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Partner from "@/models/Partner";
+import { buildReferralLink } from "@/libs/referrals";
 
 export const dynamic = "force-dynamic";
 
@@ -10,16 +11,26 @@ export const dynamic = "force-dynamic";
 export async function GET(request, { params }) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session || session.user.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     await connectMongoose();
-    const partner = await Partner.findById(params.id).lean();
+    const partner = await Partner.findById(params.id)
+      .populate("user", "name email role")
+      .lean();
     if (!partner) {
       return NextResponse.json({ error: "Partner not found" }, { status: 404 });
     }
     return NextResponse.json({
-      partner: { ...partner, id: partner._id.toString(), _id: undefined },
+      partner: {
+        ...partner,
+        id: partner._id.toString(),
+        _id: undefined,
+        accountStatus: partner.accountStatus || "active",
+        referralLink: partner.referralCode
+          ? buildReferralLink(partner.referralCode)
+          : null,
+      },
     });
   } catch (error) {
     console.error("Error fetching partner:", error);
@@ -47,6 +58,7 @@ export async function PUT(request, { params }) {
       occupation,
       experience,
       isActive,
+      accountStatus,
       notes,
       referrals,
     } = body;
@@ -61,11 +73,31 @@ export async function PUT(request, { params }) {
     if (occupation !== undefined) partner.occupation = occupation;
     if (experience !== undefined) partner.experience = experience;
     if (isActive !== undefined) partner.isActive = Boolean(isActive);
+    if (accountStatus !== undefined) {
+      partner.accountStatus = accountStatus;
+
+      if (accountStatus === "active") {
+        partner.approvedAt = new Date();
+        partner.approvedBy = session.user.id;
+        partner.isActive = true;
+      } else {
+        partner.approvedAt = null;
+        partner.approvedBy = null;
+      }
+    }
     if (notes !== undefined) partner.notes = notes;
     if (referrals !== undefined && Array.isArray(referrals))
       partner.referrals = referrals;
     await partner.save();
-    return NextResponse.json({ partner: partner.toJSON() });
+    return NextResponse.json({
+      partner: {
+        ...partner.toJSON(),
+        accountStatus: partner.accountStatus || "active",
+        referralLink: partner.referralCode
+          ? buildReferralLink(partner.referralCode)
+          : null,
+      },
+    });
   } catch (error) {
     console.error("Error updating partner:", error);
     return NextResponse.json(

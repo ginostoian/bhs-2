@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Partner from "@/models/Partner";
+import { buildReferralLink } from "@/libs/referrals";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +11,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session || session.user.role !== "admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -48,6 +49,7 @@ export async function GET(request) {
 
     const totalCount = await Partner.countDocuments(query);
     const partners = await Partner.find(query)
+      .populate("user", "name email role")
       .sort({ name: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
@@ -57,6 +59,8 @@ export async function GET(request) {
       ...p,
       id: p._id.toString(),
       _id: undefined,
+      accountStatus: p.accountStatus || "active",
+      referralLink: p.referralCode ? buildReferralLink(p.referralCode) : null,
     }));
     return NextResponse.json({ partners: normalized, totalCount });
   } catch (error) {
@@ -104,12 +108,23 @@ export async function POST(request) {
       occupation: occupation || undefined,
       experience: experience || undefined,
       isActive: isActive !== undefined ? Boolean(isActive) : undefined,
+      accountStatus: "active",
       notes,
       referrals: [],
     });
 
     await partner.save();
-    return NextResponse.json({ partner: partner.toJSON() }, { status: 201 });
+    return NextResponse.json(
+      {
+        partner: {
+          ...partner.toJSON(),
+          referralLink: partner.referralCode
+            ? buildReferralLink(partner.referralCode)
+            : null,
+        },
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error creating partner:", error);
     return NextResponse.json(

@@ -20,6 +20,10 @@ export default async function DashboardLayout({ children }) {
     redirect("/auth/signin");
   }
 
+  if (session.user.role === "referrer") {
+    redirect("/referrer");
+  }
+
   return (
     <ProjectProvider>
       <div className="min-h-screen">

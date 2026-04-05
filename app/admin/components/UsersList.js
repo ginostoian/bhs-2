@@ -213,7 +213,11 @@ export default function UsersList({ users: initialUsers, totalUsers = 0 }) {
                  <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                         <div className={`flex h-10 w-10 items-center justify-center rounded-full text-lg font-bold text-white shadow-sm ${
-                            user.role === 'admin' ? 'bg-gradient-to-br from-purple-500 to-indigo-600' : 'bg-gradient-to-br from-blue-400 to-blue-600'
+                            user.role === 'admin'
+                              ? 'bg-gradient-to-br from-purple-500 to-indigo-600'
+                              : user.role === 'referrer'
+                                ? 'bg-gradient-to-br from-emerald-500 to-teal-600'
+                                : 'bg-gradient-to-br from-blue-400 to-blue-600'
                         }`}>
                           {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
                         </div>
@@ -226,6 +230,9 @@ export default function UsersList({ users: initialUsers, totalUsers = 0 }) {
                     </div>
                     {user.role === 'admin' && (
                         <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-1 rounded-md">Admin</span>
+                    )}
+                    {user.role === 'referrer' && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md">Referrer</span>
                     )}
                  </div>
 

@@ -2,6 +2,7 @@ import { sendEmail as resendSendEmail } from "./resend";
 import config from "@/config";
 import connectMongoose from "./mongoose";
 import EmailStats from "@/models/EmailStats";
+import User from "@/models/User";
 
 /**
  * Enhanced Email Service
@@ -398,6 +399,66 @@ export const sendAdminNewUserNotification = async (
       adminEmail,
     },
   });
+};
+
+export const sendAdminReferrerSignupNotifications = async ({
+  partnerId,
+  userId,
+  name,
+  email,
+}) => {
+  await connectMongoose();
+
+  const admins = await User.find({ role: "admin" }).select("email").lean();
+  const recipients = admins
+    .map((admin) => admin.email?.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (recipients.length === 0) {
+    console.warn("No admin recipients found for referrer signup notification");
+    return {
+      success: false,
+      error: "No admin recipients found",
+      timestamp: new Date().toISOString(),
+    };
+  }
+
+  const subject = "New referrer signup awaiting approval";
+  const html = `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827;">
+      <h2 style="margin-bottom: 12px;">New referrer signup awaiting approval</h2>
+      <p><strong>Name:</strong> ${name || "Not provided"}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p>The account was created successfully but is still pending admin activation in the partners database.</p>
+      <p style="margin-top: 24px;"><strong>Partner ID:</strong> ${partnerId}</p>
+      <p><strong>User ID:</strong> ${userId}</p>
+    </div>
+  `;
+  const text = `New referrer signup awaiting approval\n\nName: ${name || "Not provided"}\nEmail: ${email}\nPartner ID: ${partnerId}\nUser ID: ${userId}`;
+
+  const results = await Promise.all(
+    recipients.map((recipient) =>
+      sendEmailWithRetry({
+        to: recipient,
+        subject,
+        html,
+        text,
+        metadata: {
+          type: "admin_referrer_signup_notification",
+          partnerId,
+          userId,
+          name,
+          email,
+          adminEmail: recipient,
+        },
+      }),
+    ),
+  );
+
+  return {
+    success: results.some((result) => result.success),
+    results,
+  };
 };
 
 /**

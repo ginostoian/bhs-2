@@ -16,6 +16,7 @@ export default function PartnersClient({
   const [occupations, setOccupations] = useState(initialOccupations);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [activatingPartnerId, setActivatingPartnerId] = useState(null);
   const [modalState, setModalState] = useState({
     isOpen: false,
     title: "",
@@ -156,6 +157,38 @@ export default function PartnersClient({
       });
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const handleActivateAccount = async (partner) => {
+    setActivatingPartnerId(partner.id);
+
+    try {
+      const res = await fetch(`/api/partners/${partner.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accountStatus: "active" }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to activate account");
+      }
+
+      const { partner: updatedPartner } = await res.json();
+      setPartners((prev) =>
+        prev.map((item) => (item.id === updatedPartner.id ? updatedPartner : item)),
+      );
+    } catch (error) {
+      console.error(error);
+      setModalState({
+        isOpen: true,
+        title: "Error",
+        message: "Failed to activate the referrer account. Please try again.",
+        type: "alert",
+        confirmText: "OK",
+      });
+    } finally {
+      setActivatingPartnerId(null);
     }
   };
 
@@ -312,15 +345,31 @@ export default function PartnersClient({
                       <p className="text-sm text-gray-600">{p.phone}</p>
                     )}
                   </div>
-                  <span
-                    className={`ml-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${p.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
-                  >
-                    {p.isActive ? "Active" : "Inactive"}
-                  </span>
+                  <div className="ml-2 flex flex-col items-end gap-2">
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${p.isActive ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}
+                    >
+                      {p.isActive ? "Active" : "Inactive"}
+                    </span>
+                    <span
+                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                        (p.accountStatus || "active") === "active"
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-amber-100 text-amber-800"
+                      }`}
+                    >
+                      {(p.accountStatus || "active") === "active"
+                        ? "Account live"
+                        : "Pending approval"}
+                    </span>
+                  </div>
                 </div>
                 <div className="mb-3 space-y-1 text-sm text-gray-500">
                   <p>
                     <strong>Experience:</strong> {p.experience || "—"}
+                  </p>
+                  <p>
+                    <strong>Linked account:</strong> {p.user?.email || "—"}
                   </p>
                   <p>
                     <strong>Total referrals:</strong> {p.referrals?.length || 0}
@@ -328,6 +377,17 @@ export default function PartnersClient({
                 </div>
                 {p.notes && (
                   <p className="mb-3 text-sm text-gray-600">{p.notes}</p>
+                )}
+                {p.user && (p.accountStatus || "active") !== "active" && (
+                  <button
+                    onClick={() => handleActivateAccount(p)}
+                    disabled={activatingPartnerId === p.id}
+                    className="mb-3 w-full rounded-md bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {activatingPartnerId === p.id
+                      ? "Activating..."
+                      : "Activate account"}
+                  </button>
                 )}
                 <div className="flex space-x-2">
                   <button

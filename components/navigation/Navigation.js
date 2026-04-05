@@ -105,7 +105,9 @@ function Navigation() {
       ? "/employee"
       : session.user.role === "designer"
         ? "/designer"
-        : "/dashboard"
+        : session.user.role === "referrer"
+          ? "/referrer"
+          : "/dashboard"
     : null;
 
   const dashboardLabel = session
@@ -113,7 +115,9 @@ function Navigation() {
       ? "Employee"
       : session.user.role === "designer"
         ? "Designer"
-        : "Dashboard"
+        : session.user.role === "referrer"
+          ? "Referrer"
+          : "Dashboard"
     : null;
 
   return (

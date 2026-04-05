@@ -104,6 +104,7 @@ const NotificationBell = () => {
   const getNotificationIcon = (type) => {
     switch (type) {
       case "new_user_registered":
+      case "new_referrer_signup":
         return <UserPlus className="h-4 w-4 text-blue-500" />;
       case "new_employee_created":
         return <Users className="h-4 w-4 text-green-500" />;

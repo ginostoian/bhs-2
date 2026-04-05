@@ -47,6 +47,7 @@ const notificationSchema = mongoose.Schema(
         "project_completed",
         "new_form_submission",
         "new_calculator_lead",
+        "new_referrer_signup",
         "admin_task_assigned",
         "admin_task_reassigned",
         "ticket_created",
@@ -86,6 +87,7 @@ const notificationSchema = mongoose.Schema(
         "Project",
         "ProjectChange",
         "Employee",
+        "Partner",
       ],
     },
     // Additional data for the notification

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Inter } from "next/font/google";
 import PlausibleProvider from "next-plausible";
 
@@ -11,6 +12,7 @@ import { getSEOTags } from "@/libs/seo";
 import { getRootSchema } from "@/libs/structuredData";
 import "./globals.css";
 import Announcement from "@/components/Announcement";
+import ReferralTracker from "@/components/ReferralTracker";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -43,6 +45,9 @@ export default function RootLayout({ children }) {
         />
         {/* ClientLayout contains all the client wrappers (Crisp chat support, toast messages, tooltips, etc.) */}
         <ClientLayout>
+          <Suspense fallback={null}>
+            <ReferralTracker />
+          </Suspense>
           <Announcement />
           <Header />
           {children}

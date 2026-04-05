@@ -181,6 +181,7 @@ export default function CreateUserForm({ onUserCreated }) {
                       >
                         <option value="user">User (Client)</option>
                         <option value="admin">Administrator</option>
+                        <option value="referrer">Referrer</option>
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
                         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 
 const ContactForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -18,6 +20,7 @@ const ContactForm = () => {
     // Honeypot fields (hidden from users)
     website: "", // Bots often fill this
     company: "", // Another common bot field
+    referralCode: "",
   });
 
   const topics = [
@@ -27,6 +30,22 @@ const ContactForm = () => {
     "Warranty",
     "Other",
   ];
+
+  useEffect(() => {
+    const referralCodeFromUrl = searchParams.get("ref")?.trim().toLowerCase();
+    const referralCodeFromStorage =
+      typeof window !== "undefined"
+        ? window.localStorage.getItem("bhs_referral_code")
+        : "";
+    const referralCode = referralCodeFromUrl || referralCodeFromStorage || "";
+
+    if (referralCode) {
+      setFormData((prev) => ({
+        ...prev,
+        referralCode,
+      }));
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

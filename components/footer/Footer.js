@@ -226,10 +226,20 @@ const Footer = () => {
               {session ? (
                 <>
                   <Link
-                    href="/dashboard"
+                    href={
+                      session.user?.role === "employee"
+                        ? "/employee"
+                        : session.user?.role === "designer"
+                          ? "/designer"
+                          : session.user?.role === "referrer"
+                            ? "/referrer"
+                            : "/dashboard"
+                    }
                     className={classes["footer__quarter-link"]}
                   >
-                    Dashboard
+                    {session.user?.role === "referrer"
+                      ? "Referrer Dashboard"
+                      : "Dashboard"}
                   </Link>
                   {session.user?.role === "admin" && (
                     <Link

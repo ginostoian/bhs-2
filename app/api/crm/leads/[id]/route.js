@@ -4,6 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
+import { syncPartnerReferralFromLead } from "@/libs/referrals";
 
 // GET - Fetch a specific lead
 export async function GET(request, { params }) {
@@ -85,6 +86,8 @@ export async function PUT(request, { params }) {
       "customProjectType",
       "assignedTo",
       "winLossReason",
+      "referredBy",
+      "referralSource",
     ];
 
     trackedFields.forEach((field) => {
@@ -147,6 +150,9 @@ export async function PUT(request, { params }) {
     });
 
     await lead.save();
+    await syncPartnerReferralFromLead(lead, {
+      previousPartnerId: oldValues.referredBy || null,
+    });
 
     // Populate references including version history
     await lead.populate("assignedTo", "name email");

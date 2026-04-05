@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Modal from "@/components/Modal";
 
 export default function PartnerDetailsModal({
   isOpen,
@@ -13,8 +12,14 @@ export default function PartnerDetailsModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ customerName: "", projectValue: "" });
-  const [confirm, setConfirm] = useState({ isOpen: false, onConfirm: null });
+  const [form, setForm] = useState({
+    customerName: "",
+    email: "",
+    phone: "",
+    address: "",
+    projectValue: "",
+    notes: "",
+  });
 
   useEffect(() => {
     const fetchPartner = async () => {
@@ -41,7 +46,7 @@ export default function PartnerDetailsModal({
   }, [partner]);
 
   const addReferral = async () => {
-    if (!form.customerName || !form.projectValue) return;
+    if (!form.customerName || !form.email) return;
     setAdding(true);
     try {
       const res = await fetch(`/api/partners/${partnerId}/referrals`, {
@@ -49,14 +54,25 @@ export default function PartnerDetailsModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customerName: form.customerName,
+          email: form.email,
+          phone: form.phone,
+          address: form.address,
           projectValue: parseFloat(form.projectValue),
+          notes: form.notes,
         }),
       });
       if (!res.ok) throw new Error("Failed to add referral");
       const data = await res.json();
       setPartner(data.partner);
       onPartnerUpdate?.(data.partner);
-      setForm({ customerName: "", projectValue: "" });
+      setForm({
+        customerName: "",
+        email: "",
+        phone: "",
+        address: "",
+        projectValue: "",
+        notes: "",
+      });
     } catch (e) {
       console.error(e);
     } finally {
@@ -64,19 +80,9 @@ export default function PartnerDetailsModal({
     }
   };
 
-  const deleteReferral = async (referralId) => {
-    try {
-      const res = await fetch(
-        `/api/partners/${partnerId}/referrals/${referralId}`,
-        { method: "DELETE" },
-      );
-      if (!res.ok) throw new Error("Failed to delete referral");
-      const data = await res.json();
-      setPartner(data.partner);
-      onPartnerUpdate?.(data.partner);
-    } catch (e) {
-      console.error(e);
-    }
+  const copyReferralLink = async () => {
+    if (!partner?.referralLink) return;
+    await navigator.clipboard.writeText(partner.referralLink);
   };
 
   if (!isOpen) return null;
@@ -143,6 +149,37 @@ export default function PartnerDetailsModal({
                     {partner.phone || "—"}
                   </p>
                 </div>
+                <div>
+                  <p className="text-sm text-gray-500">Linked account</p>
+                  <p className="font-medium text-gray-900">
+                    {partner.user?.email || "—"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Account status</p>
+                  <p className="font-medium text-gray-900">
+                    {partner.accountStatus === "pending"
+                      ? "Pending approval"
+                      : "Active"}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Referral link</p>
+                  <div className="flex items-center gap-2">
+                    <p className="truncate font-medium text-gray-900">
+                      {partner.referralLink || "—"}
+                    </p>
+                    {partner.referralLink && (
+                      <button
+                        type="button"
+                        onClick={copyReferralLink}
+                        className="rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 hover:bg-gray-200"
+                      >
+                        Copy
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div className="mb-4 flex items-center justify-between">
@@ -170,9 +207,11 @@ export default function PartnerDetailsModal({
                           Customer
                         </th>
                         <th className="px-4 py-2 text-left font-medium text-gray-700">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 text-left font-medium text-gray-700">
                           Project Value
                         </th>
-                        <th className="px-4 py-2"></th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
@@ -194,6 +233,21 @@ export default function PartnerDetailsModal({
                               )}
                             </td>
                             <td className="px-4 py-2">{r.customerName}</td>
+                          <td className="px-4 py-2">
+                              <span
+                                className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+                                  r.status === "won"
+                                    ? "bg-emerald-100 text-emerald-800"
+                                    : r.status === "lost"
+                                      ? "bg-rose-100 text-rose-800"
+                                      : r.status === "negotiations"
+                                        ? "bg-amber-100 text-amber-800"
+                                        : "bg-slate-100 text-slate-700"
+                                }`}
+                              >
+                                {r.status || "contacted"}
+                              </span>
+                            </td>
                             <td className="px-4 py-2">
                               £
                               {Number(r.projectValue || 0).toLocaleString(
@@ -204,19 +258,6 @@ export default function PartnerDetailsModal({
                                 },
                               )}
                             </td>
-                            <td className="px-4 py-2 text-right">
-                              <button
-                                onClick={() =>
-                                  setConfirm({
-                                    isOpen: true,
-                                    onConfirm: () => deleteReferral(r._id),
-                                  })
-                                }
-                                className="rounded-md bg-red-100 px-3 py-1 text-red-700 hover:bg-red-200"
-                              >
-                                Remove
-                              </button>
-                            </td>
                           </tr>
                         ))
                       )}
@@ -226,10 +267,10 @@ export default function PartnerDetailsModal({
               </div>
 
               <div className="rounded-lg border border-gray-200 p-4">
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                  <div className="md:col-span-1">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  <div>
                     <label className="block text-xs font-medium text-gray-700">
-                      Customer Name
+                      Lead name
                     </label>
                     <input
                       type="text"
@@ -240,7 +281,46 @@ export default function PartnerDetailsModal({
                       className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  <div className="md:col-span-1">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) =>
+                        setForm((p) => ({ ...p, email: e.target.value }))
+                      }
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700">
+                      Phone
+                    </label>
+                    <input
+                      type="text"
+                      value={form.phone}
+                      onChange={(e) =>
+                        setForm((p) => ({ ...p, phone: e.target.value }))
+                      }
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-gray-700">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      value={form.address}
+                      onChange={(e) =>
+                        setForm((p) => ({ ...p, address: e.target.value }))
+                      }
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
                     <label className="block text-xs font-medium text-gray-700">
                       Project Value (GBP)
                     </label>
@@ -255,7 +335,20 @@ export default function PartnerDetailsModal({
                       className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
-                  <div className="flex items-end md:col-span-1">
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-medium text-gray-700">
+                      Notes
+                    </label>
+                    <textarea
+                      rows={3}
+                      value={form.notes}
+                      onChange={(e) =>
+                        setForm((p) => ({ ...p, notes: e.target.value }))
+                      }
+                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div className="flex items-end md:col-span-2">
                     <button
                       disabled={adding}
                       onClick={addReferral}
@@ -270,20 +363,6 @@ export default function PartnerDetailsModal({
           )}
         </div>
       </div>
-
-      <Modal
-        isOpen={confirm.isOpen}
-        onClose={() => setConfirm({ isOpen: false, onConfirm: null })}
-        onConfirm={() => {
-          confirm.onConfirm?.();
-          setConfirm({ isOpen: false, onConfirm: null });
-        }}
-        title="Delete referral"
-        message="Are you sure you want to remove this referral?"
-        confirmText="Remove"
-        cancelText="Cancel"
-        type="confirm"
-      />
     </div>
   );
 }

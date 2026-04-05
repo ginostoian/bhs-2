@@ -38,7 +38,11 @@ function getClientIP(request) {
 /**
  * Check if IP is currently blocked
  */
-function isIPBlocked(ip) {
+function getScopedKey(rawKey, namespace = "default") {
+  return `${namespace}:${rawKey || "unknown"}`;
+}
+
+function isIPBlocked(ip, config = RATE_LIMIT_CONFIG) {
   const record = rateLimitStore.get(ip);
   if (!record) return false;
 
@@ -58,38 +62,38 @@ function isIPBlocked(ip) {
 /**
  * Check if IP has exceeded rate limits
  */
-function hasExceededRateLimit(ip) {
+function hasExceededRateLimit(ip, config = RATE_LIMIT_CONFIG) {
   const record = rateLimitStore.get(ip);
   if (!record) return false;
 
   const now = Date.now();
-  const windowStart = now - RATE_LIMIT_CONFIG.windowMs;
+  const windowStart = now - config.windowMs;
 
   // Filter submissions within the current window
   const recentSubmissions = record.submissions.filter(
     (timestamp) => timestamp > windowStart,
   );
 
-  return recentSubmissions.length >= RATE_LIMIT_CONFIG.maxSubmissions;
+  return recentSubmissions.length >= config.maxSubmissions;
 }
 
 /**
  * Check if submission is too soon after last submission
  */
-function isSubmissionTooSoon(ip) {
+function isSubmissionTooSoon(ip, config = RATE_LIMIT_CONFIG) {
   const record = rateLimitStore.get(ip);
   if (!record || record.submissions.length === 0) return false;
 
   const now = Date.now();
   const lastSubmission = Math.max(...record.submissions);
 
-  return now - lastSubmission < RATE_LIMIT_CONFIG.minIntervalMs;
+  return now - lastSubmission < config.minIntervalMs;
 }
 
 /**
  * Record a submission for an IP
  */
-function recordSubmission(ip) {
+function recordSubmission(ip, config = RATE_LIMIT_CONFIG) {
   const now = Date.now();
   let record = rateLimitStore.get(ip);
 
@@ -111,8 +115,8 @@ function recordSubmission(ip) {
   );
 
   // Check if we should block this IP
-  if (hasExceededRateLimit(ip)) {
-    record.blockedUntil = now + RATE_LIMIT_CONFIG.blockDurationMs;
+  if (hasExceededRateLimit(ip, config)) {
+    record.blockedUntil = now + config.blockDurationMs;
     console.warn(
       `Rate limit exceeded for IP: ${ip}. Blocked until: ${new Date(record.blockedUntil).toISOString()}`,
     );
@@ -124,31 +128,31 @@ function recordSubmission(ip) {
 /**
  * Get rate limit status for an IP
  */
-function getRateLimitStatus(ip) {
+function getRateLimitStatus(ip, config = RATE_LIMIT_CONFIG) {
   const record = rateLimitStore.get(ip);
   if (!record) {
     return {
       isBlocked: false,
-      remainingSubmissions: RATE_LIMIT_CONFIG.maxSubmissions,
+      remainingSubmissions: config.maxSubmissions,
       resetTime: null,
       canSubmit: true,
     };
   }
 
   const now = Date.now();
-  const windowStart = now - RATE_LIMIT_CONFIG.windowMs;
+  const windowStart = now - config.windowMs;
   const recentSubmissions = record.submissions.filter(
     (timestamp) => timestamp > windowStart,
   );
 
-  const isBlocked = isIPBlocked(ip);
+  const isBlocked = isIPBlocked(ip, config);
   const remainingSubmissions = Math.max(
     0,
-    RATE_LIMIT_CONFIG.maxSubmissions - recentSubmissions.length,
+    config.maxSubmissions - recentSubmissions.length,
   );
   const resetTime =
     recentSubmissions.length > 0
-      ? new Date(Math.min(...recentSubmissions) + RATE_LIMIT_CONFIG.windowMs)
+      ? new Date(Math.min(...recentSubmissions) + config.windowMs)
       : null;
 
   return {
@@ -156,19 +160,24 @@ function getRateLimitStatus(ip) {
     remainingSubmissions,
     resetTime,
     canSubmit:
-      !isBlocked && remainingSubmissions > 0 && !isSubmissionTooSoon(ip),
+      !isBlocked && remainingSubmissions > 0 && !isSubmissionTooSoon(ip, config),
   };
 }
 
 /**
  * Rate limiting middleware for API routes
  */
-export function rateLimitMiddleware(handler) {
+export function rateLimitMiddleware(handler, options = {}) {
   return async function (request) {
-    const ip = getClientIP(request);
+    const config = {
+      ...RATE_LIMIT_CONFIG,
+      ...options,
+    };
+    const rawKey = (options.keyGenerator || getClientIP)(request);
+    const key = getScopedKey(rawKey, options.namespace);
 
     // Check if IP is blocked
-    if (isIPBlocked(ip)) {
+    if (isIPBlocked(key, config)) {
       return new Response(
         JSON.stringify({
           error: "Too many requests. Please try again later.",
@@ -185,7 +194,7 @@ export function rateLimitMiddleware(handler) {
     }
 
     // Check if submission is too soon
-    if (isSubmissionTooSoon(ip)) {
+    if (isSubmissionTooSoon(key, config)) {
       return new Response(
         JSON.stringify({
           error: "Please wait before submitting another form.",
@@ -202,7 +211,7 @@ export function rateLimitMiddleware(handler) {
     }
 
     // Check if rate limit would be exceeded
-    if (hasExceededRateLimit(ip)) {
+    if (hasExceededRateLimit(key, config)) {
       return new Response(
         JSON.stringify({
           error: "Rate limit exceeded. Please try again later.",
@@ -219,7 +228,7 @@ export function rateLimitMiddleware(handler) {
     }
 
     // Record the submission attempt
-    recordSubmission(ip);
+    recordSubmission(key, config);
 
     // Call the original handler
     return handler(request);
@@ -264,7 +273,7 @@ export function getRateLimitStats() {
   return stats;
 }
 
-export default {
+const rateLimiter = {
   rateLimitMiddleware,
   getRateLimitStatus,
   getRateLimitStats,
@@ -272,3 +281,5 @@ export default {
   hasExceededRateLimit,
   isSubmissionTooSoon,
 };
+
+export default rateLimiter;

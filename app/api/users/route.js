@@ -8,6 +8,7 @@ import {
   sendAdminNewUserNotification,
 } from "@/libs/emailService";
 import { notifyAdmins } from "@/libs/notificationService";
+import { ensurePartnerForReferrerUser } from "@/libs/referrals";
 
 /**
  * GET /api/users
@@ -115,6 +116,14 @@ export async function POST(req) {
 
     // Create new user
     const user = await User.create(userData);
+
+    if (user.role === "referrer") {
+      await ensurePartnerForReferrerUser(user, {
+        matchExistingByEmail: true,
+        accountStatus: "active",
+        isActive: true,
+      });
+    }
 
     // Create email preferences for the new user
     await EmailPreference.create({

@@ -368,3 +368,20 @@ export async function notifySystemAlert(message, priority = "medium") {
     metadata: { timestamp: new Date() },
   });
 }
+
+export async function notifyReferrerSignup(partnerData) {
+  return await notifyAdmins({
+    type: "new_referrer_signup",
+    title: "New Referrer Signup",
+    message: `${partnerData.name || partnerData.email} signed up and is awaiting approval.`,
+    priority: "high",
+    relatedId: partnerData.partnerId,
+    relatedModel: "Partner",
+    metadata: {
+      partnerId: partnerData.partnerId,
+      userId: partnerData.userId,
+      name: partnerData.name,
+      email: partnerData.email,
+    },
+  });
+}

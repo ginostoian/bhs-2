@@ -24,6 +24,11 @@ const leadSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+    postcode: {
+      type: String,
+      trim: true,
+      uppercase: true,
+    },
     address: {
       type: String,
       trim: true,
@@ -119,6 +124,17 @@ const leadSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       index: true,
+    },
+    referredBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Partner",
+      default: null,
+      index: true,
+    },
+    referralSource: {
+      type: String,
+      enum: ["dashboard_form", "share_link", "admin_manual", "other"],
+      default: null,
     },
 
     // Assignment and Ownership
@@ -357,6 +373,7 @@ leadSchema.index({ isActive: 1, isArchived: 1 });
 leadSchema.index({ archivedAt: -1 });
 leadSchema.index({ archivedBy: 1 });
 leadSchema.index({ customSource: 1, updatedAt: -1 });
+leadSchema.index({ referredBy: 1, stage: 1, updatedAt: -1 });
 
 // Virtual for full source (including custom source)
 leadSchema.virtual("fullSource").get(function () {

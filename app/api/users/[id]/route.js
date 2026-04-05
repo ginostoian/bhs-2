@@ -4,6 +4,7 @@ import User from "@/models/User";
 import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
 import { sendProjectStatusUpdateEmail } from "@/libs/emailService";
+import { ensurePartnerForReferrerUser } from "@/libs/referrals";
 
 /**
  * PUT /api/users/[id]
@@ -146,6 +147,14 @@ export async function PUT(req, { params }) {
         "Fresh user from database - leftReview:",
         freshUser.leftReview,
       );
+
+      if (updatedUser.role === "referrer") {
+        await ensurePartnerForReferrerUser(updatedUser, {
+          matchExistingByEmail: true,
+          accountStatus: "active",
+          isActive: true,
+        });
+      }
     } catch (error) {
       console.error("Database update error:", error);
       return NextResponse.json(
