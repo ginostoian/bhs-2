@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 
 import Approach from "@/components/Approach";
@@ -68,7 +69,9 @@ export default function Page() {
         />
         <SocialProof />
 
-        <ContactForm />
+        <Suspense fallback={null}>
+          <ContactForm />
+        </Suspense>
 
         {/* Warranty/Ticket Section */}
         <section className="mx-auto max-w-[85%] py-16">
