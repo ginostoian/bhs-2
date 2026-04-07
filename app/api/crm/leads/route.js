@@ -193,7 +193,7 @@ export async function POST(request) {
         assignedTo && assignedTo.trim() !== "" ? assignedTo : undefined, // Convert empty string to undefined
       linkedUser,
       referredBy: referredBy || null,
-      referralSource: referralSource || null,
+      referralSource: referralSource || undefined,
       tags: tags || [],
     };
 

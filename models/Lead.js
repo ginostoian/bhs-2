@@ -134,7 +134,10 @@ const leadSchema = mongoose.Schema(
     referralSource: {
       type: String,
       enum: ["dashboard_form", "share_link", "admin_manual", "other"],
-      default: null,
+      default: undefined,
+      set(value) {
+        return value || undefined;
+      },
     },
 
     // Assignment and Ownership

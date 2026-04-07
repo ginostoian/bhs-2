@@ -91,9 +91,12 @@ export async function PUT(request, { params }) {
     ];
 
     trackedFields.forEach((field) => {
-      if (body[field] !== undefined && body[field] !== lead[field]) {
+      const nextValue =
+        field === "referralSource" ? body[field] || undefined : body[field];
+
+      if (nextValue !== undefined && nextValue !== lead[field]) {
         oldValues[field] = lead[field];
-        lead[field] = body[field];
+        lead[field] = nextValue;
         changes.push(field);
       }
     });
