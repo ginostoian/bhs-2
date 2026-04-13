@@ -98,7 +98,7 @@ const Stats = () => {
             Your Renovation Advantage
           </p>
           <p className="leading-normal">
-            Discover the Better Homes Studio advantage: unwavering commitment to
+            Discover the Better Homes advantage: unwavering commitment to
             quality, iron-clad guarantees, and award-winning customer service.
             Your dream renovation starts here.
           </p>

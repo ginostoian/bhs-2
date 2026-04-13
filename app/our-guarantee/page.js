@@ -7,7 +7,7 @@ import FAQ from "@/components/FAQ";
 const Page = () => {
   const faqs = [
     {
-      question: "Who is Better Homes Studio?",
+      question: "Who is Better Homes?",
       answer: (
         <div className="space-y-2 leading-relaxed">
           We are a full-service renovation company. We manage everything from
@@ -17,7 +17,7 @@ const Page = () => {
       ),
     },
     {
-      question: "Where does Better Homes Studio operate and serve clients?",
+      question: "Where does Better Homes operate and serve clients?",
       answer: (
         <div className="space-y-2 leading-relaxed">
           At this time, we offer our renovation services in London, specifically
@@ -28,7 +28,7 @@ const Page = () => {
       ),
     },
     {
-      question: "Is Better Homes Studio insured?",
+      question: "Is Better Homes insured?",
       answer: (
         <div className="space-y-2 leading-relaxed">
           Yes, we have comprehensive insurance that covers all our projects.
@@ -53,7 +53,7 @@ const Page = () => {
         <div className="space-y-2 leading-relaxed">
           The average bathroom renovation in London ranges between £7K and £12K.
           For kitchen renovations, the average costs can be between £9K and
-          £15K. At Better Homes Studio, we are confident in our value and
+          £15K. At Better Homes, we are confident in our value and
           industry-average pricing.
         </div>
       ),
@@ -73,7 +73,7 @@ const Page = () => {
       ),
     },
     {
-      question: "How does payment work with Better Homes Studio?",
+      question: "How does payment work with Better Homes?",
       answer: (
         <div className="space-y-2 leading-relaxed">
           We will ask you to pay a deposit upon agreeing to work together. The

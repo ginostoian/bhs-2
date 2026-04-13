@@ -17,13 +17,13 @@ import {
 
 export const metadata = getSEOTags({
   title:
-    "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes Studio",
+    "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes",
   description:
     "Full home renovation and refurbishment in London with one team managing structural work, rewiring, plumbing, kitchens, bathrooms, finishes and handover.",
   canonicalUrlRelative: "/general-renovation",
   openGraph: {
     title:
-      "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes Studio",
+      "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes",
     description:
       "Whole-home renovation in London with one accountable team managing the full scope from structural work and M&E through kitchens, bathrooms and finishes.",
     url: `https://${config.domainName}/general-renovation`,
@@ -181,7 +181,7 @@ const supportingTestimonials = [
   {
     name: "Perrine LeGoanvic",
     quote:
-      "I came across Better Homes Studio through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
+      "I came across Better Homes through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/1829290/better-homes-studio-review",
     outcome: "Trusted for a first-home renovation",

@@ -30,7 +30,7 @@ const styles = {
 export const metadata = {
   title: "Bathroom Renovation London: Design Trends & Ideas for 2026",
   description:
-    "Explore the latest bathroom renovation trends for London homeowners in 2026. From spa-inspired design and sustainable materials to smart technology and expert cost guidance. By BH Studio.",
+    "Explore the latest bathroom renovation trends for London homeowners in 2026. From spa-inspired design and sustainable materials to smart technology and expert cost guidance. By Better Homes.",
   keywords:
     "bathroom renovation, bathroom refurbishment, bathroom design, bathroom renovation London, luxury bathroom design, spa bathroom ideas, eco-friendly bathroom, smart bathroom technology",
 };
@@ -101,7 +101,7 @@ export default function BathroomRenovationArticle() {
         A bathroom renovation is one of the most transformative investments a London homeowner can make. Whether you own a Victorian terrace in Islington, a Georgian townhouse in Chelsea, or a modern apartment in Canary Wharf, the bathroom has evolved far beyond a purely functional room. In 2026, it is a personal sanctuary — a space where considered design, sustainable materials, and intelligent technology converge to elevate your daily routine and add measurable value to your property.
       </p>
       <p className={styles.p}>
-        This guide brings together the most significant bathroom design trends, refurbishment strategies, and practical insights shaping London homes right now. We have drawn on industry research, real-world renovation data, and the latest thinking from leading designers to give you a complete picture — whether you are planning a full bathroom refurbishment or a thoughtful refresh. At <a href="https://bhstudio.co.uk">BH Studio</a>, we believe an informed client makes the best decisions, and that is exactly what this guide is designed to help you do.
+        This guide brings together the most significant bathroom design trends, refurbishment strategies, and practical insights shaping London homes right now. We have drawn on industry research, real-world renovation data, and the latest thinking from leading designers to give you a complete picture — whether you are planning a full bathroom refurbishment or a thoughtful refresh. At <a href="https://bhstudio.co.uk">Better Homes</a>, we believe an informed client makes the best decisions, and that is exactly what this guide is designed to help you do.
       </p>
 
       {/* ── Section 1 ── */}
@@ -349,7 +349,7 @@ export default function BathroomRenovationArticle() {
         Look for contractors who provide a detailed, itemised quotation rather than a single lump sum. Transparency around costs, timelines, and scope of work protects both parties and prevents surprises mid-project. Check for trade accreditations, insurance, and a portfolio of completed London projects — ideally in properties similar to your own. Client testimonials and reviews offer valuable insight into the actual experience of working with a team, not just the finished result.
       </p>
       <p className={styles.p}>
-        At <a href="https://bhstudio.co.uk">BH Studio</a>, we approach every bathroom renovation as a collaboration. We listen to how you live, understand the character and constraints of your property, and bring design expertise that balances contemporary trends with timeless principles. Our work spans the full range of London properties — from compact ensuites in modern apartments to expansive primary bathrooms in period homes — and we are equally comfortable delivering a refined mid-range refurbishment or a bespoke luxury transformation. If you are considering a bathroom renovation in London, we would welcome the opportunity to discuss your project.
+        At <a href="https://bhstudio.co.uk">Better Homes</a>, we approach every bathroom renovation as a collaboration. We listen to how you live, understand the character and constraints of your property, and bring design expertise that balances contemporary trends with timeless principles. Our work spans the full range of London properties — from compact ensuites in modern apartments to expansive primary bathrooms in period homes — and we are equally comfortable delivering a refined mid-range refurbishment or a bespoke luxury transformation. If you are considering a bathroom renovation in London, we would welcome the opportunity to discuss your project.
       </p>
 
       {/* ── Quick Takeaways ── */}
@@ -387,7 +387,7 @@ export default function BathroomRenovationArticle() {
         Whether you are planning a complete bathroom refurbishment or a targeted refresh, the principles remain the same. Start with a clear understanding of your space, your budget, and how you actually use the room. Invest in quality materials and professional installation — the difference between a bathroom that looks good on day one and one that still performs beautifully in ten years almost always comes down to workmanship. And do not underestimate the power of considered design to transform a functional room into a space you genuinely look forward to spending time in.
       </p>
       <p className={styles.p}>
-        At <a href="https://bhstudio.co.uk">BH Studio</a>, we help London homeowners navigate every stage of the bathroom renovation journey — from initial inspiration and design development through to flawless installation. If you are ready to transform your bathroom into a space that reflects the way you live, we would love to hear from you. <a href="https://bhstudio.co.uk/contact">Get in touch with our team</a> to start a conversation about your project.
+        At <a href="https://bhstudio.co.uk">Better Homes</a>, we help London homeowners navigate every stage of the bathroom renovation journey — from initial inspiration and design development through to flawless installation. If you are ready to transform your bathroom into a space that reflects the way you live, we would love to hear from you. <a href="https://bhstudio.co.uk/contact">Get in touch with our team</a> to start a conversation about your project.
       </p>
 
       {/* ── FAQs ── */}

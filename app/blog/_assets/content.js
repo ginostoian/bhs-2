@@ -181,7 +181,7 @@ export const authors = [
     job: "Founder",
     // The description of the author to display in the author&apos;s bio. Up to 160 characters.
     description:
-      "Gino is a developer and an entrepreneur. He is the co founder of Better Homes Studio and is commited to change the way people renovate by creating the thing that the industry lacks most - trust.",
+      "Gino is a developer and an entrepreneur. He is the co founder of Better Homes and is commited to change the way people renovate by creating the thing that the industry lacks most - trust.",
     // The avatar of the author to display in the author&apos;s bio and avatar badge. It&apos;s better to use a local image, but you can also use an external image (https://...)
     avatar: ginoImg,
     // A list of social links to display in the author&apos;s bio.
@@ -805,7 +805,7 @@ export const articles = [
             </p>
             <p className={styles.p}>
               If you want an expert partner to translate your brief into a
-              compliant, beautiful design, Better Homes Studio can audit your
+              compliant, beautiful design, Better Homes can audit your
               address, optimise the layout within PD, prepare drawings, and
               manage any LDC or prior approval &dash; so you can get building
               with confidence.
@@ -1411,7 +1411,7 @@ export const articles = [
             </p>
             <p className={styles.p}>
               If you want an expert partner to translate your brief into a
-              compliant, beautiful design, Better Homes Studio can audit your
+              compliant, beautiful design, Better Homes can audit your
               address, optimise the layout within PD, prepare drawings, and
               manage any LDC or prior approval &dash; so you can get building
               with confidence.
@@ -3816,7 +3816,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            At <strong>Better Home Studio</strong>, we work closely with
+            At <strong>Better Homes</strong>, we work closely with
             London&apos;s top kitchen brands and independent installers to turn
             your renovation dreams into reality.{" "}
             <Link href="/contact">Get in touch</Link> for a consultation and
@@ -5407,7 +5407,7 @@ export const articles = [
           <h3 className={styles.h3}>Let Us Handle It All for You</h3>
 
           <p className={styles.p}>
-            At <strong>Better Home Studio</strong>, we offer a fully managed
+            At <strong>Better Homes</strong>, we offer a fully managed
             renovation service designed to make your kitchen transformation
             smooth, efficient, and stress-free. From initial design to final
             handover, we coordinate every element—including planning, materials,
@@ -5587,7 +5587,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            At <strong>Better Home Studio</strong>, we believe that kitchen
+            At <strong>Better Homes</strong>, we believe that kitchen
             renovations should be exciting, not overwhelming. That&apos;s why we
             offer an all-in-one, fully managed service—taking care of design,
             sourcing, project management, and installation so you can enjoy the
@@ -5673,7 +5673,7 @@ export const articles = [
           <p className={styles.p}>
             We hope this guide has helped you feel more informed and empowered
             as you plan your kitchen renovation. At{" "}
-            <strong>Better Home Studio</strong>, we&apos;re passionate about
+            <strong>Better Homes</strong>, we&apos;re passionate about
             turning London kitchens into beautiful, functional spaces—tailored
             to your lifestyle and budget.
           </p>
@@ -5843,7 +5843,7 @@ export const articles = [
       <>
         <Image
           src={bathroomCost2025Img}
-          alt="Bathroom renovation in london by Better Homes Studio"
+          alt="Bathroom renovation in london by Better Homes"
           width={700}
           height={500}
           priority={true}
@@ -6378,7 +6378,7 @@ export const articles = [
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "best-of-houzz-2023",
     // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
-    title: "Better Homes Studio wins Best of Houzz 2023",
+    title: "Better Homes wins Best of Houzz 2023",
     // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
       "We are excited to be one of the few winners of the prestigious industry award - Best of Houzz Service 2023. Customer satisfaction is our core principle!",
@@ -6413,12 +6413,12 @@ export const articles = [
         />
         <section>
           <h2 className={styles.h2}>
-            Better Homes Studio has won Best of Houzz Service Award - 2023
+            Better Homes has won Best of Houzz Service Award - 2023
           </h2>
           <p className={styles.p}>
             We are thrilled to share the best and most flattering news:{" "}
             <Link href="https://bhstudio.co.uk" target="_blank">
-              Better Homes Studio
+              Better Homes
             </Link>{" "}
             is a Best of Houzz Service 2023 Winner!!
           </p>

@@ -1,8 +1,8 @@
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
-  title: "Sign In | Better Homes Studio",
-  description: "Secure account access for Better Homes Studio clients and team members.",
+  title: "Sign In | Better Homes",
+  description: "Secure account access for Better Homes clients and team members.",
   canonicalUrlRelative: "/auth/signin",
   extraTags: {
     robots: {

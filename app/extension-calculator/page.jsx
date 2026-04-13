@@ -435,7 +435,7 @@ export default function ExtensionCalculator() {
                 answer: (
                   <div className="space-y-2 leading-relaxed">
                     <p>
-                      Better Homes Studio primarily serves London, so London is
+                      Better Homes primarily serves London, so London is
                       the main pricing focus of this tool (including a zone
                       option).
                     </p>

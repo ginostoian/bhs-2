@@ -21,12 +21,12 @@ import Stats from "@/components/Stats";
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
-  title: "Renovation Case Studies London | Better Homes Studio Portfolio",
+  title: "Renovation Case Studies London | Better Homes Portfolio",
   description:
     "Explore completed London renovation, kitchen, bathroom, extension and loft conversion projects with real outcomes, scope and client feedback.",
   canonicalUrlRelative: "/portfolio",
   openGraph: {
-    title: "Renovation Case Studies London | Better Homes Studio Portfolio",
+    title: "Renovation Case Studies London | Better Homes Portfolio",
     description:
       "See real project outcomes from London renovations, extensions, kitchens, bathrooms and loft conversions.",
     url: `https://${config.domainName}/portfolio`,

@@ -40,9 +40,9 @@ export default function HomeRenovationCostLondon2026() {
           budget for most London homeowners at £132,000 to £198,000. London
           carries a 25 to 40 percent premium over national averages due to
           higher labour rates, restricted site access, parking and scaffold
-          permits, and stricter borough planning requirements. According to BH
-          Studio, who manage full design-and-build renovations across North and
-          East London, homeowners should budget a 10 to 15 percent contingency
+          permits, and stricter borough planning requirements. According to
+          Better Homes, who manage full design-and-build renovations across
+          North and East London, homeowners should budget a 10 to 15 percent contingency
           on top of any quoted price to cover hidden costs such as party wall
           agreements, asbestos removal, and unforeseen structural issues common
           in Victorian and Edwardian properties.
@@ -131,7 +131,7 @@ export default function HomeRenovationCostLondon2026() {
         </div>
         <div className={styles.tocColumn}>
           <Link className={styles.tocLink} href="#real-project-costs">
-            Real BH Studio Project Costs
+            Real Better Homes Project Costs
           </Link>
           <Link className={styles.tocLink} href="#renovate-or-move">
             Renovate or Move? The London Calculation
@@ -175,7 +175,7 @@ export default function HomeRenovationCostLondon2026() {
         logistical headaches that simply do not exist in other parts of the UK.
       </p>
       <p className={styles.p}>
-        This guide draws on BH Studio's experience managing full
+        This guide draws on Better Homes' experience managing full
         design-and-build renovations across Central, East, and North London -
         combined with current 2026 market data from RICS, Checkatrade, and
         BuildPartner - to give you the most accurate, London-specific cost
@@ -419,7 +419,7 @@ export default function HomeRenovationCostLondon2026() {
         underpinning (£10,000 to £50,000 in extreme cases), asbestos in artex
         ceilings, pipe lagging, or roof tiles (survey and removal £500 to
         £5,000+), outdated lead plumbing and aluminium wiring, and chimney
-        breast removal or stabilisation work. Our rule of thumb at BH Studio is
+        breast removal or stabilisation work. Our rule of thumb at Better Homes is
         to add 15 to 20 percent to any initial budget estimate for a Victorian
         property compared to an equivalent modern home. These older properties
         always have surprises behind the walls - and budgeting for them upfront
@@ -506,7 +506,7 @@ export default function HomeRenovationCostLondon2026() {
         the build cost.
       </p>
       <p className={styles.p}>
-        This is precisely why at BH Studio we operate a full design-and-build
+        This is precisely why at Better Homes we operate a full design-and-build
         model. By bundling architectural design, structural engineering,
         planning, and construction under a single fixed-price contract, we
         eliminate the gaps between separate professionals and give our clients
@@ -588,7 +588,7 @@ export default function HomeRenovationCostLondon2026() {
         In Central London boroughs like Kensington, Chelsea, and Westminster,
         renovation costs per square metre routinely sit at £2,500 to £3,500 or
         more for mid-range to high-end work. In inner boroughs like Hackney and
-        Islington, where BH Studio completes a significant volume of our
+        Islington, where Better Homes completes a significant volume of our
         projects, mid-range renovation costs typically fall between £1,400 and
         £2,200 per square metre. Property values are high enough (average
         Hackney property: approximately £550,000; average Islington property:
@@ -611,12 +611,13 @@ export default function HomeRenovationCostLondon2026() {
 
       {/* SECTION: Real Project Costs */}
       <h2 className={styles.h2} id="real-project-costs">
-        Real BH Studio Project Costs: 3 London Case Studies
+        Real Better Homes Project Costs: 3 London Case Studies
       </h2>
       <p className={styles.p}>
         Most renovation cost guides rely on industry averages. We believe the
-        most useful data comes from real projects. Here are three anonymised BH
-        Studio renovation projects completed across our core service areas, with
+        most useful data comes from real projects. Here are three anonymised
+        Better Homes renovation projects completed across our core service
+        areas, with
         actual cost breakdowns.
       </p>
 
@@ -833,7 +834,7 @@ export default function HomeRenovationCostLondon2026() {
       <p className={styles.p}>
         When evaluating London renovation contractors, look for a minimum of £2
         million public liability insurance (£10 million for larger projects), a
-        written workmanship guarantee of at least 5 years (BH Studio offers 10
+        written workmanship guarantee of at least 5 years (Better Homes offers 10
         years), membership of a recognised trade body such as the Federation of
         Master Builders (FMB) or TrustMark, a fixed-price contract with a
         clearly defined scope of works and payment schedule, verifiable
@@ -848,7 +849,7 @@ export default function HomeRenovationCostLondon2026() {
         and then separately tender the work to builders - which means managing
         two relationships, dealing with potential gaps in responsibility, and
         bearing the risk of design-versus-buildability conflicts. A
-        design-and-build firm like BH Studio takes responsibility for the entire
+        design-and-build firm like Better Homes takes responsibility for the entire
         project from initial concept through to final handover under a single
         contract and a single point of accountability. This typically results in
         faster delivery, fewer surprises, and better cost control - because the
@@ -954,7 +955,7 @@ export default function HomeRenovationCostLondon2026() {
         renovation project.
       </p>
       <p className={styles.p}>
-        At BH Studio, we specialise in full design-and-build home renovations
+        At Better Homes, we specialise in full design-and-build home renovations
         across Central, East, and North London. Our model means you work with a
         single team from initial design concept through to key handover - with a
         fixed-price contract, a 10-year workmanship guarantee, and £10 million
@@ -1144,7 +1145,7 @@ export default function HomeRenovationCostLondon2026() {
         <em>
           Last updated: March 2026. All costs include VAT at 20% unless
           otherwise stated. Figures are based on 2026 London market data from
-          industry sources and BH Studio project records.
+          industry sources and Better Homes project records.
         </em>
       </p>
     </article>

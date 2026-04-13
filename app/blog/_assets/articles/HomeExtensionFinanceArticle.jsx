@@ -92,7 +92,7 @@ const FinanceGuide = () => {
         <p className={styles.p}>
           <strong>A design-and-build firm simplifies finance</strong> — working
           with a single company that handles design, planning and construction
-          (like BH Studio) means one fixed-price contract, clearer budgets for
+          (like Better Homes) means one fixed-price contract, clearer budgets for
           lenders, and fewer payment stage complications.
         </p>
       </div>
@@ -1182,7 +1182,7 @@ const FinanceGuide = () => {
       </p>
 
       <p className={styles.p}>
-        At BH Studio, we work with London homeowners every day to design,
+        At Better Homes, we work with London homeowners every day to design,
         plan and build extensions, loft conversions and full renovations
         across Hackney, Islington, Walthamstow, Muswell Hill and North and
         East London. Our design-and-build model means you get a single
@@ -1198,7 +1198,7 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         <strong>
           Get a free, no-obligation consultation and detailed project estimate
-          from BH Studio.
+          from Better Homes.
         </strong>{" "}
         We'll assess your property, discuss your vision, and provide the
         realistic cost breakdown you need to make confident financing

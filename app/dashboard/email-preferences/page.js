@@ -98,8 +98,7 @@ export default function EmailPreferencesPage() {
               Email Preferences
             </h2>
             <p className="mt-2 text-lg text-gray-600">
-              Control which types of emails you receive from Better Homes
-              Studio.
+              Control which types of emails you receive from Better Homes.
             </p>
           </div>
           <div className="flex items-center space-x-4">

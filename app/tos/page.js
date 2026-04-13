@@ -26,9 +26,9 @@ import config from "@/config";
 // Please write a simple Terms & Services for my site. Add the current date. Do not add or explain your reasoning. Answer:
 
 export const metadata = getSEOTags({
-  title: "Terms and Conditions - Better Homes Studio",
+  title: "Terms and Conditions - Better Homes",
   description:
-    "Terms and conditions for Better Homes Studio renovation services. Read our terms of service, payment terms, and service agreements.",
+    "Terms and conditions for Better Homes renovation services. Read our terms of service, payment terms, and service agreements.",
   canonicalUrlRelative: "/tos",
 });
 
@@ -48,7 +48,7 @@ export default function TermsAndConditions() {
             <h2 className="mb-4 text-2xl font-semibold">1. Introduction</h2>
             <p>
               These Terms and Conditions (&quot;Terms&quot;) govern your use of
-              Better Homes Studio&apos;s services and website. By accessing our
+              Better Homes&apos;s services and website. By accessing our
               services or using our website, you agree to be bound by these
               Terms. If you disagree with any part of these terms, you may not
               access our services.
@@ -58,7 +58,7 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="mb-4 text-2xl font-semibold">2. Services</h2>
             <p>
-              Better Homes Studio provides renovation and construction services
+              Better Homes provides renovation and construction services
               including but not limited to:
             </p>
             <ul className="mt-4 list-disc pl-6">
@@ -74,7 +74,7 @@ export default function TermsAndConditions() {
           <section>
             <h2 className="mb-4 text-2xl font-semibold">3. Promotions</h2>
             <p>
-              Better Homes Studio may offer promotional discounts and special
+              Better Homes may offer promotional discounts and special
               offers from time to time. The following terms apply to our current
               promotional offers:
             </p>
@@ -138,7 +138,7 @@ export default function TermsAndConditions() {
                   withdrawn at any time without notice
                 </li>
                 <li>
-                  Better Homes Studio reserves the right to modify or cancel
+                  Better Homes reserves the right to modify or cancel
                   promotional offers at its discretion
                 </li>
                 <li>
@@ -154,7 +154,7 @@ export default function TermsAndConditions() {
               4. Quotations and Estimates
             </h2>
             <p>
-              All quotations and estimates provided by Better Homes Studio are
+              All quotations and estimates provided by Better Homes are
               valid for 30 days from the date of issue. Prices may be subject to
               change due to material cost fluctuations, design modifications, or
               unforeseen circumstances discovered during the project.
@@ -196,7 +196,7 @@ export default function TermsAndConditions() {
               7. Quality and Standards
             </h2>
             <p>
-              Better Homes Studio is committed to delivering high-quality
+              Better Homes is committed to delivering high-quality
               workmanship that meets or exceeds industry standards. All work
               will be completed in accordance with relevant building regulations
               and safety standards.
@@ -264,7 +264,7 @@ export default function TermsAndConditions() {
               11. Insurance and Liability
             </h2>
             <p>
-              Better Homes Studio maintains appropriate insurance coverage
+              Better Homes maintains appropriate insurance coverage
               including public liability insurance. However, we recommend that
               clients maintain their own home insurance and consider additional
               coverage for renovation projects.
@@ -328,7 +328,7 @@ export default function TermsAndConditions() {
             </p>
             <div className="mt-4 rounded-lg bg-gray-50 p-4">
               <p>
-                <strong>Better Homes Studio</strong>
+                <strong>Better Homes</strong>
               </p>
               <p>
                 Email:{" "}

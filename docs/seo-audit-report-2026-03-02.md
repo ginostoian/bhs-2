@@ -1,4 +1,4 @@
-# Better Homes Studio SEO Audit
+# Better Homes SEO Audit
 Date: March 2, 2026
 Scope: Codebase audit (`/Users/gino_s/Documents/bhs-2`) + lightweight live SERP visibility check
 

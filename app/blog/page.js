@@ -94,7 +94,7 @@ export default function Blog() {
     url: `https://${config.domainName}/blog`,
     publisher: {
       "@type": "Organization",
-      name: "Better Homes Studio",
+      name: "Better Homes",
       url: `https://${config.domainName}`,
     },
     blogPost: sortedArticles.slice(0, 10).map((article) => ({

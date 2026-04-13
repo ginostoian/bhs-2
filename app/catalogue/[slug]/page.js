@@ -23,12 +23,12 @@ export async function generateMetadata({ params }) {
 
   if (!product) {
     return {
-      title: "Product Not Found | Better Homes Studio",
+      title: "Product Not Found | Better Homes",
     };
   }
 
   return {
-    title: `${product.name} | Better Homes Studio Catalogue`,
+    title: `${product.name} | Better Homes Catalogue`,
     description:
       product.description ||
       `Browse details, finishes, and pricing for ${product.name}.`,

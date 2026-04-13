@@ -47,16 +47,11 @@ const Footer = () => {
             <Image
               className={classes["footer__logo"]}
               src="/assets/logo/bh-logo.svg"
-              alt="better homes studio logo"
+              alt="better homes logo"
               width={100}
               height={100}
             />
-            <h3 className={classes["footer__logo-text"]}>
-              Better Homes{" "}
-              <span className={classes["main-nav__logo-text-accent"]}>
-                Studio
-              </span>
-            </h3>
+            <h3 className={classes["footer__logo-text"]}>Better Homes</h3>
           </div>
 
           <p className={classes["footer__body-desc"]}>
@@ -291,13 +286,21 @@ const Footer = () => {
         </div>
 
         <div className={classes["footer__body-copyright"]}>
-          <div>
-            Copyright &copy; {new Date().getFullYear()} - The Home Development
-            Group Limited
+          <div className={classes["footer__company-block"]}>
+            <div className={classes["footer__company-line"]}>
+              Copyright &copy; {new Date().getFullYear()} - The Wisehome Group
+              Limited
+            </div>
+            <div className={classes["footer__company-line"]}>
+              Trading as Better Homes
+            </div>
+            <div className={classes["footer__company-meta"]}>
+              <span>Company No. 14659197</span>
+              <span>VAT No. 441566202</span>
+            </div>
           </div>
-          <div>Trading as Better Homes Studio</div>
-          <div className="dot-divider"></div>
-          <div>
+
+          <div className={classes["footer__attribution"]}>
             <a
               href="https://ginostoian.com"
               title="Go to Gino's website"

@@ -737,7 +737,7 @@ export default function LoftConversionsLondonGuide() {
         Whether you're creating a master suite, a home office, a children's playroom, or simply future-proofing your home for the next stage of family life, the space above your head is waiting to be transformed. Start with a feasibility check, consult a specialist architect, and take the first step towards unlocking your home's full potential.
       </p>
       <p className={styles.p}>
-        If you're considering a loft conversion in London and want expert guidance on design, planning, and execution, <Link href="https://bhstudio.co.uk/contact">get in touch with BH Studio</Link> for a no-obligation consultation. We'll help you understand what's possible, what it'll cost, and how to make it happen.
+        If you're considering a loft conversion in London and want expert guidance on design, planning, and execution, <Link href="https://bhstudio.co.uk/contact">get in touch with Better Homes</Link> for a no-obligation consultation. We'll help you understand what's possible, what it'll cost, and how to make it happen.
       </p>
 
       {/* FAQs */}

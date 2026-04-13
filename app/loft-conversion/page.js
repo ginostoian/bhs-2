@@ -16,13 +16,13 @@ import {
 
 export const metadata = getSEOTags({
   title:
-    "Loft Conversions London | Design, Planning & Build | Better Homes Studio",
+    "Loft Conversions London | Design, Planning & Build | Better Homes",
   description:
     "Loft conversions in London from feasibility and planning through build and handover. Dormer, hip-to-gable, mansard and rooflight loft projects with clear cost guidance and weekly updates.",
   canonicalUrlRelative: "/loft-conversion",
   openGraph: {
     title:
-      "Loft Conversions London | Design, Planning & Build | Better Homes Studio",
+      "Loft Conversions London | Design, Planning & Build | Better Homes",
     description:
       "Create valuable extra living space with a London loft conversion planned properly from first feasibility through final finish.",
     url: `https://${config.domainName}/loft-conversion`,
@@ -131,7 +131,7 @@ const projectSpotlight = {
   summary:
     "What makes this review strong is that it answers the questions most homeowners ask before they commit: whether the company can be trusted, whether the promised timeline is real, and whether the extra space is delivered without drama.",
   proof:
-    "After comparing loft conversion companies in North East London, we chose Better Homes Studio. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
+    "After comparing loft conversion companies in North East London, we chose Better Homes. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
   name: "George G",
   sourceLabel: "Houzz Review",
   sourceUrl: "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",
@@ -146,7 +146,7 @@ const supportingTestimonials = [
   {
     name: "Perrine LeGoanvic",
     quote:
-      "I came across Better Homes Studio through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
+      "I came across Better Homes through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/1829290/better-homes-studio-review",
   },

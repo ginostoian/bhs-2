@@ -27,7 +27,7 @@ import config from "@/config";
 // Please write a simple privacy policy for my site. Add the current date.  Do not add or explain your reasoning. Answer:
 
 export const metadata = getSEOTags({
-  title: `Privacy Policy | ${config.appName} Studio`,
+  title: `Privacy Policy | ${config.appName}`,
   canonicalUrlRelative: "/privacy-policy",
 });
 
@@ -49,11 +49,11 @@ const PrivacyPolicy = () => {
           </div>
           <div className="fle justify-center px-10 py-16 bg-base-100">
             <h1 className="text-3xl text-center font-bold mb-6">
-              Better Homes Studio Privacy Policy
+              Better Homes Privacy Policy
             </h1>
             <h2 className="text-xl font-bold mb-2">Introduction</h2>
             <p className="mb-4">
-              Better Homes Studio ("BHS", "we", "us") values your privacy. This
+              Better Homes ("BHS", "we", "us") values your privacy. This
               policy details how we collect, use, and protect the personal data
               you provide on our website (https://bhstudio.co.uk).
             </p>

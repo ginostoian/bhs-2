@@ -66,7 +66,7 @@ const list = [
   {
     name: "Melina",
     text: `I couldn’t be happier with my kitchen and bathroom renovation.
-The better homes studio managed to bring my vision to life, I still can’t believe it is the same house...`,
+The better homes managed to bring my vision to life, I still can’t believe it is the same house...`,
     type: refTypes.productHunt,
     link: "https://www.houzz.co.uk/viewReview/2008037/better-homes-studio-review",
   },
@@ -85,7 +85,7 @@ The better homes studio managed to bring my vision to life, I still can’t beli
   {
     username: "perrine_l",
     name: "Perrine LeGoanvic",
-    text: "I came across Better Homes Studio through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
+    text: "I came across Better Homes through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
     type: refTypes.productHunt,
     link: "https://www.houzz.co.uk/viewReview/1829290/better-homes-studio-review",
   },
@@ -97,7 +97,7 @@ The better homes studio managed to bring my vision to life, I still can’t beli
   },
   {
     name: "Phil",
-    text: "My house, which is more than a century old, was magnificently restored by Better Homes Studio. They did an exceptional job,",
+    text: "My house, which is more than a century old, was magnificently restored by Better Homes. They did an exceptional job,",
     type: refTypes.productHunt,
     link: "https://www.houzz.co.uk/viewReview/2006566/better-homes-studio-review",
   },
@@ -117,7 +117,7 @@ The better homes studio managed to bring my vision to life, I still can’t beli
   // The last testimonial is featured on big devices (span 2 columns + big font) 👇
   {
     name: "George G",
-    text: `After checking out loads of loft conversion companies in North East London, we finally decided to go with Better Homes Studio for our hip to gable loft conversion.
+    text: `After checking out loads of loft conversion companies in North East London, we finally decided to go with Better Homes for our hip to gable loft conversion.
 Just a couple of months after our first chat with Gino, we've got an amazing loft conversion, all done and dusted in just 9 weeks, just like they promised from the get-go.
 `,
     type: refTypes.productHunt,

@@ -6,7 +6,7 @@ import config from "@/config";
  */
 
 // Base template wrapper
-const baseTemplate = (content, title = "Better Homes Studio") => `
+const baseTemplate = (content, title = "Better Homes") => `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,14 +121,14 @@ const baseTemplate = (content, title = "Better Homes Studio") => `
 <body>
     <div class="container">
         <div class="header">
-            <h1>Better Homes Studio</h1>
+            <h1>Better Homes</h1>
             <p>Your trusted partner in home renovation</p>
         </div>
         <div class="content">
             ${content}
         </div>
         <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} Better Homes Studio. All rights reserved.</p>
+            <p>&copy; ${new Date().getFullYear()} Better Homes. All rights reserved.</p>
             <p>${config.domainName} | ${config.resend.supportEmail || "info@betterhomesstudio.com"}</p>
         </div>
     </div>
@@ -142,11 +142,11 @@ const baseTemplate = (content, title = "Better Homes Studio") => `
  */
 export const welcomeEmailTemplate = (userName, userEmail) => {
   const content = `
-    <h2>Welcome to Better Homes Studio! 🏠</h2>
+    <h2>Welcome to Better Homes! 🏠</h2>
     
     <p>Hello ${userName || "there"},</p>
     
-    <p>Welcome to Better Homes Studio! Your account has been successfully created and you're now part of our community of homeowners transforming their spaces.</p>
+    <p>Welcome to Better Homes! Your account has been successfully created and you're now part of our community of homeowners transforming their spaces.</p>
     
     <div class="alert alert-success">
         <strong>Your Account Details:</strong><br>
@@ -169,13 +169,13 @@ export const welcomeEmailTemplate = (userName, userEmail) => {
     <p>If you have any questions or need assistance, don't hesitate to reach out to our support team.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
-    subject: "Welcome to Better Homes Studio!",
-    html: baseTemplate(content, "Welcome to Better Homes Studio"),
-    text: `Welcome to Better Homes Studio! Your account has been created successfully. Access your dashboard at https://${config.domainName}/dashboard`,
+    subject: "Welcome to Better Homes!",
+    html: baseTemplate(content, "Welcome to Better Homes"),
+    text: `Welcome to Better Homes! Your account has been created successfully. Access your dashboard at https://${config.domainName}/dashboard`,
   };
 };
 
@@ -238,7 +238,7 @@ export const documentAddedEmailTemplate = (
     <p>You can view all your project documents, track payments, and stay updated on your renovation progress through your dashboard.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -304,7 +304,7 @@ export const paymentDueEmailTemplate = (
     <p>If you have any questions about this payment or need to discuss payment arrangements, please don't hesitate to contact us.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -354,7 +354,7 @@ export const projectStatusUpdateEmailTemplate = (
     <p>You can track your project progress, view documents, and manage payments through your dashboard.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -378,7 +378,7 @@ export const adminNewUserNotificationTemplate = (
     
     <p>Hello Admin,</p>
     
-    <p>A new user has been created in the Better Homes Studio system.</p>
+    <p>A new user has been created in the Better Homes system.</p>
     
     <div class="alert alert-success">
         <strong>New User Details:</strong><br>
@@ -395,7 +395,7 @@ export const adminNewUserNotificationTemplate = (
     <p>You can manage this user's account, add documents, and track their project progress through the admin panel.</p>
     
     <p>Best regards,<br>
-    Better Homes Studio System</p>
+    Better Homes System</p>
   `;
 
   return {
@@ -442,14 +442,14 @@ export const announcementEmailTemplate = (
         <a href="https://${config.domainName}/dashboard" class="button">Visit Dashboard</a>
     </div>
     
-    <p>Thank you for choosing Better Homes Studio.</p>
+    <p>Thank you for choosing Better Homes.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
-    subject: `Better Homes Studio - ${title}`,
+    subject: `Better Homes - ${title}`,
     html: baseTemplate(content, title),
     text: `${title}: ${message}. Visit https://${config.domainName}/dashboard for more information.`,
   };
@@ -498,7 +498,7 @@ export const moodboardCreatedEmailTemplate = (
     <p>If you have any questions about the products or need assistance, please don't hesitate to contact us.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -558,7 +558,7 @@ export const productApprovalEmailTemplate = (
     <p>You can review this decision and take any necessary actions through the admin panel.</p>
     
     <p>Best regards,<br>
-    Better Homes Studio System</p>
+    Better Homes System</p>
   `;
 
   return {
@@ -628,7 +628,7 @@ export const moodboardStatusUpdateEmailTemplate = (
     <p>If you have any questions about this status change or need assistance, please don't hesitate to contact us.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -814,7 +814,7 @@ export const userInactivityEmailTemplate = (
     <p>Consider reaching out to this user to re-engage them with their project.</p>
     
     <p>Best regards,<br>
-    Better Homes Studio System</p>
+    Better Homes System</p>
   `;
 
   return {
@@ -867,7 +867,7 @@ export const projectChangeNotificationEmailTemplate = (
     <a href="mailto:${config.resend.supportEmail}">${config.resend.supportEmail}</a></p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -921,7 +921,7 @@ export const projectChangeStatusEmailTemplate = (
     <a href="mailto:${config.resend.supportEmail}">${config.resend.supportEmail}</a></p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {
@@ -978,7 +978,7 @@ export const projectChangeUserResponseEmailTemplate = (
     <p>You can view the full project details and manage other changes from the admin panel.</p>
     
     <p>Best regards,<br>
-    The Better Homes Studio Team</p>
+    The Better Homes Team</p>
   `;
 
   return {

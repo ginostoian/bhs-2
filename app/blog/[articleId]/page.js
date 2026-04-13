@@ -63,7 +63,7 @@ const buildArticleSchema = (article) => {
         },
         publisher: {
           "@type": "Organization",
-          name: "Better Homes Studio",
+          name: "Better Homes",
           url: siteUrl,
         },
       },

@@ -800,7 +800,7 @@ export default function PropertyBuyingChecklistLondon2026() {
         from managing separate architect and builder relationships.
       </p>
       <p className={styles.p}>
-        At BH Studio, we work with homeowners across East and North London who
+        At Better Homes, we work with homeowners across East and North London who
         have bought properties specifically for their renovation potential. Our
         design-and-build model means we can assess a property's potential
         during the viewing stage, provide realistic cost estimates before you
@@ -920,7 +920,7 @@ export default function PropertyBuyingChecklistLondon2026() {
       </p>
       <p className={styles.p}>
         If you're buying a property with renovation potential - or if you've
-        already purchased and you're ready to transform it - BH Studio is a
+        already purchased and you're ready to transform it - Better Homes is a
         full design-and-build firm specialising in loft conversions, house
         extensions, and complete home renovations across East and North London.
         We handle everything from architectural design and planning permission

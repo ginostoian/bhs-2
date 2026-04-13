@@ -53,7 +53,7 @@ const socialProofTestimonials = [
   {
     name: "George G",
     quote:
-      "After comparing loft conversion companies in North East London, we chose Better Homes Studio. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
+      "After comparing loft conversion companies in North East London, we chose Better Homes. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",
   },
@@ -314,7 +314,7 @@ export function generateMetadata({ params }) {
 
   if (!location) {
     return getSEOTags({
-      title: "Location Not Found | Better Homes Studio",
+      title: "Location Not Found | Better Homes",
       canonicalUrlRelative: "/locations",
       extraTags: {
         robots: {
@@ -325,7 +325,7 @@ export function generateMetadata({ params }) {
     });
   }
 
-  const pageTitle = `House Extensions, Loft Conversions & Renovations in ${location.name} | Better Homes Studio`;
+  const pageTitle = `House Extensions, Loft Conversions & Renovations in ${location.name} | Better Homes`;
   const pageDescription = `Professional house extensions, loft conversions, and full home renovations in ${location.name}. Trusted by London homeowners for premium delivery, transparent project management, and high-quality finishes.`;
   const pageUrl = `${siteUrl}/locations/${location.slug}`;
 
@@ -375,7 +375,7 @@ export default function LocationPage({ params }) {
             {location.name}
           </h1>
           <p className={classes.subtitle}>
-            Better Homes Studio supports homeowners in {location.name} with
+            Better Homes supports homeowners in {location.name} with
             high-quality design and build delivery. We focus on one thing:
             creating beautiful, practical homes through well-managed projects
             that protect both your time and your investment.

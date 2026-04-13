@@ -26,13 +26,13 @@ async function testResend() {
     console.log("📧 Sending test email...");
 
     const data = {
-      from: "Better Homes Studio <info@mail.bhstudio.co.uk>", // Try a different sender address
+      from: "Better Homes <info@mail.bhstudio.co.uk>", // Try a different sender address
       to: ["contact@celli.co.uk"], // Replace with your email for testing
-      subject: "Resend Test - Better Homes Studio",
-      text: "Resend Test Successful! This is a test email from your Better Homes Studio email system.",
+      subject: "Resend Test - Better Homes",
+      text: "Resend Test Successful! This is a test email from your Better Homes email system.",
       html: `
         <h2>🎉 Resend Test Successful!</h2>
-        <p>This is a test email from your Better Homes Studio email system.</p>
+        <p>This is a test email from your Better Homes email system.</p>
         <p><strong>Timestamp:</strong> ${new Date().toLocaleString()}</p>
         <p>If you received this email, your Resend configuration is working correctly!</p>
       `,

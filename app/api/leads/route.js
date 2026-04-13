@@ -50,7 +50,7 @@ function deriveBudgetBand(value) {
 }
 
 function buildEmailContent({ estimate, formData }) {
-  const subject = "Your extension budget estimate (PDF) | Better Homes Studio";
+  const subject = "Your extension budget estimate (PDF) | Better Homes";
   const extensionName =
     {
       singleStorey: "Single-storey extension",
@@ -77,7 +77,7 @@ function buildEmailContent({ estimate, formData }) {
     ``,
     `This estimate is for budgeting and planning. Final costs depend on site survey, drawings, structural details and specification.`,
     ``,
-    `Better Homes Studio`,
+    `Better Homes`,
     `www.betterhomesstudio.com`,
   ].join("\n");
 

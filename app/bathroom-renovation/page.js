@@ -17,13 +17,13 @@ import {
 
 export const metadata = getSEOTags({
   title:
-    "Bathroom Renovation London | Design, Supply & Install | Better Homes Studio",
+    "Bathroom Renovation London | Design, Supply & Install | Better Homes",
   description:
     "Bathroom renovation in London with one team managing design, supply, waterproofing, installation and finishing. Clear cost guidance, realistic timelines and bathroom-specific project proof.",
   canonicalUrlRelative: "/bathroom-renovation",
   openGraph: {
     title:
-      "Bathroom Renovation London | Design, Supply & Install | Better Homes Studio",
+      "Bathroom Renovation London | Design, Supply & Install | Better Homes",
     description:
       "Design, supply and installation for high-quality bathroom renovations across London with real project proof and practical cost guidance.",
     url: `https://${config.domainName}/bathroom-renovation`,
@@ -137,7 +137,7 @@ const featuredProject = {
   price: "Typical investment: £20,000 to £35,000+",
   timeline: "Typical programme: 3 to 4 weeks",
   quote:
-    "I couldn’t be happier with my kitchen and bathroom renovation. The better homes studio managed to bring my vision to life, I still can’t believe it is the same house.",
+    "I couldn’t be happier with my kitchen and bathroom renovation. The better homes managed to bring my vision to life, I still can’t believe it is the same house.",
   author: "Melina",
   href: "/portfolio/melina-e7",
   bullets: [
@@ -182,7 +182,7 @@ const bathroomTestimonials = [
   {
     name: "Melina",
     quote:
-      "I couldn’t be happier with my kitchen and bathroom renovation. The better homes studio managed to bring my vision to life, I still can’t believe it is the same house.",
+      "I couldn’t be happier with my kitchen and bathroom renovation. The better homes managed to bring my vision to life, I still can’t believe it is the same house.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/2008037/better-homes-studio-review",
     outcome: "Vision translated into a finished room",

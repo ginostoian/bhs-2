@@ -163,7 +163,7 @@ const PAGE_FAQS = {
   ],
   about: [
     {
-      question: "What makes Better Homes Studio different?",
+      question: "What makes Better Homes different?",
       answer:
         "We combine design and build accountability with clear communication, practical planning, and premium finish discipline.",
     },
@@ -273,7 +273,7 @@ const PAGE_FAQS = {
   ],
   faq: [
     {
-      question: "Who is Better Homes Studio?",
+      question: "Who is Better Homes?",
       answer:
         "We are a London design and build renovation company delivering extensions, loft conversions, kitchens, bathrooms, and full-home refurbishments.",
     },
@@ -308,7 +308,7 @@ const PAGE_FAQS = {
         "Yes. Our model is built around single-team accountability from design coordination through site delivery and handover.",
     },
     {
-      question: "Can I use Better Homes Studio for build-only delivery?",
+      question: "Can I use Better Homes for build-only delivery?",
       answer:
         "Yes. Where suitable documentation exists, we can support build-phase delivery with controlled execution standards.",
     },

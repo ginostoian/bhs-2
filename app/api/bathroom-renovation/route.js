@@ -273,14 +273,14 @@ function generateConfirmationEmail(submission) {
     <body>
       <div class="container">
         <div class="header">
-          <h1>Better Homes Studio</h1>
+          <h1>Better Homes</h1>
           <p>Bathroom Renovation Enquiry</p>
         </div>
         
         <div class="content">
           <h2>Hello ${submission.name},</h2>
           
-          <p>Thank you for your bathroom renovation enquiry with Better Homes Studio. We&apos;ve received your details and our team will be in touch within 24 hours to discuss your project.</p>
+          <p>Thank you for your bathroom renovation enquiry with Better Homes. We&apos;ve received your details and our team will be in touch within 24 hours to discuss your project.</p>
           
           <div class="highlight">
             <strong>Your enquiry details:</strong><br>
@@ -308,11 +308,11 @@ function generateConfirmationEmail(submission) {
           <p>If you have any supporting photos, documentation, or additional information, please send them to <strong>contact@celli.co.uk</strong> with the subject line containing your postcode: <strong>${submission.address.split(" ").pop()}</strong></p>
           
           <p>Best regards,<br>
-          The Better Homes Studio Team</p>
+          The Better Homes Team</p>
         </div>
         
         <div class="footer">
-          <p>Better Homes Studio<br>
+          <p>Better Homes<br>
           London, UK<br>
           <a href="https://bhstudio.co.uk">bhstudio.co.uk</a></p>
         </div>
@@ -326,7 +326,7 @@ Bathroom Renovation Enquiry Confirmation
 
 Hello ${submission.name},
 
-Thank you for your bathroom renovation enquiry with Better Homes Studio. We've received your details and our team will be in touch within 24 hours to discuss your project.
+Thank you for your bathroom renovation enquiry with Better Homes. We've received your details and our team will be in touch within 24 hours to discuss your project.
 
 Your enquiry details:
 Address: ${submission.address}
@@ -350,9 +350,9 @@ We typically respond within 24 hours during business days. If you have an urgent
 If you have any supporting photos, documentation, or additional information, please send them to contact@celli.co.uk with the subject line containing your postcode: ${submission.address.split(" ").pop()}
 
 Best regards,
-The Better Homes Studio Team
+The Better Homes Team
 
-Better Homes Studio
+Better Homes
 London, UK
 https://bhstudio.co.uk
   `;

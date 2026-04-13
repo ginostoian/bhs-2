@@ -50,7 +50,7 @@ function deriveBudgetBand(value) {
 }
 
 function buildEmailContent({ estimate, formData }) {
-  const subject = "Your home renovation budget estimate (PDF) | Better Homes Studio";
+  const subject = "Your home renovation budget estimate (PDF) | Better Homes";
   const text = [
     "Thanks for using our home renovation calculator.",
     "",
@@ -71,7 +71,7 @@ function buildEmailContent({ estimate, formData }) {
     "",
     "This estimate is for budgeting and planning. Final costs depend on survey findings, room schedule, services and structural details.",
     "",
-    "Better Homes Studio",
+    "Better Homes",
     "www.betterhomesstudio.com",
   ].join("\n");
 

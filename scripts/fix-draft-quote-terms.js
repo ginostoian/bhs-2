@@ -25,7 +25,7 @@ const QuoteSchema = new mongoose.Schema(
 const Quote = mongoose.models.Quote || mongoose.model("Quote", QuoteSchema);
 
 const PROPER_TERMS =
-  "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
+  "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
 const PROPER_WARRANTY =
   "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.";
 const PROPER_LEAD_TIME =

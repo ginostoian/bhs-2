@@ -12,35 +12,35 @@ const SocialProof = () => {
       <div className="logo-wrapper">
         <Image
           src="/assets/img/social/google-reviews.png"
-          alt="better homes studio on google"
+          alt="better homes on google"
           className="logo-wrapper__brand brand-google"
           width={100}
           height={100}
         />
         <Image
           src="/assets/img/social/houzz-award.png"
-          alt="better homes studio on houzz"
+          alt="better homes on houzz"
           className="logo-wrapper__brand"
           width={100}
           height={100}
         />
         <Image
           src="/assets/img/social/houzz-award-2023.png"
-          alt="better homes studio on houzz"
+          alt="better homes on houzz"
           className="logo-wrapper__brand"
           width={100}
           height={100}
         />
         <Image
           src="/assets/img/social/mybuilder-reviews.png"
-          alt="better homes studio on mybuilder"
+          alt="better homes on mybuilder"
           className="logo-wrapper__brand"
           width={100}
           height={100}
         />
         <Image
           src="/assets/img/social/houzz-reviews.png"
-          alt="better homes studio on houzz"
+          alt="better homes on houzz"
           className="logo-wrapper__brand"
           width={100}
           height={100}

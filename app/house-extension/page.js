@@ -17,13 +17,13 @@ import {
 
 export const metadata = getSEOTags({
   title:
-    "House Extensions London | Rear, Side Return & Double Storey | Better Homes Studio",
+    "House Extensions London | Rear, Side Return & Double Storey | Better Homes",
   description:
     "House extensions in London with clear cost guidance, planning support and disciplined build delivery. Rear, side return, wraparound and double-storey extension projects.",
   canonicalUrlRelative: "/house-extension",
   openGraph: {
     title:
-      "House Extensions London | Rear, Side Return & Double Storey | Better Homes Studio",
+      "House Extensions London | Rear, Side Return & Double Storey | Better Homes",
     description:
       "Create more space, more light and more long-term value with a London extension planned properly from first feasibility through handover.",
     url: `https://${config.domainName}/house-extension`,

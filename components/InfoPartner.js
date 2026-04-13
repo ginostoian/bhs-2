@@ -10,9 +10,9 @@ const InfoPartner = () => {
           src="/assets/logo/bh-logo.svg"
           width={100}
           height={100}
-          alt="Better Homes Studio Logo"
+          alt="Better Homes Logo"
         />{" "}
-        <p className="text-xl text-black">Better Homes Studio</p>
+        <p className="text-xl text-black">Better Homes</p>
       </div>
       <div className="mb-3 lg:max-w-[60%]">
         <p className="mb-[12px] text-xs tracking-widest">

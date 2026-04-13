@@ -4,7 +4,7 @@ const testimonials = [
   {
     name: "George G",
     quote:
-      "After checking out loads of loft conversion companies in North East London, we finally decided to go with Better Homes Studio. We got an amazing hip-to-gable loft conversion, all done and dusted in just 9 weeks, just like they promised from the get-go.",
+      "After checking out loads of loft conversion companies in North East London, we finally decided to go with Better Homes. We got an amazing hip-to-gable loft conversion, all done and dusted in just 9 weeks, just like they promised from the get-go.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",
     outcome: "Hip-to-gable loft in 9 weeks",
@@ -21,7 +21,7 @@ const testimonials = [
   {
     name: "Perrine LeGoanvic",
     quote:
-      "I came across Better Homes Studio through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
+      "I came across Better Homes through Houzz as I needed to fully renovate my first flat and I could honestly not recommend them enough.",
     sourceLabel: "Houzz Review",
     sourceUrl: "https://www.houzz.co.uk/viewReview/1829290/better-homes-studio-review",
     outcome: "Trusted for a first-home renovation",

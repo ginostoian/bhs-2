@@ -8,12 +8,12 @@ import classes from "./page.module.css";
 const siteUrl = `https://${config.domainName}`;
 
 export const metadata = getSEOTags({
-  title: "London Areas We Serve | Better Homes Studio",
+  title: "London Areas We Serve | Better Homes",
   description:
-    "Explore all London locations served by Better Homes Studio for house extensions, loft conversions, and full home renovations.",
+    "Explore all London locations served by Better Homes for house extensions, loft conversions, and full home renovations.",
   canonicalUrlRelative: "/locations",
   openGraph: {
-    title: "London Areas We Serve | Better Homes Studio",
+    title: "London Areas We Serve | Better Homes",
     description:
       "Dedicated service pages for London homeowners planning house extensions, loft conversions, and premium renovations.",
     url: `${siteUrl}/locations`,
@@ -31,7 +31,7 @@ export default function LocationsPage() {
   const itemListSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "London Locations Served by Better Homes Studio",
+    name: "London Locations Served by Better Homes",
     itemListElement: LONDON_LOCATIONS.map((location, index) => ({
       "@type": "ListItem",
       position: index + 1,

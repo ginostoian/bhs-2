@@ -17,13 +17,13 @@ import {
 
 export const metadata = getSEOTags({
   title:
-    "Kitchen Renovation London | Design, Supply & Install | Better Homes Studio",
+    "Kitchen Renovation London | Design, Supply & Install | Better Homes",
   description:
     "Kitchen renovation in London with one team managing design, supply, installation and finishing. Clear cost guidance, realistic timelines and kitchen-specific project proof.",
   canonicalUrlRelative: "/kitchen-renovation",
   openGraph: {
     title:
-      "Kitchen Renovation London | Design, Supply & Install | Better Homes Studio",
+      "Kitchen Renovation London | Design, Supply & Install | Better Homes",
     description:
       "Design-led kitchen renovations across London with clear scope, realistic budgets and one accountable team from first plan through final fit-off.",
     url: `https://${config.domainName}/kitchen-renovation`,

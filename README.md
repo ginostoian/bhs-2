@@ -1,6 +1,6 @@
-# Better Homes Studio - Authentication System
+# Better Homes - Authentication System
 
-A complete authentication and user management system for the Better Homes Studio website.
+A complete authentication and user management system for the Better Homes website.
 
 ## Features
 

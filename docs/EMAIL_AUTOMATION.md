@@ -43,7 +43,7 @@ All emails include:
 
 - Personalized greeting with lead name
 - Project-specific content
-- Professional branding with Better Homes Studio
+- Professional branding with Better Homes
 - Contact information and website link
 - BCC to contact@celli.co.uk
 - Signature: "Kind Regards, Gino @ Better Homes"

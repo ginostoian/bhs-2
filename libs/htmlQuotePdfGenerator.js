@@ -499,7 +499,7 @@ export const generateVectorPDF = async (quoteData, filename) => {
         <Page size="A4" style={styles.page}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.logoText}>Better Homes Studio</Text>
+            <Text style={styles.logoText}>Better Homes</Text>
             <View style={styles.quoteInfo}>
               <Text style={styles.quoteTitle}>QUOTE</Text>
               <Text style={styles.quoteDetails}>
@@ -719,7 +719,7 @@ export const generateVectorPDF = async (quoteData, filename) => {
           {/* Footer */}
           <View style={styles.footer}>
             <Text style={[styles.footerText, { fontWeight: "bold" }]}>
-              Better Homes Studio
+              Better Homes
             </Text>
             <Text style={styles.footerText}>
               Building Excellence, Delivering Dreams
@@ -941,7 +941,7 @@ const createPrintTemplate = (quoteData) => {
     <body>
       <div class="container">
         <div class="header">
-          <div class="logo">Better Homes Studio</div>
+          <div class="logo">Better Homes</div>
           <div class="quote-info">
             <h1>QUOTE</h1>
             <p><strong>Quote #:</strong> ${quoteData.quoteNumber || quoteData.id}</p>
@@ -1040,7 +1040,7 @@ const createPrintTemplate = (quoteData) => {
         }
         
         <div class="footer">
-          <p><strong>Better Homes Studio</strong></p>
+          <p><strong>Better Homes</strong></p>
           <p>Building Excellence, Delivering Dreams</p>
           <p>www.betterhomesstudio.co.uk</p>
         </div>

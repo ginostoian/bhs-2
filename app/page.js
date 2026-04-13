@@ -16,13 +16,13 @@ import { SITE_URL } from "@/libs/structuredData";
 
 export const metadata = getSEOTags({
   title:
-    "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes Studio",
+    "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
   description:
     "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions with transparent pricing and weekly updates.",
   canonicalUrlRelative: "/",
   openGraph: {
     title:
-      "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes Studio",
+      "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
     description:
       "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions.",
     url: `https://${config.domainName}/`,
@@ -53,7 +53,7 @@ export default function Page() {
       price: "From £50,000",
       href: "/house-extension",
       image: "/assets/img/extension/single-storey-extension.webp",
-      imageAlt: "House extension project by Better Homes Studio",
+      imageAlt: "House extension project by Better Homes",
     },
     {
       title: "Loft Conversions",
@@ -63,7 +63,7 @@ export default function Page() {
       price: "From £50,000",
       href: "/loft-conversion",
       image: "/assets/img/extension/loft-conversion.png",
-      imageAlt: "Loft conversion service by Better Homes Studio",
+      imageAlt: "Loft conversion service by Better Homes",
     },
     {
       title: "Full Home Renovations",
@@ -73,7 +73,7 @@ export default function Page() {
       price: "From £35,000",
       href: "/general-renovation",
       image: "/assets/img/general/london-grey-living-room.webp",
-      imageAlt: "Full home renovation by Better Homes Studio",
+      imageAlt: "Full home renovation by Better Homes",
     },
     {
       title: "Kitchen Renovations",
@@ -83,7 +83,7 @@ export default function Page() {
       price: "From £15,000",
       href: "/kitchen-renovation",
       image: "/assets/img/kitchen/modern-kitchen.webp",
-      imageAlt: "Kitchen renovation by Better Homes Studio",
+      imageAlt: "Kitchen renovation by Better Homes",
     },
     {
       title: "Bathroom Renovations",
@@ -93,7 +93,7 @@ export default function Page() {
       price: "From £10,000",
       href: "/bathroom-renovation",
       image: "/assets/img/bathroom/modern-bathroom-v2.webp",
-      imageAlt: "Bathroom renovation by Better Homes Studio",
+      imageAlt: "Bathroom renovation by Better Homes",
     },
   ];
   const homepageTimeline = [

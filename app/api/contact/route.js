@@ -298,7 +298,7 @@ export const POST = rateLimitMiddleware(handleContactSubmission);
  * Generate confirmation email for customer
  */
 function generateConfirmationEmail(contact) {
-  const subject = "Thank you for contacting Better Homes Studio";
+  const subject = "Thank you for contacting Better Homes";
 
   const html = `
     <!DOCTYPE html>
@@ -319,14 +319,14 @@ function generateConfirmationEmail(contact) {
     <body>
       <div class="container">
         <div class="header">
-          <h1>Better Homes Studio</h1>
+          <h1>Better Homes</h1>
           <p>Thank you for reaching out!</p>
         </div>
         
         <div class="content">
           <h2>Hello ${contact.firstName},</h2>
           
-          <p>Thank you for contacting Better Homes Studio. We&apos;ve received your message and will get back to you as soon as possible.</p>
+          <p>Thank you for contacting Better Homes. We&apos;ve received your message and will get back to you as soon as possible.</p>
           
           <div class="highlight">
             <strong>Your message details:</strong><br>
@@ -339,11 +339,11 @@ function generateConfirmationEmail(contact) {
           <p>In the meantime, you might find answers to common questions on our <a href="https://bhstudio.co.uk/faq">FAQ page</a>.</p>
           
           <p>Best regards,<br>
-          The Better Homes Studio Team</p>
+          The Better Homes Team</p>
         </div>
         
         <div class="footer">
-          <p>Better Homes Studio<br>
+          <p>Better Homes<br>
           London, UK<br>
           <a href="https://bhstudio.co.uk">bhstudio.co.uk</a></p>
         </div>
@@ -353,11 +353,11 @@ function generateConfirmationEmail(contact) {
   `;
 
   const text = `
-Thank you for contacting Better Homes Studio
+Thank you for contacting Better Homes
 
 Hello ${contact.firstName},
 
-Thank you for contacting Better Homes Studio. We've received your message and will get back to you as soon as possible.
+Thank you for contacting Better Homes. We've received your message and will get back to you as soon as possible.
 
 Your message details:
 Topic: ${contact.topic}${contact.customTopic ? ` - ${contact.customTopic}` : ""}
@@ -368,9 +368,9 @@ We typically respond within 24 hours during business days. If you have an urgent
 In the meantime, you might find answers to common questions on our FAQ page: https://bhstudio.co.uk/faq
 
 Best regards,
-The Better Homes Studio Team
+The Better Homes Team
 
-Better Homes Studio
+Better Homes
 London, UK
 https://bhstudio.co.uk
   `;

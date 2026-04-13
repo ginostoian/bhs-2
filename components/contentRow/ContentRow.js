@@ -30,7 +30,7 @@ const ContentRow = ({
         <Image
           src={imgSrc}
           loading="lazy"
-          alt="industrial bathroom renovation by better homes studio"
+          alt="industrial bathroom renovation by better homes"
           width={800}
           height={350}
           className="h-[350px]"

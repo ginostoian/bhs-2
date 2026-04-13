@@ -23,12 +23,12 @@ import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
-  title: "Renovation Cost Calculators | Better Homes Studio",
+  title: "Renovation Cost Calculators | Better Homes",
   description:
     "Use our free London-focused renovation calculators for kitchens, bathrooms, home refurbishments, extensions and BTU heating estimates.",
   canonicalUrlRelative: "/tools",
   openGraph: {
-    title: "Renovation Cost Calculators | Better Homes Studio",
+    title: "Renovation Cost Calculators | Better Homes",
     description:
       "Free calculators to estimate London renovation, extension, kitchen, bathroom and heating project costs.",
     url: `https://${config.domainName}/tools`,
@@ -289,7 +289,7 @@ export default function ToolsPage() {
           content={{
             darkBgTextTitle: "Ready to start your renovation project?",
             darkBgTextSubtitle:
-              "Get accurate estimates, professional planning, and exceptional execution with Better Homes Studio. Our calculators are just the beginning of your renovation journey.",
+              "Get accurate estimates, professional planning, and exceptional execution with Better Homes. Our calculators are just the beginning of your renovation journey.",
             darkBgTextBtn: "Get your free consultation",
           }}
         />

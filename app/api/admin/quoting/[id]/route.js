@@ -78,7 +78,7 @@ export async function PUT(request, { params }) {
         currentQuote.termsAndConditions?.startsWith("Draft -")
       ) {
         body.termsAndConditions =
-          "Standard BH Studio terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
+          "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
       }
 
       // Replace draft warrantyInformation if it's still the placeholder

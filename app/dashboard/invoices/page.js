@@ -107,8 +107,8 @@ export default async function InvoicesPage() {
             No invoices yet
           </h3>
           <p className="text-gray-600">
-            Your invoices will appear here once they are sent to you by BH
-            Studio.
+            Your invoices will appear here once they are sent to you by Better
+            Homes.
           </p>
         </div>
       ) : (

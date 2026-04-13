@@ -86,7 +86,7 @@ export default function PlanningPermissionLoftConversionLondon() {
           covering structural integrity, fire safety, insulation, and staircase design.
         </p>
         <p className={styles.p}>
-          <strong>6. A design-and-build firm handles the entire process</strong> - BH Studio
+          <strong>6. A design-and-build firm handles the entire process</strong> - Better Homes
           manages planning applications, building regulations, structural engineering, and party
           wall agreements as part of our full-service loft conversion package across East, North,
           and Central London.
@@ -176,7 +176,7 @@ export default function PlanningPermissionLoftConversionLondon() {
             <li className={styles.tocItem}>
               <Link href="#bhs-approach" className={styles.tocLink}>
                 <span className="font-semibold text-[#100b47]/75">13</span>
-                <span>How BH Studio Manages Planning for You</span>
+                <span>How Better Homes Manages Planning for You</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
@@ -213,7 +213,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        That is precisely why this guide exists. At BH Studio, we have managed loft conversions across Hackney, Islington, Walthamstow, Muswell Hill, Crouch End, and Finchley - boroughs where conservation areas, Victorian housing stock, and varying council attitudes create a uniquely complex planning landscape. We have written this guide to give London homeowners the most comprehensive, borough-specific planning resource available.
+        That is precisely why this guide exists. At Better Homes, we have managed loft conversions across Hackney, Islington, Walthamstow, Muswell Hill, Crouch End, and Finchley - boroughs where conservation areas, Victorian housing stock, and varying council attitudes create a uniquely complex planning landscape. We have written this guide to give London homeowners the most comprehensive, borough-specific planning resource available.
       </p>
 
       {/* INFOGRAPHIC 1 - Decision Flowchart */}
@@ -293,13 +293,13 @@ export default function PlanningPermissionLoftConversionLondon() {
       <h3 className={styles.h3}>Article 4 Directions</h3>
 
       <p className={styles.p}>
-        An Article 4 Direction is a special planning order that allows a local council to remove specific permitted development rights in a defined area. Many London boroughs have implemented Article 4 Directions in their conservation areas and other sensitive locations to give themselves greater control over changes to properties. If your home is subject to an Article 4 Direction that specifically removes Class B rights (roof alterations), you will need full planning permission even for a small rear dormer that would otherwise qualify as permitted development. Article 4 Directions are not always obvious - they are not marked on the property itself - so you need to check your council's planning portal or contact the planning department directly. BH Studio checks this for every property we survey as part of our standard process.
+        An Article 4 Direction is a special planning order that allows a local council to remove specific permitted development rights in a defined area. Many London boroughs have implemented Article 4 Directions in their conservation areas and other sensitive locations to give themselves greater control over changes to properties. If your home is subject to an Article 4 Direction that specifically removes Class B rights (roof alterations), you will need full planning permission even for a small rear dormer that would otherwise qualify as permitted development. Article 4 Directions are not always obvious - they are not marked on the property itself - so you need to check your council's planning portal or contact the planning department directly. Better Homes checks this for every property we survey as part of our standard process.
       </p>
 
       <h3 className={styles.h3}>Listed Buildings</h3>
 
       <p className={styles.p}>
-        If your property is a listed building (Grade I, Grade II*, or Grade II), you will need both full planning permission and listed building consent for any loft conversion work, regardless of its size or scope. Listed building consent is a separate application from planning permission and carries its own assessment criteria focused on preserving the building's historic and architectural significance. The application itself is free, but the professional fees for preparing a heritage impact assessment and detailed drawings can be substantial. London has approximately 19,000 listed buildings, and while the majority are in central London, there are significant numbers in the inner boroughs that BH Studio serves, including Islington, Hackney, and Camden.
+        If your property is a listed building (Grade I, Grade II*, or Grade II), you will need both full planning permission and listed building consent for any loft conversion work, regardless of its size or scope. Listed building consent is a separate application from planning permission and carries its own assessment criteria focused on preserving the building's historic and architectural significance. The application itself is free, but the professional fees for preparing a heritage impact assessment and detailed drawings can be substantial. London has approximately 19,000 listed buildings, and while the majority are in central London, there are significant numbers in the inner boroughs that Better Homes serves, including Islington, Hackney, and Camden.
       </p>
 
       <h3 className={styles.h3}>Flats and Maisonettes</h3>
@@ -374,7 +374,7 @@ export default function PlanningPermissionLoftConversionLondon() {
           className={styles.image}
         />
         <figcaption className={styles.figcaption}>
-          Borough-level planning risk and conservation context across BH Studio target locations.
+          Borough-level planning risk and conservation context across Better Homes target locations.
         </figcaption>
       </figure>
 
@@ -396,7 +396,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       <h3 className={styles.h3}>Islington (N1, N7, N5)</h3>
 
       <p className={styles.p}>
-        Islington is one of the most planning-restricted boroughs in London, with 27 conservation areas covering a significant proportion of its residential streets. The borough has extensive Article 4 Directions, and its planning officers apply strict design guidelines that require materials and proportions to match the existing property. For most Islington homeowners, a loft conversion will require full planning permission. Mansard conversions are frequently the only design that receives approval in Islington's conservation zones, particularly in areas like Barnsbury, Canonbury, and Highbury Fields. This is where BH Studio's full design-and-build model is particularly valuable - our in-house design team understands Islington Council's specific requirements and can prepare submissions that meet their expectations from the outset, avoiding costly redesigns.
+        Islington is one of the most planning-restricted boroughs in London, with 27 conservation areas covering a significant proportion of its residential streets. The borough has extensive Article 4 Directions, and its planning officers apply strict design guidelines that require materials and proportions to match the existing property. For most Islington homeowners, a loft conversion will require full planning permission. Mansard conversions are frequently the only design that receives approval in Islington's conservation zones, particularly in areas like Barnsbury, Canonbury, and Highbury Fields. This is where Better Homes' full design-and-build model is particularly valuable - our in-house design team understands Islington Council's specific requirements and can prepare submissions that meet their expectations from the outset, avoiding costly redesigns.
       </p>
 
       <h3 className={styles.h3}>Walthamstow (E17)</h3>
@@ -443,7 +443,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        <strong>Step 5: Get a professional assessment.</strong> If you are in any doubt, commission a professional permitted development assessment or contact your council's planning department for pre-application advice. At BH Studio, we assess the planning status of every property we survey at no cost - our free site survey includes a full check of conservation area status, Article 4 Directions, listed building status, and previous planning history.
+        <strong>Step 5: Get a professional assessment.</strong> If you are in any doubt, commission a professional permitted development assessment or contact your council's planning department for pre-application advice. At Better Homes, we assess the planning status of every property we survey at no cost - our free site survey includes a full check of conservation area status, Article 4 Directions, listed building status, and previous planning history.
       </p>
 
       <h3 className={styles.h3}>Getting a Lawful Development Certificate</h3>
@@ -528,7 +528,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        Do not confuse party wall agreements with planning permission - they are completely separate processes. You need a party wall agreement regardless of whether your loft conversion requires planning permission or not. At BH Studio, we manage the entire party wall process on behalf of our clients, including drafting and serving notices, coordinating with appointed surveyors, and ensuring all agreements are in place before construction begins.
+        Do not confuse party wall agreements with planning permission - they are completely separate processes. You need a party wall agreement regardless of whether your loft conversion requires planning permission or not. At Better Homes, we manage the entire party wall process on behalf of our clients, including drafting and serving notices, coordinating with appointed surveyors, and ensuring all agreements are in place before construction begins.
       </p>
 
       {/* SECTION 11 */}
@@ -582,11 +582,11 @@ export default function PlanningPermissionLoftConversionLondon() {
 
       {/* SECTION 13 */}
       <h2 className={styles.h2} id="bhs-approach">
-        How BH Studio Manages Planning for You
+        How Better Homes Manages Planning for You
       </h2>
 
       <p className={styles.p}>
-        One of the key advantages of working with a full design-and-build firm like BH Studio is that we handle every aspect of the planning and regulatory process as part of our service. Unlike architecture-only firms such as Resi or Extension Architecture, who provide designs but then hand you off to a separate builder, we manage the entire project from initial feasibility assessment through to key handover.
+        One of the key advantages of working with a full design-and-build firm like Better Homes is that we handle every aspect of the planning and regulatory process as part of our service. Unlike architecture-only firms such as Resi or Extension Architecture, who provide designs but then hand you off to a separate builder, we manage the entire project from initial feasibility assessment through to key handover.
       </p>
 
       <p className={styles.p}>
@@ -598,7 +598,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        Ready to find out whether your property qualifies for permitted development? <Link href="/contact">Get your free loft conversion site survey from BH Studio</Link> and we will assess your planning status, discuss your options, and provide a detailed quote - all at no obligation.
+        Ready to find out whether your property qualifies for permitted development? <Link href="/contact">Get your free loft conversion site survey from Better Homes</Link> and we will assess your planning status, discuss your options, and provide a detailed quote - all at no obligation.
       </p>
 
       {/* QUICK TAKEAWAYS */}
@@ -636,7 +636,7 @@ export default function PlanningPermissionLoftConversionLondon() {
 
       <h3 className={styles.h3}>How do I find out if my London property is in a conservation area?</h3>
       <p className={styles.p}>
-        Every London borough maintains an interactive conservation area map on its website. Search for "[your borough name] conservation area map" and enter your address. You can also check the London Planning Data Map at apps.london.gov.uk/planning, which shows conservation areas across all 33 boroughs on a single map. BH Studio checks every property's conservation status during our free site survey.
+        Every London borough maintains an interactive conservation area map on its website. Search for "[your borough name] conservation area map" and enter your address. You can also check the London Planning Data Map at apps.london.gov.uk/planning, which shows conservation areas across all 33 boroughs on a single map. Better Homes checks every property's conservation status during our free site survey.
       </p>
 
       <h3 className={styles.h3}>What is the difference between planning permission and building regulations?</h3>
@@ -668,7 +668,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       <h2 className={styles.h2}>Found This Guide Useful?</h2>
 
       <p className={styles.p}>
-        We wrote this guide because navigating London's planning system should not require a law degree. If it helped you understand your options, we would love to hear about it - share it with other London homeowners who are considering a loft conversion. And if you have a specific question about your property that this guide does not cover, <Link href="/contact">get in touch with BH Studio</Link> for a free, no-obligation site survey. We will check your planning status, discuss the best conversion type for your home, and give you an honest assessment of costs and timelines. What planning question are you most worried about? Let us know and we will add the answer to this guide.
+        We wrote this guide because navigating London's planning system should not require a law degree. If it helped you understand your options, we would love to hear about it - share it with other London homeowners who are considering a loft conversion. And if you have a specific question about your property that this guide does not cover, <Link href="/contact">get in touch with Better Homes</Link> for a free, no-obligation site survey. We will check your planning status, discuss the best conversion type for your home, and give you an honest assessment of costs and timelines. What planning question are you most worried about? Let us know and we will add the answer to this guide.
       </p>
 
       {/* REFERENCES */}
@@ -691,7 +691,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        <em>Last updated: March 2026. This guide is intended as general information for London homeowners and does not constitute legal or planning advice. For advice specific to your property, consult your local planning authority or a qualified planning professional. BH Studio offers free site surveys that include a full planning status assessment - <Link href="/contact">book yours here</Link>.</em>
+        <em>Last updated: March 2026. This guide is intended as general information for London homeowners and does not constitute legal or planning advice. For advice specific to your property, consult your local planning authority or a qualified planning professional. Better Homes offers free site surveys that include a full planning status assessment - <Link href="/contact">book yours here</Link>.</em>
       </p>
     </article>
   );

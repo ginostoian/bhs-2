@@ -96,7 +96,7 @@ export default function LoftConversionVsHouseExtension() {
         What most guides get wrong is treating this as a simple either/or comparison. The reality is more nuanced. Some properties are perfect for a loft conversion but completely unsuitable for a rear extension. Others have the garden space for a stunning kitchen extension but a roof that doesn't have the height for a liveable loft. And for a growing number of London homeowners, the best answer is to do both in a single, well-managed project.
       </p>
       <p className={styles.p}>
-        This guide draws on real project data from BH Studio's work across Central, East, and North London - not generic UK averages. We've included current 2026 costs, borough-specific planning considerations, and the kind of detailed ROI analysis that helps you make a genuinely informed decision. Whether you're comparing a dormer loft conversion with a rear extension, weighing up planning risks in Islington's conservation areas, or simply trying to work out which option gives you the best return per pound, you'll find the data here.
+        This guide draws on real project data from Better Homes' work across Central, East, and North London - not generic UK averages. We've included current 2026 costs, borough-specific planning considerations, and the kind of detailed ROI analysis that helps you make a genuinely informed decision. Whether you're comparing a dormer loft conversion with a rear extension, weighing up planning risks in Islington's conservation areas, or simply trying to work out which option gives you the best return per pound, you'll find the data here.
       </p>
       <p className={styles.p}>
         If you want the supporting detail behind specific parts of this decision,
@@ -227,7 +227,7 @@ export default function LoftConversionVsHouseExtension() {
           className={styles.image}
         />
         <figcaption className={styles.figcaption}>
-          Value uplift comparison based on BH Studio project data and London
+          Value uplift comparison based on Better Homes project data and London
           property values across East and North London.
         </figcaption>
       </figure>
@@ -520,7 +520,7 @@ export default function LoftConversionVsHouseExtension() {
       <div className={styles.engagementBox}>
         <h3 className={styles.h3}>Have a Question About Your Home?</h3>
         <p className={styles.p}>
-          Every London property is different, and the best choice between a loft conversion and extension depends on your specific home, budget, and goals. If you've found this guide helpful, we'd love to hear from you. What type of property do you have, and what's holding you back from making a decision? Drop us a message or share this guide with someone who's facing the same choice. And if you'd like personalised advice based on a free assessment of your home, get in touch with BH Studio - we'll help you understand exactly what's possible and what it will cost, with no obligation.
+          Every London property is different, and the best choice between a loft conversion and extension depends on your specific home, budget, and goals. If you've found this guide helpful, we'd love to hear from you. What type of property do you have, and what's holding you back from making a decision? Drop us a message or share this guide with someone who's facing the same choice. And if you'd like personalised advice based on a free assessment of your home, get in touch with Better Homes - we'll help you understand exactly what's possible and what it will cost, with no obligation.
         </p>
       </div>
 
@@ -538,7 +538,7 @@ export default function LoftConversionVsHouseExtension() {
         Whatever you choose, the single most important decision is who you work with. A design-and-build company with genuine London experience - one that understands your borough's planning quirks, your property type's structural opportunities, and the logistics of building in a dense urban environment - will deliver a fundamentally better outcome than trying to coordinate separate architects and builders yourself.
       </p>
       <p className={styles.p}>
-        BH Studio specialises in loft conversions, house extensions, and full home renovations across Central, East, and North London. We manage the entire process from initial design through planning and construction - with fixed-price contracts, a 10-year workmanship guarantee, and £10 million insurance. If you're ready to explore your options, book a free, no-obligation consultation and we'll assess your property's potential in person.
+        Better Homes specialises in loft conversions, house extensions, and full home renovations across Central, East, and North London. We manage the entire process from initial design through planning and construction - with fixed-price contracts, a 10-year workmanship guarantee, and £10 million insurance. If you're ready to explore your options, book a free, no-obligation consultation and we'll assess your property's potential in person.
       </p>
 
       {/* References */}

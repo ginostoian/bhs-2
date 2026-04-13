@@ -28,7 +28,7 @@ export const leadIntroEmailTemplate = (leadData) => {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Welcome to Better Homes Studio</title>
+      <title>Welcome to Better Homes</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
         .header { background: #f8f9fa; padding: 20px; text-align: center; border-radius: 8px; margin-bottom: 20px; }
@@ -40,14 +40,14 @@ export const leadIntroEmailTemplate = (leadData) => {
     </head>
     <body>
       <div class="header">
-        <h1 style="color: #007bff; margin: 0;">Better Homes Studio</h1>
+        <h1 style="color: #007bff; margin: 0;">Better Homes</h1>
         <p style="margin: 10px 0 0 0; color: #666;">Transforming Homes, Exceeding Expectations</p>
       </div>
       
       <div class="content">
         <p>Dear ${leadData.name},</p>
         
-        <p>Thank you for your interest in Better Homes Studio! We&apos;re excited to help you bring your vision to life.</p>
+        <p>Thank you for your interest in Better Homes! We&apos;re excited to help you bring your vision to life.</p>
         
         <div class="highlight">
           <strong>Project Details:</strong><br>
@@ -82,7 +82,7 @@ export const leadIntroEmailTemplate = (leadData) => {
       </div>
       
       <div class="footer">
-        <p><strong>Better Homes Studio</strong><br>
+        <p><strong>Better Homes</strong><br>
         <a href="https://bhstudio.co.uk" style="color: #007bff;">bhstudio.co.uk</a></p>
       </div>
     </body>
@@ -92,7 +92,7 @@ export const leadIntroEmailTemplate = (leadData) => {
   const text = `
 Dear ${leadData.name},
 
-Thank you for your interest in Better Homes Studio! We're excited to help you bring your vision to life.
+Thank you for your interest in Better Homes! We're excited to help you bring your vision to life.
 
 Project Details:
 • Project Type: ${projectTypesText}
@@ -118,7 +118,7 @@ To get started even faster, please reply to this email with a list of things you
 
 We look forward to working with you!
 
-Better Homes Studio
+Better Homes
 https://bhstudio.co.uk
 
 Kind regards,<br>
@@ -168,7 +168,7 @@ export const leadFollowupEmailTemplate = (leadData, followupNumber) => {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Follow-up from Better Homes Studio</title>
+      <title>Follow-up from Better Homes</title>
       <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; }
         .header { background: #f8f9fa; padding: 20px; text-align: center; border-radius: 8px; margin-bottom: 20px; }
@@ -180,7 +180,7 @@ export const leadFollowupEmailTemplate = (leadData, followupNumber) => {
     </head>
     <body>
       <div class="header">
-        <h1 style="color: #007bff; margin: 0;">Better Homes Studio</h1>
+        <h1 style="color: #007bff; margin: 0;">Better Homes</h1>
         <p style="margin: 10px 0 0 0; color: #666;">Transforming Homes, Exceeding Expectations</p>
       </div>
       
@@ -210,7 +210,7 @@ export const leadFollowupEmailTemplate = (leadData, followupNumber) => {
       </div>
       
       <div class="footer">
-        <p><strong>Better Homes Studio</strong><br>
+        <p><strong>Better Homes</strong><br>
         <a href="https://bhstudio.co.uk" style="color: #007bff;">bhstudio.co.uk</a></p>
         <p style="margin-top: 15px; font-size: 12px; color: #666;">
           Kind Regards,<br>
@@ -241,7 +241,7 @@ You can also visit our website to see examples of our work: https://bhstudio.co.
 
 Looking forward to hearing from you!
 
-Better Homes Studio
+Better Homes
 https://bhstudio.co.uk
 
 Kind Regards,
@@ -308,7 +308,7 @@ export const qualifiedAdminNotificationTemplate = (leadData, adminData) => {
       </div>
       
       <div class="footer">
-        <p><strong>Better Homes Studio CRM</strong><br>
+        <p><strong>Better Homes CRM</strong><br>
         Automated Notification</p>
       </div>
     </body>
@@ -335,7 +335,7 @@ This lead has moved to the "Qualified" stage and is expecting a response.
 
 You can access the full lead details in the CRM system.
 
-Better Homes Studio CRM
+Better Homes CRM
 Automated Notification
   `;
 
@@ -393,7 +393,7 @@ export const proposalFollowupEmailTemplate = (leadData, followupNumber) => {
     </head>
     <body>
       <div class="header">
-        <h1 style="color: #007bff; margin: 0;">Better Homes Studio</h1>
+        <h1 style="color: #007bff; margin: 0;">Better Homes</h1>
         <p style="margin: 10px 0 0 0; color: #666;">Transforming Homes, Exceeding Expectations</p>
       </div>
       
@@ -421,7 +421,7 @@ export const proposalFollowupEmailTemplate = (leadData, followupNumber) => {
       </div>
       
       <div class="footer">
-        <p><strong>Better Homes Studio</strong><br>
+        <p><strong>Better Homes</strong><br>
         <a href="https://bhstudio.co.uk" style="color: #007bff;">bhstudio.co.uk</a></p>
         <p style="margin-top: 15px; font-size: 12px; color: #666;">
           Kind Regards,<br>
@@ -450,7 +450,7 @@ Please don't hesitate to reply to this email or call us directly if you have any
 
 We're excited about the possibility of working with you on your ${projectTypesText}!
 
-Better Homes Studio
+Better Homes
 https://bhstudio.co.uk
 
 Kind Regards,
@@ -517,7 +517,7 @@ export const negotiationsAdminNotificationTemplate = (leadData, adminData) => {
       </div>
       
       <div class="footer">
-        <p><strong>Better Homes Studio CRM</strong><br>
+        <p><strong>Better Homes CRM</strong><br>
         Automated Notification</p>
       </div>
     </body>
@@ -544,7 +544,7 @@ This lead is in the "Negotiations" stage and may need additional attention to co
 
 You can access the full lead details in the CRM system.
 
-Better Homes Studio CRM
+Better Homes CRM
 Automated Notification
   `;
 

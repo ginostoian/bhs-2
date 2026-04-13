@@ -11,7 +11,7 @@ import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
-  title: "Enquiry Submitted | Better Homes Studio",
+  title: "Enquiry Submitted | Better Homes",
   description: "Your enquiry has been submitted successfully.",
   canonicalUrlRelative: "/contact-form-submitted",
   extraTags: {

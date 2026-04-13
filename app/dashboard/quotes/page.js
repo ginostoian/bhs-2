@@ -56,7 +56,7 @@ export default async function QuotesPage() {
                 Your Quotes
               </h1>
               <p className="text-lg text-gray-700">
-                View and manage your project quotes from BH Studio. Track
+                View and manage your project quotes from Better Homes. Track
                 progress, review details, and download your quotes.
               </p>
               <div className="mt-6">
@@ -92,8 +92,8 @@ export default async function QuotesPage() {
             No quotes yet
           </h3>
           <p className="text-gray-600">
-            Your project quotes will appear here once they are created by BH
-            Studio.
+            Your project quotes will appear here once they are created by Better
+            Homes.
           </p>
         </div>
       ) : (

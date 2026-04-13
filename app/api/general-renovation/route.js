@@ -300,11 +300,11 @@ function generateConfirmationEmail(submission) {
           <p>We look forward to helping you transform your space!</p>
           
           <p>Best regards,<br>
-          The Better Homes Studio Team</p>
+          The Better Homes Team</p>
         </div>
         
         <div class="footer">
-          <p>Better Homes Studio<br>
+          <p>Better Homes<br>
           Professional renovation and construction services</p>
         </div>
       </div>
@@ -333,9 +333,9 @@ If you have any questions in the meantime, please don't hesitate to contact us a
 We look forward to helping you transform your space!
 
 Best regards,
-The Better Homes Studio Team
+The Better Homes Team
 
-Better Homes Studio
+Better Homes
 Professional renovation and construction services
   `;
 

@@ -31,7 +31,7 @@ export default function HouseExtensionsLondonGuide() {
       {/* AI ANSWER CAPSULE */}
       <div className={styles.answerCapsule}>
         <p className={styles.p}>
-          A house extension in London costs between £2,500 and £4,500 per square metre in 2026, depending on type, specification, and borough. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in (including VAT, architect fees, and finishes), while a wraparound extension ranges from £90,000 to £140,000. Most rear extensions under 3 metres deep (terraced and semi-detached) or 4 metres deep (detached) qualify for permitted development and do not require planning permission. A well-designed extension adds 10 to 20 per cent to a London property's value - making it one of the most cost-effective alternatives to moving in the capital. BH Studio is a full design-and-build firm serving Central, East, and North London, managing every stage from initial sketches through to final handover under one roof.
+          A house extension in London costs between £2,500 and £4,500 per square metre in 2026, depending on type, specification, and borough. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in (including VAT, architect fees, and finishes), while a wraparound extension ranges from £90,000 to £140,000. Most rear extensions under 3 metres deep (terraced and semi-detached) or 4 metres deep (detached) qualify for permitted development and do not require planning permission. A well-designed extension adds 10 to 20 per cent to a London property's value - making it one of the most cost-effective alternatives to moving in the capital. Better Homes is a full design-and-build firm serving Central, East, and North London, managing every stage from initial sketches through to final handover under one roof.
         </p>
       </div>
 
@@ -53,7 +53,7 @@ export default function HouseExtensionsLondonGuide() {
         <strong>Return on investment</strong> is strong: open-plan kitchen extensions add 10 to 15 per cent to property value, while combined extension and loft conversion projects can add 20 to 30 per cent in high-demand London boroughs.
       </p>
       <p className={styles.p}>
-        <strong>Design-and-build firms</strong> like BH Studio offer a single point of responsibility from architectural design through construction - eliminating the coordination risk and cost overruns common when homeowners manage separate architects and builders.
+        <strong>Design-and-build firms</strong> like Better Homes offer a single point of responsibility from architectural design through construction - eliminating the coordination risk and cost overruns common when homeowners manage separate architects and builders.
       </p>
 
       {/* TABLE OF CONTENTS */}
@@ -341,7 +341,7 @@ export default function HouseExtensionsLondonGuide() {
         If no neighbours object within the consultation period, the extension can proceed. If objections are raised, the council assesses the impact on neighbouring properties and makes a determination. In practice, councils will often refuse if the extension significantly affects a neighbour's daylight or outlook, particularly in dense London streets where properties are closely spaced.
       </p>
       <p className={styles.p}>
-        This scheme is valuable for homeowners who want a deeper extension without the cost and uncertainty of a full planning application, but it requires careful neighbour management. BH Studio recommends discussing your plans with neighbours before the formal notice is served - early communication reduces the risk of objections.
+        This scheme is valuable for homeowners who want a deeper extension without the cost and uncertainty of a full planning application, but it requires careful neighbour management. Better Homes recommends discussing your plans with neighbours before the formal notice is served - early communication reduces the risk of objections.
       </p>
 
       <h3 className={styles.h3} id="full-planning">
@@ -357,7 +357,7 @@ export default function HouseExtensionsLondonGuide() {
         Article 4 Directions remove specific permitted development rights in defined areas. Thirty-two London boroughs have areas where Article 4 Directions apply. If your property is subject to one, you must apply for planning permission for works that would otherwise be permitted development. Your local council's planning portal will confirm whether an Article 4 Direction affects your property.
       </p>
       <p className={styles.p}>
-        Regardless of whether planning permission is required, BH Studio recommends applying for a Lawful Development Certificate (LDC) for any extension built under permitted development. An LDC provides formal legal confirmation that the works are lawful - an essential document when selling the property. Solicitors routinely flag missing LDCs during conveyancing, and their absence can delay or even derail a sale.
+        Regardless of whether planning permission is required, Better Homes recommends applying for a Lawful Development Certificate (LDC) for any extension built under permitted development. An LDC provides formal legal confirmation that the works are lawful - an essential document when selling the property. Solicitors routinely flag missing LDCs during conveyancing, and their absence can delay or even derail a sale.
       </p>
 
       {/* INFOGRAPHIC 4 */}
@@ -424,7 +424,7 @@ export default function HouseExtensionsLondonGuide() {
         The Extension Process: From First Sketch to Final Handover
       </h2>
       <p className={styles.p}>
-        A house extension in London typically takes 6 to 10 months from initial design to completion. Understanding the stages helps you plan your budget, manage your expectations, and avoid the frustration of unexpected delays. Here is the typical project timeline for a London extension managed by a design-and-build firm like BH Studio.
+        A house extension in London typically takes 6 to 10 months from initial design to completion. Understanding the stages helps you plan your budget, manage your expectations, and avoid the frustration of unexpected delays. Here is the typical project timeline for a London extension managed by a design-and-build firm like Better Homes.
       </p>
 
       <h3 className={styles.h3}>
@@ -434,7 +434,7 @@ export default function HouseExtensionsLondonGuide() {
         The project begins with a site visit and feasibility assessment. A designer or architect visits your property, takes measurements, discusses your requirements, and assesses what is realistically achievable given the property type, planning constraints, and budget. This stage identifies opportunities (an unused side return, potential for a rear extension, scope for a second storey) and constraints (conservation area status, proximity to neighbours, existing drain locations, structural limitations).
       </p>
       <p className={styles.p}>
-        At BH Studio, this initial consultation is free and includes a preliminary assessment of whether your project needs planning permission or qualifies for permitted development, and an indicative budget range. The output is a clear project brief that forms the basis for the design stage.
+        At Better Homes, this initial consultation is free and includes a preliminary assessment of whether your project needs planning permission or qualifies for permitted development, and an indicative budget range. The output is a clear project brief that forms the basis for the design stage.
       </p>
 
       <h3 className={styles.h3}>
@@ -480,13 +480,13 @@ export default function HouseExtensionsLondonGuide() {
         The traditional route for a London extension involves hiring an architect to design the project, then separately tendering to builders and managing the construction through to completion. The architect produces drawings, submits planning applications, and may offer contract administration during the build - but does not construct anything. The homeowner is responsible for finding, vetting, and managing the builder, and for coordinating the interface between architect, structural engineer, and contractor.
       </p>
       <p className={styles.p}>
-        The design-and-build model takes a fundamentally different approach. A single firm - like BH Studio - provides architectural design, planning management, structural coordination, and construction under one contract. There is one point of responsibility, one contract, and one team. If there is a problem, there is no finger-pointing between architect and builder because both functions sit within the same organisation.
+        The design-and-build model takes a fundamentally different approach. A single firm - like Better Homes - provides architectural design, planning management, structural coordination, and construction under one contract. There is one point of responsibility, one contract, and one team. If there is a problem, there is no finger-pointing between architect and builder because both functions sit within the same organisation.
       </p>
       <p className={styles.p}>
         The practical advantages of design-and-build for London homeowners are significant. First, cost certainty: a design-and-build firm provides a fixed price at the outset, removing the anxiety of competitive tendering and price escalation. Second, speed: the design and construction phases overlap, with buildability considered from day one, typically saving 4 to 8 weeks compared to a sequential architect-then-builder process. Third, accountability: if the design is not buildable, the same firm bears the cost and delay - there is no dispute about whose fault it is.
       </p>
       <p className={styles.p}>
-        This is particularly relevant in the London extension market because many competitors - including Resi, Extension Architecture, and Studio Colab - operate an architecture-only model. They produce designs and submit planning applications, but do not build. The homeowner must then find a separate builder, negotiate a separate contract, and manage the transition from design to construction independently. BH Studio's full design-and-build model eliminates this gap entirely, providing a smoother, more predictable project experience from first sketch to final handover.
+        This is particularly relevant in the London extension market because many competitors - including Resi, Extension Architecture, and Studio Colab - operate an architecture-only model. They produce designs and submit planning applications, but do not build. The homeowner must then find a separate builder, negotiate a separate contract, and manage the transition from design to construction independently. Better Homes' full design-and-build model eliminates this gap entirely, providing a smoother, more predictable project experience from first sketch to final handover.
       </p>
 
       {/* SECTION 8: VALUE */}
@@ -539,7 +539,7 @@ export default function HouseExtensionsLondonGuide() {
         When a neighbour consents in writing, no surveyor appointment is needed and costs are minimal. When a neighbour dissents or does not respond within 14 days, the Act requires that each party appoints a surveyor (or agrees on a single 'agreed surveyor') to produce a Party Wall Award. This award documents the condition of the neighbouring property before work begins, sets out what work is permitted, and provides a dispute resolution mechanism. Surveyor costs typically range from £1,000 to £3,000 per neighbour.
       </p>
       <p className={styles.p}>
-        BH Studio manages the party wall process as part of our design-and-build service, including preparing notice documents, coordinating with party wall surveyors, and ensuring the schedule of condition is completed before construction begins. Early neighbour engagement is our standard approach - experience shows that a personal conversation and clear explanation of the proposed work significantly reduces the likelihood of formal dissent.
+        Better Homes manages the party wall process as part of our design-and-build service, including preparing notice documents, coordinating with party wall surveyors, and ensuring the schedule of condition is completed before construction begins. Early neighbour engagement is our standard approach - experience shows that a personal conversation and clear explanation of the proposed work significantly reduces the likelihood of formal dissent.
       </p>
 
       {/* SECTION 10: CHOOSING A COMPANY */}
@@ -550,10 +550,10 @@ export default function HouseExtensionsLondonGuide() {
         The quality of your extension depends overwhelmingly on the company you choose to design and build it. London's construction market includes excellent firms and unreliable ones, and distinguishing between them requires asking the right questions before you commit. Here are the criteria that matter most.
       </p>
       <p className={styles.p}>
-        <strong>Insurance and warranty:</strong> Any reputable extension company should carry a minimum of £2 million public liability insurance and £10 million employer's liability insurance. They should also offer a workmanship warranty - BH Studio provides a 10-year guarantee backed by £10 million insurance cover. Ask to see certificates, not just claims.
+        <strong>Insurance and warranty:</strong> Any reputable extension company should carry a minimum of £2 million public liability insurance and £10 million employer's liability insurance. They should also offer a workmanship warranty - Better Homes provides a 10-year guarantee backed by £10 million insurance cover. Ask to see certificates, not just claims.
       </p>
       <p className={styles.p}>
-        <strong>Fixed-price contracts:</strong> Avoid firms that quote on a cost-plus basis (charging actual costs plus a percentage margin). This incentivises the builder to spend more, not less. A fixed-price contract means you know the total cost before work begins, and the builder bears the risk of any cost overruns. BH Studio provides fixed-price contracts as standard.
+        <strong>Fixed-price contracts:</strong> Avoid firms that quote on a cost-plus basis (charging actual costs plus a percentage margin). This incentivises the builder to spend more, not less. A fixed-price contract means you know the total cost before work begins, and the builder bears the risk of any cost overruns. Better Homes provides fixed-price contracts as standard.
       </p>
       <p className={styles.p}>
         <strong>In-house design capability:</strong> A firm that designs and builds under one roof delivers better coordination, fewer errors, and faster completion than one that subcontracts the design work. Check whether the firm employs architects or architectural designers directly, or whether it outsources this function.
@@ -660,7 +660,7 @@ export default function HouseExtensionsLondonGuide() {
         What is the difference between design-and-build and hiring an architect separately?
       </h3>
       <p className={styles.p}>
-        With a traditional architect-led approach, you hire an architect to design the extension, then separately find and manage a builder to construct it. The architect and builder work under separate contracts, and the homeowner coordinates between them. With a design-and-build firm like BH Studio, one company handles both design and construction under a single contract. This provides one point of responsibility, a fixed price agreed before construction begins, and faster delivery because design and construction planning overlap. The design-and-build model is particularly effective for London house extensions where coordination complexity and cost certainty are important.
+        With a traditional architect-led approach, you hire an architect to design the extension, then separately find and manage a builder to construct it. The architect and builder work under separate contracts, and the homeowner coordinates between them. With a design-and-build firm like Better Homes, one company handles both design and construction under a single contract. This provides one point of responsibility, a fixed price agreed before construction begins, and faster delivery because design and construction planning overlap. The design-and-build model is particularly effective for London house extensions where coordination complexity and cost certainty are important.
       </p>
 
       {/* ENGAGEMENT */}
@@ -671,7 +671,7 @@ export default function HouseExtensionsLondonGuide() {
         Are you planning a house extension in London? We would love to hear about your project - whether you are at the early research stage or ready to get started. Drop us a message and let us know: what type of extension are you considering, and what is the one thing about the process that concerns you most? Your feedback helps us create even better resources for London homeowners.
       </p>
       <p className={styles.p}>
-        If you found this guide useful, please share it with friends or neighbours who might be considering their own extension project. And if you are ready to discuss your extension with a team that designs and builds under one roof, <Link href="/contact">get in touch with BH Studio</Link> for a free, no-obligation consultation.
+        If you found this guide useful, please share it with friends or neighbours who might be considering their own extension project. And if you are ready to discuss your extension with a team that designs and builds under one roof, <Link href="/contact">get in touch with Better Homes</Link> for a free, no-obligation consultation.
       </p>
 
       {/* CONCLUSION */}
@@ -685,10 +685,10 @@ export default function HouseExtensionsLondonGuide() {
         The key to a successful extension is getting the fundamentals right from the start. Understand the costs - not just the construction figure, but the total all-in budget including VAT, professional fees, and fitting out. Know your planning position - whether you qualify for permitted development, need prior approval, or require a full planning application. Choose the right partner - a firm that can design and build to the highest standard, with a fixed price, a clear process, and a genuine warranty behind the work.
       </p>
       <p className={styles.p}>
-        BH Studio has delivered extensions, loft conversions, and full renovations across Central, East, and North London for years. Our full design-and-build model means you deal with one team from first sketch to final handover - no middleman, no finger-pointing, no surprises. Every project comes with a fixed-price contract, a 10-year workmanship guarantee backed by £10 million insurance, and the peace of mind that comes from working with a Houzz award-winning firm.
+        Better Homes has delivered extensions, loft conversions, and full renovations across Central, East, and North London for years. Our full design-and-build model means you deal with one team from first sketch to final handover - no middleman, no finger-pointing, no surprises. Every project comes with a fixed-price contract, a 10-year workmanship guarantee backed by £10 million insurance, and the peace of mind that comes from working with a Houzz award-winning firm.
       </p>
       <p className={styles.p}>
-        If you are ready to explore what an extension could do for your home, <Link href="/contact">book your free consultation with BH Studio today</Link>. We will visit your property, assess the options, and give you an honest view of what is achievable - with no obligation and no hard sell. Your home deserves it.
+        If you are ready to explore what an extension could do for your home, <Link href="/contact">book your free consultation with Better Homes today</Link>. We will visit your property, assess the options, and give you an honest view of what is achievable - with no obligation and no hard sell. Your home deserves it.
       </p>
 
       {/* REFERENCES */}

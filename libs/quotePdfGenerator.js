@@ -56,7 +56,7 @@ const addPageFooter = (doc, pageNumber) => {
   doc.setTextColor(100, 100, 100);
 
   // Left side - company info
-  doc.text("Better Homes Studio", 20, doc.internal.pageSize.height - 20);
+  doc.text("Better Homes", 20, doc.internal.pageSize.height - 20);
   doc.text(
     "Building Excellence, Delivering Dreams",
     20,
@@ -93,7 +93,7 @@ export const generateQuotePDF = async (quote) => {
   // Header
   doc.setFontSize(24);
   doc.setTextColor(59, 130, 246); // Blue color
-  doc.text("Better Homes Studio", 20, 30);
+  doc.text("Better Homes", 20, 30);
 
   doc.setFontSize(18);
   doc.setTextColor(0, 0, 0);

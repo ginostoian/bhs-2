@@ -23,11 +23,11 @@ const WhoCanPartner = () => {
             {/* <!-- Title --> */}
             <div className="space-y-2 md:space-y-4">
               <h2 className="text-3xl font-bold text-gray-800 lg:text-4xl">
-                Who can partner with Better Homes Studio?
+                Who can partner with Better Homes?
               </h2>
               <p className="text-gray-500">
                 All professionals working in the home services industry are
-                welcome to join the Better Homes Studio network. Our agreement
+                welcome to join the Better Homes network. Our agreement
                 is beneficial for anyone.
               </p>
             </div>

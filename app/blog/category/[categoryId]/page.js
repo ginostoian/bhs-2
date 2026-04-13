@@ -26,7 +26,7 @@ const socialProofTestimonials = [
   {
     name: "George G",
     quote:
-      "After comparing loft conversion companies in North East London, we chose Better Homes Studio. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
+      "After comparing loft conversion companies in North East London, we chose Better Homes. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
     sourceLabel: "Houzz Review",
     sourceUrl:
       "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",

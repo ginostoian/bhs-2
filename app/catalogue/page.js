@@ -13,9 +13,9 @@ export const dynamic = "force-dynamic";
 const PAGE_SIZE = 12;
 
 export const metadata = {
-  title: "Product Catalogue | Better Homes Studio",
+  title: "Product Catalogue | Better Homes",
   description:
-    "Browse bathroom, lighting, tile, flooring, and home products curated for Better Homes Studio projects.",
+    "Browse bathroom, lighting, tile, flooring, and home products curated for Better Homes projects.",
 };
 
 export default async function CataloguePage({ searchParams }) {

@@ -101,7 +101,7 @@ export const generateKitchenEstimatePDF = (calculationResult, formData, userEmai
   doc.setFontSize(20);
   doc.setTextColor(30, 41, 59);
   doc.setFont(undefined, "bold");
-  doc.text("Better Homes Studio", 14, y);
+  doc.text("Better Homes", 14, y);
   y += 8;
 
   doc.setFontSize(14);

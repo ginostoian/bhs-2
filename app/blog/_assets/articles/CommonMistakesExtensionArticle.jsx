@@ -220,7 +220,7 @@ export default function CommonMistakesExtensionArticle() {
           temporary accommodation if you cannot live on site during the build.
         </p>
         <p className={styles.p}>
-          We see this constantly at BH Studio: homeowners who arrive with a
+          We see this constantly at Better Homes: homeowners who arrive with a
           £60,000 budget for a project that realistically needs £90,000 to
           £100,000. It is far better to right-size your expectations early than
           to run out of money mid-build and end up compromising on the very
@@ -363,7 +363,7 @@ export default function CommonMistakesExtensionArticle() {
             that is £10,000 to £12,000. But the savings they deliver through
             smarter design, accurate tender documents, and proper contract
             administration routinely exceed that figure several times over. At
-            BH Studio, we have seen projects where early architectural
+            Better Homes, we have seen projects where early architectural
             intervention saved the client 15 to 25 per cent compared to their
             original concept — simply by rethinking the approach.
           </p>
@@ -1055,7 +1055,7 @@ export default function CommonMistakesExtensionArticle() {
           project. Rushing into construction before the design is resolved, the
           approvals are in place, the costs are understood, and the right
           builder is appointed is the single biggest risk factor for a troubled
-          build. The most successful projects we see at BH Studio are those
+          build. The most successful projects we see at Better Homes are those
           where the homeowner has spent the first few months getting everything
           right on paper — so that the construction phase is simply an execution
           of a well-prepared plan.

@@ -23,12 +23,12 @@ import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 
 export const metadata = getSEOTags({
-  title: "Contact Better Homes Studio | London Renovation Specialists",
+  title: "Contact Better Homes | London Renovation Specialists",
   description:
-    "Speak with Better Homes Studio about your London extension, loft conversion, kitchen, bathroom, or full renovation project. Free initial consultation.",
+    "Speak with Better Homes about your London extension, loft conversion, kitchen, bathroom, or full renovation project. Free initial consultation.",
   canonicalUrlRelative: "/contact",
   openGraph: {
-    title: "Contact Better Homes Studio",
+    title: "Contact Better Homes",
     description:
       "Book a consultation for your London renovation, extension, loft, kitchen, or bathroom project.",
     url: `https://${config.domainName}/contact`,

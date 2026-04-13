@@ -24,7 +24,7 @@ export function generateMetadata({ params }) {
 
   if (!project) {
     return getSEOTags({
-      title: "Project Not Found | Better Homes Studio",
+      title: "Project Not Found | Better Homes",
       canonicalUrlRelative: "/portfolio",
       extraTags: {
         robots: {
@@ -35,7 +35,7 @@ export function generateMetadata({ params }) {
     });
   }
 
-  const title = `${project.title} | Case Study | Better Homes Studio`;
+  const title = `${project.title} | Case Study | Better Homes`;
   const description = `${project.teaser} Explore scope, constraints, delivery approach and outcomes for this ${project.location} renovation project.`;
 
   return getSEOTags({
@@ -100,11 +100,11 @@ export default function ProjectPage({ params }) {
         image: [`${siteUrl}${project.coverImage}`],
         author: {
           "@type": "Organization",
-          name: "Better Homes Studio",
+          name: "Better Homes",
         },
         publisher: {
           "@type": "Organization",
-          name: "Better Homes Studio",
+          name: "Better Homes",
           url: siteUrl,
         },
         mainEntityOfPage: {

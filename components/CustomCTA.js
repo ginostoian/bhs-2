@@ -26,7 +26,7 @@ const CustomCTA = () => {
                   src="/assets/illustrations/discount animation.png"
                   width={50}
                   height={50}
-                  alt="Book a consultation with Better Homes Studio"
+                  alt="Book a consultation with Better Homes"
                 />
               </div>
             </div>

@@ -73,9 +73,9 @@ const config = {
   },
   resend: {
     // REQUIRED — Email 'From' field to be used when sending magic login links
-    fromNoReply: `Better Homes Studio <noreply@mail.bhstudio.co.uk>`,
+    fromNoReply: `Better Homes <noreply@mail.bhstudio.co.uk>`,
     // REQUIRED — Email 'From' field to be used when sending other emails, like abandoned carts, updates etc..
-    fromAdmin: `Better Homes Studio <info@mail.bhstudio.co.uk>`,
+    fromAdmin: `Better Homes <info@mail.bhstudio.co.uk>`,
     // Email shown to customer if need support. Leave empty if not needed => if empty, set up Crisp above, otherwise you won't be able to offer customer support."
     supportEmail: "contact@celli.co.uk",
     // When someone replies to supportEmail sent by the app, forward it to the email below (otherwise it's lost). If you set supportEmail to empty, this will be ignored.
@@ -182,7 +182,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -198,7 +198,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -209,7 +209,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -231,7 +231,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -305,7 +305,7 @@ const config = {
       title: "Renovate your bathroom with BHS. ",
       titleAccent: "A hassle-free experience.",
       subtitle:
-        "Bathroom design, supply and renovation. We take care of every aspect of the project so you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes Studio way.",
+        "Bathroom design, supply and renovation. We take care of every aspect of the project so you don't have to lift a finger. Be smarter than your peers and choose the easy way - The Better Homes way.",
       heroCTA: "Book your consultation",
       heroImgUrl: "bathroom/industrial-bathroom.webp",
       servicesSectionTitle: "What we do",
@@ -377,7 +377,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -393,7 +393,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -404,7 +404,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -426,7 +426,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -500,7 +500,7 @@ const config = {
       title: "Your kitchen deserves better ",
       titleAccent: "Renovate with the best.",
       subtitle:
-        "Kitchen fitting and renovation done right - On Time, On Budget, 5-Star Guarantee. From 0 to 100 without you having to lift a finger. Renovate smarter and easier - The Better Homes Studio way.",
+        "Kitchen fitting and renovation done right - On Time, On Budget, 5-Star Guarantee. From 0 to 100 without you having to lift a finger. Renovate smarter and easier - The Better Homes way.",
       heroCTA: "Book your consultation",
       heroImgUrl: "kitchen/modern-kitchen.webp",
       servicesSectionTitle: "What we do",
@@ -573,7 +573,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -589,7 +589,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -600,7 +600,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -622,7 +622,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -767,7 +767,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -783,7 +783,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -794,7 +794,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -816,7 +816,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -962,7 +962,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -978,7 +978,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -989,7 +989,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1011,7 +1011,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -1157,7 +1157,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -1173,7 +1173,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1184,7 +1184,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1206,7 +1206,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -1278,7 +1278,7 @@ const config = {
     aboutPage: {
       ctaTallyFormLink:
         "/contact",
-      title: "Better Homes Studio! ",
+      title: "Better Homes! ",
       titleAccent: "Full service renovation company",
       subtitle:
         "We are a London-based, full-service renovation company with over 12 years of experience in the field. From bathroom renovations to home extensions, our team has you covered from design to build. We are also the proud winners of the Best of Houzz Award two years in a row.",
@@ -1352,7 +1352,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -1368,7 +1368,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1379,7 +1379,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1401,7 +1401,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -1547,7 +1547,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -1563,7 +1563,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1574,7 +1574,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1596,7 +1596,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -1742,7 +1742,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -1758,7 +1758,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1769,7 +1769,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1791,7 +1791,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>
@@ -1874,7 +1874,7 @@ const config = {
       howWeDoItSection: {
         bigGridTitle: "Easy, transparent and customer centric",
         bigGridText:
-          "From design to refurbishment you can rest assured that your experience with Better Homes Studio will be second to none.",
+          "From design to refurbishment you can rest assured that your experience with Better Homes will be second to none.",
         gridOneNum: "1.",
         gridOneTitle: "Project Kickoff",
         gridOneText:
@@ -1890,7 +1890,7 @@ const config = {
         gridFourNum: "4.",
         gridFourTitle: "Finishing Touches & Signoff",
         gridFourText:
-          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Home Studio Guarantee.",
+          "Once the build is complete, we conduct a thorough snagging process to address every detail. After that, you can enjoy peace of mind with the Better Homes Guarantee.",
       },
       reviewsSection: {
         darkBgTextTitle:
@@ -1901,7 +1901,7 @@ const config = {
       },
       faqs: [
         {
-          question: "Who is Better Homes Studio?",
+          question: "Who is Better Homes?",
           answer: (
             <div className="space-y-2 leading-relaxed">
               We are a full-service renovation company based in London. We do
@@ -1923,7 +1923,7 @@ const config = {
           question: "Do you offer a work guarantee?",
           answer: (
             <div className="space-y-2 leading-relaxed">
-              Yes. The BH Studio workmanship guarantee covers our work from 1
+              Yes. The Better Homes workmanship guarantee covers our work from 1
               year to 10 years depending on the project. You can read more about{" "}
               <Link href="/our-guarantee">our guarantee here.</Link>
             </div>

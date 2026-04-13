@@ -22,12 +22,12 @@ import { getSEOTags } from "@/libs/seo";
 import { getLocalBusinessSchema } from "@/libs/structuredData";
 
 export const metadata = getSEOTags({
-  title: "Renovation FAQs London | Better Homes Studio",
+  title: "Renovation FAQs London | Better Homes",
   description:
     "Answers to common questions about London home renovations, extensions, loft conversions, timelines, guarantees, planning, and costs.",
   canonicalUrlRelative: "/faq",
   openGraph: {
-    title: "Renovation FAQs London | Better Homes Studio",
+    title: "Renovation FAQs London | Better Homes",
     description:
       "Frequently asked questions for London homeowners planning renovation, extension, kitchen, bathroom and loft projects.",
     url: `https://${config.domainName}/faq`,

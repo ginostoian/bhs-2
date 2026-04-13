@@ -88,7 +88,7 @@ const WhereWeWork = () => {
         <div className={classes["where-we-work__content"]}>
           <div className={classes["where-we-work__description"]}>
             <p>
-              Better Homes Studio proudly serves homeowners across London&apos;s
+              Better Homes proudly serves homeowners across London&apos;s
               most prestigious and vibrant areas. From the leafy suburbs of
               North East London to the bustling heart of Central London, our
               expert team brings exceptional craftsmanship and innovative design

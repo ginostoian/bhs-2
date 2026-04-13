@@ -127,7 +127,7 @@ export const generateCostEstimatePDF = (
   doc.setFontSize(20);
   doc.setTextColor(30, 41, 59);
   doc.setFont(undefined, "bold");
-  doc.text("Better Homes Studio", 14, y);
+  doc.text("Better Homes", 14, y);
   y += 8;
 
   doc.setFontSize(14);
@@ -307,7 +307,7 @@ export const generateCostEstimatePDF = (
   );
   y = h.addParagraph(
     y,
-    "Better Homes Studio | London | www.betterhomesstudio.com",
+    "Better Homes | London | www.betterhomesstudio.com",
     { fontSize: 8.5, color: [120, 120, 120] },
   );
 

@@ -137,7 +137,7 @@ export async function POST(req, { params }) {
             
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 30px 0;">
             <p style="color: #94a3b8; font-size: 12px;">
-              This is an automated notification from the BH Studio admin system.
+              This is an automated notification from the Better Homes admin system.
             </p>
           </div>
         `,
@@ -156,7 +156,7 @@ Project: ${project.name}
 
 Please log into the admin panel to view and manage this task.
 
-This is an automated notification from the BH Studio admin system.
+This is an automated notification from the Better Homes admin system.
         `,
         metadata: {
           type: "admin_task_assigned",

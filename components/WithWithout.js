@@ -12,7 +12,7 @@ const WithWithout = () => {
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12">
           <div className="bg-error/20 text-error p-8 md:p-12 rounded-lg w-full ">
             <h3 className="font-bold text-lg mb-4 text-[#100b47]">
-              Your project without Better Homes Studio
+              Your project without Better Homes
             </h3>
 
             <ul className="list-disc list-inside space-y-1.5 ">
@@ -44,7 +44,7 @@ const WithWithout = () => {
 
           <div className="bg-success/20 text-success p-8 md:p-12 rounded-lg w-full">
             <h3 className="font-bold text-lg mb-4 text-[#100b47]">
-              Your project + Better Homes Studio
+              Your project + Better Homes
             </h3>
 
             <ul className="list-disc list-inside space-y-1.5 ">

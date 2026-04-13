@@ -764,7 +764,7 @@ export default function CatalogueClient({
           <div className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr] lg:items-end">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.32em] text-stone-500">
-                Better Homes Studio Catalogue
+                Better Homes Catalogue
               </p>
               <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl">
                 Explore beautifully curated products for your renovation, all in one place.

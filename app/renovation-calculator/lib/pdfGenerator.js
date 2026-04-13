@@ -128,7 +128,7 @@ export const generateRenovationEstimatePDF = (
   doc.setFontSize(20);
   doc.setTextColor(30, 41, 59);
   doc.setFont(undefined, "bold");
-  doc.text("Better Homes Studio", 14, y);
+  doc.text("Better Homes", 14, y);
   y += 8;
 
   doc.setFontSize(14);
@@ -291,7 +291,7 @@ export const generateRenovationEstimatePDF = (
     "This estimate is not a formal quotation. Older properties, hidden damp, out-of-date services, uneven floors, and late specification changes can materially affect cost. The range narrows once the scope, drawings, and room schedule are better defined.",
     { fontSize: 9.3, color: [80, 80, 80] },
   );
-  h.addParagraph(y, "Better Homes Studio | London | www.betterhomesstudio.com", {
+  h.addParagraph(y, "Better Homes | London | www.betterhomesstudio.com", {
     fontSize: 8.5,
     color: [120, 120, 120],
   });

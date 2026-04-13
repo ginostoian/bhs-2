@@ -50,7 +50,7 @@ function deriveBudgetBand(value) {
 }
 
 function buildEmailContent({ estimate, formData }) {
-  const subject = "Your kitchen budget estimate (PDF) | Better Homes Studio";
+  const subject = "Your kitchen budget estimate (PDF) | Better Homes";
   const text = [
     "Thanks for using our kitchen calculator.",
     "",
@@ -70,7 +70,7 @@ function buildEmailContent({ estimate, formData }) {
     "",
     "This estimate is for budgeting and planning. Final costs depend on measured run length, product choice, services and structural details.",
     "",
-    "Better Homes Studio",
+    "Better Homes",
     "www.betterhomesstudio.com",
   ].join("\n");
 

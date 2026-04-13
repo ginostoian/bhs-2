@@ -99,7 +99,7 @@ export default function GanttChart({
       // Header
       doc.setFontSize(24);
       doc.setTextColor(59, 130, 246); // Blue color
-      doc.text("Better Homes Studio", 20, 30);
+      doc.text("Better Homes", 20, 30);
 
       doc.setFontSize(16);
       doc.setTextColor(0, 0, 0);
@@ -178,7 +178,7 @@ export default function GanttChart({
       doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
       doc.text(
-        "Better Homes Studio | London | www.betterhomesstudio.com",
+        "Better Homes | London | www.betterhomesstudio.com",
         20,
         finalY,
       );

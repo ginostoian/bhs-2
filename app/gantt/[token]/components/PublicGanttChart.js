@@ -116,7 +116,7 @@ export default function PublicGanttChart({
       // Header
       doc.setFontSize(24);
       doc.setTextColor(59, 130, 246); // Blue color
-      doc.text("Better Homes Studio", 20, 30);
+      doc.text("Better Homes", 20, 30);
 
       doc.setFontSize(16);
       doc.setTextColor(0, 0, 0);
@@ -207,7 +207,7 @@ export default function PublicGanttChart({
       doc.setFontSize(8);
       doc.setTextColor(100, 100, 100);
       doc.text(
-        "Better Homes Studio | London | www.betterhomesstudio.com",
+        "Better Homes | London | www.betterhomesstudio.com",
         20,
         finalY,
       );
@@ -504,7 +504,7 @@ export default function PublicGanttChart({
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>Better Homes Studio | London | www.betterhomesstudio.com</p>
+          <p>Better Homes | London | www.betterhomesstudio.com</p>
           <p className="mt-1">This is a shared project timeline view</p>
         </div>
       </div>

@@ -92,7 +92,7 @@
   
   <!-- Bottom tip box -->
   <rect x="100" y="410" width="600" height="80" fill="#fff" rx="10" stroke="#2d5a3d" stroke-width="1.5"/>
-  <text x="400" y="435" text-anchor="middle" font-size="12" font-weight="700" fill="#2d5a3d">💡 Pro Tip from BH Studio</text>
+  <text x="400" y="435" text-anchor="middle" font-size="12" font-weight="700" fill="#2d5a3d">💡 Pro Tip from Better Homes</text>
   <text x="400" y="455" text-anchor="middle" font-size="11" fill="#555">Combining a loft conversion with a rear extension often delivers a higher combined return</text>
   <text x="400" y="472" text-anchor="middle" font-size="11" fill="#555">than either project alone — and shared professional fees make it more cost-efficient.</text>
   

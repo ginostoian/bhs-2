@@ -234,17 +234,12 @@ function Navigation() {
           <Image
             className={classes["main-nav__logo"]}
             src="/assets/logo/bh-logo.svg"
-            alt="better homes studio logo"
+            alt="better homes logo"
             width={100}
             height={100}
           />
           <Link href="/">
-            <p className={classes["main-nav__logo-text"]}>
-              Better Homes <br />{" "}
-              <span className={classes["main-nav__logo-text-accent"]}>
-                Studio
-              </span>
-            </p>
+            <p className={classes["main-nav__logo-text"]}>Better Homes</p>
           </Link>
         </div>
 
