@@ -601,6 +601,16 @@ export default function Page() {
           </Link>
           .
         </p>
+        <p className="mt-4 text-base leading-8 text-gray-700">
+          Want a personalised range for your project? Use our{" "}
+          <Link
+            href="/extension-calculator"
+            className="font-semibold text-[#266bf1] hover:underline"
+          >
+            extension cost calculator
+          </Link>{" "}
+          for a low/expected/high budget in two minutes.
+        </p>
       </section>
 
       <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Stepper from "./components/Wizard/Stepper";
 import StepProperty from "./components/Wizard/StepProperty";
 import StepType from "./components/Wizard/StepType";
@@ -54,6 +55,169 @@ const formatCurrency = (amount) =>
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount || 0);
+
+const siteUrl = "https://bhstudio.co.uk";
+const pageUrl = `${siteUrl}/extension-calculator`;
+
+const calculatorFaqs = [
+  {
+    question: "How accurate is this extension calculator?",
+    answer:
+      "It is designed for early budgeting, not a final quote. The tool gives a low / expected / high range and widens that range when you don't yet have plans or confirmed planning status. Accuracy improves significantly once you have measured or architect drawings and a site survey.",
+  },
+  {
+    question: "Why do you show a range instead of one exact price?",
+    answer:
+      "Exact pricing before surveys and drawings is usually misleading. Build cost depends on structural details, access, specification, and hidden site conditions. A transparent range is more trustworthy and more useful for budgeting decisions.",
+  },
+  {
+    question: "Does the estimate include VAT and contingency?",
+    answer:
+      "Yes. The result screen clearly separates base build cost, extras, professional/statutory fees, contingency, and VAT. We apply VAT conservatively to the subtotal so you don't under-budget at the planning stage.",
+  },
+  {
+    question: "What if I don't know planning or structural details yet?",
+    answer:
+      "That's normal. The calculator is built for homeowners at an early stage. If you leave planning/professional fees unselected, it automatically includes sensible allowances based on your answers.",
+  },
+  {
+    question: "Do you only work in London?",
+    answer:
+      "Better Homes primarily serves London, so London is the main pricing focus of this tool, including a zone option. We also include other UK regions so homeowners can still use the calculator for budgeting comparisons.",
+  },
+  {
+    question: "What should I do after getting my estimate?",
+    answer:
+      "Download the PDF, compare the expected and high ranges, then speak to an architect/designer or builder with your rough brief. Once you have plans, update the calculator and request a survey-based quote.",
+  },
+  {
+    question: "How much does a house extension cost per square metre in the UK?",
+    answer:
+      "In London, extension construction costs typically run £2,500 to £4,500 per square metre in 2026 depending on specification, with inner boroughs at a 15-30% premium. Outside London, rates are generally lower. Remember that per-square-metre figures usually exclude VAT, professional fees and fit-out - this calculator includes them so your budget is realistic from the start.",
+  },
+  {
+    question: "Is this calculator free, and do I have to give my details?",
+    answer:
+      "The calculator is free and you can see your low/expected/high estimate on screen without entering any contact details. If you'd like the full PDF breakdown with the budget checklist, we ask for your name and email so we can send it to you.",
+  },
+];
+
+const calculatorSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${pageUrl}#webapplication`,
+      name: "Extension Cost Calculator",
+      url: pageUrl,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+      provider: {
+        "@type": "Organization",
+        name: "Better Homes Studio",
+        url: siteUrl,
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "GBP",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: calculatorFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Cost Guides",
+          item: `${siteUrl}/tools`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Extension Calculator",
+          item: pageUrl,
+        },
+      ],
+    },
+  ],
+};
+
+const faqContent = calculatorFaqs.map((faq) => ({
+  question: faq.question,
+  answer: <p>{faq.answer}</p>,
+}));
+
+const benchmarkRows = [
+  ["Side return extension", "£35,000 - £60,000"],
+  ["Single-storey rear extension", "£50,000 - £95,000"],
+  ["Wraparound (L-shaped) extension", "£75,000 - £140,000"],
+  ["Kitchen extension with fit-out", "£80,000 - £160,000"],
+  ["Double-storey extension", "£100,000 - £200,000+"],
+];
+
+const estimateFactors = [
+  {
+    title: "Size and type",
+    body:
+      "Cost doesn't scale evenly with floor area. A double-storey extension shares foundations and roof between two floors, so its per-square-metre rate is lower than a single-storey, but the total project is bigger. Wraparounds carry the most structural work per square metre because two external walls come out.",
+  },
+  {
+    title: "Specification",
+    body:
+      "The same shell can vary by £1,000+ per square metre depending on finish: standard plaster-and-paint at the low end; underfloor heating, bi-folds and engineered flooring mid-range; bespoke joinery, Crittall-style glazing and stone worktops at the top. Our calculator's complexity setting is a proxy for this, so be honest with it.",
+  },
+  {
+    title: "Access and party walls",
+    body:
+      "Terraced houses, which make up much of London's stock, usually mean tighter access, more hand-balling of materials, scaffold licences and party wall agreements with one or both neighbours. These are real costs that flat-fee calculators ignore; this tool allows for them based on your property type.",
+  },
+  {
+    title: "Where you are in London",
+    body:
+      "Inner-London boroughs typically run 15-30% above outer London for the same build, driven by labour rates, access logistics and parking/scaffold licensing. The calculator's London zone option accounts for this.",
+  },
+];
+
+const nextSteps = [
+  {
+    number: "01",
+    title: "Download your PDF",
+    body:
+      "It includes the full low/expected/high breakdown and a budget checklist, useful for finance conversations and for comparing builder quotes line by line.",
+  },
+  {
+    number: "02",
+    title: "Read the guide",
+    body:
+      "Use the guide to understand types, planning, building regs, party walls and value: everything between rough budget and ready to build.",
+  },
+  {
+    number: "03",
+    title: "Talk it through",
+    body:
+      "When you want a real answer for your specific property, book a feasibility consultation and pressure-test the budget before anything gathers momentum.",
+  },
+];
 
 export default function ExtensionCalculator() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -219,6 +383,10 @@ export default function ExtensionCalculator() {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
+      />
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-10 grid gap-6 rounded-3xl border border-stone-200 bg-white/90 p-6 shadow-2xl shadow-stone-900/5 backdrop-blur md:grid-cols-[1.3fr_1fr] md:p-8">
           <div>
@@ -347,120 +515,260 @@ export default function ExtensionCalculator() {
           </aside>
         </div>
 
-        <section className="mx-auto mt-14 max-w-4xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-bold text-stone-900">
-            Extension cost calculator for realistic London project planning
-          </h2>
-          <p className="mt-4 leading-7 text-stone-700">
-            This extension cost calculator is built for homeowners who need a
-            more realistic starting budget before they move into planning,
-            drawings, or detailed builder quotes. It helps you compare house
-            extension cost ranges by size, type, finish level, and professional
-            fees instead of relying on oversimplified online averages.
-          </p>
-          <p className="mt-4 leading-7 text-stone-700">
-            Whether you are looking at a single storey extension, double
-            storey extension, or a more complex scheme, the calculator makes it
-            easier to understand likely extension cost in London and to budget
-            properly for extras, contingency, and VAT from the start.
-          </p>
+        <section className="mx-auto mt-16 max-w-6xl">
+          <div className="mb-8 max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+              Budget guidance
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+              Make sense of your extension estimate
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-stone-600">
+              Use the calculator first, then use these notes to understand the
+              range, the assumptions and the next step before asking for quotes.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[1fr_0.85fr]">
+            <article className="rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#266bf1] text-sm font-bold text-white">
+                01
+              </div>
+              <h3 className="mt-5 text-2xl font-semibold tracking-tight text-stone-950">
+                How this extension cost calculator works
+              </h3>
+              <div className="mt-4 space-y-4 text-base leading-8 text-stone-700">
+                <p>
+                  Most online extension calculators give you a single number,
+                  which is exactly why most extension budgets go wrong. Build
+                  cost depends on structure, access, specification and site
+                  conditions that no early-stage tool can see, so an honest
+                  calculator gives you a range, not a promise.
+                </p>
+                <p>
+                  This tool asks for the essentials: property type, location,
+                  extension type, size and complexity. It returns a low /
+                  expected / high budget with professional and statutory fees,
+                  contingency, and VAT at 20% broken out separately. If you
+                  don&apos;t yet have drawings or confirmed planning status, it
+                  widens the range and applies sensible fee allowances
+                  automatically, then gives you a confidence score.
+                </p>
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {["Low / expected / high", "Fees + VAT separated", "PDF budget checklist"].map(
+                  (item) => (
+                    <div
+                      key={item}
+                      className="rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-950"
+                    >
+                      {item}
+                    </div>
+                  ),
+                )}
+              </div>
+            </article>
+
+            <article className="rounded-3xl border border-slate-900 bg-slate-900 p-6 text-white shadow-xl shadow-slate-900/15 md:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-200">
+                Why ranges matter
+              </p>
+              <h3 className="mt-4 text-2xl font-semibold tracking-tight">
+                Plan with the high end before you commit.
+              </h3>
+              <p className="mt-4 text-base leading-8 text-stone-200">
+                The expected figure is useful for orientation. The high figure is
+                the number to use when checking finance, contingency and whether
+                the project still makes sense if hidden conditions appear.
+              </p>
+              <div className="mt-6 rounded-2xl border border-white/10 bg-white/10 p-4">
+                <p className="text-sm font-semibold text-white">
+                  Best use of this estimate
+                </p>
+                <p className="mt-2 text-sm leading-6 text-stone-200">
+                  Brief architects, compare builder quotes and refine the range
+                  once measured drawings and a site survey are ready.
+                </p>
+              </div>
+            </article>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-xl shadow-stone-900/5">
+            <div className="grid gap-6 border-b border-stone-200 bg-stone-50 px-6 py-6 md:grid-cols-[0.9fr_1.1fr] md:px-8">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#266bf1]">
+                  2026 benchmarks
+                </p>
+                <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
+                  Typical London extension budgets
+                </h3>
+              </div>
+              <p className="text-base leading-7 text-stone-600">
+                Use these planning-stage ranges to sanity-check your result.
+                Figures include build, fees and VAT at a mid-range
+                specification.
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-stone-200">
+                <thead className="bg-white">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-[0.18em] text-stone-500 md:px-8">
+                      Extension type
+                    </th>
+                    <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-[0.18em] text-stone-500 md:px-8">
+                      Typical all-in budget
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-100">
+                  {benchmarkRows.map(([type, budget]) => (
+                    <tr key={type} className="transition hover:bg-blue-50/50">
+                      <td className="px-6 py-4 text-base font-semibold text-stone-950 md:px-8">
+                        {type}
+                      </td>
+                      <td className="px-6 py-4 text-base font-semibold text-[#266bf1] md:px-8">
+                        {budget}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="border-t border-stone-200 px-6 py-5 text-base leading-7 text-stone-700 md:px-8">
+              For per-square-metre rates, hidden costs, borough premiums and
+              what&apos;s driving 2026 prices, read the{" "}
+              <Link
+                href={`${siteUrl}/blog/house-extension-guide-2025#extension-costs`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                full extension cost breakdown for London
+              </Link>{" "}
+              in our{" "}
+              <Link
+                href={`${siteUrl}/blog/house-extension-guide-2025`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                complete 2026 House Extension Guide
+              </Link>
+              .
+            </p>
+          </div>
+
+          <div className="mt-10">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                Cost drivers
+              </p>
+              <h3 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
+                What moves an extension estimate up or down
+              </h3>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {estimateFactors.map((factor) => (
+                <article
+                  key={factor.title}
+                  className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm"
+                >
+                  <h4 className="text-lg font-semibold text-stone-950">
+                    {factor.title}
+                  </h4>
+                  <p className="mt-3 text-base leading-7 text-stone-600">
+                    {factor.body}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-6">
+              <h4 className="text-lg font-semibold text-blue-950">
+                Planning route and linked project costs
+              </h4>
+              <p className="mt-3 text-base leading-7 text-blue-950/80">
+                Many single-storey rear and side return extensions qualify for
+                permitted development, while larger and double-storey schemes
+                usually need full planning. The{" "}
+                <Link
+                  href={`${siteUrl}/blog/house-extension-guide-2025#planning-permission`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  planning permission rules for extensions
+                </Link>{" "}
+                are covered in detail in our guide. If you&apos;re extending as
+                part of a wider refurbishment, our{" "}
+                <Link
+                  href={`${siteUrl}/renovation-calculator`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  renovation cost calculator
+                </Link>{" "}
+                budgets the whole project.
+              </p>
+              <p className="mt-3 text-base leading-7 text-blue-950/80">
+                If your project is really a kitchen transformation with an
+                extension attached, run the numbers in our{" "}
+                <Link
+                  href={`${siteUrl}/kitchen-calculator`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  kitchen cost calculator
+                </Link>{" "}
+                too. The kitchen fit-out is often the biggest single line after
+                the build itself.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                  Next steps
+                </p>
+                <h3 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
+                  What to do with your estimate
+                </h3>
+              </div>
+              <Link
+                href={`${siteUrl}/house-extension`}
+                className="inline-flex rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-black"
+              >
+                Speak to the design-and-build extension team
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {nextSteps.map((step) => (
+                <article
+                  key={step.number}
+                  className="rounded-2xl border border-stone-200 bg-stone-50 p-5"
+                >
+                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#266bf1]">
+                    {step.number}
+                  </div>
+                  <h4 className="mt-3 text-lg font-semibold text-stone-950">
+                    {step.title}
+                  </h4>
+                  <p className="mt-3 text-sm leading-6 text-stone-600">
+                    {step.body}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-5 text-base leading-7 text-stone-700">
+              Our{" "}
+              <Link
+                href={`${siteUrl}/blog/house-extension-guide-2025`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                complete 2026 House Extension Guide
+              </Link>{" "}
+              covers the detailed research between rough budget and ready to
+              build.
+            </p>
+          </div>
         </section>
 
         <div className="mt-12">
-          <FAQ
-            content={[
-              {
-                question: "How accurate is this extension calculator?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      It is designed for early budgeting, not a final quote. The
-                      tool gives a low / expected / high range and widens that
-                      range when you don&apos;t yet have plans or confirmed
-                      planning status.
-                    </p>
-                    <p>
-                      Accuracy improves significantly once you have measured or
-                      architect drawings and a site survey.
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                question: "Why do you show a range instead of one exact price?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      Exact pricing before surveys and drawings is usually
-                      misleading. Build cost depends on structural details,
-                      access, specification, and hidden site conditions.
-                    </p>
-                    <p>
-                      A transparent range is more trustworthy and more useful for
-                      budgeting decisions.
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                question: "Does the estimate include VAT and contingency?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      Yes. The result screen clearly separates base build cost,
-                      extras, professional/statutory fees, contingency, and VAT.
-                    </p>
-                    <p>
-                      We apply VAT conservatively to the subtotal so you don&apos;t
-                      under-budget at the planning stage.
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                question: "What if I don&apos;t know planning or structural details yet?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      That&apos;s normal. The calculator is built for homeowners
-                      at an early stage. If you leave planning/professional fees
-                      unselected, it automatically includes sensible allowances
-                      based on your answers.
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                question: "Do you only work in London?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      Better Homes primarily serves London, so London is
-                      the main pricing focus of this tool (including a zone
-                      option).
-                    </p>
-                    <p>
-                      We also include other UK regions so homeowners can still
-                      use the calculator for budgeting comparisons.
-                    </p>
-                  </div>
-                ),
-              },
-              {
-                question: "What should I do after getting my estimate?",
-                answer: (
-                  <div className="space-y-2 leading-relaxed">
-                    <p>
-                      Download the PDF, compare the expected and high ranges,
-                      then speak to an architect/designer or builder with your
-                      rough brief. Once you have plans, update the calculator and
-                      request a survey-based quote.
-                    </p>
-                  </div>
-                ),
-              },
-            ]}
-          />
+          <FAQ content={faqContent} />
         </div>
       </div>
 

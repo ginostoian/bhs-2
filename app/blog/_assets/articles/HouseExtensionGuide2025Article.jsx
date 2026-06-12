@@ -255,6 +255,10 @@ export default function HouseExtensionsLondonGuide() {
       <p className={styles.p}>
         Understanding extension costs in London requires looking beyond headline per-square-metre figures. The total cost of a project includes construction, professional fees, statutory costs, and fitting out - and each varies significantly depending on the type of extension, specification level, and borough. Here is what London homeowners should realistically budget in 2026.
       </p>
+      <p className={styles.p}>
+        To apply these benchmarks to your own project, try our{" "}
+        <Link href="/extension-calculator">house extension cost calculator</Link>.
+      </p>
 
       <h3 className={styles.h3} id="cost-per-sqm">
         Cost Per Square Metre in London

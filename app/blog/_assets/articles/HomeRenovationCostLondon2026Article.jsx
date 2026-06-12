@@ -1072,6 +1072,8 @@ export default function HomeRenovationCostLondon2026() {
         <Link href="/blog/house-extension-guide-2025#extension-costs">
           house extension costs in London
         </Link>{" "}
+        or use our{" "}
+        <Link href="/extension-calculator">extension cost calculator</Link>{" "}
         before you finalise the budget.
       </p>
 

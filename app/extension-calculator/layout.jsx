@@ -1,22 +1,26 @@
 import { getSEOTags } from "@/libs/seo";
 
-export const metadata = {
-  ...getSEOTags(),
-  title: "Extension Cost Calculator | Better Homes",
-  description:
-    "Calculate the cost of your house extension with our free online calculator. Get accurate estimates for single storey, double storey, and basement extensions.",
-  keywords:
-    "extension cost calculator, house extension cost, single storey extension, double storey extension, basement extension, London extensions",
-  alternates: {
-    canonical: "/extension-calculator",
-  },
+const pageTitle = "Extension Cost Calculator UK & London (2026) | Better Homes";
+const pageDescription =
+  "Free house extension cost calculator. Get a low/expected/high budget for single & double storey extensions — VAT, fees and contingency included. London-first pricing.";
+
+export const metadata = getSEOTags({
+  title: pageTitle,
+  description: pageDescription,
+  keywords: [
+    "extension cost calculator",
+    "house extension cost calculator",
+    "extension calculator UK",
+    "house extension calculator",
+    "single storey extension cost calculator",
+  ],
+  canonicalUrlRelative: "/extension-calculator",
   openGraph: {
-    title: "Extension Cost Calculator | Better Homes",
-    description:
-      "Free extension cost calculator for London homeowners planning single-storey, double-storey and basement extensions.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://bhstudio.co.uk/extension-calculator",
   },
-};
+});
 
 export default function ExtensionCalculatorLayout({ children }) {
   return children;
