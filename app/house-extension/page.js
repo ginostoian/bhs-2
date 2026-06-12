@@ -481,7 +481,7 @@ export default function Page() {
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <PrimaryButton href="/contact">Book your extension consultation</PrimaryButton>
-            <SecondaryButton href="callto:07922391591">Call us</SecondaryButton>
+            <SecondaryButton href="tel:07922391591">Call us</SecondaryButton>
           </div>
         </div>
         <div className="relative min-h-[420px] overflow-hidden rounded-2xl">
@@ -773,7 +773,7 @@ export default function Page() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <PrimaryButton href="/contact">Book your consultation</PrimaryButton>
-              <SecondaryButton href="callto:07922391591" dark>
+              <SecondaryButton href="tel:07922391591" dark>
                 Call us
               </SecondaryButton>
             </div>
