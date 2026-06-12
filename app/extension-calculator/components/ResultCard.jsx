@@ -16,7 +16,11 @@ const formatCurrency = (amount) =>
 const getExtensionTypeName = (id) =>
   (
     {
-      singleStorey: "Single-storey extension",
+      singleStorey: "Rear extension",
+      rearExtension: "Rear extension",
+      sideReturn: "Side return extension",
+      wraparound: "Wraparound extension",
+      kitchenExtension: "Kitchen extension with fit-out",
       doubleStorey: "Double-storey extension",
       basement: "Basement extension",
       loft: "Loft conversion",
@@ -158,15 +162,16 @@ const ResultCard = ({
               </div>
 
               <p className="mt-4 text-xs text-stone-500">
-                To stay conservative and avoid under-budgeting, VAT is applied
-                across the subtotal in this calculator.
+                VAT is applied to build costs, extras, professional fees, and
+                contingency. Statutory fees are listed separately and excluded
+                from VAT.
               </p>
             </section>
 
             {breakdown.extrasLineItems?.length > 0 && (
               <section className="rounded-2xl border border-stone-200 bg-white p-5">
                 <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
-                  Selected Extras
+                  Extras and Type Allowances
                 </h3>
                 <div className="space-y-2">
                   {breakdown.extrasLineItems.map((item) => (

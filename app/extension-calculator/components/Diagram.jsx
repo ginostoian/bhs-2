@@ -1,168 +1,97 @@
 "use client";
 
-import React from "react";
+import Image from "next/image";
+
+const extensionVisuals = {
+  rearExtension: {
+    title: "Rear extension",
+    caption: "Single-storey rear addition with rooflights and garden-facing glazing.",
+    src: "/assets/extension-calculator/single-storey-extension.jpg",
+    alt: "Photorealistic London rear house extension with rooflights and sliding garden doors",
+  },
+  singleStorey: {
+    title: "Rear extension",
+    caption: "Single-storey rear addition with rooflights and garden-facing glazing.",
+    src: "/assets/extension-calculator/single-storey-extension.jpg",
+    alt: "Photorealistic London rear house extension with rooflights and sliding garden doors",
+  },
+  sideReturn: {
+    title: "Side return extension",
+    caption: "Narrow side-passage infill with a glazed roof and kitchen connection.",
+    src: "/assets/extension-calculator/side-return-extension.jpg",
+    alt: "Photorealistic London side return extension with glazed roof and brick side passage",
+  },
+  wraparound: {
+    title: "Wraparound extension",
+    caption: "Rear and side-return addition creating a wider open-plan ground floor.",
+    src: "/assets/extension-calculator/wraparound-extension.jpg",
+    alt: "Photorealistic London wraparound house extension with rear and side glazing",
+  },
+  kitchenExtension: {
+    title: "Kitchen extension with fit-out",
+    caption: "Extension budget including a mid-range kitchen and dining fit-out allowance.",
+    src: "/assets/extension-calculator/kitchen-extension.jpg",
+    alt: "Photorealistic London kitchen extension with island, dining space and garden glazing",
+  },
+  doubleStorey: {
+    title: "Double-storey extension",
+    caption: "Two-level addition integrated into the existing London home.",
+    src: "/assets/extension-calculator/double-storey-extension.jpg",
+    alt: "Photorealistic London double-storey house extension with matching brickwork and large glazing",
+  },
+  basement: {
+    title: "Basement extension",
+    caption: "Lower-ground living space with lightwell, steps and courtyard glazing.",
+    src: "/assets/extension-calculator/basement-extension.jpg",
+    alt: "Photorealistic London basement extension with lower-ground lightwell and glass doors",
+  },
+  loft: {
+    title: "Loft conversion",
+    caption: "Dormer loft conversion adding usable roof-level living space.",
+    src: "/assets/extension-calculator/loft-conversion.jpg",
+    alt: "Photorealistic London loft conversion with dormer windows and rooflights",
+  },
+};
+
+const fallbackVisual = {
+  title: "Choose an extension type",
+  caption: "Your project image will update once you select a calculator option.",
+  src: "/assets/extension-calculator/single-storey-extension.jpg",
+  alt: "Modern London house extension example",
+};
 
 const Diagram = ({ extensionType, size }) => {
-  const getDiagramContent = () => {
-    switch (extensionType) {
-      case "singleStorey":
-        return (
-          <div className="relative h-48 w-full overflow-hidden rounded-lg bg-gray-100">
-            {/* Existing house */}
-            <div className="absolute left-0 top-0 h-32 w-24 border-2 border-gray-400 bg-gray-300">
-              <div className="p-2 text-xs">
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="h-4 w-4 rounded bg-gray-400"></div>
-              </div>
-            </div>
-
-            {/* Extension */}
-            <div className="absolute left-24 top-8 h-24 w-20 border-2 border-blue-400 bg-blue-200">
-              <div className="p-2 text-xs text-blue-800">
-                <div className="mb-1 h-3 w-3 rounded bg-blue-400"></div>
-                <div className="h-3 w-3 rounded bg-blue-400"></div>
-              </div>
-            </div>
-
-            {/* Labels */}
-            <div className="absolute bottom-2 left-2 text-xs text-gray-600">
-              <div>Existing House</div>
-            </div>
-            <div className="absolute bottom-2 right-2 text-xs text-blue-600">
-              <div>Extension</div>
-            </div>
-          </div>
-        );
-
-      case "doubleStorey":
-        return (
-          <div className="relative h-48 w-full overflow-hidden rounded-lg bg-gray-100">
-            {/* Existing house */}
-            <div className="absolute bottom-0 left-0 h-32 w-24 border-2 border-gray-400 bg-gray-300">
-              <div className="p-2 text-xs">
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="h-4 w-4 rounded bg-gray-400"></div>
-              </div>
-            </div>
-
-            {/* Ground floor extension */}
-            <div className="absolute bottom-0 left-24 h-16 w-20 border-2 border-blue-400 bg-blue-200">
-              <div className="p-2 text-xs text-blue-800">
-                <div className="h-3 w-3 rounded bg-blue-400"></div>
-              </div>
-            </div>
-
-            {/* First floor extension */}
-            <div className="absolute left-24 top-0 h-16 w-20 border-2 border-blue-500 bg-blue-300">
-              <div className="p-2 text-xs text-blue-800">
-                <div className="h-3 w-3 rounded bg-blue-500"></div>
-              </div>
-            </div>
-
-            {/* Labels */}
-            <div className="absolute bottom-2 left-2 text-xs text-gray-600">
-              <div>Existing House</div>
-            </div>
-            <div className="absolute bottom-2 right-2 text-xs text-blue-600">
-              <div>2-Storey Extension</div>
-            </div>
-          </div>
-        );
-
-      case "basement":
-        return (
-          <div className="relative h-48 w-full overflow-hidden rounded-lg bg-gray-100">
-            {/* Ground level */}
-            <div className="absolute left-0 top-0 h-24 w-full border-2 border-green-400 bg-green-200">
-              <div className="absolute left-4 top-4 h-12 w-16 border border-gray-400 bg-gray-300">
-                <div className="p-1 text-xs">
-                  <div className="mb-1 h-3 w-3 rounded bg-gray-400"></div>
-                  <div className="h-3 w-3 rounded bg-gray-400"></div>
-                </div>
-              </div>
-            </div>
-
-            {/* Basement extension */}
-            <div className="absolute left-20 top-24 h-20 w-20 border-2 border-purple-400 bg-purple-200">
-              <div className="p-2 text-xs text-purple-800">
-                <div className="mb-1 h-3 w-3 rounded bg-purple-400"></div>
-                <div className="h-3 w-3 rounded bg-purple-400"></div>
-              </div>
-            </div>
-
-            {/* Stairs */}
-            <div className="absolute left-16 top-20 h-8 w-2 bg-gray-500"></div>
-
-            {/* Labels */}
-            <div className="absolute left-2 top-2 text-xs text-green-600">
-              <div>Ground Level</div>
-            </div>
-            <div className="absolute bottom-2 right-2 text-xs text-purple-600">
-              <div>Basement</div>
-            </div>
-          </div>
-        );
-
-      case "loft":
-        return (
-          <div className="relative h-48 w-full overflow-hidden rounded-lg bg-gray-100">
-            {/* Ground floor */}
-            <div className="absolute bottom-0 left-0 h-16 w-full border-2 border-gray-400 bg-gray-300">
-              <div className="p-2 text-xs">
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="h-4 w-4 rounded bg-gray-400"></div>
-              </div>
-            </div>
-
-            {/* First floor */}
-            <div className="absolute bottom-16 left-0 h-16 w-full border-2 border-gray-400 bg-gray-200">
-              <div className="p-2 text-xs">
-                <div className="mb-1 h-4 w-4 rounded bg-gray-400"></div>
-                <div className="h-4 w-4 rounded bg-gray-400"></div>
-              </div>
-            </div>
-
-            {/* Loft conversion */}
-            <div className="absolute left-8 top-0 h-16 w-16 -skew-x-12 transform border-2 border-orange-400 bg-orange-200">
-              <div className="skew-x-12 transform p-2 text-xs text-orange-800">
-                <div className="h-3 w-3 rounded bg-orange-400"></div>
-              </div>
-            </div>
-
-            {/* Roof windows */}
-            <div className="absolute left-12 top-4 h-4 w-4 -skew-x-12 transform border border-blue-400 bg-blue-300"></div>
-
-            {/* Labels */}
-            <div className="absolute bottom-2 left-2 text-xs text-gray-600">
-              <div>Existing Floors</div>
-            </div>
-            <div className="absolute right-2 top-2 text-xs text-orange-600">
-              <div>Loft Conversion</div>
-            </div>
-          </div>
-        );
-
-      default:
-        return (
-          <div className="flex h-48 w-full items-center justify-center rounded-lg bg-gray-100">
-            <p className="text-gray-500">
-              Select extension type to see diagram
-            </p>
-          </div>
-        );
-    }
-  };
+  const visual = extensionVisuals[extensionType] || fallbackVisual;
 
   return (
-    <div className="w-full">
-      <h3 className="mb-3 text-lg font-semibold text-gray-900">
-        Extension Diagram
-      </h3>
-      {getDiagramContent()}
-      <div className="mt-2 text-center text-xs text-gray-500">
-        {size && `${size} m² extension`}
+    <div className="w-full overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+      <div className="relative aspect-[16/10] overflow-hidden bg-stone-100">
+        <Image
+          src={visual.src}
+          alt={visual.alt}
+          fill
+          sizes="(max-width: 1024px) 90vw, 360px"
+          className={`object-cover transition duration-300 ${
+            extensionType ? "scale-100" : "scale-105 opacity-70"
+          }`}
+          priority={false}
+        />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/85 via-slate-950/45 to-transparent p-4 text-white">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-100">
+            Extension visual
+          </p>
+          <h3 className="mt-1 text-lg font-semibold tracking-tight">
+            {visual.title}
+          </h3>
+        </div>
+      </div>
+      <div className="p-4">
+        <p className="text-sm leading-6 text-stone-600">{visual.caption}</p>
+        {size > 0 && (
+          <div className="mt-3 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-950">
+            {size} m² estimate
+          </div>
+        )}
       </div>
     </div>
   );

@@ -3,15 +3,19 @@
 // "low / expected / high" ranges rather than a false sense of precision.
 
 export const EXTENSION_CONFIG = {
-  version: "2026.02",
+  version: "2026.03",
 
   // Expected build rates (ex VAT) for a standard specification before modifiers.
   // These are per m² of extension area as entered by the user.
   baseBuildRates: {
-    singleStorey: 1900,
-    doubleStorey: 2100,
-    basement: 3600,
-    loft: 2300,
+    singleStorey: 2400,
+    rearExtension: 2400,
+    sideReturn: 2600,
+    wraparound: 2500,
+    kitchenExtension: 2450,
+    doubleStorey: 2000,
+    basement: 4200,
+    loft: 2200,
   },
 
   sizeMultipliers: {
@@ -98,25 +102,23 @@ export const EXTENSION_CONFIG = {
   },
 
   // Broad defaults for a conservative VAT-inclusive range estimate.
-  // For simplicity/trust, VAT is applied to the full subtotal.
   vatRate: 0.2,
 
-  // Professional/statuory costs used when selected by user.
-  // "taxable" is used in case VAT treatment is separated later.
+  // Professional/statutory costs used when selected by user.
   planningServices: {
-    measuredSurvey: { cost: 750, category: "professional", taxable: true },
-    architectConcept: { cost: 1800, category: "professional", taxable: true },
-    architectFullDesign: { cost: 4500, category: "professional", taxable: true },
-    structuralEngineer: { cost: 1200, category: "professional", taxable: true },
+    measuredSurvey: { cost: 900, category: "professional", taxable: true },
+    architectConcept: { cost: 2500, category: "professional", taxable: true },
+    architectFullDesign: { cost: 6500, category: "professional", taxable: true },
+    structuralEngineer: { cost: 1800, category: "professional", taxable: true },
     planningApplicationSupport: {
-      cost: 900,
+      cost: 1200,
       category: "professional",
       taxable: true,
     },
-    planningApplicationFee: { cost: 258, category: "statutory", taxable: false },
-    buildingControl: { cost: 900, category: "statutory", taxable: false },
-    partyWallSurveyor: { cost: 1800, category: "professional", taxable: true },
-    ThamesWaterBuildOver: { cost: 600, category: "statutory", taxable: false },
+    planningApplicationFee: { cost: 548, category: "statutory", taxable: false },
+    buildingControl: { cost: 1200, category: "statutory", taxable: false },
+    partyWallSurveyor: { cost: 2500, category: "professional", taxable: true },
+    ThamesWaterBuildOver: { cost: 900, category: "statutory", taxable: false },
   },
 
   // Typical recommended fees if user does not know what to select yet.
@@ -213,7 +215,7 @@ export const EXTENSION_CONFIG = {
       name: "Kitchen fit-out",
       unit: "fixed",
       unitLabel: "allowance",
-      unitCost: 18000,
+      unitCost: 16000,
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 1,
@@ -260,6 +262,25 @@ export const EXTENSION_CONFIG = {
       description: "Patio / garden reinstatement allowance",
     },
   },
+
+  // Type-specific allowances that are commonly missed when users leave optional
+  // extras untouched. Explicit user selections can still increase quantities.
+  extensionTypeFeatureAllowances: {
+    sideReturn: [{ id: "structuralOpening", quantity: 1 }],
+    wraparound: [
+      { id: "structuralOpening", quantity: 2 },
+      { id: "roofLights", quantity: 2 },
+    ],
+    kitchenExtension: [
+      { id: "structuralOpening", quantity: 1 },
+      { id: "biFoldDoors", quantity: 1 },
+      { id: "roofLights", quantity: 2 },
+      { id: "kitchenFitout", quantity: 1 },
+    ],
+    doubleStorey: [{ id: "structuralOpening", quantity: 1 }],
+    basement: [{ id: "structuralOpening", quantity: 1 }],
+    loft: [{ id: "veluxWindows", quantity: 2 }],
+  },
 };
 
 export const PROPERTY_TYPES = [
@@ -292,9 +313,24 @@ export const PROPERTY_TYPES = [
 
 export const EXTENSION_TYPES = [
   {
-    id: "singleStorey",
-    name: "Single-storey extension",
-    description: "Rear / side / wraparound at ground floor level",
+    id: "rearExtension",
+    name: "Rear extension",
+    description: "Single-storey rear addition opening onto the garden",
+  },
+  {
+    id: "sideReturn",
+    name: "Side return extension",
+    description: "Infill extension along the side passage of a terraced home",
+  },
+  {
+    id: "wraparound",
+    name: "Wraparound extension",
+    description: "Rear and side-return extension with more structural work",
+  },
+  {
+    id: "kitchenExtension",
+    name: "Kitchen extension with fit-out",
+    description: "Rear or wraparound extension including a kitchen allowance",
   },
   {
     id: "doubleStorey",

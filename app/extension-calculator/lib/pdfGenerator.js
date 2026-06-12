@@ -15,7 +15,11 @@ const prettifyId = (id) =>
     .trim();
 
 const extensionNames = {
-  singleStorey: "Single-storey extension",
+  singleStorey: "Rear extension",
+  rearExtension: "Rear extension",
+  sideReturn: "Side return extension",
+  wraparound: "Wraparound extension",
+  kitchenExtension: "Kitchen extension with fit-out",
   doubleStorey: "Double-storey extension",
   basement: "Basement extension",
   loft: "Loft conversion",
@@ -232,6 +236,11 @@ export const generateCostEstimatePDF = (
     `VAT (${Math.round((b.vatRate || 0) * 100)}%)`,
     formatCurrency(b.vat),
   );
+  y = h.addParagraph(
+    y + 1,
+    "VAT is applied to build costs, extras, professional fees and contingency. Statutory fees are listed separately and excluded from VAT.",
+    { fontSize: 8.5, color: [100, 100, 100] },
+  );
   y = h.addDivider(y + 1);
   y = h.addRow(y, "Total expected budget", formatCurrency(b.total), {
     bold: true,
@@ -240,7 +249,7 @@ export const generateCostEstimatePDF = (
 
   if (Array.isArray(b.extrasLineItems) && b.extrasLineItems.length > 0) {
     y = h.addDivider(y + 1);
-    y = drawSectionTitle(doc, y, "Selected extras");
+    y = drawSectionTitle(doc, y, "Extras and type allowances");
     b.extrasLineItems.forEach((item) => {
       y = h.addRow(
         y,
@@ -291,7 +300,7 @@ export const generateCostEstimatePDF = (
     "Use the high estimate when checking affordability/finance so you do not under-budget.",
     "Get a measured survey and clear drawings before requesting final builder quotes.",
     "Ask each builder to price the same scope, inclusions, and provisional sums.",
-    "Confirm what is excluded: kitchen/appliances, landscaping, party wall, utility upgrades, fees, VAT.",
+    "Confirm what is excluded or provisional: appliances, landscaping, utility upgrades, party wall detail, statutory fees, and VAT treatment.",
     "Hold contingency until the project is complete; do not allocate it to optional upgrades too early.",
     "Request a staged payment schedule tied to progress, with a retention/snagging balance where appropriate.",
   ].forEach((tip) => {

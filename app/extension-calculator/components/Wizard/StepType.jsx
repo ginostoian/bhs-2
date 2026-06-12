@@ -4,9 +4,20 @@ import React from "react";
 import { EXTENSION_TYPES } from "../../lib/config";
 import { costEngine } from "../../lib/costEngine";
 
+const typicalPreviewSizes = {
+  rearExtension: 20,
+  singleStorey: 20,
+  sideReturn: 10,
+  wraparound: 30,
+  kitchenExtension: 30,
+  doubleStorey: 50,
+  basement: 35,
+  loft: 30,
+};
+
 const StepType = ({ formData, setFormData, onNext, onBack }) => {
   const canProceed = !!formData.extensionType;
-  const previewSize = formData.size > 0 ? formData.size : 25;
+  const usesUserSize = formData.size > 0;
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -16,14 +27,17 @@ const StepType = ({ formData, setFormData, onNext, onBack }) => {
         </h2>
         <p className="mt-2 text-stone-600">
           We’ll use this to apply a different build rate, timeline, and risk
-          profile. Example ranges below are for a typical {previewSize} m²
-          London project and will update once you enter more details.
+          profile. Example ranges below use typical London sizes for each
+          project type and will update once you enter your own size.
         </p>
       </div>
 
       <div className="grid gap-4">
         {EXTENSION_TYPES.map((extension) => {
           const selected = formData.extensionType === extension.id;
+          const previewSize = usesUserSize
+            ? formData.size
+            : typicalPreviewSizes[extension.id] || 25;
           const range = costEngine.getCostRange(extension.id, previewSize);
 
           return (
@@ -82,7 +96,9 @@ const StepType = ({ formData, setFormData, onNext, onBack }) => {
                       selected ? "text-stone-200" : "text-stone-500"
                     }`}
                   >
-                    Typical Range (Ballpark)
+                    {usesUserSize
+                      ? `${previewSize} m² Range`
+                      : `Typical ${previewSize} m² Range`}
                   </p>
                   <p className="mt-2 text-lg font-semibold">
                     {costEngine.formatCurrency(range.min)} -{" "}

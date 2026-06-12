@@ -158,6 +158,30 @@ export class ExtensionCostEngine {
     return [...new Set(planningServices.filter((id) => validIds.has(id)))];
   }
 
+  getExtensionTypeAllowances(data) {
+    return this.normalizeFeatureSelections(
+      this.config.extensionTypeFeatureAllowances?.[data.extensionType] || [],
+      data.size,
+    );
+  }
+
+  mergeFeatureSelections(typeAllowances, userSelections) {
+    const merged = new Map();
+
+    [...typeAllowances, ...userSelections].forEach((selection) => {
+      if (!selection?.id) return;
+      const existing = merged.get(selection.id);
+      merged.set(selection.id, {
+        id: selection.id,
+        quantity: existing
+          ? Math.max(existing.quantity, selection.quantity)
+          : selection.quantity,
+      });
+    });
+
+    return [...merged.values()];
+  }
+
   getRecommendedPlanningServices(data) {
     const services = new Set(this.config.recommendedFeeBundles.base);
 
@@ -293,6 +317,10 @@ export class ExtensionCostEngine {
   getEstimatedTimeline(extensionType, size, complexity) {
     const baseBuildWeeks = {
       singleStorey: 10,
+      rearExtension: 10,
+      sideReturn: 10,
+      wraparound: 14,
+      kitchenExtension: 12,
       doubleStorey: 16,
       basement: 24,
       loft: 12,
@@ -313,6 +341,8 @@ export class ExtensionCostEngine {
     const planningWeeks =
       extensionType === "basement"
         ? { min: 10, max: 20 }
+        : extensionType === "wraparound" || extensionType === "doubleStorey"
+          ? { min: 8, max: 18 }
         : extensionType === "loft"
           ? { min: 6, max: 14 }
           : { min: 6, max: 16 };
@@ -352,7 +382,12 @@ export class ExtensionCostEngine {
         multipliers.glazing,
     );
 
-    const extras = this.calculateAdditionalFeaturesCost(data.additionalFeatures);
+    const typeAllowances = this.getExtensionTypeAllowances(data);
+    const effectiveFeatures = this.mergeFeatureSelections(
+      typeAllowances,
+      data.additionalFeatures,
+    );
+    const extras = this.calculateAdditionalFeaturesCost(effectiveFeatures);
     const planning = this.calculatePlanningCosts(data.planningServices, data);
 
     const subtotalBeforeContingency = round(
@@ -364,8 +399,11 @@ export class ExtensionCostEngine {
       data.complexity,
     );
 
-    const subtotalExVat = round(subtotalBeforeContingency + contingency.amount);
-    const vat = round(subtotalExVat * this.config.vatRate);
+    const taxableSubtotal = round(
+      adjustedBuild + extras.total + planning.professionalFees + contingency.amount,
+    );
+    const subtotalExVat = round(taxableSubtotal + planning.statutoryFees);
+    const vat = round(taxableSubtotal * this.config.vatRate);
     const total = round(subtotalExVat + vat);
 
     const { lowFactor, highFactor, confidenceScore } = this.getRangeFactors(data);
@@ -382,7 +420,8 @@ export class ExtensionCostEngine {
     return {
       assumptions: {
         calculatorVersion: this.config.version,
-        vatAppliedToFullSubtotal: true,
+        vatAppliedToTaxableCostsOnly: true,
+        typeSpecificAllowancesIncluded: typeAllowances.length > 0,
         recommendedPlanningFeesAutoIncluded: planning.recommendedOnly,
       },
       inputs: data,
@@ -401,6 +440,7 @@ export class ExtensionCostEngine {
         subtotalBeforeContingency,
         contingencyRate: contingency.rate,
         contingency: contingency.amount,
+        taxableSubtotal,
         subtotalExVat,
         vatRate: this.config.vatRate,
         vat,

@@ -73,7 +73,7 @@ const calculatorFaqs = [
   {
     question: "Does the estimate include VAT and contingency?",
     answer:
-      "Yes. The result screen clearly separates base build cost, extras, professional/statutory fees, contingency, and VAT. We apply VAT conservatively to the subtotal so you don't under-budget at the planning stage.",
+      "Yes. The result screen clearly separates base build cost, extras, professional/statutory fees, contingency, and VAT. VAT is applied to taxable costs such as build work, extras, professional fees and contingency; statutory fees are shown separately.",
   },
   {
     question: "What if I don't know planning or structural details yet?",
