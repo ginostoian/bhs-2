@@ -1,22 +1,27 @@
 import { getSEOTags } from "@/libs/seo";
 
-export const metadata = {
-  ...getSEOTags(),
-  title: "Home Renovation Cost Calculator | Better Homes",
-  description:
-    "Get an accurate estimate for your home renovation project. Our calculator takes into account your property type, location, and specific renovation requirements.",
-  keywords:
-    "home renovation calculator, renovation cost estimate, house renovation, property renovation, London renovation",
-  alternates: {
-    canonical: "/renovation-calculator",
-  },
+const pageTitle = "Home Renovation Cost Calculator UK & London (2026) | Better Homes";
+const pageDescription =
+  "Free home renovation cost calculator. Get a low/expected/high budget for a full or partial refurbishment — fees, contingency and VAT included. London-first pricing.";
+
+export const metadata = getSEOTags({
+  title: pageTitle,
+  description: pageDescription,
+  keywords: [
+    "home renovation cost calculator",
+    "renovation cost calculator",
+    "house renovation cost calculator",
+    "renovation calculator UK",
+    "full house renovation cost calculator",
+    "refurbishment cost calculator",
+  ],
+  canonicalUrlRelative: "/renovation-calculator",
   openGraph: {
-    title: "Home Renovation Cost Calculator | Better Homes",
-    description:
-      "Free home renovation cost calculator for London homeowners planning full or partial refurbishments.",
+    title: pageTitle,
+    description: pageDescription,
     url: "https://bhstudio.co.uk/renovation-calculator",
   },
-};
+});
 
 export default function RenovationCalculatorLayout({ children }) {
   return children;

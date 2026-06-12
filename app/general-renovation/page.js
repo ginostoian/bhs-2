@@ -11,7 +11,6 @@ import { getSEOTags } from "@/libs/seo";
 import {
   BUSINESS_IDS,
   SITE_URL,
-  getLocalBusinessSchema,
   getWebsiteReference,
 } from "@/libs/structuredData";
 
@@ -40,6 +39,8 @@ const heroProofPoints = [
   "Projects typically from £80,000",
   "£10M insured",
   "10-year workmanship guarantee",
+  "500+ projects delivered",
+  "Best of Houzz winner",
 ];
 
 const quickAnswerItems = [
@@ -91,7 +92,11 @@ const inclusionItems = [
   {
     title: "Structural changes and layout reworking",
     body:
-      "Wall removals, openings, strengthening work and layout changes that make the house feel better organised and easier to live in.",
+      "Wall removals, openings, strengthening work and layout changes that make the house feel better organised and easier to live in. If the wider scope includes a house extension or loft conversion, we coordinate that as part of one joined-up plan.",
+    links: [
+      { label: "house extension", href: "/house-extension" },
+      { label: "loft conversion", href: "/loft-conversion" },
+    ],
   },
   {
     title: "Rewiring, plumbing and heating upgrades",
@@ -101,7 +106,11 @@ const inclusionItems = [
   {
     title: "Kitchen and bathroom delivery",
     body:
-      "Not as stand-alone projects bolted on afterwards, but as part of one joined-up renovation so the whole home feels coherent.",
+      "Not as stand-alone projects bolted on afterwards, but as part of one joined-up renovation. If you need a kitchen renovation or bathroom renovation, those decisions are coordinated with the rest of the home so the result feels coherent.",
+    links: [
+      { label: "kitchen renovation", href: "/kitchen-renovation" },
+      { label: "bathroom renovation", href: "/bathroom-renovation" },
+    ],
   },
   {
     title: "Plastering, flooring and joinery",
@@ -255,6 +264,61 @@ const guideLinks = [
 
 const pageUrl = `${SITE_URL}/general-renovation`;
 
+const serviceAreaGroups = [
+  {
+    region: "North East London",
+    description:
+      "Family houses and period properties where access, sequencing and lived-in neighbourhood constraints need practical planning.",
+    areas: [
+      { name: "Walthamstow", href: "/locations/walthamstow" },
+      { name: "Woodford", href: "/locations/woodford" },
+      { name: "South Woodford", href: "/locations/south-woodford" },
+      { name: "Chingford", href: "/locations/chingford" },
+      { name: "Chigwell", href: "/locations/chigwell" },
+      { name: "Loughton", href: "/locations/loughton" },
+    ],
+  },
+  {
+    region: "Central London",
+    description:
+      "High-value homes, flats and townhouses where coordination, discreet site management and finish quality matter early.",
+    areas: [
+      { name: "Westminster", href: "/locations/westminster" },
+      { name: "Marylebone", href: "/locations/marylebone" },
+      { name: "Mayfair", href: "/locations/mayfair" },
+      { name: "Camden Town", href: "/locations/camden-town" },
+      { name: "Islington", href: "/locations/islington" },
+      { name: "Hampstead", href: "/locations/hampstead" },
+    ],
+  },
+  {
+    region: "East and Selected West London",
+    description:
+      "Established London neighbourhoods where renovation work often overlaps with layout improvement, M&E upgrades and premium finishes.",
+    areas: [
+      { name: "Hackney", href: "/locations/hackney" },
+      { name: "Dalston", href: "/locations/dalston" },
+      { name: "Leyton", href: "/locations/leyton" },
+      { name: "Kensington", href: "/locations/kensington" },
+      { name: "Chelsea", href: "/locations/chelsea" },
+      { name: "Notting Hill", href: "/locations/notting-hill" },
+    ],
+  },
+];
+
+const schemaServiceAreas = [
+  "London",
+  "East London",
+  "North East London",
+  "Central London",
+  "Westminster",
+  "Camden",
+  "Islington",
+  "Hackney",
+  "Walthamstow",
+  "Woodford",
+];
+
 function SectionHeading({
   eyebrow,
   title,
@@ -309,6 +373,41 @@ function AnswerCard({ label, value, detail }) {
   );
 }
 
+function LinkedText({ text, links = [] }) {
+  if (!links.length) {
+    return text;
+  }
+
+  const parts = [];
+  let remaining = text;
+
+  links.forEach((link) => {
+    const index = remaining.indexOf(link.label);
+    if (index === -1) return;
+
+    if (index > 0) {
+      parts.push(remaining.slice(0, index));
+    }
+
+    parts.push(
+      <Link
+        key={link.href}
+        href={link.href}
+        className="font-semibold text-[#266bf1] hover:underline"
+      >
+        {link.label}
+      </Link>
+    );
+    remaining = remaining.slice(index + link.label.length);
+  });
+
+  if (remaining) {
+    parts.push(remaining);
+  }
+
+  return parts;
+}
+
 export default function Page() {
   const faqs = getPageFaqs("renovation");
 
@@ -330,10 +429,32 @@ export default function Page() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        ...getLocalBusinessSchema({
-          description:
-            "Full home renovation and refurbishment services across London including structural work, rewiring, plumbing, kitchens, bathrooms and full interior finishing.",
-        }),
+        "@type": "Service",
+        "@id": `${pageUrl}#service`,
+        serviceType: "Full home renovation and refurbishment",
+        provider: {
+          "@type": ["GeneralContractor", "HomeAndConstructionBusiness"],
+          "@id": BUSINESS_IDS.localBusiness,
+          name: "Better Homes Studio",
+          image: `${SITE_URL}/assets/logo/bh-logo.svg`,
+          url: pageUrl,
+          telephone: "+447922391591",
+          priceRange: "£80,000-£350,000+",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "London",
+            addressRegion: "Greater London",
+            addressCountry: "GB",
+          },
+          areaServed: schemaServiceAreas.map((area) => ({
+            "@type": "Place",
+            name: area,
+          })),
+        },
+        areaServed: "London, UK",
+        description:
+          "Full home renovation in London managed by one accountable team: structural work, rewiring, plumbing, kitchens, bathrooms, finishes and handover.",
+        url: pageUrl,
       },
       {
         "@type": "WebPage",
@@ -346,18 +467,28 @@ export default function Page() {
         },
       },
       {
-        "@type": "Service",
-        "@id": `${pageUrl}#service`,
-        serviceType: "Full Home Renovation London",
-        provider: {
-          "@id": BUSINESS_IDS.localBusiness,
-        },
-        areaServed: {
-          "@type": "AdministrativeArea",
-          name: "London",
-          addressCountry: "GB",
-        },
-        url: pageUrl,
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${SITE_URL}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Services",
+            item: `${SITE_URL}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: "Full Home Renovation",
+            item: pageUrl,
+          },
+        ],
       },
       faqSchema,
     ],
@@ -368,10 +499,13 @@ export default function Page() {
       <Hero
         title="Renovate the whole home properly. "
         titleAccent="Without managing five different contractors."
-        subtitle="For London homeowners planning a true full renovation, we manage structural work, rewiring, plumbing, kitchens, bathrooms, finishes and handover under one accountable team. Whole-home renovation projects typically start from around £80,000."
+        subtitle="For homeowners planning a full home renovation in London, we manage structural work, rewiring, plumbing, kitchens, bathrooms, finishes and handover under one accountable team. Whole-home renovation projects typically start from around £80,000."
         heroCTA="Book your renovation consultation"
         heroImgUrl="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-room.webp"
+        heroImgAlt="Full home renovation in N19, North London with open-plan living space"
         ctaTallyFormLink="/general-renovation-form"
+        secondaryCTA="Call us"
+        secondaryCtaLink="tel:07922391591"
         proofPoints={heroProofPoints}
       />
 
@@ -383,7 +517,7 @@ export default function Page() {
             <div>
               <SectionHeading
                 eyebrow="Quick Answer"
-                title="A full renovation is about fixing the whole house, not decorating around the problems"
+                title="Full home renovation in London, managed end to end"
                 description="The right whole-home renovation replaces patchwork with clarity. It deals with the layout, the systems, the finishes and the flow of the house together, so the result feels complete rather than partly improved."
               />
               <div className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm">
@@ -441,13 +575,18 @@ export default function Page() {
               className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
             >
               <h3 className="text-2xl font-black text-[#100b47]">{item.title}</h3>
-              <p className="mt-4 text-base leading-8 text-gray-700">{item.body}</p>
+              <p className="mt-4 text-base leading-8 text-gray-700">
+                <LinkedText text={item.body} links={item.links} />
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section
+        id="renovation-costs"
+        className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+      >
         <SectionHeading
           eyebrow="Costs"
           title="Whole-home renovation costs by house size and scope"
@@ -501,6 +640,26 @@ export default function Page() {
             </div>
           ))}
         </div>
+        <div className="mt-6 rounded-2xl border border-[#d9e5fb] bg-[#f8fbff] p-6">
+          <p className="text-base leading-8 text-gray-700">
+            For a personalised range before you speak to us, use our{" "}
+            <Link
+              href="/renovation-calculator"
+              className="font-semibold text-[#266bf1] hover:underline"
+            >
+              home renovation cost calculator
+            </Link>
+            . If you want the deeper cost logic, hidden allowances and 2026
+            London benchmarks, read the{" "}
+            <Link
+              href="/blog/home-renovation-cost-london-2026"
+              className="font-semibold text-[#266bf1] hover:underline"
+            >
+              full home renovation cost guide
+            </Link>
+            .
+          </p>
+        </div>
       </section>
 
       <section
@@ -523,7 +682,14 @@ export default function Page() {
                     alt={featuredProject.imageAlt}
                     width={1400}
                     height={900}
-                    className="h-[320px] w-full object-cover"
+                    loading="lazy"
+                    className="h-[320px]"
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      maxWidth: "100%",
+                      objectFit: "cover",
+                    }}
                   />
                 </div>
                 <div className="mt-6 flex flex-wrap items-center gap-2">
@@ -627,6 +793,19 @@ export default function Page() {
             description="Full renovations become stressful when the scope is fuzzy, the systems work is underestimated, or every trade is solving only its own piece. This process is designed to stop that happening."
             dark
           />
+          <div className="mb-6 rounded-2xl border border-white/10 bg-white/10 p-5 text-[#d6def6] backdrop-blur-sm">
+            <p className="text-base leading-8">
+              Want a rough budget before we talk? Use our{" "}
+              <Link
+                href="https://bhstudio.co.uk/renovation-calculator"
+                className="font-bold text-white underline decoration-[#9ec1ff] underline-offset-4 transition hover:text-[#9ec1ff]"
+              >
+                renovation cost calculator
+              </Link>{" "}
+              for an instant low/expected/high range, then bring the PDF into a
+              scope conversation with us.
+            </p>
+          </div>
           <div className="grid gap-4 lg:grid-cols-5">
             {processSteps.map((step, index) => (
               <article
@@ -645,6 +824,40 @@ export default function Page() {
       </section>
 
       <Guarantee />
+
+      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <SectionHeading
+          eyebrow="Where We Work"
+          title="Full home renovations across East, North East and Central London"
+          description="We deliver full home renovations across East, North East and Central London, including Walthamstow, Hackney, Islington, Westminster and surrounding areas where access, planning context and finish quality need proper early control."
+        />
+        <div className="grid gap-5 lg:grid-cols-3">
+          {serviceAreaGroups.map((group) => (
+            <article
+              key={group.region}
+              className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
+            >
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
+                {group.region}
+              </p>
+              <p className="mt-3 text-sm leading-7 text-gray-600">
+                {group.description}
+              </p>
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
+                {group.areas.map((area) => (
+                  <Link
+                    key={area.href}
+                    href={area.href}
+                    className="border-t border-[#edf2fc] pt-3 text-sm font-bold text-[#100b47] transition hover:text-[#266bf1]"
+                  >
+                    {area.name} renovation
+                  </Link>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <FAQ content={faqs} />
 
@@ -713,11 +926,27 @@ export default function Page() {
                 Book your renovation consultation
               </Link>
               <Link
-                href="/blog/home-renovation-cost-london-2026"
+                href="tel:07922391591"
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
               >
-                Read the full renovation guide first
+                Call us
               </Link>
+              <Link
+                href="/renovation-calculator"
+                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
+              >
+                Get an instant budget range
+              </Link>
+            </div>
+            <div className="mt-8 grid gap-3 text-sm font-bold text-[#100b47] sm:grid-cols-2 lg:grid-cols-4">
+              {heroProofPoints.slice(1).map((point) => (
+                <div
+                  key={point}
+                  className="rounded-xl border border-[#d9e5fb] bg-white px-4 py-3"
+                >
+                  {point}
+                </div>
+              ))}
             </div>
           </div>
         </div>

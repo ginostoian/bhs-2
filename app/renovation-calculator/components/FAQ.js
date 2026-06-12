@@ -50,79 +50,47 @@ function Item({ item }) {
             : { maxHeight: 0, opacity: 0 }
         }
       >
-        <div className="pb-5 leading-relaxed">{item.answer}</div>
+        <p className="pb-5 leading-relaxed">{item.answer}</p>
       </div>
     </li>
   );
 }
 
-const faqList = [
+export const renovationFaqs = [
   {
     question: "How accurate is this renovation calculator?",
-    answer: (
-      <div className="space-y-2">
-        <p>
-          It is built for early budgeting, not final quoting. It gives a low /
-          expected / high range and widens that range when the scope is still
-          vague or the property is older and more complex.
-        </p>
-        <p>
-          Accuracy improves once you have a room-by-room scope, survey
-          information, and clearer service / structural decisions.
-        </p>
-      </div>
-    ),
+    answer:
+      "It is built for early budgeting, not final quoting. It gives a low / expected / high range and widens that range when the scope is still vague or the property is older and more complex. Accuracy improves once you have a room-by-room scope, survey information, and clearer service / structural decisions.",
   },
   {
     question: "Why not show one exact price?",
-    answer: (
-      <div className="space-y-2">
-        <p>
-          Exact-looking numbers for refurbishments are usually misleading.
-          Renovation cost moves with hidden conditions, service upgrades,
-          structural discoveries, access, and finish decisions.
-        </p>
-        <p>A useful planning tool should show range and assumptions openly.</p>
-      </div>
-    ),
+    answer:
+      "Exact-looking numbers for refurbishments are usually misleading. Renovation cost moves with hidden conditions, service upgrades, structural discoveries, access, and finish decisions. A useful planning tool should show range and assumptions openly.",
   },
   {
     question: "What does the estimate include?",
-    answer: (
-      <div className="space-y-2">
-        <p>The calculator separates:</p>
-        <ul className="ml-5 list-disc space-y-1">
-          <li>Core scope allowance for the affected area</li>
-          <li>Room fit-out allowances such as kitchens and bathrooms</li>
-          <li>Systems upgrades like rewire / heating / plumbing</li>
-          <li>Structural and hidden-condition allowances</li>
-          <li>Finishing, fees, contingency, and VAT</li>
-        </ul>
-      </div>
-    ),
+    answer:
+      "The calculator separates core scope allowance for the affected area, room fit-out allowances such as kitchens and bathrooms, systems upgrades like rewire / heating / plumbing, structural and hidden-condition allowances, finishing, fees, contingency, and VAT.",
   },
   {
     question: "What is usually excluded from builder quotes that I should watch for?",
-    answer: (
-      <div className="space-y-2">
-        <p>Common exclusions include appliances, furniture, specialist lighting, window treatments, removals, and temporary accommodation.</p>
-        <p>Ask every contractor to confirm exclusions in writing so quotes are comparable.</p>
-      </div>
-    ),
+    answer:
+      "Common exclusions include appliances, furniture, specialist lighting, window treatments, removals, and temporary accommodation. Ask every contractor to confirm exclusions in writing so quotes are comparable.",
   },
   {
     question: "Can I live in the house during the renovation?",
-    answer: (
-      <div className="space-y-2">
-        <p>
-          Sometimes, yes, but it usually increases cost and duration because
-          work must be phased and the site protected more carefully.
-        </p>
-        <p>
-          The calculator includes an occupancy allowance for that reason.
-        </p>
-      </div>
-    ),
+    answer:
+      "Sometimes, yes, but it usually increases cost and duration because work must be phased and the site protected more carefully. The calculator includes an occupancy allowance for that reason.",
+  },
+  {
+    question: "How much does a full house renovation cost in London in 2026?",
+    answer:
+      "A full renovation in London typically runs £1,000 to £2,500 per square metre depending on specification and property condition, with inner boroughs at a 15–30% premium. A full terraced-house renovation commonly lands between £80,000 and £200,000 all-in, though older properties with structural or systems work can exceed that. Per-square-metre figures usually exclude VAT, professional fees and contingency — this calculator includes them so your budget is realistic from the start.",
+  },
+  {
+    question: "Is this calculator free, and do I have to give my details?",
+    answer:
+      "The calculator is free and you can see your low/expected/high estimate on screen without entering any contact details. If you'd like the full PDF breakdown with the budgeting guidance and comparison tips, we ask for your name and email so we can send it to you.",
   },
 ];
 
@@ -140,7 +108,7 @@ export default function FAQ() {
         </div>
 
         <ul className="basis-1/2">
-          {faqList.map((item, index) => (
+          {renovationFaqs.map((item, index) => (
             <Item key={index} item={item} />
           ))}
         </ul>

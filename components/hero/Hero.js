@@ -11,7 +11,10 @@ const Hero = ({
   subtitle,
   heroCTA,
   heroImgUrl,
+  heroImgAlt,
   ctaTallyFormLink,
+  secondaryCTA,
+  secondaryCtaLink,
   proofPoints,
   projectProof,
 }) => {
@@ -53,12 +56,22 @@ const Hero = ({
             </div>
           </div>
         )}
-        <Link
-          href={ctaTallyFormLink || "/contact"}
-          className="lg:w-[245px]! mb-10 flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-        >
-          {heroCTA}
-        </Link>
+        <div className={classes["hero__cta-row"]}>
+          <Link
+            href={ctaTallyFormLink || "/contact"}
+            className="flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
+          >
+            {heroCTA}
+          </Link>
+          {secondaryCTA && secondaryCtaLink ? (
+            <Link
+              href={secondaryCtaLink}
+              className="flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-[#bfd3f9] bg-white px-[20px] text-[18px] font-bold capitalize text-[#266bf1] transition duration-200 hover:border-[#266bf1] hover:text-[#1449B0] lg:min-h-[72px] lg:px-[24px]"
+            >
+              {secondaryCTA}
+            </Link>
+          ) : null}
+        </div>
         {projectProof?.length ? (
           <div className={classes["hero__project-proof"]}>
             {projectProof.map((project) => (
@@ -94,10 +107,11 @@ const Hero = ({
         <div className={classes["hero__right-img-fill"]}>
           <Image
             src={heroImageSrc}
-            objectFit="cover"
             fill
-            alt="cover photos"
+            alt={heroImgAlt || "Better Homes Studio renovation project"}
             priority
+            sizes="(max-width: 980px) 100vw, 40vw"
+            className={classes["hero__image"]}
           />
         </div>
       </div>

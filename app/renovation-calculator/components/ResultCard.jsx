@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import PDFDownload from "./PDFDownload";
+import { LONDON_ZONES } from "../lib/config";
 
 const formatCurrency = (amount) =>
   new Intl.NumberFormat("en-GB", {
@@ -57,6 +58,9 @@ function DetailSection({ title, items, valueKey = "total" }) {
   );
 }
 
+const getLondonZoneName = (id) =>
+  LONDON_ZONES.find((zone) => zone.id === id)?.name || "selected London zone";
+
 export default function ResultCard({
   calculationResult,
   formData,
@@ -65,6 +69,9 @@ export default function ResultCard({
 }) {
   const { breakdown, ranges, timeline } = calculationResult;
   const isLondon = calculationResult.serviceArea?.isLondon;
+  const londonZoneName = getLondonZoneName(
+    calculationResult.inputs?.londonZone || formData.londonZone,
+  );
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -88,6 +95,14 @@ export default function ResultCard({
                 <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
                   Better Homes primarily serves London. Non-London
                   outputs are provided as a budgeting benchmark only.
+                </div>
+              )}
+
+              {isLondon && (
+                <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+                  London pricing applied: {londonZoneName}. This is based on
+                  the London zone you selected, not an automatic postcode
+                  lookup.
                 </div>
               )}
             </div>
@@ -231,10 +246,16 @@ export default function ResultCard({
             <section className="rounded-2xl border border-stone-200 bg-white p-5">
               <div className="grid gap-3">
                 <Link
-                  href="/contact"
+                  href="https://bhstudio.co.uk/contact"
                   className="rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-black"
                 >
-                  Book a Free Cost Review
+                  Book a consultation
+                </Link>
+                <Link
+                  href="https://bhstudio.co.uk/blog/home-renovation-cost-london-2026"
+                  className="rounded-xl border border-stone-300 bg-white px-5 py-3 text-center text-sm font-semibold text-stone-700 transition hover:border-stone-400 hover:bg-stone-50"
+                >
+                  Read the 2026 renovation cost guide
                 </Link>
                 <button
                   onClick={onModifySelections}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Modal from "@/components/Modal";
 import Stepper from "./components/Wizard/Stepper";
 import StepProperty from "./components/Wizard/StepProperty";
@@ -12,7 +13,7 @@ import StepSystems from "./components/Wizard/StepSystems";
 import StepFinishing from "./components/Wizard/StepFinishing";
 import StepFinish from "./components/Wizard/StepFinish";
 import ResultCard from "./components/ResultCard";
-import FAQ from "./components/FAQ";
+import FAQ, { renovationFaqs } from "./components/FAQ";
 import { costEngine } from "./lib/costEngine";
 
 const initialFormData = {
@@ -77,6 +78,127 @@ const formatCurrency = (amount) =>
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount || 0);
+
+const siteUrl = "https://bhstudio.co.uk";
+const pageUrl = `${siteUrl}/renovation-calculator`;
+
+const benchmarkRows = [
+  ["Light cosmetic refurbishment (per room)", "£8,000 - £20,000"],
+  ["Full flat renovation", "£40,000 - £90,000"],
+  ["Full terraced house renovation", "£80,000 - £200,000"],
+  ["Full renovation, larger / detached home", "£150,000 - £400,000+"],
+  ["Per square metre (standard to high spec)", "£1,000 - £2,500/m²"],
+];
+
+const estimateFactors = [
+  {
+    title: "Scope and coverage",
+    body:
+      "A renovation touching two rooms and a renovation touching the whole house are not on the same scale, and cost does not rise in a straight line. Once you are rewiring, re-plumbing and re-plastering throughout, the house-wide systems work dominates the budget regardless of how many rooms get a cosmetic refresh.",
+  },
+  {
+    title: "Property age and hidden conditions",
+    body:
+      "London's Victorian and Edwardian stock hides the costs that wreck budgets: damp, old wiring, lath-and-plaster walls, undersized foundations, and asbestos in anything built before 2000. Older properties carry a wider estimate range because more is unknown until work starts.",
+  },
+  {
+    title: "Systems - rewire, heating, plumbing",
+    body:
+      "A full rewire, a new boiler or heating system, and re-plumbing are among the largest line items in any whole-house renovation. They are easy to underestimate because they are invisible in the finished result, but if you are upgrading these, expect the estimate to climb accordingly.",
+  },
+  {
+    title: "Structural changes",
+    body:
+      "Removing walls, forming open-plan space, or altering layout means steel beams, structural engineering and often building control and party wall involvement. These works usually affect both budget and programme because several trades need to coordinate around the same decisions.",
+  },
+  {
+    title: "Where you are in London",
+    body:
+      "Inner-London boroughs typically run 15-30% above outer London for the same scope, driven by labour rates, access, parking and scaffold licensing. The calculator's London zone setting accounts for this.",
+  },
+];
+
+const nextSteps = [
+  {
+    title: "Download your PDF",
+    body:
+      "It includes the full low/expected/high breakdown with components separated - useful for finance planning and for comparing builder quotes on identical scope.",
+  },
+  {
+    title: "Read the guide",
+    body:
+      "Our guide covers room-by-room costs, hidden fees, timelines, borough variation and renovate-vs-move economics - everything between rough budget and ready to start.",
+    href: `${siteUrl}/blog/home-renovation-cost-london-2026`,
+    linkText: "complete 2026 home renovation cost guide",
+  },
+  {
+    title: "Talk it through",
+    body:
+      "When you want a real answer for your property, book a consultation with our team. We will pressure-test the scope, budget and sequencing before anything gathers momentum - no pressure, no jargon.",
+    href: `${siteUrl}/general-renovation`,
+    linkText: "full home renovation team in London",
+  },
+];
+
+const calculatorSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebApplication",
+      "@id": `${pageUrl}#webapplication`,
+      name: "Home Renovation Cost Calculator",
+      url: pageUrl,
+      applicationCategory: "FinanceApplication",
+      operatingSystem: "Web",
+      provider: {
+        "@type": "Organization",
+        name: "Better Homes Studio",
+        url: siteUrl,
+      },
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "GBP",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: renovationFaqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: siteUrl,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Cost Guides",
+          item: `${siteUrl}/tools`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Renovation Calculator",
+          item: pageUrl,
+        },
+      ],
+    },
+  ],
+};
 
 function ProgressRow({ done, label }) {
   return (
@@ -386,23 +508,237 @@ export default function RenovationCalculator() {
           </aside>
         </div>
 
-        <section className="mx-auto mt-14 max-w-4xl rounded-2xl border border-stone-200 bg-white p-8 shadow-sm">
-          <h2 className="text-2xl font-bold text-stone-900">
-            Home renovation cost calculator for full refurbishment budgeting
-          </h2>
-          <p className="mt-4 leading-7 text-stone-700">
-            This home renovation cost calculator is designed to give homeowners
-            a stronger early view of full home renovation cost in London. It
-            looks beyond headline numbers by separating room fit-out,
-            structural work, systems, finishing, fees, contingency, and VAT.
-          </p>
-          <p className="mt-4 leading-7 text-stone-700">
-            If you are planning a flat refurbishment, house refurbishment, or a
-            wider remodel, the calculator helps you compare different scope
-            levels before asking contractors for detailed quotes. That makes it
-            a useful first step for budgeting, prioritising works, and setting
-            realistic expectations around home renovation cost.
-          </p>
+        <section className="mx-auto mt-14 max-w-6xl rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8 lg:p-10">
+          <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                Budget guidance
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-4xl">
+                How this home renovation cost calculator works
+              </h2>
+            </div>
+            <div className="space-y-4 text-base leading-7 text-stone-600">
+              <p>
+                Most renovation calculators ask for two or three inputs and
+                spit out a single number, which is why so many renovation
+                budgets are wrong before the first wall comes down. A full
+                refurbishment cost depends on scope, the age and condition of
+                the property, how much rewiring and re-plumbing is needed,
+                whether walls are moving, and the finish you are aiming for. No
+                early-stage tool can promise an exact figure, so an honest one
+                gives you a range.
+              </p>
+              <p>
+                This calculator works through eight short steps: property and
+                location, house details, which rooms are in scope, renovation
+                standard, structural changes, systems, and finishing. It returns
+                a low / expected / high budget with the components most tools
+                hide shown separately: core scope, room fit-out, systems
+                upgrades, structural and hidden-condition allowances, finishing,
+                professional fees, contingency, and VAT at 20%. It also gives a
+                confidence score based on how defined your scope is, and a
+                downloadable PDF you can use to compare builders on a
+                like-for-like basis.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50/70 p-6 md:p-8">
+            <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                  Typical London budgets
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
+                  2026 renovation cost benchmarks
+                </h2>
+                <p className="mt-4 text-base leading-7 text-stone-600">
+                  Use these typical London ranges to sanity-check your result.
+                  They are planning-stage figures including fees and VAT at a
+                  mid-range specification.
+                </p>
+              </div>
+
+              <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-stone-200">
+                    <thead className="bg-stone-100">
+                      <tr>
+                        <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                          Renovation scope
+                        </th>
+                        <th className="px-5 py-4 text-left text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                          Typical all-in budget (London, 2026)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-200">
+                      {benchmarkRows.map(([scope, budget]) => (
+                        <tr key={scope}>
+                          <td className="px-5 py-4 font-medium text-stone-900">
+                            {scope}
+                          </td>
+                          <td className="px-5 py-4 text-stone-700">{budget}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <p className="mt-5 text-base leading-7 text-stone-600">
+              For room-by-room costs, borough premiums, hidden costs and what is
+              driving 2026 prices, read the{" "}
+              <Link
+                href={`${siteUrl}/blog/home-renovation-cost-london-2026`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                full renovation cost breakdown for London
+              </Link>{" "}
+              in our complete 2026 guide.
+            </p>
+          </div>
+
+          <div className="mt-10">
+            <div className="max-w-3xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                Cost drivers
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
+                What moves a renovation estimate up or down
+              </h2>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {estimateFactors.map((factor) => (
+                <article
+                  key={factor.title}
+                  className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm"
+                >
+                  <h3 className="text-lg font-semibold text-stone-950">
+                    {factor.title}
+                  </h3>
+                  <p className="mt-3 text-base leading-7 text-stone-600">
+                    {factor.body}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-4 rounded-2xl border border-blue-100 bg-blue-50 p-6">
+              <h3 className="text-lg font-semibold text-blue-950">
+                Linked project costs
+              </h3>
+              <p className="mt-3 text-base leading-7 text-blue-950/80">
+                If your renovation also includes an extension, budget that
+                separately with our{" "}
+                <Link
+                  href={`${siteUrl}/extension-calculator`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  house extension cost calculator
+                </Link>
+                . If the kitchen or bathrooms are a big part of the scope, the{" "}
+                <Link
+                  href={`${siteUrl}/kitchen-calculator`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  kitchen cost calculator
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href={`${siteUrl}/tools/bathroom-cost-calculator`}
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  bathroom cost calculator
+                </Link>{" "}
+                will sharpen those line items.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                  Next steps
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
+                  What to do with your estimate
+                </h2>
+              </div>
+              <Link
+                href={`${siteUrl}/contact`}
+                className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#266bf1] px-5 text-sm font-semibold text-white transition hover:bg-[#1449B0]"
+              >
+                Book a consultation
+              </Link>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              {nextSteps.map((step, index) => (
+                <article
+                  key={step.title}
+                  className="rounded-2xl border border-stone-200 bg-stone-50 p-5"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="mt-3 text-lg font-semibold text-stone-950">
+                    {step.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-stone-600">
+                    {step.title === "Read the guide" ? (
+                      <>
+                        Our{" "}
+                        <Link
+                          href={step.href}
+                          className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                        >
+                          {step.linkText}
+                        </Link>{" "}
+                        covers room-by-room costs, hidden fees, timelines,
+                        borough variation and renovate-vs-move economics -
+                        everything between rough budget and ready to start.
+                      </>
+                    ) : step.title === "Talk it through" ? (
+                      <>
+                        When you want a real answer for your property, book a
+                        consultation with our{" "}
+                        <Link
+                          href={step.href}
+                          className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                        >
+                          {step.linkText}
+                        </Link>
+                        . We will pressure-test the scope, budget and sequencing
+                        before anything gathers momentum - no pressure, no
+                        jargon.
+                      </>
+                    ) : (
+                      step.body
+                    )}
+                  </p>
+                </article>
+              ))}
+            </div>
+            <p className="mt-5 text-base leading-7 text-stone-600">
+              For the full explanation behind the ranges, hidden fees and
+              borough premiums, read our{" "}
+              <Link
+                href={`${siteUrl}/blog/home-renovation-cost-london-2026`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                complete 2026 home renovation cost guide
+              </Link>
+              . For project-specific advice, talk to our{" "}
+              <Link
+                href={`${siteUrl}/general-renovation`}
+                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+              >
+                design-and-build renovation team
+              </Link>
+              .
+            </p>
+          </div>
         </section>
 
         <div className="mt-12">
@@ -417,6 +753,10 @@ export default function RenovationCalculator() {
         message={modalState.message}
         confirmText={modalState.confirmText}
         type={modalState.type}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
       />
     </div>
   );

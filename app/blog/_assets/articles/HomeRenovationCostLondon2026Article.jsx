@@ -218,6 +218,16 @@ export default function HomeRenovationCostLondon2026() {
         basement digs. If your project includes any of those, you should budget
         an additional £50,000 to £150,000 or more depending on scope.
       </p>
+      <p className={styles.p}>
+        To apply these figures to your own project, try our{" "}
+        <Link
+          href="https://bhstudio.co.uk/renovation-calculator"
+          className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+        >
+          home renovation cost calculator
+        </Link>{" "}
+        for a low/expected/high budget.
+      </p>
 
       {/* IMAGE: Infographic 1 - Cost by Spec Level */}
       <figure className={styles.figure}>
@@ -830,6 +840,14 @@ export default function HomeRenovationCostLondon2026() {
         worktops, or the paint colours. A good contractor protects your budget,
         your timeline, and your sanity. A poor one can cost you tens of
         thousands in overruns and remedial work.
+      </p>
+      <p className={styles.p}>
+        If you are past the research stage and want one accountable team to
+        assess scope, budget and delivery risk, speak to our{" "}
+        <Link href="/general-renovation">
+          full home renovation team in London
+        </Link>
+        .
       </p>
       <p className={styles.p}>
         When evaluating London renovation contractors, look for a minimum of £2

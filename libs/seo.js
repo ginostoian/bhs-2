@@ -41,7 +41,7 @@ export const getSEOTags = ({
       //     height: 660,
       //   },
       // ],
-      locale: "en_US",
+      locale: "en_GB",
       type: "website",
     },
 
