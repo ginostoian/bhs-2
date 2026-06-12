@@ -18,6 +18,7 @@ module.exports = {
     "/opengraph-image.*",
     "/icon.*",
     "/apple-icon.*",
+    "/api/*",
     "/auth/*",
     "/contact-form-submitted",
     "/kitchen-form-submitted",

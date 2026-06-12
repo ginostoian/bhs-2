@@ -19,7 +19,28 @@ const styles = {
   figcaption: "mt-3 text-sm leading-relaxed text-base-content/70",
   referencesList:
     "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#266bf1] [&_a]:underline-offset-2 hover:[&_a]:underline",
+  serviceCta:
+    "my-10 rounded-2xl border border-[#cfe0ff] bg-gradient-to-br from-[#f3f7ff] to-white p-6 shadow-sm md:p-8",
+  serviceCtaEyebrow:
+    "mb-2 text-xs font-extrabold uppercase tracking-[0.22em] text-[#266bf1]",
+  serviceCtaTitle: "text-2xl font-black leading-tight text-[#100b47] md:text-3xl",
+  serviceCtaBody: "mt-3 text-base leading-relaxed text-base-content/80",
+  serviceCtaLink:
+    "mt-5 inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1449B0]",
 };
+
+function ServiceCta({ title, body, linkText }) {
+  return (
+    <section className={styles.serviceCta}>
+      <p className={styles.serviceCtaEyebrow}>Ready to hire a team?</p>
+      <h2 className={styles.serviceCtaTitle}>{title}</h2>
+      <p className={styles.serviceCtaBody}>{body}</p>
+      <Link href="/house-extension" className={styles.serviceCtaLink}>
+        {linkText}
+      </Link>
+    </section>
+  );
+}
 
 export default function HouseExtensionsLondonGuide() {
   return (
@@ -114,6 +135,12 @@ export default function HouseExtensionsLondonGuide() {
         </Link>
         .
       </p>
+
+      <ServiceCta
+        title="Work with a London house extension company"
+        body="If you already know you want a managed design-and-build route, our extension team can assess feasibility, scope, budget and the right planning path for your home."
+        linkText="Work with a London house extension company"
+      />
 
       {/* INFOGRAPHIC 1 */}
       <figure className={styles.figure}>
@@ -687,6 +714,11 @@ export default function HouseExtensionsLondonGuide() {
       <p className={styles.p}>
         Better Homes has delivered extensions, loft conversions, and full renovations across Central, East, and North London for years. Our full design-and-build model means you deal with one team from first sketch to final handover - no middleman, no finger-pointing, no surprises. Every project comes with a fixed-price contract, a 10-year workmanship guarantee backed by £10 million insurance, and the peace of mind that comes from working with a Houzz award-winning firm.
       </p>
+      <ServiceCta
+        title="Get a design-and-build extension quote"
+        body="If you want one accountable team for design, planning and construction, start with the service page and tell us what you are trying to achieve."
+        linkText="Get a design-and-build extension quote"
+      />
       <p className={styles.p}>
         If you are ready to explore what an extension could do for your home, <Link href="/contact">book your free consultation with Better Homes today</Link>. We will visit your property, assess the options, and give you an honest view of what is achievable - with no obligation and no hard sell. Your home deserves it.
       </p>

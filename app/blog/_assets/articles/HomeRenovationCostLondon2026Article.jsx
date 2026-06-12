@@ -1066,6 +1066,14 @@ export default function HomeRenovationCostLondon2026() {
         to £25,000 each. Together, kitchen and bathrooms typically account for
         30 to 40 percent of a full renovation budget.
       </p>
+      <p className={styles.p}>
+        If your renovation scope includes adding new floor area, compare these
+        figures with our detailed guide to{" "}
+        <Link href="/blog/house-extension-guide-2025#extension-costs">
+          house extension costs in London
+        </Link>{" "}
+        before you finalise the budget.
+      </p>
 
       {/* Engagement Message */}
       <h2 className={styles.h2} id="share">

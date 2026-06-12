@@ -43,48 +43,66 @@ const formatDate = (value) =>
 const buildArticleSchema = (article) => {
   const pageUrl = `${siteUrl}/blog/${article.slug}`;
 
+  const graph = [
+    {
+      "@type": "BlogPosting",
+      "@id": `${pageUrl}#article`,
+      mainEntityOfPage: pageUrl,
+      headline: article.title,
+      name: article.title,
+      description: article.description,
+      image: [`${siteUrl}${article.image.urlRelative}`],
+      datePublished: article.publishedAt,
+      dateModified: article.publishedAt,
+      articleSection: article.categories.map((category) => category.title).join(", "),
+      author: {
+        "@type": "Organization",
+        name: "Better Homes Studio",
+        url: siteUrl,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Better Homes Studio",
+        url: siteUrl,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Blog",
+          item: `${siteUrl}/blog`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: article.title,
+          item: pageUrl,
+        },
+      ],
+    },
+  ];
+
+  if (article.faqs?.length) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${pageUrl}#faq`,
+      mainEntity: article.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    });
+  }
+
   return {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BlogPosting",
-        "@id": `${pageUrl}#article`,
-        mainEntityOfPage: pageUrl,
-        headline: article.title,
-        name: article.title,
-        description: article.description,
-        image: [`${siteUrl}${article.image.urlRelative}`],
-        datePublished: article.publishedAt,
-        dateModified: article.publishedAt,
-        articleSection: article.categories.map((category) => category.title).join(", "),
-        author: {
-          "@type": "Person",
-          name: article.author.name,
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Better Homes",
-          url: siteUrl,
-        },
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Blog",
-            item: `${siteUrl}/blog`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: article.title,
-            item: pageUrl,
-          },
-        ],
-      },
-    ],
+    "@graph": graph,
   };
 };
 
@@ -107,11 +125,11 @@ export function generateMetadata({ params }) {
   }
 
   return getSEOTags({
-    title: article.title,
+    title: article.seoTitle || article.title,
     description: article.description,
     canonicalUrlRelative: `/blog/${article.slug}`,
     openGraph: {
-      title: article.title,
+      title: article.seoTitle || article.title,
       description: article.description,
       url: `${siteUrl}/blog/${article.slug}`,
       images: [

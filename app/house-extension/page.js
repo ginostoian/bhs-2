@@ -1,265 +1,316 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import FAQ from "@/components/FAQ";
 import Guarantee from "@/components/Guarantee";
-import Hero from "@/components/hero/Hero";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
-import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
-import {
-  BUSINESS_IDS,
-  SITE_URL,
-  getLocalBusinessSchema,
-  getWebsiteReference,
-} from "@/libs/structuredData";
+import { SITE_URL } from "@/libs/structuredData";
 
 export const metadata = getSEOTags({
-  title:
-    "House Extensions London | Rear, Side Return & Double Storey | Better Homes",
+  title: "House Extension Company London | Design & Build | Better Homes",
   description:
-    "House extensions in London with clear cost guidance, planning support and disciplined build delivery. Rear, side return, wraparound and double-storey extension projects.",
+    "London house extension company for rear, side return and double-storey builds. One accountable team, fixed scope, 10-year guarantee. Book a consultation.",
   canonicalUrlRelative: "/house-extension",
   openGraph: {
-    title:
-      "House Extensions London | Rear, Side Return & Double Storey | Better Homes",
+    title: "House Extension Company London | Design & Build | Better Homes",
     description:
-      "Create more space, more light and more long-term value with a London extension planned properly from first feasibility through handover.",
+      "Design-and-build house extensions across East, North and Central London. Transparent pricing, weekly updates, 5-star rated. Book your consultation.",
     url: `https://${config.domainName}/house-extension`,
   },
   keywords: [
-    "house extensions London",
-    "rear extension London",
-    "side return extension London",
-    "wraparound extension London",
-    "double storey extension London",
+    "house extension company London",
+    "house extension builders London",
+    "design and build extension London",
+    "extension contractor London",
+    "rear extension builders London",
   ],
 });
 
-const quickAnswerItems = [
-  {
-    label: "Typical budget",
-    value: "£50,000 to £200,000+",
-    detail: "Depends on extension type, specification, borough, and whether the project includes a new kitchen.",
-  },
-  {
-    label: "Planning route",
-    value: "Many simpler rear extensions avoid full planning",
-    detail: "Wraparounds, side extensions and many larger schemes usually need more planning work.",
-  },
-  {
-    label: "On-site build",
-    value: "12 to 24 weeks",
-    detail: "Single-storey is usually shorter. Wraparound and double-storey schemes take longer.",
-  },
-  {
-    label: "Value upside",
-    value: "Often 10% to 20%",
-    detail: "The best-performing extensions improve daily use now and make the home more desirable later.",
-  },
-];
+const pageUrl = `${SITE_URL}/house-extension`;
 
-const heroProofPoints = [
+const trustPoints = [
   "£10M insured",
   "10-year workmanship guarantee",
-  "Weekly updates during build",
+  "500+ projects delivered",
+  "5-star rated on Google, Houzz and MyBuilder",
+  "Best of Houzz winner",
+];
+
+const valueProps = [
+  {
+    title: "One team, one point of responsibility",
+    body:
+      "We handle design, planning, structural input and construction under one roof. No gap between architect and builder for problems to fall into, and no being passed back and forth when something needs a decision.",
+  },
+  {
+    title: "Pricing you can actually trust",
+    body:
+      "Clear, detailed quotes before we start, with the scope written down so everyone knows what is included. Any change is priced and agreed with you first.",
+  },
+  {
+    title: "Weekly updates, start to finish",
+    body:
+      "You will always know what happened last week, what is happening next, and where the budget stands. Most extension stress comes from silence on site, so visibility is built into the process.",
+  },
+  {
+    title: "Built to last, and guaranteed",
+    body:
+      "Up to a 10-year workmanship guarantee and £10M insurance cover on every project. If something is not right, we come back and put it right.",
+  },
+  {
+    title: "Proven across London",
+    body:
+      "500+ completed projects, 12+ years improving London homes, a 5-star-only record across Google, Houzz and MyBuilder, and Best of Houzz recognition.",
+  },
+  {
+    title: "Local specialists",
+    body:
+      "We work across East, North and Central London and understand the planning quirks, conservation areas and party-wall realities that shape local extension projects.",
+  },
 ];
 
 const extensionTypes = [
   {
-    title: "Single-storey rear extension",
-    range: "£50,000 to £95,000",
-    timeline: "12 to 16 weeks build",
-    planning: "Often permitted development if kept within depth limits",
-    description:
-      "The classic route when you need a larger kitchen-diner, better garden connection and more light without changing the whole house.",
+    title: "Rear extensions",
+    body:
+      "We create brighter kitchen-dining and family spaces that connect the back of the house properly to the garden.",
   },
   {
-    title: "Side return extension",
-    range: "£35,000 to £60,000",
-    timeline: "8 to 12 weeks build",
-    planning: "Often permitted development on suitable terraces",
-    description:
-      "A powerful option for Victorian and Edwardian homes where a narrow side passage is holding back what the ground floor could become.",
+    title: "Side return extensions",
+    body:
+      "A strong option for Victorian and Edwardian terraces where a narrow side passage can become valuable living space.",
   },
   {
-    title: "Wraparound extension",
-    range: "£75,000 to £140,000",
-    timeline: "14 to 20 weeks build",
-    planning: "Usually full planning",
-    description:
-      "The strongest choice when you want a real transformation of the ground floor rather than a modest gain in square footage.",
+    title: "Wraparound extensions",
+    body:
+      "For homeowners who want a larger ground-floor transformation with more width, better flow and a more generous kitchen-living space.",
   },
   {
-    title: "Double-storey extension",
-    range: "£100,000 to £200,000+",
-    timeline: "16 to 24 weeks build",
-    planning: "Often more planning-heavy than single-storey routes",
-    description:
-      "Best when one extra room is not enough and you want meaningful space both downstairs and upstairs in one project.",
+    title: "Double-storey extensions",
+    body:
+      "A practical route when the brief needs meaningful extra space upstairs and downstairs, not just a bigger kitchen.",
   },
   {
-    title: "Kitchen extension with fit-out",
-    range: "£80,000 to £160,000 all-in",
-    timeline: "12 to 20 weeks build",
-    planning: "Depends on whether the structural route is rear, side return or wraparound",
-    description:
-      "Ideal when the real goal is not just an extension, but a large open-plan kitchen-living space that changes how the whole house works.",
+    title: "Kitchen extensions",
+    body:
+      "Designed around the way you cook, host and live, with the structure, services and finish planned together from the start.",
   },
 ];
 
-const whyExtend = [
+const investmentRanges = [
   {
-    title: "Stay in the area that already works for you",
-    body:
-      "For many London families, the real win is not just extra square metres. It is avoiding the cost, disruption and compromise of moving when the right street, school run or neighbourhood is already in place.",
+    type: "Side return extension",
+    budget: "£35,000 to £60,000",
+    note: "Compact terrace route with meaningful ground-floor impact.",
   },
   {
-    title: "Fix the ground floor that is wearing you down",
-    body:
-      "Most extensions are really about one thing: the kitchen feels cramped, the layout feels dark, or family life keeps colliding in the same few rooms. A good extension removes that pressure every day.",
+    type: "Single-storey rear extension",
+    budget: "£50,000 to £95,000",
+    note: "Common kitchen-dining and garden-connection project.",
   },
   {
-    title: "Improve daily life and future value at the same time",
-    body:
-      "When the design improves light, flow and usability properly, the result is easier to enjoy now and easier to justify later if you ever sell. That makes the spend feel safer, not just bigger.",
+    type: "Wraparound extension",
+    budget: "£75,000 to £140,000",
+    note: "Larger ground-floor transformation with more structural work.",
+  },
+  {
+    type: "Kitchen extension with fit-out",
+    budget: "£80,000 to £160,000",
+    note: "Extension plus kitchen, services and finishing scope.",
+  },
+  {
+    type: "Double-storey extension",
+    budget: "£100,000 to £200,000+",
+    note: "More involved project adding space across two floors.",
   },
 ];
 
-const hiddenCostPoints = [
-  "Professional fees, structural design and approvals usually add 10% to 15% on top of the build cost, so the cheapest headline quote is rarely the true number.",
-  "Party wall matters, scaffold licences, temporary parking suspensions and drainage surprises can shift the budget if they are not surfaced early.",
-  "If the real goal is a kitchen-living transformation, the kitchen itself can add £15,000 to £60,000+ on top of the structural extension cost.",
-];
-
-const projectSpotlight = {
-  title: "Rear extension and whole-home transformation in N19",
-  summary:
-    "This project captures what most homeowners are actually buying when they extend: not just extra space, but a calmer layout, better natural light, and the feeling that the whole home now works properly together.",
-  projectType: "Rear extension + full renovation",
-  location: "N19, North London",
-  image:
-    "/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp",
-  imageAlt: "Rear extension and open-plan kitchen living space in N19",
-  quote:
-    "The team managed the project with clarity and delivered a finish that feels premium in every room.",
-  author: "N19 Homeowner",
-  href: "/portfolio/daniel-n19",
-  bullets: [
-    "Rear extension integrated cleanly into the existing house",
-    "Brighter kitchen-living space with stronger day-to-day flow",
-    "Weekly progress updates to keep decisions and expectations clear",
-  ],
-};
-
-const supportingProjects = [
+const projects = [
+  {
+    title: "Rear extension and whole-home transformation in N19",
+    location: "N19, North London",
+    type: "Rear extension + full renovation",
+    image:
+      "/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp",
+    imageAlt: "Rear extension and open-plan kitchen living space in N19",
+    summary:
+      "A calmer layout, better natural light and a connected kitchen-living space that made the whole home work properly together.",
+    quote:
+      "The team managed the project with clarity and delivered a finish that feels premium in every room.",
+    author: "N19 Homeowner",
+    href: "/portfolio/daniel-n19",
+  },
   {
     title: "Side return kitchen extension in E7",
+    location: "E7, East London",
+    type: "Side return extension",
     image: "/assets/portfolio/extension-ava-e7/side-return-extension-6.webp",
     imageAlt: "Side return kitchen extension in E7",
     summary:
-      "A narrow galley layout became a brighter and more usable family kitchen with stronger connection to the garden.",
+      "A narrow galley layout became a brighter, more usable family kitchen with a stronger connection to the garden.",
     quote:
       "The extension has transformed how we use the house day to day and the finish feels genuinely premium.",
     author: "E7 Homeowner",
     href: "/portfolio/ava-e7",
-    badge: "Side return extension",
-    outcome: "More light, better circulation",
   },
   {
     title: "Kitchen extension and renovation in N8",
+    location: "N8, North London",
+    type: "Extension + renovation",
     image: "/assets/portfolio/extension-james-n8/extension-james-1.webp",
     imageAlt: "Kitchen extension and renovation in N8",
     summary:
-      "A structural extension project that created a larger and more sociable kitchen-living zone for modern family life.",
+      "A structural extension project that created a larger, brighter and more sociable kitchen-living zone.",
     quote:
       "The build was organised, communication was clear, and the transformation feels substantial.",
     author: "N8 Homeowner",
     href: "/portfolio/james-n8",
-    badge: "Extension + renovation",
-    outcome: "A more social family layout",
   },
 ];
 
 const processSteps = [
   {
-    title: "Feasibility and budget first",
+    title: "Feasibility",
     body:
-      "Before drawings gather momentum, we pressure-test what makes sense for the house, the planning context and the level of spend you are genuinely comfortable with.",
+      "We pressure-test the property, planning route, likely constraints and budget before drawings gather momentum.",
   },
   {
-    title: "Design the extension around real living",
+    title: "Design",
     body:
-      "The goal is not to bolt on square metres. It is to create better light, flow, storage and a ground floor that feels easier to live in every day.",
+      "The extension is planned around light, flow, storage, structure and how you actually want to live in the space.",
   },
   {
-    title: "Approvals and pre-construction clarity",
+    title: "Approvals",
     body:
-      "Planning, building regulations, structural input and sequencing all need to line up before site starts. That is what reduces the nasty surprises clients usually fear.",
+      "Planning, permitted development, building regulations, structural input and party-wall steps are coordinated before site starts.",
   },
   {
-    title: "Build with weekly visibility",
+    title: "Build with visibility",
     body:
-      "You should know what is happening, what decisions are needed, and whether the programme is holding. Communication is part of the service, not a favour.",
-  },
-  {
-    title: "Snagging and handover",
-    body:
-      "The job should finish with detail, not drift. We close out with quality checks, snagging discipline and a handover you can feel safe signing off.",
+      "Once work begins, you get weekly updates on progress, decisions, programme and budget so the project stays legible.",
   },
 ];
 
-const guideLinks = [
+const serviceAreaGroups = [
   {
-    title: "House extensions London 2026: the complete guide",
+    region: "Central and selected West London",
     description:
-      "The best starting point if you want the bigger picture on cost, planning, process, ROI and extension routes in London.",
-    href: "/blog/house-extension-guide-2025",
+      "For larger design-and-build projects in central boroughs and established prime neighbourhoods.",
+    areas: [
+      "Central London",
+      "Westminster",
+      "Marylebone",
+      "Mayfair",
+      "Fitzrovia",
+      "Bloomsbury",
+      "Primrose Hill",
+      "St John's Wood",
+      "Maida Vale",
+      "Notting Hill",
+      "Kensington",
+    ],
   },
   {
-    title: "House extension types compared",
+    region: "North and North West London",
     description:
-      "Use this to compare rear, side return, wraparound, double-storey and kitchen-extension routes before you pick one too early.",
-    href: "/blog/house-extension-types",
+      "Period homes, family houses and premium extension projects across the north London corridor.",
+    areas: [
+      "Camden",
+      "Hampstead",
+      "Highgate",
+      "Crouch End",
+      "Muswell Hill",
+      "Finchley",
+      "East Finchley",
+      "Barnet",
+      "Golders Green",
+      "Islington",
+      "Canonbury",
+      "N8",
+      "N16",
+      "N19",
+    ],
   },
   {
-    title: "How much value a house extension adds in London",
+    region: "North East and East London",
     description:
-      "Useful if you are trying to balance emotional motivation with resale logic and want a clearer sense of likely return.",
-    href: "/blog/house-extension-value-london-guide",
-  },
-  {
-    title: "How to finance an extension in London",
-    description:
-      "Covers remortgaging, further advances, budgeting realism and the financial case for improving versus moving.",
-    href: "/blog/how-to-finance-house-extension-renovation-london-2026",
-  },
-  {
-    title: "House extension mistakes London homeowners make",
-    description:
-      "Read this if you want to understand where budgets drift, planning assumptions go wrong, or a supposedly simple extension becomes stressful.",
-    href: "/blog/house-extension-mistakes-london",
+      "Our strongest local patch, with deep experience in terraces, side returns and family-home extensions.",
+    areas: [
+      "Hackney",
+      "Stoke Newington",
+      "Clapton",
+      "Dalston",
+      "Walthamstow",
+      "Leytonstone",
+      "Wanstead",
+      "Woodford",
+      "South Woodford",
+      "Chingford",
+      "Loughton",
+      "Chigwell",
+      "E4",
+      "E7",
+      "E17",
+    ],
   },
 ];
 
-const pageUrl = `${SITE_URL}/house-extension`;
+const serviceAreas = [...new Set(serviceAreaGroups.flatMap((group) => group.areas))];
 
-function SectionHeading({
-  eyebrow,
-  title,
-  description,
-  centered = false,
-  dark = false,
-}) {
+const servicePostcodes = ["E4", "E7", "E17", "N8", "N16", "N19", "NW1", "NW3", "NW8", "W1", "W2", "W9"];
+
+const schemaServiceAreas = [...new Set([...serviceAreas, ...servicePostcodes])];
+
+const faqs = [
+  {
+    question: "How do I choose a house extension company in London?",
+    answerText:
+      "Look for a single accountable team that covers design, planning and build, so responsibility never falls between an architect and a separate contractor. Ask for a written, itemised scope and quote rather than a rough estimate, check that workmanship is genuinely guaranteed and the company is properly insured, and look at verified reviews and real completed projects in your area. At Better Homes you get all of that as standard: design-and-build delivery, transparent fixed-scope pricing, a 10-year workmanship guarantee, £10M insurance, and a 5-star-only review record across Google, Houzz and MyBuilder.",
+  },
+  {
+    question: "Do you handle the design and planning, or only the building?",
+    answerText:
+      "Both. We take your project from the first feasibility conversation through concept design, planning or permitted-development applications, structural engineering and building regulations, and then the build itself, all managed by one team. That means you do not have to coordinate a separate architect, engineer and builder, and there is no finger-pointing if something needs resolving.",
+  },
+  {
+    question: "How much does it cost to hire a design-and-build extension company in London?",
+    answerText:
+      "Most London extensions fall between roughly £35,000 for a side return and £200,000+ for a large double-storey project, depending on type, specification and borough. Because we include design within the overall project rather than charging a separate architect fee, the all-in number is often more competitive than it first looks. For a full breakdown, see our complete House Extension Cost Guide for London 2026.",
+    link: {
+      href: "/blog/house-extension-guide-2025#extension-costs",
+      label: "complete House Extension Cost Guide for London 2026",
+    },
+  },
+  {
+    question: "Will my extension need planning permission?",
+    answerText:
+      "Many single-storey rear and side return extensions qualify for permitted development and do not need a full planning application, while wraparound, double-storey and larger schemes usually do, and conservation areas or Article 4 directions change the picture. We assess this for your specific property at the feasibility stage so there are no surprises. Our 2026 House Extension Guide explains the rules in full.",
+    link: {
+      href: "/blog/house-extension-guide-2025#planning-permission",
+      label: "2026 House Extension Guide",
+    },
+  },
+  {
+    question: "Are you insured and is the work guaranteed?",
+    answerText:
+      "Yes. Every project carries up to £10M insurance cover and a workmanship guarantee of up to 10 years. If a covered issue appears after completion, we come back and fix it. You will also receive the documentation, building control sign-off and certificates, that you need if you ever sell.",
+  },
+  {
+    question: "Which areas of London do you cover?",
+    answerText:
+      "We work across Central London, Westminster, Camden, North London, North East London and selected nearby West London neighbourhoods, including Marylebone, Mayfair, Hampstead, Highgate, Crouch End, Muswell Hill, Finchley, Islington, Hackney, Walthamstow, Woodford, South Woodford, Chingford, Loughton and Chigwell. If you are nearby with the right project, get in touch and we will let you know if we can help.",
+  },
+  {
+    question: "How long does an extension take from first call to finished?",
+    answerText:
+      "Construction itself is typically 8 to 24 weeks depending on the type: a side return is at the shorter end, a double-storey extension at the longer. Add design, approvals and any planning period before that, and most projects run around 5 to 10 months end to end. We give you a realistic timeline up front and weekly updates throughout, so you always know where things stand.",
+  },
+];
+
+function SectionHeading({ eyebrow, title, children, centered = false, dark = false }) {
   return (
-    <div
-      className={
-        centered
-          ? "mx-auto mb-10 max-w-3xl text-center lg:mb-14"
-          : "mb-10 max-w-3xl lg:mb-14"
-      }
-    >
+    <div className={centered ? "mx-auto mb-10 max-w-3xl text-center" : "mb-10 max-w-3xl"}>
       <p
         className={`mb-3 text-sm font-extrabold uppercase tracking-[0.24em] ${
           dark ? "text-[#9ec1ff]" : "text-[#266bf1]"
@@ -268,59 +319,99 @@ function SectionHeading({
         {eyebrow}
       </p>
       <h2
-        className={`text-4xl font-black md:text-6xl md:leading-tight ${
+        className={`text-3xl font-black leading-tight md:text-5xl ${
           dark ? "text-white" : "text-[#100b47]"
         }`}
       >
         {title}
       </h2>
-      <p
-        className={`mt-4 text-lg leading-relaxed md:text-xl ${
-          dark ? "text-[#d6def6]" : "text-gray-600"
-        }`}
-      >
-        {description}
-      </p>
+      {children ? (
+        <p
+          className={`mt-4 text-base leading-8 md:text-lg ${
+            dark ? "text-[#d6def6]" : "text-gray-700"
+          }`}
+        >
+          {children}
+        </p>
+      ) : null}
     </div>
   );
 }
 
-function AnswerCard({ label, value, detail }) {
+function PrimaryButton({ href, children }) {
   return (
-    <article className="rounded-2xl border border-[#d9e5fb] bg-white p-5 shadow-sm">
-      <p className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#266bf1]">
-        {label}
-      </p>
-      <h3 className="mt-3 text-2xl font-black leading-tight text-[#100b47]">
-        {value}
-      </h3>
-      <p className="mt-3 text-sm leading-7 text-gray-600">{detail}</p>
-    </article>
+    <Link
+      href={href}
+      className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
+    >
+      {children}
+    </Link>
   );
 }
 
-function ExtensionTypeCard({ item }) {
+function SecondaryButton({ href, children, dark = false }) {
   return (
-    <article className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm">
-      <div className="mb-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
-          {item.range}
-        </span>
-        <span className="rounded-full border border-[#d9e5fb] px-3 py-1 text-xs font-semibold text-gray-600">
-          {item.timeline}
-        </span>
-      </div>
-      <h3 className="text-2xl font-black text-[#100b47]">{item.title}</h3>
-      <p className="mt-4 text-base leading-8 text-gray-700">{item.description}</p>
-      <div className="mt-5 rounded-xl bg-[#f8fbff] p-4 text-sm leading-7 text-gray-700">
-        <strong className="text-[#100b47]">Planning note:</strong> {item.planning}
-      </div>
-    </article>
+    <Link
+      href={href}
+      className={`inline-flex min-h-[56px] items-center justify-center rounded-full px-6 text-base font-bold transition ${
+        dark
+          ? "border border-white/25 bg-white/10 text-white hover:bg-white/15"
+          : "border border-[#bfd3f9] bg-white text-[#266bf1] hover:border-[#266bf1]"
+      }`}
+    >
+      {children}
+    </Link>
+  );
+}
+
+function LinkedFaqAnswer({ faq }) {
+  if (!faq.link) {
+    return <>{faq.answerText}</>;
+  }
+
+  const [before, after = ""] = faq.answerText.split(faq.link.label);
+
+  return (
+    <>
+      {before}
+      <Link className="font-semibold text-[#266bf1] hover:underline" href={faq.link.href}>
+        {faq.link.label}
+      </Link>
+      {after}
+    </>
   );
 }
 
 export default function Page() {
-  const faqs = getPageFaqs("extension");
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    serviceType: "House extension design and build",
+    provider: {
+      "@type": ["GeneralContractor", "LocalBusiness"],
+      "@id": `${SITE_URL}/#generalcontractor`,
+      name: "Better Homes Studio",
+      image: `${SITE_URL}/assets/logo/bh-logo.svg`,
+      url: pageUrl,
+      telephone: "+447922391591",
+      priceRange: "£35,000-£200,000+",
+      areaServed: schemaServiceAreas.map((area) => ({
+        "@type": "Place",
+        name: area,
+      })),
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "London",
+        addressRegion: "Greater London",
+        addressCountry: "GB",
+      },
+    },
+    areaServed: "London, UK",
+    description:
+      "Design-and-build house extension company serving East, North and Central London. Rear, side return, wraparound and double-storey extensions managed end to end.",
+    url: pageUrl,
+  };
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -331,123 +422,146 @@ export default function Page() {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer,
+        text: faq.answerText,
       },
     })),
   };
 
-  const schema = {
+  const breadcrumbSchema = {
     "@context": "https://schema.org",
-    "@graph": [
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        ...getLocalBusinessSchema({
-          description:
-            "House extension design and build services across London including rear, side return, wraparound and double-storey extension projects.",
-        }),
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${SITE_URL}/`,
       },
       {
-        "@type": "WebPage",
-        "@id": `${pageUrl}#webpage`,
-        url: pageUrl,
-        name: "House Extensions London",
-        isPartOf: getWebsiteReference(),
-        about: {
-          "@id": BUSINESS_IDS.localBusiness,
-        },
+        "@type": "ListItem",
+        position: 2,
+        name: "Services",
+        item: `${SITE_URL}/`,
       },
       {
-        "@type": "Service",
-        "@id": `${pageUrl}#service`,
-        serviceType: "House Extensions London",
-        provider: {
-          "@id": BUSINESS_IDS.localBusiness,
-        },
-        areaServed: {
-          "@type": "AdministrativeArea",
-          name: "London",
-          addressCountry: "GB",
-        },
-        url: pageUrl,
+        "@type": "ListItem",
+        position: 3,
+        name: "House Extensions",
+        item: pageUrl,
       },
-      faqSchema,
     ],
   };
 
   return (
     <main>
-      <Hero
-        title="Create the extra space your home is missing. "
-        titleAccent="Without giving up the area that already works."
-        subtitle="A well-planned extension can give you the bigger kitchen, brighter layout and calmer family space your current home is missing. We help London homeowners move from first idea to finished extension with clear guidance, realistic budgets and disciplined delivery."
-        heroCTA="Book your extension consultation"
-        heroImgUrl="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp"
-        ctaTallyFormLink="/contact"
-        proofPoints={heroProofPoints}
-      />
+      <section className="mx-auto grid max-w-[92%] gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:px-8 lg:py-20">
+        <div>
+          <p className="mb-4 text-sm font-extrabold uppercase tracking-[0.24em] text-[#266bf1]">
+            Design and build extensions
+          </p>
+          <h1 className="text-4xl font-black leading-tight text-[#100b47] md:text-6xl">
+            House Extension Company London - Design &amp; Build
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-gray-700">
+            One accountable team from first sketch to final handover. We design,
+            plan and build rear, side return, wraparound and double-storey
+            extensions across East, North and Central London with clear scope,
+            transparent pricing and weekly updates so the project never runs away
+            from you.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {trustPoints.map((point) => (
+              <span
+                key={point}
+                className="rounded-full border border-[#d9e5fb] bg-[#f8fbff] px-4 py-2 text-sm font-bold text-[#100b47]"
+              >
+                {point}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <PrimaryButton href="/contact">Book your extension consultation</PrimaryButton>
+            <SecondaryButton href="callto:07922391591">Call us</SecondaryButton>
+          </div>
+        </div>
+        <div className="relative min-h-[420px] overflow-hidden rounded-2xl">
+          <Image
+            src="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp"
+            alt="Better Homes Studio rear house extension in North London"
+            fill
+            priority
+            sizes="(max-width: 1024px) 92vw, 44vw"
+            className="object-cover"
+          />
+        </div>
+      </section>
 
       <SocialProof />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-start">
-            <div>
-              <SectionHeading
-                eyebrow="Quick Answer"
-                title="A good extension should solve daily friction, not just add metres"
-                description="The strongest extension projects do more than make the house bigger. They make the space lighter, easier to use, and more supportive of how family life actually works now."
-              />
-              <div className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm">
-                <p className="text-lg leading-8 text-[#2f3c52]">
-                  <strong className="text-[#100b47]">Direct answer:</strong> most
-                  London house extensions sit somewhere between{" "}
-                  <strong className="text-[#100b47]">£50,000 and £200,000+</strong>,
-                  depending on the route you choose. Simpler rear extensions can
-                  often avoid full planning, while wraparound and double-storey
-                  schemes usually need more approvals and a longer timeline. The
-                  full journey is commonly{" "}
-                  <strong className="text-[#100b47]">6 to 10 months</strong> from
-                  feasibility to handover, and the right route depends as much on
-                  your house and priorities as it does on budget.
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-4">
-              {quickAnswerItems.map((item) => (
-                <AnswerCard key={item.label} {...item} />
-              ))}
-            </div>
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <SectionHeading
+          eyebrow="Why choose Better Homes"
+          title="Why London homeowners choose us to build their extension"
+          centered
+        >
+          Extending your home is one of the biggest investments you will make in
+          it. The company you choose decides whether that feels like a smooth,
+          well-managed project or a stressful one.
+        </SectionHeading>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {valueProps.map((item) => (
+            <article key={item.title} className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm">
+              <h3 className="text-xl font-black text-[#100b47]">{item.title}</h3>
+              <p className="mt-4 text-base leading-8 text-gray-700">{item.body}</p>
+            </article>
+          ))}
+        </div>
+        <div className="mt-8 rounded-2xl border border-[#d9e5fb] bg-[#f8fbff] p-6">
+          <p className="text-base leading-8 text-gray-700">
+            Want to know if your extension is feasible and what it should
+            realistically cost? Book a consultation and we will talk it through.
+          </p>
+          <div className="mt-5">
+            <PrimaryButton href="/contact">Book your consultation</PrimaryButton>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading
-          eyebrow="Why Extend"
-          title="Why London homeowners choose extensions instead of moving"
-          description="The best reason to extend is rarely just square metres. It is usually about keeping the life you already like while removing the part of the house that keeps frustrating you."
+          eyebrow="Extension types"
+          title="Extension types we build"
           centered
-        />
-        <div className="grid gap-6 lg:grid-cols-3">
-          {whyExtend.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
-            >
+        >
+          These are the common extension routes we deliver for London homes. For
+          detailed cost, planning and design guidance, use the full guide linked
+          from each route.
+        </SectionHeading>
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {extensionTypes.map((item) => (
+            <article key={item.title} className="flex h-full flex-col rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm">
               <h3 className="text-2xl font-black text-[#100b47]">{item.title}</h3>
-              <p className="mt-4 text-base leading-8 text-gray-700">{item.body}</p>
+              <p className="mt-4 flex-1 text-base leading-8 text-gray-700">
+                {item.body}
+              </p>
+              <Link
+                href="/blog/house-extension-guide-2025"
+                className="mt-5 text-sm font-bold text-[#266bf1] hover:underline"
+              >
+                See full costs, planning and design detail in our complete 2026
+                House Extension Guide
+              </Link>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <SectionHeading
-          eyebrow="Costs"
-          title="House extension costs by type in London"
-          description="These planning-stage guide ranges help you sense-check affordability early, before you fall in love with the wrong extension route for your house or budget."
-        />
-
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <SectionHeading eyebrow="Indicative investment" title="Planning-stage budget ranges">
+          These are indicative planning-stage ranges only. They help you sense-check
+          the order of investment before we assess your property, specification,
+          access, approvals and finish level.
+        </SectionHeading>
         <div className="overflow-hidden rounded-2xl border border-[#d9e5fb] bg-white shadow-sm">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-[#e9f0ff]">
@@ -460,194 +574,101 @@ export default function Page() {
                     Typical budget
                   </th>
                   <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
-                    Build phase
-                  </th>
-                  <th className="px-5 py-4 text-left text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
-                    Planning route
+                    Planning note
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#eef3ff]">
-                {extensionTypes.map((item) => (
-                  <tr key={item.title}>
-                    <td className="px-5 py-4 font-bold text-[#100b47]">{item.title}</td>
-                    <td className="px-5 py-4 text-gray-700">{item.range}</td>
-                    <td className="px-5 py-4 text-gray-700">{item.timeline}</td>
-                    <td className="px-5 py-4 text-gray-700">{item.planning}</td>
+                {investmentRanges.map((item) => (
+                  <tr key={item.type}>
+                    <td className="px-5 py-4 font-bold text-[#100b47]">{item.type}</td>
+                    <td className="px-5 py-4 text-gray-700">{item.budget}</td>
+                    <td className="px-5 py-4 text-gray-700">{item.note}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-
-        <div className="mt-6 grid gap-4 lg:grid-cols-3">
-          {hiddenCostPoints.map((point) => (
-            <div
-              key={point}
-              className="rounded-2xl border border-[#d9e5fb] bg-[#f8fbff] p-5 text-sm leading-7 text-gray-700"
-            >
-              {point}
-            </div>
-          ))}
-        </div>
+        <p className="mt-5 text-base leading-8 text-gray-700">
+          For the full cost breakdown, per-square-metre rates, hidden costs and
+          VAT, read our{" "}
+          <Link
+            href="/blog/house-extension-guide-2025#extension-costs"
+            className="font-semibold text-[#266bf1] hover:underline"
+          >
+            House Extension Cost Guide for London 2026
+          </Link>
+          .
+        </p>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <SectionHeading
-          eyebrow="Types"
-          title="Which extension route fits your house?"
-          description="The right answer depends on your plot, your property type, how much transformation you actually need, and whether your real goal is more light, a better kitchen-living layout, or significant extra space on more than one floor."
-          centered
-        />
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {extensionTypes.map((item) => (
-            <ExtensionTypeCard key={item.title} item={item} />
-          ))}
-        </div>
-      </section>
-
-      <section
-        id="testimonials"
-        className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
-      >
-        <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-            <div>
-              <SectionHeading
-                eyebrow="Proof"
-                title="Real extension projects that make the decision feel safer"
-                description="The best proof is not generic praise. It is seeing projects where the layout improved, communication stayed clear, and the finished result felt worth the disruption."
-              />
-
-              <article className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm lg:p-8">
-                <div className="relative overflow-hidden rounded-2xl">
-                  <Image
-                    src={projectSpotlight.image}
-                    alt={projectSpotlight.imageAlt}
-                    width={1400}
-                    height={900}
-                    className="h-[320px] w-full object-cover"
-                  />
-                </div>
-                <div className="mt-6 flex flex-wrap items-center gap-2">
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <SectionHeading eyebrow="Proof" title="Real extension projects">
+          The best reassurance is seeing finished work in real London homes: the
+          layout, the finish, the communication and the kind of problems a strong
+          team knows how to prevent.
+        </SectionHeading>
+        <div className="grid gap-6 lg:grid-cols-3">
+          {projects.map((project) => (
+            <article key={project.href} className="flex h-full flex-col overflow-hidden rounded-2xl border border-[#d9e5fb] bg-white shadow-sm">
+              <div className="relative h-64">
+                <Image
+                  src={project.image}
+                  alt={project.imageAlt}
+                  fill
+                  sizes="(max-width: 1024px) 88vw, 29vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="mb-4 flex flex-wrap gap-2">
                   <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
-                    {projectSpotlight.projectType}
+                    {project.type}
                   </span>
                   <span className="rounded-full border border-[#d9e5fb] px-3 py-1 text-xs font-semibold text-gray-600">
-                    {projectSpotlight.location}
+                    {project.location}
                   </span>
                 </div>
-                <h3 className="mt-5 text-3xl font-black text-[#100b47]">
-                  {projectSpotlight.title}
-                </h3>
-                <p className="mt-4 text-base leading-8 text-gray-700">
-                  {projectSpotlight.summary}
+                <h3 className="text-2xl font-black text-[#100b47]">{project.title}</h3>
+                <p className="mt-4 flex-1 text-base leading-8 text-gray-700">
+                  {project.summary}
                 </p>
-                <blockquote className="mt-6 rounded-2xl bg-[#f8fbff] p-6 text-xl leading-9 text-[#2f3c52]">
-                  &ldquo;{projectSpotlight.quote}&rdquo;
+                <blockquote className="mt-5 rounded-2xl bg-[#f8fbff] p-5 text-base leading-8 text-[#2f3c52]">
+                  &ldquo;{project.quote}&rdquo;
                 </blockquote>
-                <ul className="mt-6 space-y-3">
-                  {projectSpotlight.bullets.map((bullet) => (
-                    <li
-                      key={bullet}
-                      className="flex items-start gap-3 text-sm leading-7 text-gray-700"
-                    >
-                      <span className="mt-2 h-2.5 w-2.5 rounded-full bg-[#266bf1]" />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-6 flex items-center justify-between gap-4 border-t border-[#edf2fc] pt-5">
+                <div className="mt-5 flex items-center justify-between gap-4 border-t border-[#edf2fc] pt-4">
                   <div>
-                    <p className="font-bold text-[#100b47]">{projectSpotlight.author}</p>
+                    <p className="font-bold text-[#100b47]">{project.author}</p>
                     <p className="text-sm text-gray-500">Client testimonial</p>
                   </div>
                   <Link
-                    href={projectSpotlight.href}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
+                    href={project.href}
+                    className="text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
                   >
                     View case study
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10.293 15.707a1 1 0 010-1.414L13.586 11H3a1 1 0 110-2h10.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
                   </Link>
                 </div>
-              </article>
-            </div>
-
-            <div className="grid gap-5">
-              {supportingProjects.map((project) => (
-                <article
-                  key={project.title}
-                  className="rounded-2xl border border-[#d9e5fb] bg-white p-5 shadow-sm"
-                >
-                  <div className="relative mb-5 overflow-hidden rounded-2xl">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      width={720}
-                      height={460}
-                      className="h-48 w-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-4 flex flex-wrap items-center gap-2">
-                    <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
-                      {project.badge}
-                    </span>
-                    <span className="rounded-full border border-[#d9e5fb] px-3 py-1 text-xs font-semibold text-gray-600">
-                      {project.outcome}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-black text-[#100b47]">{project.title}</h3>
-                  <p className="mt-4 text-base leading-8 text-gray-700">
-                    {project.summary}
-                  </p>
-                  <blockquote className="mt-5 rounded-2xl bg-[#f8fbff] p-5 text-base leading-8 text-[#2f3c52]">
-                    &ldquo;{project.quote}&rdquo;
-                  </blockquote>
-                  <div className="mt-5 flex items-center justify-between gap-4 border-t border-[#edf2fc] pt-4">
-                    <div>
-                      <p className="font-bold text-[#100b47]">{project.author}</p>
-                      <p className="text-sm text-gray-500">Client testimonial</p>
-                    </div>
-                    <Link
-                      href={project.href}
-                      className="text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
-                    >
-                      View
-                    </Link>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="overflow-hidden rounded-2xl bg-[#100b47] px-6 py-10 text-white md:px-10 lg:px-12 lg:py-14">
           <SectionHeading
-            eyebrow="Process"
-            title="How we keep extension projects under control"
-            description="Extension projects usually become stressful when the budget is vague, the drawings are disconnected from build reality, or communication fades once work starts. This process is designed to prevent exactly that."
+            eyebrow="Our process"
+            title="A managed route from feasibility to handover"
             dark
-          />
-          <div className="grid gap-4 lg:grid-cols-5">
+          >
+            We keep the commercial risks visible: scope, planning, structure,
+            sequencing, budget and communication. That is what stops an extension
+            becoming a stressful guessing game.
+          </SectionHeading>
+          <div className="grid gap-4 lg:grid-cols-4">
             {processSteps.map((step, index) => (
-              <article
-                key={step.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm"
-              >
+              <article key={step.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
                 <p className="text-sm font-extrabold uppercase tracking-[0.24em] text-[#9ec1ff]">
                   Step {index + 1}
                 </p>
@@ -661,79 +682,100 @@ export default function Page() {
 
       <Guarantee />
 
-      <FAQ content={faqs} />
-
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading
-          eyebrow="Useful Reading"
-          title="The extension guides worth reading before you commit"
-          description="If you are still comparing routes, budgets, planning risk or likely return, start with these. They will help you make a better decision before you speak to anyone."
-          centered
-        />
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {guideLinks.map((guide) => (
+          eyebrow="Areas we serve"
+          title="Extension builders across Central, North, North East and selected West London"
+        >
+          We focus on established London neighbourhoods where space, planning
+          context, party-wall matters and access logistics need proper early
+          handling. Our core patch runs from Central London and Westminster
+          through Camden, Islington and North London, across to North East London
+          and selected nearby west London areas for the right project.
+        </SectionHeading>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {serviceAreaGroups.map((group) => (
             <article
-              key={guide.href}
-              className="flex h-full flex-col rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
+              key={group.region}
+              className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
             >
-              <h3 className="text-2xl font-black text-[#100b47]">{guide.title}</h3>
-              <p className="mt-4 flex-1 text-base leading-8 text-gray-700">
-                {guide.description}
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
+                {group.region}
               </p>
-              <div className="mt-6">
-                <Link
-                  href={guide.href}
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
-                >
-                  Read guide
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 15.707a1 1 0 010-1.414L13.586 11H3a1 1 0 110-2h10.586l-3.293-3.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Link>
+              <p className="mt-3 text-sm leading-7 text-gray-600">
+                {group.description}
+              </p>
+              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
+                {group.areas.map((area) => (
+                  <div key={area} className="border-t border-[#edf2fc] pt-3">
+                    <p className="text-sm font-bold text-[#100b47]">{area}</p>
+                  </div>
+                ))}
               </div>
+            </article>
+          ))}
+        </div>
+        <div className="mt-6 rounded-2xl border border-[#d9e5fb] bg-[#f8fbff] p-6">
+          <div className="grid gap-4 lg:grid-cols-[0.45fr_1fr] lg:items-center">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
+                Common postcodes
+              </p>
+              <p className="mt-2 text-sm leading-7 text-gray-600">
+                A quick guide to areas we regularly assess for extension work.
+              </p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
+              {servicePostcodes.map((postcode) => (
+                <span
+                  key={postcode}
+                  className="flex min-h-11 items-center justify-center rounded-xl border border-[#d9e5fb] bg-white px-3 text-sm font-black text-[#100b47]"
+                >
+                  {postcode}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <SectionHeading eyebrow="FAQ" title="House extension company questions">
+          Practical answers for homeowners choosing who to hire, what is included
+          and how the process works.
+        </SectionHeading>
+        <div className="divide-y divide-[#d9e5fb] rounded-2xl border border-[#d9e5fb] bg-white">
+          {faqs.map((faq) => (
+            <article key={faq.question} className="p-6 md:p-7">
+              <h3 className="text-xl font-black text-[#100b47]">{faq.question}</h3>
+              <p className="mt-3 text-base leading-8 text-gray-700">
+                <LinkedFaqAnswer faq={faq} />
+              </p>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-14">
-        <div className="overflow-hidden rounded-2xl border border-[#cfe0ff] bg-gradient-to-br from-[#f2f7ff] via-white to-[#eaf2ff] p-8 shadow-sm md:p-10 lg:p-12">
+      <section className="mx-auto max-w-[88%] px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pb-24 lg:pt-16">
+        <div className="overflow-hidden rounded-2xl bg-[#100b47] p-8 text-white md:p-10 lg:p-12">
           <div className="max-w-3xl">
-            <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.24em] text-[#266bf1]">
-              Next Step
+            <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.24em] text-[#9ec1ff]">
+              Ready to talk about your extension?
             </p>
-            <h2 className="text-4xl font-black text-[#100b47] md:text-5xl md:leading-tight">
-              If extending feels like the right route, start with a realistic conversation
+            <h2 className="text-3xl font-black leading-tight md:text-5xl">
+              Get an honest view on what is feasible, what it may cost and the
+              best route to get there
             </h2>
-            <p className="mt-4 text-lg leading-8 text-gray-700">
-              A useful first conversation should tell you whether the extension
-              idea makes sense for your house, what the realistic budget range
-              looks like, and whether planning, layout or structural constraints
-              are likely to shape the route before you spend too much energy on
-              the wrong plan.
+            <p className="mt-5 text-lg leading-8 text-[#d6def6]">
+              Tell us about your home and what you are hoping to achieve. We will
+              give you a realistic view of the scope, budget and next steps with
+              no pressure and no jargon.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
-              >
-                Book your extension consultation
-              </Link>
-              <Link
-                href="/blog/house-extension-guide-2025"
-                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
-              >
-                Read the full extension guide first
-              </Link>
+              <PrimaryButton href="/contact">Book your consultation</PrimaryButton>
+              <SecondaryButton href="callto:07922391591" dark>
+                Call us
+              </SecondaryButton>
             </div>
           </div>
         </div>
@@ -741,7 +783,15 @@ export default function Page() {
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </main>
   );

@@ -221,6 +221,45 @@ const styles = {
   pAccent: "mb-6 text-[#266bf1]",
 };
 
+const houseExtensionGuideFaqs = [
+  {
+    question: "How much does a house extension cost in London in 2026?",
+    answer:
+      "Construction costs range from £2,500 to £4,500 per square metre depending on specification. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in, including VAT, architect fees, structural engineering, building control, and basic finishes. Side return extensions start from around £35,000, while wraparound extensions range from £75,000 to £140,000. Add £15,000 to £60,000 for a kitchen fit-out if the extension includes a new kitchen.",
+  },
+  {
+    question: "Do I need planning permission for a house extension in London?",
+    answer:
+      "Not always. Many single-storey rear extensions qualify for permitted development if they stay within the size limits: 3 metres deep for terraced and semi-detached houses, 4 metres for detached. The Larger Home Extension Scheme allows up to 6 or 8 metres through a prior approval process. However, properties in conservation areas, listed buildings, or areas subject to Article 4 Directions may have restricted permitted development rights and require full planning permission. The application fee is £548 from April 2026.",
+  },
+  {
+    question: "How long does a house extension take to build in London?",
+    answer:
+      "The total project duration from initial design to completion is typically 6 to 10 months. Design and planning stages take 3 to 5 months, and on-site construction takes 12 to 16 weeks for a single-storey extension, 16 to 24 weeks for a wraparound or double-storey extension. The Larger Home Extension Scheme adds a 42-day neighbour consultation period if used. Allow additional time for party wall agreements, which can take 4 to 8 weeks if neighbours dissent.",
+  },
+  {
+    question: "What is the best type of extension for a Victorian terrace in London?",
+    answer:
+      "Victorian terraced houses in London are ideally suited to rear extensions, side return extensions, and wraparound extensions. If your terrace has a side return (the narrow passage along one side of the rear kitchen), a wraparound extension maximises ground floor space by extending both backwards and sideways. For terraces without a side return, a rear extension of 3 to 6 metres creates a significantly larger kitchen-diner. Loft conversions paired with ground-floor extensions deliver the highest overall value uplift.",
+  },
+  {
+    question: "Does a house extension add value to a London property?",
+    answer:
+      "Yes. A well-designed extension typically adds more value than it costs to build. Open-plan kitchen extensions add 10 to 15 per cent, wraparound extensions add 10 to 15 per cent, double-storey extensions add 15 to 20 per cent, and combined extension and loft conversion projects add 20 to 30 per cent. On a £600,000 London property, a 15 per cent uplift represents £90,000 of added value - often exceeding the construction cost.",
+  },
+  {
+    question: "What are building regulations for house extensions?",
+    answer:
+      "Building regulations are separate from planning permission and are mandatory for all extensions. They cover structural safety (foundations, steels, load-bearing walls), energy efficiency (Part L, requiring specific insulation U-values for walls, roofs, and floors), fire safety (escape routes, fire-resistant construction), drainage, ventilation, and electrical safety. Building control inspects the extension at key stages and issues a completion certificate when everything passes. Fees are typically £800 to £1,500.",
+  },
+  {
+    question:
+      "What is the difference between design-and-build and hiring an architect separately?",
+    answer:
+      "With a traditional architect-led approach, you hire an architect to design the extension, then separately find and manage a builder to construct it. The architect and builder work under separate contracts, and the homeowner coordinates between them. With a design-and-build firm like Better Homes, one company handles both design and construction under a single contract. This provides one point of responsibility, a fixed price agreed before construction begins, and faster delivery because design and construction planning overlap. The design-and-build model is particularly effective for London house extensions where coordination complexity and cost certainty are important.",
+  },
+];
+
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
   {
@@ -5794,6 +5833,7 @@ export const articles = [
   slug: "house-extension-guide-2025",
   // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
   title: "House extensions in London: the complete 2026 guide to costs, planning and design",
+  seoTitle: "House Extension Costs London 2026: Prices, Planning & Types",
   // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
   description:
     "London house extension guide for 2026 covering extension types, real costs, planning permission, building regulations, timelines, design-and-build delivery and extending vs moving.",
@@ -5812,6 +5852,7 @@ export const articles = [
     urlRelative: "/assets/blog/house-extension-guide-2025/extension-types-comparison-london.png",
     alt: "House extension types compared for London homes in 2026",
   },
+  faqs: houseExtensionGuideFaqs,
   // The actual content of the article that will be shown under the <h1> title in the article page.
   content: <HouseExtensionGuide2025Article />,
 },
