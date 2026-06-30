@@ -108,7 +108,7 @@ const calculatorSchema = {
     {
       "@type": "WebApplication",
       "@id": `${pageUrl}#webapplication`,
-      name: "Extension Cost Calculator",
+      name: "House Extension Cost Calculator UK",
       url: pageUrl,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
@@ -394,7 +394,7 @@ export default function ExtensionCalculator() {
               London-first pricing tool
             </div>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-stone-900 md:text-5xl">
-              Extension Cost Calculator
+              House Extension Cost Calculator UK
             </h1>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
               A transparent budgeting tool for early-stage extension projects.

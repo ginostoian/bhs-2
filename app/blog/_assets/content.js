@@ -4098,6 +4098,15 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
+            If you want to turn these ranges into a project-specific estimate,
+            use our{" "}
+            <Link href="/kitchen-calculator">
+              kitchen renovation cost calculator
+            </Link>{" "}
+            before you start comparing quotes.
+          </p>
+
+          <p className={styles.p}>
             In this complete guide, we&apos;ll break down exactly what goes into
             the cost of a kitchen renovation in the capital. We&apos;ll cover
             everything from{" "}
@@ -5714,7 +5723,10 @@ export const articles = [
             as you plan your kitchen renovation. At{" "}
             <strong>Better Homes</strong>, we&apos;re passionate about
             turning London kitchens into beautiful, functional spaces—tailored
-            to your lifestyle and budget.
+            to your lifestyle and budget. If you want one accountable team for
+            design, supply and installation, our{" "}
+            <Link href="/kitchen-renovation">kitchen renovation service</Link>{" "}
+            explains how we manage the process.
           </p>
 
           <p className={styles.p}>
@@ -5941,7 +5953,12 @@ export const articles = [
             Several factors influence the overall cost of a{" "}
             <b className={styles.accent}>bathroom renovation in London</b>.
             Understanding these factors will help you create a realistic budget
-            and avoid unexpected expenses.
+            and avoid unexpected expenses. For a quick personalised range, start
+            with our{" "}
+            <Link href="/tools/bathroom-cost-calculator">
+              bathroom cost calculator
+            </Link>
+            .
           </p>
 
           <h3 className={styles.h3}>Size of the Bathroom</h3>
@@ -6362,7 +6379,10 @@ export const articles = [
             bathroom without breaking the bank. Remember to plan carefully, get
             multiple quotes, and choose a reputable{" "}
             <b className={styles.accent}>bathroom fitter</b> to ensure a smooth
-            and successful renovation.
+            and successful renovation. Our{" "}
+            <Link href="/bathroom-renovation">bathroom renovation in London</Link>{" "}
+            page shows how we plan, supply and install complete bathroom
+            projects.
           </p>
           <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
             <div className="text-center">

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import PDFDownload from "./PDFDownload";
+import { BOOKING_URL } from "@/libs/booking";
 
 const formatCurrency = (amount) =>
   new Intl.NumberFormat("en-GB", {
@@ -218,10 +219,12 @@ export default function ResultCard({
             <section className="rounded-2xl border border-stone-200 bg-white p-5">
               <div className="grid gap-3">
                 <Link
-                  href="/contact"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-black"
                 >
-                  Book a Free Cost Review
+                  Book a kitchen cost review
                 </Link>
                 <button
                   onClick={onModifySelections}

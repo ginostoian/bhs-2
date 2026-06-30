@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import PDFDownload from "./PDFDownload";
+import { BOOKING_URL } from "@/libs/booking";
 import { LONDON_ZONES } from "../lib/config";
 
 const formatCurrency = (amount) =>
@@ -246,10 +247,12 @@ export default function ResultCard({
             <section className="rounded-2xl border border-stone-200 bg-white p-5">
               <div className="grid gap-3">
                 <Link
-                  href="https://bhstudio.co.uk/contact"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-black"
                 >
-                  Book a consultation
+                  Book a renovation consultation
                 </Link>
                 <Link
                   href="https://bhstudio.co.uk/blog/home-renovation-cost-london-2026"

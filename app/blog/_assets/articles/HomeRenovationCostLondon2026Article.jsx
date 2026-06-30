@@ -221,7 +221,7 @@ export default function HomeRenovationCostLondon2026() {
       <p className={styles.p}>
         To apply these figures to your own project, try our{" "}
         <Link
-          href="https://bhstudio.co.uk/renovation-calculator"
+          href="/renovation-calculator"
           className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
         >
           home renovation cost calculator

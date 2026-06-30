@@ -6,8 +6,8 @@ const Hero = () => {
   return (
     <section className="mx-auto mb-12 mt-12 max-w-[85%]">
       <h1 className="mb-8 text-center text-4xl font-bold text-gray-800 md:text-6xl">
-        Bathroom renovation
-        <span className="text-[#266bf1]"> cost calculator</span>
+        Bathroom Renovation
+        <span className="text-[#266bf1]"> Cost Calculator UK</span>
       </h1>
       <p className="mx-auto text-center text-lg leading-relaxed text-gray-500 md:text-2xl">
         Stop guessing. Find out how much should you budget for your upcoming

@@ -4,6 +4,7 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 
+import { BOOKING_URL } from "@/libs/booking";
 import { getPageFaqs } from "@/libs/pageFaqs";
 
 import Hero from "../components/Hero";
@@ -363,10 +364,12 @@ const BathroomCalculator = () => {
                   View our work
                 </Link>
                 <Link
-                  href="#tally-open=wbkWj0&tally-overlay=1&tally-emoji-text=👋&tally-emoji-animation=wave&tally-auto-close=1000"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="cursor-pointer rounded-full bg-[#266bf1] px-4 py-2 text-center text-base text-white transition-all duration-200 hover:border-2 hover:border-[#266bf1] hover:bg-white hover:text-black md:px-8 md:py-4"
                 >
-                  Get a free detailed quote
+                  Book a bathroom cost review
                 </Link>
               </div>
               <ToolsFAQ faqs={faqs} />

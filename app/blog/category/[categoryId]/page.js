@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getSEOTags } from "@/libs/seo";
 import { categories, articles } from "../../_assets/content";
 import CardArticle from "../../_assets/components/CardArticle";
@@ -385,7 +386,9 @@ export default function CategoryPage({ params }) {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="/contact"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1f56c5]"
           >
             Book a consultation

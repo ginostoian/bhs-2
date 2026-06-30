@@ -4,6 +4,7 @@ import Image from "next/image";
 import classes from "./Hero.module.css";
 import Link from "next/link";
 import TestimonialsAvatars from "../TestimonialsAvatars";
+import { BOOKING_URL } from "@/libs/booking";
 
 const Hero = ({
   title,
@@ -21,6 +22,8 @@ const Hero = ({
   const heroImageSrc = heroImgUrl?.startsWith("/")
     ? heroImgUrl
     : `/assets/img/${heroImgUrl}`;
+  const primaryCtaHref = ctaTallyFormLink || BOOKING_URL;
+  const isExternalPrimaryCta = primaryCtaHref.startsWith("http");
 
   return (
     <section className={`${classes["hero"]} container`}>
@@ -58,7 +61,9 @@ const Hero = ({
         )}
         <div className={classes["hero__cta-row"]}>
           <Link
-            href={ctaTallyFormLink || "/contact"}
+            href={primaryCtaHref}
+            target={isExternalPrimaryCta ? "_blank" : undefined}
+            rel={isExternalPrimaryCta ? "noopener noreferrer" : undefined}
             className="flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
           >
             {heroCTA}

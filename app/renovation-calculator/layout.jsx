@@ -1,6 +1,6 @@
 import { getSEOTags } from "@/libs/seo";
 
-const pageTitle = "Home Renovation Cost Calculator UK & London (2026) | Better Homes";
+const pageTitle = "Home Renovation Cost Calculator UK | London Pricing | Better Homes";
 const pageDescription =
   "Free home renovation cost calculator. Get a low/expected/high budget for a full or partial refurbishment — fees, contingency and VAT included. London-first pricing.";
 

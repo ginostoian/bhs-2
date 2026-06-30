@@ -194,7 +194,7 @@ const BTUCalculator = () => {
         {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="mb-4 text-4xl font-bold text-gray-900">
-            BTU Calculator
+            BTU Calculator UK
           </h1>
           <p className="mx-auto max-w-2xl text-xl text-gray-600">
             Calculate the perfect BTU output for heating your room with gas or

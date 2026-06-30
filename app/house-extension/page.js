@@ -4,6 +4,7 @@ import Link from "next/link";
 import Guarantee from "@/components/Guarantee";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getSEOTags } from "@/libs/seo";
 import { SITE_URL } from "@/libs/structuredData";
 
@@ -75,26 +76,36 @@ const extensionTypes = [
     title: "Rear extensions",
     body:
       "We create brighter kitchen-dining and family spaces that connect the back of the house properly to the garden.",
+    guideHref: "/blog/house-extension-guide-2025#extension-costs",
+    guideLinkText: "See rear extension cost ranges in our complete 2026 guide",
   },
   {
     title: "Side return extensions",
     body:
       "A strong option for Victorian and Edwardian terraces where a narrow side passage can become valuable living space.",
+    guideHref: "/blog/house-extension-guide-2025#extension-costs",
+    guideLinkText: "See side return extension costs in our complete 2026 guide",
   },
   {
     title: "Wraparound extensions",
     body:
       "For homeowners who want a larger ground-floor transformation with more width, better flow and a more generous kitchen-living space.",
+    guideHref: "/blog/house-extension-guide-2025#extension-costs",
+    guideLinkText: "Compare wraparound extension budgets in our complete 2026 guide",
   },
   {
     title: "Double-storey extensions",
     body:
       "A practical route when the brief needs meaningful extra space upstairs and downstairs, not just a bigger kitchen.",
+    guideHref: "/blog/house-extension-guide-2025#planning-permission",
+    guideLinkText: "Check planning and cost considerations in our complete 2026 guide",
   },
   {
     title: "Kitchen extensions",
     body:
       "Designed around the way you cook, host and live, with the structure, services and finish planned together from the start.",
+    guideHref: "/blog/house-extension-guide-2025#extension-costs",
+    guideLinkText: "See kitchen extension cost detail in our complete 2026 guide",
   },
 ];
 
@@ -339,9 +350,13 @@ function SectionHeading({ eyebrow, title, children, centered = false, dark = fal
 }
 
 function PrimaryButton({ href, children }) {
+  const isExternal = href.startsWith("http");
+
   return (
     <Link
       href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
       className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
     >
       {children}
@@ -480,7 +495,7 @@ export default function Page() {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <PrimaryButton href="/contact">Book your extension consultation</PrimaryButton>
+            <PrimaryButton href={BOOKING_URL}>Book your extension consultation</PrimaryButton>
             <SecondaryButton href="tel:07922391591">Call us</SecondaryButton>
           </div>
         </div>
@@ -522,7 +537,7 @@ export default function Page() {
             realistically cost? Book a consultation and we will talk it through.
           </p>
           <div className="mt-5">
-            <PrimaryButton href="/contact">Book your consultation</PrimaryButton>
+            <PrimaryButton href={BOOKING_URL}>Book your consultation</PrimaryButton>
           </div>
         </div>
       </section>
@@ -545,11 +560,10 @@ export default function Page() {
                 {item.body}
               </p>
               <Link
-                href="/blog/house-extension-guide-2025"
+                href={item.guideHref}
                 className="mt-5 text-sm font-bold text-[#266bf1] hover:underline"
               >
-                See full costs, planning and design detail in our complete 2026
-                House Extension Guide
+                {item.guideLinkText}
               </Link>
             </article>
           ))}
@@ -782,7 +796,7 @@ export default function Page() {
               no pressure and no jargon.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <PrimaryButton href="/contact">Book your consultation</PrimaryButton>
+              <PrimaryButton href={BOOKING_URL}>Book your consultation</PrimaryButton>
               <SecondaryButton href="tel:07922391591" dark>
                 Call us
               </SecondaryButton>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { BOOKING_URL } from "@/libs/booking";
 
 const Announcement = () => {
   const months = [
@@ -26,8 +27,9 @@ const Announcement = () => {
     <div className="flex justify-center w-full px-4 pt-4 sm:pt-6">
       <Link
         className="group relative flex items-center gap-3 px-6 py-2.5 bg-[#0c1421]/95 backdrop-blur-md border border-[#c5a059]/20 rounded-full shadow-lg transition-all duration-300 hover:shadow-[#c5a059]/10 hover:border-[#c5a059]/40 hover:scale-[1.01] active:scale-[0.99] focus:outline-none"
-        href="https://cal.com/bhstudio/discovery"
+        href={BOOKING_URL}
         target="_blank"
+        rel="noopener noreferrer"
       >
         <span className="flex items-center gap-2.5 text-[#c5a059] text-[13px] sm:text-[14px] font-medium tracking-wide">
           <svg

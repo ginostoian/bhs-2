@@ -5,6 +5,7 @@ import Guarantee from "@/components/Guarantee";
 import Hero from "@/components/hero/Hero";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 import {
@@ -353,7 +354,7 @@ export default function Page() {
         subtitle="A well-planned loft conversion can give you the bedroom, office or guest suite you are missing while protecting the feel and long-term value of your home. We help London homeowners move from idea to finished space with clear guidance, practical planning and disciplined delivery."
         heroCTA="Book your loft consultation"
         heroImgUrl="extension/loft-conversion.png"
-        ctaTallyFormLink="/contact"
+        ctaTallyFormLink={BOOKING_URL}
       />
 
       <SocialProof />
@@ -661,7 +662,9 @@ export default function Page() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/contact"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
               >
                 Book your loft consultation

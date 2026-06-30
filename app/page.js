@@ -1,5 +1,6 @@
 import FAQ from "@/components/FAQ";
 import Features from "@/components/Features";
+import Link from "next/link";
 import PortfolioCardContainer from "@/components/PortfolioCardContainer";
 import Hero from "@/components/hero/Hero";
 import SocialProof from "@/components/socialProof/SocialProof";
@@ -13,6 +14,7 @@ import HomepageServiceGrid from "@/components/homepage/HomepageServiceGrid";
 import HomepageTestimonialStrip from "@/components/homepage/HomepageTestimonialStrip";
 import HomepageTimeline from "@/components/homepage/HomepageTimeline";
 import { SITE_URL } from "@/libs/structuredData";
+import { BOOKING_URL } from "@/libs/booking";
 
 export const metadata = getSEOTags({
   title:
@@ -147,11 +149,61 @@ export default function Page() {
           heroCTA={homepageCopy.heroCTA}
           heroImgUrl={homepageCopy.heroImgUrl}
           proofPoints={heroProofPoints}
+          ctaTallyFormLink={BOOKING_URL}
         />
         <SocialProof />
         <Features />
         <Stats />
         <HomepageServiceGrid services={homepageServices} />
+        <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start">
+            <div>
+              <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.24em] text-[#266bf1]">
+                Cost planning
+              </p>
+              <h2 className="text-3xl font-black leading-tight text-[#100b47] md:text-5xl">
+                Price the project before you commit to a route
+              </h2>
+            </div>
+            <div className="space-y-4 text-base leading-8 text-gray-700">
+              <p>
+                If you are still shaping the scope, start with our{" "}
+                <Link
+                  href="/renovation-calculator"
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  renovation cost calculator
+                </Link>{" "}
+                for an early full-home budget range, then compare it with the
+                matching service page once the project type is clearer.
+              </p>
+              <p>
+                For room-specific planning, use the{" "}
+                <Link
+                  href="/kitchen-calculator"
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  kitchen renovation cost calculator
+                </Link>
+                ,{" "}
+                <Link
+                  href="/extension-calculator"
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  extension cost calculator
+                </Link>
+                , or{" "}
+                <Link
+                  href="/tools/bathroom-cost-calculator"
+                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                >
+                  bathroom cost calculator
+                </Link>{" "}
+                before booking a consultation.
+              </p>
+            </div>
+          </div>
+        </section>
         <PortfolioCardContainer />
         <HomepageTestimonialStrip />
         <HomepageTimeline steps={homepageTimeline} />

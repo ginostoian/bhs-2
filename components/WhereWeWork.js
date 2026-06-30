@@ -1,6 +1,7 @@
 import Link from "next/link";
 import classes from "./WhereWeWork.module.css";
 import { getGroupedLocations, LONDON_LOCATIONS } from "@/libs/locations";
+import { BOOKING_URL } from "@/libs/booking";
 import { getLocalBusinessSchema, SITE_URL } from "@/libs/structuredData";
 
 const WhereWeWork = () => {
@@ -125,7 +126,12 @@ const WhereWeWork = () => {
             <p className={classes["cta-text"]}>
               For the right project - contact us wherever you are
             </p>
-            <Link href="/contact" className={classes["cta-button"]}>
+            <Link
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes["cta-button"]}
+            >
               Get Your Free Quote
             </Link>
           </div>

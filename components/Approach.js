@@ -1,4 +1,5 @@
 import React from "react";
+import { BOOKING_URL } from "@/libs/booking";
 import Image from "next/image";
 
 const Approach = () => {
@@ -153,7 +154,9 @@ const Approach = () => {
 
               <a
                 className="group inline-flex items-center gap-x-2 rounded-full bg-[#ff0] px-8 py-2 text-xl font-medium text-neutral-800 focus:outline-none"
-                href="https://cal.com/bhstudio/discovery"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <svg
                   className="size-4 shrink-0"

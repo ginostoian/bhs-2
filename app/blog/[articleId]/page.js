@@ -3,6 +3,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getSEOTags } from "@/libs/seo";
 import { articles } from "../_assets/content";
 import BadgeCategory from "../_assets/components/BadgeCategory";
@@ -268,7 +269,9 @@ export default function ArticlePage({ params }) {
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
-                  href="/contact"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1f56c5]"
                 >
                   Book a consultation
@@ -364,7 +367,9 @@ export default function ArticlePage({ params }) {
                 before they commit to major spend.
               </p>
               <Link
-                href="/contact"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center justify-center rounded-full bg-[#266bf1] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f56c5]"
               >
                 Speak with our team

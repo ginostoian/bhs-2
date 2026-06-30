@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Modal from "@/components/Modal";
+import { BOOKING_URL } from "@/libs/booking";
 import Stepper from "./components/Wizard/Stepper";
 import StepProperty from "./components/Wizard/StepProperty";
 import StepHouseDetails from "./components/Wizard/StepHouseDetails";
@@ -146,7 +147,7 @@ const calculatorSchema = {
     {
       "@type": "WebApplication",
       "@id": `${pageUrl}#webapplication`,
-      name: "Home Renovation Cost Calculator",
+      name: "Home Renovation Cost Calculator UK",
       url: pageUrl,
       applicationCategory: "FinanceApplication",
       operatingSystem: "Web",
@@ -400,7 +401,7 @@ export default function RenovationCalculator() {
               London-first renovation pricing
             </div>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-stone-900 md:text-5xl">
-              Home Renovation Cost Calculator
+              Home Renovation Cost Calculator UK
             </h1>
             <p className="mt-4 max-w-2xl text-lg leading-relaxed text-stone-600">
               A ballpark budgeting tool for refurbishments and full-home
@@ -667,7 +668,9 @@ export default function RenovationCalculator() {
                 </h2>
               </div>
               <Link
-                href={`${siteUrl}/contact`}
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#266bf1] px-5 text-sm font-semibold text-white transition hover:bg-[#1449B0]"
               >
                 Book a consultation

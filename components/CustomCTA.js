@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { BOOKING_URL } from "@/libs/booking";
 
 const CustomCTA = () => {
   return (
@@ -33,8 +34,9 @@ const CustomCTA = () => {
           </div>
           <div>
             <Link
-              href="https://cal.com/bhstudio/discovery"
+              href={BOOKING_URL}
               target="_blank"
+              rel="noopener noreferrer"
               className="lg:w-[245px]! btn-shadow flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-[#266bf1] bg-[#266bf1] px-[26px] text-[18px] font-bold leading-[140%] text-white transition duration-200 hover:border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[48px] lg:px-[24px]"
             >
               Book a Consultation

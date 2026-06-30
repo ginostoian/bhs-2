@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { articles, categories } from "./_assets/content";
 import CardArticle from "./_assets/components/CardArticle";
 import BlogArchive from "./_assets/components/BlogArchive";
@@ -155,7 +156,9 @@ export default function Blog() {
               </Link>
             )}
             <Link
-              href="/contact"
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center rounded-full border border-white/40 bg-transparent px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 hover:text-white"
             >
               Ask for project-specific advice
@@ -323,7 +326,9 @@ export default function Blog() {
         </p>
         <div className="mt-6">
           <Link
-            href="/contact"
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-[#266bf1] px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#1f58c8] hover:text-white"
           >
             Book a Consultation
