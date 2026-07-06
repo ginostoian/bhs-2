@@ -1,4 +1,4 @@
-import { EXTENSION_CONFIG } from "./config.js";
+import { DEFAULT_EXTENSION_CONFIG } from "./config.js";
 
 const DEFAULTS = {
   region: "london",
@@ -9,6 +9,8 @@ const DEFAULTS = {
   glazingLevel: "standard",
   drawingsStatus: "noPlansYet",
   planningStatus: "unknown",
+  includeFittings: false,
+  vatTreatment: "standard",
 };
 
 function clamp(value, min, max) {
@@ -20,8 +22,8 @@ function round(n) {
 }
 
 export class ExtensionCostEngine {
-  constructor() {
-    this.config = EXTENSION_CONFIG;
+  constructor(config = DEFAULT_EXTENSION_CONFIG) {
+    this.config = config || DEFAULT_EXTENSION_CONFIG;
   }
 
   normalizeProjectData(projectData = {}) {
@@ -52,6 +54,15 @@ export class ExtensionCostEngine {
       normalized.planningStatus || DEFAULTS.planningStatus;
     normalized.propertyType = normalized.propertyType || "semiDetached";
     normalized.size = clamp(Number(normalized.size) || 0, 0, 200);
+
+    // Fittings default OFF: only price supplied items / finishes when opted in.
+    normalized.includeFittings = Boolean(normalized.includeFittings);
+    normalized.vatTreatment =
+      normalized.vatTreatment &&
+      this.config.vatTreatments?.[normalized.vatTreatment] !== undefined
+        ? normalized.vatTreatment
+        : DEFAULTS.vatTreatment;
+
     normalized.additionalFeatures = this.normalizeFeatureSelections(
       normalized.additionalFeatures || [],
       normalized.size,
@@ -74,14 +85,6 @@ export class ExtensionCostEngine {
     return data;
   }
 
-  calculateBaseBuildCost(extensionType, size) {
-    const baseRate = this.config.baseBuildRates[extensionType];
-    if (!baseRate) {
-      throw new Error(`Invalid extension type: ${extensionType}`);
-    }
-    return baseRate * size;
-  }
-
   getSizeMultiplier(size) {
     for (const band of Object.values(this.config.sizeMultipliers)) {
       if (size >= band.min && size <= band.max) {
@@ -95,8 +98,7 @@ export class ExtensionCostEngine {
     const regionMultiplier = this.config.regionMultipliers[region] || 1.0;
     if (region !== "london") return regionMultiplier;
     const zoneMultiplier =
-      this.config.londonZoneMultipliers[londonZone || DEFAULTS.londonZone] ||
-      1.0;
+      this.config.londonZoneMultipliers[londonZone || DEFAULTS.londonZone] || 1.0;
     return regionMultiplier * zoneMultiplier;
   }
 
@@ -127,7 +129,6 @@ export class ExtensionCostEngine {
       .map((raw) => {
         if (!raw) return null;
 
-        // Backward compatibility: legacy array of strings
         if (typeof raw === "string") {
           const featureConfig = this.config.additionalFeatures[raw];
           if (!featureConfig) return null;
@@ -167,7 +168,6 @@ export class ExtensionCostEngine {
 
   mergeFeatureSelections(typeAllowances, userSelections) {
     const merged = new Map();
-
     [...typeAllowances, ...userSelections].forEach((selection) => {
       if (!selection?.id) return;
       const existing = merged.get(selection.id);
@@ -178,7 +178,6 @@ export class ExtensionCostEngine {
           : selection.quantity,
       });
     });
-
     return [...merged.values()];
   }
 
@@ -186,45 +185,63 @@ export class ExtensionCostEngine {
     const services = new Set(this.config.recommendedFeeBundles.base);
 
     if (data.planningStatus === "planningRequired" || data.planningStatus === "unknown") {
-      this.config.recommendedFeeBundles.withPlanning.forEach((id) =>
-        services.add(id),
-      );
+      this.config.recommendedFeeBundles.withPlanning.forEach((id) => services.add(id));
     }
-
     if (data.drawingsStatus === "noPlansYet" || data.drawingsStatus === "roughIdeas") {
-      this.config.recommendedFeeBundles.withArchitect.forEach((id) =>
-        services.add(id),
-      );
+      this.config.recommendedFeeBundles.withArchitect.forEach((id) => services.add(id));
     }
-
     if (data.drawingsStatus === "architectPlans") {
       services.delete("architectConcept");
     }
-
     if (
       data.propertyType === "terraced" ||
       data.propertyType === "semiDetached" ||
       data.propertyType === "maisonette"
     ) {
-      // Not always required, but useful as a budgeting allowance.
       services.add("partyWallSurveyor");
     }
 
     return [...services];
   }
 
-  calculateAdditionalFeaturesCost(selectedFeatures) {
+  // Base build split into labour / materials / fittings and adjusted by all multipliers.
+  calculateBaseBuild(data, combinedMultiplier) {
+    const rate = this.config.baseBuildRates[data.extensionType];
+    const size = data.size;
+    const labour = rate.labour * size * combinedMultiplier;
+    const materials = rate.materials * size * combinedMultiplier;
+    const fittings = rate.fittings * size * combinedMultiplier;
+
+    // Pre-modifier headline figure (construction, plus fittings if included).
+    const preModifier =
+      (rate.labour + rate.materials + (data.includeFittings ? rate.fittings : 0)) * size;
+
+    return {
+      labour: round(labour),
+      materials: round(materials),
+      fittings: round(fittings),
+      construction: round(labour + materials),
+      preModifier: round(preModifier),
+    };
+  }
+
+  calculateAdditionalFeaturesCost(selectedFeatures, includeFittings) {
     const lineItems = [];
-    let total = 0;
+    let buildTotal = 0;
+    let fittingsTotal = 0;
 
     for (const selected of selectedFeatures) {
       const feature = this.config.additionalFeatures[selected.id];
       if (!feature) continue;
 
+      const category = feature.category === "fittings" ? "fittings" : "build";
       const quantity =
         feature.unit === "fixed" ? 1 : clamp(Number(selected.quantity) || 1, 1, 999);
       const lineTotal = feature.unitCost * quantity;
-      total += lineTotal;
+      const includedInTotal = category === "build" || includeFittings;
+
+      if (category === "fittings") fittingsTotal += lineTotal;
+      else buildTotal += lineTotal;
 
       lineItems.push({
         id: selected.id,
@@ -233,12 +250,19 @@ export class ExtensionCostEngine {
         unitLabel: feature.unitLabel,
         unitCost: round(feature.unitCost),
         quantity,
+        category,
+        includedInTotal,
         total: round(lineTotal),
         description: feature.description,
       });
     }
 
-    return { total: round(total), lineItems };
+    return {
+      buildTotal: round(buildTotal),
+      fittingsTotal: round(fittingsTotal),
+      total: round(buildTotal + (includeFittings ? fittingsTotal : 0)),
+      lineItems,
+    };
   }
 
   calculatePlanningCosts(selectedServices, data) {
@@ -255,11 +279,8 @@ export class ExtensionCostEngine {
     for (const id of effectiveServices) {
       const service = this.config.planningServices[id];
       if (!service) continue;
-      if (service.category === "statutory") {
-        statutoryFees += service.cost;
-      } else {
-        professionalFees += service.cost;
-      }
+      if (service.category === "statutory") statutoryFees += service.cost;
+      else professionalFees += service.cost;
       lineItems.push({
         id,
         cost: round(service.cost),
@@ -303,15 +324,11 @@ export class ExtensionCostEngine {
     const lowFactor = clamp(0.93 - (spreadWidening - 1) * 0.12, 0.82, 0.93);
     const highFactor = clamp(1.09 + (spreadWidening - 1) * 0.45, 1.09, 1.28);
 
-    const rawConfidence = 100 - Math.round((spreadWidening - 1) * 140);
+    let rawConfidence = 100 - Math.round((spreadWidening - 1) * 140);
+    if (!data.includeFittings) rawConfidence += 3; // narrower scope, more predictable
     const confidenceScore = clamp(rawConfidence, 55, 95);
 
-    return {
-      lowFactor,
-      highFactor,
-      confidenceScore,
-      spreadWidening,
-    };
+    return { lowFactor, highFactor, confidenceScore, spreadWidening };
   }
 
   getEstimatedTimeline(extensionType, size, complexity) {
@@ -360,7 +377,6 @@ export class ExtensionCostEngine {
   calculateTotalCost(projectData) {
     const data = this.validateProjectData(projectData);
 
-    const baseBuild = this.calculateBaseBuildCost(data.extensionType, data.size);
     const multipliers = {
       size: this.getSizeMultiplier(data.size),
       region: this.getRegionMultiplier(data.region, data.londonZone),
@@ -371,15 +387,18 @@ export class ExtensionCostEngine {
       glazing: this.getGlazingMultiplier(data.glazingLevel),
     };
 
+    const combinedMultiplier =
+      multipliers.size *
+      multipliers.region *
+      multipliers.property *
+      multipliers.complexity *
+      multipliers.finishLevel *
+      multipliers.siteAccess *
+      multipliers.glazing;
+
+    const base = this.calculateBaseBuild(data, combinedMultiplier);
     const adjustedBuild = round(
-      baseBuild *
-        multipliers.size *
-        multipliers.region *
-        multipliers.property *
-        multipliers.complexity *
-        multipliers.finishLevel *
-        multipliers.siteAccess *
-        multipliers.glazing,
+      base.construction + (data.includeFittings ? base.fittings : 0),
     );
 
     const typeAllowances = this.getExtensionTypeAllowances(data);
@@ -387,7 +406,10 @@ export class ExtensionCostEngine {
       typeAllowances,
       data.additionalFeatures,
     );
-    const extras = this.calculateAdditionalFeaturesCost(effectiveFeatures);
+    const extras = this.calculateAdditionalFeaturesCost(
+      effectiveFeatures,
+      data.includeFittings,
+    );
     const planning = this.calculatePlanningCosts(data.planningServices, data);
 
     const subtotalBeforeContingency = round(
@@ -399,12 +421,19 @@ export class ExtensionCostEngine {
       data.complexity,
     );
 
+    const vatRate =
+      this.config.vatTreatments?.[data.vatTreatment] ?? this.config.vatRate;
     const taxableSubtotal = round(
       adjustedBuild + extras.total + planning.professionalFees + contingency.amount,
     );
     const subtotalExVat = round(taxableSubtotal + planning.statutoryFees);
-    const vat = round(taxableSubtotal * this.config.vatRate);
+    const vat = round(taxableSubtotal * vatRate);
     const total = round(subtotalExVat + vat);
+
+    // Component roll-up for the "where the money goes" view.
+    const buildConstruction = round(base.construction + extras.buildTotal);
+    const fittingsAvailable = round(base.fittings + extras.fittingsTotal);
+    const fittingsApplied = data.includeFittings ? fittingsAvailable : 0;
 
     const { lowFactor, highFactor, confidenceScore } = this.getRangeFactors(data);
     const low = round(total * lowFactor);
@@ -420,17 +449,30 @@ export class ExtensionCostEngine {
     return {
       assumptions: {
         calculatorVersion: this.config.version,
+        priceBookDate: this.config.priceBookDate,
+        includeFittings: data.includeFittings,
+        vatTreatment: data.vatTreatment,
         vatAppliedToTaxableCostsOnly: true,
         typeSpecificAllowancesIncluded: typeAllowances.length > 0,
         recommendedPlanningFeesAutoIncluded: planning.recommendedOnly,
       },
       inputs: data,
       breakdown: {
-        baseBuild: round(baseBuild),
+        baseBuild: base.preModifier,
+        baseBuildLabour: base.labour,
+        baseBuildMaterials: base.materials,
+        baseBuildFittings: base.fittings,
         multipliers,
         adjustedBuild,
         extras: extras.total,
+        extrasBuild: extras.buildTotal,
+        extrasFittings: extras.fittingsTotal,
         extrasLineItems: extras.lineItems,
+        // Make-up
+        buildConstruction,
+        fittingsAvailable,
+        fittingsApplied,
+        fittingsIncluded: data.includeFittings,
         professionalFees: planning.professionalFees,
         statutoryFees: planning.statutoryFees,
         planningFeesTotal: planning.total,
@@ -442,15 +484,12 @@ export class ExtensionCostEngine {
         contingency: contingency.amount,
         taxableSubtotal,
         subtotalExVat,
-        vatRate: this.config.vatRate,
+        vatTreatment: data.vatTreatment,
+        vatRate,
         vat,
         total,
       },
-      ranges: {
-        low,
-        expected,
-        high,
-      },
+      ranges: { low, expected, high },
       total,
       costPerSqm: round(total / data.size),
       rangePerSqm: {
@@ -482,6 +521,7 @@ export class ExtensionCostEngine {
       planningStatus: "unknown",
       additionalFeatures: [],
       planningServices: [],
+      includeFittings: true,
     });
 
     return {
@@ -499,6 +539,10 @@ export class ExtensionCostEngine {
       maximumFractionDigits: 0,
     }).format(amount);
   }
+}
+
+export function createCostEngine(config) {
+  return new ExtensionCostEngine(config);
 }
 
 export const costEngine = new ExtensionCostEngine();

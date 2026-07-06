@@ -7,6 +7,16 @@ const SKIP_KEYS = new Set(["version", "priceBookDate", "currency", "vatRate"]);
 
 // Human-friendly labels for the recursive tree (fallback: prettified key).
 const LABELS = {
+  // Extension calculator
+  baseBuildRates: "Base build rates (£/m² split)",
+  sizeMultipliers: "Size band multipliers",
+  complexityMultipliers: "Complexity multipliers",
+  siteAccessMultipliers: "Site access multipliers",
+  glazingLevelMultipliers: "Glazing multipliers",
+  additionalFeatures: "Optional extras (unit costs)",
+  planningServices: "Planning & professional fees (£)",
+  vatTreatments: "VAT treatments",
+  // Renovation calculator
   baseScopeRates: "General builder's work (£/m² of affected area)",
   coverageFactors: "Coverage factors (fraction of home affected)",
   regionMultipliers: "Regional multipliers",
@@ -158,18 +168,20 @@ function ConfigTree({ node, defaults, path, onChange, depth = 0 }) {
   );
 }
 
-export default function RatesEditor() {
+export default function RatesEditor({ calculatorType = "renovation" }) {
   const [defaults, setDefaults] = useState(null);
   const [config, setConfig] = useState(null);
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState("");
   const [updatedAt, setUpdatedAt] = useState(null);
 
+  const apiUrl = `/api/admin/calculator-rates?type=${encodeURIComponent(calculatorType)}`;
+
   useEffect(() => {
     let active = true;
     (async () => {
       try {
-        const res = await fetch("/api/admin/calculator-rates");
+        const res = await fetch(apiUrl);
         if (!res.ok) throw new Error("Failed to load rates");
         const data = await res.json();
         if (!active) return;
@@ -186,7 +198,7 @@ export default function RatesEditor() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [apiUrl]);
 
   const overrides = useMemo(
     () => (defaults && config ? diff(defaults, config) : {}),
@@ -204,7 +216,7 @@ export default function RatesEditor() {
     setStatus("saving");
     setMessage("");
     try {
-      const res = await fetch("/api/admin/calculator-rates", {
+      const res = await fetch(apiUrl, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ overrides }),
@@ -224,7 +236,7 @@ export default function RatesEditor() {
     if (!window.confirm("Clear all overrides and restore the built-in default rates?")) return;
     setStatus("saving");
     try {
-      const res = await fetch("/api/admin/calculator-rates", {
+      const res = await fetch(apiUrl, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ overrides: {} }),

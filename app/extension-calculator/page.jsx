@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Stepper from "./components/Wizard/Stepper";
 import StepProperty from "./components/Wizard/StepProperty";
 import StepType from "./components/Wizard/StepType";
 import StepSize from "./components/Wizard/StepSize";
 import StepExtras from "./components/Wizard/StepExtras";
+import StepEstimateOptions from "./components/Wizard/StepEstimateOptions";
 import StepFinish from "./components/Wizard/StepFinish";
 import ResultCard from "./components/ResultCard";
 import Diagram from "./components/Diagram";
 import FAQ from "../../components/FAQ";
 import Modal from "@/components/Modal";
-import { costEngine } from "./lib/costEngine";
+import { costEngine as defaultCostEngine, createCostEngine } from "./lib/costEngine";
 
 const initialFormData = {
   propertyType: "",
@@ -30,6 +31,8 @@ const initialFormData = {
   planningStatus: "unknown",
   additionalFeatures: [],
   planningServices: [],
+  includeFittings: false,
+  vatTreatment: "standard",
 };
 
 const steps = [
@@ -37,6 +40,7 @@ const steps = [
   { title: "Project Type", description: "Extension category" },
   { title: "Specification", description: "Size and key cost drivers" },
   { title: "Extras & Fees", description: "Optional items and fee selections" },
+  { title: "Options", description: "Fittings + VAT" },
   { title: "Review", description: "Check inputs before calculating" },
 ];
 
@@ -225,11 +229,27 @@ export default function ExtensionCalculator() {
   const [calculationResult, setCalculationResult] = useState(null);
   const [modalState, setModalState] = useState(modalReset);
   const [formData, setFormData] = useState(initialFormData);
+  const [engine, setEngine] = useState(defaultCostEngine);
+
+  // Load the effective price book (defaults + admin overrides) so the on-page
+  // estimate matches the server-side recalculation.
+  useEffect(() => {
+    let active = true;
+    fetch("/api/extension-calculator/rates")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && data?.config) setEngine(createCostEngine(data.config));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   let livePreview = null;
   try {
     if (formData.extensionType && formData.size > 0) {
-      livePreview = costEngine.calculateTotalCost(formData);
+      livePreview = engine.calculateTotalCost(formData);
     }
   } catch (_error) {
     livePreview = null;
@@ -245,7 +265,7 @@ export default function ExtensionCalculator() {
     }
 
     try {
-      const result = costEngine.calculateTotalCost(formData);
+      const result = engine.calculateTotalCost(formData);
       setCalculationResult(result);
       setShowResults(true);
       scrollTop();
@@ -328,7 +348,21 @@ export default function ExtensionCalculator() {
         );
       case 4:
         return (
-          <StepFinish formData={formData} onNext={handleNext} onBack={handleBack} />
+          <StepEstimateOptions
+            formData={formData}
+            setFormData={setFormData}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 5:
+        return (
+          <StepFinish
+            formData={formData}
+            engine={engine}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
         );
       default:
         return null;

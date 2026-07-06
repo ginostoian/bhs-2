@@ -88,10 +88,16 @@ export default function AdminSidebar() {
           current: pathname === "/admin/quoting/templates",
         },
         {
-          name: "Calculator Rates",
+          name: "Renovation Calc Rates",
           href: "/admin/renovation-calculator-rates",
           icon: "🏚️",
           current: pathname === "/admin/renovation-calculator-rates",
+        },
+        {
+          name: "Extension Calc Rates",
+          href: "/admin/extension-calculator-rates",
+          icon: "🧱",
+          current: pathname === "/admin/extension-calculator-rates",
         },
         { name: "Quote History", href: "/admin/quoting/history", icon: "📚" },
       ],

@@ -21,7 +21,7 @@ export default function RenovationCalculatorRatesPage() {
         </p>
       </div>
 
-      <RatesEditor />
+      <RatesEditor calculatorType="renovation" />
     </div>
   );
 }

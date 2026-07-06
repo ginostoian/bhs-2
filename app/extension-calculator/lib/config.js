@@ -2,20 +2,27 @@
 // Rates are intended for ballpark budgeting and are calibrated to produce
 // "low / expected / high" ranges rather than a false sense of precision.
 
-export const EXTENSION_CONFIG = {
-  version: "2026.03",
+export const DEFAULT_EXTENSION_CONFIG = {
+  version: "2026.07",
+  priceBookDate: "2026-07",
 
-  // Expected build rates (ex VAT) for a standard specification before modifiers.
-  // These are per m² of extension area as entered by the user.
+  // Expected build rates (ex VAT) for a standard specification before modifiers,
+  // per m² of extension area. Each rate is split into components:
+  //   labour    - trade labour
+  //   materials - construction materials (frame, envelope, screed, plaster...)
+  //   fittings  - internal finishes / fixtures embedded in a "standard finish" build
+  //               (floor coverings, skirting/architrave, painting, basic fixtures)
+  // labour + materials is the construction cost (always included); fittings is only
+  // added when the client opts in (includeFittings). Default is OFF.
   baseBuildRates: {
-    singleStorey: 2400,
-    rearExtension: 2400,
-    sideReturn: 2600,
-    wraparound: 2500,
-    kitchenExtension: 2450,
-    doubleStorey: 2000,
-    basement: 4200,
-    loft: 2200,
+    singleStorey: { labour: 1080, materials: 960, fittings: 360 },
+    rearExtension: { labour: 1080, materials: 960, fittings: 360 },
+    sideReturn: { labour: 1170, materials: 1040, fittings: 390 },
+    wraparound: { labour: 1125, materials: 1000, fittings: 375 },
+    kitchenExtension: { labour: 1100, materials: 980, fittings: 370 },
+    doubleStorey: { labour: 920, materials: 820, fittings: 260 },
+    basement: { labour: 1950, materials: 1900, fittings: 350 },
+    loft: { labour: 990, materials: 860, fittings: 350 },
   },
 
   sizeMultipliers: {
@@ -104,6 +111,14 @@ export const EXTENSION_CONFIG = {
   // Broad defaults for a conservative VAT-inclusive range estimate.
   vatRate: 0.2,
 
+  // Selectable VAT treatments. Most extensions are standard-rated; reduced/zero are
+  // rare and should only be used when confirmed with the builder / HMRC.
+  vatTreatments: {
+    standard: 0.2,
+    reduced: 0.05,
+    zero: 0,
+  },
+
   // Professional/statutory costs used when selected by user.
   planningServices: {
     measuredSurvey: { cost: 900, category: "professional", taxable: true },
@@ -130,6 +145,8 @@ export const EXTENSION_CONFIG = {
   },
 
   // Unit-based extras to avoid misleading flat-fee assumptions.
+  // category: "build" (labour + construction materials) or "fittings" (supplied items /
+  // finishes). Fittings-category extras are only added when includeFittings is on.
   additionalFeatures: {
     steelBeam: {
       name: "Structural steel beam",
@@ -139,6 +156,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 6,
+      category: "build",
       description: "Typical supply/install allowance per major beam",
     },
     structuralOpening: {
@@ -149,6 +167,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 6,
+      category: "build",
       description: "Opening up the rear wall / major internal opening",
     },
     foundationUpgrade: {
@@ -159,6 +178,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 1,
+      category: "build",
       description: "For poor ground / trees / deeper foundations (allowance)",
     },
     biFoldDoors: {
@@ -169,6 +189,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 3,
+      category: "fittings",
       description: "Supply and install typical aluminium set",
     },
     roofLights: {
@@ -179,6 +200,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 2,
       minQuantity: 1,
       maxQuantity: 8,
+      category: "build",
       description: "Allowance per rooflight including trims",
     },
     veluxWindows: {
@@ -189,6 +211,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 2,
       minQuantity: 1,
       maxQuantity: 8,
+      category: "build",
       description: "Common for loft conversions",
     },
     underfloorHeating: {
@@ -199,6 +222,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 15,
       minQuantity: 1,
       maxQuantity: 120,
+      category: "build",
       description: "Hydronic/electric blended ballpark install allowance",
     },
     electricalRewiring: {
@@ -209,6 +233,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 20,
       minQuantity: 1,
       maxQuantity: 200,
+      category: "build",
       description: "Allowance for extension electrical works and distribution",
     },
     kitchenFitout: {
@@ -219,6 +244,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 1,
+      category: "fittings",
       description: "Kitchen units/appliances/worktops (mid-range allowance)",
     },
     bathroomFitout: {
@@ -229,6 +255,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 3,
+      category: "fittings",
       description: "Typical complete bathroom/ensuite allowance",
     },
     bespokeJoinery: {
@@ -239,6 +266,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 10,
       minQuantity: 1,
       maxQuantity: 80,
+      category: "fittings",
       description: "Built-in storage/media joinery allowance",
     },
     premiumFlooringUpgrade: {
@@ -249,6 +277,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 20,
       minQuantity: 1,
       maxQuantity: 120,
+      category: "fittings",
       description: "Upgrade above standard flooring allowance",
     },
     landscapingMakingGood: {
@@ -259,6 +288,7 @@ export const EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 1,
+      category: "build",
       description: "Patio / garden reinstatement allowance",
     },
   },
@@ -282,6 +312,9 @@ export const EXTENSION_CONFIG = {
     loft: [{ id: "veluxWindows", quantity: 2 }],
   },
 };
+
+// Backwards-compatible alias (kept so existing imports keep working).
+export const EXTENSION_CONFIG = DEFAULT_EXTENSION_CONFIG;
 
 export const PROPERTY_TYPES = [
   {
@@ -536,6 +569,40 @@ export const ADDITIONAL_FEATURE_OPTIONS = Object.entries(
   id,
   ...item,
 }));
+
+export const FITTINGS_OPTIONS = [
+  {
+    id: "excluded",
+    name: "Labour & construction materials only",
+    description:
+      "Prices the structural build and construction materials. Excludes the cost of internal finishes and fit-out items (floor coverings, kitchen, bathrooms, bi-fold doors, bespoke joinery) so you can add your own product budgets. This is the default.",
+  },
+  {
+    id: "included",
+    name: "Include a ballpark for fittings & finishes",
+    description:
+      "Adds a market-rate allowance for internal finishes plus any fit-out extras you select (kitchen, bathrooms, bi-folds, joinery, premium flooring).",
+  },
+];
+
+export const VAT_TREATMENT_OPTIONS = [
+  {
+    id: "standard",
+    name: "Standard rate (20%)",
+    description: "The usual rate for extension work by a VAT-registered builder.",
+  },
+  {
+    id: "reduced",
+    name: "Reduced rate (5%)",
+    description:
+      "May apply to homes empty for 2+ years or certain conversions. Check eligibility with your builder / HMRC.",
+  },
+  {
+    id: "zero",
+    name: "Zero-rated (0%)",
+    description: "Rare for extensions (mainly new build / certain listed works). Use only if confirmed.",
+  },
+];
 
 export const PLANNING_SERVICE_OPTIONS = Object.entries(
   EXTENSION_CONFIG.planningServices,

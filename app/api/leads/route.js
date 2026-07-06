@@ -5,7 +5,23 @@ import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/extension-calculator/lib/costEngine";
+import { loadExtensionEngine } from "@/libs/extensionRates";
 import { generateCostEstimatePDF } from "@/app/extension-calculator/lib/pdfGenerator";
+import {
+  PROPERTY_TYPES,
+  EXTENSION_TYPES,
+  REGIONS,
+  LONDON_ZONES,
+  COMPLEXITY_FACTORS,
+  FINISH_LEVELS,
+  SITE_ACCESS_OPTIONS,
+  GLAZING_LEVELS,
+  DRAWINGS_STATUS_OPTIONS,
+  PLANNING_STATUS_OPTIONS,
+  ADDITIONAL_FEATURE_OPTIONS,
+  PLANNING_SERVICE_OPTIONS,
+  VAT_TREATMENT_OPTIONS,
+} from "@/app/extension-calculator/lib/config";
 
 const CALCULATOR_SOURCE = "Extension Calculator";
 const ADMIN_NOTIFICATION_EMAIL = "contact@celli.co.uk";
@@ -40,6 +56,70 @@ function deriveLeadName(inputName, email) {
     .replace(/[._-]+/g, " ")
     .replace(/\b\w/g, (c) => c.toUpperCase())
     .slice(0, 120);
+}
+
+const optionName = (options, id) =>
+  options.find((option) => option.id === id)?.name || (id ? String(id) : "—");
+
+// Builds a human-readable list of every answer the client gave, so the team can
+// review exactly what was requested from /admin/extension-calculator-leads.
+function buildAnswersSummary(inputs = {}) {
+  const rows = [
+    ["Property type", optionName(PROPERTY_TYPES, inputs.propertyType)],
+    ["Extension type", optionName(EXTENSION_TYPES, inputs.extensionType)],
+    ["Size", `${inputs.size || 0} m²`],
+    ["Region", optionName(REGIONS, inputs.region)],
+  ];
+
+  if (inputs.region === "london") {
+    rows.push(["London zone", optionName(LONDON_ZONES, inputs.londonZone)]);
+  }
+
+  rows.push(
+    ["Postcode", inputs.postcode || "—"],
+    ["Complexity", optionName(COMPLEXITY_FACTORS, inputs.complexity)],
+    ["Finish level", optionName(FINISH_LEVELS, inputs.finishLevel)],
+    ["Site access", optionName(SITE_ACCESS_OPTIONS, inputs.siteAccess)],
+    ["Glazing level", optionName(GLAZING_LEVELS, inputs.glazingLevel)],
+    ["Drawings status", optionName(DRAWINGS_STATUS_OPTIONS, inputs.drawingsStatus)],
+    ["Planning status", optionName(PLANNING_STATUS_OPTIONS, inputs.planningStatus)],
+    [
+      "Fittings & finishes",
+      inputs.includeFittings
+        ? "Included (ballpark)"
+        : "Excluded — structural build & materials only",
+    ],
+    ["VAT treatment", optionName(VAT_TREATMENT_OPTIONS, inputs.vatTreatment)],
+  );
+
+  const extras = Array.isArray(inputs.additionalFeatures)
+    ? inputs.additionalFeatures
+    : [];
+  if (extras.length > 0) {
+    const extrasText = extras
+      .map((feature) => {
+        const id = typeof feature === "string" ? feature : feature.id;
+        const qty = typeof feature === "string" ? 1 : feature.quantity;
+        const name = optionName(ADDITIONAL_FEATURE_OPTIONS, id);
+        return qty > 1 ? `${name} x${qty}` : name;
+      })
+      .join(", ");
+    rows.push(["Selected extras", extrasText]);
+  } else {
+    rows.push(["Selected extras", "None"]);
+  }
+
+  const services = Array.isArray(inputs.planningServices)
+    ? inputs.planningServices
+    : [];
+  rows.push([
+    "Planning/professional fees selected",
+    services.length > 0
+      ? services.map((id) => optionName(PLANNING_SERVICE_OPTIONS, id)).join(", ")
+      : "None (auto allowance applied)",
+  ]);
+
+  return rows.map(([question, answer]) => ({ question, answer }));
 }
 
 function deriveBudgetBand(value) {
@@ -211,9 +291,12 @@ async function handleLeadPost(request) {
       );
     }
 
-    // Server-side recalculation to prevent tampering.
-    const estimate = costEngine.calculateTotalCost(formData);
+    // Server-side recalculation to prevent tampering, using the effective price
+    // book (defaults + admin overrides).
+    const engine = await loadExtensionEngine();
+    const estimate = engine.calculateTotalCost(formData);
     const sanitizedInputs = estimate.inputs;
+    const answersSummary = buildAnswersSummary(sanitizedInputs);
 
     await connectMongo();
 
@@ -228,6 +311,8 @@ async function handleLeadPost(request) {
         "unknown",
       capturedAt: new Date(),
       input: sanitizedInputs,
+      // Full human-readable list of every answer the client entered, for admin review.
+      answers: answersSummary,
       estimate: {
         ranges: estimate.ranges,
         total: estimate.total,

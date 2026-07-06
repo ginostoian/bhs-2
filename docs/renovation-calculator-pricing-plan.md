@@ -117,4 +117,47 @@ material cost, which this mirrors).
 - Back-calibrate the defaults against real won quotes via the admin editor.
 - Per-room size sensitivity (kitchen/bathroom sized rather than tiered only).
 - Feedback loop comparing calculator estimates to eventual won-quote values.
-- Share one price book across the kitchen / bathroom / extension calculators.
+- Share one price book across the kitchen / bathroom calculators.
+
+## Extension calculator — same makeover
+
+The house extension calculator (`app/extension-calculator`) received the same treatment,
+adapted to its per-m² build model:
+
+- **Fittings split, default OFF.** Each `baseBuildRates` entry is now split into
+  `{ labour, materials, fittings }` per m², and every optional extra is tagged
+  `category: "build" | "fittings"` (kitchen, bathrooms, bi-folds, bespoke joinery, premium
+  flooring are fittings). The new "Estimate options" step defaults to **structural build +
+  construction materials only**; opting in adds the internal-finish portion of the build plus
+  any fittings-category extras. Excluded fittings extras are still listed (struck through /
+  flagged) so nothing is hidden. Existing rate totals were preserved (the split sums to the
+  previous per-m² figures), so the calibration is unchanged — only the structure and the
+  opt-out are new.
+- **VAT treatment** choice (20% / 5% / 0%), same as renovation.
+- **Admin-editable rates.** The rate infrastructure was generalised by `calculatorType`: the
+  `CalculatorRates` model already keys per type, the admin API (`/api/admin/calculator-rates`)
+  and the recursive `RatesEditor` now take a `type`, and there's a public
+  `/api/extension-calculator/rates` plus an admin page at `/admin/extension-calculator-rates`
+  (sidebar link added). Renovation behaviour is unchanged (it stays the default type).
+- **Full answers on the lead.** `/api/leads` (which serves the extension calculator)
+  recalculates with the merged config and stores the full labelled set of answers — including
+  the fittings toggle, VAT treatment, selected extras and planning fees — shown in
+  `/admin/extension-calculator-leads`.
+- The result card and PDF gained the same "where the money goes" make-up (build / fittings /
+  fees / contingency) and the excluded-items note.
+
+### Extension files touched
+
+- `app/extension-calculator/lib/config.js` — component split, feature categories, VAT
+  treatments, fittings/VAT option lists.
+- `app/extension-calculator/lib/costEngine.js` — config injection, fittings toggle, VAT
+  treatments, component roll-up.
+- `app/extension-calculator/lib/rates.js` — effective-config merge.
+- `libs/extensionRates.js` — server loader for the merged config/engine.
+- `app/api/extension-calculator/rates/route.js` — public effective-config GET.
+- `app/admin/extension-calculator-rates/page.js` — admin editor (reuses `RatesEditor`).
+- `app/api/admin/calculator-rates/route.js` — generalised by `type`.
+- `app/admin/renovation-calculator-rates/components/RatesEditor.js` — `calculatorType` prop.
+- Wizard: `StepEstimateOptions.jsx` (new), `StepFinish.jsx`, `page.jsx`.
+- `components/ResultCard.jsx`, `lib/pdfGenerator.js` — split-aware output.
+- `app/api/leads/route.js` + `app/admin/extension-calculator-leads/page.js` — full-answer capture + display.
