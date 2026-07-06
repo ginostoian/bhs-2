@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Modal from "@/components/Modal";
 import { BOOKING_URL } from "@/libs/booking";
@@ -12,10 +12,11 @@ import StepRenovationScope from "./components/Wizard/StepRenovationScope";
 import StepStructuralWork from "./components/Wizard/StepStructuralWork";
 import StepSystems from "./components/Wizard/StepSystems";
 import StepFinishing from "./components/Wizard/StepFinishing";
+import StepEstimateOptions from "./components/Wizard/StepEstimateOptions";
 import StepFinish from "./components/Wizard/StepFinish";
 import ResultCard from "./components/ResultCard";
 import FAQ, { renovationFaqs } from "./components/FAQ";
-import { costEngine } from "./lib/costEngine";
+import { costEngine as defaultCostEngine, createCostEngine } from "./lib/costEngine";
 
 const initialFormData = {
   propertyType: "",
@@ -51,6 +52,8 @@ const initialFormData = {
   flooringLevel: "none",
   floorFinish: "laminate",
   doorPackage: "none",
+  includeFittings: false,
+  vatTreatment: "standard",
 };
 
 const steps = [
@@ -61,6 +64,7 @@ const steps = [
   { title: "Structural", description: "Layout and hidden risk" },
   { title: "Systems", description: "Electrical, heating, plumbing" },
   { title: "Finishing", description: "Plaster, paint, floors, doors" },
+  { title: "Options", description: "Fittings + VAT" },
   { title: "Review", description: "Check before calculate" },
 ];
 
@@ -222,6 +226,22 @@ export default function RenovationCalculator() {
   const [calculationResult, setCalculationResult] = useState(null);
   const [modalState, setModalState] = useState(modalReset);
   const [formData, setFormData] = useState(initialFormData);
+  const [engine, setEngine] = useState(defaultCostEngine);
+
+  // Load the effective price book (defaults + any admin overrides) so the on-page
+  // estimate matches the server-side recalculation.
+  useEffect(() => {
+    let active = true;
+    fetch("/api/renovation-calculator/rates")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && data?.config) setEngine(createCostEngine(data.config));
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   let livePreview = null;
   try {
@@ -232,7 +252,7 @@ export default function RenovationCalculator() {
       formData.coverageLevel &&
       formData.renovationLevel
     ) {
-      livePreview = costEngine.calculateTotalCost(formData);
+      livePreview = engine.calculateTotalCost(formData);
     }
   } catch (_error) {
     livePreview = null;
@@ -248,7 +268,7 @@ export default function RenovationCalculator() {
     }
 
     try {
-      const result = costEngine.calculateTotalCost(formData);
+      const result = engine.calculateTotalCost(formData);
       setCalculationResult(result);
       setShowResults(true);
       scrollTop();
@@ -350,7 +370,23 @@ export default function RenovationCalculator() {
           />
         );
       case 7:
-        return <StepFinish formData={formData} onNext={handleNext} onBack={handleBack} />;
+        return (
+          <StepEstimateOptions
+            formData={formData}
+            setFormData={setFormData}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
+      case 8:
+        return (
+          <StepFinish
+            formData={formData}
+            engine={engine}
+            onNext={handleNext}
+            onBack={handleBack}
+          />
+        );
       default:
         return null;
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { costEngine } from "../../lib/costEngine";
+import { costEngine as defaultCostEngine } from "../../lib/costEngine";
 
 const pretty = (value) =>
   String(value || "")
@@ -25,12 +25,13 @@ function Row({ label, value }) {
   );
 }
 
-export default function StepFinish({ formData, onNext, onBack }) {
+export default function StepFinish({ formData, engine, onNext, onBack }) {
+  const activeEngine = engine || defaultCostEngine;
   let preview = null;
 
   try {
     if (formData.propertyType && formData.houseStyle && formData.houseSize > 0) {
-      preview = costEngine.calculateTotalCost(formData);
+      preview = activeEngine.calculateTotalCost(formData);
     }
   } catch (_error) {
     preview = null;
@@ -79,6 +80,20 @@ export default function StepFinish({ formData, onNext, onBack }) {
             <Row label="Bathrooms included" value={String(formData.renovateBathroomCount || 0)} />
             <Row label="Bedrooms included" value={String(formData.renovateBedroomCount || 0)} />
             <Row label="Reception rooms included" value={String(formData.renovateReceptionCount || 0)} />
+            <Row
+              label="Fittings & finishes"
+              value={formData.includeFittings ? "Included (ballpark)" : "Excluded (labour + materials only)"}
+            />
+            <Row
+              label="VAT treatment"
+              value={
+                formData.vatTreatment === "reduced"
+                  ? "Reduced (5%)"
+                  : formData.vatTreatment === "zero"
+                    ? "Zero-rated (0%)"
+                    : "Standard (20%)"
+              }
+            />
           </div>
         </div>
 

@@ -171,6 +171,20 @@ export const generateRenovationEstimatePDF = (
     "Coverage",
     coverageNames[formData.coverageLevel] || formData.coverageLevel || "Not set",
   );
+  y = h.addKeyValue(
+    y,
+    "Includes fittings",
+    b.fittingsIncluded ? "Yes (ballpark for fixtures & finishes)" : "No — labour & construction materials only",
+  );
+  y = h.addKeyValue(
+    y,
+    "VAT treatment",
+    b.vatTreatment === "reduced"
+      ? "Reduced rate (5%)"
+      : b.vatTreatment === "zero"
+        ? "Zero-rated (0%)"
+        : "Standard rate (20%)",
+  );
   y = h.addKeyValue(y, "Generated for", userEmail || "PDF download");
   y = h.addKeyValue(y, "Generated on", new Date().toLocaleDateString("en-GB"));
 
@@ -204,6 +218,11 @@ export const generateRenovationEstimatePDF = (
   y = h.addRow(y, "Structural works", formatCurrency(b.structuralWorks));
   y = h.addRow(y, "Systems", formatCurrency(b.systemsWorks));
   y = h.addRow(y, "Finishing", formatCurrency(b.finishingWorks));
+  y = h.addRow(
+    y,
+    `Preliminaries (${Math.round((b.preliminariesRate || 0) * 100)}%)`,
+    formatCurrency(b.preliminaries),
+  );
   y = h.addRow(y, "Professional fees", formatCurrency(b.professionalFees));
   y = h.addRow(y, "Statutory fees", formatCurrency(b.statutoryFees));
   y = h.addRow(
@@ -229,6 +248,25 @@ export const generateRenovationEstimatePDF = (
     bold: true,
     color: [30, 41, 59],
   });
+
+  y = h.addDivider(y + 1);
+  y = drawSectionTitle(doc, y, "Where the money goes (ex VAT)");
+  y = h.addRow(y, "Trade labour", formatCurrency(b.labourTotal));
+  y = h.addRow(y, "Construction materials", formatCurrency(b.materialsTotal));
+  y = h.addRow(
+    y,
+    "Fixtures, fittings & finishes",
+    b.fittingsIncluded ? formatCurrency(b.fittingsApplied) : "Excluded",
+  );
+  y = h.addRow(y, "Preliminaries", formatCurrency(b.preliminaries));
+
+  if (!b.fittingsIncluded) {
+    y = h.addParagraph(
+      y + 1,
+      "This estimate covers labour and construction materials only. It excludes the supplied cost of kitchen units and appliances, sanitaryware and brassware, tiles, floor coverings, door leaves and ironmongery. Add your own product budgets on top, or re-run the calculator with fittings included for a ballpark.",
+      { fontSize: 9, color: [120, 90, 20] },
+    );
+  }
 
   const detailGroups = [
     { title: "Room fit-out allowances", items: b.roomLineItems, valueKey: "total" },

@@ -5,7 +5,30 @@ import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/renovation-calculator/lib/costEngine";
+import { loadRenovationEngine } from "@/libs/renovationRates";
 import { generateRenovationEstimatePDF } from "@/app/renovation-calculator/lib/pdfGenerator";
+import {
+  PROPERTY_TYPES,
+  REGION_OPTIONS,
+  LONDON_ZONES,
+  HOUSE_STYLE_OPTIONS,
+  FLOOR_OPTIONS,
+  COVERAGE_OPTIONS,
+  RENOVATION_LEVEL_OPTIONS,
+  FINISH_LEVEL_OPTIONS,
+  OCCUPANCY_OPTIONS,
+  DRAWINGS_STATUS_OPTIONS,
+  STRUCTURAL_OPTIONS,
+  REWIRE_OPTIONS,
+  HEATING_OPTIONS,
+  PLUMBING_OPTIONS,
+  PLASTERING_OPTIONS,
+  DECORATION_OPTIONS,
+  FLOORING_COVERAGE_OPTIONS,
+  FLOOR_FINISH_OPTIONS,
+  DOOR_PACKAGE_OPTIONS,
+  VAT_TREATMENT_OPTIONS,
+} from "@/app/renovation-calculator/lib/config";
 
 const CALCULATOR_SOURCE = "Renovation Calculator";
 const ADMIN_NOTIFICATION_EMAIL = "contact@celli.co.uk";
@@ -40,6 +63,63 @@ function deriveLeadName(inputName, email) {
     .replace(/[._-]+/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase())
     .slice(0, 120);
+}
+
+const optionName = (options, id) =>
+  options.find((option) => option.id === id)?.name || (id ? String(id) : "—");
+
+// Builds a human-readable list of every answer the client gave, so the team can
+// review exactly what was requested from /admin/renovation-calculator-leads.
+function buildAnswersSummary(inputs = {}) {
+  const rows = [
+    ["Property type", optionName(PROPERTY_TYPES, inputs.propertyType)],
+    ["Region", optionName(REGION_OPTIONS, inputs.region)],
+  ];
+
+  if (inputs.region === "london") {
+    rows.push(["London zone", optionName(LONDON_ZONES, inputs.londonZone)]);
+  }
+  if (inputs.propertyType === "flat" || inputs.propertyType === "maisonette") {
+    rows.push(["Floor", optionName(FLOOR_OPTIONS, inputs.floor)]);
+  }
+
+  rows.push(
+    ["House style", optionName(HOUSE_STYLE_OPTIONS, inputs.houseStyle)],
+    ["Postcode", inputs.postcode || "—"],
+    ["Approx. size", `${inputs.houseSize || 0} m²`],
+    ["Bedrooms / bathrooms", `${inputs.bedrooms || 0} / ${inputs.bathrooms || 0}`],
+    ["Kitchens / receptions", `${inputs.kitchens || 0} / ${inputs.receptionRooms || 0}`],
+    ["Coverage", optionName(COVERAGE_OPTIONS, inputs.coverageLevel)],
+    ["Renovation level", optionName(RENOVATION_LEVEL_OPTIONS, inputs.renovationLevel)],
+    ["Finish level", optionName(FINISH_LEVEL_OPTIONS, inputs.finishLevel)],
+    ["Occupancy", optionName(OCCUPANCY_OPTIONS, inputs.occupancyStatus)],
+    ["Scope clarity", optionName(DRAWINGS_STATUS_OPTIONS, inputs.drawingsStatus)],
+    ["Kitchens to renovate", String(inputs.renovateKitchenCount || 0)],
+    ["Bathrooms to renovate", String(inputs.renovateBathroomCount || 0)],
+    ["Bedrooms to renovate", String(inputs.renovateBedroomCount || 0)],
+    ["Receptions to renovate", String(inputs.renovateReceptionCount || 0)],
+    ["Hallway / stairs included", inputs.includeHallway ? "Yes" : "No"],
+    ["Structural work", optionName(STRUCTURAL_OPTIONS, inputs.structuralLevel)],
+    ["Walls to remove", String(inputs.wallRemovalCount || 0)],
+    ["Damp / hidden-repair allowance", inputs.dampAllowance ? "Yes" : "No"],
+    ["Rewire", optionName(REWIRE_OPTIONS, inputs.rewireLevel)],
+    ["Heating", optionName(HEATING_OPTIONS, inputs.heatingLevel)],
+    ["Plumbing", optionName(PLUMBING_OPTIONS, inputs.plumbingLevel)],
+    ["Plastering", optionName(PLASTERING_OPTIONS, inputs.plasteringLevel)],
+    ["Decoration", optionName(DECORATION_OPTIONS, inputs.decorationLevel)],
+    ["Flooring coverage", optionName(FLOORING_COVERAGE_OPTIONS, inputs.flooringLevel)],
+    ["Floor finish", optionName(FLOOR_FINISH_OPTIONS, inputs.floorFinish)],
+    ["Doors", optionName(DOOR_PACKAGE_OPTIONS, inputs.doorPackage)],
+    [
+      "Fittings & finishes",
+      inputs.includeFittings
+        ? "Included (ballpark)"
+        : "Excluded — labour & construction materials only",
+    ],
+    ["VAT treatment", optionName(VAT_TREATMENT_OPTIONS, inputs.vatTreatment)],
+  );
+
+  return rows.map(([question, answer]) => ({ question, answer }));
 }
 
 function deriveBudgetBand(value) {
@@ -203,8 +283,11 @@ async function handleLeadPost(request) {
       );
     }
 
-    const estimate = costEngine.calculateTotalCost(formData);
+    // Recalculate server-side using the effective price book (defaults + admin overrides).
+    const engine = await loadRenovationEngine();
+    const estimate = engine.calculateTotalCost(formData);
     const sanitizedInputs = estimate.inputs;
+    const answersSummary = buildAnswersSummary(sanitizedInputs);
 
     await connectMongo();
 
@@ -219,6 +302,8 @@ async function handleLeadPost(request) {
         "unknown",
       capturedAt: new Date(),
       input: sanitizedInputs,
+      // Full human-readable list of every answer the client entered, for admin review.
+      answers: answersSummary,
       estimate: {
         ranges: estimate.ranges,
         total: estimate.total,

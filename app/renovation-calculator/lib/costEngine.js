@@ -1,4 +1,4 @@
-import { RENOVATION_CONFIG } from "./config.js";
+import { DEFAULT_RENOVATION_CONFIG } from "./config.js";
 
 const DEFAULTS = {
   region: "london",
@@ -18,6 +18,8 @@ const DEFAULTS = {
   floorFinish: "laminate",
   doorPackage: "none",
   dampAllowance: false,
+  includeFittings: false,
+  vatTreatment: "standard",
 };
 
 function clamp(value, min, max) {
@@ -33,8 +35,8 @@ function sum(values) {
 }
 
 export class RenovationCostEngine {
-  constructor() {
-    this.config = RENOVATION_CONFIG;
+  constructor(config = DEFAULT_RENOVATION_CONFIG) {
+    this.config = config || DEFAULT_RENOVATION_CONFIG;
   }
 
   normalizeProjectData(projectData = {}) {
@@ -109,32 +111,28 @@ export class RenovationCostEngine {
     data.floorFinish = data.floorFinish || DEFAULTS.floorFinish;
     data.doorPackage = data.doorPackage || DEFAULTS.doorPackage;
 
+    // Fittings default OFF: only add supplied-item costs when explicitly opted in.
+    data.includeFittings = Boolean(data.includeFittings);
+    data.vatTreatment =
+      data.vatTreatment && this.config.vatTreatments?.[data.vatTreatment] !== undefined
+        ? data.vatTreatment
+        : DEFAULTS.vatTreatment;
+
     return data;
   }
 
   validateProjectData(projectData) {
     const data = this.normalizeProjectData(projectData);
 
-    if (!data.propertyType) {
-      throw new Error("Please select a property type.");
-    }
-
-    if (!data.region) {
-      throw new Error("Please select a region.");
-    }
-
-    if (!data.houseStyle) {
-      throw new Error("Please select the house style.");
-    }
-
+    if (!data.propertyType) throw new Error("Please select a property type.");
+    if (!data.region) throw new Error("Please select a region.");
+    if (!data.houseStyle) throw new Error("Please select the house style.");
     if (!data.houseSize || data.houseSize < 20) {
       throw new Error("Please enter an approximate property size.");
     }
-
     if (!data.coverageLevel) {
       throw new Error("Please select how much of the home is affected.");
     }
-
     if (!data.renovationLevel) {
       throw new Error("Please select the renovation scope.");
     }
@@ -146,189 +144,130 @@ export class RenovationCostEngine {
     return this.config.coverageFactors[coverageLevel] || 0.45;
   }
 
-  getRegionMultiplier(region, londonZone = null) {
-    const regionMultiplier = this.config.regionMultipliers[region] || 1.0;
-    if (region !== "london") return regionMultiplier;
-    const zoneMultiplier =
-      this.config.londonZoneMultipliers[londonZone || DEFAULTS.londonZone] || 1.0;
-    return regionMultiplier * zoneMultiplier;
-  }
-
-  getPropertyMultiplier(propertyType) {
-    return this.config.propertyMultipliers[propertyType] || 1.0;
-  }
-
-  getHouseStyleMultiplier(houseStyle) {
-    return this.config.houseStyleMultipliers[houseStyle] || 1.0;
-  }
-
-  getFloorMultiplier(propertyType, floor) {
-    if (propertyType !== "flat" && propertyType !== "maisonette") {
-      return 1.0;
-    }
-    return this.config.floorMultipliers[floor] || 1.0;
+  // Single, consistently-applied multiplier on construction cost (labour + materials).
+  getContextMultiplier(data) {
+    const region = this.config.regionMultipliers[data.region] || 1.0;
+    const zone =
+      data.region === "london"
+        ? this.config.londonZoneMultipliers[data.londonZone || DEFAULTS.londonZone] || 1.0
+        : 1.0;
+    const property = this.config.propertyMultipliers[data.propertyType] || 1.0;
+    const houseStyle = this.config.houseStyleMultipliers[data.houseStyle] || 1.0;
+    const floor =
+      data.propertyType === "flat" || data.propertyType === "maisonette"
+        ? this.config.floorMultipliers[data.floor] || 1.0
+        : 1.0;
+    return region * zone * property * houseStyle * floor;
   }
 
   getFinishMultiplier(finishLevel) {
     return this.config.finishLevelMultipliers[finishLevel] || 1.0;
   }
 
-  getOccupancyMultiplier(occupancyStatus) {
-    return this.config.occupancyMultipliers[occupancyStatus] || 1.0;
-  }
-
   getImpactedArea(data) {
     return round(data.houseSize * this.getCoverageFactor(data.coverageLevel));
   }
 
-  calculateCoreScopeCost(data, multipliers) {
-    const impactedArea = this.getImpactedArea(data);
-    const baseRate =
-      this.config.baseScopeRates[data.renovationLevel] ||
-      this.config.baseScopeRates.standard;
-    const subtotal = impactedArea * baseRate;
-    const adjusted = round(
-      subtotal *
-        multipliers.region *
-        multipliers.property *
-        multipliers.houseStyle *
-        multipliers.floor *
-        multipliers.occupancy,
-    );
-
+  // Builds a normalized component object for a line item.
+  makeComponents({ labour = 0, materials = 0, fittings = 0 }, context, finish, includeFittings) {
+    const adjLabour = labour * context;
+    const adjMaterials = materials * context;
+    const adjFittings = fittings * finish;
+    const construction = adjLabour + adjMaterials;
     return {
-      impactedArea,
-      baseRate,
-      subtotal: round(subtotal),
-      adjusted,
+      labour: round(adjLabour),
+      materials: round(adjMaterials),
+      fittings: round(adjFittings),
+      construction: round(construction),
+      total: round(construction + (includeFittings ? adjFittings : 0)),
     };
   }
 
-  calculateRoomCosts(data, multipliers) {
+  calculateCoreScope(data, context) {
+    const impactedArea = this.getImpactedArea(data);
+    const rate =
+      this.config.baseScopeRates[data.renovationLevel] ||
+      this.config.baseScopeRates.standard;
+    const c = this.makeComponents(
+      { labour: rate.labour * impactedArea, materials: rate.materials * impactedArea },
+      context,
+      1,
+      data.includeFittings,
+    );
+    return { impactedArea, ...c };
+  }
+
+  calculateRoomCosts(data, context, finish) {
     const roomSelections = [
-      {
-        id: "kitchen",
-        name: "Kitchen renovation",
-        quantity: data.renovateKitchenCount,
-      },
-      {
-        id: "bathroom",
-        name: "Bathroom renovation",
-        quantity: data.renovateBathroomCount,
-      },
-      {
-        id: "bedroom",
-        name: "Bedroom refurbishment",
-        quantity: data.renovateBedroomCount,
-      },
-      {
-        id: "reception",
-        name: "Living / reception room",
-        quantity: data.renovateReceptionCount,
-      },
-      {
-        id: "hallway",
-        name: "Hallway / stairs / landing",
-        quantity: data.includeHallway ? 1 : 0,
-      },
+      { id: "kitchen", name: "Kitchen renovation", quantity: data.renovateKitchenCount },
+      { id: "bathroom", name: "Bathroom renovation", quantity: data.renovateBathroomCount },
+      { id: "bedroom", name: "Bedroom refurbishment", quantity: data.renovateBedroomCount },
+      { id: "reception", name: "Living / reception room", quantity: data.renovateReceptionCount },
+      { id: "hallway", name: "Hallway / stairs / landing", quantity: data.includeHallway ? 1 : 0 },
     ];
 
     const lineItems = roomSelections
       .filter((item) => item.quantity > 0)
       .map((item) => {
-        const baseUnitCost =
-          this.config.roomRates[item.id]?.[data.renovationLevel] || 0;
-        const adjustedUnitCost = round(
-          baseUnitCost *
-            multipliers.region *
-            multipliers.property *
-            multipliers.houseStyle *
-            multipliers.floor *
-            multipliers.finish,
-        );
-
+        const rate = this.config.roomRates[item.id]?.[data.renovationLevel] || {};
+        const unit = this.makeComponents(rate, context, finish, data.includeFittings);
         return {
-          ...item,
-          baseUnitCost,
-          adjustedUnitCost,
-          total: round(adjustedUnitCost * item.quantity),
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          labour: round(unit.labour * item.quantity),
+          materials: round(unit.materials * item.quantity),
+          fittings: round(unit.fittings * item.quantity),
+          construction: round(unit.construction * item.quantity),
+          total: round(unit.total * item.quantity),
         };
       });
 
-    return {
-      total: round(sum(lineItems.map((item) => item.total))),
-      lineItems,
-    };
+    return this.tally(lineItems);
   }
 
-  calculateStructuralCosts(data, multipliers) {
+  calculateStructuralCosts(data, context) {
     const lineItems = [];
-    let total = 0;
 
     if (data.structuralLevel === "nonStructural" && data.wallRemovalCount > 0) {
-      const unitCost = round(
-        this.config.structuralWork.nonStructuralWallRemoval *
-          multipliers.region *
-          multipliers.property *
-          multipliers.houseStyle,
+      const unit = this.makeComponents(
+        this.config.structuralWork.nonStructuralWallRemoval,
+        context,
+        1,
+        data.includeFittings,
       );
-      const amount = round(unitCost * data.wallRemovalCount);
-      lineItems.push({
-        id: "nonStructuralWallRemoval",
-        name: "Non-structural wall removal",
-        quantity: data.wallRemovalCount,
-        unitCost,
-        total: amount,
-      });
-      total += amount;
+      lineItems.push(this.scaleLine("nonStructuralWallRemoval", "Non-structural wall removal", unit, data.wallRemovalCount));
     }
 
     if (data.structuralLevel === "loadBearing" && data.wallRemovalCount > 0) {
-      const unitCost = round(
-        this.config.structuralWork.loadBearingWallRemoval *
-          multipliers.region *
-          multipliers.property *
-          multipliers.houseStyle,
+      const unit = this.makeComponents(
+        this.config.structuralWork.loadBearingWallRemoval,
+        context,
+        1,
+        data.includeFittings,
       );
-      const amount = round(unitCost * data.wallRemovalCount);
-      lineItems.push({
-        id: "loadBearingWallRemoval",
-        name: "Load-bearing wall / steelwork allowance",
-        quantity: data.wallRemovalCount,
-        unitCost,
-        total: amount,
-      });
-      total += amount;
+      lineItems.push(this.scaleLine("loadBearingWallRemoval", "Load-bearing wall / steelwork allowance", unit, data.wallRemovalCount));
     }
 
     if (data.dampAllowance) {
-      const amount = round(
-        this.config.structuralWork.dampRepairAllowance *
-          multipliers.region *
-          multipliers.houseStyle,
+      const unit = this.makeComponents(
+        this.config.structuralWork.dampRepairAllowance,
+        context,
+        1,
+        data.includeFittings,
       );
-      lineItems.push({
-        id: "dampRepairAllowance",
-        name: "Damp / hidden repair allowance",
-        quantity: 1,
-        unitCost: amount,
-        total: amount,
-      });
-      total += amount;
+      lineItems.push(this.scaleLine("dampRepairAllowance", "Damp / hidden repair allowance", unit, 1));
     }
 
-    return { total: round(total), lineItems };
+    return this.tally(lineItems);
   }
 
-  calculateSystemsCosts(data, impactedArea, multipliers) {
+  calculateSystemsCosts(data, impactedArea, context) {
     const systems = [
       {
         id: "rewire",
         key: "rewireLevel",
-        labelMap: {
-          partial: "Partial rewire",
-          full: "Full rewire",
-        },
+        labelMap: { partial: "Partial rewire", full: "Full rewire" },
         config: this.config.systems.rewire,
       },
       {
@@ -358,151 +297,119 @@ export class RenovationCostEngine {
         const pricing = system.config[selected];
         if (!pricing || selected === "none") return null;
 
-        const amount = round(
-          (pricing.fixed + impactedArea * pricing.perM2) *
-            multipliers.region *
-            multipliers.property *
-            multipliers.houseStyle *
-            multipliers.occupancy,
-        );
+        const labour = (pricing.fixedLabour || 0) + impactedArea * (pricing.perM2Labour || 0);
+        const materials =
+          (pricing.fixedMaterials || 0) + impactedArea * (pricing.perM2Materials || 0);
+        const c = this.makeComponents({ labour, materials }, context, 1, data.includeFittings);
 
         return {
           id: `${system.id}-${selected}`,
           name: system.labelMap[selected] || selected,
           quantity: impactedArea,
-          unitCost: pricing.perM2,
-          fixed: pricing.fixed,
-          total: amount,
+          ...c,
         };
       })
       .filter(Boolean);
 
-    return {
-      total: round(sum(lineItems.map((item) => item.total))),
-      lineItems,
-    };
+    return this.tally(lineItems);
   }
 
-  calculateFinishingCosts(data, impactedArea, multipliers) {
+  calculateFinishingCosts(data, impactedArea, context, finish) {
     const lineItems = [];
 
-    const plasteringConfig =
+    const plaster =
       this.config.finishing.plastering[data.plasteringLevel] ||
       this.config.finishing.plastering.none;
-    if (plasteringConfig.rate > 0) {
-      const quantity = impactedArea * plasteringConfig.areaFactor;
-      lineItems.push({
-        id: "plastering",
-        name: "Plastering / making good",
-        quantity: round(quantity),
-        unitCost: plasteringConfig.rate,
-        total: round(
-          quantity *
-            plasteringConfig.rate *
-            multipliers.region *
-            multipliers.property *
-            multipliers.houseStyle,
-        ),
-      });
+    if (plaster.areaFactor > 0) {
+      const qty = impactedArea * plaster.areaFactor;
+      const c = this.makeComponents(
+        { labour: plaster.labour * qty, materials: plaster.materials * qty },
+        context,
+        1,
+        data.includeFittings,
+      );
+      lineItems.push({ id: "plastering", name: "Plastering / making good", quantity: round(qty), ...c });
     }
 
-    const decorationConfig =
+    const decoration =
       this.config.finishing.decoration[data.decorationLevel] ||
       this.config.finishing.decoration.none;
-    if (decorationConfig.rate > 0) {
-      const quantity = impactedArea * decorationConfig.areaFactor;
-      lineItems.push({
-        id: "decoration",
-        name: "Decoration / painting",
-        quantity: round(quantity),
-        unitCost: decorationConfig.rate,
-        total: round(
-          quantity *
-            decorationConfig.rate *
-            multipliers.region *
-            multipliers.property *
-            multipliers.occupancy,
-        ),
-      });
+    if (decoration.areaFactor > 0) {
+      const qty = impactedArea * decoration.areaFactor;
+      const c = this.makeComponents(
+        { labour: decoration.labour * qty, materials: decoration.materials * qty },
+        context,
+        1,
+        data.includeFittings,
+      );
+      lineItems.push({ id: "decoration", name: "Decoration / painting", quantity: round(qty), ...c });
     }
 
-    const flooringCoverage =
-      this.config.finishing.flooringCoverage[data.flooringLevel] || 0;
-    const floorRate =
-      this.config.finishing.floorRates[data.floorFinish] ||
-      this.config.finishing.floorRates.laminate;
-    if (flooringCoverage > 0) {
-      const quantity = impactedArea * flooringCoverage;
-      lineItems.push({
-        id: "flooring",
-        name: "Flooring replacement",
-        quantity: round(quantity),
-        unitCost: floorRate,
-        total: round(
-          quantity *
-            floorRate *
-            multipliers.region *
-            multipliers.property *
-            multipliers.finish,
-        ),
-      });
+    const coverage = this.config.finishing.flooringCoverage[data.flooringLevel] || 0;
+    if (coverage > 0) {
+      const rate =
+        this.config.finishing.floorRates[data.floorFinish] ||
+        this.config.finishing.floorRates.laminate;
+      const qty = impactedArea * coverage;
+      const c = this.makeComponents(
+        {
+          labour: rate.labour * qty,
+          materials: rate.materials * qty,
+          fittings: rate.covering * qty,
+        },
+        context,
+        finish,
+        data.includeFittings,
+      );
+      lineItems.push({ id: "flooring", name: "Flooring replacement", quantity: round(qty), ...c });
     }
 
-    const doorAllowance = this.config.finishing.doorPackages[data.doorPackage] || 0;
-    if (doorAllowance > 0) {
-      lineItems.push({
-        id: "doors",
-        name: "Door replacement allowance",
-        quantity: 1,
-        unitCost: round(doorAllowance * multipliers.finish),
-        total: round(
-          doorAllowance *
-            multipliers.region *
-            multipliers.property *
-            multipliers.finish,
-        ),
-      });
+    const doors = this.config.finishing.doorPackages[data.doorPackage];
+    if (doors && (doors.labour > 0 || doors.fittings > 0)) {
+      const c = this.makeComponents(
+        { labour: doors.labour, fittings: doors.fittings },
+        context,
+        finish,
+        data.includeFittings,
+      );
+      lineItems.push({ id: "doors", name: "Door replacement allowance", quantity: 1, ...c });
     }
 
-    return {
-      total: round(sum(lineItems.map((item) => item.total))),
-      lineItems,
-    };
+    return this.tally(lineItems);
+  }
+
+  calculatePreliminaries(constructionSubtotal, data) {
+    const base =
+      this.config.preliminaries.base[data.renovationLevel] ??
+      this.config.preliminaries.base.standard;
+    const occAdd = this.config.preliminaries.occupancyAdd[data.occupancyStatus] || 0;
+    const rate = clamp(base + occAdd, 0, 0.35);
+    return { rate, amount: round(constructionSubtotal * rate) };
   }
 
   calculateProfessionalFees(data) {
     const lineItems = [];
+    const fees = this.config.professionalFees;
 
     if (data.drawingsStatus === "noPlansYet" || data.drawingsStatus === "roughScope") {
-      lineItems.push({
-        id: "measuredSurvey",
-        name: "Measured survey allowance",
-        category: "professional",
-        cost: this.config.professionalFees.measuredSurvey,
-      });
+      lineItems.push({ id: "measuredSurvey", name: "Measured survey allowance", category: "professional", cost: fees.measuredSurvey });
+    }
+
+    const periodStock = ["victorian", "edwardian", "period"].includes(data.houseStyle);
+    const intrusive =
+      data.renovationLevel === "fullRenovation" ||
+      data.renovationLevel === "backToBrick" ||
+      data.structuralLevel === "loadBearing";
+    if (periodStock && intrusive && fees.asbestosSurvey) {
+      lineItems.push({ id: "asbestosSurvey", name: "Asbestos survey allowance", category: "professional", cost: fees.asbestosSurvey });
     }
 
     if (data.structuralLevel === "loadBearing") {
-      lineItems.push({
-        id: "structuralEngineer",
-        name: "Structural engineer",
-        category: "professional",
-        cost: this.config.professionalFees.structuralEngineer,
-      });
-      lineItems.push({
-        id: "buildingControl",
-        name: "Building control allowance",
-        category: "statutory",
-        cost: this.config.professionalFees.buildingControl,
-      });
+      lineItems.push({ id: "structuralEngineer", name: "Structural engineer", category: "professional", cost: fees.structuralEngineer });
+      lineItems.push({ id: "buildingControl", name: "Building control allowance", category: "statutory", cost: fees.buildingControl });
 
       if (data.propertyType === "terraced" || data.propertyType === "semiDetached") {
-        lineItems.push({
-          id: "partyWallAllowance",
-          name: "Party wall allowance",
-          category: "professional",
-          cost: this.config.professionalFees.partyWallAllowance,
-        });
+        lineItems.push({ id: "partyWallAllowance", name: "Party wall allowance", category: "professional", cost: fees.partyWallAllowance });
       }
     }
 
@@ -528,11 +435,8 @@ export class RenovationCostEngine {
     if (data.houseStyle === "victorian" || data.houseStyle === "period") rate += 0.01;
     if (data.dampAllowance) rate += 0.01;
 
-    rate = clamp(rate, 0.08, 0.2);
-    return {
-      rate,
-      amount: round(subtotalBeforeContingency * rate),
-    };
+    rate = clamp(rate, 0.07, 0.2);
+    return { rate, amount: round(subtotalBeforeContingency * rate) };
   }
 
   getRangeFactors(data) {
@@ -540,22 +444,19 @@ export class RenovationCostEngine {
       this.config.confidenceModifiers[data.drawingsStatus] ||
       this.config.confidenceModifiers.roughScope;
 
-    const baseLow = 0.92;
-    const baseHigh = 1.1;
-    const lowFactor = clamp(baseLow / confidenceMultiplier, 0.8, 0.95);
-    const highFactor = clamp(baseHigh * confidenceMultiplier, 1.08, 1.28);
+    const baseLow = 0.9;
+    const baseHigh = 1.12;
+    const lowFactor = clamp(baseLow / confidenceMultiplier, 0.78, 0.95);
+    const highFactor = clamp(baseHigh * confidenceMultiplier, 1.1, 1.32);
 
     let rawConfidence = 90 - Math.round((confidenceMultiplier - 1) * 100);
     if (data.renovationLevel === "backToBrick") rawConfidence -= 6;
     if (data.structuralLevel === "loadBearing") rawConfidence -= 6;
     if (data.houseStyle === "victorian" || data.houseStyle === "period") rawConfidence -= 4;
     if (data.occupancyStatus === "occupied") rawConfidence -= 3;
+    if (!data.includeFittings) rawConfidence += 3; // narrower scope, more predictable
 
-    return {
-      lowFactor,
-      highFactor,
-      confidenceScore: clamp(rawConfidence, 52, 94),
-    };
+    return { lowFactor, highFactor, confidenceScore: clamp(rawConfidence, 52, 94) };
   }
 
   getEstimatedTimeline(data, impactedArea) {
@@ -570,77 +471,94 @@ export class RenovationCostEngine {
     let buildMin = Math.max(3, Math.ceil(impactedArea / 20));
     let buildMax = Math.max(buildMin + 2, Math.ceil(impactedArea / 12));
 
-    if (data.renovationLevel === "fullRenovation") {
-      buildMin += 2;
-      buildMax += 4;
-    }
-    if (data.renovationLevel === "backToBrick") {
-      buildMin += 4;
-      buildMax += 8;
-    }
-    if (data.structuralLevel === "loadBearing") {
-      buildMin += 2;
-      buildMax += 4;
-    }
-    if (data.rewireLevel === "full" || data.heatingLevel === "fullSystem") {
-      buildMin += 1;
-      buildMax += 3;
-    }
-    if (data.occupancyStatus === "occupied") {
-      buildMin += 1;
-      buildMax += 2;
-    }
+    if (data.renovationLevel === "fullRenovation") { buildMin += 2; buildMax += 4; }
+    if (data.renovationLevel === "backToBrick") { buildMin += 4; buildMax += 8; }
+    if (data.structuralLevel === "loadBearing") { buildMin += 2; buildMax += 4; }
+    if (data.rewireLevel === "full" || data.heatingLevel === "fullSystem") { buildMin += 1; buildMax += 3; }
+    if (data.occupancyStatus === "occupied") { buildMin += 1; buildMax += 2; }
 
     return {
       planning: planningWeeks,
       build: { min: buildMin, max: buildMax },
-      total: {
-        min: planningWeeks.min + buildMin,
-        max: planningWeeks.max + buildMax,
-      },
+      total: { min: planningWeeks.min + buildMin, max: planningWeeks.max + buildMax },
+    };
+  }
+
+  // -- helpers -------------------------------------------------------------
+  scaleLine(id, name, unit, quantity) {
+    return {
+      id,
+      name,
+      quantity,
+      labour: round(unit.labour * quantity),
+      materials: round(unit.materials * quantity),
+      fittings: round(unit.fittings * quantity),
+      construction: round(unit.construction * quantity),
+      total: round(unit.total * quantity),
+    };
+  }
+
+  tally(lineItems) {
+    return {
+      labour: round(sum(lineItems.map((i) => i.labour))),
+      materials: round(sum(lineItems.map((i) => i.materials))),
+      fittings: round(sum(lineItems.map((i) => i.fittings))),
+      construction: round(sum(lineItems.map((i) => i.construction))),
+      total: round(sum(lineItems.map((i) => i.total))),
+      lineItems,
     };
   }
 
   calculateTotalCost(projectData) {
     const data = this.validateProjectData(projectData);
+    const context = this.getContextMultiplier(data);
+    const finish = this.getFinishMultiplier(data.finishLevel);
 
-    const multipliers = {
-      region: this.getRegionMultiplier(data.region, data.londonZone),
-      property: this.getPropertyMultiplier(data.propertyType),
-      houseStyle: this.getHouseStyleMultiplier(data.houseStyle),
-      floor: this.getFloorMultiplier(data.propertyType, data.floor),
-      finish: this.getFinishMultiplier(data.finishLevel),
-      occupancy: this.getOccupancyMultiplier(data.occupancyStatus),
-    };
+    const coreScope = this.calculateCoreScope(data, context);
+    const rooms = this.calculateRoomCosts(data, context, finish);
+    const structural = this.calculateStructuralCosts(data, context);
+    const systems = this.calculateSystemsCosts(data, coreScope.impactedArea, context);
+    const finishing = this.calculateFinishingCosts(data, coreScope.impactedArea, context, finish);
+    const fees = this.calculateProfessionalFees(data);
 
-    const coreScope = this.calculateCoreScopeCost(data, multipliers);
-    const roomCosts = this.calculateRoomCosts(data, multipliers);
-    const structuralCosts = this.calculateStructuralCosts(data, multipliers);
-    const systemsCosts = this.calculateSystemsCosts(
-      data,
-      coreScope.impactedArea,
-      multipliers,
+    // Construction subtotal = labour + materials across build categories (excludes fittings & fees).
+    const constructionSubtotal = round(
+      coreScope.construction +
+        rooms.construction +
+        structural.construction +
+        systems.construction +
+        finishing.construction,
     );
-    const finishingCosts = this.calculateFinishingCosts(
-      data,
-      coreScope.impactedArea,
-      multipliers,
+
+    const fittingsSubtotal = round(
+      coreScope.fittings +
+        rooms.fittings +
+        structural.fittings +
+        systems.fittings +
+        finishing.fittings,
     );
-    const feeCosts = this.calculateProfessionalFees(data);
+
+    const prelims = this.calculatePreliminaries(constructionSubtotal, data);
+
+    const includedFittings = data.includeFittings ? fittingsSubtotal : 0;
 
     const subtotalBeforeContingency = round(
-      coreScope.adjusted +
-        roomCosts.total +
-        structuralCosts.total +
-        systemsCosts.total +
-        finishingCosts.total +
-        feeCosts.total,
+      constructionSubtotal + includedFittings + prelims.amount + fees.total,
     );
 
     const contingency = this.calculateContingency(subtotalBeforeContingency, data);
     const subtotalExVat = round(subtotalBeforeContingency + contingency.amount);
-    const vat = round(subtotalExVat * this.config.vatRate);
+    const vatRate = this.config.vatTreatments?.[data.vatTreatment] ?? this.config.vatRate;
+    const vat = round(subtotalExVat * vatRate);
     const total = round(subtotalExVat + vat);
+
+    // Component roll-up (VAT-inclusive-agnostic; these are ex-VAT works figures).
+    const labourTotal = round(
+      coreScope.labour + rooms.labour + structural.labour + systems.labour + finishing.labour,
+    );
+    const materialsTotal = round(
+      coreScope.materials + rooms.materials + structural.materials + systems.materials + finishing.materials,
+    );
 
     const { lowFactor, highFactor, confidenceScore } = this.getRangeFactors(data);
     const ranges = {
@@ -654,32 +572,43 @@ export class RenovationCostEngine {
     return {
       assumptions: {
         calculatorVersion: this.config.version,
+        priceBookDate: this.config.priceBookDate,
+        includeFittings: data.includeFittings,
+        vatTreatment: data.vatTreatment,
         vatAppliedToFullSubtotal: true,
-        autoIncludedFees: feeCosts.autoIncluded,
+        autoIncludedFees: fees.autoIncluded,
       },
       inputs: data,
       breakdown: {
         impactedArea: coreScope.impactedArea,
-        coreScopeBaseRate: coreScope.baseRate,
-        coreScopeBase: coreScope.subtotal,
-        multipliers,
-        coreScopeAdjusted: coreScope.adjusted,
-        roomFitout: roomCosts.total,
-        roomLineItems: roomCosts.lineItems,
-        structuralWorks: structuralCosts.total,
-        structuralLineItems: structuralCosts.lineItems,
-        systemsWorks: systemsCosts.total,
-        systemsLineItems: systemsCosts.lineItems,
-        finishingWorks: finishingCosts.total,
-        finishingLineItems: finishingCosts.lineItems,
-        professionalFees: feeCosts.professionalFees,
-        statutoryFees: feeCosts.statutoryFees,
-        feeLineItems: feeCosts.lineItems,
+        // Backwards-compatible category totals (respect the fittings toggle):
+        coreScopeAdjusted: coreScope.total,
+        roomFitout: rooms.total,
+        roomLineItems: rooms.lineItems,
+        structuralWorks: structural.total,
+        structuralLineItems: structural.lineItems,
+        systemsWorks: systems.total,
+        systemsLineItems: systems.lineItems,
+        finishingWorks: finishing.total,
+        finishingLineItems: finishing.lineItems,
+        professionalFees: fees.professionalFees,
+        statutoryFees: fees.statutoryFees,
+        feeLineItems: fees.lineItems,
+        // New: labour / materials / fittings roll-up + preliminaries
+        labourTotal,
+        materialsTotal,
+        constructionSubtotal,
+        fittingsSubtotal,
+        fittingsIncluded: data.includeFittings,
+        fittingsApplied: includedFittings,
+        preliminariesRate: prelims.rate,
+        preliminaries: prelims.amount,
         subtotalBeforeContingency,
         contingencyRate: contingency.rate,
         contingency: contingency.amount,
         subtotalExVat,
-        vatRate: this.config.vatRate,
+        vatTreatment: data.vatTreatment,
+        vatRate,
         vat,
         total,
       },
@@ -732,6 +661,7 @@ export class RenovationCostEngine {
       floorFinish: "lvt",
       doorPackage: "someDoors",
       dampAllowance: false,
+      includeFittings: true,
     });
 
     return {
@@ -749,6 +679,10 @@ export class RenovationCostEngine {
       maximumFractionDigits: 0,
     }).format(amount || 0);
   }
+}
+
+export function createCostEngine(config) {
+  return new RenovationCostEngine(config);
 }
 
 export const costEngine = new RenovationCostEngine();

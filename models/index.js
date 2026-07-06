@@ -34,6 +34,7 @@ import EmailPreference from "./EmailPreference.js";
 import EmailStats from "./EmailStats.js";
 import TaskStatusUpdate from "./TaskStatusUpdate.js";
 import TemplateMessage from "./TemplateMessage.js";
+import CalculatorRates from "./CalculatorRates.js";
 
 // Export all models
 export {
@@ -70,4 +71,5 @@ export {
   EmailStats,
   TaskStatusUpdate,
   TemplateMessage,
+  CalculatorRates,
 };
