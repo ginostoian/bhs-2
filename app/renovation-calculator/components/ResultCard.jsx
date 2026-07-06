@@ -87,9 +87,12 @@ export default function ResultCard({
                 {formData.houseSize} m² home refurbishment
               </h2>
               <p className="mt-2 text-stone-600">
-                {isLondon ? "London" : "UK regional"} estimate with room
-                allowances, systems, structural risk, finishing, contingency,
-                and VAT shown separately.
+                {isLondon ? "London" : "UK regional"} estimate —{" "}
+                {breakdown.fittingsIncluded
+                  ? "including a ballpark for fixtures, fittings & finishes"
+                  : "labour & construction materials only"}
+                , with systems, structural risk, finishing, preliminaries,
+                contingency and VAT shown separately.
               </p>
 
               {!isLondon && (
@@ -163,6 +166,10 @@ export default function ResultCard({
                   value={formatCurrency(breakdown.finishingWorks)}
                 />
                 <BreakdownRow
+                  label={`Preliminaries (${Math.round((breakdown.preliminariesRate || 0) * 100)}%)`}
+                  value={formatCurrency(breakdown.preliminaries)}
+                />
+                <BreakdownRow
                   label="Professional fees"
                   value={formatCurrency(breakdown.professionalFees)}
                 />
@@ -196,9 +203,60 @@ export default function ResultCard({
               </div>
 
               <p className="mt-4 text-xs text-stone-500">
-                VAT is applied conservatively to the subtotal so the result is
-                useful for planning rather than artificially low.
+                VAT ({Math.round((breakdown.vatRate || 0) * 100)}%) is applied to
+                the subtotal so the result is useful for planning rather than
+                artificially low.
               </p>
+            </section>
+
+            <section className="rounded-2xl border border-stone-200 bg-white p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  Where the money goes
+                </h3>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    breakdown.fittingsIncluded
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-amber-100 text-amber-900"
+                  }`}
+                >
+                  {breakdown.fittingsIncluded
+                    ? "Fittings included"
+                    : "Labour + materials only"}
+                </span>
+              </div>
+              <div className="space-y-2 text-sm">
+                <BreakdownRow label="Trade labour" value={formatCurrency(breakdown.labourTotal)} />
+                <BreakdownRow
+                  label="Construction materials"
+                  value={formatCurrency(breakdown.materialsTotal)}
+                />
+                {breakdown.fittingsIncluded ? (
+                  <BreakdownRow
+                    label="Fixtures, fittings & finishes"
+                    value={formatCurrency(breakdown.fittingsApplied)}
+                  />
+                ) : (
+                  <BreakdownRow
+                    label="Fixtures, fittings & finishes"
+                    value="Excluded"
+                  />
+                )}
+                <BreakdownRow
+                  label="Preliminaries (site, management, scaffold, waste)"
+                  value={formatCurrency(breakdown.preliminaries)}
+                />
+              </div>
+              {!breakdown.fittingsIncluded && (
+                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-900">
+                  This estimate covers labour and construction materials only. It
+                  excludes the supplied cost of kitchen units &amp; appliances,
+                  sanitaryware &amp; brassware, tiles, floor coverings, door leaves
+                  and ironmongery — add your own product budgets on top, or re-run
+                  with fittings included for a ballpark.
+                </p>
+              )}
             </section>
 
             <DetailSection title="Room Fit-Out" items={breakdown.roomLineItems} />

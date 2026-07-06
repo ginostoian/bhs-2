@@ -51,6 +51,7 @@ export default async function RenovationCalculatorLeadsPage() {
     const input = latest.input || {};
     const estimate = latest.estimate || {};
     const emailDelivery = latest.emailDelivery || {};
+    const answers = Array.isArray(latest.answers) ? latest.answers : [];
 
     return {
       ...lead,
@@ -58,6 +59,7 @@ export default async function RenovationCalculatorLeadsPage() {
       input,
       estimate,
       emailDelivery,
+      answers,
     };
   });
 
@@ -144,14 +146,36 @@ export default async function RenovationCalculatorLeadsPage() {
                       </div>
                       <details className="mt-2 text-xs">
                         <summary className="cursor-pointer text-gray-500 hover:text-gray-700">
-                          View inputs
+                          View all answers ({row.answers.length || 0})
                         </summary>
                         <div className="mt-2 rounded-lg border border-gray-200 bg-gray-50 p-2 text-gray-700">
-                          <div>Coverage: {pretty(row.input?.coverageLevel)}</div>
-                          <div>Level: {pretty(row.input?.renovationLevel)}</div>
-                          <div>Finish: {pretty(row.input?.finishLevel)}</div>
-                          <div>Occupancy: {pretty(row.input?.occupancyStatus)}</div>
-                          <div>Drawings: {pretty(row.input?.drawingsStatus)}</div>
+                          {row.answers.length > 0 ? (
+                            <dl className="grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-2">
+                              {row.answers.map((qa, index) => (
+                                <div
+                                  key={`${qa.question}-${index}`}
+                                  className="flex justify-between gap-2 border-b border-gray-100 py-0.5"
+                                >
+                                  <dt className="text-gray-500">{qa.question}</dt>
+                                  <dd className="text-right font-medium text-gray-800">
+                                    {qa.answer}
+                                  </dd>
+                                </div>
+                              ))}
+                            </dl>
+                          ) : (
+                            <div className="space-y-0.5">
+                              <div>Coverage: {pretty(row.input?.coverageLevel)}</div>
+                              <div>Level: {pretty(row.input?.renovationLevel)}</div>
+                              <div>Finish: {pretty(row.input?.finishLevel)}</div>
+                              <div>Occupancy: {pretty(row.input?.occupancyStatus)}</div>
+                              <div>Drawings: {pretty(row.input?.drawingsStatus)}</div>
+                              <div>
+                                Fittings:{" "}
+                                {row.input?.includeFittings ? "Included" : "Excluded"}
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </details>
                     </Cell>

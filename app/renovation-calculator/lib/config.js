@@ -1,13 +1,28 @@
-export const RENOVATION_CONFIG = {
-  version: "2026.03",
+// Renovation calculator price book.
+//
+// Every priced element is split into components:
+//   labour    - trade labour
+//   materials - construction materials (screed, plasterboard, timber, cement, cable, pipe...)
+//   fittings  - supplied items / PC-sums (kitchen units, appliances, sanitaryware, tiles,
+//               floor coverings, door leaves, ironmongery)
+//
+// "labour + materials" is the construction cost and is always included.
+// "fittings" is only added when the client opts in (includeFittings). Default is OFF.
+//
+// Baseline rates below are quoted at contextMultiplier = 1.0, which corresponds to the
+// national-average region (East of England). London and other regions are applied via
+// regionMultipliers. All figures are ex-VAT.
+//
+// These defaults are market-anchored (public 2026 UK cost guides + judgement). They can be
+// overridden per-field from the admin dashboard (/admin/renovation-calculator-rates) and are
+// deep-merged over these values at runtime.
 
-  baseScopeRates: {
-    cosmetic: 140,
-    standard: 300,
-    fullRenovation: 520,
-    backToBrick: 780,
-  },
+export const DEFAULT_RENOVATION_CONFIG = {
+  version: "2026.07",
+  priceBookDate: "2026-07",
+  currency: "GBP",
 
+  // ------------------------------------------------------------------ area
   coverageFactors: {
     singleArea: 0.2,
     partialHome: 0.45,
@@ -15,19 +30,30 @@ export const RENOVATION_CONFIG = {
     wholeHome: 1.0,
   },
 
+  // General builder's work per m² of IMPACTED area: strip-out, waste, protection,
+  // builder's work, general carpentry and making good NOT covered by rooms/finishing.
+  baseScopeRates: {
+    cosmetic: { labour: 30, materials: 18 },
+    standard: { labour: 72, materials: 44 },
+    fullRenovation: { labour: 115, materials: 72 },
+    backToBrick: { labour: 165, materials: 108 },
+  },
+
+  // --------------------------------------------------------------- multipliers
+  // Applied to construction cost (labour + materials) consistently across categories.
   regionMultipliers: {
-    london: 1.1,
-    southEast: 1.03,
+    london: 1.18,
+    southEast: 1.06,
     eastEngland: 1.0,
-    southWest: 0.98,
-    midlands: 0.94,
-    northEngland: 0.9,
-    scotlandWales: 0.95,
+    southWest: 0.97,
+    midlands: 0.9,
+    northEngland: 0.84,
+    scotlandWales: 0.9,
   },
 
   londonZoneMultipliers: {
-    zone1: 1.12,
-    zone2: 1.08,
+    zone1: 1.14,
+    zone2: 1.09,
     zone3: 1.05,
     zone4: 1.02,
     zone5: 1.0,
@@ -35,144 +61,172 @@ export const RENOVATION_CONFIG = {
 
   propertyMultipliers: {
     terraced: 1.0,
-    semiDetached: 1.02,
-    detached: 1.05,
-    flat: 1.08,
-    maisonette: 1.06,
+    semiDetached: 1.0,
+    detached: 1.02,
+    flat: 1.06,
+    maisonette: 1.05,
   },
 
   houseStyleMultipliers: {
-    newBuild: 0.95,
+    newBuild: 0.96,
     modern: 1.0,
-    victorian: 1.08,
-    edwardian: 1.06,
-    period: 1.1,
+    victorian: 1.06,
+    edwardian: 1.05,
+    period: 1.09,
   },
 
+  // Only applied to flats / maisonettes.
   floorMultipliers: {
     ground: 1.0,
     first: 1.02,
     second: 1.04,
-    thirdPlus: 1.08,
+    thirdPlus: 1.07,
   },
 
+  // Applied to the FITTINGS layer only (product spec, not labour/location).
   finishLevelMultipliers: {
-    budget: 0.92,
+    budget: 0.82,
     standard: 1.0,
-    premium: 1.15,
+    premium: 1.38,
   },
 
-  occupancyMultipliers: {
-    vacant: 0.97,
-    partiallyOccupied: 1.05,
-    occupied: 1.12,
-  },
-
+  // ------------------------------------------------------------------ rooms
+  // Per-room allowances by renovation level. labour + materials = construction cost.
   roomRates: {
     kitchen: {
-      cosmetic: 9000,
-      standard: 18000,
-      fullRenovation: 28000,
-      backToBrick: 36000,
+      cosmetic: { labour: 1800, materials: 700, fittings: 4000 },
+      standard: { labour: 3500, materials: 1600, fittings: 8500 },
+      fullRenovation: { labour: 5200, materials: 2600, fittings: 13500 },
+      backToBrick: { labour: 6800, materials: 3600, fittings: 18000 },
     },
     bathroom: {
-      cosmetic: 7500,
-      standard: 12500,
-      fullRenovation: 18500,
-      backToBrick: 23000,
+      cosmetic: { labour: 1800, materials: 750, fittings: 2400 },
+      standard: { labour: 3300, materials: 1500, fittings: 4600 },
+      fullRenovation: { labour: 4600, materials: 2300, fittings: 7200 },
+      backToBrick: { labour: 5600, materials: 2900, fittings: 9500 },
     },
     bedroom: {
-      cosmetic: 1200,
-      standard: 3500,
-      fullRenovation: 6500,
-      backToBrick: 9000,
+      cosmetic: { labour: 550, materials: 300, fittings: 400 },
+      standard: { labour: 1250, materials: 700, fittings: 1200 },
+      fullRenovation: { labour: 2200, materials: 1300, fittings: 2500 },
+      backToBrick: { labour: 3200, materials: 1800, fittings: 3600 },
     },
     reception: {
-      cosmetic: 2000,
-      standard: 5000,
-      fullRenovation: 8500,
-      backToBrick: 12000,
+      cosmetic: { labour: 750, materials: 400, fittings: 600 },
+      standard: { labour: 1650, materials: 900, fittings: 1800 },
+      fullRenovation: { labour: 2900, materials: 1600, fittings: 3200 },
+      backToBrick: { labour: 3900, materials: 2200, fittings: 4600 },
     },
     hallway: {
-      cosmetic: 1500,
-      standard: 3500,
-      fullRenovation: 6500,
-      backToBrick: 9000,
+      cosmetic: { labour: 650, materials: 350, fittings: 300 },
+      standard: { labour: 1450, materials: 750, fittings: 900 },
+      fullRenovation: { labour: 2500, materials: 1300, fittings: 1800 },
+      backToBrick: { labour: 3300, materials: 1800, fittings: 2500 },
     },
   },
 
+  // -------------------------------------------------------------- structural
+  // Construction cost only (steel, engineer's builder's work). No fittings.
   structuralWork: {
-    nonStructuralWallRemoval: 1800,
-    loadBearingWallRemoval: 6500,
-    dampRepairAllowance: 4500,
+    nonStructuralWallRemoval: { labour: 900, materials: 550 },
+    loadBearingWallRemoval: { labour: 3200, materials: 2600 },
+    dampRepairAllowance: { labour: 2200, materials: 1700 },
   },
 
+  // ------------------------------------------------------------------ systems
+  // fixed + perM2 (of impacted area). Construction cost only.
   systems: {
     rewire: {
-      none: { fixed: 0, perM2: 0 },
-      partial: { fixed: 900, perM2: 35 },
-      full: { fixed: 1250, perM2: 70 },
+      none: { fixedLabour: 0, fixedMaterials: 0, perM2Labour: 0, perM2Materials: 0 },
+      partial: { fixedLabour: 500, fixedMaterials: 300, perM2Labour: 26, perM2Materials: 16 },
+      full: { fixedLabour: 750, fixedMaterials: 450, perM2Labour: 48, perM2Materials: 30 },
     },
     heating: {
-      none: { fixed: 0, perM2: 0 },
-      controlsOnly: { fixed: 600, perM2: 0 },
-      boilerOnly: { fixed: 3800, perM2: 0 },
-      fullSystem: { fixed: 3800, perM2: 85 },
+      none: { fixedLabour: 0, fixedMaterials: 0, perM2Labour: 0, perM2Materials: 0 },
+      controlsOnly: { fixedLabour: 350, fixedMaterials: 250, perM2Labour: 0, perM2Materials: 0 },
+      boilerOnly: { fixedLabour: 1100, fixedMaterials: 1800, perM2Labour: 0, perM2Materials: 0 },
+      fullSystem: { fixedLabour: 1300, fixedMaterials: 1950, perM2Labour: 45, perM2Materials: 48 },
     },
     plumbing: {
-      none: { fixed: 0, perM2: 0 },
-      localised: { fixed: 0, perM2: 25 },
-      fullDistribution: { fixed: 0, perM2: 55 },
+      none: { fixedLabour: 0, fixedMaterials: 0, perM2Labour: 0, perM2Materials: 0 },
+      localised: { fixedLabour: 0, fixedMaterials: 0, perM2Labour: 17, perM2Materials: 12 },
+      fullDistribution: { fixedLabour: 0, fixedMaterials: 0, perM2Labour: 32, perM2Materials: 24 },
     },
   },
 
+  // ---------------------------------------------------------------- finishing
   finishing: {
+    // rate = labour + materials per m² of (impacted area × areaFactor)
     plastering: {
-      none: { areaFactor: 0, rate: 0 },
-      patchRepairs: { areaFactor: 0.35, rate: 12 },
-      selectedRooms: { areaFactor: 0.5, rate: 25 },
-      fullAffectedArea: { areaFactor: 1, rate: 35 },
+      none: { areaFactor: 0, labour: 0, materials: 0 },
+      patchRepairs: { areaFactor: 0.35, labour: 9, materials: 5 },
+      selectedRooms: { areaFactor: 0.5, labour: 17, materials: 9 },
+      fullAffectedArea: { areaFactor: 1, labour: 23, materials: 13 },
     },
     decoration: {
-      none: { areaFactor: 0, rate: 0 },
-      refresh: { areaFactor: 0.6, rate: 10 },
-      fullAffectedArea: { areaFactor: 1, rate: 18 },
+      none: { areaFactor: 0, labour: 0, materials: 0 },
+      refresh: { areaFactor: 0.6, labour: 8, materials: 4 },
+      fullAffectedArea: { areaFactor: 1, labour: 13, materials: 7 },
     },
+    // coverage = fraction of impacted area that gets new flooring.
     flooringCoverage: {
       none: 0,
       selectedRooms: 0.5,
       fullAffectedArea: 1,
     },
+    // per m²: labour + materials = prep + lay; covering = the finish material (a fitting).
     floorRates: {
-      laminate: 35,
-      carpet: 28,
-      lvt: 55,
-      engineeredWood: 85,
-      tile: 70,
-      polishedConcrete: 110,
+      laminate: { labour: 16, materials: 4, covering: 15 },
+      carpet: { labour: 9, materials: 3, covering: 18 },
+      lvt: { labour: 24, materials: 5, covering: 30 },
+      engineeredWood: { labour: 30, materials: 6, covering: 55 },
+      tile: { labour: 45, materials: 12, covering: 30 },
+      polishedConcrete: { labour: 70, materials: 18, covering: 45 },
     },
+    // per package: labour = hang/adjust; fittings = door leaves + ironmongery.
     doorPackages: {
-      none: 0,
-      someDoors: 1800,
-      mostDoors: 4200,
-      fullHouse: 6500,
+      none: { labour: 0, fittings: 0 },
+      someDoors: { labour: 550, fittings: 1200 },
+      mostDoors: { labour: 1300, fittings: 2800 },
+      fullHouse: { labour: 2100, fittings: 4300 },
     },
   },
 
+  // ------------------------------------------------------------ preliminaries
+  // Site setup, management/supervision, scaffold, skips/waste, welfare, insurances,
+  // temporary works. Charged as a % of the construction subtotal (excludes fittings & fees).
+  preliminaries: {
+    base: {
+      cosmetic: 0.08,
+      standard: 0.12,
+      fullRenovation: 0.15,
+      backToBrick: 0.17,
+    },
+    occupancyAdd: {
+      vacant: 0,
+      partiallyOccupied: 0.02,
+      occupied: 0.04,
+    },
+  },
+
+  // ---------------------------------------------------------- professional fees
   professionalFees: {
     measuredSurvey: 650,
     structuralEngineer: 1200,
-    buildingControl: 900,
-    partyWallAllowance: 1500,
+    buildingControl: 950,
+    partyWallAllowance: 1600,
+    asbestosSurvey: 350,
   },
 
+  // ---------------------------------------------------------------- contingency
   contingencyRates: {
-    cosmetic: 0.08,
+    cosmetic: 0.07,
     standard: 0.1,
-    fullRenovation: 0.12,
+    fullRenovation: 0.125,
     backToBrick: 0.15,
   },
 
+  // ----------------------------------------------------------- confidence/range
   confidenceModifiers: {
     noPlansYet: 1.12,
     roughScope: 1.07,
@@ -180,8 +234,17 @@ export const RENOVATION_CONFIG = {
     detailedSchedule: 1.0,
   },
 
+  // ----------------------------------------------------------------------- VAT
+  vatTreatments: {
+    standard: 0.2,
+    reduced: 0.05,
+    zero: 0,
+  },
   vatRate: 0.2,
 };
+
+// Kept as a named export for backwards compatibility with existing imports.
+export const RENOVATION_CONFIG = DEFAULT_RENOVATION_CONFIG;
 
 export const PROPERTY_TYPES = [
   {
@@ -214,7 +277,7 @@ export const PROPERTY_TYPES = [
 export const REGION_OPTIONS = [
   { id: "london", name: "London", description: "Primary service area and highest-cost benchmark." },
   { id: "southEast", name: "South East", description: "Typically close to London rates." },
-  { id: "eastEngland", name: "East of England", description: "Often slightly below South East pricing." },
+  { id: "eastEngland", name: "East of England", description: "National-average baseline pricing." },
   { id: "southWest", name: "South West", description: "Moderate regional build costs." },
   { id: "midlands", name: "Midlands", description: "Usually below South East and London costs." },
   { id: "northEngland", name: "North of England", description: "Often lower labour and fit-out rates." },
@@ -335,4 +398,83 @@ export const DOOR_PACKAGE_OPTIONS = [
   { id: "someDoors", name: "Some doors", description: "Selected internal door replacements." },
   { id: "mostDoors", name: "Most doors", description: "Large proportion of internal doors." },
   { id: "fullHouse", name: "Whole-house doors", description: "Broad door and ironmongery replacement." },
+];
+
+export const FITTINGS_OPTIONS = [
+  {
+    id: "excluded",
+    name: "Labour & construction materials only",
+    description:
+      "Prices the build (labour + construction materials). Excludes the cost of fixtures, fittings and finishes so you can add your own product budgets. This is the default.",
+  },
+  {
+    id: "included",
+    name: "Include a ballpark for fittings & finishes",
+    description:
+      "Adds a market-rate allowance for kitchen units, appliances, sanitaryware, tiles, floor coverings, doors and ironmongery, scaled by your chosen finish level.",
+  },
+];
+
+export const VAT_TREATMENT_OPTIONS = [
+  {
+    id: "standard",
+    name: "Standard rate (20%)",
+    description: "The usual rate for most renovation work carried out by a VAT-registered builder.",
+  },
+  {
+    id: "reduced",
+    name: "Reduced rate (5%)",
+    description:
+      "May apply to homes empty for 2+ years or certain conversions. Check eligibility with your builder / HMRC.",
+  },
+  {
+    id: "zero",
+    name: "Zero-rated (0%)",
+    description: "Rare for renovations (mainly new build / certain listed works). Use only if confirmed.",
+  },
+];
+
+// Lightweight metadata used by the admin rate editor to render grouped numeric inputs.
+export const RATE_EDITOR_GROUPS = [
+  {
+    id: "baseScopeRates",
+    title: "General builder's work (£/m² of affected area)",
+    kind: "levelComponents",
+    components: ["labour", "materials"],
+  },
+  {
+    id: "regionMultipliers",
+    title: "Regional multipliers",
+    kind: "flatMap",
+  },
+  {
+    id: "londonZoneMultipliers",
+    title: "London zone multipliers",
+    kind: "flatMap",
+  },
+  {
+    id: "finishLevelMultipliers",
+    title: "Finish-level multipliers (fittings)",
+    kind: "flatMap",
+  },
+  {
+    id: "preliminaries.base",
+    title: "Preliminaries base (% of construction)",
+    kind: "flatMap",
+  },
+  {
+    id: "contingencyRates",
+    title: "Contingency by level",
+    kind: "flatMap",
+  },
+  {
+    id: "professionalFees",
+    title: "Professional & statutory fees (£)",
+    kind: "flatMap",
+  },
+  {
+    id: "vatTreatments",
+    title: "VAT treatments",
+    kind: "flatMap",
+  },
 ];
