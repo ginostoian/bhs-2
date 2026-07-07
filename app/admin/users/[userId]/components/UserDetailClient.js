@@ -50,7 +50,11 @@ export default function UserDetailClient({
   const [createProjectModal, setCreateProjectModal] = useState({
     isOpen: false,
   });
+  const [resetPasswordModal, setResetPasswordModal] = useState({
+    isOpen: false,
+  });
   const [isCreatingProject, setIsCreatingProject] = useState(false);
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(user);
 
@@ -397,6 +401,36 @@ export default function UserDetailClient({
     }
   };
 
+  const handleResetPassword = async (passwordData) => {
+    setIsResettingPassword(true);
+    try {
+      const response = await fetch(
+        `/api/admin/users/${currentUser.id}/password`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(passwordData),
+        },
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to update password");
+      }
+
+      setResetPasswordModal({ isOpen: false });
+      toast.success("Password updated successfully.");
+    } catch (error) {
+      console.error("Error updating user password:", error);
+      toast.error(error.message || "Failed to update password");
+    } finally {
+      setIsResettingPassword(false);
+    }
+  };
+
   const currentDocuments = getCurrentDocuments();
 
   return (
@@ -562,10 +596,29 @@ export default function UserDetailClient({
               </div>
             </div>
           </div>
-          <div>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              onClick={() => setResetPasswordModal({ isOpen: true })}
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              <svg
+                className="mr-2 h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                />
+              </svg>
+              Set Password
+            </button>
             <button
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <svg
                 className="mr-2 h-4 w-4"
@@ -2078,6 +2131,154 @@ export default function UserDetailClient({
         user={currentUser}
         isSubmitting={isCreatingProject}
       />
+
+      {resetPasswordModal.isOpen && (
+        <ResetPasswordModal
+          onClose={() => setResetPasswordModal({ isOpen: false })}
+          onSubmit={handleResetPassword}
+          isSubmitting={isResettingPassword}
+          user={currentUser}
+        />
+      )}
+    </div>
+  );
+}
+
+function ResetPasswordModal({ onClose, onSubmit, isSubmitting, user }) {
+  const [formData, setFormData] = useState({
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (formData.newPassword.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      setError("Password confirmation does not match.");
+      return;
+    }
+
+    onSubmit(formData);
+  };
+
+  const handleClose = () => {
+    setFormData({ newPassword: "", confirmPassword: "" });
+    setError("");
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+        <div className="mb-4 flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-lg font-medium text-gray-900">
+              Set Account Password
+            </h3>
+            <p className="mt-1 text-sm text-gray-600">
+              Update the password for {user?.email}.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="newPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              New Password
+            </label>
+            <input
+              id="newPassword"
+              type="password"
+              autoComplete="new-password"
+              required
+              minLength={8}
+              value={formData.newPassword}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  newPassword: e.target.value,
+                }))
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type="password"
+              autoComplete="new-password"
+              required
+              minLength={8}
+              value={formData.confirmPassword}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  confirmPassword: e.target.value,
+                }))
+              }
+              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            />
+          </div>
+
+          {error && (
+            <div className="rounded-md bg-red-50 p-2 text-sm text-red-600">
+              {error}
+            </div>
+          )}
+
+          <div className="flex justify-end space-x-3 pt-2">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isSubmitting ? "Updating..." : "Update Password"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
@@ -2211,7 +2412,13 @@ function CreatePaymentModal({ onClose, onSubmit, isSubmitting, projects }) {
 }
 
 // Edit Payment Modal Component
-function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting, projects }) {
+function EditPaymentModal({
+  payment,
+  onClose,
+  onSubmit,
+  isSubmitting,
+  projects,
+}) {
   const [formData, setFormData] = useState({
     id: payment.id,
     name: payment.name,
