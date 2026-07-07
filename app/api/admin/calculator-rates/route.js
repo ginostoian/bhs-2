@@ -4,34 +4,52 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import CalculatorRates from "@/models/CalculatorRates";
 import { DEFAULT_RENOVATION_CONFIG } from "@/app/renovation-calculator/lib/config";
-import { getEffectiveConfig } from "@/app/renovation-calculator/lib/rates";
+import { DEFAULT_EXTENSION_CONFIG } from "@/app/extension-calculator/lib/config";
+import { deepMerge } from "@/app/renovation-calculator/lib/rates";
 
-const CALCULATOR_TYPE = "renovation";
+// Registry of editable calculator price books, keyed by calculatorType.
+const DEFAULTS_BY_TYPE = {
+  renovation: DEFAULT_RENOVATION_CONFIG,
+  extension: DEFAULT_EXTENSION_CONFIG,
+};
+
+function resolveType(request) {
+  const type = new URL(request.url).searchParams.get("type") || "renovation";
+  return DEFAULTS_BY_TYPE[type] ? type : "renovation";
+}
+
+function effectiveConfig(type, overrides) {
+  const defaults = DEFAULTS_BY_TYPE[type];
+  if (!overrides || typeof overrides !== "object" || Array.isArray(overrides)) {
+    return defaults;
+  }
+  return deepMerge(defaults, overrides);
+}
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
-  if (!session || session.user.role !== "admin") {
-    return null;
-  }
+  if (!session || session.user.role !== "admin") return null;
   return session;
 }
 
-// Returns defaults, current overrides, and the merged effective config.
-export async function GET() {
+// Returns defaults, current overrides, and the merged effective config for a calculator type.
+export async function GET(request) {
   try {
     const session = await requireAdmin();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const type = resolveType(request);
     await connectMongo();
-    const doc = await CalculatorRates.findOne({ calculatorType: CALCULATOR_TYPE }).lean();
+    const doc = await CalculatorRates.findOne({ calculatorType: type }).lean();
     const overrides = doc?.overrides || {};
 
     return NextResponse.json({
-      defaults: DEFAULT_RENOVATION_CONFIG,
+      calculatorType: type,
+      defaults: DEFAULTS_BY_TYPE[type],
       overrides,
-      effective: getEffectiveConfig(overrides),
+      effective: effectiveConfig(type, overrides),
       updatedAt: doc?.updatedAt || null,
     });
   } catch (error) {
@@ -48,6 +66,7 @@ export async function PUT(request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const type = resolveType(request);
     const body = await request.json();
     const overrides =
       body && typeof body.overrides === "object" && body.overrides !== null
@@ -56,15 +75,16 @@ export async function PUT(request) {
 
     await connectMongo();
     const doc = await CalculatorRates.findOneAndUpdate(
-      { calculatorType: CALCULATOR_TYPE },
+      { calculatorType: type },
       { $set: { overrides, updatedBy: session.user.id } },
       { upsert: true, new: true, setDefaultsOnInsert: true },
     ).lean();
 
     return NextResponse.json({
       success: true,
+      calculatorType: type,
       overrides: doc.overrides,
-      effective: getEffectiveConfig(doc.overrides),
+      effective: effectiveConfig(type, doc.overrides),
       updatedAt: doc.updatedAt,
     });
   } catch (error) {

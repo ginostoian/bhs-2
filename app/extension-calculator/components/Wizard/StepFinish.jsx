@@ -15,7 +15,7 @@ import {
   ADDITIONAL_FEATURE_OPTIONS,
   PLANNING_SERVICE_OPTIONS,
 } from "../../lib/config";
-import { costEngine } from "../../lib/costEngine";
+import { costEngine as defaultCostEngine } from "../../lib/costEngine";
 
 const lookupName = (arr, id) => arr.find((item) => item.id === id)?.name || id || "Not set";
 
@@ -27,11 +27,12 @@ const formatCurrency = (amount) =>
     maximumFractionDigits: 0,
   }).format(amount || 0);
 
-const StepFinish = ({ formData, onNext, onBack }) => {
+const StepFinish = ({ formData, engine, onNext, onBack }) => {
+  const activeEngine = engine || defaultCostEngine;
   let preview = null;
   try {
     if (formData.extensionType && formData.size > 0) {
-      preview = costEngine.calculateTotalCost(formData);
+      preview = activeEngine.calculateTotalCost(formData);
     }
   } catch (_error) {
     preview = null;
@@ -85,6 +86,20 @@ const StepFinish = ({ formData, onNext, onBack }) => {
               <SummaryItem label="Glazing level" value={lookupName(GLAZING_LEVELS, formData.glazingLevel)} />
               <SummaryItem label="Drawings status" value={lookupName(DRAWINGS_STATUS_OPTIONS, formData.drawingsStatus)} />
               <SummaryItem label="Planning status" value={lookupName(PLANNING_STATUS_OPTIONS, formData.planningStatus)} />
+              <SummaryItem
+                label="Fittings & finishes"
+                value={formData.includeFittings ? "Included (ballpark)" : "Excluded (build only)"}
+              />
+              <SummaryItem
+                label="VAT treatment"
+                value={
+                  formData.vatTreatment === "reduced"
+                    ? "Reduced (5%)"
+                    : formData.vatTreatment === "zero"
+                      ? "Zero-rated (0%)"
+                      : "Standard (20%)"
+                }
+              />
             </div>
           </section>
 

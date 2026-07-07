@@ -178,6 +178,22 @@ export const generateCostEstimatePDF = (
   if (formData.postcode) {
     y = h.addKeyValue(y, "Postcode", formData.postcode);
   }
+  y = h.addKeyValue(
+    y,
+    "Includes fittings",
+    formData.includeFittings
+      ? "Yes (ballpark for fittings & finishes)"
+      : "No — structural build & materials only",
+  );
+  y = h.addKeyValue(
+    y,
+    "VAT treatment",
+    formData.vatTreatment === "reduced"
+      ? "Reduced rate (5%)"
+      : formData.vatTreatment === "zero"
+        ? "Zero-rated (0%)"
+        : "Standard rate (20%)",
+  );
   y = h.addKeyValue(y, "Generated for", userEmail || "PDF download");
   y = h.addKeyValue(y, "Generated on", new Date().toLocaleDateString("en-GB"));
 
@@ -247,16 +263,40 @@ export const generateCostEstimatePDF = (
     color: [30, 41, 59],
   });
 
+  y = h.addDivider(y + 1);
+  y = drawSectionTitle(doc, y, "Where the money goes (ex VAT)");
+  y = h.addRow(y, "Structural build & materials", formatCurrency(b.buildConstruction));
+  y = h.addRow(
+    y,
+    "Fixtures, fittings & finishes",
+    b.fittingsIncluded ? formatCurrency(b.fittingsApplied) : "Excluded",
+  );
+  y = h.addRow(
+    y,
+    "Professional & statutory fees",
+    formatCurrency((b.professionalFees || 0) + (b.statutoryFees || 0)),
+  );
+  y = h.addRow(y, "Contingency", formatCurrency(b.contingency));
+
+  if (!b.fittingsIncluded) {
+    y = h.addParagraph(
+      y + 1,
+      "This estimate covers the structural build and construction materials only. It excludes the supplied cost of internal finishes and fit-out items such as the kitchen, bathrooms, bi-fold doors, bespoke joinery and premium flooring. Add your own product budgets on top, or re-run the calculator with fittings included for a ballpark.",
+      { fontSize: 9, color: [120, 90, 20] },
+    );
+  }
+
   if (Array.isArray(b.extrasLineItems) && b.extrasLineItems.length > 0) {
     y = h.addDivider(y + 1);
     y = drawSectionTitle(doc, y, "Extras and type allowances");
     b.extrasLineItems.forEach((item) => {
+      const excluded = item.includedInTotal === false;
+      const qtyLabel =
+        item.unit === "fixed" ? "(allowance)" : `(${item.quantity} ${item.unitLabel})`;
       y = h.addRow(
         y,
-        `${item.name} ${
-          item.unit === "fixed" ? "(allowance)" : `(${item.quantity} ${item.unitLabel})`
-        }`,
-        formatCurrency(item.total),
+        `${item.name} ${qtyLabel}${excluded ? " — fittings, excluded" : ""}`,
+        excluded ? `(${formatCurrency(item.total)})` : formatCurrency(item.total),
       );
     });
   }

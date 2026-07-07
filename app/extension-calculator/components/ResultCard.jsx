@@ -56,8 +56,11 @@ const ResultCard = ({
                 {getExtensionTypeName(formData.extensionType)}
               </h2>
               <p className="mt-2 text-stone-600">
-                {formData.size} m² {isLondon ? "London" : "UK regional"} estimate
-                with line-item allowances, contingency, and VAT shown separately.
+                {formData.size} m² {isLondon ? "London" : "UK regional"} estimate —{" "}
+                {breakdown.fittingsIncluded
+                  ? "including a ballpark for fittings & finishes"
+                  : "structural build & construction materials only"}
+                , with extras, fees, contingency and VAT shown separately.
               </p>
 
               {!isLondon && (
@@ -163,10 +166,62 @@ const ResultCard = ({
               </div>
 
               <p className="mt-4 text-xs text-stone-500">
-                VAT is applied to build costs, extras, professional fees, and
-                contingency. Statutory fees are listed separately and excluded
-                from VAT.
+                VAT ({Math.round((breakdown.vatRate || 0) * 100)}%) is applied to
+                build costs, extras, professional fees, and contingency. Statutory
+                fees are listed separately and excluded from VAT.
               </p>
+            </section>
+
+            <section className="rounded-2xl border border-stone-200 bg-white p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">
+                  Where the money goes
+                </h3>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    breakdown.fittingsIncluded
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-amber-100 text-amber-900"
+                  }`}
+                >
+                  {breakdown.fittingsIncluded
+                    ? "Fittings included"
+                    : "Build only (labour + materials)"}
+                </span>
+              </div>
+              <div className="space-y-2 text-sm">
+                <BreakdownRow
+                  label="Structural build & materials"
+                  value={formatCurrency(breakdown.buildConstruction)}
+                />
+                <BreakdownRow
+                  label="Fixtures, fittings & finishes"
+                  value={
+                    breakdown.fittingsIncluded
+                      ? formatCurrency(breakdown.fittingsApplied)
+                      : "Excluded"
+                  }
+                />
+                <BreakdownRow
+                  label="Professional & statutory fees"
+                  value={formatCurrency(
+                    (breakdown.professionalFees || 0) + (breakdown.statutoryFees || 0),
+                  )}
+                />
+                <BreakdownRow
+                  label={`Contingency (${Math.round((breakdown.contingencyRate || 0) * 100)}%)`}
+                  value={formatCurrency(breakdown.contingency)}
+                />
+              </div>
+              {!breakdown.fittingsIncluded && (
+                <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-xs text-amber-900">
+                  This estimate covers the structural build and construction
+                  materials only. It excludes the supplied cost of internal
+                  finishes and fit-out items (kitchen, bathrooms, bi-fold doors,
+                  bespoke joinery, premium flooring) — add your own product
+                  budgets on top, or re-run with fittings included for a ballpark.
+                </p>
+              )}
             </section>
 
             {breakdown.extrasLineItems?.length > 0 && (
@@ -175,28 +230,44 @@ const ResultCard = ({
                   Extras and Type Allowances
                 </h3>
                 <div className="space-y-2">
-                  {breakdown.extrasLineItems.map((item) => (
-                    <div
-                      key={`${item.id}-${item.quantity}`}
-                      className="flex items-center justify-between rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm"
-                    >
-                      <div>
-                        <div className="font-medium text-stone-900">
-                          {item.name}
+                  {breakdown.extrasLineItems.map((item) => {
+                    const excluded = item.includedInTotal === false;
+                    return (
+                      <div
+                        key={`${item.id}-${item.quantity}`}
+                        className={`flex items-center justify-between rounded-xl border px-4 py-3 text-sm ${
+                          excluded
+                            ? "border-amber-200 bg-amber-50"
+                            : "border-stone-200 bg-stone-50"
+                        }`}
+                      >
+                        <div>
+                          <div className="font-medium text-stone-900">
+                            {item.name}
+                            {excluded && (
+                              <span className="ml-2 rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
+                                fittings — excluded
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-stone-500">
+                            {item.unit === "fixed"
+                              ? "Fixed allowance"
+                              : `${item.quantity} ${item.unitLabel} x ${formatCurrency(
+                                  item.unitCost,
+                                )}`}
+                          </div>
                         </div>
-                        <div className="text-xs text-stone-500">
-                          {item.unit === "fixed"
-                            ? "Fixed allowance"
-                            : `${item.quantity} ${item.unitLabel} x ${formatCurrency(
-                                item.unitCost,
-                              )}`}
+                        <div
+                          className={`font-semibold ${
+                            excluded ? "text-amber-700 line-through" : "text-stone-900"
+                          }`}
+                        >
+                          {formatCurrency(item.total)}
                         </div>
                       </div>
-                      <div className="font-semibold text-stone-900">
-                        {formatCurrency(item.total)}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </section>
             )}
