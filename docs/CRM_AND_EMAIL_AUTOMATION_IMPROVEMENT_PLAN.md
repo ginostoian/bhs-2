@@ -40,6 +40,9 @@ The single highest-impact fix is the email cadence + stop-conditions redesign in
 | C8 | 🟡 Medium | **Plain-text template bug.** The intro email's `text` version ends with a literal `Kind regards,<br>` — HTML markup leaking into plain text. | `libs/crmEmailTemplates.js` L124. |
 | C9 | 🟡 Medium | **Hard-coded BCC to `contact@celli.co.uk`.** Every automated lead email BCCs a third-party domain, hard-coded in five places instead of `config`. | `libs/crmEmailAutomation.js` L185, L235, L297, L348, L410. |
 | C10 | 🟡 Medium | **Noisy, O(n) debug logging every run.** `processDueEmails()` loads **all** active automations and `console.log`s 5 lines each on every execution, regardless of whether anything is due. | `libs/crmEmailAutomation.js` L566-585. |
+| C11 | 🟠 High | **Task due dates can't be entered, so due-date reminders can't exist.** The New Task UI renders only title + priority; `dueDate`/`assignedTo`/`description` are never captured (and `handleAddTask` drops `dueDate`). No cron watches lead `tasks` (the `check-overdue-activities` cron only covers the separate `activities` array). See §2.5. | `LeadDetailModal.js` L855-886; `vercel.json`. |
+| C12 | 🟡 Medium | **Notes silently discard data and can't be edited.** The notes `POST` accepts `tags`/`customTag`/`attachments` but the schema/handler save none of them; there is no `PUT`/`DELETE`; the UI is a single-line `<input>` with a hard-coded title. See §2.6. | `app/api/crm/leads/[id]/notes/route.js`; `LeadDetailModal.js` L832-851. |
+| C13 | 🟡 Medium | **Reports metrics are misleading.** "Win rate" = won ÷ all leads *created* (not closed); funnel emits only total/qualified/won with an unfinished `qualified` condition; forecast weights are hard-coded in the frontend against old stage names. See §2.7. | `app/api/crm/reports/route.js` L123-155; `reports/page.js` L59-74. |
 
 ### 1.2 Architecture debt
 
@@ -108,12 +111,13 @@ Implementation: extract the stage list + per-stage config (colour, whether it em
 | Lead scoring | ❌ | Add a simple score (source × budget × engagement: opens/clicks/replies). Drives prioritisation + "hot lead" morning brief. |
 | Unified activity timeline | Partial (per-type) | One chronological timeline merging emails (sent/opened/clicked/replied), calls, notes, tasks, stage changes. |
 | Email thread view in-CRM | ❌ | Show the actual Resend inbound reply content on the lead (already stored in `replyContent`) + let admin reply from the modal. |
-| Tasks & reminders | ✅ (embedded) | Move to collection; add due-today/overdue surfacing (a cron already exists) and calendar view. |
+| Tasks & reminders | ⚠️ broken (see §2.5) | UI can't set due dates/assignee; no reminder cron for lead tasks. Rebuild per §2.5. |
+| Rich notes | ⚠️ minimal (see §2.6) | Single-line plaintext input; tags/attachments silently dropped. Rich editor per §2.6. |
 | Saved views / filters | ❌ (4 fixed filters) | Saved filter presets, "my leads", "hot", "aging > N", "no owner". |
 | Bulk actions | ❌ | Multi-select → reassign, tag, change stage, add to sequence, archive. |
 | Assignment rules | ❌ (manual) | Round-robin / by-source auto-assignment on intake. |
 | Duplicate detection & merge | ❌ | On intake and a manual "merge leads" tool. |
-| Forecasting / analytics | Basic reports | Stage conversion %, **stage velocity** (avg days in stage), win rate by source, pipeline value by stage, cohort by month. |
+| Forecasting / analytics | ⚠️ thin/flawed (see §2.7) | Misleading win rate, broken funnel, no velocity/trends/loss analysis. Enrich per §2.7. |
 | Consent / unsubscribe | ❌ | See C5 / Part 3.5. |
 | Import / export | ❌ | CSV import for bulk lead loads, export for reporting. |
 | Audit log | Partial (stage only) | Extend versionHistory to all key field changes. |
@@ -135,7 +139,82 @@ Implementation: extract the stage list + per-stage config (colour, whether it em
 4. **Lead detail hero:** score, stage, owner, value, expected close, and a big "Next best action" with the current sequence status and the ability to pause/resume/skip a step inline.
 5. **Accessibility:** drag-and-drop needs keyboard alternatives; add ARIA and focus management to the modal.
 
-### 2.5 Phased roadmap
+### 2.5 Tasks system — deep dive and rebuild
+
+**Current state (from code):**
+- Model: `tasks` is an embedded array on `Lead` with `title, description, status (pending/in_progress/completed/overdue), priority, dueDate, assignedTo, createdBy, completedAt` — a decent schema.
+- API (`app/api/crm/leads/[id]/tasks/route.js` + `/[taskId]`): `GET`/`POST`/`PATCH`/`DELETE` all exist and **already accept `dueDate`, `assignedTo`, `description`**.
+- **UI (`LeadDetailModal.js` L855-886) is the problem.** The "New Task" form only renders **two inputs: title + priority**. There is no field for **due date**, **assignee**, or **description** — even though the state object is initialised with `dueDate: ""` (L46) and the API would store them. `handleAddTask` then resets to `{ title, description, priority }`, dropping `dueDate` entirely.
+- You can only tick a task **complete**; there is no edit, reschedule, reassign, or delete in the UI (despite `PATCH`/`DELETE` existing).
+
+**Why it "doesn't work as intended":**
+1. **No due dates can be entered → due-date notifications are impossible.** There is nothing to fire on.
+2. **No notification pipeline for lead tasks.** The `check-overdue-activities` cron operates on the lead **`activities`** array (which has its own `dueDate`), **not** on the **`tasks`** array. Lead tasks have *zero* reminder coverage. Tasks also have a redundant `status: "overdue"` enum value that nothing ever sets.
+3. **Embedded-array design** means there is no way to see "all my tasks across all leads" — a basic CRM need. Every task query must load whole lead documents.
+4. **Difficult to input:** two fields, a toggle-open panel, no keyboard submit, no validation feedback.
+
+**Plan — how it should be rebuilt:**
+
+- **Data:** promote tasks to a first-class **`LeadTask` collection** (`leadId`, `title`, `description`, `status`, `priority`, `dueDate`, `remindAt`, `assignedTo`, `createdBy`, `completedAt`, `completedBy`). Index `{ assignedTo, dueDate, status }` so "my open tasks" and "due today" are cheap. Drop the meaningless `overdue` status — derive overdue from `dueDate < now && status != completed`.
+- **Input UX (fix the core complaint):** redesign the task composer to include **title, description, assignee (defaults to lead owner), due date + time, priority, and an optional reminder offset** ("remind me 1 day before"). Support quick presets ("Today", "Tomorrow", "Next week"), Enter-to-save, inline validation, and an **inline edit / reschedule / reassign / delete** row menu.
+- **Notifications (the missing piece):**
+  - A **`check-due-tasks` cron** (hourly) that finds `dueDate`/`remindAt` crossing now and creates a `Notification` + email to `assignedTo` ("Task due: {title} for {lead name}"), plus an overdue escalation the next morning.
+  - Surface due/overdue tasks in the **morning brief** and as a **badge** in the CRM header.
+  - Real-time in-app notification when a task is assigned to you.
+- **Global task views:** a "My Tasks" / "Team Tasks" list (filter by assignee, due window, priority, overdue) and a calendar view — only possible once tasks are their own collection.
+- **Board signal:** show an "⏰ overdue task" indicator on the `LeadCard` so nothing is silently missed.
+
+### 2.6 Notes system — deep dive and rich-notes plan
+
+**Current state (from code):**
+- Model: `notes` embedded array with `title, content, createdBy, createdAt, isImportant`.
+- API (`app/api/crm/leads/[id]/notes/route.js`): `POST` accepts `title, content, tags, customTag, isImportant, attachments` — but **only persists `title, content, createdBy, isImportant`.** `tags`, `customTag`, and `attachments` are **silently discarded** (the schema has no such fields). There is **no `PUT`/`DELETE`** — notes cannot be edited or removed.
+- **UI (`LeadDetailModal.js` L832-851):** a single-line **`<input>`** (not even a textarea) that hard-codes `title: "Note"`. No multiline, no formatting, no tags, no importance toggle, no attachments, no edit/delete. This is the weakest possible note-taking surface.
+
+**Why it's poor:** notes are where the real sales context lives (call summaries, site-visit findings, client preferences, objections). A one-line plaintext box that can't wrap, can't be edited, and throws away tags/attachments actively discourages good record-keeping.
+
+**Plan — rich notes:**
+
+- **Data:** promote to a **`LeadNote` collection** (`leadId`, `body` rich content, `contentText` for search, `tags[]`, `pinned`, `createdBy`, `updatedBy`, `updatedAt`, `attachments[]`). Add a text index on `contentText` + `tags` for search.
+- **Rich editor:** a proper multiline rich-text editor (Tiptap/ProseMirror or a lightweight markdown editor) supporting **bold/italic/lists/headings/links, checklists, @mentions of teammates, and pasted images/file attachments** (there is already a `bunnyStorage` lib + `File` model for uploads). Store as sanitised HTML or portable JSON, plus a plain-text projection for search.
+- **Organisation:** **note types/tags** (Call, Site visit, Requirement, Objection, Internal), **pin important notes** to the top (wire up the existing `isImportant`), full **edit history** and **delete** (add `PUT`/`DELETE` endpoints).
+- **@mention → notification:** mentioning a teammate creates a `Notification` and optional email.
+- **Search & timeline:** notes searchable across all leads and merged into the unified activity timeline (§2.3).
+- **Quick vs full:** keep a one-line "quick note" affordance for speed, but expand into the full editor on focus/click.
+
+### 2.7 Reports & analytics — deep dive and enrichment
+
+**Current state (from `app/api/crm/reports/route.js` + `reports/page.js`):** the page *looks* polished (KPI cards, tables, bars) but the analytics underneath are thin and partly incorrect:
+
+- **"Win Rate" is misleading.** It's `won ÷ all leads *created* in range`. Leads created today can't be won yet, so the denominator is inflated and the number is meaningless as a conversion rate.
+- **Funnel is broken/ambiguous.** The aggregation only emits `total / qualified / won`, and the `qualified` condition is a half-finished lump (`$in` a mixed list with commented-out uncertainty). There is **no stage-by-stage conversion or drop-off**.
+- **No velocity / time-in-stage / time-to-win** — even though `versionHistory` already records every stage transition with timestamps. The data to compute this exists and is unused.
+- **`avgAging` isn't stage age.** It uses `agingDays`, which resets on every contact, so "Avg. Age" per stage is really "days since last contact", not "days in this stage".
+- **No trends.** Every figure is a single snapshot number; there are **no time-series/charts** and no comparison vs the previous period.
+- **No activity/effort metrics** — calls made, tasks completed/overdue, emails sent, **speed-to-lead** (time to first contact), response times. None surfaced despite the data existing.
+- **No loss analysis** — `winLossReason` is captured on the model but never reported. "Why are we losing?" is unanswerable.
+- **No source ROI** (cost-per-lead / cost-per-win), and the **forecast weighting is hard-coded in the frontend** (`reports/page.js` L65-74) against the *old* stage names, so it silently breaks when stages change.
+- Relies on `value`, which defaults to `0` at creation and is often never set → most value-based charts under-report.
+
+**Plan — make reports actually useful:**
+
+1. **Fix the core metrics first:**
+   - **True conversion funnel:** stage-by-stage counts and **conversion % between adjacent stages** (New → In Conversation → Qualified → Proposal → Negotiation → Won), computed from the **cohort of leads that entered the funnel in the period**, plus overall lead→won rate.
+   - **Real win rate:** `won ÷ (won + lost)` for **closed** deals in the period, not open leads.
+   - **Stage velocity:** average **days in each stage** and **total time-to-win/time-to-lose**, computed from `versionHistory` transitions (build this into a dedicated aggregation or a nightly rollup).
+2. **Add the missing dimensions:**
+   - **Trends over time** — weekly/monthly line charts for new leads, wins, pipeline value, win rate; each KPI card shows **Δ vs previous period**.
+   - **Loss-reason breakdown** (from `winLossReason`) — the single most actionable chart for a sales team.
+   - **Source ROI** — leads, wins, win-rate, avg deal size and (if cost is entered) cost-per-win per source; fixes the current source chart that only counts volume.
+   - **Effort & SLA metrics** — speed-to-lead (median time to first activity), tasks completed vs overdue, emails sent/opened/clicked/replied per sequence step (ties into the email plan §3), and per-agent activity, not just per-agent lead count.
+   - **Forecast** — move weighting server-side, key it off the stage-config module (§2.2), and expose the probabilities so they can be tuned.
+3. **Delivery & polish:**
+   - Replace hand-rolled bars with a proper chart library for time-series; keep the existing card aesthetic.
+   - **Date-range compare** (this period vs last), **per-agent / per-source filters**, and **CSV/PDF export**.
+   - Consider a nightly **metrics rollup collection** so the dashboard doesn't run 8 aggregations on every load.
+   - Reuse the numbers in the **morning brief** so insights are pushed, not just pulled.
+
+### 2.8 Phased roadmap
 
 - **Phase 0 — Stop the bleeding (days):** wire the cron (C1), cap proposal emails (C4), move exhausted leads to "Never Replied/Cold" (C2), pause on click/book (C3), add cron auth (C6), fix the text-template bug (C8), move BCC to config (C9), quiet the logging (C10). *These are the fixes behind Part 3.*
 - **Phase 1 — Compliance & cadence (1–2 weeks):** unsubscribe + consent + suppression (C5), the new number-based sequences (Part 3), business-hours + frequency caps.
@@ -255,6 +334,8 @@ A sequence is **paused/stopped** the moment any of these happen:
 
 **Phase 2 (architecture):** `libs/crmStages.js` single stage config · split activities/notes/tasks into collections · unique email index + dedupe/merge · SWR/React-Query on the board.
 
-**Phase 3 (features + design):** scoring · unified timeline · saved views · bulk actions · forecasting dashboards · design-system pass on board + modal.
+**Phase 2b (tasks + notes — §2.5, §2.6):** promote `LeadTask`/`LeadNote` collections · full task composer (due date, assignee, reminder) + `check-due-tasks` cron + notifications + "My Tasks" view · rich-text notes editor with tags/attachments/@mentions + edit/delete.
+
+**Phase 3 (features + design):** scoring · unified timeline · saved views · bulk actions · **enriched reports (§2.7: true funnel, real win rate, stage velocity, trends, loss analysis, source ROI, effort/SLA metrics, export)** · design-system pass on board + modal.
 
 *No code in this repository was modified to produce this plan.*
