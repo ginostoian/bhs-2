@@ -13,6 +13,7 @@ import { getRootSchema } from "@/libs/structuredData";
 import "./globals.css";
 import Announcement from "@/components/Announcement";
 import ReferralTracker from "@/components/ReferralTracker";
+import RouteChrome from "@/components/RouteChrome";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -48,11 +49,14 @@ export default function RootLayout({ children }) {
           <Suspense fallback={null}>
             <ReferralTracker />
           </Suspense>
-          <Announcement />
-          <Header />
-          {children}
-          <WhereWeWork />
-          <Footer />
+          <RouteChrome
+            announcement={<Announcement />}
+            header={<Header />}
+            whereWeWork={<WhereWeWork />}
+            footer={<Footer />}
+          >
+            {children}
+          </RouteChrome>
         </ClientLayout>
         {/* Cookie Consent Banner - handles GTM loading with consent mode */}
         <CookieConsent />
