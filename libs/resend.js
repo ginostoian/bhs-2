@@ -29,6 +29,9 @@ export const sendEmail = async ({
   html,
   replyTo,
   attachments,
+  bcc,
+  headers,
+  tags,
 }) => {
   const data = {
     from: config.resend.fromAdmin,
@@ -38,6 +41,9 @@ export const sendEmail = async ({
     html,
     ...(replyTo && { replyTo }),
     ...(attachments?.length ? { attachments } : {}),
+    ...(bcc && { bcc: Array.isArray(bcc) ? bcc : [bcc] }),
+    ...(headers && { headers }),
+    ...(tags?.length ? { tags } : {}),
   };
 
   const result = await resend.emails.send(data);

@@ -1,279 +1,159 @@
 import mongoose from "mongoose";
-import toJSON from "./plugins/toJSON";
+import toJSON from "./plugins/toJSON.js";
+import {
+  CRM_STAGES,
+  LEGACY_STAGE_MAP,
+  normalizeCRMStage,
+} from "../libs/crmStages.js";
+import {
+  CRM_SEQUENCES,
+  getSequenceDueDate,
+  getSequenceForStage,
+  isSequenceComplete,
+} from "../libs/crmSequences.js";
 
-/**
- * Email Automation Schema
- * Manages automated email sequences for CRM leads
- */
+const emailHistorySchema = new mongoose.Schema(
+  {
+    emailType: { type: String, required: true },
+    sequenceKey: String,
+    sequenceStep: Number,
+    sentAt: { type: Date, default: Date.now },
+    subject: { type: String, required: true },
+    recipient: { type: String, required: true },
+    success: { type: Boolean, default: true },
+    error: String,
+    providerMessageId: String,
+    metadata: { type: mongoose.Schema.Types.Mixed, default: {} },
+  },
+  { _id: true },
+);
+
 const emailAutomationSchema = mongoose.Schema(
   {
-    // Lead reference
     leadId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Lead",
       required: true,
+      unique: true,
       index: true,
     },
-
-    // Current stage and automation status
     currentStage: {
       type: String,
-      enum: [
-        "Lead",
-        "Never replied",
-        "Qualified",
-        "Proposal Sent",
-        "Negotiations",
-      ],
+      enum: [...CRM_STAGES, ...Object.keys(LEGACY_STAGE_MAP)],
       required: true,
+      default: "New Enquiry",
     },
-
-    // Automation status
-    isActive: {
-      type: Boolean,
-      default: true,
-    },
-
-    // Stage-specific tracking
-    stageData: {
-      // Lead stage tracking
-      lead: {
-        emailsSent: {
-          type: Number,
-          default: 0,
-        },
-        lastEmailSent: {
-          type: Date,
-        },
-        nextEmailDue: {
-          type: Date,
-        },
-        maxEmails: {
-          type: Number,
-          default: 5, // 1 intro + 4 follow-ups
-        },
-      },
-
-      // Qualified stage tracking
-      qualified: {
-        adminNotificationsSent: {
-          type: Number,
-          default: 0,
-        },
-        lastAdminNotification: {
-          type: Date,
-        },
-        nextAdminNotificationDue: {
-          type: Date,
-        },
-      },
-
-      // Proposal Sent stage tracking
-      proposalSent: {
-        emailsSent: {
-          type: Number,
-          default: 0,
-        },
-        lastEmailSent: {
-          type: Date,
-        },
-        nextEmailDue: {
-          type: Date,
-        },
-      },
-
-      // Negotiations stage tracking
-      negotiations: {
-        adminNotificationsSent: {
-          type: Number,
-          default: 0,
-        },
-        lastAdminNotification: {
-          type: Date,
-        },
-        nextAdminNotificationDue: {
-          type: Date,
-        },
-      },
-    },
-
-    // Email history
-    emailHistory: [
-      {
-        emailType: {
-          type: String,
-          enum: [
-            "lead_intro",
-            "lead_followup",
-            "qualified_admin_notification",
-            "proposal_followup",
-            "negotiations_admin_notification",
-          ],
-          required: true,
-        },
-        sentAt: {
-          type: Date,
-          default: Date.now,
-        },
-        subject: {
-          type: String,
-          required: true,
-        },
-        recipient: {
-          type: String,
-          required: true,
-        },
-        success: {
-          type: Boolean,
-          default: true,
-        },
-        error: {
-          type: String,
-        },
-        metadata: {
-          type: mongoose.Schema.Types.Mixed,
-          default: {},
-        },
-      },
-    ],
-
-    // Pause/resume tracking
-    pausedAt: {
-      type: Date,
-    },
-    pausedReason: {
+    isActive: { type: Boolean, default: true, index: true },
+    sequenceKey: {
       type: String,
+      enum: [...Object.keys(CRM_SEQUENCES), null],
+      default: null,
     },
-    resumedAt: {
-      type: Date,
-    },
+    sequenceStep: { type: Number, default: 0 },
+    sequenceEnteredAt: { type: Date, default: Date.now },
+    nextActionDue: { type: Date, index: true },
+    lastEmailSentAt: Date,
+    sequenceCompletedAt: Date,
+    adminRemindersSent: { type: Number, default: 0 },
+    maxAdminReminders: { type: Number, default: 3 },
 
-    // Reply tracking
-    leadReplied: {
-      type: Boolean,
-      default: false,
-    },
-    lastReplyDate: {
-      type: Date,
-    },
-    replySubject: {
-      type: String,
-    },
-    replyContent: {
-      type: String,
-    },
+    // Retained as Mixed only so the migration can read legacy documents safely.
+    stageData: { type: mongoose.Schema.Types.Mixed, default: undefined },
+    emailHistory: { type: [emailHistorySchema], default: [] },
 
-    // Last activity tracking
-    lastActivity: {
-      type: Date,
-      default: Date.now,
-    },
+    pausedAt: Date,
+    pausedReason: String,
+    resumedAt: Date,
+    leadReplied: { type: Boolean, default: false },
+    lastReplyDate: Date,
+    replySubject: String,
+    replyContent: String,
+    openCount: { type: Number, default: 0 },
+    clickCount: { type: Number, default: 0 },
+    lastOpenedAt: Date,
+    lastClickedAt: Date,
+    lastClickedUrl: String,
+    lastActivity: { type: Date, default: Date.now },
   },
-  {
-    timestamps: true,
-    toJSON: { virtuals: true },
-  },
+  { timestamps: true, toJSON: { virtuals: true } },
 );
 
-// Add plugin that converts mongoose to json
 emailAutomationSchema.plugin(toJSON);
+emailAutomationSchema.index({ isActive: 1, nextActionDue: 1 });
+emailAutomationSchema.index({ currentStage: 1, isActive: 1 });
 
-// Indexes for performance
-emailAutomationSchema.index({ leadId: 1, currentStage: 1 });
-emailAutomationSchema.index({ isActive: 1, "stageData.lead.nextEmailDue": 1 });
-emailAutomationSchema.index({
-  isActive: 1,
-  "stageData.qualified.nextAdminNotificationDue": 1,
-});
-emailAutomationSchema.index({
-  isActive: 1,
-  "stageData.proposalSent.nextEmailDue": 1,
-});
-emailAutomationSchema.index({
-  isActive: 1,
-  "stageData.negotiations.nextAdminNotificationDue": 1,
-});
-
-// Static method to find automations that need emails sent
 emailAutomationSchema.statics.findDueEmails = function () {
-  const now = new Date();
-
   return this.find({
     isActive: true,
-    $or: [
-      // Lead stage emails due
-      {
-        currentStage: "Lead",
-        "stageData.lead.nextEmailDue": { $lte: now },
-        "stageData.lead.emailsSent": { $lt: 5 },
-      },
-      // Qualified stage admin notifications due
-      {
-        currentStage: "Qualified",
-        "stageData.qualified.nextAdminNotificationDue": { $lte: now },
-      },
-      // Proposal Sent stage emails due
-      {
-        currentStage: "Proposal Sent",
-        "stageData.proposalSent.nextEmailDue": { $lte: now },
-      },
-      // Negotiations stage admin notifications due
-      {
-        currentStage: "Negotiations",
-        "stageData.negotiations.nextAdminNotificationDue": { $lte: now },
-      },
-    ],
-  }).populate("leadId");
+    nextActionDue: { $ne: null, $lte: new Date() },
+  }).populate({
+    path: "leadId",
+    populate: { path: "assignedTo", select: "name email" },
+  });
 };
 
-// Instance method to update stage
-emailAutomationSchema.methods.updateStage = function (newStage) {
-  const oldStage = this.currentStage;
-  this.currentStage = newStage;
+emailAutomationSchema.methods.configureForStage = function (
+  stage,
+  enteredAt = new Date(),
+) {
+  const normalizedStage = normalizeCRMStage(stage);
+  const sequence = getSequenceForStage(normalizedStage);
+
+  this.currentStage = normalizedStage;
+  this.sequenceKey = sequence?.key || null;
+  this.sequenceStep = 0;
+  this.sequenceEnteredAt = enteredAt;
+  this.sequenceCompletedAt = null;
+  this.adminRemindersSent = 0;
+  this.nextActionDue = sequence
+    ? getSequenceDueDate(sequence.key, enteredAt, 0)
+    : null;
+  this.isActive = Boolean(sequence);
+  this.pausedAt = null;
+  this.pausedReason = sequence ? null : `No automation for ${normalizedStage}`;
   this.lastActivity = new Date();
+  return this;
+};
 
-  // Reset stage-specific data when moving to new stage
-  if (newStage === "Lead") {
-    this.stageData.lead.emailsSent = 0;
-    this.stageData.lead.lastEmailSent = null;
-    this.stageData.lead.nextEmailDue = new Date();
-  } else if (newStage === "Qualified") {
-    this.stageData.qualified.adminNotificationsSent = 0;
-    this.stageData.qualified.lastAdminNotification = null;
-    this.stageData.qualified.nextAdminNotificationDue = new Date();
-  } else if (newStage === "Proposal Sent") {
-    this.stageData.proposalSent.emailsSent = 0;
-    this.stageData.proposalSent.lastEmailSent = null;
-    this.stageData.proposalSent.nextEmailDue = new Date(
-      Date.now() + 24 * 60 * 60 * 1000,
-    ); // 1 day delay
-  } else if (newStage === "Negotiations") {
-    this.stageData.negotiations.adminNotificationsSent = 0;
-    this.stageData.negotiations.lastAdminNotification = null;
-    this.stageData.negotiations.nextAdminNotificationDue = new Date();
-  }
-
+emailAutomationSchema.methods.updateStage = function (newStage) {
+  this.configureForStage(newStage, new Date());
   return this.save();
 };
 
-// Instance method to pause automation
+emailAutomationSchema.methods.switchToColdSequence = function () {
+  const now = new Date();
+  this.sequenceKey = "cold";
+  this.sequenceStep = 0;
+  this.sequenceEnteredAt = now;
+  this.sequenceCompletedAt = null;
+  this.nextActionDue = getSequenceDueDate("cold", now, 0);
+  this.isActive = true;
+  this.pausedAt = null;
+  this.pausedReason = null;
+  this.lastActivity = now;
+  return this.save();
+};
+
 emailAutomationSchema.methods.pause = function (reason) {
   this.isActive = false;
   this.pausedAt = new Date();
   this.pausedReason = reason;
+  this.nextActionDue = null;
+  this.lastActivity = new Date();
   return this.save();
 };
 
-// Instance method to resume automation
 emailAutomationSchema.methods.resume = function () {
-  this.isActive = true;
+  if (!this.sequenceKey) this.configureForStage(this.currentStage, new Date());
+  this.isActive = Boolean(this.sequenceKey);
   this.resumedAt = new Date();
   this.pausedAt = null;
   this.pausedReason = null;
+  if (this.sequenceKey && !this.nextActionDue) this.nextActionDue = new Date();
+  this.lastActivity = new Date();
   return this.save();
 };
 
-// Instance method to record email sent
 emailAutomationSchema.methods.recordEmailSent = function (
   emailType,
   subject,
@@ -282,54 +162,46 @@ emailAutomationSchema.methods.recordEmailSent = function (
   error = null,
   metadata = {},
 ) {
-  // Add to email history
+  const sentAt = new Date();
   this.emailHistory.push({
     emailType,
-    sentAt: new Date(),
+    sequenceKey: this.sequenceKey,
+    sequenceStep: this.sequenceStep + 1,
+    sentAt,
     subject,
     recipient,
     success,
     error,
+    providerMessageId:
+      metadata?.emailResult?.id || metadata?.emailResult?.data?.id,
     metadata,
   });
 
-  // Update stage-specific counters and next due dates
-  if (emailType === "lead_intro" || emailType === "lead_followup") {
-    this.stageData.lead.emailsSent += 1;
-    this.stageData.lead.lastEmailSent = new Date();
-    this.stageData.lead.nextEmailDue = new Date(
-      Date.now() + 2 * 24 * 60 * 60 * 1000,
-    ); // 2 days
-  } else if (emailType === "qualified_admin_notification") {
-    this.stageData.qualified.adminNotificationsSent += 1;
-    this.stageData.qualified.lastAdminNotification = new Date();
-    this.stageData.qualified.nextAdminNotificationDue = new Date(
-      Date.now() + 2 * 24 * 60 * 60 * 1000,
-    ); // 2 days
-  } else if (emailType === "proposal_followup") {
-    this.stageData.proposalSent.emailsSent += 1;
-    this.stageData.proposalSent.lastEmailSent = new Date();
-    this.stageData.proposalSent.nextEmailDue = new Date(
-      Date.now() + 2 * 24 * 60 * 60 * 1000,
-    ); // 2 days
-  } else if (emailType === "negotiations_admin_notification") {
-    this.stageData.negotiations.adminNotificationsSent += 1;
-    this.stageData.negotiations.lastAdminNotification = new Date();
-    this.stageData.negotiations.nextAdminNotificationDue = new Date(
-      Date.now() + 2 * 24 * 60 * 60 * 1000,
-    ); // 2 days
+  if (success) {
+    this.sequenceStep += 1;
+    this.lastEmailSentAt = sentAt;
+    if (CRM_SEQUENCES[this.sequenceKey]?.recipient === "admin") {
+      this.adminRemindersSent += 1;
+    }
+    this.nextActionDue = getSequenceDueDate(
+      this.sequenceKey,
+      this.sequenceEnteredAt,
+      this.sequenceStep,
+    );
+    if (isSequenceComplete(this.sequenceKey, this.sequenceStep)) {
+      this.sequenceCompletedAt = sentAt;
+      this.nextActionDue = null;
+    }
+  } else {
+    this.nextActionDue = new Date(Date.now() + 60 * 60 * 1000);
   }
 
-  this.lastActivity = new Date();
+  this.lastActivity = sentAt;
   return this.save();
 };
 
-// Instance method to check if lead should be moved to "Never replied"
-emailAutomationSchema.methods.shouldMoveToNeverReplied = function () {
-  return (
-    this.currentStage === "Lead" &&
-    this.stageData.lead.emailsSent >= this.stageData.lead.maxEmails
-  );
+emailAutomationSchema.methods.isSequenceExhausted = function () {
+  return isSequenceComplete(this.sequenceKey, this.sequenceStep);
 };
 
 export default mongoose.models.EmailAutomation ||

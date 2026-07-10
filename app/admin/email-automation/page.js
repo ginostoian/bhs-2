@@ -194,18 +194,7 @@ export default function EmailAutomationPage() {
   };
 
   const getNextEmailDue = (automation) => {
-    switch (automation.currentStage) {
-      case "Lead":
-        return automation.leadNextEmailDue;
-      case "Qualified":
-        return automation.qualifiedNextEmailDue;
-      case "Proposal Sent":
-        return automation.proposalNextEmailDue;
-      case "Negotiations":
-        return automation.negotiationsNextEmailDue;
-      default:
-        return null;
-    }
+    return automation.nextEmailDue || automation.leadNextEmailDue || null;
   };
 
   if (loading) {

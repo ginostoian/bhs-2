@@ -1,297 +1,173 @@
 import { NextResponse } from "next/server";
-import connectMongoose from "@/libs/mongoose";
+import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import LeadTask from "@/models/LeadTask";
+import Notification from "@/models/Notification";
 import EmailAutomation from "@/models/EmailAutomation";
-import { handleLeadReply } from "@/libs/crmEmailAutomation";
 
-/**
- * Resend Email Events Webhook
- * Handles email events like opens, clicks, bounces, etc.
- * We can use this to detect engagement and potential replies
- */
-export async function POST(req) {
-  try {
-    console.log("📧 Resend email event webhook received");
+const getRecipient = (data) => {
+  const recipient = data?.email || data?.to;
+  return (Array.isArray(recipient) ? recipient[0] : recipient)
+    ?.toLowerCase()
+    .trim();
+};
 
-    // Connect to MongoDB
-    await connectMongoose();
+const addEventActivity = (
+  lead,
+  title,
+  description,
+  metadata,
+  contactMade = false,
+) =>
+  lead.addActivity({
+    type: "email",
+    title,
+    description,
+    status: "done",
+    contactMade,
+    createdBy: null,
+    metadata: { ...metadata, automated: true },
+  });
 
-    // Parse the webhook payload
-    const body = await req.json();
-    console.log("📧 Event payload:", JSON.stringify(body, null, 2));
+const suppressLead = async (lead, automation, reason, title) => {
+  lead.emailSuppressed = true;
+  lead.emailSuppressionReason = reason;
+  lead.lifecycleStatus = "Suppressed";
+  await lead.save();
+  await automation.pause(reason);
+  await addEventActivity(lead, title, reason, { emailType: reason });
+};
 
-    // Extract event details
-    const {
-      type,
-      data: {
-        email,
-        message_id,
-        created_at,
-        // Additional fields based on event type
-        reason,
-        code,
-        domain,
-        url,
+const handleClick = async (lead, automation, url) => {
+  automation.clickCount += 1;
+  automation.lastClickedAt = new Date();
+  automation.lastClickedUrl = url;
+  automation.isActive = false;
+  automation.pausedAt = new Date();
+  automation.pausedReason = url?.includes("cal.com")
+    ? "Lead clicked booking link"
+    : "Lead clicked primary CTA";
+  automation.nextActionDue = null;
+  await automation.save();
+
+  await addEventActivity(
+    lead,
+    url?.includes("cal.com")
+      ? "Booking link clicked"
+      : "Automated email link clicked",
+    `Lead clicked ${url || "a tracked link"}`,
+    {
+      emailType: "automated_email_clicked",
+      stage: automation.currentStage,
+      url,
+    },
+    true,
+  );
+
+  const task = await LeadTask.findOneAndUpdate(
+    {
+      leadId: lead._id,
+      title: "Hot lead — reach out after CTA click",
+      status: { $ne: "completed" },
+    },
+    {
+      $setOnInsert: {
+        leadId: lead._id,
+        title: "Hot lead — reach out after CTA click",
+        description: `The lead clicked ${url || "an automated email CTA"}. Contact them while intent is high.`,
+        status: "pending",
+        priority: "urgent",
+        dueDate: new Date(Date.now() + 2 * 60 * 60 * 1000),
+        assignedTo: lead.assignedTo || undefined,
+        createdBy: null,
       },
-    } = body;
+    },
+    { upsert: true, new: true },
+  );
 
-    console.log(`📧 Processing ${type} event for email: ${email}`);
+  if (lead.assignedTo) {
+    await Notification.createNotification({
+      recipient: lead.assignedTo,
+      recipientType: "admin",
+      type: "crm_hot_lead",
+      title: `Hot lead: ${lead.name}`,
+      message: "The lead clicked the primary email CTA. Follow up now.",
+      relatedId: lead._id,
+      relatedModel: "Lead",
+      priority: "urgent",
+      metadata: { leadId: lead._id, taskId: task._id, url },
+    });
+  }
+};
 
-    // Find lead by email
+export async function POST(request) {
+  try {
+    await connectMongo();
+    const body = await request.json();
+    const { type, data = {} } = body;
+    const email = getRecipient(data);
+    if (!type || !email)
+      return NextResponse.json({ error: "Invalid event" }, { status: 400 });
+
     const lead = await Lead.findOne({
-      email: email.toLowerCase().trim(),
+      email,
       isActive: true,
       isArchived: false,
     });
+    if (!lead) return NextResponse.json({ message: "No active lead found" });
+    const automation = await EmailAutomation.findOne({ leadId: lead._id });
+    if (!automation)
+      return NextResponse.json({ message: "No automation found" });
 
-    if (!lead) {
-      console.log(`❌ No active lead found for email: ${email}`);
-      return NextResponse.json({ message: "No active lead found" });
+    if (type === "email.opened") {
+      automation.openCount += 1;
+      automation.lastOpenedAt = new Date();
+      await automation.save();
+      await addEventActivity(
+        lead,
+        "Automated email opened",
+        "Lead opened an automated email",
+        {
+          emailType: "automated_email_opened",
+          stage: automation.currentStage,
+        },
+      );
+    } else if (type === "email.clicked") {
+      await handleClick(lead, automation, data.url);
+    } else if (type === "email.bounced") {
+      await suppressLead(
+        lead,
+        automation,
+        `Email bounced: ${data.reason || "unknown"}`,
+        "Email bounced",
+      );
+    } else if (type === "email.complained") {
+      await suppressLead(
+        lead,
+        automation,
+        "Email complaint",
+        "Email marked as spam",
+      );
+    } else if (type === "email.failed") {
+      await addEventActivity(
+        lead,
+        "Email delivery failed",
+        data.reason || "Delivery failed",
+        {
+          emailType: "email_failed",
+          reason: data.reason,
+        },
+      );
+    } else {
+      return NextResponse.json({ message: "Event type not handled" });
     }
 
-    console.log(`✅ Found lead: ${lead.name} (${lead.email})`);
-
-    // Check if this lead has an active email automation
-    const automation = await EmailAutomation.findOne({
-      leadId: lead._id,
-      isActive: true,
-    });
-
-    if (!automation) {
-      console.log(`❌ No active email automation found for lead: ${lead.name}`);
-      return NextResponse.json({ message: "No active automation found" });
-    }
-
-    console.log(`✅ Found active automation for lead: ${lead.name}`);
-
-    // Handle different event types
-    let result = null;
-
-    switch (type) {
-      case "email.opened":
-        result = await handleEmailOpened(lead._id, automation, email);
-        break;
-
-      case "email.clicked":
-        result = await handleEmailClicked(lead._id, automation, email, url);
-        break;
-
-      case "email.bounced":
-        result = await handleEmailBounced(lead._id, automation, email, reason);
-        break;
-
-      case "email.complained":
-        result = await handleEmailComplained(lead._id, automation, email);
-        break;
-
-      case "email.failed":
-        result = await handleEmailFailed(lead._id, automation, email, reason);
-        break;
-
-      default:
-        console.log(`📧 Unhandled event type: ${type}`);
-        return NextResponse.json({ message: "Event type not handled" });
-    }
-
-    console.log(`✅ Event processed:`, result);
-
-    return NextResponse.json({
-      success: true,
-      message: `${type} event processed successfully`,
-      leadId: lead._id,
-      leadName: lead.name,
-      result,
-    });
+    return NextResponse.json({ success: true, type, leadId: lead._id });
   } catch (error) {
-    console.error("❌ Error processing email event webhook:", error);
+    console.error("Resend event webhook failed", error);
     return NextResponse.json(
       { error: "Failed to process email event" },
       { status: 500 },
     );
-  }
-}
-
-/**
- * Handle email opened event
- */
-async function handleEmailOpened(leadId, automation, email) {
-  try {
-    // Add activity to lead
-    const lead = await Lead.findById(leadId);
-    await lead.addActivity({
-      type: "email",
-      title: "Automated email opened",
-      description: `Lead opened automated email: ${automation.currentStage}`,
-      status: "done",
-      contactMade: false, // Don't reset aging for opens
-      createdBy: null,
-      metadata: {
-        emailType: "automated_email_opened",
-        stage: automation.currentStage,
-        automated: true,
-      },
-    });
-
-    console.log(`✅ Email opened activity logged for ${lead.name}`);
-
-    return {
-      success: true,
-      eventType: "email_opened",
-      activityAdded: true,
-    };
-  } catch (error) {
-    console.error("Error handling email opened:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Handle email clicked event
- */
-async function handleEmailClicked(leadId, automation, email, url) {
-  try {
-    // Add activity to lead
-    const lead = await Lead.findById(leadId);
-    await lead.addActivity({
-      type: "email",
-      title: "Automated email link clicked",
-      description: `Lead clicked link in automated email: ${url}`,
-      status: "done",
-      contactMade: true, // Reset aging for clicks (engagement)
-      createdBy: null,
-      metadata: {
-        emailType: "automated_email_clicked",
-        stage: automation.currentStage,
-        url,
-        automated: true,
-      },
-    });
-
-    console.log(`✅ Email clicked activity logged for ${lead.name}`);
-
-    return {
-      success: true,
-      eventType: "email_clicked",
-      activityAdded: true,
-      agingReset: true,
-    };
-  } catch (error) {
-    console.error("Error handling email clicked:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Handle email bounced event
- */
-async function handleEmailBounced(leadId, automation, email, reason) {
-  try {
-    // Pause automation due to bounce
-    automation.isActive = false;
-    automation.pausedAt = new Date();
-    automation.pausedReason = `Email bounced: ${reason}`;
-    await automation.save();
-
-    // Add activity to lead
-    const lead = await Lead.findById(leadId);
-    await lead.addActivity({
-      type: "email",
-      title: "Email bounced",
-      description: `Automated email bounced: ${reason}`,
-      status: "done",
-      contactMade: false,
-      createdBy: null,
-      metadata: {
-        emailType: "email_bounced",
-        reason,
-        automated: true,
-      },
-    });
-
-    console.log(`✅ Email bounce handled for ${lead.name}`);
-
-    return {
-      success: true,
-      eventType: "email_bounced",
-      automationPaused: true,
-      activityAdded: true,
-    };
-  } catch (error) {
-    console.error("Error handling email bounced:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Handle email complained event
- */
-async function handleEmailComplained(leadId, automation, email) {
-  try {
-    // Pause automation due to complaint
-    automation.isActive = false;
-    automation.pausedAt = new Date();
-    automation.pausedReason = "Lead marked email as spam";
-    await automation.save();
-
-    // Add activity to lead
-    const lead = await Lead.findById(leadId);
-    await lead.addActivity({
-      type: "email",
-      title: "Email marked as spam",
-      description: "Lead complained about automated email",
-      status: "done",
-      contactMade: false,
-      createdBy: null,
-      metadata: {
-        emailType: "email_complained",
-        automated: true,
-      },
-    });
-
-    console.log(`✅ Email complaint handled for ${lead.name}`);
-
-    return {
-      success: true,
-      eventType: "email_complained",
-      automationPaused: true,
-      activityAdded: true,
-    };
-  } catch (error) {
-    console.error("Error handling email complained:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Handle email failed event
- */
-async function handleEmailFailed(leadId, automation, email, reason) {
-  try {
-    // Add activity to lead
-    const lead = await Lead.findById(leadId);
-    await lead.addActivity({
-      type: "email",
-      title: "Email delivery failed",
-      description: `Automated email failed to deliver: ${reason}`,
-      status: "done",
-      contactMade: false,
-      createdBy: null,
-      metadata: {
-        emailType: "email_failed",
-        reason,
-        automated: true,
-      },
-    });
-
-    console.log(`✅ Email failure logged for ${lead.name}`);
-
-    return {
-      success: true,
-      eventType: "email_failed",
-      activityAdded: true,
-    };
-  } catch (error) {
-    console.error("Error handling email failed:", error);
-    return { success: false, error: error.message };
   }
 }

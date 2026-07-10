@@ -7,6 +7,22 @@
     {
       "path": "/api/cron/check-overdue-activities",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/email-automation",
+      "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/cron/check-due-tasks",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/check-overdue-payments",
+      "schedule": "0 11 * * *"
+    },
+    {
+      "path": "/api/cron/morning-brief",
+      "schedule": "0 8 * * 1-5"
     }
   ]
 }

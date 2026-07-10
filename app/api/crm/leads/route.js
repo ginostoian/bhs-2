@@ -6,6 +6,7 @@ import Lead from "@/models/Lead";
 import User from "@/models/User";
 import EmailAutomation from "@/models/EmailAutomation";
 import { syncPartnerReferralFromLead } from "@/libs/referrals";
+import { normalizeCRMStage } from "@/libs/crmStages";
 
 // GET - Fetch all leads with filtering and pagination
 export async function GET(request) {
@@ -136,6 +137,10 @@ export async function POST(request) {
       tags,
       referredBy,
       referralSource,
+      estimatedValue,
+      expectedCloseDate,
+      marketingConsent,
+      attribution,
     } = body;
 
     // Validate required fields
@@ -181,8 +186,10 @@ export async function POST(request) {
       email,
       phone,
       address,
-      stage: stage || "Lead",
+      stage: normalizeCRMStage(stage || "New Enquiry"),
       value: value || 0,
+      estimatedValue: estimatedValue ?? value ?? 0,
+      expectedCloseDate: expectedCloseDate || undefined,
       budget: budget || "£",
       clientHealth: clientHealth || "Unknown",
       source: source || "Other",
@@ -195,6 +202,9 @@ export async function POST(request) {
       referredBy: referredBy || null,
       referralSource: referralSource || undefined,
       tags: tags || [],
+      marketingConsent: marketingConsent ?? null,
+      marketingConsentAt: marketingConsent ? new Date() : undefined,
+      attribution: attribution || undefined,
     };
 
     const lead = await Lead.create(leadData);
@@ -230,8 +240,13 @@ export async function POST(request) {
   } catch (error) {
     console.error("Error creating lead:", error);
     return NextResponse.json(
-      { error: "Failed to create lead" },
-      { status: 500 },
+      {
+        error:
+          error?.code === 11000
+            ? "A lead with this email already exists"
+            : "Failed to create lead",
+      },
+      { status: error?.code === 11000 ? 409 : 500 },
     );
   }
 }

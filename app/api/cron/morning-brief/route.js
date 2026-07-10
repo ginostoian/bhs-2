@@ -3,16 +3,9 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
 import { sendEmail } from "@/libs/emailService";
-
-const CRM_STAGES = [
-  "Lead",
-  "Never replied",
-  "Qualified",
-  "Proposal Sent",
-  "Negotiations",
-  "Won",
-  "Lost",
-];
+import LeadTask from "@/models/LeadTask";
+import { CRM_STAGES, normalizeCRMStage } from "@/libs/crmStages";
+import { authorizeCronOrAdmin } from "@/libs/cronAuth";
 
 /**
  * POST /api/cron/morning-brief
@@ -21,6 +14,8 @@ const CRM_STAGES = [
  */
 export async function POST(req) {
   try {
+    if (!(await authorizeCronOrAdmin(req)))
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     console.log("🌅 Starting morning brief generation...");
 
     // Connect to database
@@ -128,9 +123,10 @@ export async function GET(req) {
 
 async function generateMorningBriefData() {
   // Get all active leads
-  const leads = await Lead.find({ isActive: true, isArchived: false })
-    .populate("assignedTo", "name email")
-    .populate("tasks.assignedTo", "name email");
+  const leads = await Lead.find({ isActive: true, isArchived: false }).populate(
+    "assignedTo",
+    "name email",
+  );
 
   // Get all admin users
   const admins = await User.find({ role: "admin" });
@@ -138,7 +134,9 @@ async function generateMorningBriefData() {
   // Calculate pipeline metrics
   const stageCounts = {};
   CRM_STAGES.forEach((stage) => {
-    stageCounts[stage] = leads.filter((lead) => lead.stage === stage).length;
+    stageCounts[stage] = leads.filter(
+      (lead) => normalizeCRMStage(lead.stage) === stage,
+    ).length;
   });
 
   // Get aging leads (2+ days) - exclude paused leads
@@ -155,24 +153,12 @@ async function generateMorningBriefData() {
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  const tasksDueToday = [];
-  leads.forEach((lead) => {
-    lead.tasks?.forEach((task) => {
-      if (task.dueDate && task.status !== "completed") {
-        const dueDate = new Date(task.dueDate);
-        dueDate.setHours(0, 0, 0, 0);
-
-        if (dueDate.getTime() === today.getTime()) {
-          tasksDueToday.push({
-            ...task.toObject(),
-            leadName: lead.name,
-            leadEmail: lead.email,
-            leadStage: lead.stage,
-          });
-        }
-      }
-    });
-  });
+  const tasksDueToday = await LeadTask.find({
+    status: { $ne: "completed" },
+    dueDate: { $gte: today, $lt: tomorrow },
+  })
+    .populate("leadId", "name email stage")
+    .populate("assignedTo", "name email");
 
   // Get new leads from yesterday
   const yesterday = new Date(today);
@@ -206,7 +192,14 @@ async function generateMorningBriefData() {
     agingLeads: agingLeads.length,
     agingLeadsList: agingLeads.slice(0, 10), // Top 10 aging leads
     tasksDueToday: tasksDueToday.length,
-    tasksDueTodayList: tasksDueToday.slice(0, 10), // Top 10 tasks
+    tasksDueTodayList: tasksDueToday
+      .slice(0, 10)
+      .map((task) => ({
+        ...task.toObject(),
+        leadName: task.leadId?.name,
+        leadEmail: task.leadId?.email,
+        leadStage: task.leadId?.stage,
+      })),
     newLeadsYesterday: newLeadsYesterday.length,
     wonLostYesterday: wonLostYesterday.length,
     totalLeads: leads.length,

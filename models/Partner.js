@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import toJSON from "./plugins/toJSON.js";
+import { CRM_STAGES, LEGACY_STAGE_MAP } from "../libs/crmStages.js";
 
 /**
  * Partner Schema
@@ -52,16 +53,8 @@ const referralSubSchema = new mongoose.Schema(
     },
     stage: {
       type: String,
-      enum: [
-        "Lead",
-        "Never replied",
-        "Qualified",
-        "Proposal Sent",
-        "Negotiations",
-        "Won",
-        "Lost",
-      ],
-      default: "Lead",
+      enum: [...CRM_STAGES, ...Object.keys(LEGACY_STAGE_MAP)],
+      default: "New Enquiry",
     },
     referralSource: {
       type: String,

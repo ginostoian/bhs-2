@@ -137,19 +137,19 @@ export async function GET(request) {
           leadReplied: 1,
           pausedReason: 1,
           lastActivity: 1,
-          nextEmailDue: 1,
-          emailsSent: "$stageData.lead.emailsSent",
+          nextEmailDue: "$nextActionDue",
+          emailsSent: "$sequenceStep",
           leadName: "$lead.name",
           leadEmail: "$lead.email",
           leadValue: "$lead.value",
           leadStage: "$lead.stage",
           // Stage-specific next email due dates
-          leadNextEmailDue: "$stageData.lead.nextEmailDue",
-          qualifiedNextEmailDue:
-            "$stageData.qualified.nextAdminNotificationDue",
-          proposalNextEmailDue: "$stageData.proposalSent.nextEmailDue",
-          negotiationsNextEmailDue:
-            "$stageData.negotiations.nextAdminNotificationDue",
+          leadNextEmailDue: "$nextActionDue",
+          qualifiedNextEmailDue: "$nextActionDue",
+          proposalNextEmailDue: "$nextActionDue",
+          negotiationsNextEmailDue: "$nextActionDue",
+          sequenceKey: 1,
+          sequenceStep: 1,
         },
       },
       {

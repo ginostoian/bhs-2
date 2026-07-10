@@ -4,6 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import { syncPartnerReferralFromLead } from "@/libs/referrals";
+import { CRM_STAGES, normalizeCRMStage } from "@/libs/crmStages";
 
 // PUT - Update lead stage
 export async function PUT(request, { params }) {
@@ -34,16 +35,8 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: "Stage is required" }, { status: 400 });
     }
 
-    const validStages = [
-      "Lead",
-      "Never replied",
-      "Qualified",
-      "Proposal Sent",
-      "Negotiations",
-      "Won",
-      "Lost",
-    ];
-    if (!validStages.includes(stage)) {
+    const normalizedStage = normalizeCRMStage(stage);
+    if (!CRM_STAGES.includes(normalizedStage)) {
       console.log("❌ Invalid stage:", stage);
       return NextResponse.json({ error: "Invalid stage" }, { status: 400 });
     }
@@ -58,7 +51,7 @@ export async function PUT(request, { params }) {
 
     // Update stage with version history
     console.log("🔄 Updating stage from", lead.stage, "to", stage);
-    await lead.updateStage(stage, session.user.id, comment);
+    await lead.updateStage(normalizedStage, session.user.id, comment);
     await syncPartnerReferralFromLead(lead);
     console.log("✅ Stage updated successfully");
 
@@ -68,7 +61,11 @@ export async function PUT(request, { params }) {
       const { updateEmailAutomationStage } = await import(
         "@/libs/crmEmailAutomation"
       );
-      await updateEmailAutomationStage(params.id, stage, session.user.id);
+      await updateEmailAutomationStage(
+        params.id,
+        normalizedStage,
+        session.user.id,
+      );
       console.log("✅ Email automation stage updated");
     } catch (error) {
       console.error("❌ Error updating email automation stage:", error);

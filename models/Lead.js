@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 import toJSON from "./plugins/toJSON.js";
+import {
+  CRM_STAGES,
+  LEGACY_STAGE_MAP,
+  getStageProbability,
+  normalizeCRMStage,
+} from "../libs/crmStages.js";
 
 /**
  * Enhanced Lead Schema for CRM System
@@ -37,16 +43,10 @@ const leadSchema = mongoose.Schema(
     // CRM Pipeline Information
     stage: {
       type: String,
-      enum: [
-        "Lead",
-        "Never replied",
-        "Qualified",
-        "Proposal Sent",
-        "Negotiations",
-        "Won",
-        "Lost",
-      ],
-      default: "Lead",
+      // Legacy values remain valid until scripts/migrate-crm-architecture.js
+      // has normalised existing production documents.
+      enum: [...CRM_STAGES, ...Object.keys(LEGACY_STAGE_MAP)],
+      default: "New Enquiry",
       index: true,
     },
 
@@ -56,6 +56,18 @@ const leadSchema = mongoose.Schema(
       min: 0,
       default: 0,
     },
+    estimatedValue: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    probability: {
+      type: Number,
+      min: 0,
+      max: 1,
+      default: 0.1,
+    },
+    expectedCloseDate: Date,
     budget: {
       type: String,
       enum: ["£", "££", "£££", "££££"],
@@ -171,132 +183,10 @@ const leadSchema = mongoose.Schema(
       trim: true,
     },
 
-    // Activity Tracking
-    activities: [
-      {
-        type: {
-          type: String,
-          enum: [
-            "email",
-            "call",
-            "site_visit",
-            "meeting",
-            "note",
-            "attachment",
-          ],
-          required: true,
-        },
-        title: {
-          type: String,
-          required: true,
-        },
-        description: {
-          type: String,
-        },
-        status: {
-          type: String,
-          enum: ["pending", "done"],
-          default: "pending",
-        },
-        contactMade: {
-          type: Boolean,
-          default: false,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
-        dueDate: {
-          type: Date,
-        },
-        createdBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: false, // Allow null for system-generated activities
-        },
-        attachments: [
-          {
-            name: String,
-            url: String,
-            type: String,
-            size: Number,
-          },
-        ],
-        metadata: {
-          type: mongoose.Schema.Types.Mixed,
-          default: {},
-        },
-      },
-    ],
-
-    // Notes System
-    notes: [
-      {
-        title: {
-          type: String,
-          trim: true,
-        },
-        content: {
-          type: String,
-          required: true,
-        },
-        createdBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-        isImportant: {
-          type: Boolean,
-          default: false,
-        },
-      },
-    ],
-
-    // Tasks System
-    tasks: [
-      {
-        title: {
-          type: String,
-          required: true,
-        },
-        description: {
-          type: String,
-        },
-        status: {
-          type: String,
-          enum: ["pending", "in_progress", "completed", "overdue"],
-          default: "pending",
-        },
-        priority: {
-          type: String,
-          enum: ["low", "medium", "high", "urgent"],
-          default: "medium",
-        },
-        dueDate: {
-          type: Date,
-        },
-        assignedTo: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        createdBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-        completedAt: {
-          type: Date,
-        },
-      },
-    ],
+    // Denormalised projections of first-class CRM collections.
+    lastActivityAt: Date,
+    activityCount: { type: Number, default: 0 },
+    overdueTaskCount: { type: Number, default: 0 },
 
     // Win/Loss Information
     winLossReason: {
@@ -319,7 +209,7 @@ const leadSchema = mongoose.Schema(
         changedBy: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
-          required: true,
+          required: false,
         },
         changedAt: {
           type: Date,
@@ -339,6 +229,31 @@ const leadSchema = mongoose.Schema(
       },
     ],
 
+    // Engagement, consent and attribution
+    lifecycleStatus: {
+      type: String,
+      enum: ["Active", "Cold", "Unsubscribed", "Suppressed"],
+      default: "Active",
+      index: true,
+    },
+    leadScore: { type: Number, min: 0, max: 100, default: 0, index: true },
+    marketingConsent: { type: Boolean, default: null },
+    marketingConsentAt: Date,
+    unsubscribedAt: Date,
+    emailSuppressed: { type: Boolean, default: false, index: true },
+    emailSuppressionReason: String,
+    lastAutomatedEmailAt: Date,
+    attribution: {
+      utmSource: String,
+      utmMedium: String,
+      utmCampaign: String,
+      utmTerm: String,
+      utmContent: String,
+      referrer: String,
+      landingPage: String,
+      acquisitionCost: { type: Number, min: 0, default: 0 },
+    },
+
     // Status flags
     isActive: {
       type: Boolean,
@@ -355,6 +270,11 @@ const leadSchema = mongoose.Schema(
     archivedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      default: null,
+    },
+    mergedInto: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
       default: null,
     },
   },
@@ -377,6 +297,14 @@ leadSchema.index({ archivedAt: -1 });
 leadSchema.index({ archivedBy: 1 });
 leadSchema.index({ customSource: 1, updatedAt: -1 });
 leadSchema.index({ referredBy: 1, stage: 1, updatedAt: -1 });
+leadSchema.index(
+  { email: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { isActive: true, isArchived: false },
+    name: "unique_active_lead_email",
+  },
+);
 
 // Virtual for full source (including custom source)
 leadSchema.virtual("fullSource").get(function () {
@@ -396,6 +324,17 @@ leadSchema.virtual("fullProjectTypes").get(function () {
 
 // Pre-save middleware to update aging days and auto-link users
 leadSchema.pre("save", async function (next) {
+  if (this.isModified("stage")) {
+    this.stage = normalizeCRMStage(this.stage);
+    this.probability = getStageProbability(this.stage);
+  }
+
+  if (this.isModified("estimatedValue") && !this.isModified("value")) {
+    this.value = this.estimatedValue;
+  } else if (this.isModified("value") && !this.isModified("estimatedValue")) {
+    this.estimatedValue = this.value;
+  }
+
   // Update aging days
   if (this.isModified("lastContactDate") || this.isNew) {
     // Don't update aging if it's paused
@@ -456,42 +395,60 @@ leadSchema.statics.findByAssignee = function (userId) {
 
 // Instance method to add activity
 leadSchema.methods.addActivity = async function (activity) {
-  this.activities.push(activity);
-
-  // Only update lastContactDate if contact was actually made
-  // or if it's a contact-type activity (call, email, meeting, site_visit)
-  const contactActivities = ["call", "email", "meeting", "site_visit"];
-  if (activity.contactMade || contactActivities.includes(activity.type)) {
+  const { default: LeadActivity } = await import("./LeadActivity.js");
+  const occurredAt = activity.occurredAt || activity.date || new Date();
+  const record = await LeadActivity.create({
+    ...activity,
+    occurredAt,
+    leadId: this._id,
+  });
+  this.lastActivityAt = occurredAt;
+  this.activityCount = (this.activityCount || 0) + 1;
+  if (activity.contactMade) {
     this.lastContactDate = new Date();
   }
-
-  return this.save();
+  await this.save();
+  return record;
 };
 
 // Instance method to add note
-leadSchema.methods.addNote = function (note) {
-  this.notes.push(note);
-  this.lastContactDate = new Date();
-  return this.save();
+leadSchema.methods.addNote = async function (note) {
+  const { default: LeadNote } = await import("./LeadNote.js");
+  const body = note.body || note.content;
+  const record = await LeadNote.create({
+    ...note,
+    body,
+    contentText: note.contentText || body,
+    pinned: note.pinned ?? note.isImportant ?? false,
+    leadId: this._id,
+  });
+  this.lastActivityAt = new Date();
+  await this.save();
+  return record;
 };
 
 // Instance method to add task
-leadSchema.methods.addTask = function (task) {
-  this.tasks.push(task);
-  this.lastContactDate = new Date();
-  return this.save();
+leadSchema.methods.addTask = async function (task) {
+  const { default: LeadTask } = await import("./LeadTask.js");
+  const record = await LeadTask.create({ ...task, leadId: this._id });
+  this.lastActivityAt = new Date();
+  if (record.dueDate && record.dueDate < new Date()) {
+    this.overdueTaskCount = (this.overdueTaskCount || 0) + 1;
+  }
+  await this.save();
+  return record;
 };
 
 // Instance method to update stage with version history
 leadSchema.methods.updateStage = function (newStage, userId, comment) {
   const oldStage = this.stage;
-  this.stage = newStage;
+  this.stage = normalizeCRMStage(newStage);
 
   // Add to version history
   this.versionHistory.push({
     field: "stage",
     oldValue: oldStage,
-    newValue: newStage,
+    newValue: this.stage,
     changedBy: userId,
     comment: comment,
   });

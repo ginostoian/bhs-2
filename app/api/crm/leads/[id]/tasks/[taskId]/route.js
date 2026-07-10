@@ -2,53 +2,64 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
-import Lead from "@/models/Lead";
+import LeadTask from "@/models/LeadTask";
 
-// PATCH - Update a single task (e.g., mark as done)
+const sessionOrResponse = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user?.role === "admin" ? session : null;
+};
+
 export async function PATCH(request, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    await connectMongo();
-
-    // Validate ID parameter
-    if (!params.id || params.id === "undefined" || params.id === "null") {
-      return NextResponse.json({ error: "Invalid lead ID" }, { status: 400 });
-    }
-    if (!params.taskId) {
-      return NextResponse.json({ error: "Task ID required" }, { status: 400 });
-    }
-
-    const body = await request.json();
-    const lead = await Lead.findById(params.id);
-    if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
-    }
-    const task = lead.tasks.id(params.taskId);
-    if (!task) {
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
-    }
-    if (body.status) {
-      task.status = body.status;
-      if (body.status === "completed") {
-        task.completedAt = new Date();
-      }
-    }
-    if (body.priority) {
-      task.priority = body.priority;
-    }
-    await lead.save();
-    await lead.populate("tasks.assignedTo", "name email");
-    await lead.populate("tasks.createdBy", "name email");
-    return NextResponse.json({ success: true, task }, { status: 200 });
-  } catch (error) {
-    console.error("Error updating task:", error);
-    return NextResponse.json(
-      { error: "Failed to update task" },
-      { status: 500 },
-    );
+  const session = await sessionOrResponse();
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  await connectMongo();
+  const body = await request.json();
+  const allowed = [
+    "title",
+    "description",
+    "status",
+    "priority",
+    "dueDate",
+    "remindAt",
+    "assignedTo",
+  ];
+  const updates = Object.fromEntries(
+    allowed
+      .filter((field) => body[field] !== undefined)
+      .map((field) => [field, body[field]]),
+  );
+  if (updates.dueDate) updates.dueDate = new Date(updates.dueDate);
+  if (updates.remindAt) updates.remindAt = new Date(updates.remindAt);
+  if (updates.status === "completed") {
+    updates.completedAt = new Date();
+    updates.completedBy = session.user.id;
+  } else if (updates.status) {
+    updates.completedAt = null;
+    updates.completedBy = null;
   }
+  const task = await LeadTask.findOneAndUpdate(
+    { _id: params.taskId, leadId: params.id },
+    { $set: updates },
+    { new: true, runValidators: true },
+  )
+    .populate("assignedTo", "name email")
+    .populate("createdBy", "name email");
+  if (!task)
+    return NextResponse.json({ error: "Task not found" }, { status: 404 });
+  return NextResponse.json({ success: true, task });
+}
+
+export async function DELETE(_request, { params }) {
+  const session = await sessionOrResponse();
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  await connectMongo();
+  const task = await LeadTask.findOneAndDelete({
+    _id: params.taskId,
+    leadId: params.id,
+  });
+  if (!task)
+    return NextResponse.json({ error: "Task not found" }, { status: 404 });
+  return NextResponse.json({ success: true });
 }

@@ -6,6 +6,8 @@ import {
   initializeEmailAutomation,
   pauseEmailAutomation,
   resumeEmailAutomation,
+  skipEmailAutomationStep,
+  getEmailSequencePreview,
 } from "@/libs/crmEmailAutomation";
 
 // GET - Get automation details for a specific lead
@@ -34,6 +36,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({
       success: true,
       automation,
+      sequencePreview: getEmailSequencePreview(automation),
     });
   } catch (error) {
     console.error("Error getting lead automation details:", error);
@@ -81,6 +84,10 @@ export async function POST(request, { params }) {
       case "resume":
         await resumeEmailAutomation(leadId);
         result = { message: "Automation resumed successfully" };
+        break;
+
+      case "skip":
+        result = await skipEmailAutomationStep(leadId);
         break;
 
       default:

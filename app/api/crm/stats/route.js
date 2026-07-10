@@ -34,7 +34,7 @@ export async function GET(request) {
     fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
 
     const stagnantCount = await Lead.countDocuments({
-      stage: "Lead",
+      stage: { $in: ["New Enquiry", "Lead"] },
       createdAt: { $lt: fourteenDaysAgo },
       isActive: true,
       isArchived: false,

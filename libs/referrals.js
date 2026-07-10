@@ -5,6 +5,7 @@ import Partner from "@/models/Partner";
 
 const REFERRAL_STATUSES = {
   Negotiations: "negotiations",
+  "Negotiation — Awaiting Us": "negotiations",
   Won: "won",
   Lost: "lost",
 };
@@ -30,7 +31,9 @@ export function getPartnerAccountStatus(partner) {
 }
 
 export function isPartnerAccountApproved(partner) {
-  return partner?.isActive !== false && getPartnerAccountStatus(partner) === "active";
+  return (
+    partner?.isActive !== false && getPartnerAccountStatus(partner) === "active"
+  );
 }
 
 export async function generateUniqueReferralCode(seed) {
@@ -59,11 +62,7 @@ export async function ensurePartnerForReferrerUser(user, options = {}) {
     throw new Error("A user is required to create a partner record");
   }
 
-  const {
-    matchExistingByEmail = false,
-    accountStatus,
-    isActive,
-  } = options;
+  const { matchExistingByEmail = false, accountStatus, isActive } = options;
 
   let partner = await Partner.findOne({ user: user._id });
 
@@ -119,7 +118,7 @@ export async function ensurePartnerForReferrerUser(user, options = {}) {
 
   if (!partner.referralCode) {
     partner.referralCode = await generateUniqueReferralCode(
-      user.name || user.email || "referrer"
+      user.name || user.email || "referrer",
     );
   }
 
@@ -153,7 +152,7 @@ export async function syncPartnerReferralFromLead(lead, options = {}) {
     const previousPartner = await Partner.findById(previousPartnerId);
     if (previousPartner) {
       previousPartner.referrals = (previousPartner.referrals || []).filter(
-        (referral) => referral.lead?.toString() !== lead._id.toString()
+        (referral) => referral.lead?.toString() !== lead._id.toString(),
       );
       await previousPartner.save();
     }
@@ -175,7 +174,7 @@ export async function syncPartnerReferralFromLead(lead, options = {}) {
     phone: lead.phone,
     postcode: lead.postcode,
     address: lead.address,
-    projectValue: Number(lead.value || 0),
+    projectValue: Number(lead.estimatedValue || lead.value || 0),
     projectTypes: lead.fullProjectTypes || lead.projectTypes || [],
     status: mapLeadStageToReferralStatus(lead.stage),
     stage: lead.stage,
@@ -185,7 +184,7 @@ export async function syncPartnerReferralFromLead(lead, options = {}) {
   };
 
   const existingReferral = partner.referrals.find(
-    (referral) => referral.lead?.toString() === lead._id.toString()
+    (referral) => referral.lead?.toString() === lead._id.toString(),
   );
 
   if (existingReferral) {

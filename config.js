@@ -80,6 +80,7 @@ const config = {
     supportEmail: "contact@celli.co.uk",
     // When someone replies to supportEmail sent by the app, forward it to the email below (otherwise it's lost). If you set supportEmail to empty, this will be ignored.
     forwardRepliesTo: "contact@celli.co.uk",
+    crmBcc: process.env.CRM_EMAIL_BCC || "",
   },
   colors: {
     // REQUIRED — The DaisyUI theme to use (added to the main layout.js). Leave blank for default (light & dark mode). If you any other theme than light/dark, you need to add it in config.tailwind.js in daisyui.themes.

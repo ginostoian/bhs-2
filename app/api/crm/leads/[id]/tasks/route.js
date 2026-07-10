@@ -3,142 +3,79 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import LeadTask from "@/models/LeadTask";
+import Notification from "@/models/Notification";
 
-// GET - Fetch tasks for a lead
-export async function GET(request, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+const requireAdmin = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user?.role === "admin" ? session : null;
+};
 
-    await connectMongo();
-
-    // Validate ID parameter
-    if (!params.id || params.id === "undefined") {
-      return NextResponse.json({ error: "Invalid lead ID" }, { status: 400 });
-    }
-
-    const lead = await Lead.findById(params.id)
-      .populate("tasks.assignedTo", "name email")
-      .populate("tasks.createdBy", "name email")
-      .select("tasks");
-
-    if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ tasks: lead.tasks });
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch tasks" },
-      { status: 500 },
-    );
-  }
+export async function GET(_request, { params }) {
+  const session = await requireAdmin();
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  await connectMongo();
+  const tasks = await LeadTask.find({ leadId: params.id })
+    .populate("assignedTo", "name email")
+    .populate("createdBy", "name email")
+    .populate("completedBy", "name email")
+    .sort({ status: 1, dueDate: 1, createdAt: -1 });
+  return NextResponse.json({ tasks });
 }
 
-// POST - Add a new task to a lead
 export async function POST(request, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    await connectMongo();
-
-    // Validate ID parameter
-    if (!params.id || params.id === "undefined" || params.id === "null") {
-      return NextResponse.json({ error: "Invalid lead ID" }, { status: 400 });
-    }
-
-    const body = await request.json();
-    const { title, description, status, priority, dueDate, assignedTo } = body;
-
-    if (!title) {
-      return NextResponse.json(
-        { error: "Task title is required" },
-        { status: 400 },
-      );
-    }
-
-    const lead = await Lead.findById(params.id);
-    if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
-    }
-
-    const task = {
-      title,
-      description,
-      status: "pending",
-      priority: priority || "medium",
-      dueDate: dueDate ? new Date(dueDate) : null,
-      assignedTo,
-      createdBy: session.user.id,
-    };
-
-    await lead.addTask(task);
-
-    // Populate the new task
-    await lead.populate("tasks.assignedTo", "name email");
-    await lead.populate("tasks.createdBy", "name email");
-
-    const newTask = lead.tasks[lead.tasks.length - 1];
-
-    return NextResponse.json({ success: true, task: newTask }, { status: 201 });
-  } catch (error) {
-    console.error("Error adding task:", error);
-    return NextResponse.json({ error: "Failed to add task" }, { status: 500 });
-  }
-}
-
-// PATCH - Update a task (e.g., mark as done)
-export async function PATCH(request, { params }) {
-  try {
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    await connectMongo();
-
-    // Validate ID parameter
-    if (!params.id || params.id === "undefined" || params.id === "null") {
-      return NextResponse.json({ error: "Invalid lead ID" }, { status: 400 });
-    }
-    const { taskId } = params;
-    if (!taskId) {
-      return NextResponse.json({ error: "Task ID required" }, { status: 400 });
-    }
-
-    const body = await request.json();
-    const lead = await Lead.findById(params.id);
-    if (!lead) {
-      return NextResponse.json({ error: "Lead not found" }, { status: 404 });
-    }
-    const task = lead.tasks.id(taskId);
-    if (!task) {
-      return NextResponse.json({ error: "Task not found" }, { status: 404 });
-    }
-    if (body.status) {
-      task.status = body.status;
-      if (body.status === "completed") {
-        task.completedAt = new Date();
-      }
-    }
-    if (body.priority) {
-      task.priority = body.priority;
-    }
-    await lead.save();
-    await lead.populate("tasks.assignedTo", "name email");
-    await lead.populate("tasks.createdBy", "name email");
-    return NextResponse.json({ success: true, task }, { status: 200 });
-  } catch (error) {
-    console.error("Error updating task:", error);
+  const session = await requireAdmin();
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  await connectMongo();
+  const body = await request.json();
+  if (!body.title?.trim())
     return NextResponse.json(
-      { error: "Failed to update task" },
-      { status: 500 },
+      { error: "Task title is required" },
+      { status: 400 },
+    );
+
+  const lead = await Lead.findById(params.id);
+  if (!lead)
+    return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+
+  const assignedTo = body.assignedTo || lead.assignedTo || undefined;
+  const dueDate = body.dueDate ? new Date(body.dueDate) : undefined;
+  let remindAt = body.remindAt ? new Date(body.remindAt) : undefined;
+  if (!remindAt && dueDate && Number(body.reminderOffsetHours) > 0) {
+    remindAt = new Date(
+      dueDate.getTime() - Number(body.reminderOffsetHours) * 60 * 60 * 1000,
     );
   }
+
+  const task = await LeadTask.create({
+    leadId: lead._id,
+    title: body.title.trim(),
+    description: body.description?.trim(),
+    priority: body.priority || "medium",
+    status: body.status || "pending",
+    dueDate,
+    remindAt,
+    assignedTo,
+    createdBy: session.user.id,
+  });
+
+  if (assignedTo) {
+    await Notification.createNotification({
+      recipient: assignedTo,
+      recipientType: "admin",
+      type: "crm_task_assigned",
+      title: `Task assigned: ${task.title}`,
+      message: `${lead.name}${dueDate ? ` · due ${dueDate.toLocaleString("en-GB")}` : ""}`,
+      relatedId: task._id,
+      relatedModel: "LeadTask",
+      priority: task.priority,
+      metadata: { leadId: lead._id },
+    });
+  }
+
+  await task.populate("assignedTo", "name email");
+  await task.populate("createdBy", "name email");
+  return NextResponse.json({ success: true, task }, { status: 201 });
 }

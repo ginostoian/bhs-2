@@ -4,20 +4,19 @@ import Payment from "@/models/Payment";
 import EmailPreference from "@/models/EmailPreference";
 import Notification from "@/models/Notification";
 import { sendPaymentDueEmail } from "@/libs/emailService";
+import { authorizeCronOrAdmin } from "@/libs/cronAuth";
 
 /**
- * POST /api/cron/check-overdue-payments
+ * GET/POST /api/cron/check-overdue-payments
  * Cron job endpoint to check for overdue payments and create notifications
  * This should be called by a cron service (e.g., Vercel Cron, GitHub Actions, etc.)
  */
-export async function POST(req) {
-  try {
-    // Optional: Add authentication for cron jobs
-    // const authHeader = req.headers.get("authorization");
-    // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    // }
+const run = async (req) => {
+  if (!(await authorizeCronOrAdmin(req))) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
+  try {
     // Connect to MongoDB
     await connectMongoose();
 
@@ -32,9 +31,21 @@ export async function POST(req) {
 
     console.log(`Found ${overduePayments.length} overdue payments`);
 
+    const reminderExists = (payment, type) =>
+      Notification.exists({
+        recipient: payment.user?._id,
+        recipientType: "user",
+        type,
+        relatedId: payment._id,
+        "metadata.dueDate": payment.dueDate.toISOString(),
+      });
+
     // Create notifications for overdue payments
     for (const payment of overduePayments) {
       try {
+        if (!payment.user?._id) continue;
+        if (await reminderExists(payment, "payment_overdue")) continue;
+
         await Notification.createNotificationForRecipient({
           recipient: payment.user._id,
           recipientType: "user",
@@ -109,12 +120,16 @@ export async function POST(req) {
     // Create notifications for upcoming payments
     for (const payment of upcomingPayments) {
       try {
+        if (!payment.user?._id) continue;
+
         const daysUntilDue = Math.ceil(
           (payment.dueDate - now) / (1000 * 60 * 60 * 24),
         );
 
         // Only create notification if it's due within 3 days and not already overdue
         if (daysUntilDue <= 3 && daysUntilDue > 0) {
+          if (await reminderExists(payment, "payment_due")) continue;
+
           await Notification.createNotificationForRecipient({
             recipient: payment.user._id,
             recipientType: "user",
@@ -170,4 +185,7 @@ export async function POST(req) {
       { status: 500 },
     );
   }
-}
+};
+
+export const GET = run;
+export const POST = run;

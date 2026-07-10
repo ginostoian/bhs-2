@@ -5,6 +5,16 @@ import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
 import User from "@/models/User";
 import { syncPartnerReferralFromLead } from "@/libs/referrals";
+import LeadActivity from "@/models/LeadActivity";
+import LeadNote from "@/models/LeadNote";
+import LeadTask from "@/models/LeadTask";
+import EmailAutomation from "@/models/EmailAutomation";
+import { calculateLeadScore } from "@/libs/crmScoring";
+import {
+  crmHistoryFieldValuesEqual,
+  normalizeCRMHistoryFieldValue,
+} from "@/libs/crmHistory";
+import { enrichCRMHistory } from "@/libs/crmHistoryServer";
 
 // GET - Fetch a specific lead
 export async function GET(request, { params }) {
@@ -24,17 +34,45 @@ export async function GET(request, { params }) {
     const lead = await Lead.findById(params.id)
       .populate("assignedTo", "name email")
       .populate("linkedUser", "name email")
-      .populate("activities.createdBy", "name email")
-      .populate("notes.createdBy", "name email")
-      .populate("tasks.assignedTo", "name email")
-      .populate("tasks.createdBy", "name email")
       .populate("versionHistory.changedBy", "name email");
 
     if (!lead) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ lead });
+    const [activities, notes, tasks, automation] = await Promise.all([
+      LeadActivity.find({ leadId: lead._id })
+        .populate("createdBy", "name email")
+        .sort({ occurredAt: -1 })
+        .limit(100),
+      LeadNote.find({ leadId: lead._id })
+        .populate("createdBy", "name email")
+        .sort({ pinned: -1, createdAt: -1 })
+        .limit(100),
+      LeadTask.find({ leadId: lead._id })
+        .populate("assignedTo", "name email")
+        .populate("createdBy", "name email")
+        .sort({ status: 1, dueDate: 1 }),
+      EmailAutomation.findOne({ leadId: lead._id }),
+    ]);
+    const leadObject = lead.toObject();
+    leadObject.versionHistory = await enrichCRMHistory(
+      leadObject.versionHistory,
+    );
+    leadObject.leadScore = calculateLeadScore(leadObject, automation);
+    leadObject.emailAutomation = automation
+      ? {
+          isActive: automation.isActive,
+          sequenceKey: automation.sequenceKey,
+          sequenceStep: automation.sequenceStep,
+          nextActionDue: automation.nextActionDue,
+          pausedReason: automation.pausedReason,
+          leadReplied: automation.leadReplied,
+        }
+      : null;
+    return NextResponse.json({
+      lead: { ...leadObject, activities, notes, tasks },
+    });
   } catch (error) {
     console.error("Error fetching lead:", error);
     return NextResponse.json(
@@ -66,6 +104,28 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     }
 
+    const requestedEmail = body.email?.trim().toLowerCase();
+    const emailChanged = Boolean(
+      requestedEmail && requestedEmail !== lead.email,
+    );
+    if (emailChanged) {
+      const duplicate = await Lead.findOne({
+        email: requestedEmail,
+        _id: { $ne: lead._id },
+        isActive: true,
+        isArchived: false,
+      });
+      if (duplicate) {
+        return NextResponse.json(
+          {
+            error: "A lead with this email already exists",
+            existingLeadId: duplicate._id,
+          },
+          { status: 409 },
+        );
+      }
+    }
+
     // Track changes for version history
     const changes = [];
     const oldValues = {};
@@ -78,6 +138,9 @@ export async function PUT(request, { params }) {
       "address",
       "stage",
       "value",
+      "estimatedValue",
+      "probability",
+      "expectedCloseDate",
       "budget",
       "clientHealth",
       "source",
@@ -88,16 +151,25 @@ export async function PUT(request, { params }) {
       "winLossReason",
       "referredBy",
       "referralSource",
+      "marketingConsent",
+      "lifecycleStatus",
+      "attribution",
     ];
 
     trackedFields.forEach((field) => {
       const nextValue =
         field === "referralSource" ? body[field] || undefined : body[field];
 
-      if (nextValue !== undefined && nextValue !== lead[field]) {
-        oldValues[field] = lead[field];
+      if (
+        nextValue !== undefined &&
+        !crmHistoryFieldValuesEqual(field, nextValue, lead[field])
+      ) {
+        oldValues[field] = normalizeCRMHistoryFieldValue(field, lead[field]);
         lead[field] = nextValue;
-        changes.push(field);
+        changes.push({
+          field,
+          newValue: normalizeCRMHistoryFieldValue(field, nextValue),
+        });
       }
     });
 
@@ -106,34 +178,9 @@ export async function PUT(request, { params }) {
       lead.tags = body.tags;
     }
 
-    // Check if user exists with this email and link them
-    if (body.email && body.email !== lead.email) {
-      // First check if another lead already has this email
-      const existingLead = await Lead.findOne({
-        email: body.email,
-        _id: { $ne: params.id }, // Exclude the current lead
-      });
-
-      if (existingLead) {
-        if (existingLead.isArchived) {
-          return NextResponse.json(
-            {
-              error: "A lead with this email already exists in archived leads",
-              suggestion:
-                "Please unarchive the existing lead instead of updating this one",
-              existingLeadId: existingLead._id,
-            },
-            { status: 400 },
-          );
-        } else {
-          return NextResponse.json(
-            { error: "A lead with this email already exists" },
-            { status: 400 },
-          );
-        }
-      }
-
-      const existingUser = await User.findOne({ email: body.email });
+    // Keep the user link in sync when the email changes.
+    if (emailChanged) {
+      const existingUser = await User.findOne({ email: requestedEmail });
       if (existingUser) {
         lead.linkedUser = existingUser._id;
       } else {
@@ -142,11 +189,11 @@ export async function PUT(request, { params }) {
     }
 
     // Add version history for changes
-    changes.forEach((field) => {
+    changes.forEach(({ field, newValue }) => {
       lead.versionHistory.push({
         field,
         oldValue: oldValues[field],
-        newValue: lead[field],
+        newValue,
         changedBy: session.user.id,
         comment: body.changeComment || `Updated ${field}`,
       });

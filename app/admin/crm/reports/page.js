@@ -1,377 +1,437 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { toast } from "react-hot-toast";
+import dynamic from "next/dynamic";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
+import {
+  Activity,
+  ArrowDownRight,
+  ArrowUpRight,
+  Clock3,
+  Download,
+  Gauge,
+  PoundSterling,
+  Printer,
+  RefreshCw,
+  Target,
+} from "lucide-react";
 import apiClient from "@/libs/api";
-import CRMButton from "@/components/CRMButton";
+import { CRM_STAGE_CONFIG, CRM_STAGES } from "@/libs/crmStages";
 
-const STAGE_COLORS = {
-  Lead: "bg-blue-50 text-blue-700",
-  "Never replied": "bg-gray-50 text-gray-700",
-  Qualified: "bg-green-50 text-green-700",
-  "Proposal Sent": "bg-yellow-50 text-yellow-700",
-  Negotiations: "bg-orange-50 text-orange-700",
-  Won: "bg-emerald-50 text-emerald-700",
-  Lost: "bg-red-50 text-red-700",
-};
+const TrendChart = dynamic(
+  () => import("./ReportsCharts").then((module) => module.TrendChart),
+  { ssr: false },
+);
+const LossChart = dynamic(
+  () => import("./ReportsCharts").then((module) => module.LossChart),
+  { ssr: false },
+);
+const currency = new Intl.NumberFormat("en-GB", {
+  style: "currency",
+  currency: "GBP",
+  maximumFractionDigits: 0,
+});
 
-export default function CRMReportsPage() {
-  const [data, setData] = useState(null); // Stores the full reports object
-  const [loading, setLoading] = useState(true);
-  const [dateRange, setDateRange] = useState("30"); // days
-
-  const fetchReports = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await apiClient.get(`/crm/reports?dateRange=${dateRange}`);
-      setData(response);
-    } catch (error) {
-      console.error("Error fetching reports:", error);
-      toast.error("Failed to load reports");
-    } finally {
-      setLoading(false);
-    }
-  }, [dateRange]);
-
-  useEffect(() => {
-    fetchReports();
-  }, [fetchReports]);
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-      maximumFractionDigits: 0,
-    }).format(amount || 0);
-  };
-
-  if (loading && !data) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="loading loading-spinner loading-lg text-blue-600"></div>
-      </div>
-    );
-  }
-
-  // Calculate some derived metrics for display
-  const totalLeads = data?.pipeline?.totalCount || 0;
-  const pipelineValue = data?.pipeline?.totalValue || 0;
-  const winRate = data?.performance?.funnel?.total > 0 
-    ? ((data.performance.funnel.won / data.performance.funnel.total) * 100).toFixed(1)
-    : 0;
-  
-  // Forecast: Simple weighted calculation
-  // 10% of Lead Value + 30% of Qualified + 50% Proposal + 80% Negotiations
-  const getForecastValue = () => {
-    const s = data?.pipeline?.byStage || {};
-    return (
-      (s.Lead?.value || 0) * 0.10 +
-      (s["Never replied"]?.value || 0) * 0.05 +
-      (s.Qualified?.value || 0) * 0.30 +
-      (s["Proposal Sent"]?.value || 0) * 0.50 +
-      (s.Negotiations?.value || 0) * 0.80
-    );
-  };
-
-  // Helper for Client Health Color
-  const getHealthColor = (health) => {
-    switch(health?.toLowerCase()) {
-      case "excellent": return "bg-emerald-500";
-      case "good": return "bg-green-500";
-      case "fair": return "bg-yellow-500";
-      case "poor": return "bg-orange-500";
-      case "critical": return "bg-red-500";
-      default: return "bg-gray-300";
-    }
-  };
-
+function Delta({ value, suffix = "%" }) {
+  const positive = value >= 0;
   return (
-    <div className="space-y-8 pb-12">
-      {/* Header Section */}
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between sticky top-0 z-10 bg-white/80 backdrop-blur-md py-4 px-1 rounded-xl border border-gray-100/50 shadow-sm transition-all">
+    <span
+      className={`inline-flex items-center gap-1 text-xs font-semibold ${positive ? "text-emerald-700" : "text-rose-700"}`}
+    >
+      {positive ? (
+        <ArrowUpRight className="h-3.5 w-3.5" />
+      ) : (
+        <ArrowDownRight className="h-3.5 w-3.5" />
+      )}
+      {Math.abs(value || 0)}
+      {suffix} vs previous
+    </span>
+  );
+}
+
+function KPI({ label, value, detail, delta, Icon }) {
+  return (
+    <article className="rounded-xl border border-slate-200 bg-white p-5">
+      <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Performance Analytics</h1>
-          <p className="text-gray-500 mt-1 flex items-center gap-2">
-            <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-            Real-time pipeline insights
+          <p className="text-sm font-medium text-slate-500">{label}</p>
+          <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-950">
+            {value}
           </p>
         </div>
-        
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <span className="rounded-lg bg-slate-100 p-2 text-slate-600">
+          <Icon className="h-5 w-5" />
+        </span>
+      </div>
+      <div className="mt-4">
+        {delta !== undefined ? (
+          <Delta value={delta} />
+        ) : (
+          <p className="text-xs text-slate-500">{detail}</p>
+        )}
+      </div>
+    </article>
+  );
+}
+
+export default function CRMReportsPage() {
+  const [filters, setFilters] = useState({
+    dateRange: "30",
+    agent: "",
+    source: "",
+  });
+  const query = useMemo(
+    () =>
+      new URLSearchParams(
+        Object.entries(filters).filter(([, value]) => value),
+      ).toString(),
+    [filters],
+  );
+  const { data, mutate, isLoading } = useSWR(
+    `/crm/reports?${query}`,
+    (url) => apiClient.get(url),
+    { keepPreviousData: true, revalidateOnFocus: false },
+  );
+  const { data: users } = useSWR(
+    "/admin/check-users",
+    (url) => apiClient.get(url),
+    { revalidateOnFocus: false },
+  );
+  const admins = (users?.users || []).filter((user) => user.role === "admin");
+  const set = (key, value) =>
+    setFilters((current) => ({ ...current, [key]: value }));
+  const exportCsv = () => {
+    window.location.href = `/api/crm/reports?${query}&format=csv`;
+  };
+
+  if (isLoading && !data)
+    return (
+      <div className="grid min-h-[500px] place-items-center">
+        <span className="loading loading-spinner loading-lg text-blue-600" />
+      </div>
+    );
+  const performance = data?.performance || {};
+  const pipeline = data?.pipeline || {};
+  const comparison = performance.comparison || {};
+
+  return (
+    <div className="min-h-screen bg-slate-50 pb-12 text-slate-950 print:bg-white">
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/95 px-4 py-4 backdrop-blur sm:px-6 print:static">
+        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              CRM Performance
+            </h1>
+            <p className="mt-1 text-sm text-slate-500">
+              Conversion, velocity, effort and revenue quality
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
             <select
-              value={dateRange}
-              onChange={(e) => setDateRange(e.target.value)}
-              className="appearance-none pl-4 pr-10 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer hover:border-blue-300"
-              disabled={loading}
+              value={filters.dateRange}
+              onChange={(event) => set("dateRange", event.target.value)}
+              className="rounded-lg border-slate-200 text-sm"
             >
               <option value="7">Last 7 days</option>
               <option value="30">Last 30 days</option>
-              <option value="90">Last Quarter</option>
-              <option value="365">Last Year</option>
+              <option value="90">Last 90 days</option>
+              <option value="365">Last year</option>
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            <select
+              value={filters.agent}
+              onChange={(event) => set("agent", event.target.value)}
+              className="rounded-lg border-slate-200 text-sm"
+            >
+              <option value="">All owners</option>
+              {admins.map((admin) => (
+                <option key={admin.id} value={admin.id}>
+                  {admin.name || admin.email}
+                </option>
+              ))}
+            </select>
+            <select
+              value={filters.source}
+              onChange={(event) => set("source", event.target.value)}
+              className="rounded-lg border-slate-200 text-sm"
+            >
+              <option value="">All sources</option>
+              {[
+                "Houzz",
+                "MyBuilder",
+                "Recommendation",
+                "Google",
+                "Meta Ads",
+                "Google Ads",
+                "Referral",
+                "Other",
+              ].map((source) => (
+                <option key={source}>{source}</option>
+              ))}
+            </select>
+            <button
+              onClick={() => mutate()}
+              className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600"
+              aria-label="Refresh reports"
+            >
+              <RefreshCw
+                className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+              />
+            </button>
+            <button
+              onClick={exportCsv}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
+            >
+              <Download className="h-4 w-4" />
+              CSV
+            </button>
+            <button
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
+            >
+              <Printer className="h-4 w-4" />
+              PDF
+            </button>
+          </div>
+        </div>
+      </header>
+      <main className="space-y-6 p-4 sm:p-6">
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <KPI
+            label="Open pipeline"
+            value={pipeline.totalCount || 0}
+            detail={`${currency.format(pipeline.totalValue)} potential value`}
+            Icon={Target}
+          />
+          <KPI
+            label="Weighted forecast"
+            value={currency.format(pipeline.weightedForecast || 0)}
+            detail="Stage probabilities applied server-side"
+            Icon={PoundSterling}
+          />
+          <KPI
+            label="Closed-deal win rate"
+            value={`${performance.winRate || 0}%`}
+            delta={comparison.winRate?.delta}
+            Icon={Gauge}
+          />
+          <KPI
+            label="Median speed to lead"
+            value={`${performance.effort?.medianSpeedToLeadHours || 0}h`}
+            detail={`${performance.effort?.activities || 0} activities in period`}
+            Icon={Clock3}
+          />
+        </section>
+
+        <section className="grid gap-6 xl:grid-cols-[1.5fr_1fr]">
+          <article className="rounded-xl border border-slate-200 bg-white p-5">
+            <div>
+              <h2 className="font-semibold">Lead and win trend</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Weekly cohort activity
+              </p>
             </div>
-          </div>
-          
-          <CRMButton onClick={fetchReports} disabled={loading} variant="secondary" className="!p-2.5">
-            <svg className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-          </CRMButton>
-        </div>
-      </div>
+            <div className="mt-4">
+              <TrendChart data={performance.trends || []} />
+            </div>
+          </article>
+          <article className="rounded-xl border border-slate-200 bg-white p-5">
+            <h2 className="font-semibold">Why deals are lost</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Closed-lost outcomes in this period
+            </p>
+            <div className="mt-4">
+              {performance.lossReasons?.length ? (
+                <LossChart data={performance.lossReasons} />
+              ) : (
+                <div className="grid h-[280px] place-items-center text-sm text-slate-400">
+                  No lost deals in this period
+                </div>
+              )}
+            </div>
+          </article>
+        </section>
 
-      {/* Top Level Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Leads */}
-        <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 transition-all hover:shadow-md hover:-translate-y-1">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <svg className="w-24 h-24 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <p className="text-sm font-semibold leading-6 text-gray-500">Active Pipeline</p>
-          <div className="mt-2 flex items-baseline gap-x-2">
-            <span className="text-4xl font-bold tracking-tight text-gray-900">{totalLeads}</span>
-            <span className="text-sm text-gray-500">leads</span>
-          </div>
-          <div className="mt-4 flex items-center gap-2 text-xs font-medium text-green-600 bg-green-50 w-fit px-2 py-1 rounded-full">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
-            Live Snapshot
-          </div>
-        </div>
+        <section className="grid gap-6 xl:grid-cols-2">
+          <article className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="border-b border-slate-200 p-5">
+              <h2 className="font-semibold">Cohort funnel</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Leads created in the selected period that reached each stage
+              </p>
+            </div>
+            <div className="divide-y divide-slate-100">
+              {(performance.funnel || []).map((item) => (
+                <div
+                  key={item.stage}
+                  className="grid grid-cols-[1fr_auto_auto] items-center gap-4 px-5 py-3"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">
+                      {item.stage}
+                    </p>
+                    <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-slate-100">
+                      <div
+                        className={`h-full ${CRM_STAGE_CONFIG[item.stage]?.dotClass || "bg-slate-500"}`}
+                        style={{ width: `${item.overallConversion}%` }}
+                      />
+                    </div>
+                  </div>
+                  <span className="text-sm font-semibold">{item.count}</span>
+                  <span className="w-14 text-right text-xs text-slate-500">
+                    {item.conversionFromPrevious}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </article>
+          <article className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+            <div className="border-b border-slate-200 p-5">
+              <h2 className="font-semibold">Stage velocity</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Average elapsed days before moving on
+              </p>
+            </div>
+            <div className="divide-y divide-slate-100">
+              {(performance.stageVelocity || [])
+                .filter((item) => item.stage !== "Lost")
+                .map((item) => (
+                  <div
+                    key={item.stage}
+                    className="flex items-center justify-between px-5 py-3"
+                  >
+                    <span className="text-sm font-medium text-slate-700">
+                      {item.stage}
+                    </span>
+                    <span className="text-sm font-semibold text-slate-950">
+                      {item.averageDays}d{" "}
+                      <span className="font-normal text-slate-400">
+                        ({item.samples})
+                      </span>
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </article>
+        </section>
 
-        {/* Pipeline Value */}
-        <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 transition-all hover:shadow-md hover:-translate-y-1">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <svg className="w-24 h-24 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-          </div>
-          <p className="text-sm font-semibold leading-6 text-gray-500">Pipeline Value</p>
-          <div className="mt-2 flex items-baseline gap-x-2">
-            <span className="text-4xl font-bold tracking-tight text-gray-900">{formatCurrency(pipelineValue)}</span>
-          </div>
-          <div className="mt-4 flex items-center gap-2 text-xs font-medium text-gray-500">
-             Total potential revenue
-          </div>
-        </div>
+        <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <KPI
+            label="New leads"
+            value={comparison.newLeads?.current || 0}
+            delta={comparison.newLeads?.delta}
+            Icon={Target}
+          />
+          <KPI
+            label="Wins"
+            value={comparison.wins?.current || 0}
+            delta={comparison.wins?.delta}
+            Icon={Gauge}
+          />
+          <KPI
+            label="Tasks completed"
+            value={performance.effort?.tasksCompleted || 0}
+            detail={`${performance.effort?.tasksOverdue || 0} overdue`}
+            Icon={Activity}
+          />
+          <KPI
+            label="Email engagement"
+            value={`${performance.effort?.emailClicks || 0} clicks`}
+            detail={`${performance.effort?.emailOpens || 0} opens · ${performance.effort?.emailReplies || 0} replies`}
+            Icon={Activity}
+          />
+        </section>
 
-        {/* Weighted Forecast */}
-        <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-50 to-white p-6 shadow-sm ring-1 ring-indigo-100 transition-all hover:shadow-md hover:-translate-y-1">
-          <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-            <svg className="w-24 h-24 text-indigo-600" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <div className="border-b border-slate-200 p-5">
+            <h2 className="font-semibold">Source performance</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Volume, conversion and deal economics
+            </p>
           </div>
-          <p className="text-sm font-semibold leading-6 text-indigo-900">Weighted Forecast</p>
-          <div className="mt-2 flex items-baseline gap-x-2">
-            <span className="text-4xl font-bold tracking-tight text-indigo-600">{formatCurrency(getForecastValue())}</span>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+                <tr>
+                  <th className="px-5 py-3">Source</th>
+                  <th className="px-5 py-3 text-right">Leads</th>
+                  <th className="px-5 py-3 text-right">Wins</th>
+                  <th className="px-5 py-3 text-right">Win rate</th>
+                  <th className="px-5 py-3 text-right">Pipeline</th>
+                  <th className="px-5 py-3 text-right">Avg won deal</th>
+                  <th className="px-5 py-3 text-right">Cost / win</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {(performance.bySource || []).map((source) => (
+                  <tr key={source._id}>
+                    <td className="px-5 py-3 font-semibold text-slate-800">
+                      {source._id}
+                    </td>
+                    <td className="px-5 py-3 text-right">{source.count}</td>
+                    <td className="px-5 py-3 text-right">{source.wonCount}</td>
+                    <td className="px-5 py-3 text-right">{source.winRate}%</td>
+                    <td className="px-5 py-3 text-right">
+                      {currency.format(source.value)}
+                    </td>
+                    <td className="px-5 py-3 text-right">
+                      {currency.format(source.avgDealSize)}
+                    </td>
+                    <td className="px-5 py-3 text-right">
+                      {source.costPerWin
+                        ? currency.format(source.costPerWin)
+                        : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="mt-4 flex items-center gap-2 text-xs font-medium text-indigo-600 bg-indigo-100/50 w-fit px-2 py-1 rounded-full">
-            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-            Probability Weighted
-          </div>
-        </div>
+        </section>
 
-        {/* Win Rate */}
-        <div className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-900/5 transition-all hover:shadow-md hover:-translate-y-1">
-          <p className="text-sm font-semibold leading-6 text-gray-500">Win Rate ({dateRange}d)</p>
-           <div className="mt-2 flex items-baseline gap-x-2">
-            <span className="text-4xl font-bold tracking-tight text-gray-900">{winRate}%</span>
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <div className="border-b border-slate-200 p-5">
+            <h2 className="font-semibold">Current pipeline by stage</h2>
           </div>
-           {/* Mini progress bar */}
-           <div className="mt-4 w-full bg-gray-100 rounded-full h-1.5">
-              <div className="bg-blue-600 h-1.5 rounded-full" style={{ width: `${winRate}%` }}></div>
-           </div>
-           <div className="mt-2 text-xs text-gray-400">
-              Based on created leads
-           </div>
-        </div>
-      </div>
-
-      {/* Main Grid: Pipeline Breakdown & Agent Performance */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Pipeline Breakdown Table */}
-        <div className="lg:col-span-2 rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm overflow-hidden">
-           <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Pipeline Breakdown</h3>
-           </div>
-           <div className="overflow-x-auto">
-             <table className="w-full text-left text-sm text-gray-500">
-               <thead className="bg-gray-50/50 text-xs uppercase text-gray-700 font-semibold">
-                 <tr>
-                   <th className="px-6 py-4">Stage</th>
-                   <th className="px-6 py-4 text-center">Count</th>
-                   <th className="px-6 py-4 text-right">Value</th>
-                   <th className="px-6 py-4 text-center">Avg. Age</th>
-                 </tr>
-               </thead>
-               <tbody className="divide-y divide-gray-100">
-                 {Object.entries(data?.pipeline?.byStage || {}).map(([stage, stats]) => (
-                   <tr key={stage} className="hover:bg-gray-50/50 transition-colors">
-                     <td className="px-6 py-4">
-                        <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${STAGE_COLORS[stage] || 'bg-gray-50 text-gray-600'} bg-opacity-10 ring-opacity-20`}>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+                <tr>
+                  <th className="px-5 py-3">Stage</th>
+                  <th className="px-5 py-3 text-right">Count</th>
+                  <th className="px-5 py-3 text-right">Value</th>
+                  <th className="px-5 py-3 text-right">Avg time in stage</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {CRM_STAGES.map((stage) => {
+                  const item = pipeline.byStage?.[stage] || {};
+                  return (
+                    <tr key={stage}>
+                      <td className="px-5 py-3">
+                        <span className="inline-flex items-center gap-2 font-semibold">
+                          <span
+                            className={`h-2 w-2 rounded-full ${CRM_STAGE_CONFIG[stage].dotClass}`}
+                          />
                           {stage}
                         </span>
-                     </td>
-                     <td className="px-6 py-4 text-center font-medium text-gray-900">{stats.count}</td>
-                     <td className="px-6 py-4 text-right font-medium text-gray-900">{formatCurrency(stats.value)}</td>
-                     <td className="px-6 py-4 text-center">
-                        <span className={`inline-flex items-center gap-1 ${
-                            stats.avgAging > 14 ? 'text-red-600 font-bold' : 
-                            stats.avgAging > 7 ? 'text-orange-600' : 'text-gray-600'
-                        }`}>
-                            {stats.avgAging}d
-                            {stats.avgAging > 7 && <span className="w-1.5 h-1.5 rounded-full bg-current"></span>}
-                        </span>
-                     </td>
-                   </tr>
-                 ))}
-               </tbody>
-             </table>
-           </div>
-        </div>
-
-        {/* Agent Leaderboard */}
-        <div className="rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm overflow-hidden flex flex-col">
-            <div className="px-6 py-5 border-b border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900">Top Performers</h3>
-              <p className="text-xs text-gray-500 mt-1">Leads created in last {dateRange} days</p>
-           </div>
-           <div className="flex-1 overflow-y-auto max-h-[400px]">
-                <div className="divide-y divide-gray-100">
-                    {data?.performance?.byAgent?.map((agent, index) => (
-                        <div key={index} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50/50 transition-colors">
-                            <div className="flex items-center gap-3">
-                                <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold ring-2 ring-white shadow-sm
-                                    ${index === 0 ? 'bg-yellow-100 text-yellow-700' : 
-                                      index === 1 ? 'bg-gray-100 text-gray-700' : 
-                                      index === 2 ? 'bg-orange-50 text-orange-700' : 'bg-blue-50 text-blue-700'
-                                    }`}>
-                                    {index + 1}
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold text-gray-900">{agent.name}</p>
-                                    <p className="text-xs text-gray-500">{agent.count} leads</p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="text-sm font-bold text-gray-900">{agent.wonCount} Wins</p>
-                                <p className="text-xs text-gray-400">{formatCurrency(agent.value)}</p>
-                            </div>
-                        </div>
-                    ))}
-                    {(!data?.performance?.byAgent || data.performance.byAgent.length === 0) && (
-                        <div className="p-8 text-center text-gray-400 text-sm">No agent activity found</div>
-                    )}
-                </div>
-           </div>
-        </div>
-      </div>
-
-      {/* Value & Economics Section - New! */}
-      <h2 className="text-xl font-bold text-gray-900 pt-4">Value Analysis</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           {/* Deal Economics Card */}
-           <div className="md:col-span-1 rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm p-6 flex flex-col justify-between">
-                <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-1">Deal Economics</h3>
-                    <p className="text-xs text-gray-500 mb-6">Based on {data?.performance?.economics?.wonCount} won deals</p>
-                    
-                    <div className="space-y-6">
-                        <div>
-                            <p className="text-sm font-medium text-gray-500">Average Deal Size</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">
-                                {formatCurrency(data?.performance?.economics?.avgDealSize)}
-                            </p>
-                        </div>
-                        
-                        <div className="pt-6 border-t border-gray-100">
-                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm font-medium text-gray-600">Total Won</span>
-                                <span className="text-sm font-bold text-green-600">{formatCurrency(data?.performance?.economics?.totalWon)}</span>
-                             </div>
-                             <div className="flex justify-between items-center">
-                                <span className="text-sm font-medium text-gray-600">Total Lost</span>
-                                <span className="text-sm font-bold text-red-600">{formatCurrency(data?.performance?.economics?.totalLost)}</span>
-                             </div>
-                        </div>
-                    </div>
-                </div>
-           </div>
-
-           {/* Client Health Distribution */}
-           <div className="md:col-span-2 rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-6">Pipeline Health (Value Risk)</h3>
-                <div className="space-y-5">
-                    {data?.performance?.health?.map((health) => {
-                         const totalHealthValue = data.performance.health.reduce((acc, h) => acc + h.value, 0);
-                         const percentage = totalHealthValue > 0 ? (health.value / totalHealthValue) * 100 : 0;
-                         return (
-                            <div key={health._id} className="relative">
-                                <div className="flex justify-between items-center mb-1.5 text-sm">
-                                    <div className="flex items-center gap-2">
-                                         <div className={`w-2 h-2 rounded-full ${getHealthColor(health._id)}`}></div>
-                                         <span className="font-medium text-gray-700 capitalize">{health._id || 'Unknown'}</span>
-                                    </div>
-                                    <span className="text-gray-900 font-semibold">{formatCurrency(health.value)} <span className="text-gray-400 font-normal">({health.count} leads)</span></span>
-                                </div>
-                                <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
-                                    <div 
-                                        className={`h-full rounded-full transition-all duration-500 ${getHealthColor(health._id)}`} 
-                                        style={{ width: `${percentage}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-                         );
-                    })}
-                     {(!data?.performance?.health || data.performance.health.length === 0) && (
-                        <div className="text-center text-gray-400 py-8">No active leads with health data</div>
-                    )}
-                </div>
-           </div>
-      </div>
-
-       {/* Source & Project Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           {/* Source Performance */}
-           <div className="rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-6">Lead Sources</h3>
-                <div className="space-y-4">
-                    {data?.performance?.bySource?.map((source) => {
-                         const max = Math.max(...(data.performance.bySource.map(s => s.count) || [0]));
-                         const percentage = max > 0 ? (source.count / max) * 100 : 0;
-                         return (
-                            <div key={source._id} className="relative">
-                                <div className="flex justify-between items-center mb-1 text-sm">
-                                    <span className="font-medium text-gray-700">{source._id}</span>
-                                    <span className="text-gray-500">{source.count} leads ({source.wonCount} won)</span>
-                                </div>
-                                <div className="w-full bg-gray-100 rounded-full h-2">
-                                    <div 
-                                        className="bg-purple-500 h-2 rounded-full transition-all duration-500" 
-                                        style={{ width: `${percentage}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-                         );
-                    })}
-                </div>
-           </div>
-
-           {/* Project Type Performance */}
-           <div className="rounded-2xl border border-gray-100 bg-white/50 backdrop-blur-sm shadow-sm p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-6">Project Types</h3>
-                 <div className="space-y-4">
-                    {data?.performance?.byType?.map((type) => (
-                        <div key={type._id} className="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 shadow-sm">
-                             <span className="font-medium text-gray-700 text-sm">{type._id}</span>
-                             <div className="text-right">
-                                 <div className="text-sm font-bold text-gray-900">{formatCurrency(type.value)}</div>
-                                 <div className="text-xs text-gray-500">{type.count} leads</div>
-                             </div>
-                        </div>
-                    ))}
-                 </div>
-           </div>
-      </div>
-
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        {item.count || 0}
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        {currency.format(item.value)}
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        {item.avgStageDays || 0}d
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
