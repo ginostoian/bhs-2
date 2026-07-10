@@ -16,6 +16,7 @@ import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-hous
 import homeExtensionFinanceGuideImg from "/public/assets/blog/home-extension-finance/london-project-costs-2026.png";
 import planningPermissionRefusedGuideImg from "/public/assets/blog/planning-permission-refused-london/planning-refusal-reasons-london-infographic.png";
 import houseExtensionGuideRefreshImg from "/public/assets/blog/house-extension-guide-2025/extension-types-comparison-london.png";
+import bespokeVsHowdensVsIkeaKitchenImg from "/public/assets/blog/bespoke-vs-howdens-vs-ikea-kitchen/kitchen-cost-comparison-london.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -28,6 +29,7 @@ import LoftConversionVsHouseExtensionArticle from "./articles/LoftConversionVsHo
 import HomeExtensionFinanceArticle from "./articles/HomeExtensionFinanceArticle";
 import PlanningPermissionRefusedArticle from "./articles/PlanningPermissionRefusedArticle";
 import HouseExtensionGuide2025Article from "./articles/HouseExtensionGuide2025Article";
+import BespokeVsHowdensVsIkeaKitchenArticle from "./articles/BespokeVsHowdensVsIkeaKitchenArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -262,6 +264,25 @@ const houseExtensionGuideFaqs = [
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "bespoke-vs-howdens-vs-ikea-kitchen-london",
+    title:
+      "Bespoke vs Howdens vs IKEA kitchen: London 2026 cost and quality guide",
+    description:
+      "London 2026 guide comparing bespoke, Howdens, and IKEA kitchens on real fitted cost, quality, worktops, timelines, London premiums, and which route suits your property.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.kitchen),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-07-10",
+    image: {
+      src: bespokeVsHowdensVsIkeaKitchenImg,
+      urlRelative:
+        "/assets/blog/bespoke-vs-howdens-vs-ikea-kitchen/kitchen-cost-comparison-london.png",
+      alt: "Bespoke vs Howdens vs IKEA kitchen cost comparison in London",
+    },
+    content: <BespokeVsHowdensVsIkeaKitchenArticle />,
+  },
   {
     slug: "planning-permission-refused-london",
     title:
