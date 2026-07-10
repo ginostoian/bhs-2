@@ -277,7 +277,7 @@ function Navigation() {
                 className={classes["main-nav__link"]}
                 onClick={handleNavLinkClick}
               >
-                Learn
+                Articles
               </Link>
             </li>
             <li className={classes["main-nav__list-item"]}>
@@ -446,7 +446,7 @@ function Navigation() {
                   className={classes["mobile-nav__link"]}
                   onClick={handleNavLinkClick}
                 >
-                  Learn
+                  Articles
                 </Link>
               </li>
               <li className={classes["mobile-nav__list-item"]}>

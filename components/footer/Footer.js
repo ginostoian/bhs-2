@@ -162,7 +162,7 @@ const Footer = () => {
                 About us
               </Link>
               <Link href="/blog" className={classes["footer__quarter-link"]}>
-                Blog
+                Articles
               </Link>
               <Link
                 href="/catalogue"
