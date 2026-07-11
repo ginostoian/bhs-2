@@ -10,6 +10,11 @@ const connectMongo = async () => {
     .connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      maxPoolSize: 5,
+      minPoolSize: 0,
+      maxIdleTimeMS: 30000,
+      waitQueueTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 10000,
     })
     .catch((e) => console.error("Mongoose Client Error: " + e.message));
 };

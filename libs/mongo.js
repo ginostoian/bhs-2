@@ -5,7 +5,16 @@ import { MongoClient } from "mongodb";
 // See /libs/nextauth.js file.
 
 const uri = process.env.MONGODB_URI;
-const options = {};
+// Keep each serverless instance's pool deliberately small. Vercel can run many
+// instances at once, and every MongoClient also opens topology-monitoring
+// sockets, so the driver default is unnecessarily large for this application.
+const options = {
+  maxPoolSize: 5,
+  minPoolSize: 0,
+  maxIdleTimeMS: 30000,
+  waitQueueTimeoutMS: 10000,
+  serverSelectionTimeoutMS: 10000,
+};
 
 let client;
 let clientPromise;
@@ -19,15 +28,15 @@ if (!uri) {
     "If you don't need it, remove the code from /libs/next-auth.js (see connectMongo())"
   );
   console.groupEnd();
-} else if (process.env.NODE_ENV === "development") {
+} else {
+  // Reuse the client when a warm runtime evaluates this module again. This
+  // does not share connections across serverless instances, but it prevents
+  // duplicate pools inside the same instance.
   if (!global._mongoClientPromise) {
     client = new MongoClient(uri, options);
     global._mongoClientPromise = client.connect();
   }
   clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
 }
 
 export default clientPromise;

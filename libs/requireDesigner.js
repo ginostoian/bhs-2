@@ -1,5 +1,4 @@
 import { getToken } from "next-auth/jwt";
-import { authOptions } from "./next-auth";
 
 /**
  * Utility function to require designer role in API routes

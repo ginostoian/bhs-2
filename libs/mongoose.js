@@ -48,6 +48,12 @@ const connectMongo = async () => {
     .connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      // A small, idle-expiring pool is important in serverless environments,
+      // where several warm instances may coexist and each owns its own pool.
+      maxPoolSize: 5,
+      minPoolSize: 0,
+      maxIdleTimeMS: 30000,
+      waitQueueTimeoutMS: 10000,
       serverSelectionTimeoutMS: 10000, // 10 second timeout
       socketTimeoutMS: 45000, // 45 second timeout
     })
