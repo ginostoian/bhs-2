@@ -17,6 +17,7 @@ import homeExtensionFinanceGuideImg from "/public/assets/blog/home-extension-fin
 import planningPermissionRefusedGuideImg from "/public/assets/blog/planning-permission-refused-london/planning-refusal-reasons-london-infographic.png";
 import houseExtensionGuideRefreshImg from "/public/assets/blog/house-extension-guide-2025/extension-types-comparison-london.png";
 import bespokeVsHowdensVsIkeaKitchenImg from "/public/assets/blog/bespoke-vs-howdens-vs-ikea-kitchen/kitchen-cost-comparison-london.png";
+import londonLoanSnapshot2026Img from "/public/assets/blog/home-improvement-loans-london/london-loan-snapshot-2026.png";
 import Link from "next/link";
 import HouseExtensionValueArticle from "./articles/HouseExtensionValueArticle";
 import CommonMistakesExtensionArticle from "./articles/CommonMistakesExtensionArticle";
@@ -30,6 +31,7 @@ import HomeExtensionFinanceArticle from "./articles/HomeExtensionFinanceArticle"
 import PlanningPermissionRefusedArticle from "./articles/PlanningPermissionRefusedArticle";
 import HouseExtensionGuide2025Article from "./articles/HouseExtensionGuide2025Article";
 import BespokeVsHowdensVsIkeaKitchenArticle from "./articles/BespokeVsHowdensVsIkeaKitchenArticle";
+import HomeImprovementLoansLondonArticle from "./articles/HomeImprovementLoansLondonArticle";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -264,6 +266,63 @@ const houseExtensionGuideFaqs = [
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "home-improvement-loans-london",
+    title: "Home improvement loans London: the complete 2026 guide",
+    seoTitle: "Home Improvement Loans London | 2026 Guide | BH Studio",
+    description:
+      "Home improvement loans in London in 2026: compare secured and unsecured borrowing, APRs, loan limits, total cost, eligibility and how to fund an extension or renovation.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-07-15",
+    image: {
+      src: londonLoanSnapshot2026Img,
+      urlRelative:
+        "/assets/blog/home-improvement-loans-london/london-loan-snapshot-2026.png",
+      alt: "London home improvement loan rates, borrowing limits and 2026 market snapshot",
+    },
+    content: <HomeImprovementLoansLondonArticle />,
+    faqs: [
+      {
+        question: "What is the best way to pay for a home renovation in London?",
+        answer:
+          "Under £25,000, an unsecured personal loan is usually simplest. Between £25,000 and £150,000, remortgaging or a further advance is often cheaper per pound borrowed, subject to your mortgage terms and circumstances.",
+      },
+      {
+        question: "How much can I borrow with a home improvement loan in the UK?",
+        answer:
+          "Unsecured personal loans typically run from £1,000 to £25,000, with some lenders reaching £35,000 or £50,000 for strong applicants. Secured loans can reach £100,000 or more depending on property value and equity.",
+      },
+      {
+        question: "Is a secured or unsecured home improvement loan better?",
+        answer:
+          "Unsecured loans are faster and do not put the property on a charge, so they suit smaller projects. Secured loans offer larger sums and may offer lower rates, but the home is used as collateral and the process takes longer.",
+      },
+      {
+        question: "What APR should I expect on a home improvement loan in 2026?",
+        answer:
+          "In mid-2026, representative unsecured rates for prime borrowers were around 5.9% to 7.4%, with higher maximums depending on credit. Secured rates were roughly 6.39% to 12% depending on loan-to-value and credit profile.",
+      },
+      {
+        question: "How can I finance a loft conversion in London?",
+        answer:
+          "Most London loft conversions exceed typical unsecured loan limits, so common routes include a remortgage, further advance or secured second-charge loan. A personal loan may cover a basic rooflight conversion or part of a project.",
+      },
+      {
+        question: "Do I need to tell my mortgage lender about my renovation?",
+        answer:
+          "Most mortgage terms require homeowners to notify their lender about structural alterations. Buildings insurance should also be updated to cover the works and the higher rebuild value afterward.",
+      },
+      {
+        question: "Should I take finance through my loft conversion or extension company?",
+        answer:
+          "Compare builder-arranged finance against the open market because brokered products may include commission. A clear fixed-price contract from a reputable design-and-build company is useful whichever lender you choose.",
+      },
+    ],
+  },
   {
     slug: "bespoke-vs-howdens-vs-ikea-kitchen-london",
     title:
