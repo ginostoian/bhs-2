@@ -23,6 +23,7 @@ const COST_GUIDE_LINKS = [
 const SERVICE_LINKS = [
   { href: "/house-extension", label: "House extension" },
   { href: "/loft-conversion", label: "Loft conversion" },
+  { href: "/basement-conversion", label: "Basement conversion" },
   { href: "/general-renovation", label: "Full home renovation" },
   { href: "/bathroom-renovation", label: "Bathroom renovations" },
   { href: "/kitchen-renovation", label: "Kitchen renovation" },
