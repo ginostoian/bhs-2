@@ -16,6 +16,8 @@ const Hero = ({
   ctaTallyFormLink,
   secondaryCTA,
   secondaryCtaLink,
+  secondaryCtas,
+  prioritizeCTA = false,
   proofPoints,
   projectProof,
 }) => {
@@ -24,6 +26,38 @@ const Hero = ({
     : `/assets/img/${heroImgUrl}`;
   const primaryCtaHref = ctaTallyFormLink || BOOKING_URL;
   const isExternalPrimaryCta = primaryCtaHref.startsWith("http");
+  const secondaryActions = secondaryCtas?.length
+    ? secondaryCtas
+    : secondaryCTA && secondaryCtaLink
+      ? [{ label: secondaryCTA, href: secondaryCtaLink }]
+      : [];
+  const ctaRow = (
+    <div className={classes["hero__cta-row"]}>
+      <Link
+        href={primaryCtaHref}
+        target={isExternalPrimaryCta ? "_blank" : undefined}
+        rel={isExternalPrimaryCta ? "noopener noreferrer" : undefined}
+        className="flex min-h-[64px] w-full min-w-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[18px]"
+      >
+        {heroCTA}
+      </Link>
+      {secondaryActions.map((action) => {
+        const isExternal = action.href.startsWith("http");
+
+        return (
+          <Link
+            key={action.href}
+            href={action.href}
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+            className="flex min-h-[64px] w-full min-w-0 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border-2 border-[#bfd3f9] bg-white px-[20px] text-[18px] font-bold capitalize text-[#266bf1] transition duration-200 hover:border-[#266bf1] hover:text-[#1449B0] lg:min-h-[72px] lg:px-[18px]"
+          >
+            {action.label}
+          </Link>
+        );
+      })}
+    </div>
+  );
 
   return (
     <section className={`${classes["hero"]} container`}>
@@ -39,6 +73,7 @@ const Hero = ({
           {title} <span className="text-[#266bf1]">{titleAccent}</span>
         </h1>
         <p className={classes["hero__subtitle"]}>{subtitle}</p>
+        {prioritizeCTA ? ctaRow : null}
         {proofPoints?.length ? (
           <div className={classes["hero__proof-strip"]}>
             {proofPoints.map((point) => (
@@ -59,24 +94,7 @@ const Hero = ({
             </div>
           </div>
         )}
-        <div className={classes["hero__cta-row"]}>
-          <Link
-            href={primaryCtaHref}
-            target={isExternalPrimaryCta ? "_blank" : undefined}
-            rel={isExternalPrimaryCta ? "noopener noreferrer" : undefined}
-            className="flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[72px] lg:px-[24px]"
-          >
-            {heroCTA}
-          </Link>
-          {secondaryCTA && secondaryCtaLink ? (
-            <Link
-              href={secondaryCtaLink}
-              className="flex min-h-[64px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-[#bfd3f9] bg-white px-[20px] text-[18px] font-bold capitalize text-[#266bf1] transition duration-200 hover:border-[#266bf1] hover:text-[#1449B0] lg:min-h-[72px] lg:px-[24px]"
-            >
-              {secondaryCTA}
-            </Link>
-          ) : null}
-        </div>
+        {prioritizeCTA ? null : ctaRow}
         {projectProof?.length ? (
           <div className={classes["hero__project-proof"]}>
             {projectProof.map((project) => (

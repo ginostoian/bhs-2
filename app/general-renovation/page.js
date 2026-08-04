@@ -4,8 +4,18 @@ import Link from "next/link";
 import FAQ from "@/components/FAQ";
 import Guarantee from "@/components/Guarantee";
 import Hero from "@/components/hero/Hero";
+import AreasServed from "@/components/servicePage/AreasServed";
+import CalculatorCTA from "@/components/servicePage/CalculatorCTA";
+import ExternalAuthority from "@/components/servicePage/ExternalAuthority";
+import SectionNav from "@/components/servicePage/SectionNav";
+import TrustBar from "@/components/servicePage/TrustBar";
+import {
+  SERVICE_AREA_GROUPS,
+  trustBarItems,
+} from "@/components/servicePage/servicePageData";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 import {
@@ -38,7 +48,7 @@ export const metadata = getSEOTags({
 const heroProofPoints = [
   "Projects typically from £80,000",
   "£10M insured",
-  "10-year workmanship guarantee",
+  "Up to 10-year guarantee, by scope",
   "500+ projects delivered",
   "Best of Houzz winner",
 ];
@@ -264,46 +274,17 @@ const guideLinks = [
 
 const pageUrl = `${SITE_URL}/general-renovation`;
 
-const serviceAreaGroups = [
-  {
-    region: "North East London",
-    description:
-      "Family houses and period properties where access, sequencing and lived-in neighbourhood constraints need practical planning.",
-    areas: [
-      { name: "Walthamstow", href: "/locations/walthamstow" },
-      { name: "Woodford", href: "/locations/woodford" },
-      { name: "South Woodford", href: "/locations/south-woodford" },
-      { name: "Chingford", href: "/locations/chingford" },
-      { name: "Chigwell", href: "/locations/chigwell" },
-      { name: "Loughton", href: "/locations/loughton" },
-    ],
-  },
-  {
-    region: "Central London",
-    description:
-      "High-value homes, flats and townhouses where coordination, discreet site management and finish quality matter early.",
-    areas: [
-      { name: "Westminster", href: "/locations/westminster" },
-      { name: "Marylebone", href: "/locations/marylebone" },
-      { name: "Mayfair", href: "/locations/mayfair" },
-      { name: "Camden Town", href: "/locations/camden-town" },
-      { name: "Islington", href: "/locations/islington" },
-      { name: "Hampstead", href: "/locations/hampstead" },
-    ],
-  },
-  {
-    region: "East and Selected West London",
-    description:
-      "Established London neighbourhoods where renovation work often overlaps with layout improvement, M&E upgrades and premium finishes.",
-    areas: [
-      { name: "Hackney", href: "/locations/hackney" },
-      { name: "Dalston", href: "/locations/dalston" },
-      { name: "Leyton", href: "/locations/leyton" },
-      { name: "Kensington", href: "/locations/kensington" },
-      { name: "Chelsea", href: "/locations/chelsea" },
-      { name: "Notting Hill", href: "/locations/notting-hill" },
-    ],
-  },
+const sectionNavItems = [
+  { label: "Quick answer", anchorId: "quick-answer" },
+  { label: "Why renovate", anchorId: "why-renovate" },
+  { label: "Included", anchorId: "included" },
+  { label: "Costs", anchorId: "renovation-costs" },
+  { label: "Projects", anchorId: "projects" },
+  { label: "Process", anchorId: "process" },
+  { label: "Guarantees", anchorId: "guarantees" },
+  { label: "Areas", anchorId: "areas" },
+  { label: "FAQ", anchorId: "faq" },
+  { label: "Guides", anchorId: "guides" },
 ];
 
 const schemaServiceAreas = [
@@ -503,15 +484,19 @@ export default function Page() {
         heroCTA="Book your renovation consultation"
         heroImgUrl="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-room.webp"
         heroImgAlt="Full home renovation in N19, North London with open-plan living space"
-        ctaTallyFormLink="/general-renovation-form"
+        ctaTallyFormLink={BOOKING_URL}
         secondaryCTA="Call us"
         secondaryCtaLink="tel:07922391591"
         proofPoints={heroProofPoints}
+        prioritizeCTA
       />
+
+      <TrustBar items={trustBarItems("Up to 10-year guarantee, by scope")} />
+      <SectionNav items={sectionNavItems} />
 
       <SocialProof />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="quick-answer" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-start">
             <div>
@@ -542,7 +527,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="why-renovate" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Why Full Renovation"
           title="Why homeowners choose a full renovation instead of endless piecemeal fixes"
@@ -562,7 +547,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="included" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Included"
           title="What a true whole-home renovation actually includes"
@@ -585,7 +570,7 @@ export default function Page() {
 
       <section
         id="renovation-costs"
-        className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+        className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
       >
         <SectionHeading
           eyebrow="Costs"
@@ -660,11 +645,18 @@ export default function Page() {
             .
           </p>
         </div>
+        <CalculatorCTA
+          calculatorHref="/renovation-calculator"
+          calculatorLabel="Use renovation cost calculator"
+          title="Get an early whole-home renovation range"
+          description="Use the calculator to test scope and finish assumptions before a consultation, then validate the result against the property condition and the work that needs to happen together."
+          secondaryHref={BOOKING_URL}
+        />
       </section>
 
       <section
-        id="testimonials"
-        className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+        id="projects"
+        className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
       >
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
@@ -785,7 +777,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="process" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl bg-[#100b47] px-6 py-10 text-white md:px-10 lg:px-12 lg:py-14">
           <SectionHeading
             eyebrow="Process"
@@ -823,45 +815,34 @@ export default function Page() {
         </div>
       </section>
 
-      <Guarantee />
+      <ExternalAuthority
+        title="Official planning and Building Regulations guidance"
+        description="A full renovation can combine cosmetic work with structural changes, services and regulated safety work. These official sources are the right starting point for understanding which approvals may apply."
+        links={[
+          {
+            label: "Planning Portal home improvements",
+            href: "https://www.planningportal.co.uk/permission/common-projects/",
+          },
+          {
+            label: "Building Regulations Approved Documents",
+            href: "https://www.gov.uk/government/collections/approved-documents",
+          },
+        ]}
+      />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-        <SectionHeading
-          eyebrow="Where We Work"
-          title="Full home renovations across East, North East and Central London"
-          description="We deliver full home renovations across East, North East and Central London, including Walthamstow, Hackney, Islington, Westminster and surrounding areas where access, planning context and finish quality need proper early control."
-        />
-        <div className="grid gap-5 lg:grid-cols-3">
-          {serviceAreaGroups.map((group) => (
-            <article
-              key={group.region}
-              className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
-            >
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
-                {group.region}
-              </p>
-              <p className="mt-3 text-sm leading-7 text-gray-600">
-                {group.description}
-              </p>
-              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
-                {group.areas.map((area) => (
-                  <Link
-                    key={area.href}
-                    href={area.href}
-                    className="border-t border-[#edf2fc] pt-3 text-sm font-bold text-[#100b47] transition hover:text-[#266bf1]"
-                  >
-                    {area.name} renovation
-                  </Link>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <div id="guarantees" className="scroll-mt-24">
+        <Guarantee />
+      </div>
+
+      <AreasServed
+        groups={SERVICE_AREA_GROUPS}
+        title="Full home renovations across East, North and selected Central London"
+        description="Our core delivery patch covers the London neighbourhoods where access, planning context, older building fabric and finish quality benefit most from one accountable renovation team."
+      />
 
       <FAQ content={faqs} />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="guides" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Useful Reading"
           title="The renovation guides worth reading before you commit"
@@ -920,7 +901,9 @@ export default function Page() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/general-renovation-form"
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
               >
                 Book your renovation consultation
@@ -936,6 +919,12 @@ export default function Page() {
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
               >
                 Get an instant budget range
+              </Link>
+              <Link
+                href="/general-renovation-form"
+                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
+              >
+                Send a detailed renovation enquiry
               </Link>
             </div>
             <div className="mt-8 grid gap-3 text-sm font-bold text-[#100b47] sm:grid-cols-2 lg:grid-cols-4">

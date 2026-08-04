@@ -47,6 +47,31 @@ const PAGE_FAQS = {
       answer:
         "Yes. We deliver compact bathrooms, family bathrooms, en-suites and more premium wet-room style spaces, depending on the room, the brief and the budget.",
     },
+    {
+      question: "Can we use the bathroom while renovation work is underway?",
+      answer:
+        "Not the bathroom being renovated. Water and waste connections must be isolated at points during strip-out and installation, and waterproofing or finishes need uninterrupted curing time. If it is your only bathroom, tell us before quoting so we can plan temporary arrangements and a sequence that keeps the unusable period as short as practical.",
+    },
+    {
+      question: "How do you prevent leaks in a renovated bathroom?",
+      answer:
+        "Leak prevention starts behind the visible finish. We prepare stable substrates, waterproof wet zones, pressure-test altered pipework, follow the product system for joints and penetrations, and inspect the installation before it is closed up. Silicone is a finishing seal, not a substitute for correct waterproofing underneath.",
+    },
+    {
+      question: "Does bathroom electrical work need certification?",
+      answer:
+        "Electrical work in bathrooms must meet the relevant Building Regulations and wiring rules for wet zones. Where notifiable work is carried out, the appropriate electrical certification is provided at handover by the qualified installer.",
+    },
+    {
+      question: "What happens if hidden damage appears after strip-out?",
+      answer:
+        "We show you the issue, explain whether it affects safety or the agreed finish, and price the remedy before extra work proceeds. Common discoveries include damaged subfloors, historic leaks and unsuitable previous wiring. A sensible contingency helps absorb genuine hidden conditions without turning every discovery into a crisis.",
+    },
+    {
+      question: "How are bathroom renovation payments staged?",
+      answer:
+        "The payment schedule is agreed in the contract and tied to clear stages such as booking, procurement, mobilisation and progress on site. Materials with long lead times may need to be paid for before installation, but you should always know what each payment covers and what milestone comes next.",
+    },
   ],
   kitchen: [
     {
@@ -74,6 +99,31 @@ const PAGE_FAQS = {
       answer:
         "Yes. We can deliver structural modifications where required, including layout opening, service coordination and the integration work needed when a kitchen project is part of a bigger change to the home.",
     },
+    {
+      question: "Can we stay in the house during a kitchen renovation?",
+      answer:
+        "Usually, yes, if the work is limited to the kitchen and you can tolerate dust, noise and a temporary cooking setup. You will be without a normal kitchen for part of the programme. We agree working hours, protection routes and key shutdowns before site starts so you can make a realistic decision.",
+    },
+    {
+      question: "Should we order the kitchen before appointing the installer?",
+      answer:
+        "Ideally the installer should review the plan, measurements, service positions and delivery schedule before the final order is placed. That catches clashes early, especially around appliances, worktop templating, extraction, fillers and older walls that are not square.",
+    },
+    {
+      question: "Who signs off gas and electrical work in a new kitchen?",
+      answer:
+        "Gas work is completed by a Gas Safe registered engineer and relevant electrical work by a qualified installer. The applicable certificates are part of the handover information, alongside appliance and product documents supplied for the project.",
+    },
+    {
+      question: "What happens if cabinets or appliances arrive late?",
+      answer:
+        "We plan procurement and confirm critical lead times before strip-out. If a supplier delay still occurs, we resequence work where practical and tell you immediately how it affects the programme. Starting demolition before key products are confirmed is one of the easiest avoidable causes of kitchen delay.",
+    },
+    {
+      question: "How do you control kitchen renovation costs?",
+      answer:
+        "We define the build scope, product allowances, exclusions and responsibilities before work starts. Changes are priced and agreed before they are carried out. The biggest cost risks are usually late layout changes, unresolved appliance specifications and structural work discovered after design has already been fixed.",
+    },
   ],
   renovation: [
     {
@@ -100,6 +150,31 @@ const PAGE_FAQS = {
       question: "Can one team manage the structural work, M&E, kitchens, bathrooms and finishes together?",
       answer:
         "Yes. That is the point of full-scope renovation delivery. The advantage is not just convenience, but better coordination between trades, fewer missed details, clearer accountability and a final result that feels coherent instead of pieced together.",
+    },
+    {
+      question: "How much contingency should I hold for a full renovation?",
+      answer:
+        "For an older London property, a contingency of around 10% to 15% is a sensible planning allowance. It is there for genuine unknowns such as concealed defects or client-led changes, not to excuse a vague quote. The more investigation and scope definition completed before site starts, the less contingency is likely to be consumed.",
+    },
+    {
+      question: "Can we renovate the house in phases?",
+      answer:
+        "Yes, but the phases should follow the building logic. Structural work and core services normally come before kitchens, bathrooms and decorative finishes. A phased plan can protect cash flow, but repeatedly opening finished areas or remobilising trades can increase the total cost.",
+    },
+    {
+      question: "Who handles Building Control and completion certificates?",
+      answer:
+        "We coordinate the inspections and information required for the work in our scope. At handover, you should receive the relevant completion and trade certificates for items such as structural alterations, electrical work, heating or glazing where those apply.",
+    },
+    {
+      question: "How are changes controlled during a renovation?",
+      answer:
+        "A change is described, priced and approved before it is carried out, with any programme impact made clear. That written trail protects both sides and prevents small verbal requests from becoming a surprise total at the end of the job.",
+    },
+    {
+      question: "How are full-renovation payments scheduled?",
+      answer:
+        "Payments are staged against the agreed contract, procurement commitments and measurable progress on site. The schedule is set before work begins so you can plan cash flow and understand what has been completed before each payment falls due.",
     },
   ],
   extension: [
@@ -159,6 +234,31 @@ const PAGE_FAQS = {
       question: "Can a loft conversion include an en-suite and fitted storage?",
       answer:
         "Yes. Many loft projects work best when the room, storage and bathroom are planned together rather than treated as separate add-ons later.",
+    },
+    {
+      question: "Will a loft conversion need a party wall agreement?",
+      answer:
+        "It often requires Party Wall notices where structural work affects a shared wall, although the exact position depends on the property and proposed details. We identify that early so notices can run alongside design and approvals rather than delaying the build start.",
+    },
+    {
+      question: "Can I keep my existing staircase?",
+      answer:
+        "The existing staircase can stay, but the loft normally needs a new permanent stair that connects into the current circulation. Its position must work with headroom, fire safety and the floor below. A poor stair position can cost more usable space than homeowners expect, so it should be resolved during feasibility.",
+    },
+    {
+      question: "What happens to the water tank in the loft?",
+      answer:
+        "If a cold-water tank occupies the conversion area, the plumbing strategy is reviewed before work starts. Depending on the existing system, it may be repositioned or replaced as part of a move to a different hot-water arrangement. That decision must account for pressure, capacity and the rest of the house.",
+    },
+    {
+      question: "Does a loft conversion need Building Regulations sign-off and fire doors?",
+      answer:
+        "Yes, a habitable loft conversion needs Building Regulations approval. The design must address structure, insulation, stairs, escape and fire protection. Depending on the house layout, that can include upgrading doors or the protected route from the loft to the final exit.",
+    },
+    {
+      question: "How disruptive is a loft conversion day to day?",
+      answer:
+        "Much of the early structural work can be accessed through the roof, which reduces traffic through the house. Noise, scaffolding and dust are still unavoidable, and internal disruption increases when the new staircase breaks through and services or finishes connect to the floors below.",
     },
   ],
   about: [

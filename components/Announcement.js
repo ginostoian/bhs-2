@@ -47,14 +47,17 @@ const Announcement = () => {
           </svg>
           <span className="flex items-center gap-1.5">
             <span className="hidden xs:inline">
-              Limited availability: 65% booked for 2026
+              Limited availability
             </span>
             <span className="xs:hidden">
               Limited availability
             </span>
             <span className="opacity-40 font-light mx-1">·</span>
             <span className="text-white/90 group-hover:text-white transition-colors">
-              Book a Consultation
+              <span className="hidden sm:inline">
+                Check remaining project windows
+              </span>
+              <span className="sm:hidden">Check dates</span>
             </span>
           </span>
         </span>

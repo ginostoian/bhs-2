@@ -2,6 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Guarantee from "@/components/Guarantee";
+import AreasServed from "@/components/servicePage/AreasServed";
+import CalculatorCTA from "@/components/servicePage/CalculatorCTA";
+import ExternalAuthority from "@/components/servicePage/ExternalAuthority";
+import SectionNav from "@/components/servicePage/SectionNav";
+import TrustBar from "@/components/servicePage/TrustBar";
+import {
+  SERVICE_AREA_GROUPS,
+  trustBarItems,
+} from "@/components/servicePage/servicePageData";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
 import { BOOKING_URL } from "@/libs/booking";
@@ -30,12 +39,15 @@ export const metadata = getSEOTags({
 
 const pageUrl = `${SITE_URL}/house-extension`;
 
-const trustPoints = [
-  "£10M insured",
-  "10-year workmanship guarantee",
-  "500+ projects delivered",
-  "5-star rated on Google, Houzz and MyBuilder",
-  "Best of Houzz winner",
+const sectionNavItems = [
+  { label: "Why us", anchorId: "why-us" },
+  { label: "Types", anchorId: "types" },
+  { label: "Costs", anchorId: "costs" },
+  { label: "Projects", anchorId: "projects" },
+  { label: "Process", anchorId: "process" },
+  { label: "Guarantees", anchorId: "guarantees" },
+  { label: "Areas", anchorId: "areas" },
+  { label: "FAQ", anchorId: "faq" },
 ];
 
 const valueProps = [
@@ -317,6 +329,31 @@ const faqs = [
     answerText:
       "Construction itself is typically 8 to 24 weeks depending on the type: a side return is at the shorter end, a double-storey extension at the longer. Add design, approvals and any planning period before that, and most projects run around 5 to 10 months end to end. We give you a realistic timeline up front and weekly updates throughout, so you always know where things stand.",
   },
+  {
+    question: "Is it usually better value to extend or move house?",
+    answerText:
+      "If you already like the street and the existing house can support the space you need, extending often avoids stamp duty, agent fees, legal costs and the disruption of moving. The right comparison is the all-in extension cost against the full cost of buying an equivalent larger home, while checking that the finished value still makes sense for your area.",
+  },
+  {
+    question: "What happens if the extension goes over budget?",
+    answerText:
+      "We define the scope, allowances and exclusions before work starts, then price and agree changes before they are carried out. A contingency should still be held for genuine hidden conditions, but it should not be used to cover vague quoting or unapproved extras. Weekly reporting keeps the forecast visible while decisions can still be managed.",
+  },
+  {
+    question: "Can we live in the house while the extension is built?",
+    answerText:
+      "Often, yes, particularly through the external structural phase. Disruption increases when the new space connects to the existing house and when the kitchen or main services are affected. We agree protection, access, working hours and planned shutdowns before site starts so you can decide whether staying is practical for your household.",
+  },
+  {
+    question: "Do you handle Building Control inspections and sign-off?",
+    answerText:
+      "Yes. We coordinate the required inspections and provide the relevant project and trade certificates at handover. Planning approval and Building Regulations approval are separate, so both routes are checked during pre-construction rather than treated as the same permission.",
+  },
+  {
+    question: "What deposit and payment schedule should I expect?",
+    answerText:
+      "The contract sets out a staged payment schedule tied to mobilisation, procurement and measurable progress on site. The exact percentages depend on the project, but you should know what each payment covers, when it falls due and what work or materials have been secured before the build begins.",
+  },
 ];
 
 function SectionHeading({ eyebrow, title, children, centered = false, dark = false }) {
@@ -484,20 +521,13 @@ export default function Page() {
             transparent pricing and weekly updates so the project never runs away
             from you.
           </p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {trustPoints.map((point) => (
-              <span
-                key={point}
-                className="rounded-full border border-[#d9e5fb] bg-[#f8fbff] px-4 py-2 text-sm font-bold text-[#100b47]"
-              >
-                {point}
-              </span>
-            ))}
-          </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <PrimaryButton href={BOOKING_URL}>Book your extension consultation</PrimaryButton>
             <SecondaryButton href="tel:07922391591">Call us</SecondaryButton>
           </div>
+          <p className="mt-5 text-sm font-bold leading-7 text-[#334155]">
+            5-star rated on Google, Houzz and MyBuilder · Best of Houzz winner
+          </p>
         </div>
         <div className="relative min-h-[420px] overflow-hidden rounded-2xl">
           <Image
@@ -511,9 +541,12 @@ export default function Page() {
         </div>
       </section>
 
+      <TrustBar items={trustBarItems("10-year workmanship guarantee")} />
+      <SectionNav items={sectionNavItems} />
+
       <SocialProof />
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section id="why-us" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading
           eyebrow="Why choose Better Homes"
           title="Why London homeowners choose us to build their extension"
@@ -542,7 +575,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section id="types" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading
           eyebrow="Extension types"
           title="Extension types we build"
@@ -570,7 +603,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section id="costs" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading eyebrow="Indicative investment" title="Planning-stage budget ranges">
           These are indicative planning-stage ranges only. They help you sense-check
           the order of investment before we assess your property, specification,
@@ -604,30 +637,68 @@ export default function Page() {
             </table>
           </div>
         </div>
-        <p className="mt-5 text-base leading-8 text-gray-700">
-          For the full cost breakdown, per-square-metre rates, hidden costs and
-          VAT, read our{" "}
-          <Link
-            href="/blog/house-extension-guide-2025#extension-costs"
-            className="font-semibold text-[#266bf1] hover:underline"
-          >
-            House Extension Cost Guide for London 2026
-          </Link>
-          .
-        </p>
-        <p className="mt-4 text-base leading-8 text-gray-700">
-          Want a personalised range for your project? Use our{" "}
-          <Link
-            href="/extension-calculator"
-            className="font-semibold text-[#266bf1] hover:underline"
-          >
-            extension cost calculator
-          </Link>{" "}
-          for a low/expected/high budget in two minutes.
-        </p>
+        <aside className="mt-6 rounded-3xl border border-[#d7e3f8] bg-[#f7faff] p-4 sm:p-5">
+          <p className="px-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
+            Explore your budget
+          </p>
+          <div className="mt-3 grid gap-3 lg:grid-cols-2">
+            <Link
+              href="/blog/house-extension-guide-2025#extension-costs"
+              className="group flex items-start gap-4 rounded-2xl border border-white bg-white p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#b9d0fb] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#266bf1] sm:p-5"
+            >
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#eef5ff] text-sm font-extrabold text-[#266bf1]">
+                01
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold text-[#100b47]">
+                  Read the complete cost guide
+                </span>
+                <span className="mt-1 block text-sm leading-6 text-gray-600">
+                  See per-square-metre rates, VAT and the hidden costs to plan for.
+                </span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="mt-1 text-xl text-[#266bf1] transition-transform group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+
+            <Link
+              href="/extension-calculator"
+              className="group flex items-start gap-4 rounded-2xl border border-white bg-white p-4 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#b9d0fb] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#266bf1] sm:p-5"
+            >
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#eef5ff] text-sm font-extrabold text-[#266bf1]">
+                02
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold text-[#100b47]">
+                  Get your personalised range
+                </span>
+                <span className="mt-1 block text-sm leading-6 text-gray-600">
+                  Compare low, expected and high budgets in around two minutes.
+                </span>
+              </span>
+              <span
+                aria-hidden="true"
+                className="mt-1 text-xl text-[#266bf1] transition-transform group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
+          </div>
+        </aside>
+        <CalculatorCTA
+          calculatorHref="/extension-calculator"
+          calculatorLabel="Use extension cost calculator"
+          title="Get a fast extension budget range before you enquire"
+          description="Use the calculator to compare a low, expected and high planning range, then book a consultation when you are ready to test those assumptions against your property."
+          secondaryHref={BOOKING_URL}
+        />
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section id="projects" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading eyebrow="Proof" title="Real extension projects">
           The best reassurance is seeing finished work in real London homes: the
           layout, the finish, the communication and the kind of problems a strong
@@ -679,7 +750,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <section id="process" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="overflow-hidden rounded-2xl bg-[#100b47] px-6 py-10 text-white md:px-10 lg:px-12 lg:py-14">
           <SectionHeading
             eyebrow="Our process"
@@ -704,64 +775,30 @@ export default function Page() {
         </div>
       </section>
 
-      <Guarantee />
+      <ExternalAuthority
+        title="Check the official extension rules before work starts"
+        description="Planning permission, permitted development and Party Wall duties are separate questions. These official guides explain the national starting point; property-specific and local restrictions still need to be checked."
+        links={[
+          {
+            label: "Planning Portal extension guide",
+            href: "https://www.planningportal.co.uk/permission/common-projects/extensions/mini-guide/",
+          },
+          {
+            label: "GOV.UK Party Wall guide",
+            href: "https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls",
+          },
+        ]}
+      />
 
-      <section className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-        <SectionHeading
-          eyebrow="Areas we serve"
-          title="Extension builders across Central, North, North East and selected West London"
-        >
-          We focus on established London neighbourhoods where space, planning
-          context, party-wall matters and access logistics need proper early
-          handling. Our core patch runs from Central London and Westminster
-          through Camden, Islington and North London, across to North East London
-          and selected nearby west London areas for the right project.
-        </SectionHeading>
-        <div className="grid gap-5 lg:grid-cols-3">
-          {serviceAreaGroups.map((group) => (
-            <article
-              key={group.region}
-              className="rounded-2xl border border-[#d9e5fb] bg-white p-6 shadow-sm"
-            >
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
-                {group.region}
-              </p>
-              <p className="mt-3 text-sm leading-7 text-gray-600">
-                {group.description}
-              </p>
-              <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3">
-                {group.areas.map((area) => (
-                  <div key={area} className="border-t border-[#edf2fc] pt-3">
-                    <p className="text-sm font-bold text-[#100b47]">{area}</p>
-                  </div>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="mt-6 rounded-2xl border border-[#d9e5fb] bg-[#f8fbff] p-6">
-          <div className="grid gap-4 lg:grid-cols-[0.45fr_1fr] lg:items-center">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-[#266bf1]">
-                Common postcodes
-              </p>
-              <p className="mt-2 text-sm leading-7 text-gray-600">
-                A quick guide to areas we regularly assess for extension work.
-              </p>
-            </div>
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
-              {servicePostcodes.map((postcode) => (
-                <span
-                  key={postcode}
-                  className="flex min-h-11 items-center justify-center rounded-xl border border-[#d9e5fb] bg-white px-3 text-sm font-black text-[#100b47]"
-                >
-                  {postcode}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <div id="guarantees" className="scroll-mt-24">
+        <Guarantee />
+      </div>
+
+      <AreasServed
+        groups={SERVICE_AREA_GROUPS}
+        title="Extension builders across East, North and selected Central London"
+        description="Our strongest delivery patch runs across East and North East London, with established coverage through North London and selective Central London projects where the scope is the right fit."
+      />
 
       <section id="faq" className="mx-auto max-w-[88%] px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
         <SectionHeading eyebrow="FAQ" title="House extension company questions">

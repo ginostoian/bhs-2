@@ -4,14 +4,23 @@ import Link from "next/link";
 import FAQ from "@/components/FAQ";
 import Guarantee from "@/components/Guarantee";
 import Hero from "@/components/hero/Hero";
+import AreasServed from "@/components/servicePage/AreasServed";
+import CalculatorCTA from "@/components/servicePage/CalculatorCTA";
+import ExternalAuthority from "@/components/servicePage/ExternalAuthority";
+import SectionNav from "@/components/servicePage/SectionNav";
+import TrustBar from "@/components/servicePage/TrustBar";
+import {
+  SERVICE_AREA_GROUPS,
+  trustBarItems,
+} from "@/components/servicePage/servicePageData";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
+import { BOOKING_URL } from "@/libs/booking";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
 import {
   BUSINESS_IDS,
   SITE_URL,
-  getLocalBusinessSchema,
   getWebsiteReference,
 } from "@/libs/structuredData";
 
@@ -256,6 +265,19 @@ const guideLinks = [
 
 const pageUrl = `${SITE_URL}/bathroom-renovation`;
 
+const sectionNavItems = [
+  { label: "Quick answer", anchorId: "quick-answer" },
+  { label: "Included", anchorId: "included" },
+  { label: "Costs", anchorId: "costs" },
+  { label: "Projects", anchorId: "projects" },
+  { label: "Reviews", anchorId: "reviews" },
+  { label: "Process", anchorId: "process" },
+  { label: "Guarantees", anchorId: "guarantees" },
+  { label: "Areas", anchorId: "areas" },
+  { label: "FAQ", anchorId: "faq" },
+  { label: "Guides", anchorId: "guides" },
+];
+
 function SectionHeading({
   eyebrow,
   title,
@@ -331,12 +353,6 @@ export default function Page() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        ...getLocalBusinessSchema({
-          description:
-            "Bathroom renovation services across London including design, supply, waterproofing, installation and finishing.",
-        }),
-      },
-      {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
@@ -360,6 +376,15 @@ export default function Page() {
         },
         url: pageUrl,
       },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 3, name: "Bathroom Renovation", item: pageUrl },
+        ],
+      },
       faqSchema,
     ],
   };
@@ -374,11 +399,18 @@ export default function Page() {
         heroImgUrl="/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp"
         ctaTallyFormLink="/bathroom-renovation-form"
         proofPoints={heroProofPoints}
+        prioritizeCTA
+        secondaryCtas={[
+          { label: "Call us", href: "tel:07922391591" },
+        ]}
       />
+
+      <TrustBar items={trustBarItems("2-year workmanship guarantee")} />
+      <SectionNav items={sectionNavItems} />
 
       <SocialProof />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="quick-answer" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start">
             <div>
@@ -400,32 +432,14 @@ export default function Page() {
                 </p>
               </div>
 
-              <div className="mt-6 rounded-2xl border border-[#cfe0ff] bg-white p-6 shadow-sm">
-                <p className="text-sm font-extrabold uppercase tracking-[0.22em] text-[#266bf1]">
-                  Conversion Tool
-                </p>
-                <h3 className="mt-3 text-2xl font-black text-[#100b47]">
-                  Want a fast bathroom budget range before you enquire?
-                </h3>
-                <p className="mt-3 text-base leading-8 text-gray-700">
-                  Use the bathroom cost calculator to get an early range before you
-                  start comparing fixtures, layouts or fitting routes on guesswork.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <Link
-                    href="/tools/bathroom-cost-calculator"
-                    className="inline-flex min-h-[52px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-sm font-bold text-white transition hover:bg-[#1449B0]"
-                  >
-                    Use bathroom cost calculator
-                  </Link>
-                  <Link
-                    href="/bathroom-renovation-form"
-                    className="inline-flex min-h-[52px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-sm font-bold text-[#266bf1] transition hover:border-[#266bf1]"
-                  >
-                    Or book a consultation
-                  </Link>
-                </div>
-              </div>
+              <CalculatorCTA
+                calculatorHref="/tools/bathroom-cost-calculator"
+                calculatorLabel="Use bathroom cost calculator"
+                title="Want a fast bathroom budget range before you enquire?"
+                description="Use the bathroom cost calculator to get an early range before you start comparing fixtures, layouts or fitting routes on guesswork."
+                secondaryHref="/bathroom-renovation-form"
+                secondaryLabel="Start the bathroom enquiry"
+              />
             </div>
 
             <div className="grid gap-4">
@@ -437,7 +451,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="included" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Included"
           title="What is included in a bathroom renovation"
@@ -456,7 +470,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="costs" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Costs"
           title="Bathroom renovation cost ranges in London"
@@ -485,8 +499,8 @@ export default function Page() {
       </section>
 
       <section
-        id="testimonials"
-        className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+        id="projects"
+        className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
       >
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
@@ -624,7 +638,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="reviews" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Reviews"
           title="Bathroom-specific reviews, not generic compliments"
@@ -669,7 +683,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="process" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl bg-[#100b47] px-6 py-10 text-white md:px-10 lg:px-12 lg:py-14">
           <SectionHeading
             eyebrow="Process"
@@ -694,11 +708,34 @@ export default function Page() {
         </div>
       </section>
 
-      <Guarantee />
+      <ExternalAuthority
+        title="Bathroom safety and compliance guidance"
+        description="Bathroom work combines water, hot-water safety, ventilation and electrical zones. These official documents explain the national standards that sit behind a properly planned installation."
+        links={[
+          {
+            label: "Approved Document G",
+            href: "https://www.gov.uk/government/publications/sanitation-hot-water-safety-and-water-efficiency-approved-document-g",
+          },
+          {
+            label: "Approved Document P",
+            href: "https://www.gov.uk/government/collections/approved-documents",
+          },
+        ]}
+      />
+
+      <div id="guarantees" className="scroll-mt-24">
+        <Guarantee />
+      </div>
+
+      <AreasServed
+        groups={SERVICE_AREA_GROUPS}
+        title="Bathroom renovation services across East, North and selected Central London"
+        description="Our core patch prioritises the areas where we can coordinate survey, supply and installation reliably while maintaining the finish and communication standards the work requires."
+      />
 
       <FAQ content={faqs} />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="guides" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Useful Reading"
           title="The bathroom guides worth reading before you commit"
@@ -761,6 +798,20 @@ export default function Page() {
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
               >
                 Book your bathroom consultation
+              </Link>
+              <Link
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
+              >
+                Book a discovery call
+              </Link>
+              <Link
+                href="tel:07922391591"
+                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
+              >
+                Call us
               </Link>
               <Link
                 href="/tools/bathroom-cost-calculator"

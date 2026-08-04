@@ -3,6 +3,15 @@ import Link from "next/link";
 import FAQ from "@/components/FAQ";
 import Guarantee from "@/components/Guarantee";
 import Hero from "@/components/hero/Hero";
+import AreasServed from "@/components/servicePage/AreasServed";
+import CalculatorCTA from "@/components/servicePage/CalculatorCTA";
+import ExternalAuthority from "@/components/servicePage/ExternalAuthority";
+import SectionNav from "@/components/servicePage/SectionNav";
+import TrustBar from "@/components/servicePage/TrustBar";
+import {
+  SERVICE_AREA_GROUPS,
+  trustBarItems,
+} from "@/components/servicePage/servicePageData";
 import SocialProof from "@/components/socialProof/SocialProof";
 import config from "@/config";
 import { BOOKING_URL } from "@/libs/booking";
@@ -11,7 +20,6 @@ import { getSEOTags } from "@/libs/seo";
 import {
   BUSINESS_IDS,
   SITE_URL,
-  getLocalBusinessSchema,
   getWebsiteReference,
 } from "@/libs/structuredData";
 
@@ -224,6 +232,19 @@ const guideLinks = [
 
 const pageUrl = `${SITE_URL}/loft-conversion`;
 
+const sectionNavItems = [
+  { label: "Quick answer", anchorId: "quick-answer" },
+  { label: "Why loft", anchorId: "why-loft" },
+  { label: "Costs", anchorId: "costs" },
+  { label: "Types", anchorId: "types" },
+  { label: "Reviews", anchorId: "reviews" },
+  { label: "Process", anchorId: "process" },
+  { label: "Guarantees", anchorId: "guarantees" },
+  { label: "Areas", anchorId: "areas" },
+  { label: "FAQ", anchorId: "faq" },
+  { label: "Guides", anchorId: "guides" },
+];
+
 function AnswerCard({ label, value, detail }) {
   return (
     <article className="rounded-2xl border border-[#d9e5fb] bg-white p-5 shadow-sm">
@@ -313,12 +334,6 @@ export default function Page() {
     "@context": "https://schema.org",
     "@graph": [
       {
-        ...getLocalBusinessSchema({
-          description:
-            "Loft conversion design and build services across London including dormer, hip-to-gable, mansard and rooflight loft projects.",
-        }),
-      },
-      {
         "@type": "WebPage",
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
@@ -342,6 +357,15 @@ export default function Page() {
         },
         url: pageUrl,
       },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 3, name: "Loft Conversion", item: pageUrl },
+        ],
+      },
       faqSchema,
     ],
   };
@@ -355,11 +379,18 @@ export default function Page() {
         heroCTA="Book your loft consultation"
         heroImgUrl="extension/loft-conversion.png"
         ctaTallyFormLink={BOOKING_URL}
+        prioritizeCTA
+        secondaryCtas={[
+          { label: "Call us", href: "tel:07922391591" },
+        ]}
       />
+
+      <TrustBar items={trustBarItems("10-year workmanship guarantee")} />
+      <SectionNav items={sectionNavItems} />
 
       <SocialProof />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="quick-answer" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-start">
             <div>
@@ -392,7 +423,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="why-loft" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Why Loft"
           title="Why loft conversions work so well in London"
@@ -412,7 +443,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="costs" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Costs"
           title="Loft conversion costs by type in London"
@@ -464,9 +495,16 @@ export default function Page() {
             </div>
           ))}
         </div>
+        <CalculatorCTA
+          calculatorHref="/extension-calculator"
+          calculatorLabel="Estimate your loft conversion"
+          title="Get a useful loft budget range before you enquire"
+          description="The extension calculator includes loft conversion as a project type, making it the closest live tool for comparing an early low, expected and high range."
+          secondaryHref={BOOKING_URL}
+        />
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="types" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Types"
           title="Which loft conversion route fits your house?"
@@ -480,7 +518,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section id="testimonials" className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="reviews" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
             <div>
@@ -575,7 +613,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="process" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <div className="overflow-hidden rounded-2xl bg-[#100b47] px-6 py-10 text-white md:px-10 lg:px-12 lg:py-14">
           <SectionHeading
             eyebrow="Process"
@@ -600,11 +638,34 @@ export default function Page() {
         </div>
       </section>
 
-      <Guarantee />
+      <ExternalAuthority
+        title="Check the official loft conversion rules"
+        description="Many house lofts can use permitted development, but property type, local restrictions, structure and Party Wall duties still need to be checked before you rely on that route."
+        links={[
+          {
+            label: "Planning Portal loft guide",
+            href: "https://www.planningportal.co.uk/permission/home-improvement/project-advice/project-advice-loft-conversion/planning-a-loft-conversion/",
+          },
+          {
+            label: "GOV.UK Party Wall guide",
+            href: "https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls",
+          },
+        ]}
+      />
+
+      <div id="guarantees" className="scroll-mt-24">
+        <Guarantee />
+      </div>
+
+      <AreasServed
+        groups={SERVICE_AREA_GROUPS}
+        title="Loft conversion services across East, North and selected Central London"
+        description="We focus on the London neighbourhoods where period roof forms, conservation context and party-wall coordination make experienced early advice especially valuable."
+      />
 
       <FAQ content={faqs} />
 
-      <section className="mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <section id="guides" className="scroll-mt-24 mx-auto max-w-[88%] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <SectionHeading
           eyebrow="Useful Reading"
           title="The loft guides worth reading before you commit"
@@ -668,6 +729,12 @@ export default function Page() {
                 className="inline-flex min-h-[56px] items-center justify-center rounded-full bg-[#266bf1] px-6 text-base font-bold text-white transition hover:bg-[#1449B0]"
               >
                 Book your loft consultation
+              </Link>
+              <Link
+                href="tel:07922391591"
+                className="inline-flex min-h-[56px] items-center justify-center rounded-full border border-[#bfd3f9] bg-white px-6 text-base font-bold text-[#266bf1] transition hover:border-[#266bf1]"
+              >
+                Call us
               </Link>
               <Link
                 href="/blog/loft-conversions-london-complete-guide-2026"
