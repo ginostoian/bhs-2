@@ -1,102 +1,57 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
-import { ProjectChange, Project } from "@/models/index.js";
+import { ProjectChange } from "@/models/index.js";
 import UserChangesClient from "./components/UserChangesClient";
+import { ClientPageHeader } from "@/components/client-portal/ClientPage";
 
-/**
- * User Changes Dashboard Page
- * Displays all project changes for the current user
- */
 export default async function UserChangesPage() {
-  // Get user session
   const session = await getServerSession(authOptions);
-
-  // Connect to MongoDB
   await connectMongoose();
 
-  // Fetch user's changes and convert to plain objects
   const changes = await ProjectChange.find({ user: session.user.id })
     .sort({ order: 1 })
     .populate("project", "name")
     .populate("decidedBy", "name")
     .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        id: doc._id.toString(),
-        project: doc.project
+    .then((documents) =>
+      documents.map((document) => ({
+        id: document._id.toString(),
+        project: document.project
           ? {
-              id: doc.project._id.toString(),
-              name: doc.project.name,
+              id: document.project._id.toString(),
+              name: document.project.name,
             }
           : null,
-        changeNumber: doc.changeNumber,
-        name: doc.name,
-        description: doc.description,
-        cost: doc.cost,
-        status: doc.status,
-        includedInPaymentPlan: doc.includedInPaymentPlan,
-        type: doc.type,
-        order: doc.order,
-        adminNotes: doc.adminNotes,
-        requestedDate: doc.requestedDate,
-        decisionDate: doc.decisionDate,
-        decidedBy: doc.decidedBy
+        changeNumber: document.changeNumber,
+        name: document.name,
+        description: document.description,
+        cost: document.cost,
+        status: document.status,
+        includedInPaymentPlan: document.includedInPaymentPlan,
+        type: document.type,
+        order: document.order,
+        adminNotes: document.adminNotes,
+        requestedDate: document.requestedDate,
+        decisionDate: document.decisionDate,
+        decidedBy: document.decidedBy
           ? {
-              id: doc.decidedBy._id.toString(),
-              name: doc.decidedBy.name,
+              id: document.decidedBy._id.toString(),
+              name: document.decidedBy.name,
             }
           : null,
-        createdAt: doc.createdAt,
-        updatedAt: doc.updatedAt,
+        createdAt: document.createdAt,
+        updatedAt: document.updatedAt,
       })),
     );
 
   return (
     <div>
-      {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Project Changes
-            </h2>
-            <p className="mt-2 text-lg text-gray-600">
-              Review and respond to project change requests
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
-              <div className="flex items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
-                  <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-blue-600">
-                    Total Changes
-                  </p>
-                  <p className="text-2xl font-bold text-blue-900">
-                    {changes.length}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <ClientPageHeader
+        title="Project changes"
+        description="Review the scope and cost of requested changes, then record your decision."
+        meta={{ label: "Total changes", value: changes.length }}
+      />
       <UserChangesClient changes={changes} />
     </div>
   );

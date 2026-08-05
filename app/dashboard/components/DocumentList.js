@@ -8,7 +8,7 @@ export default function DocumentList({ documents, type }) {
   // Safety check for documents prop
   if (!documents || !Array.isArray(documents)) {
     return (
-      <div className="rounded-xl bg-white p-8 text-center shadow-sm ring-1 ring-gray-200">
+      <div className="border border-[#dedbd2] bg-[#fbfaf7] p-8 text-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
           <svg
             className="h-8 w-8 text-gray-400"
@@ -104,7 +104,7 @@ export default function DocumentList({ documents, type }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
       {documents.map((doc) => {
         // Debug logging for photos
         if (doc.type === "photo") {
@@ -118,17 +118,14 @@ export default function DocumentList({ documents, type }) {
         }
 
         return (
-          <div
-            key={doc.id}
-            className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-md"
-          >
-            <div className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
+          <div key={doc.id} className="overflow-hidden px-5 py-5 sm:px-6">
+            <div>
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0 flex-1">
                   <div className="mb-3 flex items-center space-x-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-200">
+                    <div className="flex h-10 w-10 items-center justify-center bg-[#efede6]">
                       <svg
-                        className="h-5 w-5 text-blue-600"
+                        className="h-5 w-5 text-[#43504b]"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"

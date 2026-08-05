@@ -112,20 +112,17 @@ export default function UserQuotesList({ quotes }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
       {quotes.map((quote) => {
         const expired = isExpired(quote.validUntil);
         const daysUntilExpiry = getDaysUntilExpiry(quote.validUntil);
 
         return (
-          <div
-            key={quote.id}
-            className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200 transition-shadow hover:shadow-md"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="mb-2 flex items-center space-x-3">
-                  <h3 className="text-lg font-semibold text-gray-900">
+          <div key={quote.id} className="px-5 py-6 sm:px-6">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div className="min-w-0 flex-1">
+                <div className="mb-2 flex flex-wrap items-center gap-2.5">
+                  <h3 className="text-lg font-semibold text-[#17231f]">
                     {quote.title}
                   </h3>
                   {getStatusBadge(quote.status)}
@@ -134,7 +131,9 @@ export default function UserQuotesList({ quotes }) {
                   </span>
                 </div>
 
-                <p className="mb-4 text-gray-700">{quote.projectDescription}</p>
+                <p className="mb-4 text-sm leading-6 text-[#66716d]">
+                  {quote.projectDescription}
+                </p>
 
                 <div className="grid grid-cols-1 gap-4 text-sm text-gray-600 md:grid-cols-4">
                   <div className="flex items-center space-x-2">
@@ -189,9 +188,9 @@ export default function UserQuotesList({ quotes }) {
                 ) : null}
               </div>
 
-              <div className="ml-6 flex flex-col items-end space-y-4">
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-gray-900">
+              <div className="flex shrink-0 flex-col gap-4 lg:items-end">
+                <div className="lg:text-right">
+                  <div className="text-2xl font-semibold tracking-[-0.02em] text-[#17231f]">
                     {formatCurrency(quote.total)}
                   </div>
                   {quote.pricing?.depositRequired && (
@@ -202,12 +201,12 @@ export default function UserQuotesList({ quotes }) {
                   )}
                 </div>
 
-                <div className="flex space-x-2">
+                <div className="flex flex-wrap gap-2">
                   <a
                     href={`/quotes/${quote.publicToken || quote.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+                    className="inline-flex min-h-10 items-center rounded-md border border-[#d8d4ca] bg-white px-3 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] hover:text-[#17231f]"
                   >
                     <Eye className="mr-2 h-4 w-4" />
                     View Quote
@@ -216,7 +215,7 @@ export default function UserQuotesList({ quotes }) {
                     <button
                       onClick={() => handleDownloadPDF(quote)}
                       disabled={downloadingPDF === quote.id}
-                      className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
+                      className="inline-flex min-h-10 items-center rounded-md bg-[#1559d6] px-3 text-xs font-semibold text-white hover:bg-[#104dbd] disabled:opacity-50"
                     >
                       {downloadingPDF === quote.id ? (
                         <>
@@ -237,7 +236,7 @@ export default function UserQuotesList({ quotes }) {
 
             {/* Project Summary */}
             {quote.services && quote.services.length > 0 && (
-              <div className="mt-6 border-t border-gray-200 pt-4">
+              <div className="mt-6 border-t border-[#e5e2da] pt-4">
                 <h4 className="mb-3 text-sm font-medium text-gray-900">
                   Project Summary
                 </h4>

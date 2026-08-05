@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Image as ImageIcon } from "lucide-react";
 
 export default function PhotoSlideshow({ photos }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -8,12 +9,14 @@ export default function PhotoSlideshow({ photos }) {
   // Safety check for photos prop
   if (!photos || !Array.isArray(photos) || photos.length === 0) {
     return (
-      <div className="py-12 text-center">
-        <div className="mb-4 text-6xl">📸</div>
-        <h3 className="mb-2 text-lg font-medium text-gray-900">
+      <div className="border border-[#dedbd2] bg-[#fbfaf7] px-6 py-14 text-center">
+        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#efede6] text-[#52605b]">
+          <ImageIcon aria-hidden="true" className="h-5 w-5" strokeWidth={1.6} />
+        </div>
+        <h3 className="mb-2 text-lg font-medium text-[#17231f]">
           No photos yet
         </h3>
-        <p className="text-gray-600">
+        <p className="text-sm text-[#66716d]">
           Project photos will be added here by our team as work progresses.
         </p>
       </div>
@@ -49,7 +52,7 @@ export default function PhotoSlideshow({ photos }) {
   return (
     <div className="space-y-6">
       {/* Main Slideshow */}
-      <div className="relative overflow-hidden rounded-lg bg-gray-100 shadow-lg">
+      <div className="relative overflow-hidden border border-[#dedbd2] bg-[#efede6]">
         {/* Image Container */}
         <div className="relative aspect-video w-full">
           <img

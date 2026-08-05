@@ -1,42 +1,59 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
+import { ClientPageHeader } from "@/components/client-portal/ClientPage";
 
 const EMAIL_TYPES = [
   {
     key: "welcome",
-    label: "Welcome Emails",
+    label: "Welcome emails",
     description: "Receive a welcome email when your account is created.",
   },
   {
     key: "documents",
-    label: "Document Notifications",
+    label: "Document notifications",
     description:
-      "Get notified when new quotes, invoices, or documents are added to your project.",
+      "Get notified when quotes, invoices or documents are added to your project.",
   },
   {
     key: "payments",
-    label: "Payment Reminders",
+    label: "Payment reminders",
     description: "Receive reminders for upcoming and overdue payments.",
   },
   {
     key: "projectStatus",
-    label: "Project Status Updates",
-    description:
-      "Be alerted when your project status changes (e.g., from Lead to On Going).",
+    label: "Project status updates",
+    description: "Be alerted when the status of your project changes.",
   },
   {
     key: "announcements",
-    label: "System Announcements",
-    description: "Get important announcements about the platform.",
+    label: "System announcements",
+    description: "Get important announcements about the client portal.",
   },
   {
     key: "marketing",
-    label: "Marketing Emails",
+    label: "Marketing emails",
     description: "Receive occasional marketing and promotional emails.",
   },
 ];
+
+function Toggle({ checked, disabled = false, onChange, label }) {
+  return (
+    <label className="relative inline-flex min-h-11 cursor-pointer items-center">
+      <span className="sr-only">{label}</span>
+      <input
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        onChange={onChange}
+        className="peer sr-only"
+      />
+      <span className="h-6 w-11 rounded-full bg-[#d8d4ca] after:absolute after:left-[2px] after:top-[11px] after:h-5 after:w-5 after:rounded-full after:border after:border-[#c8c4ba] after:bg-white after:transition-transform after:content-[''] peer-checked:bg-[#1559d6] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#1559d6] peer-focus-visible:ring-offset-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-45" />
+    </label>
+  );
+}
 
 export default function EmailPreferencesPage() {
   const [loading, setLoading] = useState(true);
@@ -45,43 +62,35 @@ export default function EmailPreferencesPage() {
   const [enabled, setEnabled] = useState(true);
 
   useEffect(() => {
+    const fetchPreferences = async () => {
+      try {
+        const response = await fetch("/api/email-preferences");
+        if (!response.ok) throw new Error("Failed to fetch preferences");
+        const data = await response.json();
+        setPreferences(data.preferences || {});
+        setEnabled(data.enabled !== false);
+      } catch (error) {
+        console.error("Could not load email preferences:", error);
+        toast.error("Could not load email preferences");
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchPreferences();
   }, []);
-
-  const fetchPreferences = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/email-preferences");
-      if (!res.ok) throw new Error("Failed to fetch preferences");
-      const data = await res.json();
-      setPreferences(data.preferences || {});
-      setEnabled(data.enabled !== false);
-    } catch (e) {
-      toast.error("Could not load email preferences");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggle = (key) => {
-    setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const handleMasterToggle = () => {
-    setEnabled((prev) => !prev);
-  };
 
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await fetch("/api/email-preferences", {
+      const response = await fetch("/api/email-preferences", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ enabled, preferences }),
       });
-      if (!res.ok) throw new Error("Failed to save preferences");
-      toast.success("Preferences saved!");
-    } catch (e) {
+      if (!response.ok) throw new Error("Failed to save preferences");
+      toast.success("Preferences saved");
+    } catch (error) {
+      console.error("Could not save email preferences:", error);
       toast.error("Could not save preferences");
     } finally {
       setSaving(false);
@@ -90,187 +99,83 @@ export default function EmailPreferencesPage() {
 
   return (
     <div>
-      {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Email Preferences
-            </h2>
-            <p className="mt-2 text-lg text-gray-600">
-              Control which types of emails you receive from Better Homes.
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="rounded-lg bg-gradient-to-r from-emerald-50 to-teal-50 p-4">
-              <div className="flex items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500">
-                  <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-emerald-600">
-                    Email Settings
-                  </p>
-                  <p className="text-2xl font-bold text-emerald-900">
-                    {EMAIL_TYPES.length}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ClientPageHeader
+        title="Email preferences"
+        description="Choose which project and account updates arrive in your inbox."
+        meta={{ label: "Notification types", value: EMAIL_TYPES.length }}
+      />
 
-      <div className="space-y-6">
-        {/* Master Toggle */}
-        <div className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
-          <div className="flex items-center justify-between">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          handleSave();
+        }}
+        className="max-w-4xl"
+      >
+        <section className="border border-[#dedbd2] bg-[#fbfaf7]">
+          <div className="flex items-center justify-between gap-5 border-b border-[#dedbd2] px-5 py-5 sm:px-6">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Enable All Emails
-              </h3>
-              <p className="text-sm text-gray-600">
-                Master toggle to enable or disable all email notifications
+              <h2 className="text-sm font-semibold text-[#17231f]">
+                All email notifications
+              </h2>
+              <p className="mt-1 text-xs leading-5 text-[#66716d]">
+                Pause or resume every portal email with one control.
               </p>
             </div>
-            <label className="relative inline-flex cursor-pointer items-center">
-              <input
-                type="checkbox"
-                checked={enabled}
-                onChange={handleMasterToggle}
-                className="peer sr-only"
-              />
-              <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300"></div>
-            </label>
+            <Toggle
+              checked={enabled}
+              onChange={() => setEnabled((value) => !value)}
+              label="Enable all email notifications"
+            />
           </div>
-        </div>
 
-        {loading ? (
-          <div className="rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-200">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-              <svg
-                className="h-8 w-8 animate-spin text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+          {loading ? (
+            <div className="flex min-h-[260px] items-center justify-center">
+              <LoaderCircle className="h-6 w-6 animate-spin text-[#1559d6]" />
             </div>
-            <p className="text-gray-500">Loading preferences...</p>
-          </div>
-        ) : (
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSave();
-            }}
-            className="space-y-6"
-          >
-            <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-              <div className="border-b border-gray-200 px-6 py-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Email Notification Types
-                </h3>
-                <p className="mt-1 text-sm text-gray-600">
-                  Choose which types of emails you want to receive
-                </p>
-              </div>
-              <div className="divide-y divide-gray-200">
-                {EMAIL_TYPES.map((type) => (
-                  <div
-                    key={type.key}
-                    className="flex items-center justify-between px-6 py-4 transition-colors hover:bg-gray-50"
-                  >
-                    <div className="flex-1">
-                      <div className="font-medium text-gray-900">
-                        {type.label}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {type.description}
-                      </div>
-                    </div>
-                    <label className="relative inline-flex cursor-pointer items-center">
-                      <input
-                        type="checkbox"
-                        checked={!!preferences[type.key] && enabled}
-                        disabled={!enabled}
-                        onChange={() => handleToggle(type.key)}
-                        className="peer sr-only"
-                      />
-                      <div
-                        className={`peer h-6 w-11 rounded-full after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 ${
-                          enabled
-                            ? "bg-gray-200 peer-checked:bg-blue-600"
-                            : "cursor-not-allowed bg-gray-100"
-                        }`}
-                      ></div>
-                    </label>
+          ) : (
+            <div className="divide-y divide-[#e5e2da]">
+              {EMAIL_TYPES.map((type) => (
+                <div
+                  key={type.key}
+                  className="flex items-center justify-between gap-5 px-5 py-4 sm:px-6"
+                >
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-medium text-[#17231f]">
+                      {type.label}
+                    </h3>
+                    <p className="mt-1 text-xs leading-5 text-[#66716d]">
+                      {type.description}
+                    </p>
                   </div>
-                ))}
-              </div>
+                  <Toggle
+                    checked={Boolean(preferences[type.key]) && enabled}
+                    disabled={!enabled}
+                    onChange={() =>
+                      setPreferences((current) => ({
+                        ...current,
+                        [type.key]: !current[type.key],
+                      }))
+                    }
+                    label={type.label}
+                  />
+                </div>
+              ))}
             </div>
+          )}
+        </section>
 
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={saving}
-                className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {saving ? (
-                  <>
-                    <svg
-                      className="mr-2 h-4 w-4 animate-spin"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Saving...
-                  </>
-                ) : (
-                  "Save Preferences"
-                )}
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
+        <div className="mt-5 flex justify-end">
+          <button
+            type="submit"
+            disabled={loading || saving}
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#1559d6] px-5 text-xs font-semibold text-white transition-colors hover:bg-[#104dbd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1559d6] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
+            {saving ? "Saving…" : "Save preferences"}
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

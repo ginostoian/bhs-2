@@ -1,25 +1,26 @@
 import { cookies } from "next/headers";
 import { getServerSession } from "next-auth/next";
-import { Paintbrush } from "lucide-react";
+import { Archive, FilePlus2 } from "lucide-react";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
-import Moodboard from "@/models/Moodboard";
-import MoodboardsList from "./components/MoodboardsList";
+import Document from "@/models/Document";
+import DocumentList from "../components/DocumentList";
 import {
   ClientEmptyState,
   ClientPageHeader,
+  ClientPrimaryLink,
 } from "@/components/client-portal/ClientPage";
 
-export default async function MoodboardsPage() {
+export default async function QuoteArchivePage() {
   const session = await getServerSession(authOptions);
   await connectMongoose();
 
   const selectedProjectId = cookies().get("selectedProjectId")?.value;
-  const query = { user: session.user.id, isActive: true };
+  const query = { user: session.user.id, type: "quote" };
   if (selectedProjectId) query.project = selectedProjectId;
 
-  const moodboards = await Moodboard.find(query)
-    .sort({ updatedAt: -1 })
+  const quotes = await Document.find(query)
+    .sort({ createdAt: -1 })
     .populate("user", "name email")
     .lean()
     .then((documents) =>
@@ -40,17 +41,23 @@ export default async function MoodboardsPage() {
   return (
     <div>
       <ClientPageHeader
-        title="Moodboards"
-        description="Review product selections, compare options and record your approvals."
-        meta={{ label: "Total moodboards", value: moodboards.length }}
+        title="Quote archive"
+        description="Your earlier quote records remain available here exactly as before."
+        meta={{ label: "Archived quotes", value: quotes.length }}
       />
-      {moodboards.length ? (
-        <MoodboardsList moodboards={moodboards} />
+      {quotes.length ? (
+        <DocumentList documents={quotes} type="quote" />
       ) : (
         <ClientEmptyState
-          icon={Paintbrush}
-          title="No moodboards yet"
-          description="Your moodboards will appear here once they are created by our team."
+          icon={Archive}
+          title="No archived quotes"
+          description="Older quote documents linked to this project will appear here."
+          action={
+            <ClientPrimaryLink href="/dashboard/request-quote">
+              <FilePlus2 aria-hidden="true" className="h-4 w-4" />
+              Request a quote
+            </ClientPrimaryLink>
+          }
         />
       )}
     </div>

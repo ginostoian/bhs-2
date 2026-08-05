@@ -88,9 +88,9 @@ export default function InstructionForm({ onInstructionAdded }) {
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
-      <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Add New Instructions
+    <div className="border border-[#dedbd2] bg-[#fbfaf7] p-5 sm:p-6">
+      <h3 className="mb-4 text-base font-semibold text-[#17231f]">
+        Add an instruction
       </h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -106,7 +106,7 @@ export default function InstructionForm({ onInstructionAdded }) {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             rows={4}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="w-full rounded-md border border-[#d8d4ca] bg-white px-3 py-2 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
             placeholder="Share your instructions, questions, or feedback about your project..."
             disabled={isSubmitting}
           />
@@ -116,7 +116,7 @@ export default function InstructionForm({ onInstructionAdded }) {
           <button
             type="submit"
             disabled={isSubmitting || !comment.trim()}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex min-h-11 items-center rounded-md bg-[#1559d6] px-4 text-xs font-semibold text-white hover:bg-[#104dbd] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? "Adding..." : "Add Instructions"}
           </button>

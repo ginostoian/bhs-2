@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import apiClient from "@/libs/api";
+import { ClientPageHeader } from "@/components/client-portal/ClientPage";
 
 export default function AccountSettingsPage() {
   const { data: session } = useSession();
@@ -96,18 +97,22 @@ export default function AccountSettingsPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <div className="bg-white shadow sm:rounded-lg">
+    <div>
+      <ClientPageHeader
+        title="Account settings"
+        description="Manage your account details and keep your sign-in secure."
+      />
+      <div className="max-w-2xl border border-[#dedbd2] bg-[#fbfaf7]">
         <div className="px-4 py-5 sm:p-6">
-          <h3 className="text-lg font-medium leading-6 text-gray-900">
-            Account Settings
+          <h3 className="text-lg font-medium leading-6 text-[#17231f]">
+            Your account
           </h3>
           <div className="mt-2 max-w-xl text-sm text-gray-500">
             <p>Manage your account settings and security preferences.</p>
           </div>
 
           {/* User Info */}
-          <div className="mt-6 border-t border-gray-200 pt-6">
+          <div className="mt-6 border-t border-[#dedbd2] pt-6">
             <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
               <div>
                 <dt className="text-sm font-medium text-gray-500">Name</dt>
@@ -125,7 +130,7 @@ export default function AccountSettingsPage() {
           </div>
 
           {/* Password Change Form */}
-          <div className="mt-8 border-t border-gray-200 pt-8">
+          <div className="mt-8 border-t border-[#dedbd2] pt-8">
             <h4 className="text-md mb-4 font-medium text-gray-900">
               Change Password
             </h4>

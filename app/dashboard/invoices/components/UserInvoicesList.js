@@ -128,20 +128,17 @@ export default function UserInvoicesList({ invoices }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
       {invoices.map((invoice) => {
         const daysUntilDue = getDaysUntilDue(invoice.dueDate);
         const isOverdue = invoice.isOverdue;
 
         return (
-          <div
-            key={invoice.id}
-            className="rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-200 transition-shadow hover:shadow-md"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="mb-2 flex items-center space-x-3">
-                  <h3 className="text-lg font-semibold text-gray-900">
+          <div key={invoice.id} className="px-5 py-6 sm:px-6">
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div className="min-w-0 flex-1">
+                <div className="mb-2 flex flex-wrap items-center gap-2.5">
+                  <h3 className="text-lg font-semibold text-[#17231f]">
                     Invoice #{invoice.invoiceNumber}
                   </h3>
                   {getStatusBadge(invoice.status, isOverdue)}
@@ -205,20 +202,20 @@ export default function UserInvoicesList({ invoices }) {
                 )}
               </div>
 
-              <div className="ml-6 flex flex-col items-end">
-                <div className="mb-4 text-right">
+              <div className="flex shrink-0 flex-col lg:items-end">
+                <div className="mb-4 lg:text-right">
                   <p className="text-sm text-gray-500">Total Amount</p>
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-2xl font-semibold tracking-[-0.02em] text-[#17231f]">
                     {formatCurrency(invoice.total)}
                   </p>
                 </div>
 
-                <div className="flex w-full max-w-xs flex-col space-y-2">
+                <div className="flex w-full flex-wrap gap-2 lg:max-w-xs lg:flex-col">
                   <a
                     href={`/invoices/${invoice.publicToken}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#1559d6] px-4 text-xs font-semibold text-white hover:bg-[#104dbd] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#1559d6] focus:ring-offset-2"
                   >
                     <ExternalLink className="mr-2 h-4 w-4" />
                     View Invoice
@@ -227,7 +224,7 @@ export default function UserInvoicesList({ invoices }) {
                   <button
                     onClick={() => handleDownloadPDF(invoice)}
                     disabled={downloadingPDF === invoice.id}
-                    className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#d8d4ca] bg-white px-4 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] focus:outline-none focus:ring-2 focus:ring-[#1559d6] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     {downloadingPDF === invoice.id
@@ -239,7 +236,7 @@ export default function UserInvoicesList({ invoices }) {
             </div>
 
             {/* Line Items Summary */}
-            <div className="mt-4 border-t border-gray-200 pt-4">
+            <div className="mt-5 border-t border-[#e5e2da] pt-4">
               <h4 className="mb-2 text-sm font-medium text-gray-900">
                 Invoice Breakdown
               </h4>

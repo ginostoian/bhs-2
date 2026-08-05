@@ -2,62 +2,67 @@
 
 import { useProject } from "./ProjectContext";
 import { useState } from "react";
+import { Building2, Check, ChevronDown } from "lucide-react";
 
 const ProjectSelector = () => {
   const { projects, selectedProject, selectProject, loading } = useProject();
   const [isOpen, setIsOpen] = useState(false);
 
-  if (loading || projects.length <= 1) return null;
+  if (loading) {
+    return (
+      <div className="h-11 w-full max-w-[290px] animate-pulse rounded-md border border-white/15 bg-white/[0.06] lg:border-black/10 lg:bg-black/[0.04]" />
+    );
+  }
 
   return (
-    <div className="relative inline-block text-left">
+    <div className="relative w-full max-w-[290px] text-left">
       <div>
         <button
           type="button"
-          className="inline-flex h-9 max-w-[180px] items-center justify-center gap-x-1.5 truncate rounded-md border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:max-w-[240px]"
+          className="inline-flex h-11 w-full items-center gap-2 rounded-md border border-white/20 bg-white/[0.06] px-3 text-left text-xs font-medium text-white transition-colors hover:bg-white/[0.1] focus:outline-none focus:ring-2 focus:ring-[#7ea1ff] focus:ring-offset-2 focus:ring-offset-[#10251e] lg:border-[#dedbd2] lg:bg-white lg:text-[#17231f] lg:hover:border-[#c8c4ba] lg:hover:bg-[#f8f7f3] lg:focus:ring-[#1559d6] lg:focus:ring-offset-[#fbfaf7]"
           id="project-menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {selectedProject?.name || "Select Project"}
-          <svg
-            className="-mr-1 h-5 w-5 text-gray-400"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-              clipRule="evenodd"
+          <Building2
+            className="h-4 w-4 shrink-0 opacity-65"
+            strokeWidth={1.7}
+          />
+          <span className="min-w-0 flex-1 truncate">
+            {selectedProject?.name || "No project selected"}
+          </span>
+          {projects.length > 1 ? (
+            <ChevronDown
+              aria-hidden="true"
+              className={`h-4 w-4 shrink-0 opacity-60 transition-transform ${isOpen ? "rotate-180" : ""}`}
             />
-          </svg>
+          ) : null}
         </button>
       </div>
 
-      {isOpen && (
+      {isOpen && projects.length > 1 && (
         <>
           <div
             className="fixed inset-0 z-10"
             onClick={() => setIsOpen(false)}
           ></div>
           <div
-            className="absolute right-0 z-20 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+            className="absolute left-0 z-20 mt-2 w-full min-w-[260px] origin-top-left overflow-hidden rounded-md border border-[#dedbd2] bg-white p-1.5 shadow-xl shadow-black/10 focus:outline-none"
             role="menu"
             aria-orientation="vertical"
             aria-labelledby="project-menu-button"
             tabIndex="-1"
           >
-            <div className="py-1" role="none">
+            <div role="none">
               {projects.map((project) => (
                 <button
                   key={project.id}
-                  className={`${
+                  className={`flex min-h-10 w-full items-center gap-2 rounded px-3 text-left text-xs transition-colors ${
                     selectedProject?.id === project.id
-                      ? "bg-gray-100 text-gray-900"
-                      : "text-gray-700"
-                  } block w-full px-4 py-2 text-left text-sm hover:bg-gray-50`}
+                      ? "bg-[#eef2ff] font-semibold text-[#1559d6]"
+                      : "text-[#43504b] hover:bg-[#f5f3ed] hover:text-[#17231f]"
+                  }`}
                   role="menuitem"
                   tabIndex="-1"
                   onClick={() => {
@@ -67,20 +72,8 @@ const ProjectSelector = () => {
                 >
                   {project.name}
                   {selectedProject?.id === project.id && (
-                    <span className="float-right text-indigo-600">
-                      <svg
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
+                    <span className="ml-auto text-[#1559d6]">
+                      <Check aria-hidden="true" className="h-4 w-4" />
                     </span>
                   )}
                 </button>

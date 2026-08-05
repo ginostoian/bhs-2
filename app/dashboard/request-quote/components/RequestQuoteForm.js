@@ -110,14 +110,14 @@ export default function RequestQuoteForm() {
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
-      <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Request a Quote
+    <div className="max-w-4xl border border-[#dedbd2] bg-[#fbfaf7] p-5 sm:p-7">
+      <h3 className="mb-5 text-base font-semibold text-[#17231f]">
+        Project details
       </h3>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="grid gap-6 sm:grid-cols-2">
         {/* Project Type */}
-        <div>
+        <div className="sm:col-span-2">
           <label
             htmlFor="projectType"
             className="mb-2 block text-sm font-medium text-gray-700"
@@ -130,7 +130,7 @@ export default function RequestQuoteForm() {
             value={formData.projectType}
             onChange={handleChange}
             required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="min-h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
           >
             <option value="">Select project type</option>
             <option value="kitchen-renovation">Kitchen Renovation</option>
@@ -144,7 +144,7 @@ export default function RequestQuoteForm() {
         </div>
 
         {/* Project Description */}
-        <div>
+        <div className="sm:col-span-2">
           <label
             htmlFor="description"
             className="mb-2 block text-sm font-medium text-gray-700"
@@ -158,7 +158,7 @@ export default function RequestQuoteForm() {
             value={formData.description}
             onChange={handleChange}
             required
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="w-full rounded-md border border-[#d8d4ca] bg-white px-3 py-2 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
             placeholder="Describe your renovation project in detail..."
           />
         </div>
@@ -176,7 +176,7 @@ export default function RequestQuoteForm() {
             name="timeline"
             value={formData.timeline}
             onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="min-h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
           >
             <option value="">Select timeline</option>
             <option value="asap">As soon as possible</option>
@@ -200,7 +200,7 @@ export default function RequestQuoteForm() {
             name="budget"
             value={formData.budget}
             onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="min-h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
           >
             <option value="">Select budget range</option>
             <option value="under-10k">Under £10,000</option>
@@ -226,7 +226,7 @@ export default function RequestQuoteForm() {
             name="address"
             value={formData.address}
             onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="min-h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
             placeholder="Enter the address where the work will be done"
           />
         </div>
@@ -245,17 +245,17 @@ export default function RequestQuoteForm() {
             name="contactPhone"
             value={formData.contactPhone}
             onChange={handleChange}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+            className="min-h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#17231f] focus:border-[#1559d6] focus:outline-none focus:ring-2 focus:ring-[#1559d6]/15"
             placeholder="Enter your phone number"
           />
         </div>
 
         {/* Submit Button */}
-        <div className="flex justify-end">
+        <div className="flex justify-end sm:col-span-2">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex min-h-11 items-center rounded-md bg-[#1559d6] px-5 text-xs font-semibold text-white hover:bg-[#104dbd] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? "Submitting..." : "Submit Quote Request"}
           </button>

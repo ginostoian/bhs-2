@@ -24,7 +24,7 @@ import {
  * - Shows last updated time for transparency
  * - Only polls for users with "Lead" or "On Going" project status
  */
-const NotificationBell = ({ userProjectStatus }) => {
+const NotificationBell = ({ userProjectStatus, clientTone = false }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -244,7 +244,12 @@ const NotificationBell = ({ userProjectStatus }) => {
       {/* Notification Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative rounded-full p-2 text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+        className={`relative flex h-11 w-11 items-center justify-center rounded-md transition-colors ${
+          clientTone
+            ? "text-white/80 hover:bg-white/10 hover:text-white lg:text-[#43504b] lg:hover:bg-[#f0eee7] lg:hover:text-[#17231f]"
+            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+        }`}
+        aria-label="Open notifications"
       >
         <Bell className="h-5 w-5" />
         {unreadCount > 0 && (

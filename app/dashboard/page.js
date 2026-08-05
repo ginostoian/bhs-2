@@ -1,148 +1,132 @@
+import { cookies } from "next/headers";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
+import Project from "@/models/Project";
 import Document from "@/models/Document";
-import DocumentList from "./components/DocumentList";
-import { cookies } from "next/headers";
+import Quote from "@/models/Quote";
+import Invoice from "@/models/Invoice";
+import Payment from "@/models/Payment";
+import ProjectChange from "@/models/ProjectChange";
+import Ticket from "@/models/Ticket";
+import ClientOverview, {
+  formatClientDate,
+} from "@/components/client-portal/ClientOverview";
 
-/**
- * Dashboard Main Page - Quotes
- * Displays user's quotes and allows requesting new ones
- */
 export default async function DashboardPage() {
-  // Get user session
   const session = await getServerSession(authOptions);
-
-  // Connect to MongoDB
   await connectMongoose();
 
-  // Get selected project from cookies
-  const cookieStore = cookies();
-  const selectedProjectId = cookieStore.get("selectedProjectId")?.value;
-
-  // Fetch user's quotes and convert to plain objects
-  const query = {
-    user: session.user.id,
-    type: "quote",
-  };
-
-  if (selectedProjectId) {
-    query.project = selectedProjectId;
-  }
-
-  const quotes = await Document.find(query)
+  const userId = session.user.id;
+  const selectedProjectId = cookies().get("selectedProjectId")?.value;
+  const projects = await Project.find({ user: userId })
     .sort({ createdAt: -1 })
-    .populate("user", "name email")
-    .lean()
-    .then((docs) =>
-      docs.map((doc) => ({
-        ...doc,
-        id: doc._id.toString(),
-        _id: undefined,
-        user: doc.user
-          ? {
-              ...doc.user,
-              id: doc.user._id.toString(),
-              _id: undefined,
-            }
-          : doc.user,
-      })),
-    );
+    .lean();
+  const selectedProject =
+    projects.find((project) => project._id.toString() === selectedProjectId) ||
+    projects[0] ||
+    null;
+  const projectFilter = selectedProject ? { project: selectedProject._id } : {};
+
+  const [
+    legacyDocuments,
+    quotes,
+    invoices,
+    upcomingPayment,
+    openChange,
+    openTicket,
+  ] = await Promise.all([
+    Document.find({
+      user: userId,
+      type: { $in: ["quote", "invoice"] },
+      ...projectFilter,
+    })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean(),
+    Quote.find({ linkedUser: userId })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("title quoteNumber status createdAt")
+      .lean(),
+    Invoice.find({ linkedUser: userId, ...projectFilter })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .select("title invoiceNumber status createdAt")
+      .lean(),
+    Payment.findOne({
+      user: userId,
+      status: { $ne: "Paid" },
+      ...projectFilter,
+    })
+      .sort({ dueDate: 1 })
+      .lean(),
+    ProjectChange.findOne({
+      user: userId,
+      status: "Review",
+      ...projectFilter,
+    })
+      .sort({ requestedDate: -1 })
+      .lean(),
+    Ticket.findOne({
+      user: userId,
+      status: { $nin: ["Resolved", "Closed"] },
+      ...projectFilter,
+    })
+      .sort({ updatedAt: -1 })
+      .lean(),
+  ]);
+
+  const recentDocuments = [
+    ...legacyDocuments.map((document) => ({
+      id: document._id.toString(),
+      title:
+        document.type === "invoice" ? "Archived invoice" : "Archived quote",
+      detail: `Added ${formatClientDate(document.createdAt)}`,
+      href: "/dashboard/quote-archive",
+      createdAt: document.createdAt,
+    })),
+    ...quotes.map((quote) => ({
+      id: quote._id.toString(),
+      title: quote.title || quote.quoteNumber || "Quote",
+      detail: `${quote.quoteNumber || "Quote"} · ${quote.status || "Draft"}`,
+      href: "/dashboard/quotes",
+      createdAt: quote.createdAt,
+    })),
+    ...invoices.map((invoice) => ({
+      id: invoice._id.toString(),
+      title: invoice.title || invoice.invoiceNumber || "Invoice",
+      detail: `${invoice.invoiceNumber || "Invoice"} · ${invoice.status || "Draft"}`,
+      href: "/dashboard/invoices",
+      createdAt: invoice.createdAt,
+    })),
+  ]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5);
+
+  const openRequest = openChange
+    ? {
+        type: "change",
+        title: openChange.name,
+        detail: `Project change · requested ${formatClientDate(openChange.requestedDate)}`,
+        href: "/dashboard/changes",
+      }
+    : openTicket
+      ? {
+          type: "ticket",
+          title: openTicket.title,
+          detail: `${openTicket.ticketNumber} · ${openTicket.status}`,
+          href: `/dashboard/tickets/${openTicket._id.toString()}`,
+        }
+      : null;
 
   return (
-    <div>
-      {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900">
-              Your Quotes
-            </h2>
-            <p className="mt-2 text-lg text-gray-600">
-              View and manage your renovation quotes
-            </p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
-              <div className="flex items-center">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
-                  <svg
-                    className="h-5 w-5 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-blue-600">
-                    Total Quotes
-                  </p>
-                  <p className="text-2xl font-bold text-blue-900">
-                    {quotes.length}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {quotes.length === 0 ? (
-        <div className="rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-200">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-blue-200">
-            <svg
-              className="h-10 w-10 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-          </div>
-          <h3 className="mb-2 text-xl font-semibold text-gray-900">
-            No quotes yet
-          </h3>
-          <p className="mb-6 text-gray-600">
-            Request your first quote to get started with your renovation
-            project.
-          </p>
-          <a
-            href="/dashboard/request-quote"
-            className="inline-flex items-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-blue-600/25 transition-all duration-200 hover:from-blue-700 hover:to-blue-800 hover:shadow-xl"
-          >
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Request Quote
-          </a>
-        </div>
-      ) : (
-        <div className="space-y-6">
-          <DocumentList documents={quotes} type="quote" />
-        </div>
-      )}
-    </div>
+    <ClientOverview
+      firstName={(session.user.name || "there").split(" ")[0]}
+      project={selectedProject}
+      recentDocuments={recentDocuments}
+      upcomingPayment={upcomingPayment}
+      openRequest={openRequest}
+    />
   );
 }

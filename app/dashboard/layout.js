@@ -1,34 +1,58 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import { redirect } from "next/navigation";
-import SignOutButton from "./components/SignOutButton";
 import ProfileImage from "./components/ProfileImage";
 import NotificationBell from "./components/NotificationBell";
 import { ProjectProvider } from "./components/ProjectContext";
 import ProjectSelector from "./components/ProjectSelector";
-import PortalShell from "@/components/portal/PortalShell";
+import ClientPortalShell from "@/components/client-portal/ClientPortalShell";
 
 const clientNavigation = [
   {
     name: "",
     items: [
-      { name: "Quote archive", href: "/dashboard", icon: "archive" },
+      { name: "Overview", href: "/dashboard", icon: "dashboard", exact: true },
+    ],
+  },
+  {
+    name: "Your project",
+    defaultOpen: true,
+    items: [
+      { name: "Project details", href: "/dashboard/project", icon: "project" },
       { name: "Quotes", href: "/dashboard/quotes", icon: "quotes" },
       { name: "Moodboards", href: "/dashboard/moodboards", icon: "moodboards" },
-      { name: "Invoices", href: "/dashboard/invoices", icon: "invoices" },
-      { name: "Payments", href: "/dashboard/payments", icon: "payments" },
-      { name: "Changes", href: "/dashboard/changes", icon: "changes" },
+      { name: "Project changes", href: "/dashboard/changes", icon: "changes" },
       {
         name: "Instructions",
         href: "/dashboard/instructions",
         icon: "instructions",
       },
       { name: "Photos", href: "/dashboard/photos", icon: "photos" },
-      { name: "Tickets", href: "/dashboard/tickets", icon: "tickets" },
+    ],
+  },
+  {
+    name: "Finance",
+    defaultOpen: true,
+    items: [
+      { name: "Invoices", href: "/dashboard/invoices", icon: "invoices" },
+      { name: "Payments", href: "/dashboard/payments", icon: "payments" },
+      {
+        name: "Quote archive",
+        href: "/dashboard/quote-archive",
+        icon: "archive",
+      },
+    ],
+  },
+  {
+    name: "Help",
+    defaultOpen: true,
+    items: [
+      { name: "Support", href: "/dashboard/tickets", icon: "support" },
       {
         name: "Request a quote",
         href: "/dashboard/request-quote",
         icon: "quote",
+        emphasis: true,
       },
     ],
   },
@@ -68,21 +92,20 @@ export default async function DashboardLayout({ children }) {
 
   return (
     <ProjectProvider>
-      <PortalShell
+      <ClientPortalShell
         navGroups={clientNavigation}
         user={session.user}
-        workspaceLabel="Client portal"
-        headerActions={
-          <>
-            <ProjectSelector />
-            <NotificationBell userProjectStatus={session.user.projectStatus} />
-            <ProfileImage user={session.user} />
-            <SignOutButton compact />
-          </>
+        projectSelector={<ProjectSelector />}
+        notificationBell={
+          <NotificationBell
+            clientTone
+            userProjectStatus={session.user.projectStatus}
+          />
         }
+        profileImage={<ProfileImage user={session.user} />}
       >
         {children}
-      </PortalShell>
+      </ClientPortalShell>
     </ProjectProvider>
   );
 }
