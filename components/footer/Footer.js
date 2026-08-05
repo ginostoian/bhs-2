@@ -161,6 +161,12 @@ const Footer = () => {
               <Link href="/about" className={classes["footer__quarter-link"]}>
                 About us
               </Link>
+              <Link
+                href="/our-partners"
+                className={classes["footer__quarter-link"]}
+              >
+                Our partners
+              </Link>
               <Link href="/blog" className={classes["footer__quarter-link"]}>
                 Articles
               </Link>
