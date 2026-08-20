@@ -14,6 +14,8 @@ const formatDate = (value) =>
     year: "numeric",
   });
 
+const getArticleDate = (article) => article.dateModified || article.publishedAt;
+
 export const metadata = getSEOTags({
   title: `${config.appName} Knowledge Center | Learn Renovation the Right Way`,
   description:
@@ -40,7 +42,7 @@ const POSTS_PER_PAGE = 6;
 
 export default function Blog() {
   const sortedArticles = [...articles].sort(
-    (a, b) => new Date(b.publishedAt) - new Date(a.publishedAt),
+    (a, b) => new Date(getArticleDate(b)) - new Date(getArticleDate(a)),
   );
   const featuredArticle = sortedArticles[0];
   const latestArticles = sortedArticles.slice(1, 7);
@@ -49,6 +51,7 @@ export default function Blog() {
     title: article.title,
     description: article.description,
     publishedAt: article.publishedAt,
+    dateModified: article.dateModified,
     image: article.image,
     categories: article.categories.map((category) => ({
       slug: category.slug,
@@ -67,7 +70,7 @@ export default function Blog() {
     {
       label: "Most recent update",
       value: sortedArticles[0]
-        ? formatDate(sortedArticles[0].publishedAt)
+        ? formatDate(getArticleDate(sortedArticles[0]))
         : "N/A",
     },
   ];

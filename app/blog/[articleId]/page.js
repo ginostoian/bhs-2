@@ -54,7 +54,7 @@ const buildArticleSchema = (article) => {
       description: article.description,
       image: [`${siteUrl}${article.image.urlRelative}`],
       datePublished: article.publishedAt,
-      dateModified: article.publishedAt,
+      dateModified: article.dateModified || article.publishedAt,
       articleSection: article.categories.map((category) => category.title).join(", "),
       author: {
         "@type": "Organization",
@@ -216,7 +216,7 @@ export default function ArticlePage({ params }) {
                 <BadgeCategory category={category} key={category.slug} />
               ))}
               <span className="rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white/85">
-                Updated {formatDate(article.publishedAt)}
+                Updated {formatDate(article.dateModified || article.publishedAt)}
               </span>
             </div>
 

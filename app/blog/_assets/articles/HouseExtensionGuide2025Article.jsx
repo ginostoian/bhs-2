@@ -716,6 +716,9 @@ export default function HouseExtensionsLondonGuide() {
         The key to a successful extension is getting the fundamentals right from the start. Understand the costs - not just the construction figure, but the total all-in budget including VAT, professional fees, and fitting out. Know your planning position - whether you qualify for permitted development, need prior approval, or require a full planning application. Choose the right partner - a firm that can design and build to the highest standard, with a fixed price, a clear process, and a genuine warranty behind the work.
       </p>
       <p className={styles.p}>
+        If you are still deciding between a rear, side return, wraparound, double-storey or another format, our <Link href="/blog/house-extension-types">guide to the types of house extensions in London</Link> compares the space, planning route and cost implications of each.
+      </p>
+      <p className={styles.p}>
         Better Homes has delivered extensions, loft conversions, and full renovations across Central, East, and North London for years. Our full design-and-build model means you deal with one team from first sketch to final handover - no middleman, no finger-pointing, no surprises. Every project comes with a fixed-price contract, a 10-year workmanship guarantee backed by £10 million insurance, and the peace of mind that comes from working with a Houzz award-winning firm.
       </p>
       <ServiceCta

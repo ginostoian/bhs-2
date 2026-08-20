@@ -583,7 +583,8 @@ export default function Page() {
         >
           These are the common extension routes we deliver for London homes. For
           detailed cost, planning and design guidance, use the full guide linked
-          from each route.
+          from each route. For a type-by-type comparison of the nine main options,
+          read our <Link href="/blog/house-extension-types" className="font-bold text-[#266bf1] hover:underline">guide to the types of house extensions in London</Link>.
         </SectionHeading>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {extensionTypes.map((item) => (
