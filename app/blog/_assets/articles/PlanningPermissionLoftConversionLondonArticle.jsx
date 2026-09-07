@@ -396,7 +396,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       <h3 className={styles.h3}>Islington (N1, N7, N5)</h3>
 
       <p className={styles.p}>
-        Islington is one of the most planning-restricted boroughs in London, with 27 conservation areas covering a significant proportion of its residential streets. The borough has extensive Article 4 Directions, and its planning officers apply strict design guidelines that require materials and proportions to match the existing property. For most Islington homeowners, a loft conversion will require full planning permission. Mansard conversions are frequently the only design that receives approval in Islington's conservation zones, particularly in areas like Barnsbury, Canonbury, and Highbury Fields. This is where Better Homes' full design-and-build model is particularly valuable - our in-house design team understands Islington Council's specific requirements and can prepare submissions that meet their expectations from the outset, avoiding costly redesigns.
+        Islington is one of the most planning-restricted boroughs in London, with 27 conservation areas covering a significant proportion of its residential streets. The borough has extensive Article 4 Directions, and its planning officers apply strict design guidelines that require materials and proportions to match the existing property. For most Islington homeowners, a loft conversion will require full planning permission. Mansard conversions are frequently the only design that receives approval in Islington's conservation zones, particularly in areas like Barnsbury, Canonbury, and Highbury Fields. For a Better Homes project, your own or a recommended architect assesses local requirements and prepares the agreed submissions. If you choose managed support, we coordinate discussions and contribute buildability and cost advice as the design develops.
       </p>
 
       <h3 className={styles.h3}>Walthamstow (E17)</h3>
@@ -586,15 +586,15 @@ export default function PlanningPermissionLoftConversionLondon() {
       </h2>
 
       <p className={styles.p}>
-        One of the key advantages of working with a full design-and-build firm like Better Homes is that we handle every aspect of the planning and regulatory process as part of our service. Unlike architecture-only firms such as Resi or Extension Architecture, who provide designs but then hand you off to a separate builder, we manage the entire project from initial feasibility assessment through to key handover.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
 
       <p className={styles.p}>
-        Our process begins with a free site survey where we assess your property's planning status - checking conservation area designations, Article 4 Directions, listed building status, and planning history. If your loft qualifies for permitted development, our in-house design team prepares the technical drawings and we apply for a Lawful Development Certificate on your behalf. If you need full planning permission, our team prepares the planning application, manages the submission process, liaises with the council planning officer, and handles any amendments or conditions.
+        We start by discussing your home, your ideas and the design support you need. Your appointed architect assesses the planning route and prepares the agreed drawings and applications. If you choose managed coordination, we help organise those discussions, follow up outstanding questions and keep you informed, so you do not have to relay messages between the design and construction teams.
       </p>
 
       <p className={styles.p}>
-        We also manage building regulations submissions, structural engineering, party wall notices and surveyor coordination, and all construction work. This single-point-of-responsibility model means there are no gaps between the design, planning, and build phases - and no finger-pointing if something goes wrong. It is the most efficient and stress-free way to deliver a loft conversion in London, and it is why our clients consistently rate us among the top loft conversion specialists in East and North London.
+        Architects, engineers and surveyors provide the professional services agreed in their appointments. We manage construction and can coordinate with them on your behalf, including following up information needed for the build. When an issue crosses between design and construction, we bring the relevant people together to work through it and explain any decisions you need to approve.
       </p>
 
       <p className={styles.p}>

@@ -4,6 +4,9 @@ import React from "react";
 import Image from "next/image";
 import { FaqSchema } from "./Schema";
 import EnquiryForm from "./EnquiryForm";
+import ProofStrip from "./ProofStrip";
+import MobileTrust from "./MobileTrust";
+import { HomeLiving, HomeHow, HomeAftercare } from "./HomeStory";
 export default class ReferenceHome extends React.Component {
   state = {
     narrow: false,
@@ -41,7 +44,7 @@ export default class ReferenceHome extends React.Component {
         meta: "N19, North London · Extension and whole-home renovation",
         title: "A family home opened to the garden",
         summary:
-          "Rear extension with structural integration into the existing house, plus full internal renovation of bathrooms and bedrooms.",
+          "A rear extension brings kitchen, dining and living together, with bathrooms and bedrooms renewed throughout the house.",
       },
       {
         href: "/portfolio/ava-e7",
@@ -50,7 +53,7 @@ export default class ReferenceHome extends React.Component {
         meta: "E7, East London · Side-return extension",
         title: "A side return turned into the kitchen-dining room",
         summary:
-          "Restricted access managed through careful sequencing; structural openings, joinery and services delivered as one programme.",
+          "A narrow side return makes room for cooking, eating and spending time together, with rooflights bringing daylight into the kitchen.",
       },
       {
         href: "/portfolio/james-n8",
@@ -59,65 +62,9 @@ export default class ReferenceHome extends React.Component {
         meta: "N8, North London · Extension and renovation",
         title: "A brighter rear with a stronger garden connection",
         summary:
-          "Structural kitchen extension with integrated interior upgrades, decorated and detailed to completion checks.",
+          "A kitchen extension opens the back of the house to the garden, creating a brighter place to gather.",
       },
     ].slice(0, count);
-
-    const stages = [
-      {
-        n: "01",
-        name: "Brief and feasibility",
-        us: "Discuss scope, the construction route and initial budget assumptions with you.",
-        them: "Assess design options and professional scope, if appointed.",
-      },
-      {
-        n: "02",
-        name: "Design and approvals",
-        us: "Coordinate buildability, cost input and the information needed for construction.",
-        them: "Provide agreed drawings and planning or building-control submissions.",
-      },
-      {
-        n: "03",
-        name: "Preconstruction",
-        us: "Develop the scope, exclusions, programme and itemised quotation.",
-        them: "Resolve outstanding design information within their agreed scope.",
-      },
-      {
-        n: "04",
-        name: "Construction",
-        us: "Manage site delivery, sequencing, weekly updates and any changes.",
-        them: "Answer design queries and inspect, if their appointment includes it.",
-      },
-      {
-        n: "05",
-        name: "Handover",
-        us: "Snagging, records and the agreed workmanship aftercare.",
-        them: "Supply relevant professional documents within their appointment.",
-      },
-    ];
-
-    const touchpoints = [
-      {
-        name: "First conversation",
-        text: "We talk through fit, scope, budget assumptions and the next step, using the same checklist for every enquiry.",
-      },
-      {
-        name: "Proposal",
-        text: "Inclusions, exclusions, allowances and named responsibilities are set out in writing, including how the architect is appointed.",
-      },
-      {
-        name: "Weekly update",
-        text: "Work completed, what comes next, decisions needed from you, risks and any cost changes, each with an owner and a date.",
-      },
-      {
-        name: "Changes",
-        text: "Scope, price and programme impact are written down and agreed before the related work proceeds.",
-      },
-      {
-        name: "Handover",
-        text: "A snagging record, your documents and a clear aftercare contact for anything that comes up later.",
-      },
-    ];
 
     const faqData = [
       {
@@ -126,11 +73,15 @@ export default class ReferenceHome extends React.Component {
       },
       {
         q: "Do I need an architect before I contact you?",
-        a: "No. If you need one we can introduce an architect we recommend and coordinate with them throughout. If you already have drawings or a design team, we are happy to work alongside them.",
+        a: "No. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up design questions and speak on your behalf with your agreement. The architect prepares the drawings; we build. You approve the design, budget and any changes.",
+      },
+      {
+        q: "How much will I need to organise myself?",
+        a: "That is up to you. With managed coordination, we arrange discussions, follow up design questions and, with your agreement, speak to your architect on your behalf. We work through construction issues and involve the relevant professional where design input is needed. You receive clear options and approve the design, budget and changes. You can also manage the architect relationship yourself if you prefer.",
       },
       {
         q: "How do you keep the build on track once work starts?",
-        a: "We front-load the scope, sequence trades around the critical path and send a weekly update covering progress, decisions and costs. Changes are priced and agreed in writing before the related work goes ahead.",
+        a: "We agree the work and schedule before starting, then your project lead keeps you updated each week. If anything changes, we explain what it means for the cost and timing and ask for your agreement before doing the extra work.",
       },
       {
         q: "What happens if something goes wrong after completion?",
@@ -157,8 +108,6 @@ export default class ReferenceHome extends React.Component {
       toggleDd: () => this.setState((s) => ({ ddOpen: !s.ddOpen })),
       showPortal: this.props.showClientPortal ?? true,
       projects,
-      stages,
-      touchpoints,
       faqs,
       sent,
       notSent: !sent,
@@ -186,12 +135,10 @@ export default class ReferenceHome extends React.Component {
       projects,
       sent,
       showPortal,
-      stages,
       steps,
       submitEnquiry,
       toggleDd,
       toggleMenu,
-      touchpoints,
       types,
       wide,
     } = this.renderVals();
@@ -199,6 +146,7 @@ export default class ReferenceHome extends React.Component {
       <main id="top">
         <section
           data-screen-label="Hero"
+          className="bh-mobile-hero"
           style={{
             maxWidth: "1240px",
             margin: "0 auto",
@@ -246,7 +194,7 @@ export default class ReferenceHome extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"A better home. A well-managed build."}
+                {"A home that works beautifully for the life you live."}
               </h1>
               <p
                 style={{
@@ -259,9 +207,10 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 {
-                  "Better Homes builds extensions, loft conversions and whole-home renovations with clear pricing and careful project management. We work closely with recommended architects where design support is needed."
+                  "More space, more daylight, a home that works for you. London extensions and renovations, with clear pricing and a team that keeps you informed."
                 }
               </p>
+              <MobileTrust />
               <div
                 style={{
                   display: "flex",
@@ -271,7 +220,7 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 <a
-                  href="#contact"
+                  href="#home-brief"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -284,7 +233,7 @@ export default class ReferenceHome extends React.Component {
                     lineHeight: "1.25",
                   }}
                 >
-                  {"Discuss your project"}
+                  {"Send us your brief"}
                 </a>
                 <a
                   href="#work"
@@ -351,6 +300,8 @@ export default class ReferenceHome extends React.Component {
           </div>
         </section>
 
+        <ProofStrip />
+
         <section
           id="testimonials"
           data-screen-label="Review"
@@ -362,7 +313,6 @@ export default class ReferenceHome extends React.Component {
         >
           <div
             style={{
-              borderTop: "1px solid #D8D2C6",
               borderBottom: "1px solid #D8D2C6",
               padding: "28px 0",
               display: "grid",
@@ -450,6 +400,18 @@ export default class ReferenceHome extends React.Component {
                   {"MyBuilder"}
                 </a>
               </div>
+              <a
+                href="https://www.houzz.co.uk/professionals/design-and-build/better-homes-pfvwgb-pf~60790866"
+                style={{
+                  marginTop: "8px",
+                  fontSize: "13px",
+                  color: "#4D5B4B",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                }}
+              >
+                2× Best of Houzz winner
+              </a>
             </div>
           </div>
         </section>
@@ -655,7 +617,7 @@ export default class ReferenceHome extends React.Component {
                     textWrap: "pretty",
                   }}
                 >
-                  {"Thoughtful changes, built properly"}
+                  {"What would make your home work better?"}
                 </h2>
               </div>
               <p
@@ -669,7 +631,7 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 {
-                  "Extensions, loft conversions and whole-home renovations are our core work. We also undertake standalone kitchen and bathroom renovations, with the same careful planning and project management."
+                  "Whether you need another bedroom, a kitchen everyone gravitates towards or a fresh start for the whole house, we can help you make more of the home you already love."
                 }
               </p>
             </div>
@@ -864,178 +826,8 @@ export default class ReferenceHome extends React.Component {
             </a>
           </div>
         </section>
-        <section
-          id="how"
-          data-screen-label="How we work"
-          style={{
-            maxWidth: "1240px",
-            margin: "0 auto",
-            padding: "clamp(56px, 8vw, 104px) clamp(20px, 4vw, 40px)",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
-              gap: "32px 48px",
-              marginBottom: "48px",
-            }}
-          >
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-            >
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "#4D5B4B",
-                }}
-              >
-                {"How we work"}
-              </p>
-              <h2
-                style={{
-                  margin: "0",
-                  fontSize: "clamp(30px, 3.4vw, 40px)",
-                  fontWeight: "500",
-                  lineHeight: "1.15",
-                  letterSpacing: "-0.01em",
-                  textWrap: "pretty",
-                }}
-              >
-                {"Who does what, from first conversation to handover"}
-              </h2>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-                maxWidth: "560px",
-                alignSelf: "end",
-                fontSize: "18px",
-                lineHeight: "1.6",
-                textWrap: "pretty",
-              }}
-            >
-              <p style={{ margin: "0" }}>
-                {
-                  "If you need an architect, we can introduce one we recommend and coordinate closely with them throughout the project. Already have an architect? We can work with your existing team."
-                }
-              </p>
-              <p style={{ margin: "0", fontSize: "16px", color: "#4D5B4B" }}>
-                {
-                  "Architects, structural engineers and surveyors are independent professionals appointed for your project. Your proposal names each party, what they deliver and how decisions travel between you, them and us."
-                }
-              </p>
-            </div>
-          </div>
-          <div style={{ borderTop: "1px solid #D8D2C6" }}>
-            {stages.map((s, index) => (
-              <React.Fragment key={index}>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns:
-                      "repeat(auto-fit, minmax(min(100%, 280px), 1fr))",
-                    gap: "12px 40px",
-                    padding: "28px 0",
-                    borderBottom: "1px solid #D8D2C6",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "16px",
-                      alignItems: "baseline",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "14px",
-                        fontWeight: "500",
-                        color: "#A65B43",
-                        minWidth: "24px",
-                      }}
-                    >
-                      {s.n}
-                    </span>
-                    <h3
-                      style={{
-                        margin: "0",
-                        fontSize: "22px",
-                        fontWeight: "500",
-                        lineHeight: "1.25",
-                      }}
-                    >
-                      {s.name}
-                    </h3>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: "500",
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: "#4D5B4B",
-                      }}
-                    >
-                      {"Better Homes"}
-                    </span>
-                    <p
-                      style={{
-                        margin: "0",
-                        fontSize: "16px",
-                        lineHeight: "1.55",
-                      }}
-                    >
-                      {s.us}
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "4px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        fontWeight: "500",
-                        letterSpacing: "0.06em",
-                        textTransform: "uppercase",
-                        color: "#4D5B4B",
-                      }}
-                    >
-                      {"Your architect"}
-                    </span>
-                    <p
-                      style={{
-                        margin: "0",
-                        fontSize: "16px",
-                        lineHeight: "1.55",
-                      }}
-                    >
-                      {s.them}
-                    </p>
-                  </div>
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        </section>
+        <HomeLiving />
+        <HomeHow />
 
         <section
           id="cost"
@@ -1084,7 +876,7 @@ export default class ReferenceHome extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Understand the investment before you commit"}
+                {"Find out what your plans could cost"}
               </h2>
               <p
                 style={{
@@ -1096,7 +888,7 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 {
-                  "Our calculators give an early range for the construction cost of a project like yours. They are planning tools, not a quote: each tool states its own allowances and whether VAT, professional fees, finishes and contingency are included. Site access and ground conditions can change the result."
+                  "You do not need every detail decided to start thinking about cost. Our calculators give you an early building budget, so you can explore what might be possible before booking a conversation."
                 }
               </p>
               <p
@@ -1109,7 +901,7 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 {
-                  "Once we have seen the property and drawings, you receive an itemised quotation with inclusions, exclusions and allowances written down."
+                  "Each calculator explains what its estimate includes. Your detailed quote will set out the work and costs for your home before you commit."
                 }
               </p>
             </div>
@@ -1205,230 +997,8 @@ export default class ReferenceHome extends React.Component {
           </div>
         </section>
 
-        <section
-          id="experience"
-          data-screen-label="Client experience"
-          style={{
-            maxWidth: "1240px",
-            margin: "0 auto",
-            padding: "clamp(56px, 8vw, 104px) clamp(20px, 4vw, 40px)",
-          }}
-        >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
-              gap: "56px 64px",
-            }}
-          >
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "32px" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "14px",
-                }}
-              >
-                <p
-                  style={{
-                    margin: "0",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "#4D5B4B",
-                  }}
-                >
-                  {"Your experience"}
-                </p>
-                <h2
-                  style={{
-                    margin: "0",
-                    fontSize: "clamp(30px, 3.4vw, 40px)",
-                    fontWeight: "500",
-                    lineHeight: "1.15",
-                    letterSpacing: "-0.01em",
-                    textWrap: "pretty",
-                  }}
-                >
-                  {"Know what happens next"}
-                </h2>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                {touchpoints.map((t, index) => (
-                  <React.Fragment key={index}>
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "minmax(120px, 160px) 1fr",
-                        gap: "8px 24px",
-                        padding: "18px 0",
-                        borderTop: "1px solid #D8D2C6",
-                      }}
-                    >
-                      <h3
-                        style={{
-                          margin: "0",
-                          fontSize: "17px",
-                          fontWeight: "700",
-                          lineHeight: "1.4",
-                        }}
-                      >
-                        {t.name}
-                      </h3>
-                      <p
-                        style={{
-                          margin: "0",
-                          fontSize: "16px",
-                          lineHeight: "1.55",
-                        }}
-                      >
-                        {t.text}
-                      </p>
-                    </div>
-                  </React.Fragment>
-                ))}
-              </div>
-            </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "32px" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "14px",
-                }}
-              >
-                <p
-                  style={{
-                    margin: "0",
-                    fontSize: "14px",
-                    fontWeight: "500",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "#4D5B4B",
-                  }}
-                >
-                  {"After handover"}
-                </p>
-                <h2
-                  style={{
-                    margin: "0",
-                    fontSize: "clamp(30px, 3.4vw, 40px)",
-                    fontWeight: "500",
-                    lineHeight: "1.15",
-                    letterSpacing: "-0.01em",
-                    textWrap: "pretty",
-                  }}
-                >
-                  {"Workmanship guarantee by scope"}
-                </h2>
-              </div>
-              <div
-                style={{
-                  background: "#FFFFFF",
-                  borderRadius: "6px",
-                  padding: "8px 28px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    gap: "16px",
-                    padding: "18px 0",
-                    borderBottom: "1px solid #D8D2C6",
-                  }}
-                >
-                  <span style={{ fontSize: "17px", lineHeight: "1.4" }}>
-                    {"Extensions and loft conversions"}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "500",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {"10 years"}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    gap: "16px",
-                    padding: "18px 0",
-                    borderBottom: "1px solid #D8D2C6",
-                  }}
-                >
-                  <span style={{ fontSize: "17px", lineHeight: "1.4" }}>
-                    {"Kitchen and bathroom fitting"}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "500",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {"2 years"}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "baseline",
-                    gap: "16px",
-                    padding: "18px 0",
-                  }}
-                >
-                  <span style={{ fontSize: "17px", lineHeight: "1.4" }}>
-                    {"Painting and decorating"}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: "24px",
-                      fontWeight: "500",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {"1 year"}
-                  </span>
-                </div>
-              </div>
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "16px",
-                  lineHeight: "1.55",
-                  color: "#202925",
-                  textWrap: "pretty",
-                }}
-              >
-                {
-                  "Our workmanship guarantee is separate from manufacturer warranties on products and from our insurance cover. The full terms, and the aftercare contact for your project, are set out at handover. "
-                }
-                <a
-                  href="/our-guarantee"
-                  style={{
-                    color: "#4D5B4B",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                  }}
-                >
-                  {"Read the guarantee terms"}
-                </a>
-              </p>
-            </div>
-          </div>
+        <section id="experience" className="bh-wrap bh-section">
+          <HomeAftercare />
 
           <div
             id="faq"
@@ -1591,7 +1161,7 @@ export default class ReferenceHome extends React.Component {
                     color: "#4D5B4B",
                   }}
                 >
-                  {"Discuss your project"}
+                  {"Send us your brief"}
                 </p>
                 <h2
                   style={{
@@ -1603,7 +1173,7 @@ export default class ReferenceHome extends React.Component {
                     textWrap: "pretty",
                   }}
                 >
-                  {"Tell us about the home and what you want from it"}
+                  {"What would you love to come home to?"}
                 </h2>
               </div>
               <p
@@ -1615,7 +1185,7 @@ export default class ReferenceHome extends React.Component {
                 }}
               >
                 {
-                  "The first conversation covers whether the project is a good fit, the likely construction route, early budget assumptions and the sensible next step. We will ask for drawings later if you have them. We do not give instant fixed quotes."
+                  "Perhaps you have drawings ready. Perhaps you just know the kitchen feels cramped. Tell us where you are and what you would like to change. We will listen, talk through the possibilities and help you take the next step."
                 }
               </p>
               <div
@@ -1702,7 +1272,7 @@ export default class ReferenceHome extends React.Component {
             </div>
             {notSent ? (
               <>
-                <EnquiryForm />
+                <div id="home-brief"><EnquiryForm /></div>
               </>
             ) : null}
           </div>
@@ -1711,6 +1281,7 @@ export default class ReferenceHome extends React.Component {
           items={faqs.map((f) => ({ question: f.q, answer: f.a }))}
           path="/"
         />
+        {this.props.relatedGuides}
       </main>
     );
   }

@@ -84,23 +84,9 @@ async function handleContactSubmission(request) {
       );
     }
 
-    if (!lastName?.trim()) {
-      return NextResponse.json(
-        { error: "Last name is required" },
-        { status: 400 },
-      );
-    }
-
     if (!email?.trim() || !email.includes("@")) {
       return NextResponse.json(
         { error: "Valid email address is required" },
-        { status: 400 },
-      );
-    }
-
-    if (!phone?.trim()) {
-      return NextResponse.json(
-        { error: "Phone number is required" },
         { status: 400 },
       );
     }
@@ -136,9 +122,9 @@ async function handleContactSubmission(request) {
     // Create contact submission
     const contactData = {
       firstName: firstName.trim(),
-      lastName: lastName.trim(),
+      lastName: lastName?.trim() || "",
       email: email.trim().toLowerCase(),
-      phone: phone.trim(),
+      phone: phone?.trim() || "",
       topic,
       customTopic: customTopic?.trim(),
       message: message.trim(),

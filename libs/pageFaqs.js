@@ -8,7 +8,7 @@ const PAGE_FAQS = {
     {
       question: "Do you handle planning permission and design coordination?",
       answer:
-        "Yes. We manage construction and your relationship with a trusted independent architect when design support is needed. Your architect provides the agreed drawings and professional services. We can also build from existing drawings and work with your current team.",
+        "Bring your own architect or choose one we recommend. Either way, Better Homes builds your home and can manage the coordination for you: arranging discussions, following up questions and speaking on your behalf with your agreement. You stay in control of the design, budget and approvals. Your architect prepares the drawings and agreed professional submissions; we manage construction. Our proposal sets out the coordination support you want, each appointment and the fees before you commit.",
     },
     {
       question: "How do you keep projects on track once work starts?",
@@ -265,7 +265,7 @@ const PAGE_FAQS = {
     {
       question: "What makes Better Homes different?",
       answer:
-        "We combine design and build accountability with clear communication, practical planning, and premium finish discipline.",
+        "We build with clear pricing, a named project lead and weekly updates. Bring your own architect or choose one we recommend; either way, you can ask us to handle coordination and discussions on your behalf, with design and budget decisions kept with you.",
     },
     {
       question: "How experienced is your team?",
@@ -273,14 +273,14 @@ const PAGE_FAQS = {
         "Our team has delivered London residential projects for more than a decade across extensions, lofts, kitchens, bathrooms, and full renovations.",
     },
     {
-      question: "Do you work with fixed process standards?",
+      question: "Who keeps me informed during the work?",
       answer:
-        "Yes. Our workflow is structured around scope clarity, staged delivery, reporting cadence, and formal quality control.",
+        "Your named project lead coordinates the work and updates you each week. They explain what happens next, talk through decisions with you and help resolve any concerns you raise.",
     },
     {
       question: "Are you insured for residential construction projects?",
       answer:
-        "Yes. Projects are delivered with professional insurance and risk management standards appropriate to scope.",
+        "Yes. Better Homes has £10 million insurance cover. This is separate from our workmanship guarantees, which cover extensions and lofts for ten years, kitchens and bathrooms for two, and decorating for one. Your written terms explain the cover for your project.",
     },
   ],
   contact: [
@@ -400,17 +400,17 @@ const PAGE_FAQS = {
     {
       question: "Can you handle planning and building regulations?",
       answer:
-        "Yes. We support planning and compliance coordination as part of pre-construction and delivery strategy.",
+        "Your appointed architect prepares the agreed drawings and submissions, with specialist input where needed. Better Homes manages construction and can coordinate discussions and follow up information on your behalf if you choose that support. Appointments, responsibilities and fees are set out in your proposal.",
     },
     {
-      question: "Do you coordinate design and build under one team?",
+      question: "Can you manage the architect relationship for me?",
       answer:
-        "Yes. Our model is built around single-team accountability from design coordination through site delivery and handover.",
+        "Bring your own architect or choose one we recommend. Either way, Better Homes builds your home and can manage the coordination for you: arranging discussions, following up questions and speaking on your behalf with your agreement. You stay in control of the design, budget and approvals. Your architect prepares the drawings and agreed professional submissions; we manage construction. Our proposal sets out the coordination support you want, each appointment and the fees before you commit.",
     },
     {
       question: "Can I use Better Homes for build-only delivery?",
       answer:
-        "Yes. Where suitable documentation exists, we can support build-phase delivery with controlled execution standards.",
+        "Yes. If you prefer to manage the architect relationship yourself, we can focus on construction from the agreed drawings. We still coordinate the technical information needed to build, and can take on wider coordination support if you want it.",
     },
   ],
 };

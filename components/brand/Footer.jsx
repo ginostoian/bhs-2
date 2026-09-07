@@ -16,7 +16,7 @@ const groups = [
     [
       ["Our work", "/portfolio"],
       ["About", "/about"],
-      ["Journal", "/blog"],
+      ["Blog", "/blog"],
       ["Cost planning", "/tools"],
       ["Where we work", "/locations"],
       ["Guarantee", "/our-guarantee"],
@@ -27,7 +27,7 @@ const groups = [
   [
     "Get in touch",
     [
-      ["Discuss your project", "/contact"],
+      ["Send us your brief", "/contact#brief"],
       ["07922 391591", "tel:+447922391591"],
       ["Google reviews", "https://g.page/r/CaGIVAg_unOVEBM/"],
       ["Houzz", "https://www.houzz.co.uk/pro/betterhomeslondon/better-homes"],
@@ -49,8 +49,8 @@ export default function Footer() {
           <p>
             A London construction company specialising in extensions, loft
             conversions and whole-home renovations. We also deliver standalone
-            kitchens and bathrooms, and manage your relationship with a trusted
-            architect when design support is needed.
+            kitchens and bathrooms. Bring your architect or choose one we
+            recommend, with optional coordination support either way.
           </p>
           <p className="bh-small">
             Central, North and East London, with selected projects in South

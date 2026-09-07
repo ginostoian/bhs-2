@@ -794,18 +794,18 @@ export default function PropertyBuyingChecklistLondon2026() {
         Think about whether the property's orientation means a rear extension
         would face south - this dramatically affects how much natural light
         the new space receives. If you're considering a property specifically
-        for its renovation potential, working with a design-and-build firm from
-        the outset - one that handles architecture, planning, and construction
-        under a single contract - eliminates the coordination risk that comes
-        from managing separate architect and builder relationships.
+        for its renovation potential, involving a builder and architect early can help you understand
+        feasibility and construction costs together. With Better Homes, you can
+        use your own architect or one we recommend, and ask us to manage the
+        coordination so you have fewer conversations to organise yourself.
       </p>
       <p className={styles.p}>
         At Better Homes, we work with homeowners across East and North London who
         have bought properties specifically for their renovation potential. Our
         design-and-build model means we can assess a property's potential
         during the viewing stage, provide realistic cost estimates before you
-        make an offer, and deliver the full project from architectural design
-        through to final handover. If you're buying a property with plans to
+        make an offer, and build the project through to final handover, with optional
+        coordination support alongside your own or a recommended architect. If you're buying a property with plans to
         renovate, extend, or convert, we'd welcome a conversation about what's
         possible - get in touch at{" "}
         <a href="https://bhstudio.co.uk/contact">bhstudio.co.uk/contact</a>{" "}
@@ -923,9 +923,11 @@ export default function PropertyBuyingChecklistLondon2026() {
         already purchased and you're ready to transform it - Better Homes is a
         full design-and-build firm specialising in loft conversions, house
         extensions, and complete home renovations across East and North London.
-        We handle everything from architectural design and planning permission
-        through to construction and final handover, with fixed-price contracts,
-        a 10-year workmanship guarantee, and £10M insurance cover.
+        Your architect prepares the drawings and agreed planning submissions;
+        we build. If you wish, we can coordinate discussions and speak on your
+        behalf with your agreement. You approve the design, budget and changes.
+        Our proposal sets out appointments, fees and workmanship cover by scope,
+        with £10M insurance separate from the guarantee.
       </p>
       <p className={styles.p}>
         <strong>

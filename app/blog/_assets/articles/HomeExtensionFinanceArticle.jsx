@@ -977,11 +977,11 @@ const FinanceGuide = () => {
         remortgage completes – so begin the finance process 2–3 months
         before you expect to sign the building contract. If your builder
         offers staged payments, consider how your cashflow will work across
-        the project timeline. A design-and-build firm that provides a clear
-        payment schedule makes this coordination significantly easier,
-        because you have a single contract, a single payment schedule, and a
-        single point of accountability – which also simplifies the
-        documentation your lender needs to see.
+        the project timeline. Ask for a clear construction payment schedule and separate details
+        of professional fees and any coordination support. At Better Homes,
+        those costs and appointments are set out in your proposal so you can
+        plan payments across the whole project and discuss the documentation
+        your lender needs.
       </p>
 
       {/* INFOGRAPHIC 5 PLACEHOLDER */}

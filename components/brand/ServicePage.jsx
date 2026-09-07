@@ -1,6 +1,10 @@
+import RelatedGuides from "./RelatedGuides";
 import Image from "next/image";
 import Link from "next/link";
 import Faq from "./Faq";
+import ProofStrip from "./ProofStrip";
+import MobileTrust from "./MobileTrust";
+import { serviceStories } from "./serviceStories";
 import { FaqSchema, ServiceSchema } from "./Schema";
 import { BOOKING_URL } from "@/libs/booking";
 import { getPortfolioProjects } from "@/libs/portfolio-projects";
@@ -31,7 +35,8 @@ export function ProjectCards({ projects }) {
   );
 }
 export function ProjectCTA({
-  title = "A better home starts with a conversation.",
+  title = "Tell us what you would love to change.",
+  service,
 }) {
   return (
     <section className="bh-dark">
@@ -42,15 +47,22 @@ export function ProjectCTA({
         </div>
         <div>
           <p className="bh-lead">
-            Tell us about the property, what you would like to change and your
-            target investment. We will discuss the fit, the construction route
-            and the next practical step.
+            Whether you have drawings ready or just the beginnings of an idea,
+            we would love to hear about it. Tell us about your home and your
+            budget, and we will help you work out a sensible next step.
           </p>
           <div className="bh-actions">
             <a className="bh-button" href={BOOKING_URL}>
-              Discuss your project
+              Book a 20-minute call
             </a>
-            <Link href="/contact" className="bh-text-link">
+            <Link
+              href={
+                service
+                  ? `/contact?service=${encodeURIComponent(service)}#brief`
+                  : "/contact#brief"
+              }
+              className="bh-text-link"
+            >
               Send us your brief
             </Link>
           </div>
@@ -75,6 +87,8 @@ export default function ServicePage({
   projects: slugs = [],
   notes = [],
 }) {
+  const story = serviceStories[path];
+  const introduction = story?.intro ?? intro;
   const projects = getPortfolioProjects()
     .filter((p) => slugs.includes(p.slug))
     .slice(0, 3);
@@ -83,19 +97,23 @@ export default function ServicePage({
       <ServiceSchema
         name={`${name} in London`}
         path={path}
-        description={intro}
+        description={introduction}
       />
       <FaqSchema items={faqs} path={path} />
-      <section id="overview" className="bh-wrap bh-section">
+      <section id="overview" className="bh-wrap bh-section bh-mobile-hero">
         <div className="bh-grid-two">
           <div>
             <p className="bh-eyebrow">{name} in London</p>
             <h1 className="bh-title">{title}</h1>
-            <p className="bh-lead">{intro}</p>
+            <p className="bh-lead">{introduction}</p>
+            <MobileTrust />
             <div className="bh-actions">
-              <a className="bh-button" href={BOOKING_URL}>
-                Discuss your project
-              </a>
+              <Link
+                className="bh-button"
+                href={`/contact?service=${encodeURIComponent(name)}#brief`}
+              >
+                Send us your brief
+              </Link>
               <a className="bh-text-link" href="#costs">
                 Explore costs
               </a>
@@ -120,10 +138,11 @@ export default function ServicePage({
           </figure>
         </div>
       </section>
-      <div className="bh-wrap">
+      <ProofStrip servicePath={path} />
+      <div className="bh-wrap" style={{ marginTop: 32 }}>
         <dl className="bh-facts">
           <div>
-            <dt>Planning investment</dt>
+            <dt>Guide budget</dt>
             <dd>{range}</dd>
           </div>
           <div>
@@ -139,16 +158,39 @@ export default function ServicePage({
       <section className="bh-wrap bh-section" id="types">
         <div className="bh-grid-two">
           <div>
-            <p className="bh-eyebrow">The right scope</p>
-            <h2 className="bh-heading">Choose the work your home needs</h2>
+            <p className="bh-eyebrow">Life in your finished home</p>
+            <h2 className="bh-heading">
+              {story?.heading ?? "Make more of the home you love"}
+            </h2>
           </div>
           <p className="bh-lead">
-            A considered brief starts with how you use your home. Structure,
-            services, access and the finish you choose all shape the right
-            route. These are planning examples, with the final scope agreed for
-            your property.
+            Start with the moments you would like to make easier. We will help
+            you think through the possibilities, the space you have and what
+            feels right for your budget.
           </p>
         </div>
+        {story ? (
+          <div className="bh-project-grid" style={{ marginTop: 36 }}>
+            {story.moments.map(([title, text]) => (
+              <article
+                key={title}
+                style={{ borderTop: "1px solid #D8D2C6", paddingTop: 24 }}
+              >
+                <h3
+                  style={{ fontSize: 24, lineHeight: 1.25, marginBottom: 12 }}
+                >
+                  {title}
+                </h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        ) : null}
+        {costs.length ? (
+          <h3 className="bh-heading" style={{ marginTop: 56 }}>
+            Explore your options
+          </h3>
+        ) : null}
         <div className="bh-project-grid" style={{ marginTop: 40 }}>
           {costs.map((c) => (
             <article key={c.title}>
@@ -180,12 +222,12 @@ export default function ServicePage({
           <div>
             <p className="bh-eyebrow">Your quotation</p>
             <h2 className="bh-heading">
-              Clear scope before the first day on site
+              Know what is included before we begin
             </h2>
             <p className="bh-lead">
-              We set out the construction work, allowances and exclusions in
-              writing. You can see what is included, what you need to select and
-              who is responsible for each decision.
+              Your quote explains the work, what it costs and the choices still
+              to make. We talk it through with you, so you feel comfortable with
+              the plan before work begins.
             </p>
           </div>
           <ul className="bh-list">
@@ -207,58 +249,59 @@ export default function ServicePage({
       <section className="bh-band">
         <div className="bh-wrap bh-section">
           <p className="bh-eyebrow">Design and construction</p>
-          <h2 className="bh-heading">Two ways to get the project moving</h2>
+          <h2 className="bh-heading">
+            Your choice of architect. Support either way.
+          </h2>
           <div className="bh-grid-two">
             <article>
               <h3 style={{ fontSize: 24, marginBottom: 16 }}>
                 You need design support
               </h3>
               <p>
-                We manage your relationship with a trusted independent architect
-                and coordinate construction cost and buildability input. The
-                architect provides the drawings and agreed professional
-                services. Appointments, fees and responsibilities are identified
-                in the proposal.
+                If your project needs an architect, we can recommend one. They
+                prepare the drawings. We help you understand what the options
+                mean for the build and your budget, and can look after the
+                conversations and follow-up questions. You choose the design and
+                approve the cost.
               </p>
             </article>
             <article>
               <h3 style={{ fontSize: 24, marginBottom: 16 }}>
-                You already have drawings
+                You have your own architect
               </h3>
               <p>
-                We can build from your existing drawings. We review the design,
-                structural information, permissions and specification with you
-                and your team, then prepare an itemised construction quotation
-                and programme.
+                We are happy to work with them, whether your drawings are
+                underway or complete. If you wish, we can speak with them on
+                your behalf and keep the plans and building work moving
+                together. You stay informed and make the decisions that matter
+                to you.
               </p>
             </article>
           </div>
+          <p className="bh-small" style={{ marginTop: 28 }}>
+            Your architect prepares the drawings and agreed professional
+            submissions; we manage construction. Our proposal sets out the
+            coordination support you want, each appointment and the fees before
+            you commit.
+          </p>
         </div>
       </section>
       <section className="bh-wrap bh-section" id="process">
         <p className="bh-eyebrow">How we work</p>
-        <h2 className="bh-heading">A clear route from brief to handover</h2>
+        <h2 className="bh-heading">From your first ideas to feeling at home</h2>
         <ol className="bh-list">
           {[
             [
-              "Brief and feasibility",
-              "We discuss the property, your priorities, access and early budget assumptions.",
+              "Tell us what you have in mind",
+              "We listen to what you want from your home, talk through your budget and explain the next steps. You do not need every detail decided.",
             ],
             [
-              "Design and approvals",
-              "Your appointed professionals resolve design and approval requirements. We coordinate the information needed for construction.",
+              "Make a plan you feel good about",
+              "We work through the drawings and choices with you and your design team, then agree the work, price and timing before building starts.",
             ],
             [
-              "Scope and quotation",
-              "We agree inclusions, exclusions, allowances, payment stages and the programme before work starts.",
-            ],
-            [
-              "Construction",
-              "Your project lead coordinates trades and gives weekly progress updates. Changes are priced and agreed before the related work proceeds.",
-            ],
-            [
-              "Handover and aftercare",
-              "We record snags, complete agreed checks and hand over the relevant documents and workmanship terms.",
+              "Stay informed while we build",
+              "Your project lead updates you each week and explains any decisions you need to make. We check the finishing details with you and give you a clear aftercare contact.",
             ],
           ].map(([t, b], i) => (
             <li className="bh-grid-two" key={t}>
@@ -277,7 +320,7 @@ export default function ServicePage({
         <div className="bh-wrap bh-section">
           <p className="bh-eyebrow">Cost planning</p>
           <h2 className="bh-heading">
-            Understand the investment before you commit
+            A clearer picture of what it could cost
           </h2>
           <p className="bh-lead">
             {range}. Scope and specification determine the final price. Check
@@ -339,10 +382,10 @@ export default function ServicePage({
           </div>
           <div>
             <p className="bh-lead">
-              Written pricing, a named project lead and regular updates make
-              decisions easier. Our workmanship guarantee depends on the work
-              delivered: ten years for extensions and loft conversions, two
-              years for kitchens and bathrooms, and one year for decorating.
+              We want you to feel looked after while we work and once you are
+              settled in. Your project lead keeps you informed, and you have a
+              clear contact for questions afterwards. Your workmanship cover is
+              matched to the work we have done and explained before you commit.
             </p>
             <p style={{ marginTop: 16 }}>
               Manufacturer warranties and insurance are separate.{" "}
@@ -361,12 +404,9 @@ export default function ServicePage({
           </div>
         </div>
       </section>
-      <Faq
-        id="faq"
-        items={faqs}
-        title={`Planning your ${name.toLowerCase()}`}
-      />
-      <ProjectCTA />
+      <Faq id="faq" items={faqs} title="Questions you may be considering" />
+      <ProjectCTA service={name} title={story?.cta} />
+      <RelatedGuides context={{ "/loft-conversion": "loft", "/general-renovation": "renovation", "/kitchen-renovation": "kitchen", "/bathroom-renovation": "bathroom", "/basement-conversion": "basement" }[path]} />
     </main>
   );
 }

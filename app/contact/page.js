@@ -25,24 +25,32 @@ export const metadata = getSEOTags({
     "home extension consultation London",
   ],
 });
-export default function Page() {
+export default function Page({ searchParams }) {
+  const serviceNames = {
+    "Loft conversions": "Loft conversion",
+    "Whole-home renovations": "Whole-home renovation",
+    "Kitchen renovations": "Kitchen renovation",
+    "Bathroom renovations": "Bathroom renovation",
+    "Basement conversions": "Basement conversion",
+  };
+  const defaultService = serviceNames[searchParams?.service] || "Not sure yet";
   const faqs = getPageFaqs("contact");
   return (
     <main>
       <section className="bh-wrap bh-section bh-grid-two">
         <div>
-          <p className="bh-eyebrow">Discuss your project</p>
+          <p className="bh-eyebrow">Send us your brief</p>
           <h1 className="bh-title">
             Tell us what a better home looks like to you.
           </h1>
           <p className="bh-lead">
-            Share the property, the changes you have in mind and your target
-            investment. We will discuss the fit, the likely construction route
-            and a sensible next step.
+            Send a few details and we will reply personally, usually within one
+            working day. Prefer to talk first? Choose a time for a 20-minute
+            call.
           </p>
           <div className="bh-actions">
             <a href="https://cal.com/bhstudio/discovery" className="bh-button">
-              Book a discovery call
+              Book a 20-minute call
             </a>
             <a href="tel:+447922391591" className="bh-text-link">
               07922 391591
@@ -66,7 +74,10 @@ export default function Page() {
             </p>
           </div>
         </div>
-        <EnquiryForm />
+        <div id="brief">
+          <h2 className="bh-heading">Send us your brief</h2>
+          <EnquiryForm defaultService={defaultService} />
+        </div>
       </section>
       <Faq items={faqs} />
       <FaqSchema items={faqs} path="/contact" />

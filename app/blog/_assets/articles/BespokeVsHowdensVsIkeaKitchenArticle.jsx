@@ -261,7 +261,7 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
       {/* SECTION 10 - COORDINATION GAP */}
       <h2 className={styles.h2} id="coordination">The coordination gap nobody quotes for</h2>
       <p className={styles.capsule}>
-        IKEA and Howdens sell parts, not projects. The gap between a box of cabinets and a finished kitchen - measuring, sequencing five trades, owning the mistakes - is unpriced and lands on you. A design-and-build firm closes that gap with one team and one contract, which is where BH Studio's model differs from a supply-only kitchen.
+        A kitchen supply order and a managed installation cover different work. Check who measures, coordinates trades and resolves installation issues. Better Homes manages construction and fitting. If an architect is needed, bring your own or choose one we recommend, with optional coordination support. Your quotation identifies the scope, professional fees and product allowances.
       </p>
       <p className={styles.p}>
         Every kitchen route above ends at the same cliff edge: someone has to run the job. IKEA gives you a planner and a flat-pack delivery. Howdens gives your builder a trade account. Neither owns the outcome. The measuring, the trade sequencing, the moment the plumber and the electrician need to be on site in the right order, the gap where the flat-pack cabinet does not quite meet the wall - that coordination is real work, and when it is split across a supplier and a separately hired fitter, the seams are where projects go wrong.

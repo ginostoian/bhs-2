@@ -1,3 +1,5 @@
+import { portfolioDetails } from "./portfolio-details";
+
 export const PORTFOLIO_PROJECTS = [
   {
     slug: "daniel-n19",
@@ -198,7 +200,8 @@ export const PORTFOLIO_PROJECTS = [
     title: "Modern Kitchen Renovation and Installation in E4",
     teaser:
       "A full kitchen redesign focused on elegant detailing, robust practicality and a finish suitable for long-term family use.",
-    coverImage: "/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp",
+    coverImage:
+      "/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp",
     coverImageAlt: "Kitchen renovation case study in E4",
     images: [
       "/assets/portfolio/kitchen-alice-e4/kitchen-renovation-e4-2.webp",
@@ -437,7 +440,8 @@ export const PORTFOLIO_PROJECTS = [
         "Create a larger, lighter kitchen-living space that better supports modern family routines.",
       projectType: "Extension + Renovation",
       homeownerPriority: "Open-plan living and stronger inside-outside flow",
-      deliveryStyle: "Structured build sequence from structural phase to fit-out",
+      deliveryStyle:
+        "Structured build sequence from structural phase to fit-out",
       scope: [
         "Extension works and key structural interventions",
         "Kitchen installation and integrated interior upgrades",
@@ -531,14 +535,29 @@ export const PORTFOLIO_PROJECTS = [
       },
     },
   },
-];
+].map((project) => {
+  const detail = portfolioDetails[project.slug];
+  return {
+    ...project,
+    teaser: detail.teaser,
+    caseStudy: {
+      ...project.caseStudy,
+      objective: detail.objective,
+      projectType: detail.projectType ?? project.caseStudy.projectType,
+      // Owner confirmed every project completed in 2025 or 2026; individual years remain unconfirmed.
+      completionPeriod: "2025–2026",
+      details: detail.details,
+      outcomes: detail.outcomes,
+    },
+  };
+});
 
 export const PORTFOLIO_PROJECTS_BY_SLUG = PORTFOLIO_PROJECTS.reduce(
   (acc, project) => {
     acc[project.slug] = project;
     return acc;
   },
-  {}
+  {},
 );
 
 export const getPortfolioProjects = () => PORTFOLIO_PROJECTS;
@@ -554,12 +573,14 @@ export const getRelatedPortfolioProjects = (slug, limit = 3) => {
   if (!project) return [];
 
   const sameCategory = PORTFOLIO_PROJECTS.filter(
-    (item) => item.slug !== slug && item.category === project.category
+    (item) => item.slug !== slug && item.category === project.category,
   );
   const fallback = PORTFOLIO_PROJECTS.filter((item) => item.slug !== slug);
 
-  return [...sameCategory, ...fallback].filter(
-    (item, index, self) =>
-      self.findIndex((candidate) => candidate.slug === item.slug) === index
-  ).slice(0, limit);
+  return [...sameCategory, ...fallback]
+    .filter(
+      (item, index, self) =>
+        self.findIndex((candidate) => candidate.slug === item.slug) === index,
+    )
+    .slice(0, limit);
 };

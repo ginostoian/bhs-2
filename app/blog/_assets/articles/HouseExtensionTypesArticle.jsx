@@ -464,8 +464,9 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         That front-loaded work separates a project that lands on budget from one that finds a shallow garage foundation in
         week six. BH Studio has delivered more than 300 projects across Central, East and North London, carries £10M insurance
-        and a ten-year workmanship guarantee, and holds design and build under one contract – so the team telling you a
-        wraparound is achievable on your plot is the team that has to make it stand up. Bring your measurements and your title
+        and a ten-year workmanship guarantee, and offers managed design and build with your own or a recommended architect.
+        The architect prepares the drawings; we build and can manage coordination
+        if you wish, with appointments and fees set out in your proposal. Bring your measurements and your title
         plan to a feasibility conversation and we will tell you which formats are realistic, what they cost and what the
         planning route looks like, including when the format you had in mind is the wrong one. See examples of each type in our{" "}
         <Link href="/portfolio">project portfolio</Link>, or start with{" "}

@@ -515,15 +515,7 @@ export default function SingleStoreyExtensionCostLondon() {
         quality and changes the subject.
       </p>
       <p className={styles.p}>
-        BH Studio has designed and built extensions, loft conversions and full
-        refurbishments across Central, East and North London – 500+ projects, a
-        Houzz Best of Service award, a ten-year workmanship guarantee and £10
-        million of insurance behind every one. Because we design and build under
-        a single contract, the fixed price we quote is the price you pay, and
-        the risk of a drawing that does not survive contact with a Victorian
-        footing sits with us. That is the difference between a design-and-build
-        firm and an architecture practice that hands over a drawing set and a
-        list of builders' numbers.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees. We provide an itemised construction quotation, with changes priced and agreed before the related work proceeds. Extensions and lofts carry a ten-year workmanship guarantee; £10 million insurance is separate from that cover.
       </p>
       <p className={styles.p}>
         If you know roughly what you want to build,{" "}

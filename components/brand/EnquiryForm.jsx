@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function EnquiryForm() {
+export default function EnquiryForm({ defaultService = "Not sure yet" }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
@@ -11,6 +11,9 @@ export default function EnquiryForm() {
     event.preventDefault();
     if (pending) return;
     const form = new FormData(event.currentTarget);
+    const [firstName, ...remainingNames] = String(form.get("name") || "")
+      .trim()
+      .split(/\s+/);
     setPending(true);
     setError("");
     try {
@@ -25,8 +28,8 @@ export default function EnquiryForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstName: form.get("firstName"),
-          lastName: form.get("lastName"),
+          firstName,
+          lastName: remainingNames.join(" "),
           email: form.get("email"),
           phone: form.get("phone"),
           topic: "New Project",
@@ -51,24 +54,30 @@ export default function EnquiryForm() {
   }
   return (
     <form className="bh-enquiry" onSubmit={submit}>
+      <p className="bh-full bh-small">
+        Tell us a little about your plans. Only the fields marked (required) are
+        needed to get started.
+      </p>
       <label>
-        First name
-        <input name="firstName" autoComplete="given-name" required />
+        Your name (required)
+        <input
+          name="name"
+          autoComplete="name"
+          required
+          pattern={".*\\S.*"}
+          maxLength={100}
+        />
       </label>
       <label>
-        Last name
-        <input name="lastName" autoComplete="family-name" required />
-      </label>
-      <label>
-        Email
+        Email (required)
         <input name="email" type="email" autoComplete="email" required />
       </label>
       <label>
-        Phone
-        <input name="phone" type="tel" autoComplete="tel" required />
+        Phone (optional)
+        <input name="phone" type="tel" autoComplete="tel" />
       </label>
       <label>
-        Property postcode
+        Property postcode (required)
         <input
           name="postcode"
           autoComplete="postal-code"
@@ -77,8 +86,8 @@ export default function EnquiryForm() {
         />
       </label>
       <label>
-        Project type
-        <select name="service">
+        Project type (optional)
+        <select name="service" defaultValue={defaultService}>
           {[
             "Extension",
             "Loft conversion",
@@ -92,42 +101,51 @@ export default function EnquiryForm() {
           ))}
         </select>
       </label>
-      <label>
-        Project stage
-        <select name="stage">
-          {[
-            "Early idea",
-            "Buying or just bought",
-            "Drawings in progress",
-            "Drawings and approvals in place",
-          ].map((x) => (
-            <option key={x}>{x}</option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Investment range
-        <select name="budget">
-          {[
-            "Not sure yet",
-            "Under £75,000",
-            "£75,000 to £150,000",
-            "£150,000 to £300,000",
-            "Over £300,000",
-          ].map((x) => (
-            <option key={x}>{x}</option>
-          ))}
-        </select>
-      </label>
       <label className="bh-full">
-        A short brief
+        What would you like to change? (required)
         <textarea
           name="brief"
           rows={4}
+          maxLength={1500}
           placeholder="What would you like to change, and when would you like to start?"
           required
         />
       </label>
+      <details className="bh-full bh-enquiry-extra">
+        <summary>Add your stage and budget (optional)</summary>
+        <div className="bh-enquiry" style={{ marginTop: 20 }}>
+          {" "}
+          <label>
+            Project stage (optional)
+            <select name="stage">
+              {[
+                "Not sure yet",
+                "Early idea",
+                "Buying or just bought",
+                "Drawings in progress",
+                "Drawings and approvals in place",
+              ].map((x) => (
+                <option key={x}>{x}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Budget range (optional)
+            <select name="budget">
+              {[
+                "Not sure yet",
+                "Under £25,000",
+                "£25,000 to £75,000",
+                "£75,000 to £150,000",
+                "£150,000 to £300,000",
+                "Over £300,000",
+              ].map((x) => (
+                <option key={x}>{x}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </details>
       <div hidden aria-hidden="true">
         <label>
           Website
@@ -145,7 +163,7 @@ export default function EnquiryForm() {
       ) : null}
       <div className="bh-full bh-actions">
         <button className="bh-button" disabled={pending}>
-          {pending ? "Sending enquiry…" : "Send enquiry"}
+          {pending ? "Sending enquiry…" : "Send my brief"}
         </button>
         <span className="bh-small" role="status">
           {pending

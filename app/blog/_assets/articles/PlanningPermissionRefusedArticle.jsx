@@ -501,7 +501,7 @@ const PlanningPermissionRefused = () => {
         The most effective pre-application submissions include sketch drawings showing the proposed extension or loft conversion from all relevant angles, a brief written description of the proposal, and any supporting information that addresses likely concerns (heritage context, daylight analysis, tree survey). The more complete your submission, the more useful the officer's feedback will be.
       </p>
       <p className={styles.p}>
-        At Better Homes, pre-application engagement is standard practice on every project. Before any formal application is submitted, our in-house design team prepares a scheme that's been tested against the borough's local plan policies and informed by a review of comparable approved schemes in the area. This planning-led approach means that by the time we submit, we've already addressed the issues that cause most refusals.
+        For a Better Homes project, your architect advises whether pre-application engagement would be useful and prepares any agreed planning work. We can work with your own architect or introduce one we recommend. With managed support, we coordinate discussions and contribute construction cost and buildability advice while the proposal develops.
       </p>
 
       {/* ============ INFOGRAPHIC 5 ============ */}
@@ -530,7 +530,7 @@ const PlanningPermissionRefused = () => {
         A design-and-build firm manages the entire process - from initial concept and planning strategy through to construction and completion. This integrated approach has a direct impact on planning outcomes because the design team understands what can realistically be built, what will cost what, and how to present a proposal that addresses the council's concerns at the first attempt.
       </p>
       <p className={styles.p}>
-        Better Homes operates exactly this model. Our in-house team handles design, planning, and construction across Central, East, and North London - including the most planning-sensitive boroughs like Hackney, Islington, and Haringey. Because the same team that designs your extension also builds it, every detail in the planning drawings is accurate, constructable, and costed. There's no handoff between architect and builder where misunderstandings create delays, no redesigns because the builder says "we can't do that," and no surprise costs because the planning-approved design turns out to be impractical.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
       <p className={styles.p}>
         Our track record includes loft conversions in conservation areas, rear extensions on constrained Victorian terraces, and full-house renovation projects that combine multiple elements requiring separate planning considerations. Every project benefits from a 10-year workmanship guarantee and £10 million professional indemnity insurance - quantified trust signals that matter to planning officers assessing the credibility of your application.
@@ -575,7 +575,7 @@ const PlanningPermissionRefused = () => {
         The key is understanding why the refusal happened and responding strategically. Read the decision notice, speak to the case officer, research what's been approved on comparable properties, and consider pre-application advice before resubmitting. And if you haven't yet applied, invest the time upfront to get the design right - a well-prepared application with professional drawings and a solid planning strategy is your best defence against refusal.
       </p>
       <p className={styles.p}>
-        At Better Homes, we handle planning strategy, architectural design, and construction as a single integrated service. That means the team designing your extension or loft conversion understands both the planning framework and the construction realities - eliminating the gaps that cause refusals and delays. We work across Hackney, Islington, Walthamstow, Muswell Hill, Crouch End, Finchley, and boroughs throughout Central, East, and North London.
+        At Better Homes, your own or a recommended architect advises on planning and prepares the agreed drawings; we build. If you want managed support, we organise discussions, follow up questions and contribute construction cost and buildability advice. You approve design and budget decisions. We work across Central, East and North London, with the appointments and fees set out in your proposal.
       </p>
       <p className={styles.p}>
         If your planning application has been refused - or if you want to make sure your first application succeeds - get in touch for a free, no-obligation consultation. We'll review your site, assess the planning context, and give you an honest assessment of what's achievable.

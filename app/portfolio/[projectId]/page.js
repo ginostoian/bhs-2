@@ -1,3 +1,4 @@
+import RelatedGuides from "@/components/brand/RelatedGuides";
 import ProjectGallery from "@/components/brand/ProjectGallery";
 import Faq from "@/components/brand/Faq";
 import { JsonLd, FaqSchema } from "@/components/brand/Schema";
@@ -40,7 +41,7 @@ export function generateMetadata({ params }) {
   }
 
   const title = `${project.title} | Case Study | Better Homes`;
-  const description = `${project.teaser} Explore scope, constraints, delivery approach and outcomes for this ${project.location} renovation project.`;
+  const description = `${project.teaser} Explore the work delivered, room details and photographs for this ${project.location} renovation project.`;
 
   return getSEOTags({
     title,
@@ -74,7 +75,7 @@ export default function ProjectPage({ params }) {
     {
       question: "Can I bring my own architect or drawings?",
       answer:
-        "Yes. We can price and build from your existing drawings, coordinating with your architect and structural engineer. If you need design support, we can manage your relationship with a trusted independent architect.",
+        "Bring your own architect or choose one we recommend. Either way, Better Homes builds your home and can manage the coordination for you: arranging discussions, following up questions and speaking on your behalf with your agreement. You stay in control of the design, budget and approvals. Your architect prepares the drawings and agreed professional submissions; we manage construction. Our proposal sets out the coordination support you want, each appointment and the fees before you commit.",
     },
     {
       question: "Will my project cost the same as this one?",
@@ -121,8 +122,8 @@ export default function ProjectPage({ params }) {
             <dd>{facts.projectType}</dd>
           </div>
           <div>
-            <dt>Client priority</dt>
-            <dd>{facts.homeownerPriority}</dd>
+            <dt>Completion period</dt>
+            <dd>{facts.completionPeriod}</dd>
           </div>
         </dl>
         <Image
@@ -145,7 +146,9 @@ export default function ProjectPage({ params }) {
         <div>
           <p className="bh-eyebrow">The brief</p>
           <h2 className="bh-heading">{facts.objective}</h2>
-          <p className="bh-lead">{facts.deliveryStyle}</p>
+          <p className="bh-lead">
+            Construction and installation by Better Homes.
+          </p>
         </div>
         <div>
           <h3 style={{ fontSize: 22 }}>The work we delivered</h3>
@@ -156,28 +159,37 @@ export default function ProjectPage({ params }) {
           </ul>
         </div>
       </section>
-      <section className="bh-band">
-        <div className="bh-wrap bh-section bh-grid-two">
-          <div>
-            <p className="bh-eyebrow">What needed care</p>
-            <h2 className="bh-heading">The decisions behind the finish</h2>
-            <ul className="bh-list">
-              {facts.constraints.map((x) => (
-                <li key={x}>{x}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="bh-eyebrow">How we managed it</p>
-            <ol className="bh-list">
-              {facts.riskManagement.map((x, i) => (
-                <li key={x}>
-                  <span className="bh-small">0{i + 1}</span>
-                  <p>{x}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+      <section id="project-details" className="bh-band">
+        <div className="bh-wrap bh-section">
+          <p className="bh-eyebrow">A closer look</p>
+          <h2 className="bh-heading">
+            The details that make this home its own
+          </h2>
+          {facts.details.map((detail) => (
+            <article
+              key={detail.title}
+              className="bh-grid-two"
+              style={{ marginTop: 48, alignItems: "center" }}
+            >
+              <figure style={{ margin: 0 }}>
+                <Image
+                  src={detail.image}
+                  alt={detail.caption}
+                  width={1200}
+                  height={900}
+                  sizes="(max-width: 800px) 100vw, 50vw"
+                  style={{ width: "100%", height: "auto" }}
+                />
+                <figcaption className="bh-small" style={{ marginTop: 12 }}>
+                  {detail.caption}
+                </figcaption>
+              </figure>
+              <div>
+                <h3 className="bh-heading">{detail.title}</h3>
+                <p className="bh-lead">{detail.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
       <section className="bh-wrap bh-section">
@@ -188,7 +200,7 @@ export default function ProjectPage({ params }) {
       <section className="bh-wrap bh-section bh-grid-two">
         <div>
           <p className="bh-eyebrow">The outcome</p>
-          <h2 className="bh-heading">What changed for the home</h2>
+          <h2 className="bh-heading">What the finished home offers</h2>
         </div>
         <ul className="bh-list">
           {facts.outcomes.map((x) => (
@@ -196,7 +208,7 @@ export default function ProjectPage({ params }) {
           ))}
         </ul>
       </section>
-      {facts.testimonial?.reviewUrl ? (
+      {facts.testimonial?.verified === true && facts.testimonial?.reviewUrl ? (
         <section className="bh-wrap bh-section">
           <blockquote className="bh-lead">
             “{facts.testimonial.quote}”
@@ -218,6 +230,7 @@ export default function ProjectPage({ params }) {
           <ProjectCards projects={related} />
         </section>
       ) : null}
+      <RelatedGuides context={project.category.includes("Extension") ? "extension" : project.category.includes("Kitchen") ? "kitchen" : project.category.includes("Bathroom") ? "bathroom" : "renovation"} />
     </main>
   );
 }

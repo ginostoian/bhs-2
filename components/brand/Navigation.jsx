@@ -120,6 +120,7 @@ export default function Navigation() {
             <Link href="/#how">How we work</Link>
             <Link href="/tools">Cost planning</Link>
             <Link href="/about">About</Link>
+            <Link href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blog</Link>
             <Link href="/contact">Contact</Link>
           </div>
           <div className="bh-nav-actions">
@@ -130,7 +131,7 @@ export default function Navigation() {
               Client portal
             </Link>
             <a href={BOOKING_URL} className="bh-button">
-              Discuss your project
+              Book a 20-minute call
             </a>
           </div>
         </nav>

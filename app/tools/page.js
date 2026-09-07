@@ -1,3 +1,4 @@
+import RelatedGuides from "@/components/brand/RelatedGuides";
 import Link from "next/link";
 import Image from "next/image";
 import config from "@/config";
@@ -133,6 +134,6 @@ export default function Page() {
           ))}
         </div>
       </section>
-    </main>
+    <RelatedGuides context="tools" /></main>
   );
 }

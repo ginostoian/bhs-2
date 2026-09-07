@@ -10,7 +10,7 @@ const labels = {
   "bathroom-renovation": "Bathroom renovations",
   "basement-conversion": "Basement conversions",
   portfolio: "Our work",
-  blog: "Journal",
+  blog: "Blog",
   dashboard: "Client portal",
   admin: "Administration",
   auth: "Account",

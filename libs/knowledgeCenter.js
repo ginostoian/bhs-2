@@ -1,6 +1,12 @@
 import { articles } from "@/app/blog/_assets/content";
 
 const CONTEXT_PROFILES = {
+  basement: {
+    preferredSlugs: ["home-renovation-cost-london-2026", "planning-permission-refused-london", "how-to-finance-house-extension-renovation-london-2026"],
+    primaryCategories: ["full-home"],
+    secondaryCategories: [],
+    keywords: ["basement", "structure", "planning"],
+  },
   home: {
     preferredSlugs: [
       "how-to-finance-house-extension-renovation-london-2026",
@@ -15,7 +21,7 @@ const CONTEXT_PROFILES = {
   },
   extension: {
     preferredSlugs: [
-      "how-to-finance-house-extension-renovation-london-2026",
+      "single-storey-extension-cost-london",
       "house-extension-mistakes-london",
       "house-extension-value-london-guide",
       "permitted-development-guide",
@@ -27,7 +33,6 @@ const CONTEXT_PROFILES = {
   },
   loft: {
     preferredSlugs: [
-      "how-to-finance-house-extension-renovation-london-2026",
       "planning-permission-loft-conversion-london",
       "loft-conversions-london-complete-guide-2026",
       "house-extension-mistakes-london",
@@ -62,6 +67,7 @@ const CONTEXT_PROFILES = {
   },
   kitchen: {
     preferredSlugs: [
+      "bespoke-vs-howdens-vs-ikea-kitchen-london",
       "kitchen-renovation-full-guide-2025",
       "kitchen-providers-comparison-guide",
       "home-renovation-cost-london-2026",
@@ -145,7 +151,7 @@ function toHighlightArticle(article) {
   return {
     title: article.title,
     date: formatDisplayDate(article.publishedAt),
-    imgUrl: article.image.urlRelative,
+    imgUrl: article.image?.urlRelative || article.image?.src,
     slug: article.slug,
   };
 }
@@ -183,6 +189,7 @@ export function getKnowledgeCenterArticles(context, limit = 4) {
   const profile = CONTEXT_PROFILES[context] || CONTEXT_PROFILES.home;
 
   return articles
+    .filter((article, index, all) => all.findIndex((candidate) => candidate.slug === article.slug) === index)
     .map((article) => ({
       article,
       score: scoreArticle(article, profile),

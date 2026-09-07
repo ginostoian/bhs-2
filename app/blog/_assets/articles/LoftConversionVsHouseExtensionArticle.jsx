@@ -201,7 +201,7 @@ export default function LoftConversionVsHouseExtension() {
         Extensions carry some hidden costs that loft conversions avoid entirely. Foundation and groundwork costs can be unpredictable, particularly with London's variable clay soil. Temporary kitchen arrangements during a kitchen extension add £2,000–£5,000 to living costs. And scaffold licensing in London boroughs like Hackney and Islington, where parking is restricted, can add £500–£2,000 that many homeowners don't budget for.
       </p>
       <p className={styles.p}>
-        One cost advantage that's often overlooked: with a design-and-build company, professional fees are typically included in the overall price. Architecture-only firms like Resi charge separate design fees (often 8–15% of the build cost) and then pass you to a builder - meaning you pay twice for project management and coordination. A single-contract design-and-build approach eliminates this duplication.
+        Compare costs on the same basis. A construction quotation does not automatically include architect, engineer or surveyor fees. At Better Homes, the proposal identifies the professional appointments, fees and any managed coordination support you choose. That lets you see the wider project cost before committing, whether you bring your own architect or choose one we recommend.
       </p>
 
       {/* Section 4: Value Added */}
@@ -453,7 +453,7 @@ export default function LoftConversionVsHouseExtension() {
         Whether you choose a loft conversion, an extension, or both, the company you work with will have a bigger impact on the outcome than almost any other decision. London's construction market is competitive, and quality varies enormously. Here are the questions that matter most.
       </p>
       <p className={styles.p}>
-        First, understand the business model. Architecture-only firms (like Resi or Extension Architecture) design your project and submit planning applications, but they don't build. You'll need to find a separate builder, which creates a handoff point where communication breaks down, timelines slip, and costs escalate. Design-and-build firms manage the entire process under one contract - design, planning, structural engineering, and construction. This model eliminates the coordination gap and typically delivers projects faster and with fewer budget surprises.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
       <p className={styles.p}>
         Second, check their insurance and guarantees. Any reputable company should carry a minimum of £2 million public liability insurance. A 10-year workmanship guarantee demonstrates confidence in the quality of their work. Ask to see proof - not just a claim on a website. Third, request examples of completed projects in your borough. A company with experience in Hackney's conservation areas or Islington's planning restrictions will navigate the approval process far more efficiently than one working in the area for the first time.
@@ -503,7 +503,7 @@ export default function LoftConversionVsHouseExtension() {
 
       <h3 className={styles.h3}>Can I do a loft conversion and extension at the same time?</h3>
       <p className={styles.p}>
-        Yes, and this is increasingly the most popular choice for London homeowners. Doing both as a single project saves money (shared scaffold, one party wall agreement, consolidated design fees), reduces total disruption time, and delivers the highest value uplift at 20–30%. A design-and-build company can coordinate both elements from one contract.
+        Yes, and this is increasingly the most popular choice for London homeowners. Doing both as a single project saves money (shared scaffold, one party wall agreement, consolidated design fees), reduces total disruption time, and delivers the highest value uplift at 20–30%. Better Homes can build both elements and, if you wish, coordinate with your own or a recommended architect. Appointments and fees are set out in your proposal.
       </p>
 
       <h3 className={styles.h3}>Is it cheaper to move house or convert my loft in London?</h3>
@@ -513,7 +513,7 @@ export default function LoftConversionVsHouseExtension() {
 
       <h3 className={styles.h3}>What's the difference between a design-and-build company and an architect?</h3>
       <p className={styles.p}>
-        An architect (or architecture-only firm like Resi) designs your project and handles planning applications, but doesn't build. You then need to find a separate builder, creating a handoff point. A design-and-build company manages the entire process under one contract - design, planning, structural engineering, and construction - eliminating coordination gaps and providing a single point of accountability.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
 
       {/* Engagement */}
@@ -538,7 +538,7 @@ export default function LoftConversionVsHouseExtension() {
         Whatever you choose, the single most important decision is who you work with. A design-and-build company with genuine London experience - one that understands your borough's planning quirks, your property type's structural opportunities, and the logistics of building in a dense urban environment - will deliver a fundamentally better outcome than trying to coordinate separate architects and builders yourself.
       </p>
       <p className={styles.p}>
-        Better Homes specialises in loft conversions, house extensions, and full home renovations across Central, East, and North London. We manage the entire process from initial design through planning and construction - with fixed-price contracts, a 10-year workmanship guarantee, and £10 million insurance. If you're ready to explore your options, book a free, no-obligation consultation and we'll assess your property's potential in person.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees. Our extension and loft workmanship is covered for ten years, with £10 million insurance separate from that guarantee. Contact us to discuss your property and the support you would like.
       </p>
 
       {/* References */}

@@ -71,7 +71,7 @@ const features = [
             "Comprehensive Schedule of Works",
             "Project Management Tools",
             "Professional help and advice when needed",
-            "In-house interior designers",
+            "Coordination with your chosen design professionals",
           ].map((item) => (
             <li
               key={item}

@@ -181,9 +181,9 @@ const Features = () => {
                     Convenient and hassle-free
                   </h3>
                   <p className="mt-1 text-gray-600 leading-6 tracking-wide">
-                    We handle all services under one roof, making your project
-                    more convenient and saving you time and effort. Planning,
-                    design, construction, and finishing touches.
+                    We build, working with your architect or one we recommend.
+                    If you wish, we can manage discussions and follow up design
+                    questions on your behalf, leaving you less to organise.
                   </p>
                 </div>
               </div>

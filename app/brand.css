@@ -903,3 +903,24 @@ textarea {
   outline: 2px solid #4d5b4b;
   outline-offset: 3px;
 }
+
+/* Keep the first mobile screen useful before the full proof strip below. */
+.bh-mobile-trust { display: none; }
+.bh-enquiry-extra { border-block: 1px solid var(--bh-stone); padding-block: 16px; }
+.bh-enquiry-extra summary { cursor: pointer; color: var(--bh-olive); }
+#brief, #home-brief, #extension-brief { scroll-margin-top: 100px; }
+@media (max-width: 700px) {
+  .bh-mobile-hero { padding-top: 24px !important; padding-bottom: 28px !important; }
+  .bh-mobile-hero > div { gap: 24px !important; }
+  .bh-mobile-hero > div > div:first-child { gap: 18px !important; }
+  .bh-mobile-hero h1 { font-size: 36px !important; }
+  .bh-mobile-hero .bh-title { margin-bottom: 18px; }
+  .bh-mobile-hero .bh-eyebrow { margin-bottom: 12px; }
+  .bh-mobile-trust { display: flex; flex-direction: column; gap: 4px; margin: 16px 0 0; font-size: 13px; line-height: 1.4; color: var(--bh-olive); }
+  .bh-mobile-trust a { text-decoration: underline; text-underline-offset: 3px; }
+  .bh-mobile-hero[data-screen-label] .bh-mobile-trust { margin: 0; }
+}
+@media (max-width: 700px) {
+  .bh-mobile-hero[data-screen-label] a[href="#home-brief"],
+  .bh-mobile-hero[data-screen-label] a[href="#work"] { padding-inline: 16px !important; }
+}

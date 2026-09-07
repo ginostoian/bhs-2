@@ -516,11 +516,7 @@ export default function HomeRenovationCostLondon2026() {
         the build cost.
       </p>
       <p className={styles.p}>
-        This is precisely why at Better Homes we operate a full design-and-build
-        model. By bundling architectural design, structural engineering,
-        planning, and construction under a single fixed-price contract, we
-        eliminate the gaps between separate professionals and give our clients
-        cost certainty from day one.
+        At Better Homes, the quotation makes construction costs, professional fees and your chosen coordination support clear. We build the project, while your own or a recommended architect provides drawings and agreed submissions. If you want us to manage the coordination, we can handle discussions and follow up questions on your behalf, with your agreement. Professional services are not automatically included in a construction price.
       </p>
 
       {/* SECTION: Cost by Property Type */}
@@ -861,17 +857,7 @@ export default function HomeRenovationCostLondon2026() {
         wall agreements.
       </p>
       <p className={styles.p}>
-        The choice between a traditional architect-plus-builder arrangement and
-        a design-and-build firm is particularly important for a full renovation.
-        In the traditional model, you hire an architect to design the project
-        and then separately tender the work to builders - which means managing
-        two relationships, dealing with potential gaps in responsibility, and
-        bearing the risk of design-versus-buildability conflicts. A
-        design-and-build firm like Better Homes takes responsibility for the entire
-        project from initial concept through to final handover under a single
-        contract and a single point of accountability. This typically results in
-        faster delivery, fewer surprises, and better cost control - because the
-        people designing the project are the same people building it.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
 
       {/* SECTION: ROI Analysis */}
@@ -946,9 +932,10 @@ export default function HomeRenovationCostLondon2026() {
         immeasurable lifestyle benefits.
       </p>
       <p className={styles.p}>
-        <strong>Choose design-and-build:</strong> A single contractor handling
-        design through to construction gives you cost certainty, faster
-        delivery, and one point of accountability.
+        <strong>Choose your level of support:</strong> Better Homes builds
+        alongside your own or a recommended architect. Optional managed
+        coordination means we can organise discussions and follow up questions,
+        while you approve the design, budget and changes.
       </p>
 
       {/* Conclusion */}

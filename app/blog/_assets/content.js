@@ -264,7 +264,7 @@ const houseExtensionGuideFaqs = [
     question:
       "What is the difference between design-and-build and hiring an architect separately?",
     answer:
-      "With a traditional architect-led approach, you hire an architect to design the extension, then separately find and manage a builder to construct it. The architect and builder work under separate contracts, and the homeowner coordinates between them. With a design-and-build firm like Better Homes, one company handles both design and construction under a single contract. This provides one point of responsibility, a fixed price agreed before construction begins, and faster delivery because design and construction planning overlap. The design-and-build model is particularly effective for London house extensions where coordination complexity and cost certainty are important.",
+      "At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.",
   },
 ];
 

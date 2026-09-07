@@ -59,7 +59,7 @@ export default function PublicHelp() {
       ),
       q(
         "Can you build from drawings I already have?",
-        "Yes. We can review your existing drawings and price the building work. If design support is needed, we can manage your relationship with one of our trusted independent architects.",
+        "Bring your own architect or choose one we recommend. Either way, Better Homes builds your home and can manage the coordination for you: arranging discussions, following up questions and speaking on your behalf with your agreement. You stay in control of the design, budget and approvals. Your architect prepares the drawings and agreed professional submissions; we manage construction. Our proposal sets out the coordination support you want, each appointment and the fees before you commit.",
       ),
     ];
   else if (path.includes("submitted"))
@@ -147,7 +147,7 @@ export default function PublicHelp() {
       ),
       q(
         "What does design and build mean at Better Homes?",
-        "We manage the construction and your relationship with a trusted independent architect. If you already have drawings or an architect, we can work with that team. The proposal identifies each appointment, responsibility and fee.",
+        "Bring your own architect or choose one we recommend. Either way, Better Homes builds your home and can manage the coordination for you: arranging discussions, following up questions and speaking on your behalf with your agreement. You stay in control of the design, budget and approvals. Your architect prepares the drawings and agreed professional submissions; we manage construction. Our proposal sets out the coordination support you want, each appointment and the fees before you commit.",
       ),
       q(
         "Do you take on standalone kitchens and bathrooms?",

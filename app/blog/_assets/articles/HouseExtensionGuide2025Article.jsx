@@ -472,7 +472,7 @@ export default function HouseExtensionsLondonGuide() {
         Stage 2: Architectural Design (Weeks 2 to 6)
       </h3>
       <p className={styles.p}>
-        The design stage produces the drawings that define your extension. This typically includes concept sketches, planning drawings (floor plans, elevations, sections), 3D visualisations, and detailed construction drawings. In a design-and-build model, these drawings are produced by the same team that will build the extension - ensuring the design is buildable, cost-effective, and coordinated with the structural engineering from the outset.
+        The design stage produces the drawings that define your extension. This typically includes concept sketches, planning drawings (floor plans, elevations, sections), 3D visualisations, and detailed construction drawings. At Better Homes, your own or a recommended architect prepares the agreed drawings. We contribute construction cost and buildability advice, and can manage coordination with the architect and engineer if you wish.
       </p>
 
       <h3 className={styles.h3}>
@@ -508,16 +508,16 @@ export default function HouseExtensionsLondonGuide() {
         Design and Build vs Architecture-Only: Which Model Works Better?
       </h2>
       <p className={styles.p}>
-        The traditional route for a London extension involves hiring an architect to design the project, then separately tendering to builders and managing the construction through to completion. The architect produces drawings, submits planning applications, and may offer contract administration during the build - but does not construct anything. The homeowner is responsible for finding, vetting, and managing the builder, and for coordinating the interface between architect, structural engineer, and contractor.
+        An architect prepares the design and agreed planning submissions; a building company constructs the extension. You can manage those relationships yourself or arrange coordination support. Ask how questions will be followed up, who will explain cost implications and how decisions will be recorded before work proceeds.
       </p>
       <p className={styles.p}>
-        The design-and-build model takes a fundamentally different approach. A single firm - like Better Homes - provides architectural design, planning management, structural coordination, and construction under one contract. There is one point of responsibility, one contract, and one team. If there is a problem, there is no finger-pointing between architect and builder because both functions sit within the same organisation.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
       <p className={styles.p}>
-        The practical advantages of design-and-build for London homeowners are significant. First, cost certainty: a design-and-build firm provides a fixed price at the outset, removing the anxiety of competitive tendering and price escalation. Second, speed: the design and construction phases overlap, with buildability considered from day one, typically saving 4 to 8 weeks compared to a sequential architect-then-builder process. Third, accountability: if the design is not buildable, the same firm bears the cost and delay - there is no dispute about whose fault it is.
+        The value of managed coordination is practical: fewer conversations for you to organise and construction advice while the design develops. If a question affects both the drawings and the build, we bring it to the relevant professional, follow up the response and explain the options to you. Construction issues remain our responsibility; architectural decisions remain with the architect and your approval.
       </p>
       <p className={styles.p}>
-        This is particularly relevant in the London extension market because many competitors - including Resi, Extension Architecture, and Studio Colab - operate an architecture-only model. They produce designs and submit planning applications, but do not build. The homeowner must then find a separate builder, negotiate a separate contract, and manage the transition from design to construction independently. Better Homes' full design-and-build model eliminates this gap entirely, providing a smoother, more predictable project experience from first sketch to final handover.
+        A recommended architect is an option, not a condition of receiving that support. If you already have an architect, we are happy to work with them. If you prefer to manage the design relationship yourself, we can focus on construction and the technical coordination needed to deliver it. We agree that level of involvement with you at the start.
       </p>
 
       {/* SECTION 8: VALUE */}
@@ -691,7 +691,7 @@ export default function HouseExtensionsLondonGuide() {
         What is the difference between design-and-build and hiring an architect separately?
       </h3>
       <p className={styles.p}>
-        With a traditional architect-led approach, you hire an architect to design the extension, then separately find and manage a builder to construct it. The architect and builder work under separate contracts, and the homeowner coordinates between them. With a design-and-build firm like Better Homes, one company handles both design and construction under a single contract. This provides one point of responsibility, a fixed price agreed before construction begins, and faster delivery because design and construction planning overlap. The design-and-build model is particularly effective for London house extensions where coordination complexity and cost certainty are important.
+        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
       </p>
 
       {/* ENGAGEMENT */}

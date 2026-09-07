@@ -376,7 +376,7 @@ export default function LocationPage({ params }) {
           </h1>
           <p className={classes.subtitle}>
             Better Homes supports homeowners in {location.name} with
-            carefully managed construction. We can build from your existing drawings or manage your relationship with a trusted independent architect when design support is needed.
+            carefully managed construction. Bring your own architect or choose one we recommend. Either way, we can manage the coordination, follow up questions and handle discussions on your behalf with your agreement. You approve the design, budget and changes.
           </p>
           <p className={classes.subtitle}>
             {getAreaContext(location.area)}

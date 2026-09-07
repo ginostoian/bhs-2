@@ -1,3 +1,4 @@
+import RelatedGuides from "@/components/brand/RelatedGuides";
 import Link from "next/link";
 import Image from "next/image";
 import config from "@/config";
@@ -41,6 +42,6 @@ export default function Page() {
         <ProjectCards projects={getPortfolioProjects()} />
       </section>
       <ProjectCTA />
-    </main>
+    <RelatedGuides context="portfolio" /></main>
   );
 }

@@ -1,0 +1,71 @@
+.living {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+.photo {
+  margin: 0;
+}
+.photo img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+.photo figcaption {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--bh-olive);
+}
+.photo a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.moments {
+  margin-top: 32px;
+}
+.moments article {
+  padding-block: 20px;
+  border-top: 1px solid var(--bh-stone);
+}
+.moments h3,
+.steps h3 {
+  font-size: 23px;
+  line-height: 1.25;
+  font-weight: 500;
+  margin: 0 0 12px;
+}
+.moments p,
+.steps p {
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 0;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.steps li {
+  border-top: 1px solid var(--bh-stone);
+  padding-top: 20px;
+}
+.steps span {
+  display: block;
+  margin-bottom: 18px;
+}
+.link {
+  margin-top: 20px;
+}
+@media (max-width: 760px) {
+  .living,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+  .photo img {
+    aspect-ratio: 4 / 3;
+  }
+}

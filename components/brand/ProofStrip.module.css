@@ -1,0 +1,93 @@
+.proof {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 40px);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 28px 0;
+  border-block: 1px solid var(--bh-stone);
+}
+
+.fact {
+  min-width: 0;
+  padding-inline: 28px;
+}
+
+.fact:first-child {
+  padding-left: 0;
+}
+.fact:last-child {
+  padding-right: 0;
+}
+.fact + .fact {
+  border-left: 1px solid var(--bh-stone);
+}
+
+.fact dt {
+  color: var(--bh-olive);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fact dd {
+  margin: 0;
+}
+
+.value {
+  display: block;
+  margin-block: 6px 8px;
+  color: var(--bh-ink);
+  font-size: clamp(26px, 2.5vw, 32px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.denominator {
+  font-size: 18px;
+  color: var(--bh-olive);
+}
+.detail,
+.fact a {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bh-olive);
+}
+.fact a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--bh-stone);
+}
+.fact a:hover {
+  color: var(--bh-ink);
+  text-decoration-color: currentColor;
+}
+.fact a:focus-visible {
+  outline: 2px solid var(--bh-olive);
+  outline-offset: 5px;
+}
+
+@media (max-width: 800px) {
+  .facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+  }
+  .fact {
+    padding: 22px 0;
+  }
+  .fact:nth-child(odd) {
+    border-left: 0;
+    padding-right: 18px;
+  }
+  .fact:nth-child(even) {
+    padding-left: 18px;
+  }
+  .fact:nth-child(n + 3) {
+    border-top: 1px solid var(--bh-stone);
+  }
+}

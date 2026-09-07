@@ -26,7 +26,7 @@ export default function BlogArchive({ articles, postsPerPage = 6 }) {
             All Guides
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-gray-600 md:text-base">
-            Browse the full journal, from early planning to the finishing details.
+            Browse the full blog, from early planning to the finishing details.
           </p>
         </div>
         <div className="rounded-full bg-[#eef4ff] px-4 py-2 text-sm font-semibold text-[#4D5B4B]">

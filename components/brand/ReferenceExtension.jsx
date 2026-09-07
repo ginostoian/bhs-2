@@ -5,6 +5,8 @@ import ExtensionCosts from "./ExtensionCosts";
 import Image from "next/image";
 import { FaqSchema } from "./Schema";
 import EnquiryForm from "./EnquiryForm";
+import ProofStrip from "./ProofStrip";
+import MobileTrust from "./MobileTrust";
 export default class ReferenceExtension extends React.Component {
   state = {
     narrow: false,
@@ -89,7 +91,7 @@ export default class ReferenceExtension extends React.Component {
         meta: "N8, North London · Rear extension and renovation",
         title: "A brighter rear with a stronger garden connection",
         summary:
-          "Structural kitchen extension with integrated interior upgrades, sequenced around structural milestones.",
+          "A brighter kitchen and living space, with a closer connection to the garden.",
       },
       {
         href: "/portfolio/ava-e7",
@@ -98,7 +100,7 @@ export default class ReferenceExtension extends React.Component {
         meta: "E7, East London · Side-return extension",
         title: "A side return turned into the kitchen-dining room",
         summary:
-          "Restricted access managed through careful logistics; structure, joinery and services under one programme.",
+          "A narrow side return becomes a kitchen and dining room with space to gather.",
       },
       {
         href: "/portfolio/daniel-n19",
@@ -107,7 +109,7 @@ export default class ReferenceExtension extends React.Component {
         meta: "N19, North London · Rear extension and whole-home renovation",
         title: "A family home opened to the garden",
         summary:
-          "Rear extension integrated with the existing structure, alongside a full internal renovation.",
+          "A kitchen, dining and living space brought together, with the rest of the house renewed around it.",
       },
     ];
 
@@ -132,7 +134,7 @@ export default class ReferenceExtension extends React.Component {
 
     const stepData = [
       {
-        name: "Brief and feasibility",
+        name: "Your home and your ideas",
         happens:
           "A call, then a visit. We look at the house, the garden, access and what you want the space to do, and give an honest early view on route and budget.",
         decide:
@@ -141,34 +143,34 @@ export default class ReferenceExtension extends React.Component {
           "A written summary of the conversation with early budget assumptions and suggested next steps.",
       },
       {
-        name: "Design and approvals",
+        name: "Shape the plans",
         happens:
-          "Your architect develops the design and handles planning or permitted development. We feed in buildability and cost at each stage so the design stays affordable.",
+          "Your architect develops the drawings and agreed planning submissions. With managed support, we coordinate discussions and follow up questions, adding construction cost and buildability advice. You approve the design and budget.",
         decide:
           "Layout, glazing, roof form and the level of finish. The bigger cost decisions are made here, not on site.",
         receive:
           "Approved drawings from your architect and cost feedback from us against each option.",
       },
       {
-        name: "Preconstruction",
+        name: "Agree the work and price",
         happens:
-          "We price the drawings line by line, confirm the engineer’s design, agree allowances for kitchen and finishes, and set the programme.",
+          "We work through the drawings, your kitchen choices and finishes, then explain the quote and agree when the work will happen.",
         decide:
           "The final scope, allowances, start date and how you will live during the build.",
         receive:
-          "An itemised quotation with inclusions, exclusions and allowances, a programme, and the contract naming your project lead.",
+          "A detailed quote showing what is covered, an agreed schedule and a contract naming your project lead.",
       },
       {
-        name: "Construction",
+        name: "Watch your home take shape",
         happens:
-          "A named project lead runs the site. Trades are sequenced around the critical path. Any change is priced and agreed in writing before the related work proceeds.",
+          "Your project lead looks after the build and keeps you updated each week. If a change is needed, we explain the options, cost and timing so you can agree it in writing before work goes ahead.",
         decide:
           "Finish selections on the agreed decision schedule, and any changes you choose to make.",
         receive:
           "A weekly update: work completed, what is next, decisions needed, risks and any cost movement, each with an owner and date.",
       },
       {
-        name: "Handover",
+        name: "Settle into your new space",
         happens:
           "We walk the finished space with you, record snags and close them out, then hand over documents, certificates and warranties.",
         decide: "Sign-off, and how you want to be contacted for aftercare.",
@@ -290,6 +292,7 @@ export default class ReferenceExtension extends React.Component {
       <main>
         <section
           data-screen-label="Service hero"
+          className="bh-mobile-hero"
           style={{
             maxWidth: "1240px",
             margin: "0 auto",
@@ -353,12 +356,13 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "We build rear, side-return, wrap-around and double-storey extensions for London homes, from foundations to the finished kitchen. You get an itemised quotation, a named project lead, a weekly update and a ten-year workmanship guarantee."
+                  "Room to cook together, gather around the table and open the doors to the garden. We build London extensions around the way you want to live, with clear pricing and a project lead who keeps you informed."
                 }
               </p>
+              <MobileTrust />
               <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
                 <a
-                  href="#enquire"
+                  href="#extension-brief"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -372,7 +376,7 @@ export default class ReferenceExtension extends React.Component {
                     transition: "background-color .2s ease",
                   }}
                 >
-                  {"Discuss your extension"}
+                  {"Send us your brief"}
                 </a>
                 <a
                   href="/extension-calculator"
@@ -448,6 +452,7 @@ export default class ReferenceExtension extends React.Component {
             </figcaption>
           </figure>
         </section>
+        <ProofStrip servicePath="/house-extension" />
 
         <section
           id="types"
@@ -489,7 +494,7 @@ export default class ReferenceExtension extends React.Component {
                 textWrap: "pretty",
               }}
             >
-              {"Four ways to extend a London house"}
+              {"Find the extra space your home is missing"}
             </h2>
           </div>
           <div
@@ -749,7 +754,7 @@ export default class ReferenceExtension extends React.Component {
                     textWrap: "pretty",
                   }}
                 >
-                  {"Recent extensions, with the details that mattered"}
+                  {"See how other homes opened up"}
                 </h2>
               </div>
               <a
@@ -893,7 +898,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"What an extension quotation from us covers"}
+                {"Know what your extension price includes"}
               </h2>
               <p
                 style={{
@@ -904,7 +909,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Every quotation is itemised, with inclusions, exclusions and allowances written down. This is the usual shape; yours is set against your drawings."
+                  "We explain your quote in detail, including what is covered and what you still need to choose. Here is a typical starting point. Your own quote will reflect your home and drawings."
                 }
               </p>
             </div>
@@ -1034,7 +1039,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Two ways to get to a set of drawings"}
+                {"Your choice of architect. Support either way."}
               </h2>
               <p
                 style={{
@@ -1046,7 +1051,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Architects, engineers and party wall surveyors are independent professionals appointed for your project. Your proposal names each one, what they deliver and who pays them."
+                  "Choose your architect and how much you want us to coordinate. We build; your architect prepares the drawings. With managed support, you have less to organise and clear decisions to approve. Your proposal sets out the support, professional appointments and fees."
                 }
               </p>
             </div>
@@ -1088,7 +1093,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "We introduce an architect we recommend and have built with before. They design and handle approvals under their own appointment; we feed in buildability and cost from the first sketch, so the design you fall for is one you can afford to build."
+                  "We introduce a recommended architect to develop the drawings and agreed submissions. If you want managed support, we arrange discussions, bring your priorities to the architect and follow up questions. We contribute construction cost and buildability advice as the design develops."
                 }
               </p>
             </div>
@@ -1119,7 +1124,7 @@ export default class ReferenceExtension extends React.Component {
                   lineHeight: "1.25",
                 }}
               >
-                {"You already have drawings"}
+                {"You have your own architect"}
               </h3>
               <p
                 style={{
@@ -1130,7 +1135,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Send them over. We review buildability, flag missing information, price the scope and coordinate with your architect and engineer through construction. Planning approval is not required before we talk."
+                  "We are happy to work with your chosen architect, whether drawings are underway or complete. The same managed support is available: we can coordinate discussions and speak on your behalf with your agreement, keeping you informed and bringing decisions back to you. Planning approval is not required before we talk."
                 }
               </p>
             </div>
@@ -1165,7 +1170,7 @@ export default class ReferenceExtension extends React.Component {
                 color: "#4D5B4B",
               }}
             >
-              {"The programme"}
+              {"From first ideas to moving in"}
             </p>
             <h2
               style={{
@@ -1177,7 +1182,7 @@ export default class ReferenceExtension extends React.Component {
                 textWrap: "pretty",
               }}
             >
-              {"From first conversation to keys back in your hand"}
+              {"Feel clear about what happens next"}
             </h2>
           </div>
           <div
@@ -1397,7 +1402,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Two extensions of the same footprint can differ a great deal in cost. These are the decisions that drive it, in roughly the order they matter."
+                  "Your budget goes further when you know where to spend it. The size of the space is only part of the picture. Here are the choices we will help you think through."
                 }
               </p>
               <a
@@ -1808,7 +1813,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Discuss your extension"}
+                {"Send us your brief"}
               </h2>
               <p
                 style={{
@@ -1819,7 +1824,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Tell us about the house, what you want from it and roughly when you hope to start. The first conversation covers fit, the likely route and early budget assumptions. Drawings are welcome but not required."
+                  "Tell us what you would love the extra space to make possible. We will talk through your ideas, your budget and where to begin. Bring drawings if you have them, or simply tell us what is missing at home."
                 }
               </p>
               <div
@@ -1866,82 +1871,14 @@ export default class ReferenceExtension extends React.Component {
                 </a>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "20px",
-                padding: "32px 28px",
-                background: "#F4F1EA",
-                borderRadius: "6px",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "13px",
-                  fontWeight: "500",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  color: "#4D5B4B",
-                }}
-              >
-                {"Useful to have ready"}
-              </span>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  fontSize: "16px",
-                  lineHeight: "1.5",
-                }}
-              >
-                <span
-                  style={{ padding: "10px 0", borderTop: "1px solid #D8D2C6" }}
-                >
-                  {"Your postcode and the type of house"}
-                </span>
-                <span
-                  style={{ padding: "10px 0", borderTop: "1px solid #D8D2C6" }}
-                >
-                  {"Whether you own the property or are buying it"}
-                </span>
-                <span
-                  style={{ padding: "10px 0", borderTop: "1px solid #D8D2C6" }}
-                >
-                  {"Any drawings, even early sketches"}
-                </span>
-                <span
-                  style={{ padding: "10px 0", borderTop: "1px solid #D8D2C6" }}
-                >
-                  {"An investment range, or \u201cnot sure yet\u201d"}
-                </span>
-                <span
-                  style={{
-                    padding: "10px 0",
-                    borderTop: "1px solid #D8D2C6",
-                    borderBottom: "1px solid #D8D2C6",
-                  }}
-                >
-                  {"When you would like to start"}
-                </span>
-              </div>
-              <a
-                href="tel:07922391591"
-                style={{
-                  fontSize: "20px",
-                  fontWeight: "500",
-                  color: "#202925",
-                }}
-              >
-                {"07922 391 591"}
-              </a>
-            </div>
+            <div id="extension-brief"><EnquiryForm defaultService="Extension" /></div>
           </div>
         </section>
         <FaqSchema
           items={faqs.map((f) => ({ question: f.q, answer: f.a }))}
           path="/house-extension"
         />
+        {this.props.relatedGuides}
       </main>
     );
   }

@@ -10,7 +10,7 @@ export const metadata = getSEOTags({
   openGraph: {
     title: "Basement Conversions London | Design & Build | Better Homes",
     description:
-      "Create a dry, bright and properly engineered basement with one accountable London design-and-build team.",
+      "Create a dry, bright and properly engineered basement with managed construction and optional architect coordination in London.",
     url: `https://${config.domainName}/basement-conversion`,
     images: [
       {
@@ -152,4 +152,4 @@ const faqs = [
       "We discuss your property, the space you want to create, any existing surveys or drawings, your budget, timing and likely constraints. From there we can recommend the right next step, which may be a site feasibility review, measured survey, planning advice or an outline scope and cost exercise.",
   },
 ];
-export default function Page(){return <ServicePage name="Basement conversions" path="/basement-conversion" title="Make more of the space beneath your home." intro="A basement project starts with careful feasibility: structure, groundwater, access and daylight. Better Homes coordinates the building work with your appointed specialists, from an existing cellar upgrade to a more substantial below-ground scheme." image="/assets/extension-calculator/basement-extension.jpg" range="Existing cellars \u00a32,000 to \u00a34,000+ per m\u00b2; new basements \u00a34,000 to \u00a37,000+ per m\u00b2" timeline="A new basement journey can take 6 to 12 months or more" guarantee="Project-specific terms in your quotation" costs={conversionRoutes} scope={includedItems} faqs={faqs} projects={[]}  />;}
+export default function Page(){return <ServicePage name="Basement conversions" path="/basement-conversion" title="Make more of the space beneath your home." intro="A basement project starts with careful feasibility: structure, groundwater, access and daylight. Better Homes builds alongside your own or a recommended architect and appointed specialists. If you wish, we can manage discussions and follow up design questions, from an existing cellar upgrade to a more substantial below-ground scheme." image="/assets/extension-calculator/basement-extension.jpg" range="Existing cellars £2,000 to £4,000+ per m²; new basements £4,000 to £7,000+ per m²" timeline="A new basement journey can take 6 to 12 months or more" guarantee="Project-specific terms in your quotation" costs={conversionRoutes} scope={includedItems} faqs={faqs} projects={[]}  />;}

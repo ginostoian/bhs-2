@@ -1,3 +1,4 @@
+import RelatedGuides from "@/components/brand/RelatedGuides";
 import ReferenceHome from "@/components/brand/ReferenceHome";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
@@ -5,13 +6,13 @@ export const metadata = getSEOTags({
   title:
     "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
   description:
-    "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions with transparent pricing and weekly updates.",
+    "London extensions, loft conversions and renovations with clear pricing. Your architect or one we recommend, with optional managed coordination.",
   canonicalUrlRelative: "/",
   openGraph: {
     title:
       "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
     description:
-      "Design and build specialists for London home renovations, extensions, kitchens, bathrooms, and loft conversions.",
+      "Managed London renovations and extensions. Your choice of architect, with optional coordination support from Better Homes.",
     url: `https://${config.domainName}/`,
   },
   keywords: [
@@ -22,4 +23,4 @@ export const metadata = getSEOTags({
     "loft conversion London",
   ],
 });
-export default function Page(){ return <ReferenceHome />; }
+export default function Page(){ return <ReferenceHome relatedGuides={<RelatedGuides context="home" />} />; }
