@@ -77,43 +77,62 @@ export default function Navigation() {
           aria-label="Main navigation"
           className={`bh-nav ${mobile ? "is-open" : ""}`}
         >
-          <Link href="/portfolio">Our work</Link>
-          <div className="bh-services-menu">
-            <button
-              aria-expanded={open}
-              aria-controls="bh-services"
-              onClick={() => setOpen(!open)}
-            >
-              Services <span aria-hidden="true">⌄</span>
-            </button>
-            {open ? (
-              <div id="bh-services" className="bh-dropdown">
-                {services.map(([label, href]) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    aria-current={path === href ? "page" : undefined}
-                  >
-                    {label}
-                    <span aria-hidden="true">↗</span>
-                  </Link>
-                ))}
-              </div>
-            ) : null}
+          <div className="bh-nav-links">
+            <Link href="/portfolio">Our work</Link>
+            <div className="bh-services-menu">
+              <button
+                aria-expanded={open}
+                aria-controls="bh-services"
+                onClick={() => setOpen(!open)}
+              >
+                Services
+                <svg
+                  aria-hidden="true"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="m3 4.5 3 3 3-3"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {open ? (
+                <div id="bh-services" className="bh-dropdown">
+                  {services.map(([label, href]) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      aria-current={path === href ? "page" : undefined}
+                    >
+                      {label}
+                      <span aria-hidden="true">↗</span>
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+            <Link href="/#how">How we work</Link>
+            <Link href="/tools">Cost planning</Link>
+            <Link href="/about">About</Link>
+            <Link href="/contact">Contact</Link>
           </div>
-          <Link href="/#how">How we work</Link>
-          <Link href="/tools">Cost planning</Link>
-          <Link href="/about">About</Link>
-          <Link href="/contact">Contact</Link>
-          <Link
-            href={session ? portal : "/auth/signin"}
-            className="bh-portal-link"
-          >
-            Client portal
-          </Link>
-          <a href={BOOKING_URL} className="bh-button">
-            Discuss your project
-          </a>
+          <div className="bh-nav-actions">
+            <Link
+              href={session ? portal : "/auth/signin"}
+              className="bh-portal-link"
+            >
+              Client portal
+            </Link>
+            <a href={BOOKING_URL} className="bh-button">
+              Discuss your project
+            </a>
+          </div>
         </nav>
       </div>
     </header>
