@@ -15,13 +15,13 @@ const Avatar = ({ article }) => {
           src={article.author.avatar}
           // alt={`Avatar of ${article.author.name}`}
           alt=""
-          className="h-12 w-12 rounded-full object-cover object-center ring-2 ring-base-content/10 transition-all duration-200 group-hover:ring-[#266bf1]/30"
+          className="h-12 w-12 rounded-full object-cover object-center ring-2 ring-base-content/10 transition-all duration-200 group-hover:ring-[#4D5B4B]/30"
           width={48}
           height={48}
         />
       </span>
       <div className="flex flex-col">
-        <span className="font-semibold text-[#100b47] transition-colors duration-200 group-hover:text-[#266bf1]">
+        <span className="font-semibold text-[#202925] transition-colors duration-200 group-hover:text-[#4D5B4B]">
           {article.author.name}
         </span>
         <span className="text-xs text-base-content/60">Author</span>

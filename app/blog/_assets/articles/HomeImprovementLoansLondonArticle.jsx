@@ -10,16 +10,16 @@ import loanSnapshotImg from "/public/assets/blog/home-improvement-loans-london/l
 
 const styles = {
   article: "block",
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   tocGrid: "mb-10 grid gap-5 md:grid-cols-2",
   tocCol: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   tocLink:
-    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-[#100b47] transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base",
+    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-[#202925] transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base",
   infographic:
     "my-8 h-auto w-full rounded-2xl border border-base-content/10 bg-white p-2 shadow-sm md:p-4",
 };
@@ -32,10 +32,10 @@ export default function HomeImprovementLoansLondon() {
 
       {/* ===================== AI ANSWER CAPSULE ===================== */}
       <p className={styles.answerCapsule}>
-        A home improvement loan in London is usually an unsecured personal loan of £1,000---£25,000
-        (some lenders reach £35,000---£50,000) at a representative 5.9---9% APR in mid-2026. Above
+        A home improvement loan in London is usually an unsecured personal loan of £1,000 to £25,000
+        (some lenders reach £35,000 to £50,000) at a representative 5.9 to 9% APR in mid-2026. Above
         roughly £25,000 - where most London loft conversions and extensions sit - a secured loan
-        or remortgage at 6.39---12% almost always works out cheaper. Match the product to the real
+        or remortgage at 6.39 to 12% almost always works out cheaper. Match the product to the real
         project cost, not the headline rate.
       </p>
 
@@ -43,17 +43,17 @@ export default function HomeImprovementLoansLondon() {
       <h2 className={styles.h2} id="key-takeaways">Key takeaways</h2>
       <p className={styles.p}>
         <strong>Unsecured personal loans cap out fast.</strong> Most mainstream lenders stop at
-        £25,000, a few reach £35,000---£50,000. That ceiling is the single most important number for
+        £25,000, a few reach £35,000 to £50,000. That ceiling is the single most important number for
         a London homeowner, because a rear dormer here starts around £45,000.
       </p>
       <p className={styles.p}>
         <strong>Secured beats unsecured on cost above £25k.</strong> In June 2026, secured
         (second-charge) rates ran from 6.39% for clean credit at low loan-to-value up to about 12%
-        - and let you borrow the £50,000---£130,000 a real London project needs.
+        - and let you borrow the £50,000 to £130,000 a real London project needs.
       </p>
       <p className={styles.p}>
         <strong>The Bank of England base rate is 3.75%.</strong> Held through Q2 2026, so pricing
-        has been broadly stable. Prime unsecured deals sit at 5.9---7.4% representative; your actual
+        has been broadly stable. Prime unsecured deals sit at 5.9 to 7.4% representative; your actual
         rate depends on credit profile and amount.
       </p>
       <p className={styles.p}>
@@ -74,7 +74,7 @@ export default function HomeImprovementLoansLondon() {
         from a single accountable contractor is exactly the financial clarity a lender wants to see.
       </p>
       <p className={styles.p}>
-        <strong>Budget a 10---15% contingency into what you borrow.</strong> London projects hit
+        <strong>Budget a 10 to 15% contingency into what you borrow.</strong> London projects hit
         party-wall costs, scaffold licences and structural surprises. Under-borrowing forces a
         second, more expensive top-up mid-build.
       </p>
@@ -140,8 +140,8 @@ export default function HomeImprovementLoansLondon() {
         What makes home improvement loans in London a different question from the national market is
         scale. A guide written for the UK as a whole cheerfully suggests a personal loan for "a new
         kitchen or a loft conversion." That advice quietly breaks down here, because the cost of the
-        work in the capital routinely exceeds what an unsecured loan will lend. A Velux loft conversion in London runs £25,000---£45,000; a rear
-        dormer, £45,000---£75,000; a side-return extension, £40,000---£70,000. The moment your project
+        work in the capital routinely exceeds what an unsecured loan will lend. A Velux loft conversion in London runs £25,000 to £45,000; a rear
+        dormer, £45,000 to £75,000; a side-return extension, £40,000 to £70,000. The moment your project
         crosses £25,000, the neat "just take a personal loan" answer stops applying - and most real
         London jobs start above that line.
       </p>
@@ -201,23 +201,23 @@ export default function HomeImprovementLoansLondon() {
 
       <h2 className={styles.h2} id="how-much">How much can you actually borrow?</h2>
       <p className={styles.answerCapsule}>
-        Unsecured personal loans for home improvements typically run £1,000---£25,000, with a handful
+        Unsecured personal loans for home improvements typically run £1,000 to £25,000, with a handful
         of lenders reaching £35,000 or £50,000. Secured loans start where those stop and scale into
         six figures. In London, where a dormer starts near £45,000, that unsecured ceiling is the
         line most projects cross.
       </p>
       <p className={styles.p}>
         Most mainstream unsecured lenders cap home improvement loans at £25,000. M&amp;S Bank lends
-        £1,000---£30,000; Tesco Bank reaches £35,000; Lloyds and Santander advertise up to £50,000 for
+        £1,000 to £30,000; Tesco Bank reaches £35,000; Lloyds and Santander advertise up to £50,000 for
         the strongest applicants. Above that, you are in secured or remortgage territory. Specialist
         providers like Novuna push unsecured lending to £35,000, but the representative rate applies
-        to a narrower band (typically £7,500---£25,000), and the amount you're actually offered depends
+        to a narrower band (typically £7,500 to £25,000), and the amount you're actually offered depends
         on your income and credit file.
       </p>
       <p className={styles.p}>
-        Now lay those ceilings against real London costs. A basic Velux conversion at £25,000---£45,000
+        Now lay those ceilings against real London costs. A basic Velux conversion at £25,000 to £45,000
         sits right on the unsecured boundary - borrowable at the low end, not at the high. A rear
-        dormer at £45,000---£75,000 is beyond every unsecured lender. A single-storey rear extension in
+        dormer at £45,000 to £75,000 is beyond every unsecured lender. A single-storey rear extension in
         Hackney - one of our completed projects came in at £88,000 for 30 square metres - is more than
         triple the mainstream unsecured cap. The pattern is consistent: unsecured loans comfortably
         fund a bathroom refit or a kitchen refresh, but the space-adding projects London homeowners
@@ -241,7 +241,7 @@ export default function HomeImprovementLoansLondon() {
 
       <h2 className={styles.h2} id="rates-2026">Rates and APRs in London, 2026</h2>
       <p className={styles.answerCapsule}>
-        In mid-2026, the best home improvement loans in London carry representative APRs of 5.9---7.4%
+        In mid-2026, the best home improvement loans in London carry representative APRs of 5.9 to 7.4%
         on the unsecured side for prime borrowers, with maximums up to 29.9%. Secured loans run 6.39% to around
         12% depending on credit and loan-to-value. The Bank of England base rate is 3.75%, held
         through Q2, keeping pricing stable.
@@ -249,8 +249,8 @@ export default function HomeImprovementLoansLondon() {
       <p className={styles.p}>
         Representative APR is the rate a lender must offer at least 51% of accepted applicants - a
         useful comparison anchor, not a promise. In mid-2026, M&amp;S Bank advertised 5.9%
-        representative on £7,500---£25,000; Tesco Bank 6% for Clubcard holders; Lloyds and Bank of
-        Scotland 7.4% on £7,500---£25,000. Those are the shop windows. The rate <em>you</em> get moves
+        representative on £7,500 to £25,000; Tesco Bank 6% for Clubcard holders; Lloyds and Bank of
+        Scotland 7.4% on £7,500 to £25,000. Those are the shop windows. The rate <em>you</em> get moves
         with your credit score, the amount, and the term - and the maximum most high-street lenders
         can offer is 29.9%.
       </p>
@@ -283,7 +283,7 @@ export default function HomeImprovementLoansLondon() {
       </h2>
       <p className={styles.answerCapsule}>
         For projects under £25,000, an unsecured loan's speed and zero property risk often justify
-        its higher rate. For £25,000---£150,000, remortgaging or a further advance almost always costs
+        its higher rate. For £25,000 to £150,000, remortgaging or a further advance almost always costs
         less per pound borrowed, because secured lending against your home is cheaper than any
         personal loan. The right answer depends on your existing mortgage as much as the rate.
       </p>
@@ -296,7 +296,7 @@ export default function HomeImprovementLoansLondon() {
       </p>
       <p className={styles.p}>
         But cheaper per pound isn't the whole story. If you locked a sub-3% mortgage rate during
-        2020---2021, breaking it to remortgage could trigger early repayment charges of thousands and
+        2020 to 2021, breaking it to remortgage could trigger early repayment charges of thousands and
         lose you that rate on your entire balance. In that situation a further advance or a
         second-charge loan - keeping the cheap rate on the bulk of your borrowing and paying a higher
         rate only on the new money - can beat a full remortgage even though the headline secured rate
@@ -341,8 +341,8 @@ export default function HomeImprovementLoansLondon() {
       <p className={styles.p}>
         Two habits protect you here. First, always ask for the <em>total amount repayable</em>, not
         just the monthly figure - it's the honest comparison. Second, borrow the project total plus a
-        10---15% contingency in one facility. London jobs routinely uncover party-wall costs, scaffold
-        licences (£500---£1,500) or structural surprises; a second emergency loan mid-build is almost
+        10 to 15% contingency in one facility. London jobs routinely uncover party-wall costs, scaffold
+        licences (£500 to £1,500) or structural surprises; a second emergency loan mid-build is almost
         always dearer than borrowing correctly once.
       </p>
       <Image
@@ -406,37 +406,33 @@ export default function HomeImprovementLoansLondon() {
         before you sign.
       </p>
       <p className={styles.p}>
-        The genuinely valuable thing a builder brings to your financing isn't a loan product - it's a
-        clean contract. A{" "}
-        <Link href="/house-extension">design-and-build firm</Link> that handles design, planning and
-        construction under one roof gives you a single fixed-price contract and one itemised budget.
-        That's the document a lender wants: no gaps between an architect's fee and a separate
-        builder's estimate, no ambiguity about scope, one accountable party. It makes a loan or
-        remortgage application faster and cleaner to approve.
+        A clear construction quotation helps you explain your project budget. For a{" "}
+        <Link href="/house-extension">house extension</Link>, include the agreed building work,
+        allowances, exclusions and payment stages alongside professional fees and contingency.
+        Ask your lender or broker which documents they need for your particular application.
       </p>
       <p className={styles.p}>
-        This is where the model matters. Architecture-only firms hand you a design and then pass you
-        to a separate builder - leaving you to reconcile two sets of costs for your lender. Our
-        approach at Better Homes is one team, one contract, one budget, from first sketch to final
-        handover, backed by a 10-year workmanship guarantee and £10M insurance. We don't provide
-        financial advice, but hundreds of London homeowners have used our fixed-price documentation to
-        get their finance signed off without friction.
+        Better Homes can build from your drawings or manage your relationship with a trusted
+        independent architect. The architect's appointment, services and fees are identified
+        separately from the construction scope. We provide itemised construction pricing so you
+        can plan the complete budget with your professional advisers. Lending decisions remain
+        with the lender.
       </p>
 
       <h2 className={styles.h2} id="application">
         Applying: a clean, London-specific checklist
       </h2>
       <p className={styles.answerCapsule}>
-        Price the work accurately first, including a 10---15% contingency. Check your credit file and
+        Price the work accurately first, including a 10 to 15% contingency. Check your credit file and
         run soft eligibility checks. Compare on APR and total repayable, not monthly cost. For sums
         over £25,000, speak to a mortgage broker about secured options. Then apply with a fixed-price
         contract in hand.
       </p>
       <p className={styles.p}>
         The sequence matters as much as the steps. Start with the real number: get a detailed,
-        fixed-price quote for the whole project, then add 10---15% for the London-specific costs that
-        ambush under-prepared budgets - party-wall awards (£1,000---£3,000 per neighbour), building
-        regulations (£1,200---£2,500), scaffold licences, skip permits. Borrowing to a realistic total
+        fixed-price quote for the whole project, then add 10 to 15% for the London-specific costs that
+        ambush under-prepared budgets - party-wall awards (£1,000 to £3,000 per neighbour), building
+        regulations (£1,200 to £2,500), scaffold licences, skip permits. Borrowing to a realistic total
         once is always cheaper than a second facility later.
       </p>
       <p className={styles.p}>
@@ -453,7 +449,7 @@ export default function HomeImprovementLoansLondon() {
         book time with a whole-of-market mortgage broker before committing to any single product. They
         can model a secured loan against a remortgage and a further advance using your actual mortgage
         terms, which is the only way to know which is genuinely cheapest for you. Time your finance to
-        land 2---3 months before your build start, so funds are ready when your contract is signed and
+        land 2 to 3 months before your build start, so funds are ready when your contract is signed and
         your first stage payment falls due.
       </p>
       <Image
@@ -473,11 +469,11 @@ export default function HomeImprovementLoansLondon() {
         most London space-adding projects begin.
       </p>
       <p className={styles.p}>
-        <strong>2.</strong> Unsecured personal loans: fast, no property risk, £1,000---£25,000 (some to
-        £35k---£50k), 5.9---7.4% representative for prime borrowers in mid-2026.
+        <strong>2.</strong> Unsecured personal loans: fast, no property risk, £1,000 to £25,000 (some to
+        £35k to £50k), 5.9 to 7.4% representative for prime borrowers in mid-2026.
       </p>
       <p className={styles.p}>
-        <strong>3.</strong> Secured loans: larger sums into six figures, 6.39---12% in June 2026, your
+        <strong>3.</strong> Secured loans: larger sums into six figures, 6.39 to 12% in June 2026, your
         home as collateral - and now used for a third of new second-charge agreements.
       </p>
       <p className={styles.p}>
@@ -493,7 +489,7 @@ export default function HomeImprovementLoansLondon() {
         put in front of a lender.
       </p>
       <p className={styles.p}>
-        <strong>7.</strong> Borrow the project total plus 10---15% contingency in one facility - London
+        <strong>7.</strong> Borrow the project total plus 10 to 15% contingency in one facility - London
         surprises are the rule, not the exception.
       </p>
 
@@ -512,18 +508,17 @@ export default function HomeImprovementLoansLondon() {
         That's where the order of operations pays off. Price the work properly, add a real
         contingency, decide which side of the £25,000 line you're on, and compare on total cost, not
         monthly comfort. For anything above that line, a whole-of-market broker will save you more
-        than their fee. And whichever route you choose, a single fixed-price contract from one
-        accountable team is the document that turns a slow, uncertain application into a fast, clean
-        approval.
+        than their fee. Your lender or broker can explain the documents and affordability checks required for your chosen route.
       </p>
       <p className={styles.p}>
-        At Better Homes, we design, plan and build loft conversions, extensions and full renovations
-        across Central, East and North London - one team, one contract, one budget, backed by a
-        10-year workmanship guarantee and £10M insurance. We don't give financial advice, but the
-        clear, itemised cost breakdown we provide is exactly what lenders want to see, and it's the
-        starting point for every sensible borrowing decision.{" "}
-        <Link href="/contact">Book a free, no-obligation consultation</Link> and we'll give you the
-        realistic project estimate your finance decision depends on.
+        Better Homes builds loft conversions, extensions and whole-home renovations across
+        Central, East and North London. We can work from your drawings or manage your relationship
+        with a trusted independent architect. Our itemised construction quotation identifies the
+        scope and allowances to include in your overall budget. Extensions and loft conversions
+        carry a 10-year workmanship guarantee, with the applicable terms set out in your project
+        documents. Our £10M insurance is separate from this guarantee.{" "}
+        <Link href="/contact">Book a free, no-obligation consultation</Link> to discuss your project.
+
       </p>
 
       {/* ===================== ENGAGEMENT ===================== */}
@@ -551,7 +546,7 @@ export default function HomeImprovementLoansLondon() {
         How much can I borrow with a home improvement loan in the UK?
       </h3>
       <p className={styles.p}>
-        Unsecured personal loans for home improvements typically run £1,000---£25,000, with some lenders
+        Unsecured personal loans for home improvements typically run £1,000 to £25,000, with some lenders
         reaching £35,000 or £50,000 for strong applicants. Secured loans (second-charge mortgages)
         start where those stop and can reach £100,000 or more, depending on your property's value and
         the equity you hold. In London, where a rear dormer starts near £45,000, larger projects almost
@@ -573,7 +568,7 @@ export default function HomeImprovementLoansLondon() {
         What APR should I expect on a home improvement loan in 2026?
       </h3>
       <p className={styles.p}>
-        In mid-2026, market-leading unsecured loans carry representative APRs of about 5.9---7.4% for
+        In mid-2026, market-leading unsecured loans carry representative APRs of about 5.9 to 7.4% for
         prime borrowers, with maximums up to 29.9% depending on your credit profile. Secured loans run
         from roughly 6.39% at low loan-to-value to around 12% for higher LTV or adverse credit. The
         Bank of England base rate is 3.75%, held through Q2 2026, so pricing has been broadly stable.
@@ -583,7 +578,7 @@ export default function HomeImprovementLoansLondon() {
         How can I finance a loft conversion in London?
       </h3>
       <p className={styles.p}>
-        Because London loft conversions typically cost £45,000---£100,000+, they usually exceed unsecured
+        Because London loft conversions typically cost £45,000 to £100,000+, they usually exceed unsecured
         loan limits. The common routes are a remortgage, a further advance from your existing lender, or
         a secured (second-charge) loan. A personal loan can cover a basic Velux conversion at the lower
         end, or top up a larger project mostly funded from savings or equity. Our{" "}

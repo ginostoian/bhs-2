@@ -34,11 +34,11 @@
 }
 
 .toolbarButton:hover {
-    background: #e5e7eb;
+    background: #D8D2C6;
 }
 
 .toolbarButton.active {
-    background: #dbeafe;
+    background: #EDE9E0;
     color: #1d4ed8;
 }
 
@@ -121,11 +121,11 @@
     margin: 1rem 0;
     padding-left: 1rem;
     font-style: italic;
-    color: #6b7280;
+    color: #5D655C;
 }
 
 .editorArea code {
-    background: #f3f4f6;
+    background: #EDE9E0;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
     font-family: 'Courier New', monospace;
@@ -133,7 +133,7 @@
 }
 
 .editorArea pre {
-    background: #f3f4f6;
+    background: #EDE9E0;
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;

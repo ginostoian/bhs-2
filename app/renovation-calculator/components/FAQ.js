@@ -85,7 +85,7 @@ export const renovationFaqs = [
   {
     question: "How much does a full house renovation cost in London in 2026?",
     answer:
-      "A full renovation in London typically runs £1,000 to £2,500 per square metre depending on specification and property condition, with inner boroughs at a 15–30% premium. A full terraced-house renovation commonly lands between £80,000 and £200,000 all-in, though older properties with structural or systems work can exceed that. Per-square-metre figures usually exclude VAT, professional fees and contingency — this calculator includes them so your budget is realistic from the start.",
+      "A full renovation in London typically runs £1,000 to £2,500 per square metre depending on specification and property condition, with inner boroughs at a 15–30% premium. A full terraced-house renovation commonly lands between £80,000 and £200,000 all-in, though older properties with structural or systems work can exceed that. Per-square-metre figures usually exclude VAT, professional fees and contingency – this calculator includes them so your budget is realistic from the start.",
   },
   {
     question: "Is this calculator free, and do I have to give my details?",

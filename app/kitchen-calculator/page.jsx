@@ -189,7 +189,7 @@ export default function KitchenCalculator() {
 
   if (showResults && calculationResult) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
+      <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-6">
             <button
@@ -215,7 +215,7 @@ export default function KitchenCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
+    <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-10 grid gap-6 rounded-3xl border border-stone-200 bg-white/90 p-6 shadow-2xl shadow-stone-900/5 backdrop-blur md:grid-cols-[1.3fr_1fr] md:p-8">
           <div>
@@ -241,7 +241,7 @@ export default function KitchenCalculator() {
               <li>Installed-cost model, not just unit prices</li>
               <li>Separate allowance for appliances and services</li>
               <li>Range + confidence score instead of false precision</li>
-              <li>PDF lead flow with practical next-step guidance</li>
+              <li>Downloadable estimate with practical next steps</li>
             </ul>
           </div>
         </div>

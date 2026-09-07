@@ -1,5 +1,8 @@
 "use client";
 
+import Breadcrumbs from "@/components/brand/Breadcrumbs";
+import PageHelp from "@/components/brand/PageHelp";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -62,12 +65,10 @@ function Brand({ compact = false, onNavigate }) {
       className="group flex min-w-0 items-center gap-3 text-white hover:text-white"
       aria-label="Better Homes client portal overview"
     >
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-white/35 text-white transition-colors group-hover:border-white/60">
-        <Home aria-hidden="true" className="h-5 w-5" strokeWidth={1.45} />
-      </span>
+      <span aria-hidden="true" className="block h-3 w-3 shrink-0 bg-[#D8D2C6]" />
       {compact ? null : (
         <span className="min-w-0">
-          <span className="block truncate text-[15px] font-semibold tracking-[-0.01em] text-white">
+          <span className="block truncate text-[18px] font-medium tracking-[-0.01em] text-white">
             Better Homes
           </span>
           <span className="text-white/48 mt-0.5 block text-[10px] font-medium uppercase tracking-[0.18em]">
@@ -90,18 +91,18 @@ function NavItem({ item, collapsed, onNavigate }) {
       onClick={onNavigate}
       title={collapsed ? item.name : undefined}
       aria-current={active ? "page" : undefined}
-      className={`group relative flex min-h-11 items-center rounded-md text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f7cff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#10251e] ${
+      className={`group relative flex min-h-11 items-center rounded-md text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#89977F] focus-visible:ring-offset-2 focus-visible:ring-offset-[#202925] ${
         collapsed ? "justify-center px-2" : "gap-3 px-3"
       } ${
         item.emphasis
-          ? "mt-2 bg-[#1559d6] text-white hover:bg-[#104dbd]"
+          ? "mt-2 bg-[#4D5B4B] text-white hover:bg-[#3E4A3C]"
           : active
             ? "bg-white/[0.11] text-white"
             : "text-white/70 hover:bg-white/[0.065] hover:text-white"
       }`}
     >
       {active && !item.emphasis ? (
-        <span className="absolute inset-y-2.5 left-0 w-0.5 rounded-r-full bg-[#7ea1ff]" />
+        <span className="absolute inset-y-2.5 left-0 w-0.5 rounded-r-full bg-[#B6BEAE]" />
       ) : null}
       <Icon
         aria-hidden="true"
@@ -163,7 +164,7 @@ function NavGroup({ group, collapsed, onNavigate }) {
       <button
         type="button"
         onClick={() => setOpen((value) => !value)}
-        className="mb-1 flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35 transition-colors hover:text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f7cff]"
+        className="mb-1 flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-white/35 transition-colors hover:text-white/65 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#89977F]"
         aria-expanded={open}
       >
         {group.name}
@@ -205,7 +206,7 @@ function Sidebar({
 
   return (
     <aside
-      className={`flex h-full flex-col border-r border-black/10 bg-[#10251e] text-white ${
+      className={`flex h-full flex-col border-r border-black/10 bg-[#202925] text-white ${
         mobile ? "w-[296px]" : collapsed ? "w-[76px]" : "w-[264px]"
       } transition-[width] duration-200`}
     >
@@ -240,7 +241,7 @@ function Sidebar({
           }`}
           title={collapsed && !mobile ? user?.name || user?.email : undefined}
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e8e3d8] text-[11px] font-semibold text-[#173129]">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#D8D2C6] text-[11px] font-semibold text-[#202925]">
             {initials}
           </div>
           {collapsed && !mobile ? null : (
@@ -258,7 +259,7 @@ function Sidebar({
         <button
           type="button"
           onClick={() => signOut({ callbackUrl: "/auth/signin" })}
-          className={`mt-1 flex min-h-10 w-full items-center rounded-md text-xs text-white/55 transition-colors hover:bg-white/[0.065] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f7cff] ${
+          className={`mt-1 flex min-h-10 w-full items-center rounded-md text-xs text-white/55 transition-colors hover:bg-white/[0.065] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#89977F] ${
             collapsed && !mobile ? "justify-center" : "gap-3 px-3"
           }`}
           aria-label="Sign out"
@@ -272,7 +273,7 @@ function Sidebar({
           <button
             type="button"
             onClick={onToggleCollapsed}
-            className={`mt-1 flex min-h-10 w-full items-center rounded-md text-xs text-white/45 transition-colors hover:bg-white/[0.065] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f7cff] ${
+            className={`mt-1 flex min-h-10 w-full items-center rounded-md text-xs text-white/45 transition-colors hover:bg-white/[0.065] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#89977F] ${
               collapsed ? "justify-center" : "gap-3 px-3"
             }`}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -317,7 +318,7 @@ export default function ClientPortalShell({
   }, [navGroups, pathname]);
 
   return (
-    <div className="client-portal min-h-screen bg-[#f8f7f3] font-[Satoshi] text-[#17231f]">
+    <div className="client-portal min-h-screen bg-[#F4F1EA] font-[Satoshi] text-[#202925]">
       <div className="fixed inset-y-0 left-0 z-30 hidden lg:block">
         <Sidebar
           navGroups={navGroups}
@@ -346,7 +347,7 @@ export default function ClientPortalShell({
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
-              className="absolute right-3 top-5 flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7ea1ff]"
+              className="absolute right-3 top-5 flex h-10 w-10 items-center justify-center rounded-md text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B6BEAE]"
               aria-label="Close navigation"
             >
               <X aria-hidden="true" className="h-5 w-5" />
@@ -360,7 +361,7 @@ export default function ClientPortalShell({
           collapsed ? "lg:pl-[76px]" : "lg:pl-[264px]"
         }`}
       >
-        <header className="sticky top-0 z-20 flex min-h-[76px] items-center border-b border-black/10 bg-[#10251e] px-4 text-white lg:bg-[#fbfaf7] lg:px-8 lg:text-[#17231f]">
+        <header className="sticky top-0 z-20 flex min-h-[76px] items-center border-b border-black/10 bg-[#202925] px-4 text-white lg:bg-[#F4F1EA] lg:px-8 lg:text-[#202925]">
           <div className="mr-3 lg:hidden">
             <Brand compact />
           </div>
@@ -375,10 +376,10 @@ export default function ClientPortalShell({
             <div className="hidden min-w-0 items-center gap-2.5 lg:flex">
               {profileImage}
               <div className="min-w-0 max-w-[160px]">
-                <p className="truncate text-xs font-semibold text-[#17231f]">
+                <p className="truncate text-xs font-semibold text-[#202925]">
                   {user?.name || "My account"}
                 </p>
-                <p className="mt-0.5 truncate text-[10px] text-[#66716d]">
+                <p className="mt-0.5 truncate text-[10px] text-[#4D5B4B]">
                   Client account
                 </p>
               </div>
@@ -386,7 +387,7 @@ export default function ClientPortalShell({
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="flex h-11 w-11 items-center justify-center rounded-md text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7ea1ff] lg:hidden"
+              className="flex h-11 w-11 items-center justify-center rounded-md text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B6BEAE] lg:hidden"
               aria-label="Open navigation"
             >
               <Menu aria-hidden="true" className="h-6 w-6" />
@@ -394,18 +395,20 @@ export default function ClientPortalShell({
           </div>
         </header>
 
-        <div className="hidden h-10 items-center border-b border-black/[0.06] bg-[#fbfaf7] px-8 lg:flex">
+        <div className="hidden h-10 items-center border-b border-black/[0.06] bg-[#F4F1EA] px-8 lg:flex">
           <BellRing
             aria-hidden="true"
-            className="mr-2 h-3.5 w-3.5 text-[#66716d]"
+            className="mr-2 h-3.5 w-3.5 text-[#4D5B4B]"
           />
-          <span className="text-[11px] text-[#66716d]">
+          <span className="text-[11px] text-[#4D5B4B]">
             {activeItem?.name || "Client portal"}
           </span>
         </div>
 
         <main className="client-portal-content mx-auto w-full max-w-[1600px] px-4 py-7 sm:px-6 sm:py-9 lg:px-10 lg:py-10">
+          <Breadcrumbs schema={false} contained={false} />
           {children}
+          <PageHelp />
         </main>
       </div>
     </div>

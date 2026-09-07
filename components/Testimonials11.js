@@ -54,11 +54,11 @@ const list = [
     name: "Louise Thorogood",
     // REQUIRED
     text: "I could not recommend them more highly. The whole process was so streamlined and efficient. They submitted a very detailed quote which was competitively priced, and went onto do the work very quickly to a high standard. ",
-    // REQUIRED — use refTypes.other if you don't want to display an icon
+    // REQUIRED – use refTypes.other if you don't want to display an icon
     type: refTypes.productHunt,
     // Optional, link to the person's testimonial. It's more trustable
     link: "https://www.houzz.co.uk/viewReview/1802745/better-homes-studio-review",
-    // Optional, a statically imported image (usually from your public folder—recommended) or a link to the person's avatar. Shows a fallback letter if not provided
+    // Optional, a statically imported image (usually from your public folder–recommended) or a link to the person's avatar. Shows a fallback letter if not provided
     img: "",
     // You can display video testimonials to build more trust. Just swap the type above to "video" and add at least the video source below
     // videoSrc: "/jack.mp4"
@@ -328,7 +328,7 @@ const Testimonials11 = () => {
       <div className="mx-auto max-w-7xl px-8 py-24">
         <div className="mb-20 flex w-full flex-col text-center">
           <div className="mb-8">
-            <h2 className="text-4xl font-extrabold text-[#100b47] sm:text-5xl">
+            <h2 className="text-4xl font-medium text-[#202925] sm:text-5xl">
               Hundreds of clients are thrilled about their new homes!
             </h2>
           </div>
@@ -351,7 +351,7 @@ const Testimonials11 = () => {
           </li>
 
           <li className="order-none col-span-2 hidden grid-cols-1 gap-6 sm:gap-8 md:order-first md:grid md:grid-cols-2 lg:order-none">
-            {/* BIG FEATURED TESTIMONIAL — THE LAST ONE IN THE LIST (11th) */}
+            {/* BIG FEATURED TESTIMONIAL – THE LAST ONE IN THE LIST (11th) */}
             <ul className="col-span-2">
               <li>
                 <figure className="relative h-full rounded-lg bg-base-100 p-6">

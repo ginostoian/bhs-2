@@ -20,7 +20,7 @@
 }
 
 .where-we-work__subtitle {
-    color: #266bf1;
+    color: #4D5B4B;
     font-weight: 500;
     font-size: 24px;
     margin: 0;
@@ -92,9 +92,9 @@
 }
 
 .location-link:hover {
-    background-color: #266bf1;
+    background-color: #4D5B4B;
     color: #fff;
-    border-color: #266bf1;
+    border-color: #4D5B4B;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(38, 107, 241, 0.2);
 }
@@ -116,7 +116,7 @@
 
 .cta-button {
     display: inline-block;
-    background-color: #266bf1;
+    background-color: #4D5B4B;
     color: #fff;
     padding: 1rem 2rem;
     border-radius: 10px;

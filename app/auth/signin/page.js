@@ -333,7 +333,7 @@ function SignInForm() {
           <div className="absolute inset-x-0 bottom-0 p-10 text-white xl:p-14">
             <div className="max-w-md border-l border-white/60 pl-5">
               <p className="text-lg font-medium leading-7 tracking-[-0.01em]">
-                Your project details, documents, decisions and support—all in
+                Your project details, documents, decisions and support–all in
                 one secure place.
               </p>
               <p className="mt-3 text-[12px] text-white/70">

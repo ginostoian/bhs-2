@@ -15,9 +15,9 @@ const formatCurrency = (amount) =>
   }).format(amount || 0);
 
 function formatDate(value) {
-  if (!value) return "—";
+  if (!value) return "–";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "–";
   return date.toLocaleString("en-GB", {
     day: "2-digit",
     month: "2-digit",
@@ -28,7 +28,7 @@ function formatDate(value) {
 }
 
 const pretty = (value) =>
-  String(value || "—")
+  String(value || "–")
     .replace(/([A-Z])/g, " $1")
     .replace(/^\w/, (char) => char.toUpperCase());
 
@@ -91,7 +91,7 @@ export default async function RenovationCalculatorLeadsPage() {
         <Stat label="London leads" value={`${london}/${total || 0}`} />
         <Stat
           label="Avg expected budget"
-          value={total > 0 ? formatCurrency(avgExpected) : "—"}
+          value={total > 0 ? formatCurrency(avgExpected) : "–"}
         />
       </div>
 
@@ -129,13 +129,13 @@ export default async function RenovationCalculatorLeadsPage() {
                         {row.email}
                       </a>
                       <div className="mt-1 text-xs text-gray-500">
-                        CRM stage: {row.stage} • Budget band: {row.budget || "—"}
+                        CRM stage: {row.stage} • Budget band: {row.budget || "–"}
                       </div>
                     </Cell>
 
                     <Cell>
                       <div className="text-sm font-medium text-gray-900">
-                        {row.input?.houseSize ? `${row.input.houseSize} m²` : "—"} •{" "}
+                        {row.input?.houseSize ? `${row.input.houseSize} m²` : "–"} •{" "}
                         {pretty(row.input?.propertyType)}
                       </div>
                       <div className="mt-1 text-xs text-gray-600">
@@ -196,10 +196,10 @@ export default async function RenovationCalculatorLeadsPage() {
 
                     <Cell>
                       <div className="font-semibold text-gray-900">
-                        {expected ? formatCurrency(expected) : "—"}
+                        {expected ? formatCurrency(expected) : "–"}
                       </div>
                       <div className="mt-1 text-xs text-gray-500">
-                        Confidence: {row.estimate?.confidenceScore || "—"}
+                        Confidence: {row.estimate?.confidenceScore || "–"}
                       </div>
                     </Cell>
 
@@ -216,7 +216,7 @@ export default async function RenovationCalculatorLeadsPage() {
                           </div>
                         </>
                       ) : (
-                        <span className="text-sm text-gray-400">—</span>
+                        <span className="text-sm text-gray-400">–</span>
                       )}
                     </Cell>
 

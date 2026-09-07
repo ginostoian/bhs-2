@@ -20,7 +20,7 @@ export default function StoreDropdown({
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [newStoreName, setNewStoreName] = useState("");
-  const [newStoreColor, setNewStoreColor] = useState("#6B7280");
+  const [newStoreColor, setNewStoreColor] = useState("#5D655C");
   const [isCreating, setIsCreating] = useState(false);
   const dropdownRef = useRef(null);
 

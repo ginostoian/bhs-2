@@ -246,7 +246,7 @@ const NotificationBell = ({ userProjectStatus, clientTone = false }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={`relative flex h-11 w-11 items-center justify-center rounded-md transition-colors ${
           clientTone
-            ? "text-white/80 hover:bg-white/10 hover:text-white lg:text-[#43504b] lg:hover:bg-[#f0eee7] lg:hover:text-[#17231f]"
+            ? "text-white/80 hover:bg-white/10 hover:text-white lg:text-[#43504b] lg:hover:bg-[#f0eee7] lg:hover:text-[#202925]"
             : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
         }`}
         aria-label="Open notifications"

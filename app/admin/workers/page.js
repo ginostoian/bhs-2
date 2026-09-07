@@ -89,8 +89,8 @@ export default function WorkersAdminPage() {
                 <tr key={w._id} className="border-t text-sm">
                   <td className="p-2">{w.name}</td>
                   <td className="p-2">{w.type}</td>
-                  <td className="p-2">{w.email || "—"}</td>
-                  <td className="p-2">{w.phone || "—"}</td>
+                  <td className="p-2">{w.email || "–"}</td>
+                  <td className="p-2">{w.phone || "–"}</td>
                   <td className="p-2">{w.isActive ? "Yes" : "No"}</td>
                 </tr>
               ))}

@@ -19,6 +19,7 @@ module.exports = {
     "/icon.*",
     "/apple-icon.*",
     "/api/*",
+    "/admin", "/admin/*", "/dashboard", "/dashboard/*", "/employee", "/employee/*", "/designer", "/designer/*", "/referrer", "/referrer/*", "/catalogue/share/*",
     "/auth/*",
     "/contact-form-submitted",
     "/kitchen-form-submitted",

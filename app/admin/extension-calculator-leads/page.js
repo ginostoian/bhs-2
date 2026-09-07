@@ -15,9 +15,9 @@ const formatCurrency = (amount) =>
   }).format(amount || 0);
 
 function formatDate(value) {
-  if (!value) return "—";
+  if (!value) return "–";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "–";
   return date.toLocaleString("en-GB", {
     day: "2-digit",
     month: "2-digit",
@@ -85,7 +85,7 @@ export default async function ExtensionCalculatorLeadsPage() {
         <Stat label="London leads" value={`${london}/${total || 0}`} />
         <Stat
           label="Avg expected budget"
-          value={total > 0 ? formatCurrency(avgExpected) : "—"}
+          value={total > 0 ? formatCurrency(avgExpected) : "–"}
         />
       </div>
 
@@ -123,7 +123,7 @@ export default async function ExtensionCalculatorLeadsPage() {
                         {row.email}
                       </a>
                       <div className="mt-1 text-xs text-gray-500">
-                        CRM stage: {row.stage} • Budget band: {row.budget || "—"}
+                        CRM stage: {row.stage} • Budget band: {row.budget || "–"}
                       </div>
                     </Cell>
 
@@ -132,7 +132,7 @@ export default async function ExtensionCalculatorLeadsPage() {
                         {prettyExtensionType(row.input?.extensionType)}
                       </div>
                       <div className="mt-1 text-xs text-gray-600">
-                        {row.input?.size ? `${row.input.size} m²` : "—"} •{" "}
+                        {row.input?.size ? `${row.input.size} m²` : "–"} •{" "}
                         {prettyValue(row.input?.propertyType)}
                       </div>
                       <details className="mt-2 text-xs">
@@ -190,10 +190,10 @@ export default async function ExtensionCalculatorLeadsPage() {
 
                     <Cell>
                       <div className="font-semibold text-gray-900">
-                        {expected ? formatCurrency(expected) : "—"}
+                        {expected ? formatCurrency(expected) : "–"}
                       </div>
                       <div className="mt-1 text-xs text-gray-500">
-                        Confidence: {row.estimate?.confidenceScore || "—"}
+                        Confidence: {row.estimate?.confidenceScore || "–"}
                       </div>
                     </Cell>
 
@@ -210,7 +210,7 @@ export default async function ExtensionCalculatorLeadsPage() {
                           </div>
                         </>
                       ) : (
-                        <span className="text-sm text-gray-400">—</span>
+                        <span className="text-sm text-gray-400">–</span>
                       )}
                     </Cell>
 
@@ -293,7 +293,7 @@ function Cell({ children }) {
 }
 
 function prettyValue(value) {
-  if (!value) return "—";
+  if (!value) return "–";
   return String(value)
     .replace(/([A-Z])/g, " $1")
     .replace(/^\w/, (c) => c.toUpperCase());

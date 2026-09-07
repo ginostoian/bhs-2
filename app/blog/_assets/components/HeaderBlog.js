@@ -165,7 +165,7 @@ const HeaderBlog = () => {
             width={40}
             height={40}
           />
-          <span className="hidden text-xl font-bold text-[#100b47] md:block">
+          <span className="hidden text-xl font-bold text-[#202925] md:block">
             {config.appName}
           </span>
         </Link>
@@ -234,7 +234,7 @@ const HeaderBlog = () => {
                 width={40}
                 height={40}
               />
-              <span className="text-lg font-extrabold">{config.appName}</span>
+              <span className="text-lg font-medium">{config.appName}</span>
             </Link>
             <button
               type="button"

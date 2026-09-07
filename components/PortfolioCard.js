@@ -4,7 +4,7 @@ import Link from "next/link";
 const checkIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4 text-[#266bf1]"
+    className="h-4 w-4 text-[#4D5B4B]"
     viewBox="0 0 20 20"
     fill="currentColor"
   >
@@ -21,7 +21,7 @@ const PortfolioCard = ({ project, compact = false }) => {
 
   return (
     <Link
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#d5e0f8] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:shadow-lg focus:outline-none"
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#D8D2C6] bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:shadow-lg focus:outline-none"
       href={`/portfolio/${project.slug}`}
     >
       <div className="relative">
@@ -32,14 +32,14 @@ const PortfolioCard = ({ project, compact = false }) => {
           width={1200}
           height={800}
         />
-        <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#100b47]">
+        <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#202925]">
           Case Study
         </div>
       </div>
 
       <div className="flex h-full flex-col p-5">
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-[#266bf1]">
+          <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-[#4D5B4B]">
             {project.category}
           </span>
           <span className="text-xs font-medium uppercase tracking-wide text-gray-500">
@@ -47,7 +47,7 @@ const PortfolioCard = ({ project, compact = false }) => {
           </span>
         </div>
 
-        <h3 className="text-xl font-bold leading-tight text-[#100b47] group-hover:text-[#266bf1]">
+        <h3 className="text-xl font-bold leading-tight text-[#202925] group-hover:text-[#4D5B4B]">
           {project.title}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-gray-600">{project.teaser}</p>
@@ -62,7 +62,7 @@ const PortfolioCard = ({ project, compact = false }) => {
         </ul>
 
         <div className="mt-auto pt-5">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#266bf1]">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-[#4D5B4B]">
             Read full case study
             <svg
               xmlns="http://www.w3.org/2000/svg"

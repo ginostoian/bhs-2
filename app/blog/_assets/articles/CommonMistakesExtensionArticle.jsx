@@ -6,7 +6,7 @@ import infographicTimelineImg from "/public/assets/blog/common-mistakes-extensio
 import infographicIcebergImg from "/public/assets/blog/common-mistakes-extension/infographic-3-iceberg.svg";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
@@ -14,22 +14,22 @@ const styles = {
     "mb-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white",
   tocTable: "w-full border-collapse text-sm md:text-base",
   tocHead:
-    "bg-[#f3f7ff] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#100b47]",
+    "bg-[#F4F1EA] px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#202925]",
   tocIndex: "w-16 px-4 py-3 text-sm font-semibold text-base-content/60",
   tocCell: "px-4 py-3 text-base-content/90",
   tocRow: "border-t border-base-content/10 align-top",
-  tocLink: "transition hover:text-[#266bf1] hover:underline",
+  tocLink: "transition hover:text-[#4D5B4B] hover:underline",
   relatedGrid: "mb-6 grid gap-4 md:grid-cols-2",
   relatedCard:
-    "rounded-2xl border border-base-content/10 bg-white p-5 transition hover:border-[#266bf1]/40",
-  relatedTitle: "text-base font-bold text-[#100b47]",
+    "rounded-2xl border border-base-content/10 bg-white p-5 transition hover:border-[#4D5B4B]/40",
+  relatedTitle: "text-base font-bold text-[#202925]",
   relatedDesc: "mt-2 text-sm leading-relaxed text-base-content/70",
   relatedLink:
-    "mt-3 inline-flex text-sm font-semibold text-[#266bf1] underline underline-offset-2",
+    "mt-3 inline-flex text-sm font-semibold text-[#4D5B4B] underline underline-offset-2",
   refList: "mb-6 list-decimal space-y-4 pl-5",
   refItem: "leading-relaxed text-base-content/90",
   extLink:
-    "font-medium text-[#266bf1] underline underline-offset-2 transition hover:text-[#1f56c5]",
+    "font-medium text-[#4D5B4B] underline underline-offset-2 transition hover:text-[#3E4A3C]",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 md:p-6",
   image: "h-auto w-full rounded-xl",
@@ -73,7 +73,7 @@ export default function CommonMistakesExtensionArticle() {
     { href: "#side-return-trap", label: "The Side Return Trap: A London-Specific Pitfall" },
     {
       href: "#thinking-too-small",
-      label: "Not Thinking Big Enough — or Thinking Too Big",
+      label: "Not Thinking Big Enough – or Thinking Too Big",
     },
     { href: "#loft-conversion-blunders", label: "Loft Conversion Blunders" },
     { href: "#headroom-stairs-fire", label: "Headroom, Staircases, and Fire Safety" },
@@ -165,8 +165,8 @@ export default function CommonMistakesExtensionArticle() {
           A house extension or home renovation in London is one of the largest
           financial commitments you will ever make outside of buying the
           property itself. With average extension costs in the capital running
-          between £3,000 and £5,000 per square metre — and full home renovation
-          budgets regularly exceeding £150,000 — the margin for error is razor
+          between £3,000 and £5,000 per square metre – and full home renovation
+          budgets regularly exceeding £150,000 – the margin for error is razor
           thin.
         </p>
         <p className={styles.p}>
@@ -179,7 +179,7 @@ export default function CommonMistakesExtensionArticle() {
         <p className={styles.p}>
           This guide draws on current industry data and expert insight to walk
           you through the fifteen biggest mistakes people make when extending or
-          renovating their homes — and, more importantly, how to sidestep every
+          renovating their homes – and, more importantly, how to sidestep every
           single one. Whether you are planning a rear kitchen extension in
           Hackney, a loft conversion in Wandsworth, or a full home renovation in
           Islington, what follows could save you tens of thousands of pounds and
@@ -194,7 +194,7 @@ export default function CommonMistakesExtensionArticle() {
         </h2>
         <p className={styles.p}>
           The single most common home extension mistake is starting with a
-          number pulled from thin air — or worse, from a vague online average
+          number pulled from thin air – or worse, from a vague online average
           that bears no resemblance to London pricing. National cost guides
           often quote extension rates of £1,800 to £3,000 per square metre, but
           those figures rarely account for the capital's premium on labour,
@@ -207,7 +207,7 @@ export default function CommonMistakesExtensionArticle() {
           alone. A double-storey extension adds roughly 50 to 60 per cent on
           top. Factor in a kitchen fit-out, and you could be looking at an
           additional £15,000 to £40,000 depending on your specification. These
-          are construction costs only — they exclude VAT at 20 per cent and
+          are construction costs only – they exclude VAT at 20 per cent and
           professional fees that typically add another 15 to 20 per cent.
         </p>
         <p className={styles.p}>
@@ -215,7 +215,7 @@ export default function CommonMistakesExtensionArticle() {
           commission any design work, spend time understanding current London
           build costs for your specific borough. Speak to at least two
           architectural practices for ballpark estimates, and build your budget
-          from the ground up. Include every line item — from structural
+          from the ground up. Include every line item – from structural
           engineering fees and party wall surveyor costs to skip hire and
           temporary accommodation if you cannot live on site during the build.
         </p>
@@ -251,14 +251,14 @@ export default function CommonMistakesExtensionArticle() {
             development certificate if you are relying on permitted development
             rights, Thames Water build-over agreements, asbestos surveys for
             pre-1980 properties, and ecological assessments if your loft
-            conversion disturbs bat habitats — these all add up quickly.
+            conversion disturbs bat habitats – these all add up quickly.
           </p>
           <p className={styles.p}>
             Landscaping is another frequently underestimated cost. Industry
             guidance suggests budgeting roughly 10 to 20 per cent of your total
             extension cost for restoring or improving outdoor space once
             construction wraps. If your garden has been used as a site compound
-            for four months, you will want to bring it back to life — and that
+            for four months, you will want to bring it back to life – and that
             rarely happens cheaply in London.
           </p>
           <p className={styles.p}>
@@ -289,8 +289,8 @@ export default function CommonMistakesExtensionArticle() {
             Every experienced architect and project manager will tell you the
             same thing: set aside a contingency of at least 10 to 15 per cent of
             your total project cost. For extensions involving older London
-            properties — Victorian terraces, Edwardian semis, Georgian
-            townhouses — you should push that contingency closer to 20 per cent.
+            properties – Victorian terraces, Edwardian semis, Georgian
+            townhouses – you should push that contingency closer to 20 per cent.
             These properties are full of surprises: inadequate foundations,
             hidden asbestos, rotten timbers, and non-standard construction that
             only reveals itself once the walls are opened up.
@@ -298,7 +298,7 @@ export default function CommonMistakesExtensionArticle() {
           <p className={styles.p}>
             A contingency fund is not money you plan to spend. It is insurance
             against the unknown. If you reach the end of your project without
-            touching it, congratulations — you have a healthy budget left over
+            touching it, congratulations – you have a healthy budget left over
             for furnishing your new space. But if your builder discovers that
             your Victorian rear wall has no proper foundation and needs
             underpinning, you will be extremely glad that buffer exists.
@@ -313,7 +313,7 @@ export default function CommonMistakesExtensionArticle() {
         </h2>
         <p className={styles.p}>
           One of the most damaging home renovation mistakes is bringing in
-          professionals too late — or not bringing them in at all. Some
+          professionals too late – or not bringing them in at all. Some
           homeowners try to save money by drawing up their own plans, going
           straight to a builder, or treating the architect as a luxury rather
           than a necessity. This approach almost always costs more in the long
@@ -325,7 +325,7 @@ export default function CommonMistakesExtensionArticle() {
           policy, identify structural constraints before they become expensive
           problems, and produce the detailed drawings that allow builders to
           provide accurate, comparable quotes. Without proper drawings, builder
-          quotes are essentially guesswork — and guesswork leads to variations,
+          quotes are essentially guesswork – and guesswork leads to variations,
           disputes, and ballooning costs once the project is underway.
         </p>
         <p className={styles.p}>
@@ -341,7 +341,7 @@ export default function CommonMistakesExtensionArticle() {
           Equally important is engaging a structural engineer early. Extensions
           require calculations for steel beams, foundation design, and load
           paths. If these are done as an afterthought, the builder may need to
-          pause work while they wait for engineering details — and every week of
+          pause work while they wait for engineering details – and every week of
           delay on a London building site costs money.
         </p>
 
@@ -352,7 +352,7 @@ export default function CommonMistakesExtensionArticle() {
           <p className={styles.p}>
             Think of it this way: your architect is the person who translates
             your vision into a buildable, compliant design. They can suggest
-            alternative approaches that you would never have considered —
+            alternative approaches that you would never have considered –
             perhaps reorganising existing rooms rather than building out, or
             combining a small rear extension with a loft conversion to get more
             space for less money.
@@ -365,7 +365,7 @@ export default function CommonMistakesExtensionArticle() {
             administration routinely exceed that figure several times over. At
             Better Homes, we have seen projects where early architectural
             intervention saved the client 15 to 25 per cent compared to their
-            original concept — simply by rethinking the approach.
+            original concept – simply by rethinking the approach.
           </p>
         </section>
       </section>
@@ -377,7 +377,7 @@ export default function CommonMistakesExtensionArticle() {
         </h2>
         <p className={styles.p}>
           According to UK Government planning statistics, householder
-          applications — which include home extensions — make up over half of
+          applications – which include home extensions – make up over half of
           all planning decisions in England. Many of those applications are
           refused, and a significant proportion of refusals stem from homeowners
           misunderstanding what they are allowed to build.
@@ -397,7 +397,7 @@ export default function CommonMistakesExtensionArticle() {
           The danger lies in assumption. Too many homeowners assume their
           project falls under permitted development without verifying it. If you
           proceed without the correct approval and your local authority later
-          discovers the breach, you can face enforcement action — including a
+          discovers the breach, you can face enforcement action – including a
           requirement to demolish the extension at your own expense. Even if
           enforcement does not follow immediately, an unapproved extension will
           create serious problems when you come to sell the property.
@@ -415,9 +415,9 @@ export default function CommonMistakesExtensionArticle() {
           </h3>
           <p className={styles.p}>
             London has more conservation areas than any other city in the United
-            Kingdom. If your property falls within one — and many do,
+            Kingdom. If your property falls within one – and many do,
             particularly in boroughs like Camden, Westminster, Islington,
-            Richmond, and Greenwich — your permitted development rights are
+            Richmond, and Greenwich – your permitted development rights are
             significantly restricted. Side extensions, rear dormers, and changes
             to front elevations that would be fine elsewhere may require a full
             planning application in a conservation area.
@@ -426,8 +426,8 @@ export default function CommonMistakesExtensionArticle() {
             Listed buildings introduce an even higher level of scrutiny. Any
             alteration that affects the character of a listed building requires
             listed building consent, which is separate from planning permission
-            and carries its own criteria. Even internal changes — removing an
-            original fireplace, for example — can require consent if the
+            and carries its own criteria. Even internal changes – removing an
+            original fireplace, for example – can require consent if the
             building is listed.
           </p>
           <p className={styles.p}>
@@ -456,8 +456,8 @@ export default function CommonMistakesExtensionArticle() {
           Building regulations cover structural integrity, fire safety, thermal
           performance, ventilation, drainage, and electrical safety. A building
           control inspector will need to visit at key stages of the construction
-          — typically at foundation level, damp-proof course, pre-plaster, and
-          final completion — to sign off each element. Skipping this process or
+          – typically at foundation level, damp-proof course, pre-plaster, and
+          final completion – to sign off each element. Skipping this process or
           cutting corners means you will not receive a completion certificate,
           which creates a serious liability when selling or remortgaging.
         </p>
@@ -472,7 +472,7 @@ export default function CommonMistakesExtensionArticle() {
         </p>
         <p className={styles.p}>
           Work with your architect or design team to produce a full building
-          regulations package — detailed technical drawings that your builder
+          regulations package – detailed technical drawings that your builder
           can follow precisely. This upfront investment in documentation pays
           for itself many times over by reducing errors, rework, and failed
           inspections during construction.
@@ -483,8 +483,8 @@ export default function CommonMistakesExtensionArticle() {
       <section id="party-wall">
         <h2 className={styles.h2}>5. Forgetting About the Party Wall Act</h2>
         <p className={styles.p}>
-          If you live in a terraced or semi-detached house in London — which the
-          vast majority of London homeowners do — there is a strong chance your
+          If you live in a terraced or semi-detached house in London – which the
+          vast majority of London homeowners do – there is a strong chance your
           extension project will trigger the Party Wall etc. Act 1996. This
           applies whenever you are building on or near a shared boundary wall,
           excavating within three metres of an adjoining property's foundation,
@@ -495,14 +495,14 @@ export default function CommonMistakesExtensionArticle() {
           The Act requires you to serve formal notice on affected neighbours at
           least two months before construction begins. If your neighbour
           consents in writing, you can proceed without appointing surveyors. If
-          they dissent — or simply fail to respond — you will need to appoint
+          they dissent – or simply fail to respond – you will need to appoint
           party wall surveyors to prepare an award that protects both parties.
           This process can take weeks and cost anywhere from £1,000 to £3,000
           per neighbour depending on complexity.
         </p>
         <p className={styles.p}>
           The mistake most people make is not ignoring the Party Wall Act
-          entirely — that is relatively rare — but rather leaving it too late.
+          entirely – that is relatively rare – but rather leaving it too late.
           Serving notice at the last minute can delay your start date by months
           if neighbours are slow to respond or decide to dissent. Begin the
           party wall process as soon as your design is sufficiently developed,
@@ -528,14 +528,14 @@ export default function CommonMistakesExtensionArticle() {
         <p className={styles.p}>
           Your home extension is only as good as the people who build it. Yet
           choosing a builder is where many London homeowners make their most
-          consequential mistake — often by selecting the cheapest quote or the
+          consequential mistake – often by selecting the cheapest quote or the
           first name recommended by a friend without carrying out proper due
           diligence.
         </p>
         <p className={styles.p}>
           A low quote should be treated with caution rather than celebration.
           Builders who underquote typically make their money back through
-          variations — additional charges for work that was either poorly scoped
+          variations – additional charges for work that was either poorly scoped
           or deliberately excluded from the original price. By the time you
           realise what is happening, the project is half-built and you have no
           realistic option but to pay up.
@@ -555,8 +555,8 @@ export default function CommonMistakesExtensionArticle() {
           drawings, who provide itemised quotes rather than a single lump sum,
           who carry adequate insurance, and who can provide verifiable
           references from recent London projects of a similar scale. Membership
-          of recognised trade bodies — the Federation of Master Builders,
-          TrustMark, or the Chartered Institute of Building — is a useful
+          of recognised trade bodies – the Federation of Master Builders,
+          TrustMark, or the Chartered Institute of Building – is a useful
           indicator of professionalism, though it should not replace your own
           checks.
         </p>
@@ -566,7 +566,7 @@ export default function CommonMistakesExtensionArticle() {
           <p className={styles.p}>
             Get a minimum of three detailed, like-for-like quotes based on the
             same set of tender drawings. Visit at least one completed project by
-            each shortlisted builder — ideally a home extension in London that
+            each shortlisted builder – ideally a home extension in London that
             is comparable in size and complexity to yours. Speak to previous
             clients about the builder's communication, timekeeping, quality of
             finish, and how they handled unexpected problems.
@@ -574,7 +574,7 @@ export default function CommonMistakesExtensionArticle() {
           <p className={styles.p}>
             Before signing any contract, verify that the builder has public
             liability insurance and employer's liability insurance. Check
-            whether they are VAT registered — an unregistered builder might seem
+            whether they are VAT registered – an unregistered builder might seem
             cheaper, but it raises questions about the scale and legitimacy of
             their operation. Finally, insist on a proper written contract that
             includes a fixed price, a programme of works with milestones, a
@@ -603,7 +603,7 @@ export default function CommonMistakesExtensionArticle() {
           design. A deep rear extension can plunge the middle of your home into
           permanent shadow if it is not designed with glazing strategy in mind.
           Rooflights, clerestory windows, glass doors, and internal glazed
-          partitions are not luxuries — they are essential tools for ensuring
+          partitions are not luxuries – they are essential tools for ensuring
           that your entire home benefits from the extension, not just the new
           room itself.
         </p>
@@ -618,7 +618,7 @@ export default function CommonMistakesExtensionArticle() {
         <p className={styles.p}>
           The best London extensions feel as though they have always been part
           of the house. Achieving that requires thinking about the whole
-          property — not just the new addition — and designing from the inside
+          property – not just the new addition – and designing from the inside
           out rather than the outside in.
         </p>
 
@@ -657,7 +657,7 @@ export default function CommonMistakesExtensionArticle() {
       {/* ===== MISTAKE 8: SIZE ===== */}
       <section id="thinking-too-small">
         <h2 className={styles.h2}>
-          8. Not Thinking Big Enough — or Thinking Too Big
+          8. Not Thinking Big Enough – or Thinking Too Big
         </h2>
         <p className={styles.p}>
           There is a bittersweet irony in home extension projects: the
@@ -670,7 +670,7 @@ export default function CommonMistakesExtensionArticle() {
           A common regret among homeowners is not extending far enough when they
           had the opportunity. The marginal cost of adding an extra metre or two
           to an extension is relatively small compared to the overall project
-          cost — you are already paying for foundations, a roof, and
+          cost – you are already paying for foundations, a roof, and
           professional fees. That additional space might mean the difference
           between a kitchen that feels adequate and one that genuinely
           transforms how your family lives.
@@ -704,7 +704,7 @@ export default function CommonMistakesExtensionArticle() {
           A loft conversion is often described as the most cost-effective way to
           add space to a London home. Costs typically range from £55,000 to
           £120,000 depending on the type of conversion and the level of finish,
-          and the value added can be substantial — particularly if the
+          and the value added can be substantial – particularly if the
           conversion creates an additional bedroom with en suite bathroom. But
           loft conversions come with their own set of pitfalls that are distinct
           from ground-floor extensions.
@@ -738,7 +738,7 @@ export default function CommonMistakesExtensionArticle() {
             of the entire house. Ideally, the new loft stairs should rise above
             the existing staircase so that you are not sacrificing valuable
             floor space on the level below. This requires careful early-stage
-            design work — not an afterthought once the dormer is already built.
+            design work – not an afterthought once the dormer is already built.
           </p>
           <p className={styles.p}>
             Fire safety in loft conversions is governed by strict building
@@ -756,8 +756,8 @@ export default function CommonMistakesExtensionArticle() {
             frequently overlook. Without proper acoustic insulation between the
             loft floor and the rooms below, every footstep, conversation, and
             creaky floorboard will transmit through the house. Specifying the
-            right floor build-up — resilient bars, acoustic mineral wool, and an
-            independent ceiling — is far easier and cheaper to do during
+            right floor build-up – resilient bars, acoustic mineral wool, and an
+            independent ceiling – is far easier and cheaper to do during
             construction than to retrofit after the fact.
           </p>
         </section>
@@ -770,8 +770,8 @@ export default function CommonMistakesExtensionArticle() {
           A common expectation among London homeowners is that their extension
           will be finished in a few weeks. The reality is that a well-managed
           single-storey extension typically takes three to six months on site,
-          and the total project timeline — from initial design through to moving
-          your furniture into the completed space — can be twelve months or more
+          and the total project timeline – from initial design through to moving
+          your furniture into the completed space – can be twelve months or more
           when you factor in design development, planning and building
           regulations applications, party wall agreements, and tender periods.
         </p>
@@ -798,8 +798,8 @@ export default function CommonMistakesExtensionArticle() {
           realism is doubly important. Three months of building work is
           manageable with some patience and organisation. Six months of dust,
           noise, and no kitchen is a different proposition entirely. Have a
-          clear conversation with your builder about phasing — which rooms will
-          be out of commission and when — so you can plan your life accordingly.
+          clear conversation with your builder about phasing – which rooms will
+          be out of commission and when – so you can plan your life accordingly.
         </p>
         <figure className={styles.figure}>
           <Image
@@ -822,7 +822,7 @@ export default function CommonMistakesExtensionArticle() {
         </h2>
         <p className={styles.p}>
           Building regulations set minimum standards for thermal performance in
-          new extensions, but minimum standards are exactly that — the bare
+          new extensions, but minimum standards are exactly that – the bare
           minimum. In a city where energy costs have risen sharply and
           environmental awareness is increasing, building to a higher standard
           than the minimum is both financially and ethically sensible.
@@ -833,12 +833,12 @@ export default function CommonMistakesExtensionArticle() {
           every year for decades. The upfront cost difference between a
           minimum-compliance extension and one built to a genuinely comfortable
           thermal standard is often only five to ten per cent of the total build
-          cost — a premium that pays for itself within a few years through
+          cost – a premium that pays for itself within a few years through
           reduced energy bills.
         </p>
         <p className={styles.p}>
           The mistake most people make is treating insulation as an invisible
-          commodity — something that gets buried in the walls and forgotten
+          commodity – something that gets buried in the walls and forgotten
           about. In reality, the quality of your insulation, the continuity of
           your airtightness layer, and the performance of your windows and doors
           will determine whether your new extension feels warm and cosy on a
@@ -863,7 +863,7 @@ export default function CommonMistakesExtensionArticle() {
         <p className={styles.p}>
           It is easy to get seduced by glossy design magazines and Instagram
           interiors that prioritise aesthetics over practicality. But a home
-          extension exists to serve your life — not the other way around. The
+          extension exists to serve your life – not the other way around. The
           best designs start with an honest conversation about how you and your
           household actually use your home on a daily basis, not how you wish
           you used it.
@@ -883,7 +883,7 @@ export default function CommonMistakesExtensionArticle() {
           and built-in storage. The result is a beautiful new kitchen-diner that
           is permanently cluttered because there is nowhere to put anything.
           Think hard about where your possessions will live, and design storage
-          into the project from the start — not as an afterthought.
+          into the project from the start – not as an afterthought.
         </p>
         <p className={styles.p}>
           Similarly, think about the relationship between indoor and outdoor
@@ -909,7 +909,7 @@ export default function CommonMistakesExtensionArticle() {
           The key word is like-for-like. Three quotes are only useful if they
           are pricing the same scope of work to the same specification. This is
           why having complete tender drawings before you approach builders is so
-          important — it removes ambiguity and gives you a genuine basis for
+          important – it removes ambiguity and gives you a genuine basis for
           comparison. If one quote is significantly lower than the others, it
           almost certainly means something has been excluded or underestimated.
           If one is significantly higher, it may reflect the builder's current
@@ -936,11 +936,11 @@ export default function CommonMistakesExtensionArticle() {
           runs over budget, and then has to cut corners on the finishes that
           they will see and touch every single day. Cheap kitchen handles, basic
           lighting, the wrong floor finish, a bathroom suite chosen in a panic
-          because the plumber needs it on Monday — these compromises are visible
+          because the plumber needs it on Monday – these compromises are visible
           long after the excitement of the new extension has faded.
         </p>
         <p className={styles.p}>
-          The solution is to select your finishes early — ideally during the
+          The solution is to select your finishes early – ideally during the
           design stage, well before construction begins. This includes kitchen
           units and appliances, bathroom fittings, flooring, lighting, switches,
           sockets, paint colours, and external materials. Early selection serves
@@ -954,8 +954,8 @@ export default function CommonMistakesExtensionArticle() {
           extension adds. A beautifully built extension with cheap finishes will
           look and feel disappointing. Conversely, thoughtful material choices
           can make even a modest extension feel luxurious. Allocate your budget
-          wisely: spend on the things you interact with daily — worktops, taps,
-          flooring, lighting — and economise on the things hidden behind the
+          wisely: spend on the things you interact with daily – worktops, taps,
+          flooring, lighting – and economise on the things hidden behind the
           walls.
         </p>
       </section>
@@ -969,7 +969,7 @@ export default function CommonMistakesExtensionArticle() {
           There is a false economy in choosing the cheapest available materials
           for your extension. Budget roofing membranes that fail after five
           years, inexpensive windows that mist up and lose their thermal
-          performance, render that cracks and stains within a season — these
+          performance, render that cracks and stains within a season – these
           short-term savings create long-term maintenance headaches and erode
           the value of your investment.
         </p>
@@ -980,7 +980,7 @@ export default function CommonMistakesExtensionArticle() {
           existing house. Under a planning permission, you have more flexibility
           but the design should be sympathetic to the streetscape. Selecting
           materials that look acceptable initially but deteriorate quickly is a
-          false saving — especially on an extension that may have cost upwards
+          false saving – especially on an extension that may have cost upwards
           of £100,000.
         </p>
         <p className={styles.p}>
@@ -998,18 +998,18 @@ export default function CommonMistakesExtensionArticle() {
       <section id="quick-takeaways">
         <h2 className={styles.h2}>Quick Takeaways</h2>
         <p className={styles.p}>
-          1. Budget realistically for London prices — extensions typically cost
+          1. Budget realistically for London prices – extensions typically cost
           £3,000 to £5,000 per square metre excluding VAT and professional fees,
           so plan accordingly and maintain a contingency of at least 10 to 20
           per cent.
         </p>
         <p className={styles.p}>
           2. Engage an architect and structural engineer before you approach any
-          builder — the savings from proper design and documentation far
+          builder – the savings from proper design and documentation far
           outweigh the professional fees.
         </p>
         <p className={styles.p}>
-          3. Never assume your project falls under permitted development —
+          3. Never assume your project falls under permitted development –
           verify it with a lawful development certificate and check conservation
           area restrictions specific to your London borough.
         </p>
@@ -1020,7 +1020,7 @@ export default function CommonMistakesExtensionArticle() {
         </p>
         <p className={styles.p}>
           5. Prioritise natural light and internal flow over raw square footage
-          — a smaller, beautifully designed extension will serve you better than
+          – a smaller, beautifully designed extension will serve you better than
           a larger, poorly planned one.
         </p>
         <p className={styles.p}>
@@ -1030,7 +1030,7 @@ export default function CommonMistakesExtensionArticle() {
         </p>
         <p className={styles.p}>
           7. Design for how your household will live in five to fifteen years,
-          not just how it lives today — future-proofing is far cheaper than
+          not just how it lives today – future-proofing is far cheaper than
           retrofitting.
         </p>
       </section>
@@ -1045,7 +1045,7 @@ export default function CommonMistakesExtensionArticle() {
           accident. It is the product of careful planning, informed
           decision-making, and the right professional team working together from
           the earliest stages. The fifteen mistakes outlined in this guide are
-          not obscure edge cases — they are the issues that trip up thousands of
+          not obscure edge cases – they are the issues that trip up thousands of
           London homeowners every year, often costing tens of thousands of
           pounds and months of avoidable delay.
         </p>
@@ -1057,7 +1057,7 @@ export default function CommonMistakesExtensionArticle() {
           builder is appointed is the single biggest risk factor for a troubled
           build. The most successful projects we see at Better Homes are those
           where the homeowner has spent the first few months getting everything
-          right on paper — so that the construction phase is simply an execution
+          right on paper – so that the construction phase is simply an execution
           of a well-prepared plan.
         </p>
         <p className={styles.p}>
@@ -1140,8 +1140,8 @@ export default function CommonMistakesExtensionArticle() {
           Yes. A structural engineer is required for virtually all extensions
           and loft conversions. They design the steel beams, foundations, and
           structural connections that keep your extension safe and compliant
-          with building regulations. Engaging them early — during the design
-          phase rather than as a last-minute addition — helps avoid delays and
+          with building regulations. Engaging them early – during the design
+          phase rather than as a last-minute addition – helps avoid delays and
           ensures the architectural design is structurally feasible from the
           start.
         </p>
@@ -1199,14 +1199,14 @@ export default function CommonMistakesExtensionArticle() {
           If you have been through a home extension or renovation in London, we
           would love to hear about your experience. What was the one thing you
           wish you had known before you started? Did you encounter any of the
-          mistakes we have covered in this guide — or discover a pitfall we
+          mistakes we have covered in this guide – or discover a pitfall we
           missed?
         </p>
         <p className={styles.p}>
           Share this article with anyone you know who is planning to extend or
           renovate their home. The more homeowners who go into these projects
           with their eyes open, the fewer horror stories we will hear. And if
-          you found this guide helpful, let us know — your feedback helps us
+          you found this guide helpful, let us know – your feedback helps us
           create more content that actually makes a difference.
         </p>
       </section>
@@ -1216,7 +1216,7 @@ export default function CommonMistakesExtensionArticle() {
         <h2 className={styles.h2}>References</h2>
         <ol className={styles.refList}>
           <li className={styles.refItem}>
-            UK Government — Planning application statistics for England,
+            UK Government – Planning application statistics for England,
             including householder applications data.{" "}
             <a
               href="https://www.gov.uk/government/collections/planning-applications-statistics"
@@ -1229,7 +1229,7 @@ export default function CommonMistakesExtensionArticle() {
             .
           </li>
           <li className={styles.refItem}>
-            Royal Institution of Chartered Surveyors (RICS) — Building Cost
+            Royal Institution of Chartered Surveyors (RICS) – Building Cost
             Information Service and UK Residential Market Survey data,
             including regional price balance reports.{" "}
             <a
@@ -1243,7 +1243,7 @@ export default function CommonMistakesExtensionArticle() {
             .
           </li>
           <li className={styles.refItem}>
-            Office for National Statistics (ONS) — UK House Price Index and
+            Office for National Statistics (ONS) – UK House Price Index and
             construction output statistics, including material and labour cost
             trends.{" "}
             <a
@@ -1257,7 +1257,7 @@ export default function CommonMistakesExtensionArticle() {
             .
           </li>
           <li className={styles.refItem}>
-            The Party Wall etc. Act 1996 — Full legislation governing rights
+            The Party Wall etc. Act 1996 – Full legislation governing rights
             and obligations where building work affects party walls and
             neighbouring properties.{" "}
             <a
@@ -1271,7 +1271,7 @@ export default function CommonMistakesExtensionArticle() {
             .
           </li>
           <li className={styles.refItem}>
-            HM Government — The Town and Country Planning (General Permitted
+            HM Government – The Town and Country Planning (General Permitted
             Development) (England) Order 2015 (as amended), including 2024/2025
             updates to permitted development rights for householder
             extensions.{" "}

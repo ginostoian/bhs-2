@@ -366,10 +366,10 @@ export default function PartnersClient({
                 </div>
                 <div className="mb-3 space-y-1 text-sm text-gray-500">
                   <p>
-                    <strong>Experience:</strong> {p.experience || "—"}
+                    <strong>Experience:</strong> {p.experience || "–"}
                   </p>
                   <p>
-                    <strong>Linked account:</strong> {p.user?.email || "—"}
+                    <strong>Linked account:</strong> {p.user?.email || "–"}
                   </p>
                   <p>
                     <strong>Total referrals:</strong> {p.referrals?.length || 0}

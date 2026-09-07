@@ -203,17 +203,17 @@ const DetailedBathroomForm = () => {
   return (
     <section className="bg-gradient-to-br from-gray-50 to-white py-16">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
+        <div className="mb-12">
+          <h1 className="bh-title">
             Detailed Bathroom Questionnaire
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="bh-lead">
             Provide detailed information about your bathroom renovation project
             for a more accurate quote.
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+        <div className="border-t border-gray-300">
           <div className="p-8 md:p-12">
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Basic Information (Pre-filled) */}

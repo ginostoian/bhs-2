@@ -46,8 +46,7 @@ export default function LocationsPage() {
         <div className="container">
           <h1 className={classes.title}>London Areas We Serve</h1>
           <p className={classes.subtitle}>
-            Dedicated local pages for homeowners planning high-quality house
-            extensions, loft conversions, and full home renovations.
+            Our focus is Central, North and East London, with selected projects in South London. Explore your area and send us your postcode and brief to confirm project coverage.
           </p>
         </div>
       </section>

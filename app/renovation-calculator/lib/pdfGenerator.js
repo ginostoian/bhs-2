@@ -174,7 +174,7 @@ export const generateRenovationEstimatePDF = (
   y = h.addKeyValue(
     y,
     "Includes fittings",
-    b.fittingsIncluded ? "Yes (ballpark for fixtures & finishes)" : "No — labour & construction materials only",
+    b.fittingsIncluded ? "Yes (ballpark for fixtures & finishes)" : "No – labour & construction materials only",
   );
   y = h.addKeyValue(
     y,

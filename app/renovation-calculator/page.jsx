@@ -157,7 +157,7 @@ const calculatorSchema = {
       operatingSystem: "Web",
       provider: {
         "@type": "Organization",
-        name: "Better Homes Studio",
+        name: "Better Homes",
         url: siteUrl,
       },
       offers: {
@@ -177,30 +177,6 @@ const calculatorSchema = {
           text: faq.answer,
         },
       })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: siteUrl,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Cost Guides",
-          item: `${siteUrl}/tools`,
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Renovation Calculator",
-          item: pageUrl,
-        },
-      ],
     },
   ],
 };
@@ -394,7 +370,7 @@ export default function RenovationCalculator() {
 
   if (showResults && calculationResult) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
+      <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-6">
             <button
@@ -429,7 +405,7 @@ export default function RenovationCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
+    <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="mb-10 grid gap-6 rounded-3xl border border-stone-200 bg-white/90 p-6 shadow-2xl shadow-stone-900/5 backdrop-blur md:grid-cols-[1.3fr_1fr] md:p-8">
           <div>
@@ -548,7 +524,7 @@ export default function RenovationCalculator() {
         <section className="mx-auto mt-14 max-w-6xl rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8 lg:p-10">
           <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                 Budget guidance
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-4xl">
@@ -584,7 +560,7 @@ export default function RenovationCalculator() {
           <div className="mt-10 rounded-3xl border border-stone-200 bg-stone-50/70 p-6 md:p-8">
             <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                   Typical London budgets
                 </p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
@@ -629,7 +605,7 @@ export default function RenovationCalculator() {
               driving 2026 prices, read the{" "}
               <Link
                 href={`${siteUrl}/blog/home-renovation-cost-london-2026`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 full renovation cost breakdown for London
               </Link>{" "}
@@ -639,7 +615,7 @@ export default function RenovationCalculator() {
 
           <div className="mt-10">
             <div className="max-w-3xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                 Cost drivers
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
@@ -670,21 +646,21 @@ export default function RenovationCalculator() {
                 separately with our{" "}
                 <Link
                   href={`${siteUrl}/extension-calculator`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   house extension cost calculator
                 </Link>
                 . If the kitchen or bathrooms are a big part of the scope, the{" "}
                 <Link
                   href={`${siteUrl}/kitchen-calculator`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   kitchen cost calculator
                 </Link>{" "}
                 and{" "}
                 <Link
                   href={`${siteUrl}/tools/bathroom-cost-calculator`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   bathroom cost calculator
                 </Link>{" "}
@@ -696,7 +672,7 @@ export default function RenovationCalculator() {
           <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                   Next steps
                 </p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
@@ -707,7 +683,7 @@ export default function RenovationCalculator() {
                 href={BOOKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#266bf1] px-5 text-sm font-semibold text-white transition hover:bg-[#1449B0]"
+                className="inline-flex min-h-[48px] items-center justify-center rounded-full bg-[#4D5B4B] px-5 text-sm font-semibold text-white transition hover:bg-[#3E4A3C]"
               >
                 Book a consultation
               </Link>
@@ -730,7 +706,7 @@ export default function RenovationCalculator() {
                         Our{" "}
                         <Link
                           href={step.href}
-                          className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                          className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                         >
                           {step.linkText}
                         </Link>{" "}
@@ -744,7 +720,7 @@ export default function RenovationCalculator() {
                         consultation with our{" "}
                         <Link
                           href={step.href}
-                          className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                          className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                         >
                           {step.linkText}
                         </Link>
@@ -764,14 +740,14 @@ export default function RenovationCalculator() {
               borough premiums, read our{" "}
               <Link
                 href={`${siteUrl}/blog/home-renovation-cost-london-2026`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 complete 2026 home renovation cost guide
               </Link>
               . For project-specific advice, talk to our{" "}
               <Link
                 href={`${siteUrl}/general-renovation`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 design-and-build renovation team
               </Link>

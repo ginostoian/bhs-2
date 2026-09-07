@@ -3,12 +3,12 @@ const PAGE_FAQS = {
     {
       question: "How much does a typical London project cost?",
       answer:
-        "It depends on scope, size, and finish level, but most serious projects start from clear budget bands. Bathrooms usually begin around £12,000, kitchens from around £20,000, loft conversions from around £50,000, and extensions from around £80,000. We will tell you quickly if your target budget is realistic.",
+        "It depends on scope, size, and finish level, but most serious projects start from clear budget bands. Bathrooms usually begin around £12,000, kitchens from around £20,000, larger loft conversions from around £45,000, and rear extensions from around £50,000. We will tell you quickly if your target budget is realistic.",
     },
     {
       question: "Do you handle planning permission and design coordination?",
       answer:
-        "Yes. We can support the full route from early feasibility and quoting through design coordination, planning input, and build delivery, so you are not left managing multiple disconnected parties.",
+        "Yes. We manage construction and your relationship with a trusted independent architect when design support is needed. Your architect provides the agreed drawings and professional services. We can also build from existing drawings and work with your current team.",
     },
     {
       question: "How do you keep projects on track once work starts?",
@@ -181,7 +181,7 @@ const PAGE_FAQS = {
     {
       question: "How much does a house extension cost in London?",
       answer:
-        "Most London house extensions sit somewhere between roughly £50,000 and £200,000+, depending on the type. Side returns are usually the lightest route, rear extensions are the most common, and wraparound or double-storey schemes sit at the heavier end because they involve more structure, approvals and programme time. If the project also includes a new kitchen, that can materially increase the all-in budget.",
+        "London extension planning ranges run from roughly £35,000 for a compact side return to £200,000+ for a double-storey project, depending on the type. Side returns are usually the lightest route, rear extensions are the most common, and wraparound or double-storey schemes sit at the heavier end because they involve more structure, approvals and programme time. If the project also includes a new kitchen, that can materially increase the all-in budget.",
     },
     {
       question: "Do I need planning permission for a house extension?",
@@ -213,7 +213,7 @@ const PAGE_FAQS = {
     {
       question: "How much does a loft conversion cost in London?",
       answer:
-        "Most London loft conversions sit between roughly £45,000 and £130,000+, depending on the type. Rooflight conversions are the cheapest, rear dormers are the most common, and mansards sit at the premium end because they usually involve more planning and structural change.",
+        "Larger London loft conversions sit between roughly £45,000 and £130,000+, depending on the type. Rooflight conversions start lower, at around £25,000 to £45,000, rear dormers are the most common, and mansards sit at the premium end because they usually involve more planning and structural change.",
     },
     {
       question: "Do I need planning permission for a loft conversion?",

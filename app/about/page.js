@@ -1,79 +1,140 @@
 import Link from "next/link";
-
-import FAQ from "@/components/FAQ";
-import Guarantee from "@/components/Guarantee";
-import Stats from "@/components/Stats";
-import PortfolioCardContainer from "@/components/PortfolioCardContainer";
-import Features from "@/components/Features";
-import CustomCTA from "@/components/CustomCTA";
-import Approach from "@/components/Approach";
-import Testimonials11 from "@/components/Testimonials11";
-import Testimonials3 from "@/components/Testimonials3";
-import BlogHighlight from "@/components/blog/BlogHighlight";
-import Hero from "@/components/hero/Hero";
-import SectionTitle from "@/components/sectionTitle/SectionTitle";
-import SocialProof from "@/components/socialProof/SocialProof";
-import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
-import TextGrid from "@/components/textGrid/TextGrid";
+import Image from "next/image";
 import config from "@/config";
-import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
+import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
-
+import Faq from "@/components/brand/Faq";
+import { FaqSchema } from "@/components/brand/Schema";
+import { ProjectCards, ProjectCTA } from "@/components/brand/ServicePage";
+import { getPortfolioProjects } from "@/libs/portfolio-projects";
+export const metadata = getSEOTags({
+  title: "About Better Homes | London Construction & Renovation",
+  description:
+    "Meet Better Homes, a London construction company focused on clear pricing, careful project management and quality home renovations.",
+  canonicalUrlRelative: "/about",
+});
 export default function Page() {
-  const aboutPageCopy = config.copy.aboutPage;
-  //   const whatWeDoCopy = aboutPageCopy.whatWeDoSection;
-  //   const whatWeDoArr = [
-  //     whatWeDoCopy.fullHome,
-  //     whatWeDoCopy.bathroomInstallation,
-  //     whatWeDoCopy.kitchenInstallation,
-  //     whatWeDoCopy.structuralWork,
-  //     whatWeDoCopy.heating,
-  //     whatWeDoCopy.flooringInstallation,
-  //   ];
-  const howWeDoItCopy = aboutPageCopy.howWeDoItSection;
-  const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const knowledgeCenterArticles = getKnowledgeCenterArticles("about");
-
   const faqs = getPageFaqs("about");
-
   return (
-    <>
-      <main>
-        <Hero
-          title={aboutPageCopy.title}
-          titleAccent={aboutPageCopy.titleAccent}
-          subtitle={aboutPageCopy.subtitle}
-          heroCTA={aboutPageCopy.heroCTA}
-          heroImgUrl={aboutPageCopy.heroImgUrl}
-          ctaTallyFormLink={aboutPageCopy.ctaTallyFormLink}
+    <main>
+      <section className="bh-wrap bh-section bh-grid-two">
+        <div>
+          <p className="bh-eyebrow">About Better Homes</p>
+          <h1 className="bh-title">
+            Good building starts with good management.
+          </h1>
+          <p className="bh-lead">
+            With 12+ years of experience, we are a London construction company
+            for homeowners who value thoughtful work, clear communication and a
+            dependable team. Our focus is extensions, loft conversions and
+            whole-home renovations, alongside standalone kitchen and bathroom
+            projects.
+          </p>
+        </div>
+        <Image
+          src="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp"
+          alt="A completed Better Homes extension and renovation in North London"
+          width={1000}
+          height={800}
+          priority
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: 0,
+          }}
         />
-        <SocialProof />
-        <SectionTitle
-          title="Why choose us"
-          subtitle="Our values are our promises to you"
-        />
-        <Features />
-        <Testimonials3 />
-        <Stats />
-        <SectionTitle />
-        <Approach />
-        <SectionTitle
-          title="Our build approach"
-          subtitle="Simple, fast and streamlined process"
-        />
-        <TextGrid content={howWeDoItCopy} />
-        <Testimonials11 />
-        <PortfolioCardContainer />
-        <Guarantee />
-        <CustomCTA />
-        <FAQ content={faqs} />
-        <TextBlockDark content={reviewsCtaCopy} />
-        <SectionTitle
-          title="The Knowledge Center"
-          subtitle="Where you actually learn new things"
-        />
-        <BlogHighlight articles={knowledgeCenterArticles} />
-      </main>
-    </>
+      </section>
+      <section className="bh-band">
+        <div className="bh-wrap bh-section">
+          <p className="bh-eyebrow">What you can expect</p>
+          <div className="bh-project-grid">
+            {[
+              [
+                "Clear pricing",
+                "An itemised scope with inclusions, exclusions and allowances. Changes are priced and agreed before the related work proceeds.",
+              ],
+              [
+                "A well-managed site",
+                "A named project lead coordinates trades, sequencing and quality checks. Weekly updates keep progress and decisions visible.",
+              ],
+              [
+                "Care beyond completion",
+                "A documented handover, snagging record and workmanship terms matched to the work delivered.",
+              ],
+            ].map(([t, b]) => (
+              <article key={t}>
+                <h2 className="bh-heading">{t}</h2>
+                <p>{b}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="bh-wrap bh-section bh-grid-two">
+        <div>
+          <p className="bh-eyebrow">Design and build, explained</p>
+          <h2 className="bh-heading">
+            The right people, with clear responsibilities.
+          </h2>
+        </div>
+        <div>
+          <p className="bh-lead">
+            We manage your relationship with one of our trusted independent
+            architects when you need design support. Better Homes manages the
+            construction; your architect provides the agreed drawings and
+            professional services.
+          </p>
+          <p style={{ marginTop: 20 }}>
+            Already have drawings? We can build from them and work alongside
+            your existing architect and engineer. Our proposal sets out the
+            appointments, responsibilities and fees, so you understand who does
+            what.
+          </p>
+        </div>
+      </section>
+      <section className="bh-wrap bh-section">
+        <p className="bh-eyebrow">Independent reviews</p>
+        <h2 className="bh-heading">Hear from London homeowners</h2>
+        <p className="bh-lead">
+          Read clients’ accounts of the planning, communication and finish on{" "}
+          <a
+            className="bh-text-link"
+            href="https://www.houzz.co.uk/pro/betterhomeslondon/better-homes"
+          >
+            Houzz
+          </a>
+          ,{" "}
+          <a className="bh-text-link" href="https://g.page/r/CaGIVAg_unOVEBM/">
+            Google
+          </a>{" "}
+          and{" "}
+          <a
+            className="bh-text-link"
+            href="https://www.mybuilder.com/profile/view/celli/feedback"
+          >
+            MyBuilder
+          </a>
+          .
+        </p>
+        <dl className="bh-facts">
+          <div>
+            <dt>Completed projects</dt>
+            <dd>500+ completed projects</dd>
+          </div>
+          <div>
+            <dt>Insurance cover</dt>
+            <dd>£10M</dd>
+          </div>
+          <div>
+            <dt>Our workmanship guarantee</dt>
+            <dd>1 to 10 years, by scope</dd>
+          </div>
+        </dl>
+      </section>
+      <Faq items={faqs} />
+      <FaqSchema items={faqs} path="/about" />
+      <ProjectCTA />
+    </main>
   );
 }

@@ -77,7 +77,7 @@ const StepEstimateOptions = ({ formData, setFormData, onNext, onBack }) => {
               <p className="mt-1">
                 Internal floor coverings and finishes, plus fit-out extras such as the kitchen,
                 bathrooms, bi-fold doors, bespoke joinery and premium flooring. Their installation
-                and the structural build are still included — only the supplied product cost is
+                and the structural build are still included – only the supplied product cost is
                 left out so you can add your own budgets.
               </p>
             </div>

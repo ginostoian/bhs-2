@@ -52,7 +52,7 @@ export default function BlogPagination({ basePath, currentPage, totalPages }) {
         className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
           currentPage === 1
             ? "pointer-events-none border border-gray-200 bg-gray-100 text-gray-400"
-            : "border border-[#bfd3f9] bg-white text-[#266bf1] hover:bg-[#266bf1] hover:text-white"
+            : "border border-[#D8D2C6] bg-white text-[#4D5B4B] hover:bg-[#4D5B4B] hover:text-white"
         }`}
       >
         Previous
@@ -74,8 +74,8 @@ export default function BlogPagination({ basePath, currentPage, totalPages }) {
               aria-current={page === currentPage ? "page" : undefined}
               className={`flex h-11 w-11 items-center justify-center rounded-full text-sm font-semibold transition ${
                 page === currentPage
-                  ? "bg-[#100b47] text-white shadow-lg shadow-[#100b47]/20"
-                  : "border border-[#bfd3f9] bg-white text-[#266bf1] hover:bg-[#266bf1] hover:text-white"
+                  ? "bg-[#202925] text-white shadow-lg shadow-[#202925]/20"
+                  : "border border-[#D8D2C6] bg-white text-[#4D5B4B] hover:bg-[#4D5B4B] hover:text-white"
               }`}
             >
               {page}
@@ -90,7 +90,7 @@ export default function BlogPagination({ basePath, currentPage, totalPages }) {
         className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
           currentPage === totalPages
             ? "pointer-events-none border border-gray-200 bg-gray-100 text-gray-400"
-            : "border border-[#bfd3f9] bg-white text-[#266bf1] hover:bg-[#266bf1] hover:text-white"
+            : "border border-[#D8D2C6] bg-white text-[#4D5B4B] hover:bg-[#4D5B4B] hover:text-white"
         }`}
       >
         Next

@@ -5,13 +5,13 @@ const WithWithout = () => {
   return (
     <section className="container">
       <div className="max-w-5xl mx-auto px-8 py-16 md:py-32 ">
-        <h2 className="text-center text-[#100b47] font-extrabold text-3xl md:text-5xl tracking-tight mb-12 md:mb-20">
+        <h2 className="text-center text-[#202925] font-medium text-3xl md:text-5xl tracking-tight mb-12 md:mb-20">
           Worried your project will go off-trail?
         </h2>
 
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-8 md:gap-12">
           <div className="bg-error/20 text-error p-8 md:p-12 rounded-lg w-full ">
-            <h3 className="font-bold text-lg mb-4 text-[#100b47]">
+            <h3 className="font-bold text-lg mb-4 text-[#202925]">
               Your project without Better Homes
             </h3>
 
@@ -43,7 +43,7 @@ const WithWithout = () => {
           </div>
 
           <div className="bg-success/20 text-success p-8 md:p-12 rounded-lg w-full">
-            <h3 className="font-bold text-lg mb-4 text-[#100b47]">
+            <h3 className="font-bold text-lg mb-4 text-[#202925]">
               Your project + Better Homes
             </h3>
 

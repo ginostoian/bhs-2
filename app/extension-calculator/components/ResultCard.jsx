@@ -56,7 +56,7 @@ const ResultCard = ({
                 {getExtensionTypeName(formData.extensionType)}
               </h2>
               <p className="mt-2 text-stone-600">
-                {formData.size} m² {isLondon ? "London" : "UK regional"} estimate —{" "}
+                {formData.size} m² {isLondon ? "London" : "UK regional"} estimate –{" "}
                 {breakdown.fittingsIncluded
                   ? "including a ballpark for fittings & finishes"
                   : "structural build & construction materials only"}
@@ -218,7 +218,7 @@ const ResultCard = ({
                   This estimate covers the structural build and construction
                   materials only. It excludes the supplied cost of internal
                   finishes and fit-out items (kitchen, bathrooms, bi-fold doors,
-                  bespoke joinery, premium flooring) — add your own product
+                  bespoke joinery, premium flooring) – add your own product
                   budgets on top, or re-run with fittings included for a ballpark.
                 </p>
               )}
@@ -246,7 +246,7 @@ const ResultCard = ({
                             {item.name}
                             {excluded && (
                               <span className="ml-2 rounded bg-amber-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-900">
-                                fittings — excluded
+                                fittings – excluded
                               </span>
                             )}
                           </div>

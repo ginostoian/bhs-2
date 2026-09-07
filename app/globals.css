@@ -5,7 +5,7 @@
 html,
 body {
   scroll-behavior: smooth !important;
-  background: #f0f0f0 !important;
+  background: #F4F1EA !important;
 }
 
 /* It makes the HTML progress bar filling smooth when value change. */
@@ -79,24 +79,24 @@ progress::-webkit-progress-value {
 }
 
 :root {
-  --bg-primary: #f6f4ff;
-  --bg-secondary: #34252f;
-  --clr-accent: #7421fc;
-  --text-primary: #100b47;
-  --text-secondary: #676b94;
+  --bg-primary: #F4F1EA;
+  --bg-secondary: #202925;
+  --clr-accent: #4D5B4B;
+  --text-primary: #202925;
+  --text-secondary: #4D5B4B;
 
-  --fs-h1-sm: 62px;
-  --fs-h1-lg: 72px;
-  --fs-h2-sm: 52px;
-  --fs-h2-lg: 62px;
-  --fs-h3-sm: 42px;
-  --fs-h3-lg: 52px;
-  --fs-h4-sm: 32px;
-  --fs-h4-lg: 42px;
+  --fs-h1-sm: 40px;
+  --fs-h1-lg: 64px;
+  --fs-h2-sm: 30px;
+  --fs-h2-lg: 40px;
+  --fs-h3-sm: 24px;
+  --fs-h3-lg: 28px;
+  --fs-h4-sm: 20px;
+  --fs-h4-lg: 24px;
   --fs-p-default-sm: 16px;
-  --fs-p-default-lg: 26px;
+  --fs-p-default-lg: 18px;
   --fs-p-big-sm: 18px;
-  --fs-p-big-lg: 28px;
+  --fs-p-big-lg: 20px;
   --fs-p-small: 14px;
   --border-radius: 10px;
 }
@@ -104,15 +104,15 @@ progress::-webkit-progress-value {
 body {
   margin: 0;
   font-family: "Satoshi", sans-serif;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   overflow-x: hidden;
   /* background-color: var(--bg-primary);*/
   /*  old one #ddecfa */
   /* cde3fa; */
   /* efdece */
-  background-color: #f0f0f0;
+  background-color: #F4F1EA;
   font-size: var(--fs-p-default-sm);
-  line-height: 20px;
+  line-height: 1.6;
 }
 
 .container {
@@ -143,7 +143,7 @@ a:hover {
 }
 
 .main-nav__logo-text-accent {
-  color: #7421fc;
+  color: #4D5B4B;
 }
 
 .standout {
@@ -205,7 +205,7 @@ a:hover {
   height: 3px;
   margin-inline: 8px;
   border-radius: 50%;
-  background-color: #7421fc;
+  background-color: #4D5B4B;
   color: transparent;
 }
 

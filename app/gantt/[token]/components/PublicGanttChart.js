@@ -52,12 +52,12 @@ export default function PublicGanttChart({
   // Helper function to get task color based on status
   const getTaskColor = (status) => {
     const colors = {
-      Scheduled: "#6B7280", // Gray
+      Scheduled: "#5D655C", // Gray
       "In Progress": "#3B82F6", // Blue
       Done: "#10B981", // Green
       Blocked: "#EF4444", // Red
     };
-    return colors[status] || "#6B7280";
+    return colors[status] || "#5D655C";
   };
 
   // Helper function to get status badge

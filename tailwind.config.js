@@ -7,6 +7,13 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        brand: { ink: "#202925", chalk: "#F4F1EA", olive: "#4D5B4B", stone: "#D8D2C6", clay: "#A65B43" },
+        blue: {50:"#F4F1EA",100:"#EDE9E0",200:"#D8D2C6",300:"#B6BEAE",400:"#89977F",500:"#66775F",600:"#4D5B4B",700:"#3E4A3C",800:"#303B30",900:"#202925",950:"#19211D"},
+        indigo: {50:"#F4F1EA",100:"#EDE9E0",200:"#D8D2C6",300:"#B6BEAE",400:"#89977F",500:"#66775F",600:"#4D5B4B",700:"#3E4A3C",800:"#303B30",900:"#202925",950:"#19211D"},
+      },
+      borderRadius: { xl: "6px", "2xl": "6px", "3xl": "6px" },
+      fontFamily: { sans: ["Satoshi", "Arial", "sans-serif"] },
       screens: {
         xs: "475px",
       },
@@ -66,6 +73,6 @@ module.exports = {
     // You can add another theme among the list of 30+
     // Add "data-theme='theme_name" to any HTML tag to enable the 'theme_name' theme.
     // https://daisyui.com/
-    themes: ["light", "dark"],
+    themes: [{ light: { "primary": "#4D5B4B", "primary-content": "#FFFFFF", "secondary": "#202925", "secondary-content": "#F4F1EA", "accent": "#A65B43", "neutral": "#202925", "base-100": "#F4F1EA", "base-200": "#EDE9E0", "base-300": "#D8D2C6", "base-content": "#202925", "--rounded-box": "6px", "--rounded-btn": "6px" } }],
   },
 };

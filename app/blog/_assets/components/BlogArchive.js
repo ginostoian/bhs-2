@@ -19,18 +19,17 @@ export default function BlogArchive({ articles, postsPerPage = 6 }) {
   const archiveRangeEnd = Math.min(archiveEndIndex, articles.length);
 
   return (
-    <section className="mt-8 rounded-3xl border border-[#dbe5fb] bg-white p-8 md:p-10">
+    <section className="pb-20">
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-3xl font-black text-[#100b47] md:text-4xl">
+          <h2 className="text-3xl font-medium text-[#202925] md:text-4xl">
             All Guides
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-gray-600 md:text-base">
-            Browse every published article, regardless of category, with proper
-            pagination.
+            Browse the full journal, from early planning to the finishing details.
           </p>
         </div>
-        <div className="rounded-full bg-[#eef4ff] px-4 py-2 text-sm font-semibold text-[#266bf1]">
+        <div className="rounded-full bg-[#eef4ff] px-4 py-2 text-sm font-semibold text-[#4D5B4B]">
           Showing {archiveRangeStart}-{archiveRangeEnd} of {articles.length}
         </div>
       </div>

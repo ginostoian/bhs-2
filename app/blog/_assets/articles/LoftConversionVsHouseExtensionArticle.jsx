@@ -3,25 +3,25 @@ import Image from "next/image";
 import Link from "next/link";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   keyTakeaways:
     "mb-10 rounded-2xl border border-base-content/10 bg-white p-6 shadow-sm [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-5 [&_ul]:text-base-content/90",
   tableOfContents: "mb-10",
   tocColumns: "grid gap-5 md:grid-cols-2",
   tocColumn: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   comparisonTable:
-    "w-full min-w-[760px] border-collapse overflow-hidden text-left text-sm shadow-sm [&_tbody_tr:nth-child(even)]:bg-base-200/30 [&_tbody_td]:border-b [&_tbody_td]:border-base-content/10 [&_tbody_td]:px-4 [&_tbody_td]:py-3 [&_tbody_td]:align-top [&_thead]:bg-[#100b47] [&_thead_th]:px-4 [&_thead_th]:py-4 [&_thead_th]:text-xs [&_thead_th]:font-semibold [&_thead_th]:uppercase [&_thead_th]:tracking-[0.18em] [&_thead_th]:text-white",
+    "w-full min-w-[760px] border-collapse overflow-hidden text-left text-sm shadow-sm [&_tbody_tr:nth-child(even)]:bg-base-200/30 [&_tbody_td]:border-b [&_tbody_td]:border-base-content/10 [&_tbody_td]:px-4 [&_tbody_td]:py-3 [&_tbody_td]:align-top [&_thead]:bg-[#202925] [&_thead_th]:px-4 [&_thead_th]:py-4 [&_thead_th]:text-xs [&_thead_th]:font-semibold [&_thead_th]:uppercase [&_thead_th]:tracking-[0.18em] [&_thead_th]:text-white",
   takeawaysList:
     "mb-8 list-disc space-y-3 pl-5 leading-relaxed text-base-content/90",
   engagementBox:
-    "my-10 rounded-2xl border border-[#266bf1]/15 bg-[#f9fbff] p-6 shadow-sm",
+    "my-10 rounded-2xl border border-[#4D5B4B]/15 bg-[#F4F1EA] p-6 shadow-sm",
   referencesList:
-    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#266bf1] [&_a]:underline-offset-2 hover:[&_a]:underline",
+    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#4D5B4B] [&_a]:underline-offset-2 hover:[&_a]:underline",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
@@ -62,22 +62,22 @@ export default function LoftConversionVsHouseExtension() {
         <h2 className={styles.h2}>What This Guide Covers</h2>
         <div className={styles.tocColumns}>
           <div className={styles.tocColumn}>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#what-london-homeowners-need-to-know">What London Homeowners Need to Know</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#quick-comparison-at-a-glance">Quick Comparison at a Glance</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#cost-comparison-london">Cost Comparison - Which Is Cheaper?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#value-added-london-property">Which Adds More Value to Your Property?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#planning-permission-london">Planning Permission - Which Is Easier?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#build-timeline-comparison">Build Timeline - Which Is Faster?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#disruption-comparison">Disruption - Which Is Easier to Live Through?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#what-london-homeowners-need-to-know">What London Homeowners Need to Know</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#quick-comparison-at-a-glance">Quick Comparison at a Glance</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#cost-comparison-london">Cost Comparison - Which Is Cheaper?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#value-added-london-property">Which Adds More Value to Your Property?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#planning-permission-london">Planning Permission - Which Is Easier?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#build-timeline-comparison">Build Timeline - Which Is Faster?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#disruption-comparison">Disruption - Which Is Easier to Live Through?</Link>
           </div>
           <div className={styles.tocColumn}>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#property-type-guide">Which Suits Your Property Type?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#moving-vs-improving">Moving House vs Improving - The Maths</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#when-loft-conversion-better">When a Loft Conversion Is Better</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#when-extension-better">When an Extension Is Better</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#combined-approach">Can You Do Both?</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#how-to-choose-company">How to Choose the Right Company</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#faqs">FAQs</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#property-type-guide">Which Suits Your Property Type?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#moving-vs-improving">Moving House vs Improving - The Maths</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#when-loft-conversion-better">When a Loft Conversion Is Better</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#when-extension-better">When an Extension Is Better</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#combined-approach">Can You Do Both?</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#how-to-choose-company">How to Choose the Right Company</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#faqs">FAQs</Link>
           </div>
         </div>
       </div>
@@ -101,19 +101,19 @@ export default function LoftConversionVsHouseExtension() {
       <p className={styles.p}>
         If you want the supporting detail behind specific parts of this decision,
         our{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/loft-conversions-london-complete-guide-2026">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/loft-conversions-london-complete-guide-2026">
           complete loft conversions guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/planning-permission-loft-conversion-london">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/planning-permission-loft-conversion-london">
           loft planning permission guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
           house extension value guide
         </Link>
         , and{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/home-renovation-cost-london-2026">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/home-renovation-cost-london-2026">
           London renovation cost guide
         </Link>{" "}
         expand on costs, planning risk, and whole-home ROI.

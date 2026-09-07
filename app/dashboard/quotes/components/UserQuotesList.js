@@ -112,7 +112,7 @@ export default function UserQuotesList({ quotes }) {
   };
 
   return (
-    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+    <div className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
       {quotes.map((quote) => {
         const expired = isExpired(quote.validUntil);
         const daysUntilExpiry = getDaysUntilExpiry(quote.validUntil);
@@ -122,7 +122,7 @@ export default function UserQuotesList({ quotes }) {
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2.5">
-                  <h3 className="text-lg font-semibold text-[#17231f]">
+                  <h3 className="text-lg font-semibold text-[#202925]">
                     {quote.title}
                   </h3>
                   {getStatusBadge(quote.status)}
@@ -131,7 +131,7 @@ export default function UserQuotesList({ quotes }) {
                   </span>
                 </div>
 
-                <p className="mb-4 text-sm leading-6 text-[#66716d]">
+                <p className="mb-4 text-sm leading-6 text-[#4D5B4B]">
                   {quote.projectDescription}
                 </p>
 
@@ -190,7 +190,7 @@ export default function UserQuotesList({ quotes }) {
 
               <div className="flex shrink-0 flex-col gap-4 lg:items-end">
                 <div className="lg:text-right">
-                  <div className="text-2xl font-semibold tracking-[-0.02em] text-[#17231f]">
+                  <div className="text-2xl font-semibold tracking-[-0.02em] text-[#202925]">
                     {formatCurrency(quote.total)}
                   </div>
                   {quote.pricing?.depositRequired && (
@@ -206,7 +206,7 @@ export default function UserQuotesList({ quotes }) {
                     href={`/quotes/${quote.publicToken || quote.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-10 items-center rounded-md border border-[#d8d4ca] bg-white px-3 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] hover:text-[#17231f]"
+                    className="inline-flex min-h-10 items-center rounded-md border border-[#d8d4ca] bg-white px-3 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] hover:text-[#202925]"
                   >
                     <Eye className="mr-2 h-4 w-4" />
                     View Quote
@@ -215,7 +215,7 @@ export default function UserQuotesList({ quotes }) {
                     <button
                       onClick={() => handleDownloadPDF(quote)}
                       disabled={downloadingPDF === quote.id}
-                      className="inline-flex min-h-10 items-center rounded-md bg-[#1559d6] px-3 text-xs font-semibold text-white hover:bg-[#104dbd] disabled:opacity-50"
+                      className="inline-flex min-h-10 items-center rounded-md bg-[#4D5B4B] px-3 text-xs font-semibold text-white hover:bg-[#3E4A3C] disabled:opacity-50"
                     >
                       {downloadingPDF === quote.id ? (
                         <>

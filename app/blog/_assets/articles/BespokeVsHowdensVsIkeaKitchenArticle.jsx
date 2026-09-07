@@ -4,24 +4,24 @@ import Link from "next/link";
 
 const styles = {
   article: "",
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   capsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 leading-relaxed text-base-content/90 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 leading-relaxed text-base-content/90 shadow-sm md:p-7",
   list: "mb-8 list-disc space-y-3 pl-5 leading-relaxed text-base-content/90",
   toc: "mb-10 grid gap-5 md:grid-cols-2",
   tocCol: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   tocLink:
-    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base",
-  inlineLink: "text-[#266bf1] underline underline-offset-2 transition hover:no-underline",
+    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base",
+  inlineLink: "text-[#4D5B4B] underline underline-offset-2 transition hover:no-underline",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
   figcaption: "mt-3 text-sm leading-relaxed text-base-content/70",
   referencesList:
-    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#266bf1] [&_a]:underline-offset-2 hover:[&_a]:underline",
+    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#4D5B4B] [&_a]:underline-offset-2 hover:[&_a]:underline",
 };
 
 export default function BespokeVsHowdensVsIkeaKitchen() {
@@ -267,10 +267,10 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
         Every kitchen route above ends at the same cliff edge: someone has to run the job. IKEA gives you a planner and a flat-pack delivery. Howdens gives your builder a trade account. Neither owns the outcome. The measuring, the trade sequencing, the moment the plumber and the electrician need to be on site in the right order, the gap where the flat-pack cabinet does not quite meet the wall - that coordination is real work, and when it is split across a supplier and a separately hired fitter, the seams are where projects go wrong.
       </p>
       <p className={styles.p}>
-        This is the difference between buying a kitchen and commissioning one. BH Studio runs a full design-and-build model - one team, one contract, no handoff between a designer who draws it and a builder who fits it. Across 300+ London projects, the pattern is consistent: the problems that blow budgets are almost never the cabinets themselves, but the uncoordinated space between trades. Our head of design, Gino, sizes cabinetry, worktop, and the trades around them as a single sequenced job rather than a shopping list you assemble yourself.
+        This is the difference between buying a kitchen and commissioning one. Better Homes coordinates kitchen construction, installation and the agreed design input. Where architectural design is required, we manage your relationship with a trusted independent architect and identify their appointment separately. Across 500+ London projects, the pattern is consistent: the problems that blow budgets are almost never the cabinets themselves, but the uncoordinated space between trades. Our head of design, Gino, sizes cabinetry, worktop, and the trades around them as a single sequenced job rather than a shopping list you assemble yourself.
       </p>
       <p className={styles.p}>
-        It is worth being clear about what this does and does not mean. If you have a trusted fitter and a straightforward room, a Howdens kitchen through that builder is hard to beat on value. The design-and-build case gets stronger as the job gets more complex - a period property, a knock-through, a bespoke run into an extension - because that is where a single point of responsibility, a 10-year workmanship guarantee, and £10M insurance stop being paperwork and start being the reason the finish date holds. If the kitchen sits inside a larger structural rethink, our <Link className={styles.inlineLink} href="/blog/house-extension-guide-2025#planning-permission">house extension planning guide</Link> is the relevant next read.
+        It is worth being clear about what this does and does not mean. If you have a trusted fitter and a straightforward room, a Howdens kitchen through that builder is hard to beat on value. The design-and-build case gets stronger as the job gets more complex - a period property, a knock-through, a bespoke run into an extension - because that is where a single point of responsibility, a two-year kitchen workmanship guarantee, and £10M insurance stop being paperwork and start being the reason the finish date holds. If the kitchen sits inside a larger structural rethink, our <Link className={styles.inlineLink} href="/blog/house-extension-guide-2025#planning-permission">house extension planning guide</Link> is the relevant next read.
       </p>
 
       {/* SECTION 11 - WHICH ROUTE */}
@@ -318,7 +318,7 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
         The bespoke-versus-Howdens-versus-IKEA question is really three questions wearing one coat: how much cabinet precision does your room need, how much are you willing to spend within a fairly fixed London envelope, and who is going to run the job. Get those in order and the brand almost chooses itself. For a straight room and a trusted fitter, IKEA or Howdens delivers a kitchen that looks and lasts far beyond its price. For an awkward period property, a high-value home, or a kitchen that opens into new space, bespoke is the only route that fits the room rather than fighting it.
       </p>
       <p className={styles.p}>
-        What none of the three brands sells you is the coordination - and in London, on period stock, that is where the money and the stress actually live. BH Studio designs and builds the whole kitchen as one job: one team, one contract, one point of responsibility, backed by a 10-year workmanship guarantee and £10M insurance across 300+ completed London projects. If you want a clear, fixed-price picture of your kitchen - whichever cabinet route suits your home - <Link href="/contact/">book a free design consultation</Link> and we will scope it properly, from the worktop down.
+        What none of the three brands sells you is the coordination - and in London, on period stock, that is where the money and the stress actually live. Better Homes manages the kitchen construction and installation scope, backed by a two-year kitchen workmanship guarantee and £10M insurance across 500+ completed London projects. If you want a clear, fixed-price picture of your kitchen - whichever cabinet route suits your home - <Link href="/contact/">book a free design consultation</Link> and we will scope it properly, from the worktop down.
       </p>
 
       {/* ENGAGEMENT */}

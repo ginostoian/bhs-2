@@ -121,7 +121,7 @@ export default function TicketsPage() {
   if (status === "loading") {
     return (
       <div className="flex min-h-[360px] items-center justify-center">
-        <LoaderCircle className="h-7 w-7 animate-spin text-[#1559d6]" />
+        <LoaderCircle className="h-7 w-7 animate-spin text-[#4D5B4B]" />
       </div>
     );
   }
@@ -140,7 +140,7 @@ export default function TicketsPage() {
         }
       />
 
-      <div className="mb-6 flex flex-col gap-3 border border-[#dedbd2] bg-[#fbfaf7] p-3 sm:flex-row">
+      <div className="mb-6 flex flex-col gap-3 border border-[#D8D2C6] bg-[#F4F1EA] p-3 sm:flex-row">
         <label className="relative flex-1">
           <span className="sr-only">Search tickets</span>
           <Search
@@ -152,7 +152,7 @@ export default function TicketsPage() {
             placeholder="Search tickets"
             value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
-            className="h-11 w-full rounded-md border border-[#d8d4ca] bg-white pl-10 pr-3 text-sm text-[#17231f] outline-none placeholder:text-[#9aa19e] focus:border-[#1559d6] focus:ring-2 focus:ring-[#1559d6]/15"
+            className="h-11 w-full rounded-md border border-[#d8d4ca] bg-white pl-10 pr-3 text-sm text-[#202925] outline-none placeholder:text-[#9aa19e] focus:border-[#4D5B4B] focus:ring-2 focus:ring-[#4D5B4B]/15"
           />
         </label>
         <label>
@@ -160,7 +160,7 @@ export default function TicketsPage() {
           <select
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
-            className="h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#43504b] outline-none focus:border-[#1559d6] focus:ring-2 focus:ring-[#1559d6]/15 sm:w-[220px]"
+            className="h-11 w-full rounded-md border border-[#d8d4ca] bg-white px-3 text-sm text-[#43504b] outline-none focus:border-[#4D5B4B] focus:ring-2 focus:ring-[#4D5B4B]/15 sm:w-[220px]"
           >
             <option value="all">All statuses</option>
             {STATUS_OPTIONS.map((option) => (
@@ -173,18 +173,18 @@ export default function TicketsPage() {
       </div>
 
       {loading ? (
-        <div className="flex min-h-[260px] items-center justify-center border border-[#dedbd2] bg-[#fbfaf7]">
-          <LoaderCircle className="h-6 w-6 animate-spin text-[#1559d6]" />
+        <div className="flex min-h-[260px] items-center justify-center border border-[#D8D2C6] bg-[#F4F1EA]">
+          <LoaderCircle className="h-6 w-6 animate-spin text-[#4D5B4B]" />
         </div>
       ) : filteredTickets.length ? (
-        <ul className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+        <ul className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
           {filteredTickets.map((ticket) => (
             <li key={ticket._id} className="flex items-stretch">
               <Link
                 href={`/dashboard/tickets/${ticket._id}`}
-                className="group flex min-w-0 flex-1 flex-col gap-4 px-4 py-5 text-[#17231f] hover:bg-[#f5f3ed] hover:text-[#17231f] sm:flex-row sm:items-center sm:px-6"
+                className="group flex min-w-0 flex-1 flex-col gap-4 px-4 py-5 text-[#202925] hover:bg-[#f5f3ed] hover:text-[#202925] sm:flex-row sm:items-center sm:px-6"
               >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#efede6] text-[#43504b]">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-[#EDE9E0] text-[#43504b]">
                   <TicketCheck
                     aria-hidden="true"
                     className="h-5 w-5"
@@ -192,10 +192,10 @@ export default function TicketsPage() {
                   />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-[#17231f]">
+                  <span className="block truncate text-sm font-semibold text-[#202925]">
                     {ticket.title}
                   </span>
-                  <span className="mt-1 block text-xs text-[#66716d]">
+                  <span className="mt-1 block text-xs text-[#4D5B4B]">
                     {ticket.ticketNumber} · {ticket.category} · Created{" "}
                     {formatDate(ticket.createdAt)}
                   </span>
@@ -206,7 +206,7 @@ export default function TicketsPage() {
                   ) : null}
                 </span>
                 {ticket.attachments?.length ? (
-                  <span className="inline-flex shrink-0 items-center gap-1 text-[11px] text-[#66716d]">
+                  <span className="inline-flex shrink-0 items-center gap-1 text-[11px] text-[#4D5B4B]">
                     <Paperclip aria-hidden="true" className="h-3.5 w-3.5" />
                     {ticket.attachments.length}
                   </span>

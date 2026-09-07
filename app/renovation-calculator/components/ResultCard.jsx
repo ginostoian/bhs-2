@@ -87,7 +87,7 @@ export default function ResultCard({
                 {formData.houseSize} m² home refurbishment
               </h2>
               <p className="mt-2 text-stone-600">
-                {isLondon ? "London" : "UK regional"} estimate —{" "}
+                {isLondon ? "London" : "UK regional"} estimate –{" "}
                 {breakdown.fittingsIncluded
                   ? "including a ballpark for fixtures, fittings & finishes"
                   : "labour & construction materials only"}
@@ -253,7 +253,7 @@ export default function ResultCard({
                   This estimate covers labour and construction materials only. It
                   excludes the supplied cost of kitchen units &amp; appliances,
                   sanitaryware &amp; brassware, tiles, floor coverings, door leaves
-                  and ironmongery — add your own product budgets on top, or re-run
+                  and ironmongery – add your own product budgets on top, or re-run
                   with fittings included for a ballpark.
                 </p>
               )}

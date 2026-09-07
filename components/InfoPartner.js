@@ -29,7 +29,7 @@ const InfoPartner = () => {
         <Link
           href="https://tally.so/r/nPvjxV"
           target="_blank"
-          className="lg:max-w-[245px]! btn-shadow flex min-h-[46px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-[#266bf1] bg-[#266bf1] px-[26px] text-[17px] font-bold leading-[140%] text-white transition duration-200 hover:border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] md:w-max lg:min-h-[48px] lg:px-[24px]"
+          className="lg:max-w-[245px]! btn-shadow flex min-h-[46px] w-full cursor-pointer items-center justify-center rounded-full border-2 border-[#4D5B4B] bg-[#4D5B4B] px-[26px] text-[17px] font-bold leading-[140%] text-white transition duration-200 hover:border-transparent hover:bg-[#3E4A3C] hover:text-gray-50 active:bg-[#3E4A3C] disabled:bg-[#A5D2FF] md:w-max lg:min-h-[48px] lg:px-[24px]"
         >
           Start your application
         </Link>

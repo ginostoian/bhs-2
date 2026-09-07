@@ -50,7 +50,7 @@ function Toggle({ checked, disabled = false, onChange, label }) {
         onChange={onChange}
         className="peer sr-only"
       />
-      <span className="h-6 w-11 rounded-full bg-[#d8d4ca] after:absolute after:left-[2px] after:top-[11px] after:h-5 after:w-5 after:rounded-full after:border after:border-[#c8c4ba] after:bg-white after:transition-transform after:content-[''] peer-checked:bg-[#1559d6] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#1559d6] peer-focus-visible:ring-offset-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-45" />
+      <span className="h-6 w-11 rounded-full bg-[#d8d4ca] after:absolute after:left-[2px] after:top-[11px] after:h-5 after:w-5 after:rounded-full after:border after:border-[#c8c4ba] after:bg-white after:transition-transform after:content-[''] peer-checked:bg-[#4D5B4B] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus-visible:ring-2 peer-focus-visible:ring-[#4D5B4B] peer-focus-visible:ring-offset-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-45" />
     </label>
   );
 }
@@ -112,13 +112,13 @@ export default function EmailPreferencesPage() {
         }}
         className="max-w-4xl"
       >
-        <section className="border border-[#dedbd2] bg-[#fbfaf7]">
-          <div className="flex items-center justify-between gap-5 border-b border-[#dedbd2] px-5 py-5 sm:px-6">
+        <section className="border border-[#D8D2C6] bg-[#F4F1EA]">
+          <div className="flex items-center justify-between gap-5 border-b border-[#D8D2C6] px-5 py-5 sm:px-6">
             <div>
-              <h2 className="text-sm font-semibold text-[#17231f]">
+              <h2 className="text-sm font-semibold text-[#202925]">
                 All email notifications
               </h2>
-              <p className="mt-1 text-xs leading-5 text-[#66716d]">
+              <p className="mt-1 text-xs leading-5 text-[#4D5B4B]">
                 Pause or resume every portal email with one control.
               </p>
             </div>
@@ -131,7 +131,7 @@ export default function EmailPreferencesPage() {
 
           {loading ? (
             <div className="flex min-h-[260px] items-center justify-center">
-              <LoaderCircle className="h-6 w-6 animate-spin text-[#1559d6]" />
+              <LoaderCircle className="h-6 w-6 animate-spin text-[#4D5B4B]" />
             </div>
           ) : (
             <div className="divide-y divide-[#e5e2da]">
@@ -141,10 +141,10 @@ export default function EmailPreferencesPage() {
                   className="flex items-center justify-between gap-5 px-5 py-4 sm:px-6"
                 >
                   <div className="min-w-0">
-                    <h3 className="text-sm font-medium text-[#17231f]">
+                    <h3 className="text-sm font-medium text-[#202925]">
                       {type.label}
                     </h3>
-                    <p className="mt-1 text-xs leading-5 text-[#66716d]">
+                    <p className="mt-1 text-xs leading-5 text-[#4D5B4B]">
                       {type.description}
                     </p>
                   </div>
@@ -169,7 +169,7 @@ export default function EmailPreferencesPage() {
           <button
             type="submit"
             disabled={loading || saving}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#1559d6] px-5 text-xs font-semibold text-white transition-colors hover:bg-[#104dbd] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1559d6] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-[#4D5B4B] px-5 text-xs font-semibold text-white transition-colors hover:bg-[#3E4A3C] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4D5B4B] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
             {saving ? "Saving…" : "Save preferences"}

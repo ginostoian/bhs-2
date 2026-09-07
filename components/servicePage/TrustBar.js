@@ -11,9 +11,9 @@ export default function TrustBar({ items }) {
 
           return (
             <div key={item.headline} className="flex gap-4 bg-white px-5 py-6 sm:px-8">
-              <Icon aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-[#266bf1]" strokeWidth={1.8} />
+              <Icon aria-hidden="true" className="mt-0.5 size-6 shrink-0 text-[#4D5B4B]" strokeWidth={1.8} />
               <div>
-                <h2 className="text-base font-black text-[#100b47]">{item.headline}</h2>
+                <h2 className="text-base font-medium text-[#202925]">{item.headline}</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">{item.subtext}</p>
               </div>
             </div>

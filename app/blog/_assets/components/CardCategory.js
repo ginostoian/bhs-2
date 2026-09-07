@@ -11,10 +11,10 @@ const CardCategory = ({ category, tag = "h2" }) => {
       title={category.title}
       rel="tag"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#266bf1]/5 to-[#7421fc]/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#4D5B4B]/5 to-[#4D5B4B]/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
       <div className="relative">
-        <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#266bf1] to-[#7421fc] text-white shadow-sm">
+        <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[#4D5B4B] to-[#4D5B4B] text-white shadow-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
@@ -29,7 +29,7 @@ const CardCategory = ({ category, tag = "h2" }) => {
           </svg>
         </div>
 
-        <TitleTag className="mb-4 text-lg font-bold text-[#100b47] transition-colors duration-200 group-hover:text-[#266bf1]">
+        <TitleTag className="mb-4 text-lg font-bold text-[#202925] transition-colors duration-200 group-hover:text-[#4D5B4B]">
           {category?.titleShort || category.title}
         </TitleTag>
 

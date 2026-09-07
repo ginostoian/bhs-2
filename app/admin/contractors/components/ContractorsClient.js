@@ -362,13 +362,13 @@ export default function ContractorsClient({
                 <div className="mb-3 space-y-1 text-sm text-gray-500">
                   <p>
                     <strong>Trades:</strong>{" "}
-                    {c.trades?.length ? c.trades.join(", ") : "—"}
+                    {c.trades?.length ? c.trades.join(", ") : "–"}
                   </p>
                   <p>
-                    <strong>Price:</strong> {c.priceTier || "—"}
+                    <strong>Price:</strong> {c.priceTier || "–"}
                   </p>
                   <p>
-                    <strong>Experience:</strong> {c.experience || "—"}
+                    <strong>Experience:</strong> {c.experience || "–"}
                   </p>
                 </div>
                 {c.notes && (

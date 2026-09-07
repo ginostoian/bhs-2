@@ -1,3 +1,7 @@
+import ProjectGallery from "@/components/brand/ProjectGallery";
+import Faq from "@/components/brand/Faq";
+import { JsonLd, FaqSchema } from "@/components/brand/Schema";
+import { ProjectCTA, ProjectCards } from "@/components/brand/ServicePage";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -58,271 +62,162 @@ export function generateMetadata({ params }) {
 
 export default function ProjectPage({ params }) {
   const project = getPortfolioProjectBySlug(params.projectId);
-
-  if (!project) {
-    notFound();
-  }
-
-  const relatedProjects = getRelatedPortfolioProjects(project.slug, 3);
-  const galleryImages = project.images.slice(0, 12);
-  const caseStudyUrl = `${siteUrl}/portfolio/${project.slug}`;
-
-  const caseStudySchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: siteUrl,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Portfolio",
-            item: `${siteUrl}/portfolio`,
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: project.title,
-            item: caseStudyUrl,
-          },
-        ],
-      },
-      {
-        "@type": "Article",
-        headline: project.title,
-        description: project.teaser,
-        image: [`${siteUrl}${project.coverImage}`],
-        author: {
-          "@type": "Organization",
-          name: "Better Homes",
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Better Homes",
-          url: siteUrl,
-        },
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": caseStudyUrl,
-        },
-      },
-    ],
-  };
-
+  if (!project) notFound();
+  const related = getRelatedPortfolioProjects(project.slug, 3);
+  const facts = project.caseStudy;
+  const images = [...new Set([project.coverImage, ...project.images])];
+  const faqs = [
+    {
+      question: `Could you deliver a similar project to this ${project.location} home?`,
+      answer: `We can review a similar brief with you. The work shown here is ${facts.projectType.toLowerCase()}. Your existing structure, access, approvals and specification will determine the right scope and construction approach for your property.`,
+    },
+    {
+      question: "Can I bring my own architect or drawings?",
+      answer:
+        "Yes. We can price and build from your existing drawings, coordinating with your architect and structural engineer. If you need design support, we can manage your relationship with a trusted independent architect.",
+    },
+    {
+      question: "Will my project cost the same as this one?",
+      answer:
+        "Each quotation is based on the property and agreed scope. Photographs cannot establish structural work, access constraints, services or product allowances. Share your brief and drawings so we can discuss a realistic budget.",
+    },
+  ];
   return (
-    <main className="mx-auto my-10 max-w-[88%] px-4 sm:px-6 lg:px-8">
-      <section className="overflow-hidden rounded-3xl border border-[#d5e0f8] bg-gradient-to-br from-white via-white to-blue-50 p-6 md:p-10">
-        <nav className="mb-5 flex flex-wrap items-center gap-2 text-sm font-medium text-gray-500">
-          <Link href="/" className="hover:text-[#266bf1]">
-            Home
-          </Link>
-          <span>/</span>
-          <Link href="/portfolio" className="hover:text-[#266bf1]">
-            Portfolio
-          </Link>
-          <span>/</span>
-          <span className="text-[#100b47]">{project.clientName}</span>
-        </nav>
-
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-          <div>
-            <span className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#266bf1]">
-              Case Study · {project.category}
-            </span>
-            <h1 className="mt-4 text-3xl font-black leading-tight text-[#100b47] md:text-5xl">
-              {project.title}
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-gray-600 md:text-lg">
-              {project.teaser}
-            </p>
-            <p className="mt-3 max-w-3xl text-base leading-relaxed text-gray-600">
-              <span className="font-semibold text-[#100b47]">Client objective:</span>{" "}
-              {project.caseStudy.objective}
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link
-                href={`/contact?project=${encodeURIComponent(project.title)}`}
-                className="inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1f58c8] hover:text-white"
-              >
-                Discuss a Similar Project
-              </Link>
-              <Link
-                href="/portfolio"
-                className="inline-flex items-center rounded-full border border-[#bfd3f9] bg-white px-6 py-3 text-sm font-semibold text-[#266bf1] transition hover:bg-[#266bf1] hover:text-white"
-              >
-                View Other Case Studies
-              </Link>
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-[#dbe6fb] bg-white p-5">
-            <h2 className="text-lg font-bold text-[#100b47]">Trust Snapshot</h2>
-            <dl className="mt-4 space-y-3 text-sm">
-              <div className="rounded-xl bg-[#f6f9ff] p-3">
-                <dt className="font-semibold text-[#100b47]">Location</dt>
-                <dd className="mt-1 text-gray-600">{project.location}</dd>
-              </div>
-              <div className="rounded-xl bg-[#f6f9ff] p-3">
-                <dt className="font-semibold text-[#100b47]">Project Type</dt>
-                <dd className="mt-1 text-gray-600">{project.caseStudy.projectType}</dd>
-              </div>
-              <div className="rounded-xl bg-[#f6f9ff] p-3">
-                <dt className="font-semibold text-[#100b47]">Client Priority</dt>
-                <dd className="mt-1 text-gray-600">
-                  {project.caseStudy.homeownerPriority}
-                </dd>
-              </div>
-              <div className="rounded-xl bg-[#f6f9ff] p-3">
-                <dt className="font-semibold text-[#100b47]">Delivery Style</dt>
-                <dd className="mt-1 text-gray-600">{project.caseStudy.deliveryStyle}</dd>
-              </div>
-            </dl>
-          </div>
-        </div>
-      </section>
-
-      <section className="mt-8 grid gap-6 lg:grid-cols-2">
-        <article className="rounded-2xl border border-[#dbe6fb] bg-white p-6">
-          <h2 className="text-2xl font-bold text-[#100b47]">Scope Delivered</h2>
-          <ul className="mt-4 space-y-3">
-            {project.caseStudy.scope.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-gray-700">
-                <span className="mt-1 h-2 w-2 rounded-full bg-[#266bf1]" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <article className="rounded-2xl border border-[#dbe6fb] bg-white p-6">
-          <h2 className="text-2xl font-bold text-[#100b47]">
-            What Needed Careful Management
-          </h2>
-          <ul className="mt-4 space-y-3">
-            {project.caseStudy.constraints.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-gray-700">
-                <span className="mt-1 h-2 w-2 rounded-full bg-[#266bf1]" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-      </section>
-
-      <section className="mt-6 rounded-2xl border border-[#dbe6fb] bg-white p-6">
-        <h2 className="text-2xl font-bold text-[#100b47]">How We De-Risked Delivery</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          {project.caseStudy.riskManagement.map((item, index) => (
-            <article
-              key={item}
-              className="rounded-xl border border-[#dbe6fb] bg-[#f8fbff] p-4"
-            >
-              <p className="text-sm font-semibold text-[#266bf1]">Step 0{index + 1}</p>
-              <p className="mt-2 text-sm leading-relaxed text-gray-700">{item}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-6 rounded-2xl border border-[#dbe6fb] bg-white p-6">
-        <h2 className="text-2xl font-bold text-[#100b47]">Photo Evidence</h2>
-        <p className="mt-2 text-sm leading-relaxed text-gray-600">
-          Selected images from the completed project. We prioritise real build
-          outcomes over staged render-style imagery.
-        </p>
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {galleryImages.map((imageUrl, index) => (
-            <div key={imageUrl} className="overflow-hidden rounded-xl">
-              <Image
-                src={imageUrl}
-                alt={`${project.title} photo ${index + 1}`}
-                width={1100}
-                height={760}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-6 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <article className="rounded-2xl border border-[#dbe6fb] bg-white p-6">
-          <h2 className="text-2xl font-bold text-[#100b47]">Outcome</h2>
-          <ul className="mt-4 space-y-3">
-            {project.caseStudy.outcomes.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-gray-700">
-                <span className="mt-1 h-2 w-2 rounded-full bg-[#266bf1]" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <aside className="rounded-2xl border border-[#dbe6fb] bg-gradient-to-br from-[#f8fbff] to-white p-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#266bf1]">
-            Client Feedback
-          </p>
-          <blockquote className="mt-3 text-base leading-relaxed text-[#100b47]">
-            &ldquo;{project.caseStudy.testimonial.quote}&rdquo;
-          </blockquote>
-          <p className="mt-4 text-sm font-semibold text-gray-600">
-            {project.caseStudy.testimonial.author}
-          </p>
-          {project.caseStudy.testimonial.reviewUrl && (
-            <a
-              href={project.caseStudy.testimonial.reviewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex text-sm font-semibold text-[#266bf1] hover:underline"
-            >
-              View published review
-            </a>
-          )}
-        </aside>
-      </section>
-
-      {relatedProjects.length > 0 && (
-        <section className="mt-8 rounded-2xl border border-[#dbe6fb] bg-white p-6">
-          <h2 className="text-2xl font-bold text-[#100b47]">Related Case Studies</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-3">
-            {relatedProjects.map((related) => (
-              <Link
-                key={related.slug}
-                href={`/portfolio/${related.slug}`}
-                className="group overflow-hidden rounded-xl border border-[#dbe6fb]"
-              >
-                <Image
-                  src={related.coverImage}
-                  alt={related.coverImageAlt}
-                  width={900}
-                  height={600}
-                  className="h-40 w-full object-cover"
-                />
-                <div className="p-4">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-[#266bf1]">
-                    {related.category}
-                  </p>
-                  <h3 className="mt-2 text-base font-bold leading-snug text-[#100b47] group-hover:text-[#266bf1]">
-                    {related.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudySchema) }}
+    <main>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: project.title,
+          description: project.teaser,
+          image: images.map((src) => `${siteUrl}${src}`),
+          author: {
+            "@type": "Organization",
+            name: "Better Homes",
+            url: siteUrl,
+          },
+          publisher: { "@id": `${siteUrl}/#organization` },
+          mainEntityOfPage: `${siteUrl}/portfolio/${project.slug}`,
+        }}
       />
+      <FaqSchema items={faqs} path={`/portfolio/${project.slug}`} />
+      <section className="bh-wrap bh-section">
+        <p className="bh-eyebrow">
+          {project.location} · {project.category}
+        </p>
+        <h1 className="bh-title" style={{ maxWidth: 920 }}>
+          {project.slug === "james-n8"
+            ? "A brighter rear and a kitchen the whole family lives in, N8"
+            : project.title}
+        </h1>
+        <p className="bh-lead">{project.teaser}</p>
+        <dl className="bh-facts" style={{ marginTop: 40 }}>
+          <div>
+            <dt>Location</dt>
+            <dd>{project.location}</dd>
+          </div>
+          <div>
+            <dt>Project type</dt>
+            <dd>{facts.projectType}</dd>
+          </div>
+          <div>
+            <dt>Client priority</dt>
+            <dd>{facts.homeownerPriority}</dd>
+          </div>
+        </dl>
+        <Image
+          src={project.coverImage}
+          alt={project.coverImageAlt}
+          width={1600}
+          height={1000}
+          priority
+          sizes="100vw"
+          style={{
+            width: "100%",
+            aspectRatio: "16/9",
+            objectFit: "cover",
+            borderRadius: 0,
+            marginTop: 40,
+          }}
+        />
+      </section>
+      <section className="bh-wrap bh-section bh-grid-two">
+        <div>
+          <p className="bh-eyebrow">The brief</p>
+          <h2 className="bh-heading">{facts.objective}</h2>
+          <p className="bh-lead">{facts.deliveryStyle}</p>
+        </div>
+        <div>
+          <h3 style={{ fontSize: 22 }}>The work we delivered</h3>
+          <ul className="bh-list">
+            {facts.scope.map((x) => (
+              <li key={x}>{x}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+      <section className="bh-band">
+        <div className="bh-wrap bh-section bh-grid-two">
+          <div>
+            <p className="bh-eyebrow">What needed care</p>
+            <h2 className="bh-heading">The decisions behind the finish</h2>
+            <ul className="bh-list">
+              {facts.constraints.map((x) => (
+                <li key={x}>{x}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="bh-eyebrow">How we managed it</p>
+            <ol className="bh-list">
+              {facts.riskManagement.map((x, i) => (
+                <li key={x}>
+                  <span className="bh-small">0{i + 1}</span>
+                  <p>{x}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+      <section className="bh-wrap bh-section">
+        <p className="bh-eyebrow">The finished home</p>
+        <h2 className="bh-heading">Photographs from the completed project</h2>
+        <ProjectGallery images={images} title={project.title} />
+      </section>
+      <section className="bh-wrap bh-section bh-grid-two">
+        <div>
+          <p className="bh-eyebrow">The outcome</p>
+          <h2 className="bh-heading">What changed for the home</h2>
+        </div>
+        <ul className="bh-list">
+          {facts.outcomes.map((x) => (
+            <li key={x}>{x}</li>
+          ))}
+        </ul>
+      </section>
+      {facts.testimonial?.reviewUrl ? (
+        <section className="bh-wrap bh-section">
+          <blockquote className="bh-lead">
+            “{facts.testimonial.quote}”
+          </blockquote>
+          <p className="bh-small">
+            {facts.testimonial.author} ·{" "}
+            <a className="bh-text-link" href={facts.testimonial.reviewUrl}>
+              Read the published review
+            </a>
+          </p>
+        </section>
+      ) : null}
+      <Faq items={faqs} />
+      <ProjectCTA title="Discuss a similar project for your home" />
+      {related.length ? (
+        <section className="bh-wrap bh-section">
+          <p className="bh-eyebrow">More of our work</p>
+          <h2 className="bh-heading">Other homes, carefully transformed</h2>
+          <ProjectCards projects={related} />
+        </section>
+      ) : null}
     </main>
   );
 }

@@ -3,16 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   tocGrid: "mb-10 grid gap-5 md:grid-cols-2",
   tocColumn: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   tocLink:
-    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base",
+    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",

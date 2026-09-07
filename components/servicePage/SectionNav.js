@@ -41,10 +41,10 @@ export default function SectionNav({ items }) {
               key={item.anchorId}
               href={`#${item.anchorId}`}
               aria-current={isActive ? "location" : undefined}
-              className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#266bf1] ${
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4D5B4B] ${
                 isActive
-                  ? "bg-[#100b47] text-white"
-                  : "text-[#334155] hover:bg-[#eef5ff] hover:text-[#100b47]"
+                  ? "bg-[#202925] text-white"
+                  : "text-[#334155] hover:bg-[#eef5ff] hover:text-[#202925]"
               }`}
             >
               {item.label}

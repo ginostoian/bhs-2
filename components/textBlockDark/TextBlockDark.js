@@ -17,7 +17,7 @@ const TextBlockDark = ({ content }) => {
         </p>
         <Link
           href="/contact"
-          className="lg:w-[245px]! mx-auto flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:min-h-[64px] lg:px-[24px]"
+          className="lg:w-[245px]! mx-auto flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#4D5B4B] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#3E4A3C] hover:text-gray-50 active:bg-[#3E4A3C] disabled:bg-[#A5D2FF] lg:min-h-[64px] lg:px-[24px]"
         >
           {content.darkBgTextBtn}
         </Link>

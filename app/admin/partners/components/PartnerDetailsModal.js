@@ -249,25 +249,25 @@ export default function PartnerDetailsModal({
                 <div>
                   <p className="text-sm text-gray-500">Occupation</p>
                   <p className="font-medium text-gray-900">
-                    {partner.occupation || "—"}
+                    {partner.occupation || "–"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Email</p>
                   <p className="font-medium text-gray-900">
-                    {partner.email || "—"}
+                    {partner.email || "–"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Phone</p>
                   <p className="font-medium text-gray-900">
-                    {partner.phone || "—"}
+                    {partner.phone || "–"}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Linked account</p>
                   <p className="font-medium text-gray-900">
-                    {partner.user?.email || "—"}
+                    {partner.user?.email || "–"}
                   </p>
                 </div>
                 <div>
@@ -282,7 +282,7 @@ export default function PartnerDetailsModal({
                   <p className="text-sm text-gray-500">Referral link</p>
                   <div className="flex items-center gap-2">
                     <p className="truncate font-medium text-gray-900">
-                      {partner.referralLink || "—"}
+                      {partner.referralLink || "–"}
                     </p>
                     {partner.referralLink && (
                       <button
@@ -359,7 +359,7 @@ export default function PartnerDetailsModal({
                                   ? new Date(referral.referredAt).toLocaleDateString(
                                       "en-GB",
                                     )
-                                  : "—"}
+                                  : "–"}
                               </td>
                               <td className="px-4 py-3 align-top">
                                 <div className="font-medium text-gray-900">

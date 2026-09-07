@@ -379,7 +379,7 @@ export default function CRMReportsPage() {
                     <td className="px-5 py-3 text-right">
                       {source.costPerWin
                         ? currency.format(source.costPerWin)
-                        : "—"}
+                        : "–"}
                     </td>
                   </tr>
                 ))}

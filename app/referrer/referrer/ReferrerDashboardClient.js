@@ -276,7 +276,7 @@ export default function ReferrerDashboardClient({ initialPartner }) {
                             ? new Date(referral.referredAt).toLocaleDateString(
                                 "en-GB",
                               )
-                            : "—"}
+                            : "–"}
                         </td>
                       </tr>
                     ))

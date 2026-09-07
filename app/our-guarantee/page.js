@@ -1,111 +1,12 @@
-import React from "react";
 import Link from "next/link";
-
-import Guarantee from "@/components/Guarantee";
-import FAQ from "@/components/FAQ";
-
-const Page = () => {
-  const faqs = [
-    {
-      question: "Who is Better Homes?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          We are a full-service renovation company. We manage everything from
-          kitchen renovations to building extensions and converting lofts. We bet
-          there is nothing you can throw at us that we can&apos;t do.
-        </div>
-      ),
-    },
-    {
-      question: "Where does Better Homes operate and serve clients?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          At this time, we offer our renovation services in London, specifically
-          East, North and Central London. If the project is right, please
-          contact us if you are located anywhere else in the London area so we can
-          see if we can work together.
-        </div>
-      ),
-    },
-    {
-      question: "Is Better Homes insured?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          Yes, we have comprehensive insurance that covers all our projects.
-          Contact us if you&apos;d like to find out more.
-        </div>
-      ),
-    },
-    {
-      question: "What if I find a lower price for my project?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          We are confident in our industry average pricing, while delivering
-          more value than 95% of companies and exceptional customer support. If
-          you find a comparable service at a lower price, we are more than happy
-          to discuss pricing with you.
-        </div>
-      ),
-    },
-    {
-      question: "What is the average cost of a bathroom or kitchen renovation?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          The average bathroom renovation in London ranges between £7K and £12K.
-          For kitchen renovations, the average costs can be between £9K and
-          £15K. At Better Homes, we are confident in our value and
-          industry-average pricing.
-        </div>
-      ),
-    },
-    {
-      question: "What should I expect during the construction process?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          Before any work begins, our renovation team protects all the door
-          openings to prevent dust from spreading to other areas in your home.
-          We also protect the floors, furniture and your belongings so they stay
-          in mint condition during the remodeling. Once everything is protected,
-          we begin with demolition including fixture removal and wall tearing.
-          Rest assured, we will work with you to plan accordingly and minimize
-          any inconvenience.
-        </div>
-      ),
-    },
-    {
-      question: "How does payment work with Better Homes?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          We will ask you to pay a deposit upon agreeing to work together. The
-          deposit ranges between £300 and £1,000 depending on the size of the
-          project. Before starting the project, we will divide the remaining
-          total by the number of weeks we expect the project to take and invoice
-          you at the end of each week. There will always be 5% - 10% left to be
-          paid after completion and snagging for your peace of mind.
-        </div>
-      ),
-    },
-    {
-      question: "Is there a workmanship guarantee?",
-      answer: (
-        <div className="space-y-2 leading-relaxed">
-          Of course. We offer a industry leading workmanship guarantee of up to
-          10 years depending on the project type. If you&apos;d like to find out
-          more about it, please{" "}
-          <Link href="/our-guarantee">read more here</Link>.
-        </div>
-      ),
-    },
-  ];
-
-  return (
-    <>
-      <main>
-        <Guarantee />
-        <FAQ content={faqs} />
-      </main>
-    </>
-  );
-};
-
-export default Page;
+import Image from "next/image";
+import config from "@/config";
+import { getSEOTags } from "@/libs/seo";
+import { getPageFaqs } from "@/libs/pageFaqs";
+import Faq from "@/components/brand/Faq";
+import { FaqSchema } from "@/components/brand/Schema";
+import { ProjectCards, ProjectCTA } from "@/components/brand/ServicePage";
+import { getPortfolioProjects } from "@/libs/portfolio-projects";
+export const metadata=getSEOTags({title:"Our Workmanship Guarantee | Better Homes",description:"Better Homes workmanship cover: ten years for extensions and lofts, two for kitchens and bathrooms, one for decorating. Clear handover and aftercare.",canonicalUrlRelative:"/our-guarantee"});
+const faqs=[{question:"What does the workmanship guarantee cover?",answer:"The guarantee relates to our workmanship within the agreed scope. Extensions and loft conversions carry ten years, kitchen and bathroom work two years, and painting and decorating one year. The written terms explain coverage, conditions and how to raise an issue."},{question:"Are product warranties the same as workmanship cover?",answer:"No. Manufacturer warranties apply to products such as appliances, glazing or fittings. They are separate from our workmanship guarantee and from the business insurance cover."},{question:"How do I report a problem after handover?",answer:"Contact your project aftercare lead or raise a support request through your client portal. Describe the issue, where it is and when you noticed it, and add photographs where useful."},{question:"What will my project cost?",answer:"Full bathroom redesigns typically start around £12,000 and kitchen redesigns around £20,000. Substantial whole-home projects are typically £80,000 to £250,000+. Your quotation confirms the precise scope, VAT, allowances and payment stages."},{question:"How are payment stages agreed?",answer:"Your written quotation and contract set out payment stages. The existing initial deposit range is £300 to £1,000, depending on the project. Check the amount and subsequent stages in your own agreed documents."}];
+export default function Page(){return <main><section className="bh-wrap bh-section"><p className="bh-eyebrow">Aftercare</p><h1 className="bh-title">Confidence that continues after handover.</h1><p className="bh-lead">We complete a snagging review and provide the relevant handover documents and workmanship terms. You have a clear point of contact if something needs attention afterwards.</p><dl className="bh-facts" style={{marginTop:48}}><div><dt>Extensions and loft conversions</dt><dd>10 years</dd></div><div><dt>Kitchen and bathroom work</dt><dd>2 years</dd></div><div><dt>Painting and decorating</dt><dd>1 year</dd></div></dl><p className="bh-small" style={{marginTop:24}}>Workmanship terms depend on the scope delivered. Product warranties and £10M insurance cover are separate from the workmanship guarantee.</p><div className="bh-actions"><Link href="/dashboard/tickets" className="bh-button">Request aftercare support</Link><Link href="/contact" className="bh-text-link">Contact the team</Link></div></section><Faq items={faqs}/><FaqSchema items={faqs} path="/our-guarantee"/></main>;}

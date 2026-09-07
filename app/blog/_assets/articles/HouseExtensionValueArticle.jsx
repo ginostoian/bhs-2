@@ -11,14 +11,14 @@ const styles = {
   p: "text-base-content/90 leading-relaxed mb-6",
   tocList: "mb-8 grid gap-x-8 gap-y-2 pl-5 md:grid-cols-2",
   tocItem: "list-disc",
-  tocLink: "text-base-content/90 transition hover:text-[#266bf1] hover:underline",
+  tocLink: "text-base-content/90 transition hover:text-[#4D5B4B] hover:underline",
   figure: "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 md:p-6",
   image: "h-auto w-full rounded-xl",
   figcaption: "mt-3 text-sm leading-relaxed text-base-content/70",
   refList: "mb-6 list-decimal space-y-4 pl-5",
   refItem: "text-base-content/90 leading-relaxed",
   extLink:
-    "font-medium text-[#266bf1] underline underline-offset-2 transition hover:text-[#1f56c5]",
+    "font-medium text-[#4D5B4B] underline underline-offset-2 transition hover:text-[#3E4A3C]",
 };
 
 /*
@@ -482,7 +482,7 @@ export default function HouseExtensionValueArticle() {
       </h2>
       <ol className={styles.refList}>
         <li className={styles.refItem}>
-          Nationwide Building Society — "What Adds Value to Your Home" research
+          Nationwide Building Society – "What Adds Value to Your Home" research
           report (2023). Analysis of how home improvements including extensions
           and loft conversions affect property values across different property
           types.{" "}
@@ -497,7 +497,7 @@ export default function HouseExtensionValueArticle() {
           .
         </li>
         <li className={styles.refItem}>
-          Royal Institution of Chartered Surveyors (RICS) — Guidance on
+          Royal Institution of Chartered Surveyors (RICS) – Guidance on
           residential property valuations and the impact of extensions on market
           value. RICS provides the professional standards used by surveyors when
           assessing property values across the UK.{" "}
@@ -512,7 +512,7 @@ export default function HouseExtensionValueArticle() {
           .
         </li>
         <li className={styles.refItem}>
-          HomeOwners Alliance and Federation of Master Builders — "House
+          HomeOwners Alliance and Federation of Master Builders – "House
           Extension Costs" guide (2026). Comprehensive breakdown of extension
           costs by type and region, including London-specific pricing data and
           guidance on finding vetted builders.{" "}
@@ -527,7 +527,7 @@ export default function HouseExtensionValueArticle() {
           .
         </li>
         <li className={styles.refItem}>
-          UK Government Planning Portal — Guidance on permitted development
+          UK Government Planning Portal – Guidance on permitted development
           rights for householder extensions, including single-storey,
           double-storey, and loft conversion rules. Essential reading for
           understanding what you can build without a full planning application.{" "}
@@ -542,7 +542,7 @@ export default function HouseExtensionValueArticle() {
           .
         </li>
         <li className={styles.refItem}>
-          Property Investor Today — "Maximizing ROI on London Loft Conversions"
+          Property Investor Today – "Maximizing ROI on London Loft Conversions"
           (May 2026). Analysis of loft conversion returns across inner and outer
           London boroughs, with case studies and cost-versus-value breakdowns.{" "}
           <a

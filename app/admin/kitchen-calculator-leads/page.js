@@ -15,9 +15,9 @@ const formatCurrency = (amount) =>
   }).format(amount || 0);
 
 function formatDate(value) {
-  if (!value) return "—";
+  if (!value) return "–";
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "—";
+  if (Number.isNaN(date.getTime())) return "–";
   return date.toLocaleString("en-GB", {
     day: "2-digit",
     month: "2-digit",
@@ -28,7 +28,7 @@ function formatDate(value) {
 }
 
 const pretty = (value) =>
-  String(value || "—")
+  String(value || "–")
     .replace(/([A-Z])/g, " $1")
     .replace(/^\w/, (char) => char.toUpperCase());
 
@@ -89,7 +89,7 @@ export default async function KitchenCalculatorLeadsPage() {
         <Stat label="London leads" value={`${london}/${total || 0}`} />
         <Stat
           label="Avg expected budget"
-          value={total > 0 ? formatCurrency(avgExpected) : "—"}
+          value={total > 0 ? formatCurrency(avgExpected) : "–"}
         />
       </div>
 
@@ -127,13 +127,13 @@ export default async function KitchenCalculatorLeadsPage() {
                         {row.email}
                       </a>
                       <div className="mt-1 text-xs text-gray-500">
-                        CRM stage: {row.stage} • Budget band: {row.budget || "—"}
+                        CRM stage: {row.stage} • Budget band: {row.budget || "–"}
                       </div>
                     </Cell>
 
                     <Cell>
                       <div className="text-sm font-medium text-gray-900">
-                        {row.input?.kitchenSize ? `${row.input.kitchenSize} m²` : "—"} •{" "}
+                        {row.input?.kitchenSize ? `${row.input.kitchenSize} m²` : "–"} •{" "}
                         {pretty(row.input?.layoutType)}
                       </div>
                       <div className="mt-1 text-xs text-gray-600">
@@ -160,10 +160,10 @@ export default async function KitchenCalculatorLeadsPage() {
 
                     <Cell>
                       <div className="font-semibold text-gray-900">
-                        {expected ? formatCurrency(expected) : "—"}
+                        {expected ? formatCurrency(expected) : "–"}
                       </div>
                       <div className="mt-1 text-xs text-gray-500">
-                        Confidence: {row.estimate?.confidenceScore || "—"}
+                        Confidence: {row.estimate?.confidenceScore || "–"}
                       </div>
                     </Cell>
 
@@ -180,7 +180,7 @@ export default async function KitchenCalculatorLeadsPage() {
                           </div>
                         </>
                       ) : (
-                        <span className="text-sm text-gray-400">—</span>
+                        <span className="text-sm text-gray-400">–</span>
                       )}
                     </Cell>
 

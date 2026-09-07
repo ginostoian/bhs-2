@@ -44,7 +44,7 @@ const ContentRow = ({
         <div className={classes["service-desc__header"]}>
           <h3 className={classes["desc__header-title"]}>{title}</h3>
           <p className={classes["desc__header-subtitle"]}>
-            {subtitle} <span className="text-[#266bf1]">{subtitleAccent}</span>
+            {subtitle} <span className="text-[#4D5B4B]">{subtitleAccent}</span>
           </p>
         </div>
 
@@ -55,7 +55,7 @@ const ContentRow = ({
         </div>
         <Link
           href={href}
-          className="w-max flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#266bf1] capitalize text-white border-transparent hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] text-[18px] mt-[4rem] px-[20px] min-h-[64px] lg:min-h-[64px] lg:px-[24px] lg:w-[245px]! rounded-full"
+          className="w-max flex items-center justify-center transition duration-200 cursor-pointer font-bold border-2 bg-[#4D5B4B] capitalize text-white border-transparent hover:bg-[#3E4A3C] hover:text-gray-50 active:bg-[#3E4A3C] disabled:bg-[#A5D2FF] text-[18px] mt-[4rem] px-[20px] min-h-[64px] lg:min-h-[64px] lg:px-[24px] lg:w-[245px]! rounded-full"
         >
           {cta}
         </Link>

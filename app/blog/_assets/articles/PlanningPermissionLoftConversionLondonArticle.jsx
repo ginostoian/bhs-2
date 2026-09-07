@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
-  aiAnswer: "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 md:p-7",
+  aiAnswer: "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 md:p-7",
   keyTakeaways:
     "mb-8 rounded-2xl border border-base-content/10 bg-white p-6 shadow-sm md:p-7",
   tocWrapper:
@@ -16,7 +16,7 @@ const styles = {
   tocList: "overflow-hidden rounded-xl border border-base-content/10",
   tocItem: "border-b border-base-content/10 last:border-b-0",
   tocLink:
-    "grid grid-cols-[42px_1fr] items-start gap-3 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] md:text-base",
+    "grid grid-cols-[42px_1fr] items-start gap-3 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] md:text-base",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
@@ -25,11 +25,11 @@ const styles = {
     "my-10 rounded-2xl border border-base-content/10 bg-white p-6 shadow-sm md:p-7",
   relatedGrid: "grid gap-4 md:grid-cols-2",
   relatedCard:
-    "rounded-xl border border-base-content/10 bg-[#f9fbff] p-5 transition hover:border-[#266bf1]/35 hover:bg-white",
-  relatedTitle: "text-base font-bold text-[#100b47]",
+    "rounded-xl border border-base-content/10 bg-[#F4F1EA] p-5 transition hover:border-[#4D5B4B]/35 hover:bg-white",
+  relatedTitle: "text-base font-bold text-[#202925]",
   relatedDesc: "mt-2 text-sm leading-relaxed text-base-content/70",
   relatedLink:
-    "mt-3 inline-flex text-sm font-semibold text-[#266bf1] underline underline-offset-2",
+    "mt-3 inline-flex text-sm font-semibold text-[#4D5B4B] underline underline-offset-2",
 };
 
 export default function PlanningPermissionLoftConversionLondon() {
@@ -100,49 +100,49 @@ export default function PlanningPermissionLoftConversionLondon() {
           <ol className={styles.tocList}>
             <li className={styles.tocItem}>
               <Link href="#short-answer" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">01</span>
+                <span className="font-semibold text-[#202925]/75">01</span>
                 <span>The Short Answer - Do Most London Lofts Need Planning?</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#permitted-development" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">02</span>
+                <span className="font-semibold text-[#202925]/75">02</span>
                 <span>Permitted Development Rules: The Exact 2026 Criteria</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#always-need-planning" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">03</span>
+                <span className="font-semibold text-[#202925]/75">03</span>
                 <span>When You Always Need Planning Permission</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#by-conversion-type" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">04</span>
+                <span className="font-semibold text-[#202925]/75">04</span>
                 <span>Planning Rules by Loft Conversion Type</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#conservation-areas" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">05</span>
+                <span className="font-semibold text-[#202925]/75">05</span>
                 <span>Conservation Areas and Article 4 - A London Deep Dive</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#borough-guide" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">06</span>
+                <span className="font-semibold text-[#202925]/75">06</span>
                 <span>Borough-by-Borough Planning Guide</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#how-to-check" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">07</span>
+                <span className="font-semibold text-[#202925]/75">07</span>
                 <span>How to Check If Your Property Needs Planning</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#how-to-apply" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">08</span>
+                <span className="font-semibold text-[#202925]/75">08</span>
                 <span>How to Apply for Planning Permission</span>
               </Link>
             </li>
@@ -151,43 +151,43 @@ export default function PlanningPermissionLoftConversionLondon() {
           <ol className={styles.tocList}>
             <li className={styles.tocItem}>
               <Link href="#building-regulations" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">09</span>
+                <span className="font-semibold text-[#202925]/75">09</span>
                 <span>Building Regulations - Required Regardless</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#party-wall" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">10</span>
+                <span className="font-semibold text-[#202925]/75">10</span>
                 <span>Party Wall Agreements for London Homeowners</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#without-permission" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">11</span>
+                <span className="font-semibold text-[#202925]/75">11</span>
                 <span>What Happens If You Build Without Permission?</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#costs" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">12</span>
+                <span className="font-semibold text-[#202925]/75">12</span>
                 <span>Full Cost Breakdown - Planning and Compliance</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#bhs-approach" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">13</span>
+                <span className="font-semibold text-[#202925]/75">13</span>
                 <span>How Better Homes Manages Planning for You</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#faqs" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">14</span>
+                <span className="font-semibold text-[#202925]/75">14</span>
                 <span>Frequently Asked Questions</span>
               </Link>
             </li>
             <li className={styles.tocItem}>
               <Link href="#references" className={styles.tocLink}>
-                <span className="font-semibold text-[#100b47]/75">15</span>
+                <span className="font-semibold text-[#202925]/75">15</span>
                 <span>References</span>
               </Link>
             </li>

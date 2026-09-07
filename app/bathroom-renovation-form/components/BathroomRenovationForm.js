@@ -111,19 +111,19 @@ const BathroomRenovationForm = () => {
   };
 
   return (
-    <section className="mx-auto my-10 max-w-[85%] rounded-3xl bg-gradient-to-br from-gray-50 to-white py-16">
+    <section className="bh-wrap bh-section">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">
+        <div className="mb-12">
+          <h1 className="bh-title">
             Bathroom Renovation Quote
           </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="bh-lead">
             Get a free quote for your bathroom renovation project. Fill out the
             form below and we&apos;ll get back to you within 24 hours.
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+        <div className="border-t border-gray-300">
           <div className="p-8 md:p-12">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Contact Information */}

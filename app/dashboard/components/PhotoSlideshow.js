@@ -9,14 +9,14 @@ export default function PhotoSlideshow({ photos }) {
   // Safety check for photos prop
   if (!photos || !Array.isArray(photos) || photos.length === 0) {
     return (
-      <div className="border border-[#dedbd2] bg-[#fbfaf7] px-6 py-14 text-center">
-        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#efede6] text-[#52605b]">
+      <div className="border border-[#D8D2C6] bg-[#F4F1EA] px-6 py-14 text-center">
+        <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#EDE9E0] text-[#4D5B4B]">
           <ImageIcon aria-hidden="true" className="h-5 w-5" strokeWidth={1.6} />
         </div>
-        <h3 className="mb-2 text-lg font-medium text-[#17231f]">
+        <h3 className="mb-2 text-lg font-medium text-[#202925]">
           No photos yet
         </h3>
-        <p className="text-sm text-[#66716d]">
+        <p className="text-sm text-[#4D5B4B]">
           Project photos will be added here by our team as work progresses.
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function PhotoSlideshow({ photos }) {
   return (
     <div className="space-y-6">
       {/* Main Slideshow */}
-      <div className="relative overflow-hidden border border-[#dedbd2] bg-[#efede6]">
+      <div className="relative overflow-hidden border border-[#D8D2C6] bg-[#EDE9E0]">
         {/* Image Container */}
         <div className="relative aspect-video w-full">
           <img

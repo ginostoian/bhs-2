@@ -21,7 +21,7 @@ const Hero = () => {
           </svg>
         </a>
 
-        <h1 className="font-extrabold text-4xl lg:text-6xl tracking-tight md:-mb-4">
+        <h1 className="font-medium text-4xl lg:text-6xl tracking-tight md:-mb-4">
           Ship your startup in days, not weeks
         </h1>
         <p className="text-lg opacity-80 leading-relaxed">

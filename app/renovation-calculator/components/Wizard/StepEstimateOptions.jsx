@@ -44,7 +44,7 @@ export default function StepEstimateOptions({ formData, setFormData, onNext, onB
           What should the budget include?
         </h2>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-stone-600">
-          By default we price the <strong>labour and construction materials</strong> — the part a
+          By default we price the <strong>labour and construction materials</strong> – the part a
           builder actually controls. You can optionally add a ballpark for the fixtures, fittings
           and finishes you&apos;ll buy.
         </p>
@@ -77,7 +77,7 @@ export default function StepEstimateOptions({ formData, setFormData, onNext, onB
               <p className="mt-1">
                 Kitchen units &amp; appliances, sanitaryware &amp; brassware, tiles, floor
                 coverings, internal door leaves and ironmongery. Their installation labour is still
-                included — only the supplied product cost is left out so you can add your own
+                included – only the supplied product cost is left out so you can add your own
                 budgets.
               </p>
             </div>

@@ -8,12 +8,12 @@ import financeDecisionFrameworkImg from "/public/assets/blog/home-extension-fina
 import financeTimelineStepByStepImg from "/public/assets/blog/home-extension-finance/finance-timeline-step-by-step.png";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   keyTakeaways:
     "mb-10 rounded-2xl border border-base-content/10 bg-white p-6 shadow-sm",
   tableOfContents: "mb-10",
@@ -40,14 +40,14 @@ const FinanceGuide = () => {
           through remortgaging (rates from 3.99–4.49% in March 2026),
           further advances from their current lender, second charge mortgages,
           or personal loans up to £35,000. For projects costing £50,000 to
-          £130,000 — the typical range for London extensions and loft
-          conversions — remortgaging is usually the most cost-effective
+          £130,000 – the typical range for London extensions and loft
+          conversions – remortgaging is usually the most cost-effective
           route, provided you have sufficient equity (lenders typically allow
           borrowing up to 80–90% of your property's value). The government's
           Boiler Upgrade Scheme offers up to £7,500 towards heat pumps, while
           VAT on energy-saving materials remains at 0% until at least 2027.
           For most London homeowners, extending or converting is significantly
-          cheaper than moving — stamp duty, agent fees and legal costs on a
+          cheaper than moving – stamp duty, agent fees and legal costs on a
           typical London move now exceed £25,000–£40,000, often more than
           the deposit needed to remortgage for an equivalent home improvement
           project.
@@ -58,39 +58,39 @@ const FinanceGuide = () => {
       <div className={styles.keyTakeaways}>
         <h2 className={styles.h2}>Key Takeaways</h2>
         <p className={styles.p}>
-          <strong>Remortgaging is the most popular route</strong> — with average
+          <strong>Remortgaging is the most popular route</strong> – with average
           5-year fixed rates around 4.40% in March 2026, remortgaging typically
           offers the lowest interest rate for projects over £25,000, especially
           for London homeowners sitting on significant equity gains.
         </p>
         <p className={styles.p}>
-          <strong>Extending beats moving financially in London</strong> — the
+          <strong>Extending beats moving financially in London</strong> – the
           total cost of moving a London home (stamp duty, agents, legal,
           removals) ranges from £25,000 to £40,000+, money that never increases
           your property's value. By contrast, a loft conversion adds 20–25%
           to London property values.
         </p>
         <p className={styles.p}>
-          <strong>Match your finance to your project size</strong> — personal
+          <strong>Match your finance to your project size</strong> – personal
           loans suit projects under £25,000; remortgaging or further advances
           work best for £25,000–£150,000; bridging finance is for short-term
           renovation-and-sell strategies.
         </p>
         <p className={styles.p}>
-          <strong>Government support is available but targeted</strong> — the
+          <strong>Government support is available but targeted</strong> – the
           Boiler Upgrade Scheme (£7,500 towards heat pumps), 0% VAT on
           energy-saving materials, and the new £15 billion Warm Homes Plan
           offer genuine savings when your extension includes energy efficiency
           improvements.
         </p>
         <p className={styles.p}>
-          <strong>Always budget 10–15% contingency</strong> — London projects
+          <strong>Always budget 10–15% contingency</strong> – London projects
           routinely encounter unexpected structural issues, party wall
           complications, or material cost increases. Lenders expect realistic
           total figures in finance applications.
         </p>
         <p className={styles.p}>
-          <strong>A design-and-build firm simplifies finance</strong> — working
+          <strong>A design-and-build firm simplifies finance</strong> – working
           with a single company that handles design, planning and construction
           (like Better Homes) means one fixed-price contract, clearer budgets for
           lenders, and fewer payment stage complications.
@@ -187,8 +187,8 @@ const FinanceGuide = () => {
         national average due to higher labour rates, parking and scaffold
         licensing requirements, restricted site access on terraced streets, and
         the logistical complexities of building in a dense urban environment.
-        Every financing decision — from how much to borrow to which product
-        suits you best — flows from this number. Getting it wrong is one of
+        Every financing decision – from how much to borrow to which product
+        suits you best – flows from this number. Getting it wrong is one of
         the most common and most expensive mistakes London homeowners make.
       </p>
 
@@ -198,8 +198,8 @@ const FinanceGuide = () => {
         Single-storey rear extensions in London cost between £2,500 and £3,500
         per square metre for a good-quality finish. A typical 20–30 sqm
         kitchen-diner extension comes in at £50,000 to £105,000 all-in. Side
-        return extensions — hugely popular with Victorian terrace owners across
-        Hackney, Islington and Walthamstow — cost £40,000 to £70,000 and can
+        return extensions – hugely popular with Victorian terrace owners across
+        Hackney, Islington and Walthamstow – cost £40,000 to £70,000 and can
         transform a narrow galley kitchen into an open-plan living space. Two-
         storey extensions deliver better value per square metre (£2,000–£3,000
         per sqm) because the foundations and roof structure are shared, but
@@ -214,8 +214,8 @@ const FinanceGuide = () => {
         Loft conversions remain one of London's most popular home improvements,
         adding a full bedroom, bathroom or home office without sacrificing
         garden space. A Velux (rooflight-only) conversion starts at £25,000 to
-        £45,000. Rear dormer conversions — the most common type for Victorian
-        terraces — cost £45,000 to £75,000. Hip-to-gable conversions for
+        £45,000. Rear dormer conversions – the most common type for Victorian
+        terraces – cost £45,000 to £75,000. Hip-to-gable conversions for
         Edwardian semi-detached properties in areas like Muswell Hill and
         Finchley range from £55,000 to £80,000. L-shaped dormers, combining a
         rear and side dormer for maximum space, run £60,000 to £90,000. Mansard
@@ -246,14 +246,14 @@ const FinanceGuide = () => {
         and structural engineer fees add 10–15% of the total build cost.
         Planning application fees are £258 for a householder application in
         2026. Building regulations approval runs £1,200 to £2,500. Party wall
-        surveyor fees — required if your extension or loft conversion affects a
-        shared wall — cost £1,000 to £3,000 per neighbour. Scaffold licence
+        surveyor fees – required if your extension or loft conversion affects a
+        shared wall – cost £1,000 to £3,000 per neighbour. Scaffold licence
         fees in London boroughs can add £500 to £1,500 depending on how long
         the scaffold stays up. Thames Water build-over agreements, skip permits,
         temporary parking suspensions and council-specific requirements all add
         up. As a rule, budget 10–15% above your builder's quote as a
         contingency fund. Lenders expect to see this level of financial
-        realism in any application — and insufficient budgeting is one of the
+        realism in any application – and insufficient budgeting is one of the
         most common reasons mortgage applications stall or get declined.
       </p>
 
@@ -279,10 +279,10 @@ const FinanceGuide = () => {
 
       <p className={styles.p}>
         For many London homeowners, the decision isn't really "should I extend?"
-        — it's "should I extend or move?" The financial arithmetic in London
+        – it's "should I extend or move?" The financial arithmetic in London
         makes this question especially pointed. With average property prices
         above £500,000 across most of Central, East and North London, the
-        transaction costs of moving are substantial — and unlike money spent on
+        transaction costs of moving are substantial – and unlike money spent on
         an extension, they don't add a single pound to your property's value.
       </p>
 
@@ -322,12 +322,12 @@ const FinanceGuide = () => {
         The financial case is particularly strong in London's higher-value
         boroughs. In Hackney, where average property values sit around
         £550,000, a £75,000 dormer loft conversion can add approximately
-        £120,000 to the property's value — a 60% return on the conversion cost
+        £120,000 to the property's value – a 60% return on the conversion cost
         itself. In Islington (average values around £650,000), a well-executed
         mansard conversion can add £130,000–£160,000. In Muswell Hill, where
         Edwardian semis average £750,000, a hip-to-gable conversion adds
         £150,000–£187,000 in value. These returns far exceed what you'd gain
-        from the upheaval and expense of moving — and you avoid months of
+        from the upheaval and expense of moving – and you avoid months of
         property chains, gazumping risk and the stress of finding the right
         home in a competitive market. The one exception: if your property
         physically cannot accommodate the space you need (very small plot, no
@@ -358,8 +358,8 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         Remortgaging is the most common and typically the most cost-effective
         way to finance a house extension or loft conversion in London. It
-        involves switching your existing mortgage to a new deal — either with
-        your current lender or a new one — while increasing the amount you
+        involves switching your existing mortgage to a new deal – either with
+        your current lender or a new one – while increasing the amount you
         borrow to release equity for your building project. Because the loan is
         secured against your property, interest rates are significantly lower
         than personal loans or credit cards, and you can spread repayments over
@@ -392,7 +392,7 @@ const FinanceGuide = () => {
         purchased before the 2022 rate rises, the picture is nuanced: if you
         locked in a sub-2% deal during 2020–2021, any new rate will be
         higher. However, the key comparison isn't your old rate versus the new
-        rate — it's the cost of the remortgage versus alternative financing
+        rate – it's the cost of the remortgage versus alternative financing
         options. At 4.40%, borrowing an additional £75,000 over 25 years costs
         approximately £413 per month. A personal loan for the same amount (if
         available) would cost significantly more at typical unsecured rates of
@@ -425,12 +425,12 @@ const FinanceGuide = () => {
         large sums (£50,000–£200,000+) that match the scale of London
         building projects. However, there are important considerations.
         Early repayment charges on your existing mortgage can be
-        substantial — typically 1–5% of the outstanding balance, which on a
+        substantial – typically 1–5% of the outstanding balance, which on a
         London mortgage could mean £3,000–£15,000. If you're mid-way through
         a fixed-rate deal, the cost of exiting early may outweigh the
         benefits. Arrangement fees on the new mortgage (£500–£2,000) add to
         the cost. And critically, you're increasing the debt secured against
-        your home — if you can't keep up repayments, your home is at risk.
+        your home – if you can't keep up repayments, your home is at risk.
         Always ensure the monthly increase is comfortably affordable, even if
         interest rates rise in the future. A qualified mortgage broker can
         model different scenarios and help you find the optimal deal structure
@@ -472,8 +472,8 @@ const FinanceGuide = () => {
         A further advance is typically the best option when you have a
         favourable existing mortgage rate that you don't want to lose,
         particularly if you're within the early repayment charge period.
-        It's also simpler administratively — no conveyancing, no new lender
-        assessment from scratch — and can sometimes be arranged within 2–4
+        It's also simpler administratively – no conveyancing, no new lender
+        assessment from scratch – and can sometimes be arranged within 2–4
         weeks. The main drawback is that your current lender may not offer the
         most competitive rate on the additional borrowing, and they may have
         stricter lending criteria for further advances than a new lender
@@ -488,8 +488,8 @@ const FinanceGuide = () => {
       </h2>
 
       <p className={styles.p}>
-        A second charge mortgage — also called a secured loan or second
-        mortgage — allows you to borrow against your property's equity
+        A second charge mortgage – also called a secured loan or second
+        mortgage – allows you to borrow against your property's equity
         without disturbing your existing mortgage at all. The second lender
         takes a "second charge" on your property, meaning they get repaid
         after your primary mortgage lender if the property is ever sold or
@@ -502,7 +502,7 @@ const FinanceGuide = () => {
 
       <p className={styles.p}>
         Second charge mortgage rates are typically higher than first mortgage
-        rates — expect 5.5% to 8% depending on your equity position, credit
+        rates – expect 5.5% to 8% depending on your equity position, credit
         profile and the amount borrowed. Terms range from 3 to 25 years. While
         the rate premium compared to a remortgage is notable, the total cost
         calculation can still favour a second charge if your existing first
@@ -531,9 +531,9 @@ const FinanceGuide = () => {
       </h2>
 
       <p className={styles.p}>
-        For London projects under £25,000 — perhaps a high-quality bathroom
+        For London projects under £25,000 – perhaps a high-quality bathroom
         renovation, a basic Velux loft conversion, or the finishing costs on a
-        larger project that's mostly funded from savings — an unsecured
+        larger project that's mostly funded from savings – an unsecured
         personal loan can be the simplest and fastest route. No valuation is
         needed, no property is put at risk, and funds can be available within
         days. Lenders like Novuna offer home improvement loans up to £35,000
@@ -541,7 +541,7 @@ const FinanceGuide = () => {
         and £25,000), and repayment terms of 2 to 7 years.
       </p>
 
-      <h3 className={styles.h3}>When Personal Loans Work — and When They Don't</h3>
+      <h3 className={styles.h3}>When Personal Loans Work – and When They Don't</h3>
 
       <p className={styles.p}>
         The advantages are speed, simplicity and the fact that your home isn't
@@ -565,7 +565,7 @@ const FinanceGuide = () => {
 
       <p className={styles.p}>
         Bridging loans are short-term, high-interest products designed to
-        "bridge" a financial gap — typically between buying a property and
+        "bridge" a financial gap – typically between buying a property and
         selling another, or between completing a renovation and refinancing
         onto a standard mortgage at the improved property value. They are
         not a mainstream option for most homeowners extending their family
@@ -575,7 +575,7 @@ const FinanceGuide = () => {
       <h3 className={styles.h3}>How Bridging Loans Work for Renovations</h3>
 
       <p className={styles.p}>
-        Bridging lenders charge interest monthly rather than annually —
+        Bridging lenders charge interest monthly rather than annually –
         typically 0.5% to 1% per month (equivalent to 6–12% annually).
         Terms usually run from 1 to 18 months. You can choose to pay interest
         monthly or "roll up" the interest into the principal, repaying
@@ -584,7 +584,7 @@ const FinanceGuide = () => {
         remortgage or sell once the work is complete. A key advantage is
         speed: bridging loans can be arranged in as little as 3–7 days when
         all documentation is ready. They also accommodate properties and
-        situations that standard lenders won't touch — for instance, a
+        situations that standard lenders won't touch – for instance, a
         property that's currently uninhabitable due to major structural work.
       </p>
 
@@ -594,7 +594,7 @@ const FinanceGuide = () => {
         qualifies for a standard mortgage, or by those undertaking a
         renovation-and-sell strategy where the post-renovation property value
         will support a more favourable remortgage. It is rarely the right
-        choice for a straightforward extension on your existing family home —
+        choice for a straightforward extension on your existing family home –
         the costs are simply too high for a project you'll be living in
         throughout. Always exhaust remortgage, further advance and second
         charge options before considering a bridging loan for a home
@@ -612,7 +612,7 @@ const FinanceGuide = () => {
         work. Unlike standard mortgages, these products release funds in
         stages as the renovation progresses, rather than providing the full
         amount upfront. This staged approach mirrors how construction projects
-        actually work — you don't need £150,000 on day one; you need it
+        actually work – you don't need £150,000 on day one; you need it
         released in line with the build programme.
       </p>
 
@@ -622,7 +622,7 @@ const FinanceGuide = () => {
         With a renovation mortgage, the lender provides an initial advance
         (typically enough to purchase the property or cover the first phase of
         work) and then releases further tranches as the project hits agreed
-        milestones — foundations complete, shell built, first fix done, and so
+        milestones – foundations complete, shell built, first fix done, and so
         on. A surveyor visits at each stage to confirm the work meets the
         required standard before the next tranche is released. This protects
         both the lender and you: you're never over-exposed, and the lender
@@ -642,9 +642,9 @@ const FinanceGuide = () => {
         Renovation mortgages are best suited to homeowners purchasing a
         property in need of major work, or to those undertaking whole-house
         renovations where a standard remortgage wouldn't cover the full scope.
-        They require more administration than a straightforward remortgage —
+        They require more administration than a straightforward remortgage –
         stage inspections, multiple drawdowns, potentially higher arrangement
-        fees — but for the right project, they provide a structured,
+        fees – but for the right project, they provide a structured,
         disciplined financing framework that keeps your renovation on budget
         and on track. If you're working with a design-and-build company that
         provides a detailed build programme and fixed-price contract, the
@@ -661,18 +661,18 @@ const FinanceGuide = () => {
         While there's no direct government grant for a standard house
         extension or loft conversion, several schemes can significantly
         reduce costs when your project includes energy-efficiency
-        improvements — which, given current Building Regulations
+        improvements – which, given current Building Regulations
         requirements, most London projects now do by default.
       </p>
 
-      <h3 className={styles.h3}>Boiler Upgrade Scheme (BUS) — Up to £7,500</h3>
+      <h3 className={styles.h3}>Boiler Upgrade Scheme (BUS) – Up to £7,500</h3>
 
       <p className={styles.p}>
         The Boiler Upgrade Scheme provides grants of up to £7,500 towards the
         installation of air-source or ground-source heat pumps in England and
         Wales. If your extension or renovation includes replacing a gas boiler
-        with a heat pump — an increasingly common choice in new London
-        extensions — this grant directly reduces your project cost. The
+        with a heat pump – an increasingly common choice in new London
+        extensions – this grant directly reduces your project cost. The
         scheme has been extended to 2030, and the grant is applied for by
         your registered installer rather than by you directly. To qualify,
         your property must have a valid Energy Performance Certificate with
@@ -692,12 +692,12 @@ const FinanceGuide = () => {
         significant component, or an extension where you're installing
         underfloor heating connected to a heat pump, the VAT saving can be
         substantial. On a £15,000 insulation and heating package, the
-        difference between 20% VAT and 0% VAT is £3,000 — real money that
+        difference between 20% VAT and 0% VAT is £3,000 – real money that
         reduces your borrowing requirement.
       </p>
 
       <h3 className={styles.h3}>
-        The Warm Homes Plan — £15 Billion in Government Investment
+        The Warm Homes Plan – £15 Billion in Government Investment
       </h3>
 
       <p className={styles.p}>
@@ -718,14 +718,14 @@ const FinanceGuide = () => {
         launch from April 2026 with updated criteria.
       </p>
 
-      <h3 className={styles.h3}>Green Mortgages — Better Rates for Efficient Homes</h3>
+      <h3 className={styles.h3}>Green Mortgages – Better Rates for Efficient Homes</h3>
 
       <p className={styles.p}>
         An emerging trend worth considering: several UK lenders now offer
         "green mortgage" products with discounted interest rates for
         energy-efficient properties. If your extension or renovation
-        significantly improves your home's EPC rating — for example, from
-        band D to band B — you may qualify for a lower mortgage rate when
+        significantly improves your home's EPC rating – for example, from
+        band D to band B – you may qualify for a lower mortgage rate when
         you remortgage after completion. This creates a virtuous cycle:
         borrow to improve your home's energy efficiency, then benefit from
         lower borrowing costs as a result. When planning your project, ask
@@ -788,7 +788,7 @@ const FinanceGuide = () => {
         keeping intact. Additionally, if your savings are earning reasonable
         returns in investments or high-interest accounts (some currently
         paying 4.5–5%), and you can borrow at 4–4.5% on a mortgage, the
-        mathematical difference may be marginal — particularly when you
+        mathematical difference may be marginal – particularly when you
         factor in the tax-free nature of ISA returns.
       </p>
 
@@ -798,7 +798,7 @@ const FinanceGuide = () => {
         the project cost), borrow the remainder through a remortgage or
         further advance, and keep your emergency fund untouched. This
         reduces total interest paid while maintaining financial resilience.
-        There is no universally "right" answer — it depends entirely on
+        There is no universally "right" answer – it depends entirely on
         your personal financial circumstances, risk tolerance and future
         plans.
       </p>
@@ -839,7 +839,7 @@ const FinanceGuide = () => {
         the fix, a further advance or second charge preserves that rate while
         funding your project. If your current deal is ending within 6 months,
         a remortgage lets you refinance at today's best rates while releasing
-        funds — killing two birds with one stone. If you're a cash buyer
+        funds – killing two birds with one stone. If you're a cash buyer
         with no mortgage, a new mortgage or personal loan are your primary
         options. If you have substantial savings but want to maintain
         liquidity, a blended approach (part savings, part borrowing) offers
@@ -871,7 +871,7 @@ const FinanceGuide = () => {
 
       <p className={styles.p}>
         Understanding the value your project will add isn't just academically
-        interesting — it's directly relevant to your financing. The
+        interesting – it's directly relevant to your financing. The
         post-renovation value of your property affects your loan-to-value
         ratio, the rates available to you if you remortgage after
         completion, and whether your project qualifies as a sound investment
@@ -887,7 +887,7 @@ const FinanceGuide = () => {
         of any home improvement project in London, adding 20–25% to property
         values in inner London boroughs and 15–18% in outer London. A £75,000
         dormer conversion on a £600,000 Hackney terrace generates
-        approximately £120,000 in additional value — a 60% return on the
+        approximately £120,000 in additional value – a 60% return on the
         conversion cost. Rear extensions add 10–15% to property values, with
         the exact return depending heavily on how the new space integrates
         with the existing ground floor layout. Kitchen extensions that create
@@ -895,7 +895,7 @@ const FinanceGuide = () => {
         returns in this category. Full house renovations are harder to
         generalise, but a well-executed renovation of a tired Victorian
         property in a desirable London postcode can transform a property from
-        "needs work" pricing to full market value — a differential that often
+        "needs work" pricing to full market value – a differential that often
         exceeds the renovation cost itself.
       </p>
 
@@ -906,7 +906,7 @@ const FinanceGuide = () => {
         (average property value approximately £550,000), a loft conversion
         adding 20–25% represents £110,000 to £137,000. In Islington
         (approximately £650,000), the same percentage translates to
-        £130,000 to £162,000 — reflecting both the higher base values and the
+        £130,000 to £162,000 – reflecting both the higher base values and the
         premium that buyers in these boroughs place on additional
         accommodation. Muswell Hill properties (averaging around £750,000)
         see value increases of £150,000 to £187,000 from well-executed loft
@@ -938,12 +938,12 @@ const FinanceGuide = () => {
         Start by getting clear on your total project budget, including all
         professional fees, statutory costs and a 10–15% contingency. If
         you're working with a design-and-build company, request a detailed
-        cost breakdown and fixed-price quote — lenders are far more
+        cost breakdown and fixed-price quote – lenders are far more
         comfortable approving finance when they can see a clear, itemised
         budget from a single accountable contractor. Check your current
         mortgage terms: what's your outstanding balance, current rate, any
         early repayment charges, and when does your deal expire? Get an
-        up-to-date valuation of your property — either through a professional
+        up-to-date valuation of your property – either through a professional
         valuation or by reviewing recent comparable sales on your street.
         Check your credit report for any issues that could delay an
         application. Gather payslips, bank statements, and proof of any
@@ -959,7 +959,7 @@ const FinanceGuide = () => {
         existing deal, early repayment charges, and the rate environment.
         Once you've chosen a route, submit your application with all
         supporting documentation. For remortgages, the lender will arrange
-        a property valuation — this is where recent improvements can work in
+        a property valuation – this is where recent improvements can work in
         your favour, as a higher valuation improves your LTV and potentially
         unlocks better rates. For further advances, the process is typically
         faster since your lender already holds your information. Most
@@ -974,13 +974,13 @@ const FinanceGuide = () => {
         builders require a deposit (typically 10–20%) at contract signing,
         with the remainder paid in stages throughout the build. If you're
         remortgaging, you'll receive the full additional funds when the
-        remortgage completes — so begin the finance process 2–3 months
+        remortgage completes – so begin the finance process 2–3 months
         before you expect to sign the building contract. If your builder
         offers staged payments, consider how your cashflow will work across
         the project timeline. A design-and-build firm that provides a clear
         payment schedule makes this coordination significantly easier,
         because you have a single contract, a single payment schedule, and a
-        single point of accountability — which also simplifies the
+        single point of accountability – which also simplifies the
         documentation your lender needs to see.
       </p>
 
@@ -1005,13 +1005,13 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         <strong>1.</strong> Remortgaging is the most cost-effective way to
         finance projects over £25,000, with rates from approximately 3.99% in
-        March 2026 — significantly cheaper than personal loans or credit cards.
+        March 2026 – significantly cheaper than personal loans or credit cards.
       </p>
       <p className={styles.p}>
         <strong>2.</strong> The cost of moving house in London (£25,000–
         £55,000 in stamp duty, fees and costs) often exceeds the deposit
         needed to remortgage for an equivalent-value extension or loft
-        conversion — and moving costs add zero value to your new property.
+        conversion – and moving costs add zero value to your new property.
       </p>
       <p className={styles.p}>
         <strong>3.</strong> If your current mortgage rate is below 3% and
@@ -1029,7 +1029,7 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         <strong>5.</strong> London loft conversions add 20–25% to property
         values, meaning a £75,000 project on a £600,000 property generates
-        approximately £120,000 in equity — the borrowing effectively
+        approximately £120,000 in equity – the borrowing effectively
         pays for itself and then some.
       </p>
       <p className={styles.p}>
@@ -1056,7 +1056,7 @@ const FinanceGuide = () => {
         Yes. Remortgaging to fund a loft conversion is one of the most common
         reasons London homeowners release equity. Lenders view loft
         conversions favourably because they add measurable value to the
-        property — typically 20–25% in London — which improves the lender's
+        property – typically 20–25% in London – which improves the lender's
         security position. You'll need sufficient equity (most lenders allow
         borrowing up to 80–90% LTV), a clean credit history, and evidence
         that you can afford the increased monthly repayments. Some lenders
@@ -1075,10 +1075,10 @@ const FinanceGuide = () => {
         rates (approximately 4.40% on a 5-year fix), the monthly cost of
         borrowing £70,000 over 25 years is around £385. A personal loan for
         the same amount would be significantly more expensive, if available at
-        all — most personal loans cap at £25,000–£35,000. The cheapest
+        all – most personal loans cap at £25,000–£35,000. The cheapest
         approach of all is using savings if you have them, but maintaining a
-        financial safety buffer is important. A blended approach — part
-        savings, part remortgage — is the most common strategy for
+        financial safety buffer is important. A blended approach – part
+        savings, part remortgage – is the most common strategy for
         London homeowners in this project range.
       </p>
 
@@ -1089,7 +1089,7 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         Yes, you should inform your mortgage lender before starting major
         building work. Most mortgage terms require you to notify the lender
-        of structural alterations. This protects both you and the lender —
+        of structural alterations. This protects both you and the lender –
         the work will affect the property they hold as security. You'll also
         need to update your buildings insurance to cover the work during
         construction and the increased rebuild value once it's complete. Your
@@ -1103,8 +1103,8 @@ const FinanceGuide = () => {
       <p className={styles.p}>
         There is no direct government grant for a standard house extension or
         loft conversion. However, if your project includes energy-efficiency
-        improvements — which is increasingly common given current Building
-        Regulations — you may benefit from the Boiler Upgrade Scheme
+        improvements – which is increasingly common given current Building
+        Regulations – you may benefit from the Boiler Upgrade Scheme
         (up to £7,500 towards a heat pump), 0% VAT on energy-saving
         materials (confirmed until at least 2027), and potentially the
         forthcoming Warm Homes Plan loans. Low-income households may also
@@ -1124,7 +1124,7 @@ const FinanceGuide = () => {
         straightforward cases complete in as little as 3 weeks. Start the
         process at least 2–3 months before you plan to begin construction,
         and if your current mortgage deal is ending within 6 months, begin
-        exploring options now — most mortgage offers are valid for 6 months,
+        exploring options now – most mortgage offers are valid for 6 months,
         so you can lock in a rate while you finalise your building plans.
       </p>
 
@@ -1172,7 +1172,7 @@ const FinanceGuide = () => {
         With property transaction costs continuing to rise and London property
         values maintaining strong premiums for additional space, improving
         your existing home almost always delivers better financial returns
-        than moving — while giving you exactly the space you need, in the
+        than moving – while giving you exactly the space you need, in the
         home and neighbourhood you already love. The key is matching the
         right finance option to your specific project and financial
         situation: remortgaging for larger projects where you have good
@@ -1187,7 +1187,7 @@ const FinanceGuide = () => {
         across Hackney, Islington, Walthamstow, Muswell Hill and North and
         East London. Our design-and-build model means you get a single
         fixed-price contract covering everything from initial design through
-        to completion — which not only simplifies your project management
+        to completion – which not only simplifies your project management
         but also gives lenders the clear, detailed cost documentation they
         need to approve your finance quickly and confidently. We don't
         provide financial advice, but we've helped hundreds of homeowners
@@ -1214,12 +1214,12 @@ const FinanceGuide = () => {
 
       <p className={styles.p}>
         Have you recently financed a house extension or loft conversion in
-        London? We'd love to hear about your experience — which financing
+        London? We'd love to hear about your experience – which financing
         route did you choose, and would you do anything differently? Share
         your story in the comments or on social media. Your insights could
         help another London homeowner make a smarter decision. And if you
         found this guide useful, please share it with friends, family or
-        neighbours who are considering their own project — the more informed
+        neighbours who are considering their own project – the more informed
         London homeowners are about their options, the better decisions
         everyone makes.
       </p>
@@ -1228,7 +1228,7 @@ const FinanceGuide = () => {
       <h2 className={styles.h2}>References</h2>
 
       <p className={styles.p}>
-        1. HomeOwners Alliance —{" "}
+        1. HomeOwners Alliance –{" "}
         <a
           href="https://hoa.org.uk/advice/guides-for-homeowners/for-owners/should-i-remortgage-now/"
           target="_blank"
@@ -1236,10 +1236,10 @@ const FinanceGuide = () => {
         >
           Should I Remortgage Now? (March 2026)
         </a>{" "}
-        — Current UK remortgage rates, LTV guidance and comparison framework.
+        – Current UK remortgage rates, LTV guidance and comparison framework.
       </p>
       <p className={styles.p}>
-        2. MoneyHelper (UK Government) —{" "}
+        2. MoneyHelper (UK Government) –{" "}
         <a
           href="https://www.moneyhelper.org.uk/en/homes/buying-a-home/stamp-duty-calculator"
           target="_blank"
@@ -1247,11 +1247,11 @@ const FinanceGuide = () => {
         >
           Stamp Duty Calculator 2026
         </a>{" "}
-        — Official stamp duty rates and thresholds for England and Northern
+        – Official stamp duty rates and thresholds for England and Northern
         Ireland following the April 2025 changes.
       </p>
       <p className={styles.p}>
-        3. Energy Saving Trust —{" "}
+        3. Energy Saving Trust –{" "}
         <a
           href="https://energysavingtrust.org.uk/what-the-warm-homes-plan-means-for-you/"
           target="_blank"
@@ -1259,11 +1259,11 @@ const FinanceGuide = () => {
         >
           Warm Homes Plan: What It Means for You (2026)
         </a>{" "}
-        — Details of the UK Government's £15 billion Warm Homes Plan, including
+        – Details of the UK Government's £15 billion Warm Homes Plan, including
         grants and loan schemes for home energy upgrades.
       </p>
       <p className={styles.p}>
-        4. Planning Portal —{" "}
+        4. Planning Portal –{" "}
         <a
           href="https://www.planningportal.co.uk/permission/home-improvement/project-advice/project-advice-extension/financing-your-extension/"
           target="_blank"
@@ -1271,10 +1271,10 @@ const FinanceGuide = () => {
         >
           Financing Your Extension
         </a>{" "}
-        — Official government guidance on financing home improvement projects.
+        – Official government guidance on financing home improvement projects.
       </p>
       <p className={styles.p}>
-        5. HomeOwners Alliance —{" "}
+        5. HomeOwners Alliance –{" "}
         <a
           href="https://hoa.org.uk/cost-of-moving-calculator/"
           target="_blank"
@@ -1282,7 +1282,7 @@ const FinanceGuide = () => {
         >
           Cost of Moving Calculator 2026
         </a>{" "}
-        — Comprehensive breakdown of moving costs in the UK including stamp
+        – Comprehensive breakdown of moving costs in the UK including stamp
         duty, legal fees, survey costs and agent fees.
       </p>
     </>

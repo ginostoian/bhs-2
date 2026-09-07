@@ -27,7 +27,7 @@ export const SERVICE_AREA_GROUPS = [
     ],
   },
   {
-    regionTitle: "Central London — selective",
+    regionTitle: "Central London – selective",
     regionDescription:
       "For the right project where access, programme control and discreet delivery justify a carefully managed full-service team.",
     locations: [

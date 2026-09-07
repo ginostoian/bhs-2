@@ -128,7 +128,7 @@ export default function UserInvoicesList({ invoices }) {
   };
 
   return (
-    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+    <div className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
       {invoices.map((invoice) => {
         const daysUntilDue = getDaysUntilDue(invoice.dueDate);
         const isOverdue = invoice.isOverdue;
@@ -138,7 +138,7 @@ export default function UserInvoicesList({ invoices }) {
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="mb-2 flex flex-wrap items-center gap-2.5">
-                  <h3 className="text-lg font-semibold text-[#17231f]">
+                  <h3 className="text-lg font-semibold text-[#202925]">
                     Invoice #{invoice.invoiceNumber}
                   </h3>
                   {getStatusBadge(invoice.status, isOverdue)}
@@ -205,7 +205,7 @@ export default function UserInvoicesList({ invoices }) {
               <div className="flex shrink-0 flex-col lg:items-end">
                 <div className="mb-4 lg:text-right">
                   <p className="text-sm text-gray-500">Total Amount</p>
-                  <p className="text-2xl font-semibold tracking-[-0.02em] text-[#17231f]">
+                  <p className="text-2xl font-semibold tracking-[-0.02em] text-[#202925]">
                     {formatCurrency(invoice.total)}
                   </p>
                 </div>
@@ -215,7 +215,7 @@ export default function UserInvoicesList({ invoices }) {
                     href={`/invoices/${invoice.publicToken}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#1559d6] px-4 text-xs font-semibold text-white hover:bg-[#104dbd] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#1559d6] focus:ring-offset-2"
+                    className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#4D5B4B] px-4 text-xs font-semibold text-white hover:bg-[#3E4A3C] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#4D5B4B] focus:ring-offset-2"
                   >
                     <ExternalLink className="mr-2 h-4 w-4" />
                     View Invoice
@@ -224,7 +224,7 @@ export default function UserInvoicesList({ invoices }) {
                   <button
                     onClick={() => handleDownloadPDF(invoice)}
                     disabled={downloadingPDF === invoice.id}
-                    className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#d8d4ca] bg-white px-4 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] focus:outline-none focus:ring-2 focus:ring-[#1559d6] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#d8d4ca] bg-white px-4 text-xs font-semibold text-[#43504b] hover:bg-[#f5f3ed] focus:outline-none focus:ring-2 focus:ring-[#4D5B4B] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Download className="mr-2 h-4 w-4" />
                     {downloadingPDF === invoice.id

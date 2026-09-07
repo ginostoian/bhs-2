@@ -134,7 +134,7 @@ const BTUCalculator = () => {
 
   if (showResults) {
     return (
-      <div className="min-h-screen py-12">
+      <div className="bh-calculator min-h-screen py-12">
         <div className="container mx-auto px-4">
           {/* Back to Calculator Button */}
           <div className="mb-6">
@@ -189,7 +189,7 @@ const BTUCalculator = () => {
   }
 
   return (
-    <div className="min-h-screen py-12">
+    <div className="bh-calculator min-h-screen py-12">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-12 text-center">

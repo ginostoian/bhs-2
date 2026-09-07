@@ -183,7 +183,7 @@ export const generateCostEstimatePDF = (
     "Includes fittings",
     formData.includeFittings
       ? "Yes (ballpark for fittings & finishes)"
-      : "No — structural build & materials only",
+      : "No – structural build & materials only",
   );
   y = h.addKeyValue(
     y,
@@ -295,7 +295,7 @@ export const generateCostEstimatePDF = (
         item.unit === "fixed" ? "(allowance)" : `(${item.quantity} ${item.unitLabel})`;
       y = h.addRow(
         y,
-        `${item.name} ${qtyLabel}${excluded ? " — fittings, excluded" : ""}`,
+        `${item.name} ${qtyLabel}${excluded ? " – fittings, excluded" : ""}`,
         excluded ? `(${formatCurrency(item.total)})` : formatCurrency(item.total),
       );
     });

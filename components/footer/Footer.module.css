@@ -124,7 +124,7 @@
 
 .footer__quarter-title {
   color: var(--text-primary);
-  font-weight: 900;
+  font-weight: 500;
   font-size: 1.1rem;
   margin-bottom: 1rem;
   margin-top: 0;
@@ -183,7 +183,7 @@
 }
 
 .footer__copyright-link {
-  color: #266bf1;
+  color: #4D5B4B;
 }
 
 /* .carbonNeutral {

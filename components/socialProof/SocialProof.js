@@ -4,8 +4,8 @@ const SocialProof = () => {
   return (
     <section className="mx-auto max-w-[90%]">
       <p className="standout">
-        <span className="text-[#266bf1]">5 star</span> rated and{" "}
-        <span className="text-[#266bf1]">award </span>
+        <span className="text-[#4D5B4B]">5 star</span> rated and{" "}
+        <span className="text-[#4D5B4B]">award </span>
         winning renovation company
       </p>
 

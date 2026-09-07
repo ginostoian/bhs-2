@@ -19,7 +19,7 @@ const calculatorSchema = {
       operatingSystem: "Web",
       provider: {
         "@type": "Organization",
-        name: "Better Homes Studio",
+        name: "Better Homes",
         url: siteUrl,
       },
       offers: {
@@ -39,30 +39,6 @@ const calculatorSchema = {
           text: faq.answer,
         },
       })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: siteUrl,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Cost Guides",
-          item: `${siteUrl}/tools`,
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Bathroom Cost Calculator",
-          item: pageUrl,
-        },
-      ],
     },
   ],
 };

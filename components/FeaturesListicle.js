@@ -146,7 +146,7 @@ const features = [
               {item}
             </li>
           ))}
-          <li className="flex items-center gap-3 text-[#266bf1] font-medium">
+          <li className="flex items-center gap-3 text-[#4D5B4B] font-medium">
             Being a full service renovation company, we will save you the time
             and hassle of managing multiple contractors on one project.
           </li>
@@ -330,13 +330,13 @@ const FeaturesListicle = () => {
     >
       <div className="text-center w-full mx-auto">
         <div className="max-md:px-8 mx-4">
-          <p className="text-[#266bf1] font-medium text-sm font-mono mb-3">
+          <p className="text-[#4D5B4B] font-medium text-sm font-mono mb-3">
             What you get
           </p>
-          <h2 className="text-base-content/90 font-extrabold text-3xl lg:text-5xl mb-8">
+          <h2 className="text-base-content/90 font-medium text-3xl lg:text-5xl mb-8">
             {/* 💡 COPY TIP: Remind visitors about the value of your product. Why do they need it? */}
             We have refined our processes with you in mind! Choose the{" "}
-            <span className="text-[#266bf1]">better way</span> to renovate.
+            <span className="text-[#4D5B4B]">better way</span> to renovate.
           </h2>
           <div className="text-base-content/90 leading-relaxed mb-8 lg:text-lg lg:pl-20 lg:pr-20 lg:max-w-6xl lg:mx-auto">
             {/* 💡 COPY TIP: Explain how your product delivers what you promise in the headline. */}
@@ -362,7 +362,7 @@ const FeaturesListicle = () => {
               <span
                 className={`duration-100 ${
                   featureSelected === feature.name
-                    ? "text-[#266bf1]"
+                    ? "text-[#4D5B4B]"
                     : "text-base-content/50 group-hover:text-base-content/80"
                 }`}
               >
@@ -371,7 +371,7 @@ const FeaturesListicle = () => {
               <span
                 className={`font-semibold text-sm ${
                   featureSelected === feature.name
-                    ? "text-[#266bf1]"
+                    ? "text-[#4D5B4B]"
                     : "text-base-content/60"
                 }`}
               >

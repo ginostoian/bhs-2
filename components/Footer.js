@@ -25,7 +25,7 @@ const Footer = () => {
                 width={24}
                 height={24}
               />
-              <strong className="text-base font-extrabold tracking-tight md:text-lg">
+              <strong className="text-base font-medium tracking-tight md:text-lg">
                 {config.appName}
               </strong>
             </Link>

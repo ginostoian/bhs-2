@@ -118,7 +118,7 @@ const calculatorSchema = {
       operatingSystem: "Web",
       provider: {
         "@type": "Organization",
-        name: "Better Homes Studio",
+        name: "Better Homes",
         url: siteUrl,
       },
       offers: {
@@ -138,30 +138,6 @@ const calculatorSchema = {
           text: faq.answer,
         },
       })),
-    },
-    {
-      "@type": "BreadcrumbList",
-      "@id": `${pageUrl}#breadcrumb`,
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Home",
-          item: siteUrl,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: "Cost Guides",
-          item: `${siteUrl}/tools`,
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: "Extension Calculator",
-          item: pageUrl,
-        },
-      ],
     },
   ],
 };
@@ -371,7 +347,7 @@ export default function ExtensionCalculator() {
 
   if (showResults && calculationResult) {
     return (
-      <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
+      <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top,_#f8fafc,_#f5f5f4_55%,_#e7e5e4)] py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mb-6">
             <button
@@ -416,7 +392,7 @@ export default function ExtensionCalculator() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
+    <div className="bh-calculator min-h-screen bg-[radial-gradient(circle_at_top_left,_#fff,_#f8fafc_35%,_#f5f5f4_70%)] py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
@@ -551,7 +527,7 @@ export default function ExtensionCalculator() {
 
         <section className="mx-auto mt-16 max-w-6xl">
           <div className="mb-8 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
               Budget guidance
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
@@ -565,7 +541,7 @@ export default function ExtensionCalculator() {
 
           <div className="grid gap-6 lg:grid-cols-[1fr_0.85fr]">
             <article className="rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#266bf1] text-sm font-bold text-white">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#4D5B4B] text-sm font-bold text-white">
                 01
               </div>
               <h3 className="mt-5 text-2xl font-semibold tracking-tight text-stone-950">
@@ -630,7 +606,7 @@ export default function ExtensionCalculator() {
           <div className="mt-6 overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-xl shadow-stone-900/5">
             <div className="grid gap-6 border-b border-stone-200 bg-stone-50 px-6 py-6 md:grid-cols-[0.9fr_1.1fr] md:px-8">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#266bf1]">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4D5B4B]">
                   2026 benchmarks
                 </p>
                 <h3 className="mt-2 text-2xl font-semibold tracking-tight text-stone-950">
@@ -661,7 +637,7 @@ export default function ExtensionCalculator() {
                       <td className="px-6 py-4 text-base font-semibold text-stone-950 md:px-8">
                         {type}
                       </td>
-                      <td className="px-6 py-4 text-base font-semibold text-[#266bf1] md:px-8">
+                      <td className="px-6 py-4 text-base font-semibold text-[#4D5B4B] md:px-8">
                         {budget}
                       </td>
                     </tr>
@@ -674,14 +650,14 @@ export default function ExtensionCalculator() {
               what&apos;s driving 2026 prices, read the{" "}
               <Link
                 href={`${siteUrl}/blog/house-extension-guide-2025#extension-costs`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 full extension cost breakdown for London
               </Link>{" "}
               in our{" "}
               <Link
                 href={`${siteUrl}/blog/house-extension-guide-2025`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 complete 2026 House Extension Guide
               </Link>
@@ -691,7 +667,7 @@ export default function ExtensionCalculator() {
 
           <div className="mt-10">
             <div className="max-w-3xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                 Cost drivers
               </p>
               <h3 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
@@ -723,7 +699,7 @@ export default function ExtensionCalculator() {
                 usually need full planning. The{" "}
                 <Link
                   href={`${siteUrl}/blog/house-extension-guide-2025#planning-permission`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   planning permission rules for extensions
                 </Link>{" "}
@@ -731,7 +707,7 @@ export default function ExtensionCalculator() {
                 part of a wider refurbishment, our{" "}
                 <Link
                   href={`${siteUrl}/renovation-calculator`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   renovation cost calculator
                 </Link>{" "}
@@ -742,7 +718,7 @@ export default function ExtensionCalculator() {
                 extension attached, run the numbers in our{" "}
                 <Link
                   href={`${siteUrl}/kitchen-calculator`}
-                  className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                  className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
                 >
                   kitchen cost calculator
                 </Link>{" "}
@@ -755,7 +731,7 @@ export default function ExtensionCalculator() {
           <div className="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-xl shadow-stone-900/5 md:p-8">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#266bf1]">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4D5B4B]">
                   Next steps
                 </p>
                 <h3 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950">
@@ -775,7 +751,7 @@ export default function ExtensionCalculator() {
                   key={step.number}
                   className="rounded-2xl border border-stone-200 bg-stone-50 p-5"
                 >
-                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#266bf1]">
+                  <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#4D5B4B]">
                     {step.number}
                   </div>
                   <h4 className="mt-3 text-lg font-semibold text-stone-950">
@@ -791,7 +767,7 @@ export default function ExtensionCalculator() {
               Our{" "}
               <Link
                 href={`${siteUrl}/blog/house-extension-guide-2025`}
-                className="font-semibold text-[#266bf1] underline-offset-4 hover:underline"
+                className="font-semibold text-[#4D5B4B] underline-offset-4 hover:underline"
               >
                 complete 2026 House Extension Guide
               </Link>{" "}

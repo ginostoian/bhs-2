@@ -8,14 +8,14 @@ import permittedDevelopmentDecisionGuideImg from "/public/assets/blog/house-exte
 import houseExtensionCostIndexImg from "/public/assets/blog/house-extension-types/house-extension-cost-index-london-2026.png";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   tocGrid: "mb-10 grid gap-5 md:grid-cols-2",
   tocColumn: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   tocLink:
-    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base",
+    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
@@ -23,7 +23,7 @@ const styles = {
 };
 
 /**
- * BH Studio — /blog/house-extension-types  (rewrite in place, URL unchanged)
+ * BH Studio – /blog/house-extension-types  (rewrite in place, URL unchanged)
  * Full replacement for the April 2025 version. No redirect required.
  * Primary keyword: types of house extensions
  * Page type: informational spoke supporting /house-extension
@@ -54,7 +54,7 @@ export default function TypesOfHouseExtensionsLondon() {
         per m² across both levels.
       </p>
       <p className={styles.p}>
-        • Side extensions lose permitted development rights entirely in conservation areas —
+        • Side extensions lose permitted development rights entirely in conservation areas –
         which covers much of Islington, Hackney and Haringey.
       </p>
       <p className={styles.p}>
@@ -97,7 +97,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         Taking garden gives you rear, side return, wraparound and glazed extensions. Taking air gives
         you double storey, over-structure and loft. Reclaiming existing space gives you garage and
-        basement conversions — the group homeowners overlook, and often the cheapest floor area on the
+        basement conversions – the group homeowners overlook, and often the cheapest floor area on the
         property. Most guides to the different types of house extensions stop at describing shapes. The
         useful question is narrower: which of the nine does your plot, your constraints and your remaining
         permitted development allowance permit? A 6m-wide Victorian terrace in E8 with a 9m garden has three
@@ -142,7 +142,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         A rear extension pushes straight out from the back wall. It is the simplest format to build: one
         footprint, one roof, usually one structural opening. Depth is where the money and the planning risk
-        sit — permitted development allows 3m beyond the original rear wall on a terraced or semi-detached
+        sit – permitted development allows 3m beyond the original rear wall on a terraced or semi-detached
         house, 4m on a detached one, with a prior approval route to 6m and 8m.
       </p>
       <p className={styles.p}>
@@ -153,7 +153,7 @@ export default function TypesOfHouseExtensionsLondon() {
 
       <h3 className={styles.h3}>Side return and infill extension</h3>
       <p className={styles.p}>
-        A side return extension fills the strip of dead ground alongside the original rear closet wing — the
+        A side return extension fills the strip of dead ground alongside the original rear closet wing – the
         alley Victorian builders left for coal and drainage. An infill extension is the same move where the
         gap sits between two existing additions. You typically gain 1.5m to 2.2m of width and 8m² to 15m².
       </p>
@@ -165,7 +165,7 @@ export default function TypesOfHouseExtensionsLondon() {
 
       <h3 className={styles.h3}>Wraparound extension</h3>
       <p className={styles.p}>
-        A wraparound extension — or L-shaped extension — combines rear and side return into one continuous
+        A wraparound extension – or L-shaped extension – combines rear and side return into one continuous
         structure, producing the largest single-storey footprint available on a standard terrace at 28m² to
         40m². A wraparound in Muswell Hill, N10, ran to £126,000 for 31m². Almost all need full planning
         permission, for reasons covered below.
@@ -217,7 +217,7 @@ export default function TypesOfHouseExtensionsLondon() {
         Converting an integral or attached garage costs roughly £1,400–£2,200 per m² in London. A standard 15m²
         single garage converts for £22,000–£33,000: raised insulated floor, infill wall and window where the door
         was, upgraded roof insulation, heating, rewiring. The shell exists, so a competent team is in and out in
-        four to six weeks. Check your title deeds and any estate-wide Article 4 direction first — some London
+        four to six weeks. Check your title deeds and any estate-wide Article 4 direction first – some London
         estates protect off-street parking.
       </p>
 
@@ -225,8 +225,8 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         A <Link href="/basement-conversion">basement conversion</Link> is the most technically demanding format in
         domestic construction. Converting a dry existing cellar runs £2,800–£4,200 per m². Lowering one runs
-        £4,000–£5,500. A full dig-down under an occupied house — underpinning, BS 8102 waterproofing, drainage,
-        lightwells — runs £4,800–£6,500 per m² and rarely lands under £180,000. It earns its keep in prime postcodes
+        £4,000–£5,500. A full dig-down under an occupied house – underpinning, BS 8102 waterproofing, drainage,
+        lightwells – runs £4,800–£6,500 per m² and rarely lands under £180,000. It earns its keep in prime postcodes
         where the square metre is worth more than it costs to build.
       </p>
 
@@ -238,7 +238,7 @@ export default function TypesOfHouseExtensionsLondon() {
         The space you paid for may not appear in the figure a lender or buyer works from.
       </p>
       <p className={styles.p}>
-        An orangery — masonry piers, solid perimeter, glazed lantern — is usually treated as a proper extension and
+        An orangery – masonry piers, solid perimeter, glazed lantern – is usually treated as a proper extension and
         included, which is why we recommend it over a conservatory wherever resale matters. Budget £2,200–£3,200 per m².
         A detached garden room costs £18,000–£45,000 and generally avoids planning permission if it stays single storey,
         below 2.5m high within 2m of a boundary, and is not separate living accommodation. Use one for a studio or gym.
@@ -290,7 +290,7 @@ export default function TypesOfHouseExtensionsLondon() {
       </p>
       <p className={styles.p}>
         Most London terraces are 4.5m to 6m wide internally and 9m to 14m deep. Depth is rarely the shortage. Adding
-        3m to a plan that is already 11m deep tends to produce a long, dark middle — which is why so many rear
+        3m to a plan that is already 11m deep tends to produce a long, dark middle – which is why so many rear
         extensions arrive with a rooflight bolted on late in the design as a rescue. Adding 1.8m of width to a 2.4m
         galley kitchen produces a 4.2m room. That is a different house.
       </p>
@@ -322,7 +322,7 @@ export default function TypesOfHouseExtensionsLondon() {
       </p>
       <p className={styles.p}>
         Run it on a 20m² footprint. A single storey rear extension at £3,500 per m² is £70,000 for 20m². The double
-        storey version lands near £115,000 for 40m² — £2,875 per m². You pay 64% more and receive twice the space, and
+        storey version lands near £115,000 for 40m² – £2,875 per m². You pay 64% more and receive twice the space, and
         the upper floor is a bedroom, which is the unit London buyers price a house by.
       </p>
       <p className={styles.p}>
@@ -340,14 +340,14 @@ export default function TypesOfHouseExtensionsLondon() {
         consultation, and take twenty minutes with a tape and a title plan.
       </p>
       <p className={styles.p}>
-        Measure the side return at its narrowest point — under 1.1m and the internal gain after wall thickness is not
+        Measure the side return at its narrowest point – under 1.1m and the internal gain after wall thickness is not
         worth the disruption. Measure garden depth from the original rear wall, not the current one. Measure rear wall
         to rear boundary, because 7m decides whether a double storey can be permitted development. Measure the width of
         the original house, because a permitted development side extension cannot exceed half of it. Then check the roof:
         a hipped roof on a semi opens up a hip-to-gable loft; a mansard usually rules out a straightforward dormer.
       </p>
       <p className={styles.p}>
-        Now read the constraints layer — conservation area, Article 4 direction, listed status, a protected tree in the
+        Now read the constraints layer – conservation area, Article 4 direction, listed status, a protected tree in the
         garden, biodiversity net gain on a larger footprint. A house inside a Hackney conservation area and an identical
         terrace three streets outside it have materially different option sets, which is why our{" "}
         <Link href="/locations/hackney">Hackney renovation team</Link> starts every feasibility with the constraints map
@@ -377,7 +377,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         A single storey rear extension qualifies at up to 3m beyond the original rear wall on a terraced or
         semi-detached house and 4m on a detached one, at a maximum height of 4m, with eaves capped at 3m where it comes
-        within 2m of a boundary. The larger home extension route takes that to 6m and 8m via prior approval — £249, with
+        within 2m of a boundary. The larger home extension route takes that to 6m and 8m via prior approval – £249, with
         a 42-day neighbour consultation. A single storey side extension must be no wider than half the original house and
         no more than 4m high, and on designated land, including conservation areas, side extensions are not permitted
         development at all. A wraparound is assessed as a rear enlargement and a side enlargement simultaneously, so it
@@ -387,13 +387,13 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         Fees moved on 1 April 2026: £548 for a householder application, £274 for a lawful development certificate for
         proposed works, and eight weeks statutory determination from validation. Buy the certificate even where no
-        application is needed — it is the document your buyer&apos;s solicitor will ask for. Our{" "}
+        application is needed – it is the document your buyer&apos;s solicitor will ask for. Our{" "}
         <Link href="/blog/permitted-development-guide">permitted development guide</Link> works through the conditions in
         full, and <Link href="/blog/planning-permission-refused-london">why London extensions get refused</Link> covers
         the recovery route if a decision goes against you.
       </p>
       <p className={styles.p}>
-        One trap catches people every year. Your allowance is measured against the original house — as first built, or as
+        One trap catches people every year. Your allowance is measured against the original house – as first built, or as
         it stood on 1 July 1948. A previous owner&apos;s rear addition counts against your budget even though you did not
         build it. We have surveyed E17 terraces where a 1990s kitchen addition had already consumed the full 3m, leaving
         the current owner with no permitted development depth at all.
@@ -409,7 +409,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         A rear extension bearing steel into the shared wall triggers a Section 3 party structure notice. A side return or
         infill extension usually builds a new flank wall on the boundary line, triggering a Section 1 line of junction
-        notice — served on a neighbour who may have no interest in your project. Excavating within 3m of a neighbouring
+        notice – served on a neighbour who may have no interest in your project. Excavating within 3m of a neighbouring
         building and deeper than its foundations triggers Section 6, which covers most extension footings and all basement
         work. A wraparound can trigger all three, with two neighbours. Serve notice two months before your intended start:
         neighbours have 14 days to respond, and silence counts as dissent.
@@ -419,7 +419,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <h2 className={styles.h2} id="combining-types">Combining extension types in a single build</h2>
       <p className={styles.p}>
         The best-value projects we run are rarely one format. A rear extension and a loft conversion delivered as a single
-        programme share one scaffold, one party wall award, one building control application and one set of preliminaries —
+        programme share one scaffold, one party wall award, one building control application and one set of preliminaries –
         typically 8% to 12% cheaper than running them two years apart, before you count the second round of dust and skips
         you avoid. Combinations that work: rear plus loft, side return plus loft, wraparound plus loft, garage conversion
         plus over-structure above it. Combinations that need care: basement plus anything, where underpinning dictates the
@@ -464,7 +464,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         That front-loaded work separates a project that lands on budget from one that finds a shallow garage foundation in
         week six. BH Studio has delivered more than 300 projects across Central, East and North London, carries £10M insurance
-        and a ten-year workmanship guarantee, and holds design and build under one contract — so the team telling you a
+        and a ten-year workmanship guarantee, and holds design and build under one contract – so the team telling you a
         wraparound is achievable on your plot is the team that has to make it stand up. Bring your measurements and your title
         plan to a feasibility conversation and we will tell you which formats are realistic, what they cost and what the
         planning route looks like, including when the format you had in mind is the wrong one. See examples of each type in our{" "}
@@ -475,7 +475,7 @@ export default function TypesOfHouseExtensionsLondon() {
       {/* ── ENGAGEMENT ──────────────────────────────────────────────────── */}
       <h2 className={styles.h2} id="join-the-conversation">Join the conversation</h2>
       <p className={styles.p}>
-        Which type are you leaning towards — and what is stopping you? Post your plot width, garden depth and borough in the
+        Which type are you leaning towards – and what is stopping you? Post your plot width, garden depth and borough in the
         comments and we will tell you which formats are worth pricing. If this guide helped you rule something out, send it
         to the neighbour about to make the same decision.
       </p>
@@ -492,7 +492,7 @@ export default function TypesOfHouseExtensionsLondon() {
 
       <h3 className={styles.h3}>What is the cheapest type of house extension?</h3>
       <p className={styles.p}>
-        A garage conversion, at roughly £1,400–£2,200 per m² in London, or £22,000–£33,000 for a standard single garage —
+        A garage conversion, at roughly £1,400–£2,200 per m² in London, or £22,000–£33,000 for a standard single garage –
         the shell exists, so you pay for insulation, an infill wall, services and finishes, not foundations and a roof.
       </p>
 
@@ -506,7 +506,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <h3 className={styles.h3}>Do I need planning permission for a wraparound extension?</h3>
       <p className={styles.p}>
         Almost always. A wraparound is assessed as a rear enlargement and a side enlargement at the same time and usually
-        fails at least one test — particularly in a conservation area, where side extensions have no permitted development
+        fails at least one test – particularly in a conservation area, where side extensions have no permitted development
         rights. Budget £548 and eight weeks for a decision.
       </p>
 
@@ -520,7 +520,7 @@ export default function TypesOfHouseExtensionsLondon() {
       <p className={styles.p}>
         An infill extension fills the gap between existing parts of the building, most often the side return alley beside a
         rear closet wing. Construction matches a side return extension, and it usually means building a new flank wall on the
-        boundary — which triggers a line of junction notice under the Party Wall etc. Act.
+        boundary – which triggers a line of junction notice under the Party Wall etc. Act.
       </p>
 
       <h3 className={styles.h3}>Which type of house extension adds the most value in London?</h3>
@@ -533,19 +533,19 @@ export default function TypesOfHouseExtensionsLondon() {
       {/* ── REFERENCES ──────────────────────────────────────────────────── */}
       <h2 className={styles.h2} id="references">References</h2>
       <p className={styles.p}>
-        1. GOV.UK — <a href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance" target="_blank" rel="noopener noreferrer">Permitted development rights for householders: technical guidance</a> — source for the 3m/4m, 6m/8m, half-width and 7m boundary conditions.
+        1. GOV.UK – <a href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance" target="_blank" rel="noopener noreferrer">Permitted development rights for householders: technical guidance</a> – source for the 3m/4m, 6m/8m, half-width and 7m boundary conditions.
       </p>
       <p className={styles.p}>
-        2. Planning Portal — <a href="https://www.planningportal.co.uk/permission/common-projects/extensions" target="_blank" rel="noopener noreferrer">House extensions: permission and rules</a> — conditions for rear and side extensions, including designated land.
+        2. Planning Portal – <a href="https://www.planningportal.co.uk/permission/common-projects/extensions" target="_blank" rel="noopener noreferrer">House extensions: permission and rules</a> – conditions for rear and side extensions, including designated land.
       </p>
       <p className={styles.p}>
-        3. GOV.UK — <a href="https://www.gov.uk/government/publications/party-wall-etc-act-1996-guidance" target="_blank" rel="noopener noreferrer">Party Wall etc. Act 1996: explanatory booklet</a> — Sections 1, 3 and 6 notices.
+        3. GOV.UK – <a href="https://www.gov.uk/government/publications/party-wall-etc-act-1996-guidance" target="_blank" rel="noopener noreferrer">Party Wall etc. Act 1996: explanatory booklet</a> – Sections 1, 3 and 6 notices.
       </p>
       <p className={styles.p}>
-        4. GOV.UK — <a href="https://www.gov.uk/building-regulations-approval" target="_blank" rel="noopener noreferrer">Building regulations approval</a> — applies to every extension type.
+        4. GOV.UK – <a href="https://www.gov.uk/building-regulations-approval" target="_blank" rel="noopener noreferrer">Building regulations approval</a> – applies to every extension type.
       </p>
       <p className={styles.p}>
-        5. GOV.UK — <a href="https://www.gov.uk/government/collections/planning-applications-statistics" target="_blank" rel="noopener noreferrer">Planning application statistics</a> — householder decision volumes and determination periods.
+        5. GOV.UK – <a href="https://www.gov.uk/government/collections/planning-applications-statistics" target="_blank" rel="noopener noreferrer">Planning application statistics</a> – householder decision volumes and determination periods.
       </p>
     </article>
   );
@@ -558,15 +558,15 @@ SCHEMA REQUIREMENTS
    - headline: "Types of House Extensions in London: 2026 Guide"
    - author: { "@type": "Person", "name": "Gino S.", "url": "https://bhstudio.co.uk/blog/author/gino" }
    - publisher: { "@type": "Organization", "name": "Better Homes", logo: better-homes-logo.svg }
-   - datePublished: [ISO 8601]  |  dateModified: [ISO 8601 — refresh on every edit]
+   - datePublished: [ISO 8601]  |  dateModified: [ISO 8601 – refresh on every edit]
    - image: /assets/blog/house-extension-types/better-homes-extension-hero.png
    - mainEntityOfPage: https://bhstudio.co.uk/blog/house-extension-types
    - canonical: https://bhstudio.co.uk/blog/house-extension-types (unchanged)
    - datePublished: KEEP the original 2025 date. Only dateModified changes.
 
-2. FAQPage schema — all 7 Q&As in #faqs, verbatim.
+2. FAQPage schema – all 7 Q&As in #faqs, verbatim.
 
-3. BreadcrumbList — Home > Blog > Extensions > Types of House Extensions in London.
+3. BreadcrumbList – Home > Blog > Extensions > Types of House Extensions in London.
 
 4. No redirect. URL, canonical and existing internal links stay as they are.
    On publish: update <lastmod> in the sitemap and request re-indexing in GSC so the

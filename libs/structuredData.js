@@ -12,7 +12,7 @@ export const BUSINESS_IDS = {
 export const BUSINESS_SAME_AS = [
   "https://www.instagram.com/better.homes.studio",
   "https://www.facebook.com/bhomes.studio",
-  "https://www.houzz.co.uk/pro/betterhomesstudio/better-homes-studio-celli",
+  "https://www.houzz.co.uk/pro/betterhomeslondon/better-homes",
   "https://g.page/r/CaGIVAg_unOVEBM/",
   "https://www.mybuilder.com/profile/view/celli/feedback",
 ];
@@ -65,5 +65,5 @@ export const getLocalBusinessSchema = (overrides = {}) => ({
 
 export const getRootSchema = () => ({
   "@context": "https://schema.org",
-  "@graph": [getOrganizationSchema(), getWebsiteSchema()],
+  "@graph": [getOrganizationSchema(), getWebsiteSchema(), getLocalBusinessSchema({ areaServed: { "@type": "City", name: "London" } })],
 });

@@ -42,7 +42,7 @@
 }
 
 .main-nav__logo-text-accent {
-  color: #266bf1;
+  color: #4D5B4B;
 }
 
 @media (min-width: 490px) {
@@ -103,7 +103,7 @@
 .mobile-nav__button:hover,
 .dropdown-trigger-active {
   background: rgba(38, 107, 241, 0.08);
-  color: #1449b0;
+  color: #3E4A3C;
 }
 
 .main-nav__link:focus-visible,
@@ -232,7 +232,7 @@
 
 .dropdown__link:hover {
   background: rgba(38, 107, 241, 0.08);
-  color: #1449b0;
+  color: #3E4A3C;
   transform: translateX(4px);
 }
 

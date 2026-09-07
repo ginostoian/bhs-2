@@ -32,8 +32,10 @@ import PlanningPermissionRefusedArticle from "./articles/PlanningPermissionRefus
 import HouseExtensionGuide2025Article from "./articles/HouseExtensionGuide2025Article";
 import BespokeVsHowdensVsIkeaKitchenArticle from "./articles/BespokeVsHowdensVsIkeaKitchenArticle";
 import HomeImprovementLoansLondonArticle from "./articles/HomeImprovementLoansLondonArticle";
+import SingleStoreyExtensionCostLondonArticle from "./articles/SingleStoreyExtensionCostLondonArticle";
 import HouseExtensionTypesArticle from "./articles/HouseExtensionTypesArticle";
 import betterHomesExtensionHeroImg from "/public/assets/blog/house-extension-types/better-homes-extension-hero.png";
+import singleStoreyExtensionCostImg from "/public/assets/blog/single-storey-extension-cost-london/extension-cost-by-size-london-2026.png";
 
 // ==================================================================================================================================================================
 // BLOG CATEGORIES 🏷️
@@ -223,15 +225,15 @@ const styles = {
   ul: "list-inside list-disc text-base-content/90 leading-relaxed mb-6",
   li: "mb-2",
   // Altnernatively, you can use the library react-syntax-highlighter to display code snippets.
-  accent: "text-[#266bf1]",
-  pAccent: "mb-6 text-[#266bf1]",
+  accent: "text-[#4D5B4B]",
+  pAccent: "mb-6 text-[#4D5B4B]",
 };
 
 const houseExtensionGuideFaqs = [
   {
     question: "How much does a house extension cost in London in 2026?",
     answer:
-      "Construction costs range from £2,500 to £4,500 per square metre depending on specification. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in, including VAT, architect fees, structural engineering, building control, and basic finishes. Side return extensions start from around £35,000, while wraparound extensions range from £75,000 to £140,000. Add £15,000 to £60,000 for a kitchen fit-out if the extension includes a new kitchen.",
+      "Construction costs range from £2,500 to £4,600 per square metre depending on specification. A standard 25 sqm single-storey rear extension typically costs £92,000 to £118,000 all-in, including VAT, architect fees, structural engineering, building control, and basic finishes. Side return extensions start from around £35,000, while wraparound extensions range from £75,000 to £140,000. Add £15,000 to £60,000 for a kitchen fit-out if the extension includes a new kitchen.",
   },
   {
     question: "Do I need planning permission for a house extension in London?",
@@ -322,6 +324,59 @@ export const articles = [
         question: "Should I take finance through my loft conversion or extension company?",
         answer:
           "Compare builder-arranged finance against the open market because brokered products may include commission. A clear fixed-price contract from a reputable design-and-build company is useful whichever lender you choose.",
+      },
+    ],
+  },
+  {
+    slug: "single-storey-extension-cost-london",
+    title: "Single Storey Extension Cost London: 2026 Price Guide",
+    seoTitle: "Single Storey Extension Cost London 2026 | BH Studio",
+    description:
+      "Single storey extension cost in London in 2026: £2,500-£4,600 per m² to build, £80,000-£135,000 all-in for 20-30m², plus real E8 project costs, fees and depth economics.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-08-26",
+    dateModified: "2026-08-26",
+    image: {
+      src: singleStoreyExtensionCostImg,
+      urlRelative:
+        "/assets/blog/single-storey-extension-cost-london/extension-cost-by-size-london-2026.png",
+      alt: "Single storey extension cost in London 2026 by size, with all-in ranges and falling cost per square metre",
+    },
+    content: <SingleStoreyExtensionCostLondonArticle />,
+    faqs: [
+      {
+        question: "How much does a 20m2 extension cost in London in 2026?",
+        answer:
+          "£80,000 to £104,000 all-in at mid-range specification, including VAT, professional fees, statutory charges and party wall. Construction alone is £50,000 to £78,000 excluding VAT. Add £15,000 to £60,000 for a new kitchen.",
+      },
+      {
+        question: "What is the rear extension cost per m2 in London?",
+        answer:
+          "£2,500 to £4,600 per square metre for construction excluding VAT, or £3,000 to £5,000 architect-designed. All-in rates run from £3,371 per square metre at 35 square metres up to £5,470 at 15, because smaller extensions carry the fixed costs less efficiently.",
+      },
+      {
+        question:
+          "Do I need planning permission for a single storey rear extension in London?",
+        answer:
+          "Usually not. Up to 3 metres deep on a terraced or semi-detached house, or 4 metres detached, is permitted development - subject to a 3 metre eaves height near the boundary, matching materials and the 50 per cent curtilage limit. Beyond that you need prior approval at £249. Conservation areas and Article 4 land are excluded.",
+      },
+      {
+        question: "How much does a kitchen extension cost in London?",
+        answer:
+          "Take the build cost for your footprint and add £15,000 to £60,000. A 25 square metre rear extension with a mid-market kitchen totals £115,000 to £145,000 all-in. Open-plan kitchen extensions return 10 to 15 per cent of property value - the strongest uplift of any single storey project.",
+      },
+      {
+        question: "How long does a single storey extension take to build?",
+        answer:
+          "Twelve to sixteen weeks on site. The full project runs six to nine months including design, planning or prior approval, building regulations and the party wall process. Prior approval alone adds up to 42 days for determination.",
+      },
+      {
+        question: "Is VAT payable on a house extension in London?",
+        answer:
+          "Yes. Work to an existing dwelling is standard-rated at 20 per cent on both labour and materials, with no exemption for extensions. On a £72,000 construction figure, VAT is £14,400. Check whether a quote is inclusive or exclusive before comparing it with another.",
       },
     ],
   },
@@ -651,7 +706,7 @@ export const articles = [
               allows many common home improvements to proceed without a full
               planning application, provided your project meets specific limits
               and conditions. In practice, PD can streamline smart upgrades to
-              London houses — extensions, lofts, outbuildings, solar — while
+              London houses – extensions, lofts, outbuildings, solar – while
               keeping quality safeguards through measurements, materials and
               siting rules. PD does not remove the need to comply with Building
               Regulations or other consents.
@@ -946,7 +1001,7 @@ export const articles = [
                     href="https://www.gov.uk/planning-permission-england-wales"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Planning Permission in England and Wales - GOV.UK
                   </Link>
@@ -956,7 +1011,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Permitted Development Rights for Householders - GOV.UK
                   </Link>
@@ -966,7 +1021,7 @@ export const articles = [
                     href="https://www.planningportal.co.uk/info/200130/common_projects/9/loft_conversion"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Loft Conversion Planning Portal Guide
                   </Link>
@@ -976,7 +1031,7 @@ export const articles = [
                     href="https://www.planningportal.co.uk/info/200130/common_projects/10/extension"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     House Extension Planning Portal Guide
                   </Link>
@@ -992,7 +1047,7 @@ export const articles = [
                     href="https://www.gov.uk/building-regulations-approval"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Building Regulations Approval - GOV.UK
                   </Link>
@@ -1002,7 +1057,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls/the-party-wall-etc-act-1996-explanatory-booklet"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Party Wall Act 1996 Explanatory Booklet - GOV.UK
                   </Link>
@@ -1012,7 +1067,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/lawful-development-certificates"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Lawful Development Certificates - GOV.UK
                   </Link>
@@ -1028,7 +1083,7 @@ export const articles = [
                     href="https://www.gov.uk/guidance/domestic-renewable-heat-incentive"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Domestic Renewable Heat Incentive - GOV.UK
                   </Link>
@@ -1038,7 +1093,7 @@ export const articles = [
                     href="https://mcscertified.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Microgeneration Certification Scheme (MCS)
                   </Link>
@@ -1048,7 +1103,7 @@ export const articles = [
                     href="https://www.gov.uk/feed-in-tariffs"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Feed-in Tariffs and Smart Export Guarantee - GOV.UK
                   </Link>
@@ -1064,7 +1119,7 @@ export const articles = [
                     href="https://www.london.gov.uk/what-we-do/planning"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     London Planning Information - Greater London Authority
                   </Link>
@@ -1074,7 +1129,7 @@ export const articles = [
                     href="https://www.gov.uk/find-local-council"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Find Your Local Council - GOV.UK
                   </Link>
@@ -1086,10 +1141,10 @@ export const articles = [
             {/* EXTERNAL LINKS: Replace source mentions with Next.js <Link> to GOV.UK, Planning Portal, MCS */}
           </>
 
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -1105,7 +1160,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -1114,7 +1169,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -1257,7 +1312,7 @@ export const articles = [
               allows many common home improvements to proceed without a full
               planning application, provided your project meets specific limits
               and conditions. In practice, PD can streamline smart upgrades to
-              London houses — extensions, lofts, outbuildings, solar — while
+              London houses – extensions, lofts, outbuildings, solar – while
               keeping quality safeguards through measurements, materials and
               siting rules. PD does not remove the need to comply with Building
               Regulations or other consents.
@@ -1552,7 +1607,7 @@ export const articles = [
                     href="https://www.gov.uk/planning-permission-england-wales"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Planning Permission in England and Wales - GOV.UK
                   </Link>
@@ -1562,7 +1617,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/permitted-development-rights-for-householders-technical-guidance"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Permitted Development Rights for Householders - GOV.UK
                   </Link>
@@ -1572,7 +1627,7 @@ export const articles = [
                     href="https://www.planningportal.co.uk/info/200130/common_projects/9/loft_conversion"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Loft Conversion Planning Portal Guide
                   </Link>
@@ -1582,7 +1637,7 @@ export const articles = [
                     href="https://www.planningportal.co.uk/info/200130/common_projects/10/extension"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     House Extension Planning Portal Guide
                   </Link>
@@ -1598,7 +1653,7 @@ export const articles = [
                     href="https://www.gov.uk/building-regulations-approval"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Building Regulations Approval - GOV.UK
                   </Link>
@@ -1608,7 +1663,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/preventing-and-resolving-disputes-in-relation-to-party-walls/the-party-wall-etc-act-1996-explanatory-booklet"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Party Wall Act 1996 Explanatory Booklet - GOV.UK
                   </Link>
@@ -1618,7 +1673,7 @@ export const articles = [
                     href="https://www.gov.uk/government/publications/lawful-development-certificates"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Lawful Development Certificates - GOV.UK
                   </Link>
@@ -1634,7 +1689,7 @@ export const articles = [
                     href="https://www.gov.uk/guidance/domestic-renewable-heat-incentive"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Domestic Renewable Heat Incentive - GOV.UK
                   </Link>
@@ -1644,7 +1699,7 @@ export const articles = [
                     href="https://mcscertified.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Microgeneration Certification Scheme (MCS)
                   </Link>
@@ -1654,7 +1709,7 @@ export const articles = [
                     href="https://www.gov.uk/feed-in-tariffs"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Feed-in Tariffs and Smart Export Guarantee - GOV.UK
                   </Link>
@@ -1670,7 +1725,7 @@ export const articles = [
                     href="https://www.london.gov.uk/what-we-do/planning"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     London Planning Information - Greater London Authority
                   </Link>
@@ -1680,7 +1735,7 @@ export const articles = [
                     href="https://www.gov.uk/find-local-council"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#266bf1] hover:underline"
+                    className="text-[#4D5B4B] hover:underline"
                   >
                     Find Your Local Council - GOV.UK
                   </Link>
@@ -1692,10 +1747,10 @@ export const articles = [
             {/* EXTERNAL LINKS: Replace source mentions with Next.js <Link> to GOV.UK, Planning Portal, MCS */}
           </>
 
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -1711,7 +1766,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -1720,7 +1775,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -1771,7 +1826,7 @@ export const articles = [
       {
         question: "What is the cheapest type of house extension?",
         answer:
-          "A garage conversion, at roughly £1,400–£2,200 per m² in London, or £22,000–£33,000 for a standard single garage — the shell exists, so you pay for insulation, an infill wall, services and finishes, not foundations and a roof.",
+          "A garage conversion, at roughly £1,400–£2,200 per m² in London, or £22,000–£33,000 for a standard single garage – the shell exists, so you pay for insulation, an infill wall, services and finishes, not foundations and a roof.",
       },
       {
         question: "Is a side return or a rear extension better for a terraced house?",
@@ -1781,7 +1836,7 @@ export const articles = [
       {
         question: "Do I need planning permission for a wraparound extension?",
         answer:
-          "Almost always. A wraparound is assessed as a rear enlargement and a side enlargement at the same time and usually fails at least one test — particularly in a conservation area, where side extensions have no permitted development rights. Budget £548 and eight weeks for a decision.",
+          "Almost always. A wraparound is assessed as a rear enlargement and a side enlargement at the same time and usually fails at least one test – particularly in a conservation area, where side extensions have no permitted development rights. Budget £548 and eight weeks for a decision.",
       },
       {
         question: "Is a double storey extension cheaper per square metre than a single storey?",
@@ -1791,7 +1846,7 @@ export const articles = [
       {
         question: "What is an infill extension?",
         answer:
-          "An infill extension fills the gap between existing parts of the building, most often the side return alley beside a rear closet wing. Construction matches a side return extension, and it usually means building a new flank wall on the boundary — which triggers a line of junction notice under the Party Wall etc. Act.",
+          "An infill extension fills the gap between existing parts of the building, most often the side return alley beside a rear closet wing. Construction matches a side return extension, and it usually means building a new flank wall on the boundary – which triggers a line of junction notice under the Party Wall etc. Act.",
       },
       {
         question: "Which type of house extension adds the most value in London?",
@@ -1919,7 +1974,7 @@ export const articles = [
           </h2>
           <p className={styles.p}>
             Designing your dream kitchen is one of the most exciting parts of a
-            home renovation—especially in a city like London, where style,
+            home renovation–especially in a city like London, where style,
             function, and luxury must coexist in harmony. But with so many
             kitchen providers on the market, how do you choose the one that
             perfectly aligns with your vision, lifestyle, and investment level?
@@ -1936,14 +1991,14 @@ export const articles = [
 
           <p className={styles.p}>
             In this guide, we compare the top 10 kitchen providers available in
-            the UK today—each reviewed through the lens of quality, design,
+            the UK today–each reviewed through the lens of quality, design,
             service, and value. Tailored for London homeowners with high
             standards and refined taste, this comprehensive breakdown will help
             you navigate your options with clarity and confidence.
           </p>
 
           <p className={styles.p}>
-            Let&apos;s explore how these premium kitchen providers stack up—and
+            Let&apos;s explore how these premium kitchen providers stack up–and
             which one might be the perfect fit for your next renovation.
           </p>
 
@@ -1990,7 +2045,7 @@ export const articles = [
             delivers long-term value through design longevity, material quality,
             and post-installation support earns its price tag. DIY Kitchens, for
             instance, offer solid quality at a lower price point by removing
-            retail middlemen—an option worth considering for savvy investors.
+            retail middlemen–an option worth considering for savvy investors.
           </p>
 
           <h3 className={styles.h3}>Customer Service and Aftercare</h3>
@@ -2008,7 +2063,7 @@ export const articles = [
             fully project-managed service, the provider&apos;s installation
             offering can make or break the project timeline. Benchmarx and
             Howdens cater to trade, while brands like Magnet and Wickes offer
-            complete design-to-installation packages—often with extensive
+            complete design-to-installation packages–often with extensive
             warranties to give you peace of mind.
           </p>
 
@@ -2023,7 +2078,7 @@ export const articles = [
             UK&apos;s most recognisable kitchen brands. Known for its broad
             range of styles and accessible showrooms across London and beyond,
             Magnet offers an appealing blend of practicality and
-            polish—particularly suited to busy, design-conscious homeowners.
+            polish–particularly suited to busy, design-conscious homeowners.
           </p>
 
           <h3 className={styles.h3}>Overview and History</h3>
@@ -2060,7 +2115,7 @@ export const articles = [
             generally favourable reviews. Customers praise the design process
             and installer professionalism, though a few cite delays or
             communication gaps. Notably, their “Magnet Trade” arm is well-rated
-            by professional fitters—adding credibility for those using their own
+            by professional fitters–adding credibility for those using their own
             contractors.
           </p>
 
@@ -2073,7 +2128,7 @@ export const articles = [
             further peace of mind.
           </p>
 
-          {/* Suggested Image: Magnet kitchen in a modern London townhouse setting — with annotated features like quartz island, built-in storage, etc. */}
+          {/* Suggested Image: Magnet kitchen in a modern London townhouse setting – with annotated features like quartz island, built-in storage, etc. */}
 
           <h2 className={styles.h2} id="wickes">
             Wickes Kitchens
@@ -2153,7 +2208,7 @@ export const articles = [
             IKEA has been a fixture in UK homes since 1987, with several large
             stores across Greater London including Tottenham, Croydon and
             Greenwich. Known for democratising design, IKEA has made stylish,
-            minimalist kitchens accessible to millions—often blending
+            minimalist kitchens accessible to millions–often blending
             surprisingly well in upscale settings with the right creative
             touches.
           </p>
@@ -2161,7 +2216,7 @@ export const articles = [
           <h3 className={styles.h3}>Design Styles and Customisation</h3>
           <p className={styles.p}>
             IKEA&apos;s METOD kitchen system is the backbone of their
-            offering—fully modular and highly adaptable. Customers can choose
+            offering–fully modular and highly adaptable. Customers can choose
             from dozens of door fronts (like the popular BODARP or VOXTORP) and
             configure cabinet heights, depths, and interiors to suit their
             space. IKEA also partners with companies like Reform and Plykea for
@@ -2175,7 +2230,7 @@ export const articles = [
             though most high-end custom upgrades bring it closer to
             £10,000–£15,000. This makes it ideal for savvy homeowners or
             design-conscious renovators looking to control spend while still
-            achieving a high-end result—especially when paired with premium
+            achieving a high-end result–especially when paired with premium
             countertops, lighting, and appliances.
           </p>
 
@@ -2184,7 +2239,7 @@ export const articles = [
             IKEA&apos;s kitchen planning service is well-reviewed, particularly
             their online planner tool and home consultation options. Customers
             often note satisfaction with quality-to-price ratio. Installation,
-            however, is often outsourced and results can vary—making it
+            however, is often outsourced and results can vary–making it
             important to vet installers or opt for supply-only and hire trusted
             local trades.
           </p>
@@ -2199,7 +2254,7 @@ export const articles = [
             warranty offers long-term peace of mind.
           </p>
 
-          {/* Suggested Image: An IKEA kitchen reimagined in a luxury Notting Hill townhouse — showing integration with bespoke worktops, handles, and lighting */}
+          {/* Suggested Image: An IKEA kitchen reimagined in a luxury Notting Hill townhouse – showing integration with bespoke worktops, handles, and lighting */}
 
           <h2 className={styles.h2} id="bq">
             B&Q Kitchens
@@ -2273,14 +2328,14 @@ export const articles = [
             London, chances are you&apos;ve heard of Howdens. As a
             trade-exclusive supplier, Howdens delivers premium-quality,
             ready-to-install kitchens with the kind of efficiency and
-            craftsmanship that appeals to professionals—and increasingly, to
+            craftsmanship that appeals to professionals–and increasingly, to
             discerning homeowners seeking a stress-free, high-end result.
           </p>
 
           <h3 className={styles.h3}>Overview and History</h3>
           <p className={styles.p}>
             Established in 1995, Howdens has grown into the UK&apos;s largest
-            supplier of kitchens to the trade, with over 800 depots—including
+            supplier of kitchens to the trade, with over 800 depots–including
             many across Greater London. Their close relationships with builders,
             coupled with local stock availability, make them a favourite among
             contractors completing high-spec projects on tight timelines.
@@ -2288,7 +2343,7 @@ export const articles = [
 
           <h3 className={styles.h3}>Design Styles and Customisation</h3>
           <p className={styles.p}>
-            Howdens offers an impressive variety of styles—from handleless gloss
+            Howdens offers an impressive variety of styles–from handleless gloss
             finishes in their Hockley collection to traditional shaker designs
             like Burford and Chilcomb. Their cabinet carcasses are robust and
             pre-assembled (not flat pack), which ensures a premium finish and
@@ -2302,7 +2357,7 @@ export const articles = [
             directly to tradespeople and can vary depending on agreements.
             However, many luxury renovation projects in London use Howdens as a
             cost-efficient yet high-quality alternative to bespoke
-            cabinetry—especially when working with an experienced builder who
+            cabinetry–especially when working with an experienced builder who
             knows how to maximise their system.
           </p>
 
@@ -2312,7 +2367,7 @@ export const articles = [
             results, especially when installations are handled by skilled
             tradespeople. While Howdens doesn&apos;t offer direct-to-consumer
             services, their indirect approach often results in less hassle for
-            clients—especially when integrated into a turnkey build.
+            clients–especially when integrated into a turnkey build.
           </p>
 
           <h3 className={styles.h3}>Unique Selling Points</h3>
@@ -2334,7 +2389,7 @@ export const articles = [
           <p className={styles.p}>
             Known for its striking showroom displays and polished marketing,
             Wren Kitchens has become a major force in the UK kitchen
-            market—especially among Londoners seeking modern aesthetics and
+            market–especially among Londoners seeking modern aesthetics and
             high-spec functionality. With extensive customisation, luxury
             finishes, and an end-to-end service model, Wren appeals to those who
             want a showroom-perfect kitchen with minimal hassle.
@@ -2345,7 +2400,7 @@ export const articles = [
             Founded in 2009, Wren Kitchens has rapidly scaled to become the
             UK&apos;s largest kitchen retailer by volume. All their kitchens are
             manufactured in the UK, and with multiple flagship showrooms in and
-            around London—including Acton, Croydon, and Wembley—they cater
+            around London–including Acton, Croydon, and Wembley–they cater
             directly to homeowners seeking a full-service experience.
           </p>
 
@@ -2398,7 +2453,7 @@ export const articles = [
             While often seen as a general home improvement store, Homebase has
             quietly refined its kitchen offering to compete with more recognised
             players in the mid-market space. With smart design collaborations
-            and evolving collections, it&apos;s a brand to watch—especially for
+            and evolving collections, it&apos;s a brand to watch–especially for
             Londoners managing multiple property renovations or secondary
             kitchens.
           </p>
@@ -2428,7 +2483,7 @@ export const articles = [
             Pricing is geared toward the budget-conscious to mid-range buyer,
             with most complete kitchens falling in the £6,000–£12,000 range.
             This makes Homebase ideal for homeowners refurbishing rental
-            properties, garden flats, or even high-spec secondary kitchens—where
+            properties, garden flats, or even high-spec secondary kitchens–where
             a full bespoke solution may not be needed.
           </p>
 
@@ -2447,7 +2502,7 @@ export const articles = [
             designs. Their partnerships with European manufacturers give them an
             edge in material quality and finish. For homeowners who value design
             but don&apos;t need full customisation, it&apos;s a smart
-            compromise—and one that works particularly well in London&apos;s
+            compromise–and one that works particularly well in London&apos;s
             fast-paced property market.
           </p>
 
@@ -2480,7 +2535,7 @@ export const articles = [
           <p className={styles.p}>
             John Lewis Kitchens offers two main collections: the “Classic” and
             the “Modern,” both of which are fully customisable. The brand&apos;s
-            focus is on design consultation and bespoke detailing—ranging from
+            focus is on design consultation and bespoke detailing–ranging from
             elegant shaker doors to sleek, handleless cabinetry in matte
             finishes. You&apos;ll find premium storage solutions, top-tier
             hardware, and luxury worktop options included as standard.
@@ -2491,7 +2546,7 @@ export const articles = [
             John Lewis positions itself in the premium segment, with average
             kitchen projects ranging between £15,000 and £35,000. While not the
             cheapest option, the value lies in service, style, and peace of
-            mind—making it ideal for primary residences in desirable London
+            mind–making it ideal for primary residences in desirable London
             postcodes like Chelsea, Hampstead, and Richmond.
           </p>
 
@@ -2526,7 +2581,7 @@ export const articles = [
             unbeatable blend of quality, value, and choice. Particularly
             appealing for high-income London homeowners who want to take control
             of the design process, DIY Kitchens offers near-bespoke
-            results—without the traditional showroom markup.
+            results–without the traditional showroom markup.
           </p>
 
           <h3 className={styles.h3}>Overview and History</h3>
@@ -2534,7 +2589,7 @@ export const articles = [
             Founded in West Yorkshire, DIY Kitchens is a family-run manufacturer
             that has been supplying high-quality kitchens online for over 30
             years. Unlike traditional retailers, they operate primarily online
-            and sell directly to consumers—cutting out the middleman and
+            and sell directly to consumers–cutting out the middleman and
             offering factory-direct pricing. Their national delivery network
             includes full-service across Greater London.
           </p>
@@ -2552,7 +2607,7 @@ export const articles = [
           <h3 className={styles.h3}>Pricing and Target Market</h3>
           <p className={styles.p}>
             DIY Kitchens offers premium quality at some of the most competitive
-            prices in the industry—often 30–50% cheaper than high-street
+            prices in the industry–often 30–50% cheaper than high-street
             equivalents. A full kitchen can be achieved from £4,000–£12,000
             depending on size and finish. This makes it ideal for homeowners
             seeking bespoke quality on a defined budget or scaling their
@@ -2565,7 +2620,7 @@ export const articles = [
             platforms like Trustpilot. Customers rave about the build quality
             (pre-assembled, solid carcasses), attention to detail, and customer
             service. The only caution is that it&apos;s a self-managed
-            process—so you&apos;ll need to be confident measuring and project
+            process–so you&apos;ll need to be confident measuring and project
             managing, or work with a trusted fitter.
           </p>
 
@@ -2589,8 +2644,8 @@ export const articles = [
             While primarily known in trade circles, Benchmarx Kitchens is
             steadily gaining recognition among informed homeowners who
             prioritise quality, speed, and professional-grade finishes. With a
-            product range designed to rival premium high street names—but sold
-            through builders—Benchmarx is an insider favourite for luxury
+            product range designed to rival premium high street names–but sold
+            through builders–Benchmarx is an insider favourite for luxury
             renovations on tight timelines.
           </p>
 
@@ -2598,8 +2653,8 @@ export const articles = [
           <p className={styles.p}>
             Benchmarx is a part of the Travis Perkins Group and has been
             supplying kitchens to trade professionals since 2006. With over 150
-            branches across the UK—including locations in Wimbledon, Fulham, and
-            Hackney—it&apos;s well-positioned to serve London&apos;s fast-moving
+            branches across the UK–including locations in Wimbledon, Fulham, and
+            Hackney–it&apos;s well-positioned to serve London&apos;s fast-moving
             renovation scene. While not a consumer-facing brand per se, more
             homeowners are beginning to work with builders to access
             Benchmarx&apos;s catalogue directly.
@@ -2710,7 +2765,7 @@ export const articles = [
             pre-assembled cabinets and the assurance provided by extended
             warranties, often mentioned with Howdens and Benchmarx. Even
             providers with mixed reviews, such as B&Q and Homebase, have loyal
-            followings due to ease of access and affordability—attributes that
+            followings due to ease of access and affordability–attributes that
             matter for homeowners juggling multiple renovation projects.
           </p>
 
@@ -2736,7 +2791,7 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            Luxury kitchens in London are evolving fast—blending timeless
+            Luxury kitchens in London are evolving fast–blending timeless
             aesthetics with next-gen tech, sustainable materials, and spatial
             storytelling. Today&apos;s high-income homeowners aren&apos;t just
             looking for a kitchen that functions; they want a space that
@@ -2748,7 +2803,7 @@ export const articles = [
             1. Statement Islands & Multi-Functional Layouts
           </h3>
           <p className={styles.p}>
-            Kitchen islands are no longer just for prep—they&apos;re
+            Kitchen islands are no longer just for prep–they&apos;re
             centrepieces for cooking, socialising, and working from home. Large
             islands with waterfall quartz edges, built-in wine fridges, and
             under-counter storage dominate design briefs. Providers like Wren
@@ -2770,7 +2825,7 @@ export const articles = [
             Handleless cabinetry and integrated appliances are now a luxury
             standard. Howdens, IKEA, and Wren all offer options where fridges,
             dishwashers, and even extractor fans are completely
-            concealed—creating seamless lines and calming atmospheres.
+            concealed–creating seamless lines and calming atmospheres.
             Push-to-open drawers and motorised lift-up cabinets are also gaining
             traction.
           </p>
@@ -2779,7 +2834,7 @@ export const articles = [
             4. Sustainable Materials & Energy Efficiency
           </h3>
           <p className={styles.p}>
-            Eco-conscious design is no longer niche—it&apos;s a priority. Brands
+            Eco-conscious design is no longer niche–it&apos;s a priority. Brands
             like John Lewis and IKEA incorporate sustainably sourced wood,
             VOC-free paints, and A-rated appliances. Many high-end London
             homeowners are choosing kitchens that align with their
@@ -2802,7 +2857,7 @@ export const articles = [
             6. Warm Neutrals & Earthy Colour Palettes
           </h3>
           <p className={styles.p}>
-            Crisp whites are giving way to warmer tones—think mushroom, sage
+            Crisp whites are giving way to warmer tones–think mushroom, sage
             green, dusky pinks, and rich, earthy browns. DIY Kitchens and Magnet
             have expanded their colour ranges to meet this shift, while upscale
             finishes like brushed brass or matte black hardware provide elegant
@@ -2817,7 +2872,7 @@ export const articles = [
 
           <p className={styles.p}>
             With so many strong options on the market, choosing the right
-            kitchen provider can feel overwhelming—especially when investing in
+            kitchen provider can feel overwhelming–especially when investing in
             a high-end renovation. The right decision balances design
             aspirations with practical needs, budget constraints, and the
             realities of your timeline. Here&apos;s how to narrow down your
@@ -2828,7 +2883,7 @@ export const articles = [
           <p className={styles.p}>
             Are you a daily home cook, a serial host, or designing for long-term
             resale value? Understanding how you&apos;ll use the kitchen shapes
-            everything—from layout and storage needs to finishes and appliances.
+            everything–from layout and storage needs to finishes and appliances.
             If you want a social kitchen for entertaining, consider providers
             like Wren or John Lewis for integrated island-centric layouts. If
             design control is key, DIY Kitchens or IKEA with custom fronts can
@@ -2841,7 +2896,7 @@ export const articles = [
             offer design, supply, and install. For those comfortable
             project-managing or working with a builder, consider Benchmarx or
             Howdens. DIY Kitchens suits those who enjoy researching, planning,
-            and coordinating their own contractors—and want to stretch their
+            and coordinating their own contractors–and want to stretch their
             budget for a high-end look.
           </p>
 
@@ -2854,7 +2909,7 @@ export const articles = [
             planning time, so align your provider with your renovation schedule.
           </p>
 
-          <h3 className={styles.h3}>4. Visit Showrooms—Then Compare Online</h3>
+          <h3 className={styles.h3}>4. Visit Showrooms–Then Compare Online</h3>
           <p className={styles.p}>
             Showrooms can be inspiring, but they&apos;re just one part of the
             puzzle. Get a feel for quality in person at brands like Magnet,
@@ -2870,7 +2925,7 @@ export const articles = [
           <p className={styles.p}>
             A luxury kitchen should feel good long after installation.
             Prioritise providers who offer clear aftercare plans and long
-            warranties—like Wren&apos;s 25-year guarantee or IKEA&apos;s robust
+            warranties–like Wren&apos;s 25-year guarantee or IKEA&apos;s robust
             service support. If you&apos;re investing in your “forever home,”
             longevity and service responsiveness matter just as much as
             aesthetics.
@@ -2891,26 +2946,26 @@ export const articles = [
             <li>
               🔍 <strong>Wren Kitchens</strong> offers a fully managed,
               design-to-install experience with high-end finishes and total
-              control—ideal for statement spaces.
+              control–ideal for statement spaces.
             </li>
             <li>
               🛠️ <strong>Howdens</strong> and <strong>Benchmarx</strong> are
               trade favourites that deliver outstanding quality and
-              speed—perfect for builder-led projects.
+              speed–perfect for builder-led projects.
             </li>
             <li>
               🎨 <strong>DIY Kitchens</strong> blends customisation,
-              craftsmanship, and online convenience—great for homeowners who
+              craftsmanship, and online convenience–great for homeowners who
               want value without compromise.
             </li>
             <li>
               🛍️ <strong>John Lewis Kitchens</strong> provides boutique service
-              and timeless British elegance—ideal for forever homes and top-tier
+              and timeless British elegance–ideal for forever homes and top-tier
               properties.
             </li>
             <li>
               🧱 <strong>IKEA</strong> becomes luxury when paired with upgrades
-              like Plykea—perfect for modern, design-savvy Londoners.
+              like Plykea–perfect for modern, design-savvy Londoners.
             </li>
             <li>
               💡 Always align your provider with your timeline, involvement
@@ -2919,8 +2974,8 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            Whatever your priorities—budget, design freedom, or project
-            simplicity—there&apos;s a kitchen provider in the UK that fits your
+            Whatever your priorities–budget, design freedom, or project
+            simplicity–there&apos;s a kitchen provider in the UK that fits your
             vision. Use this guide to find yours.
           </p>
 
@@ -2929,7 +2984,7 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            Your kitchen isn&apos;t just a room—it&apos;s where design meets
+            Your kitchen isn&apos;t just a room–it&apos;s where design meets
             daily life, where memories are made, and where investment meets
             impact. Whether you&apos;re renovating your forever home in
             Hampstead or optimising a sleek pied-à-terre in Shoreditch, choosing
@@ -2948,7 +3003,7 @@ export const articles = [
           <p className={styles.p}>
             This guide is designed to help you navigate that choice with clarity
             and confidence. Whether you want to play designer yourself or lean
-            into white-glove service, the right provider is out there—ready to
+            into white-glove service, the right provider is out there–ready to
             create a space that&apos;s as functional as it is breathtaking.
           </p>
 
@@ -3017,7 +3072,7 @@ export const articles = [
             5. Can I get a high-end kitchen from IKEA?
           </h3>
           <p className={styles.p}>
-            Yes—with the right upgrades. IKEA&apos;s{" "}
+            Yes–with the right upgrades. IKEA&apos;s{" "}
             <strong>METOD system</strong> can be elevated to a luxury standard
             when paired with custom doors from suppliers like Plykea or Reform,
             premium worktops, and high-spec appliances. It&apos;s a smart option
@@ -3030,7 +3085,7 @@ export const articles = [
 
           <p className={styles.p}>
             Have you recently renovated your kitchen or worked with one of the
-            providers mentioned above? What did you love—or wish you&apos;d done
+            providers mentioned above? What did you love–or wish you&apos;d done
             differently?
           </p>
 
@@ -3088,10 +3143,10 @@ export const articles = [
             </li>
           </ul>
 
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -3107,7 +3162,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -3116,7 +3171,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -3181,7 +3236,7 @@ export const articles = [
             first questions on your mind is likely:{" "}
             <strong>how much is this going to cost?</strong> And it&apos;s a
             smart question. Kitchen renovations aren&apos;t just about sleek
-            cabinetry or stylish splashbacks—they&apos;re a significant
+            cabinetry or stylish splashbacks–they&apos;re a significant
             investment in your home&apos;s value, lifestyle, and functionality.
           </p>
 
@@ -3189,8 +3244,8 @@ export const articles = [
             In 2025, the cost of a kitchen renovation in London ranges widely
             depending on the size, materials, labour, and level of finish you
             choose. From chic £15,000 remodels to bespoke £60,000+
-            transformations, understanding the full picture—
-            <strong>including labour, materials, and hidden extras</strong>—is
+            transformations, understanding the full picture–
+            <strong>including labour, materials, and hidden extras</strong>–is
             essential if you want to stay in control and avoid unexpected
             surprises.
           </p>
@@ -3216,7 +3271,7 @@ export const articles = [
               material choices
             </Link>
             , explore real-world examples, and offer tips to maximise your
-            budget—without compromising on the luxurious finish you deserve.
+            budget–without compromising on the luxurious finish you deserve.
           </p>
 
           <p className={styles.p}>
@@ -3379,7 +3434,7 @@ export const articles = [
           <h3 className={styles.h3}>Cabinets and Carpentry</h3>
 
           <p className={styles.p}>
-            Cabinetry typically represents the largest single expense—up to
+            Cabinetry typically represents the largest single expense–up to
             30–40% of your total renovation budget. In London, pre-assembled
             units may start at £2,000–£3,000, while semi-custom designs range
             from £5,000–£12,000. Bespoke cabinetry can easily exceed £20,000,
@@ -3396,7 +3451,7 @@ export const articles = [
           <h3 className={styles.h3}>Worktops and Splashbacks</h3>
 
           <p className={styles.p}>
-            Worktops are not only functional—they define the aesthetic tone.
+            Worktops are not only functional–they define the aesthetic tone.
             Here&apos;s what you can expect to pay:
           </p>
 
@@ -3443,7 +3498,7 @@ export const articles = [
 
           <p className={styles.p}>
             Installation costs can add £20–£60/m² depending on the flooring type
-            and subfloor condition. Don&apos;t forget underfloor heating—often
+            and subfloor condition. Don&apos;t forget underfloor heating–often
             £800–£1,200 extra for a typical kitchen.
           </p>
 
@@ -3478,12 +3533,12 @@ export const articles = [
 
           <p className={styles.p}>
             Though small on the invoice, these elements heavily influence the
-            kitchen&apos;s ambiance and usability—worth investing in with care.
+            kitchen&apos;s ambiance and usability–worth investing in with care.
           </p>
 
           <p className={styles.p}>
             By understanding where every pound goes, you can better prioritise
-            what matters most to you—whether that&apos;s sleek marble surfaces
+            what matters most to you–whether that&apos;s sleek marble surfaces
             or clever storage solutions.
           </p>
 
@@ -3494,7 +3549,7 @@ export const articles = [
           <p className={styles.p}>
             When it comes to a kitchen renovation in London, labour can account
             for up to 50% of your overall costs. That&apos;s why understanding
-            who does what—and what they charge—is key to accurate budgeting.
+            who does what–and what they charge–is key to accurate budgeting.
             London&apos;s skilled tradespeople charge a premium, so planning
             ahead ensures you get both quality and value.
           </p>
@@ -3523,7 +3578,7 @@ export const articles = [
           <h3 className={styles.h3}>Plumber</h3>
 
           <p className={styles.p}>
-            Plumbers handle all water-related elements—installing sinks,
+            Plumbers handle all water-related elements–installing sinks,
             dishwashers, taps, and potentially relocating water or gas lines.
             Day rates in London run from <strong>£250–£350</strong>. A standard
             plumbing job for a kitchen will generally cost between{" "}
@@ -3555,7 +3610,7 @@ export const articles = [
           <p className={styles.p}>
             Tip: Look for certified professionals (e.g., NICEIC electricians or
             Gas Safe engineers) to ensure safety, compliance, and peace of
-            mind—especially in high-end projects where every detail counts.
+            mind–especially in high-end projects where every detail counts.
           </p>
 
           <h2 className={styles.h2}>
@@ -3564,7 +3619,7 @@ export const articles = [
 
           <p className={styles.p}>
             The materials you choose will significantly shape not just your
-            kitchen&apos;s aesthetic—but also its longevity and cost. In London,
+            kitchen&apos;s aesthetic–but also its longevity and cost. In London,
             where quality and design are often non-negotiable for homeowners,
             material choices can elevate both lifestyle and property value.
             Let&apos;s break down the most important ones.
@@ -3600,7 +3655,7 @@ export const articles = [
           <h3 className={styles.h3}>Countertops: Surface Style vs Substance</h3>
 
           <p className={styles.p}>
-            Countertops do a lot of heavy lifting—literally and visually.
+            Countertops do a lot of heavy lifting–literally and visually.
             Here&apos;s a breakdown of average prices in 2025:
           </p>
 
@@ -3660,7 +3715,7 @@ export const articles = [
 
           <p className={styles.p}>
             Choosing the right materials is as much about your lifestyle as it
-            is about budget—think of it as a long-term investment in both
+            is about budget–think of it as a long-term investment in both
             function and flair.
           </p>
 
@@ -3668,17 +3723,17 @@ export const articles = [
 
           <p className={styles.p}>
             For high-income London homeowners, the kitchen is more than a space
-            for cooking—it&apos;s a lifestyle centrepiece. Investing in luxury
+            for cooking–it&apos;s a lifestyle centrepiece. Investing in luxury
             kitchen features not only enhances comfort and efficiency, but also
             significantly boosts the wow factor of your home. Let&apos;s explore
-            the features that turn a high-spec kitchen into a showpiece—and what
+            the features that turn a high-spec kitchen into a showpiece–and what
             they&apos;ll cost you.
           </p>
 
           <h3 className={styles.h3}>Smart Kitchen Appliances</h3>
 
           <p className={styles.p}>
-            Smart tech is no longer a novelty—it&apos;s expected in luxury
+            Smart tech is no longer a novelty–it&apos;s expected in luxury
             homes. From touchscreen ovens to fridges that sync with your
             smartphone, automation is redefining convenience. Examples include:
           </p>
@@ -3700,7 +3755,7 @@ export const articles = [
 
           <p className={styles.p}>
             These features not only enhance convenience, but can also improve
-            energy efficiency—a growing priority in sustainable London homes.
+            energy efficiency–a growing priority in sustainable London homes.
           </p>
 
           <h3 className={styles.h3}>
@@ -3708,7 +3763,7 @@ export const articles = [
           </h3>
 
           <p className={styles.p}>
-            Luxury means attention to detail—and these popular extras prove it:
+            Luxury means attention to detail–and these popular extras prove it:
           </p>
 
           <ul className={styles.p}>
@@ -3730,7 +3785,7 @@ export const articles = [
 
           <p className={styles.p}>
             These features are increasingly expected in modern, high-end
-            kitchens—especially in new builds or full-home renovations.
+            kitchens–especially in new builds or full-home renovations.
           </p>
 
           <h3 className={styles.h3}>Custom Storage & Built-In Organisation</h3>
@@ -3763,7 +3818,7 @@ export const articles = [
           <p className={styles.p}>
             If you&apos;re investing in a kitchen that matches your lifestyle
             and the value of your home, these extras offer both daily joy and
-            long-term return. They&apos;re not just indulgent—they&apos;re
+            long-term return. They&apos;re not just indulgent–they&apos;re
             intentional.
           </p>
 
@@ -3773,7 +3828,7 @@ export const articles = [
 
           <p className={styles.p}>
             Even the most meticulously planned kitchen renovation can go over
-            budget—often due to costs that weren&apos;t considered at the
+            budget–often due to costs that weren&apos;t considered at the
             outset. These hidden expenses can quickly add thousands to your
             final bill if you&apos;re not prepared. Here&apos;s what to watch
             for, especially in high-spec London projects.
@@ -3791,7 +3846,7 @@ export const articles = [
 
           <p className={styles.p}>
             Tip: Check if your contractor includes disposal in their quote. Some
-            do, others don&apos;t—and it&apos;s a common source of
+            do, others don&apos;t–and it&apos;s a common source of
             miscommunication.
           </p>
 
@@ -3799,7 +3854,7 @@ export const articles = [
 
           <p className={styles.p}>
             It&apos;s not uncommon to find outdated wiring, insufficient power
-            supply, or leaky pipes once work begins—especially in older London
+            supply, or leaky pipes once work begins–especially in older London
             properties. Emergency electrical or plumbing updates can cost{" "}
             <strong>£500–£2,000+</strong>.
           </p>
@@ -3837,7 +3892,7 @@ export const articles = [
           <h3 className={styles.h3}>Temporary Kitchen Setup</h3>
 
           <p className={styles.p}>
-            If your renovation takes weeks—and it will—you may need a temporary
+            If your renovation takes weeks–and it will–you may need a temporary
             cooking solution. Renting or setting up a makeshift kitchenette
             (microwave, portable hob, fridge) could add another{" "}
             <strong>£200–£500</strong> to your expenses.
@@ -3859,8 +3914,8 @@ export const articles = [
           <p className={styles.p}>
             One of the most significant cost drivers in a kitchen renovation is
             the size of the space itself. In London, where homes vary
-            dramatically—from compact flats in Islington to sprawling townhouses
-            in Kensington—the kitchen footprint can have a direct impact on how
+            dramatically–from compact flats in Islington to sprawling townhouses
+            in Kensington–the kitchen footprint can have a direct impact on how
             much you&apos;ll spend. Let&apos;s explore how size shapes both your
             budget and your possibilities.
           </p>
@@ -3869,7 +3924,7 @@ export const articles = [
 
           <p className={styles.p}>
             A smaller kitchen might seem like a bargain, but it often requires
-            clever solutions to maximise space—pushing costs into the mid-range
+            clever solutions to maximise space–pushing costs into the mid-range
             despite its size. Expect to spend <strong>£12,000–£20,000</strong>{" "}
             for a high-quality small kitchen renovation in London.
           </p>
@@ -3886,7 +3941,7 @@ export const articles = [
 
           <p className={styles.p}>
             Labour costs don&apos;t always decrease linearly with size
-            either—installers still require the same trades and time per job,
+            either–installers still require the same trades and time per job,
             even in tight spaces.
           </p>
 
@@ -3927,7 +3982,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            With greater space comes greater design opportunity—but also more
+            With greater space comes greater design opportunity–but also more
             materials, labour, and complexity.
           </p>
 
@@ -3935,7 +3990,7 @@ export const articles = [
             If you&apos;re planning to extend or open up your kitchen into a
             living area, you&apos;ll need to factor in additional structural
             work, planning permissions, and potentially party wall
-            agreements—particularly common in London terraced properties.
+            agreements–particularly common in London terraced properties.
           </p>
 
           {/* IMAGE SUGGESTION: Floorplan diagram comparing 3 kitchen sizes (small, standard, large) with typical layout and cost estimates in caption bubbles */}
@@ -3946,7 +4001,7 @@ export const articles = [
 
           <p className={styles.p}>
             The layout of your kitchen not only determines how it looks and
-            functions—it also impacts the overall renovation cost. Some layouts
+            functions–it also impacts the overall renovation cost. Some layouts
             require more cabinetry or custom cuts, others involve more plumbing
             and electrical work. Below, we break down the most common London
             kitchen layouts and how each affects your budget.
@@ -3993,7 +4048,7 @@ export const articles = [
 
           <p className={styles.p}>
             Expect higher labour charges due to extra joinery work and more
-            complex fitting—especially with corner units and integrated
+            complex fitting–especially with corner units and integrated
             appliances.
           </p>
 
@@ -4016,9 +4071,9 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            Open-plan kitchens often require structural changes—knocking down
+            Open-plan kitchens often require structural changes–knocking down
             walls, steel beam installation, or reconfiguring lighting and
-            ventilation—pushing total renovation budgets into the{" "}
+            ventilation–pushing total renovation budgets into the{" "}
             <strong>£35,000–£60,000+ range</strong>.
           </p>
 
@@ -4032,8 +4087,8 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            In many cases, a clever layout can reduce unnecessary costs—like
-            extra cabinetry or wasted floor space—while making the room feel
+            In many cases, a clever layout can reduce unnecessary costs–like
+            extra cabinetry or wasted floor space–while making the room feel
             larger and more luxurious.
           </p>
 
@@ -4044,7 +4099,7 @@ export const articles = [
           </h2>
 
           <p className={styles.p}>
-            Knowing what to expect—and when—during a kitchen renovation helps
+            Knowing what to expect–and when–during a kitchen renovation helps
             you plan life around the project and manage expectations. While
             timelines vary depending on complexity, size, and supply chains,
             here&apos;s a realistic breakdown of how long each phase typically
@@ -4160,7 +4215,7 @@ export const articles = [
           <p className={styles.p}>
             Altogether, the full renovation timeline for a London kitchen
             typically spans <strong>2–4 weeks</strong> from strip-out to
-            sparkling finish—longer if you&apos;re including layout changes or
+            sparkling finish–longer if you&apos;re including layout changes or
             high-end bespoke elements.
           </p>
 
@@ -4172,7 +4227,7 @@ export const articles = [
 
           <p className={styles.p}>
             One of the biggest decisions you&apos;ll make during a kitchen
-            renovation is the type of kitchen you choose—
+            renovation is the type of kitchen you choose–
             <strong>flat-pack, modular, or bespoke</strong>. Each offers its own
             balance of cost, quality, and flexibility, and understanding these
             differences is essential to choosing the right fit for your home and
@@ -4228,7 +4283,7 @@ export const articles = [
 
           <p className={styles.p}>
             For most London homeowners, modular kitchens strike the right
-            balance of durability, design, and cost-efficiency—especially when
+            balance of durability, design, and cost-efficiency–especially when
             fitted by experienced professionals.
           </p>
 
@@ -4258,7 +4313,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Bespoke kitchens are an investment—but in high-end London homes,
+            Bespoke kitchens are an investment–but in high-end London homes,
             they can also add significant value and elevate the entire living
             space.
           </p>
@@ -4273,8 +4328,8 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            In many cases, homeowners combine elements—using modular cabinets
-            with bespoke worktops or splashbacks—to strike the right balance
+            In many cases, homeowners combine elements–using modular cabinets
+            with bespoke worktops or splashbacks–to strike the right balance
             between cost and character.
           </p>
 
@@ -4286,7 +4341,7 @@ export const articles = [
 
           <p className={styles.p}>
             Beyond design and materials, legal and financial considerations play
-            a crucial role in your kitchen renovation—especially in London,
+            a crucial role in your kitchen renovation–especially in London,
             where regulations can vary by borough. Understanding when you need
             planning permission, how building regulations apply, and what VAT
             you&apos;ll be charged can help you avoid costly setbacks.
@@ -4308,7 +4363,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            Always check with your local council or architect—especially in
+            Always check with your local council or architect–especially in
             areas like Westminster, Camden, or Kensington & Chelsea, where
             planning laws are stricter.
           </p>
@@ -4370,14 +4425,14 @@ export const articles = [
 
           <p className={styles.p}>
             In larger projects, you may be able to reclaim VAT under specific
-            schemes—especially for listed properties or substantial
+            schemes–especially for listed properties or substantial
             refurbishments. Speak to your contractor or a tax advisor early in
             the process.
           </p>
 
           <p className={styles.p}>
             Understanding these legal and financial layers ensures your
-            renovation goes smoothly—and avoids fines, delays, or future rework.
+            renovation goes smoothly–and avoids fines, delays, or future rework.
           </p>
 
           {/* IMAGE SUGGESTION: Simple flowchart titled “Do You Need Permission?” leading users through questions about structural changes, listed buildings, etc. */}
@@ -4391,7 +4446,7 @@ export const articles = [
             between style and savings. With clever design decisions and
             strategic sourcing, you can achieve a high-end look without
             stretching your budget to breaking point. Here are our top
-            expert-backed tips for saving money—while still delivering the
+            expert-backed tips for saving money–while still delivering the
             elegant finish you want.
           </p>
 
@@ -4401,8 +4456,8 @@ export const articles = [
 
           <p className={styles.p}>
             Not everything needs to be top-of-the-range. Splurge on key
-            statement pieces—like a beautiful worktop, bespoke island, or
-            eye-catching tap—and save on less noticeable elements like internal
+            statement pieces–like a beautiful worktop, bespoke island, or
+            eye-catching tap–and save on less noticeable elements like internal
             carcasses or handles.
           </p>
 
@@ -4418,7 +4473,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            The trick is to choose focal points that create visual impact—and
+            The trick is to choose focal points that create visual impact–and
             balance them with simple, timeless finishes elsewhere.
           </p>
 
@@ -4455,7 +4510,7 @@ export const articles = [
           <p className={styles.p}>
             Changes mid-project are one of the biggest drivers of overspending.
             Avoid design fatigue and impulse upgrades by finalising every
-            detail—down to the last handle—before you begin.
+            detail–down to the last handle–before you begin.
           </p>
 
           <p className={styles.p}>
@@ -4480,7 +4535,7 @@ export const articles = [
 
           <p className={styles.p}>
             By being intentional, informed and flexible, you can make your
-            budget work harder—and create a kitchen that&apos;s not just
+            budget work harder–and create a kitchen that&apos;s not just
             cost-effective, but genuinely stunning.
           </p>
 
@@ -4494,7 +4549,7 @@ export const articles = [
             Managing a kitchen renovation in London can feel like a full-time
             job. Between coordinating trades, sourcing materials, chasing
             deliveries, and staying on schedule, it&apos;s no surprise many
-            homeowners find the process overwhelming—especially when juggling
+            homeowners find the process overwhelming–especially when juggling
             family or work life. So the question becomes: should you go it
             alone, or hire a project manager to run the show?
           </p>
@@ -4519,7 +4574,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            It&apos;s doable—but mistakes in sequencing or communication can
+            It&apos;s doable–but mistakes in sequencing or communication can
             result in costly delays, especially in a busy city like London where
             lead times and availability fluctuate fast.
           </p>
@@ -4530,7 +4585,7 @@ export const articles = [
 
           <p className={styles.p}>
             A dedicated project manager handles all the moving parts of your
-            renovation—so you don&apos;t have to. Expect to pay{" "}
+            renovation–so you don&apos;t have to. Expect to pay{" "}
             <strong>10–20% of your total renovation budget</strong> for this
             service, depending on the scale and complexity.
           </p>
@@ -4545,7 +4600,7 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            It&apos;s not just about convenience—it&apos;s about protecting your
+            It&apos;s not just about convenience–it&apos;s about protecting your
             investment and ensuring your project stays on time, on budget, and
             on brief.
           </p>
@@ -4556,7 +4611,7 @@ export const articles = [
             At <strong>Better Homes</strong>, we offer a fully managed
             renovation service designed to make your kitchen transformation
             smooth, efficient, and stress-free. From initial design to final
-            handover, we coordinate every element—including planning, materials,
+            handover, we coordinate every element–including planning, materials,
             skilled labour, and compliance.
           </p>
 
@@ -4571,7 +4626,7 @@ export const articles = [
 
           <p className={styles.p}>
             Whether you&apos;re renovating a compact city kitchen or crafting a
-            statement space in a period home, we take care of the details—so you
+            statement space in a period home, we take care of the details–so you
             can focus on enjoying the results.
           </p>
 
@@ -4583,7 +4638,7 @@ export const articles = [
 
           <p className={styles.p}>
             For many homeowners, a kitchen renovation isn&apos;t just about
-            aesthetics or functionality—it&apos;s a financial decision. In
+            aesthetics or functionality–it&apos;s a financial decision. In
             London&apos;s dynamic property market, upgrading your kitchen can
             yield a substantial return on investment (ROI), making it one of the
             smartest home improvements you can make.
@@ -4647,14 +4702,14 @@ export const articles = [
 
           <p className={styles.p}>
             Plus, you get to enjoy the new kitchen long before you ever consider
-            selling—making it an emotional as well as a financial return.
+            selling–making it an emotional as well as a financial return.
           </p>
 
           <p className={styles.p}>
             Whether you&apos;re looking to increase your property&apos;s value,
             attract potential buyers, or simply elevate your lifestyle, a
             high-quality kitchen renovation is rarely a bad
-            investment—especially in one of the world&apos;s most
+            investment–especially in one of the world&apos;s most
             property-driven cities.
           </p>
 
@@ -4677,11 +4732,11 @@ export const articles = [
             </li>
             <li>
               <strong>Labour accounts for up to 50%</strong> of the total
-              cost—expect higher rates in central London areas.
+              cost–expect higher rates in central London areas.
             </li>
             <li>
               <strong>Cabinetry and worktops</strong> are the two biggest
-              material expenses—budget wisely or mix bespoke and off-the-shelf
+              material expenses–budget wisely or mix bespoke and off-the-shelf
               options.
             </li>
             <li>
@@ -4691,7 +4746,7 @@ export const articles = [
             </li>
             <li>
               <strong>Hidden costs</strong> like waste removal, electrical
-              upgrades and permissions can add £1,000–£5,000+—always build in a
+              upgrades and permissions can add £1,000–£5,000+–always build in a
               contingency fund.
             </li>
             <li>
@@ -4700,7 +4755,7 @@ export const articles = [
               but increase spend.
             </li>
             <li>
-              <strong>Renovations offer strong ROI</strong>—with 60–80% returns
+              <strong>Renovations offer strong ROI</strong>–with 60–80% returns
               in most areas and even higher in premium London postcodes.
             </li>
           </ul>
@@ -4717,11 +4772,11 @@ export const articles = [
 
           <p className={styles.p}>
             A kitchen renovation in London isn&apos;t just about upgrading
-            cabinets or swapping out tiles—it&apos;s about enhancing how you
+            cabinets or swapping out tiles–it&apos;s about enhancing how you
             live, entertain, cook, and connect. Whether you&apos;re planning a
             stylish refresh in a cosy flat or a full bespoke transformation in a
-            family townhouse, knowing where your money goes—and how to spend it
-            wisely—is key.
+            family townhouse, knowing where your money goes–and how to spend it
+            wisely–is key.
           </p>
 
           <p className={styles.p}>
@@ -4735,7 +4790,7 @@ export const articles = [
           <p className={styles.p}>
             At <strong>Better Homes</strong>, we believe that kitchen
             renovations should be exciting, not overwhelming. That&apos;s why we
-            offer an all-in-one, fully managed service—taking care of design,
+            offer an all-in-one, fully managed service–taking care of design,
             sourcing, project management, and installation so you can enjoy the
             process as much as the result.
           </p>
@@ -4748,7 +4803,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Your dream kitchen isn&apos;t far away—it starts with a single
+            Your dream kitchen isn&apos;t far away–it starts with a single
             conversation.
           </p>
 
@@ -4773,7 +4828,7 @@ export const articles = [
           </h3>
           <p className={styles.p}>
             Flat-pack kitchens are budget-friendly and DIY-assembled. Modular
-            kitchens are pre-built units with semi-custom options—perfect for
+            kitchens are pre-built units with semi-custom options–perfect for
             most mid-range homes. Bespoke kitchens are tailor-made from scratch
             and offer premium quality, ideal for luxury properties or unique
             layouts.
@@ -4807,7 +4862,7 @@ export const articles = [
             5. Do I need planning permission for a kitchen renovation in London?
           </h3>
           <p className={styles.p}>
-            Typically, no—unless you&apos;re extending the kitchen, making
+            Typically, no–unless you&apos;re extending the kitchen, making
             structural changes, or living in a listed building. However, all
             work must comply with <strong>Building Regulations</strong>,
             especially for plumbing, gas, and electrics. When in doubt, consult
@@ -4820,7 +4875,7 @@ export const articles = [
             We hope this guide has helped you feel more informed and empowered
             as you plan your kitchen renovation. At{" "}
             <strong>Better Homes</strong>, we&apos;re passionate about
-            turning London kitchens into beautiful, functional spaces—tailored
+            turning London kitchens into beautiful, functional spaces–tailored
             to your lifestyle and budget. If you want one accountable team for
             design, supply and installation, our{" "}
             <Link href="/kitchen-renovation">kitchen renovation service</Link>{" "}
@@ -4830,8 +4885,8 @@ export const articles = [
           <p className={styles.p}>
             Now it&apos;s your turn:{" "}
             <strong>
-              What&apos;s your biggest kitchen renovation goal—or
-              challenge—right now?
+              What&apos;s your biggest kitchen renovation goal–or
+              challenge–right now?
             </strong>{" "}
             Drop us a comment, send us a message, or share this article with a
             friend who&apos;s planning their own project.
@@ -4845,7 +4900,7 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            Let&apos;s keep the conversation going—because your dream kitchen
+            Let&apos;s keep the conversation going–because your dream kitchen
             starts with a single step.
           </p>
 
@@ -4887,10 +4942,10 @@ export const articles = [
             </li>
           </ul>
 
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -4906,7 +4961,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -4915,7 +4970,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -5482,10 +5537,10 @@ export const articles = [
             page shows how we plan, supply and install complete bathroom
             projects.
           </p>
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -5501,7 +5556,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -5510,7 +5565,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -5707,10 +5762,10 @@ export const articles = [
             this recognition makes us even more motivated to offer the most
             spectacular results.
           </p>
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -5726,7 +5781,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -5735,7 +5790,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg
@@ -6281,10 +6336,10 @@ export const articles = [
             questions, and trust your instincts. Your dream bathroom is within
             reach!
           </p>
-          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#266bf1]/10 to-[#7421fc]/10 p-6 shadow-sm">
+          <div className="rounded-xl border border-base-content/10 bg-gradient-to-br from-[#4D5B4B]/10 to-[#4D5B4B]/10 p-6 shadow-sm">
             <div className="text-center">
               <div className="mb-4 flex justify-center">
-                <div className="rounded-full bg-[#266bf1] p-3">
+                <div className="rounded-full bg-[#4D5B4B] p-3">
                   <svg
                     className="h-6 w-6 text-white"
                     fill="none"
@@ -6300,7 +6355,7 @@ export const articles = [
                   </svg>
                 </div>
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-[#100b47]">
+              <h3 className="mb-2 text-lg font-semibold text-[#202925]">
                 Ready to Start Your Project?
               </h3>
               <p className="mb-4 text-sm text-base-content/70">
@@ -6309,7 +6364,7 @@ export const articles = [
               </p>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#1449B0] active:bg-[#0C5AC8]"
+                className="inline-flex items-center justify-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-[#3E4A3C] active:bg-[#3E4A3C]"
               >
                 Get Free Consultation
                 <svg

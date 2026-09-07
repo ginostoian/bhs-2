@@ -22,17 +22,14 @@ export const getSEOTags = ({
     keywords: keywords || [config.appName],
     applicationName: config.appName,
     // set a base URL prefix for other fields that require a fully qualified URL (.e.g og:image: og:image: 'https://yourdomain.com/share.png' => '/share.png')
-    metadataBase: new URL(
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/"
-        : `https://${config.domainName}/`
-    ),
+    metadataBase: new URL(`https://${config.domainName}/`),
 
     openGraph: {
-      title: openGraph?.title || config.appName,
-      description: openGraph?.description || config.appDescription,
+      title: openGraph?.title || title || config.appName,
+      description:
+        openGraph?.description || description || config.appDescription,
       url: openGraph?.url || `https://${config.domainName}/`,
-      siteName: openGraph?.title || config.appName,
+      siteName: config.appName,
       // If you add an opengraph-image.(jpg|jpeg|png|gif) image to the /app folder, you don't need the code below
       // images: [
       //   {
@@ -43,15 +40,16 @@ export const getSEOTags = ({
       // ],
       locale: "en_GB",
       type: "website",
+      ...openGraph,
     },
 
     twitter: {
-      title: openGraph?.title || config.appName,
-      description: openGraph?.description || config.appDescription,
+      title: openGraph?.title || title || config.appName,
+      description:
+        openGraph?.description || description || config.appDescription,
       // If you add an twitter-image.(jpg|jpeg|png|gif) image to the /app folder, you don't need the code below
       // images: [openGraph?.image || defaults.og.image],
       card: "summary_large_image",
-      creator: "@iamgino_s",
     },
 
     // If a canonical URL is given, we add it. The metadataBase will turn the relative URL into a fully qualified URL

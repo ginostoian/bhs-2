@@ -1,3 +1,4 @@
+export const metadata = { robots: { index: false, follow: false } };
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 

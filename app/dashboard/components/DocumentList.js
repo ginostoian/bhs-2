@@ -8,7 +8,7 @@ export default function DocumentList({ documents, type }) {
   // Safety check for documents prop
   if (!documents || !Array.isArray(documents)) {
     return (
-      <div className="border border-[#dedbd2] bg-[#fbfaf7] p-8 text-center">
+      <div className="border border-[#D8D2C6] bg-[#F4F1EA] p-8 text-center">
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
           <svg
             className="h-8 w-8 text-gray-400"
@@ -104,7 +104,7 @@ export default function DocumentList({ documents, type }) {
   };
 
   return (
-    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+    <div className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
       {documents.map((doc) => {
         // Debug logging for photos
         if (doc.type === "photo") {
@@ -123,7 +123,7 @@ export default function DocumentList({ documents, type }) {
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0 flex-1">
                   <div className="mb-3 flex items-center space-x-3">
-                    <div className="flex h-10 w-10 items-center justify-center bg-[#efede6]">
+                    <div className="flex h-10 w-10 items-center justify-center bg-[#EDE9E0]">
                       <svg
                         className="h-5 w-5 text-[#43504b]"
                         fill="none"

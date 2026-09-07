@@ -3,30 +3,30 @@ import Image from "next/image";
 import Link from "next/link";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   tocGrid: "mb-10 grid gap-5 md:grid-cols-2",
   tocColumn: "overflow-hidden rounded-xl border border-base-content/10 bg-white",
   tocLink:
-    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base",
+    "block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
   figcaption: "mt-3 text-sm leading-relaxed text-base-content/70",
   referencesList:
-    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#266bf1] [&_a]:underline-offset-2 hover:[&_a]:underline",
+    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#4D5B4B] [&_a]:underline-offset-2 hover:[&_a]:underline",
   serviceCta:
-    "my-10 rounded-2xl border border-[#cfe0ff] bg-gradient-to-br from-[#f3f7ff] to-white p-6 shadow-sm md:p-8",
+    "my-10 rounded-2xl border border-[#cfe0ff] bg-gradient-to-br from-[#F4F1EA] to-white p-6 shadow-sm md:p-8",
   serviceCtaEyebrow:
-    "mb-2 text-xs font-extrabold uppercase tracking-[0.22em] text-[#266bf1]",
-  serviceCtaTitle: "text-2xl font-black leading-tight text-[#100b47] md:text-3xl",
+    "mb-2 text-xs font-medium uppercase tracking-[0.22em] text-[#4D5B4B]",
+  serviceCtaTitle: "text-2xl font-medium leading-tight text-[#202925] md:text-3xl",
   serviceCtaBody: "mt-3 text-base leading-relaxed text-base-content/80",
   serviceCtaLink:
-    "mt-5 inline-flex items-center rounded-full bg-[#266bf1] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1449B0]",
+    "mt-5 inline-flex items-center rounded-full bg-[#4D5B4B] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#3E4A3C]",
 };
 
 function ServiceCta({ title, body, linkText }) {
@@ -52,14 +52,14 @@ export default function HouseExtensionsLondonGuide() {
       {/* AI ANSWER CAPSULE */}
       <div className={styles.answerCapsule}>
         <p className={styles.p}>
-          A house extension in London costs between £2,500 and £4,500 per square metre in 2026, depending on type, specification, and borough. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in (including VAT, architect fees, and finishes), while a wraparound extension ranges from £90,000 to £140,000. Most rear extensions under 3 metres deep (terraced and semi-detached) or 4 metres deep (detached) qualify for permitted development and do not require planning permission. A well-designed extension adds 10 to 20 per cent to a London property's value - making it one of the most cost-effective alternatives to moving in the capital. Better Homes is a full design-and-build firm serving Central, East, and North London, managing every stage from initial sketches through to final handover under one roof.
+          A house extension in London costs between £2,500 and £4,600 per square metre in 2026, depending on type, specification, and borough. A standard 25 sqm single-storey rear extension typically costs £92,000 to £118,000 all-in (including VAT, architect fees, and finishes), while a wraparound extension ranges from £75,000 to £140,000. Most rear extensions under 3 metres deep (terraced and semi-detached) or 4 metres deep (detached) qualify for permitted development and do not require planning permission. A well-designed extension adds 10 to 20 per cent to a London property's value - making it one of the most cost-effective alternatives to moving in the capital. Better Homes serves Central, East and North London, with selected South London projects. We manage construction and your relationship with a trusted independent architect, or build from your existing drawings.
         </p>
       </div>
 
       {/* KEY TAKEAWAYS */}
       <h2 className={styles.h2} id="key-takeaways">Key Takeaways</h2>
       <p className={styles.p}>
-        <strong>London extension costs in 2026</strong> range from £2,500 to £4,500 per sqm for construction alone. Inner London boroughs command a 15 to 30 per cent premium over outer London due to labour rates, access logistics, and scaffold licensing.
+        <strong>London extension costs in 2026</strong> range from £2,500 to £4,600 per sqm for construction alone. Inner London boroughs command a 15 to 30 per cent premium over outer London due to labour rates, access logistics, and scaffold licensing.
       </p>
       <p className={styles.p}>
         <strong>Five main extension types</strong> suit London homes: rear extensions, side return extensions, wraparound (L-shaped) extensions, double-storey extensions, and kitchen extensions. Each serves different property types and budgets.
@@ -118,19 +118,19 @@ export default function HouseExtensionsLondonGuide() {
       </p>
       <p className={styles.p}>
         For closely related reading, see our{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/how-to-finance-house-extension-renovation-london-2026">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/how-to-finance-house-extension-renovation-london-2026">
           London extension finance guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
           extension value guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/planning-permission-refused-london">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/planning-permission-refused-london">
           planning refusal guide
         </Link>
         , and{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/loft-conversion-vs-house-extension-london">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/loft-conversion-vs-house-extension-london">
           loft conversion vs extension comparison
         </Link>
         .
@@ -264,7 +264,7 @@ export default function HouseExtensionsLondonGuide() {
         Cost Per Square Metre in London
       </h3>
       <p className={styles.p}>
-        The construction cost per square metre for house extensions in London ranges from £2,500 to £4,500 in 2026, depending on specification. Standard specification - plastered and painted walls, standard electrical layout, basic plumbing, and functional finishes - sits at the lower end. Mid-range specification, which most London homeowners opt for, includes underfloor heating, bi-fold doors, engineered timber flooring, and quality kitchen units at £3,000 to £3,800 per square metre. High-end specification - bespoke joinery, premium stone worktops, Crittall-style glazing, smart home integration - pushes towards £4,000 to £4,500 or beyond.
+        The construction cost per square metre for house extensions in London ranges from £2,500 to £4,600 in 2026, depending on specification. Standard specification - plastered and painted walls, standard electrical layout, basic plumbing, and functional finishes - sits at the lower end. Mid-range specification, which most London homeowners opt for, includes underfloor heating, bi-fold doors, engineered timber flooring, and quality kitchen units at £3,000 to £3,800 per square metre. High-end specification - bespoke joinery, premium stone worktops, Crittall-style glazing, smart home integration - pushes towards £4,000 to £4,500 or beyond.
       </p>
       <p className={styles.p}>
         These construction figures do not include VAT (20 per cent on all domestic extension work), professional fees (architect, structural engineer, party wall surveyor), or statutory costs (planning application, building control). They also exclude kitchen and bathroom fitting out, landscaping, and any work to existing rooms affected by the extension.
@@ -311,7 +311,7 @@ export default function HouseExtensionsLondonGuide() {
         The gap between a builder's construction quote and the actual total project cost catches many London homeowners off guard. Professional fees, statutory costs, and ancillary works can add 25 to 40 per cent on top of the construction figure. Here are the costs that frequently surprise people.
       </p>
       <p className={styles.p}>
-        <strong>Architect fees:</strong> £4,000 to £15,000 for a typical extension, or 8 to 15 per cent of construction cost for a full architectural service. This covers initial design, planning drawings, building regulation drawings, and specification documents. Some firms charge less for design-only services, but the cheapest option is a design-and-build firm that includes architectural design within the overall project fee - eliminating the separate architect cost entirely.
+        <strong>Architect fees:</strong> £4,000 to £15,000 for a typical extension, or 8 to 15 per cent of construction cost for a full architectural service. This covers initial design, planning drawings, building regulation drawings, and specification documents. Architectural services have their own scope and fees. With Better Homes, the proposal identifies the independent architect appointment and construction responsibilities so you can compare the full project cost.
       </p>
       <p className={styles.p}>
         <strong>Structural engineer:</strong> £1,500 to £4,000 for calculations covering steel beam sizing, foundation design, and load-bearing wall removal specifications. Almost every extension requires structural engineering input. Complex projects involving multiple wall removals or difficult ground conditions will be at the upper end of this range.
@@ -587,7 +587,7 @@ export default function HouseExtensionsLondonGuide() {
         <strong>Fixed-price contracts:</strong> Avoid firms that quote on a cost-plus basis (charging actual costs plus a percentage margin). This incentivises the builder to spend more, not less. A fixed-price contract means you know the total cost before work begins, and the builder bears the risk of any cost overruns. Better Homes provides fixed-price contracts as standard.
       </p>
       <p className={styles.p}>
-        <strong>In-house design capability:</strong> A firm that designs and builds under one roof delivers better coordination, fewer errors, and faster completion than one that subcontracts the design work. Check whether the firm employs architects or architectural designers directly, or whether it outsources this function.
+        <strong>Clear design coordination:</strong> Ask who provides the architectural drawings, how they are appointed and who resolves design queries during construction. Better Homes works with trusted independent architects and can also build from drawings supplied by your own team.
       </p>
       <p className={styles.p}>
         <strong>Local project portfolio:</strong> Ask to see completed projects in your borough or postcode area. A firm that has built extensively in Hackney understands Hackney Council's planning preferences, the typical construction challenges of E8 and E9 terraces, and the logistics of working in dense urban streets. General experience is good; local experience is better.
@@ -619,7 +619,7 @@ export default function HouseExtensionsLondonGuide() {
         Quick Takeaways
       </h2>
       <p className={styles.p}>
-        <strong>1.</strong> London house extensions cost £2,500 to £4,500 per sqm for construction in 2026. Add 25 to 40 per cent for VAT, professional fees, and fitting out to reach the true all-in cost.
+        <strong>1.</strong> London house extensions cost £2,500 to £4,600 per sqm for construction in 2026. Add 25 to 40 per cent for VAT, professional fees, and fitting out to reach the true all-in cost.
       </p>
       <p className={styles.p}>
         <strong>2.</strong> Five extension types dominate London: rear, side return, wraparound, double-storey, and kitchen extensions. The right choice depends on your property type, garden size, and what you want to achieve.
@@ -649,7 +649,7 @@ export default function HouseExtensionsLondonGuide() {
         How much does a house extension cost in London in 2026?
       </h3>
       <p className={styles.p}>
-        Construction costs range from £2,500 to £4,500 per square metre depending on specification. A standard 25 sqm single-storey rear extension typically costs £75,000 to £110,000 all-in, including VAT, architect fees, structural engineering, building control, and basic finishes. Side return extensions start from around £35,000, while wraparound extensions range from £75,000 to £140,000. Add £15,000 to £60,000 for a kitchen fit-out if the extension includes a new kitchen.
+        Construction costs range from £2,500 to £4,600 per square metre depending on specification. A standard 25 sqm single-storey rear extension typically costs £92,000 to £118,000 all-in, including VAT, architect fees, structural engineering, building control, and basic finishes. Side return extensions start from around £35,000, while wraparound extensions range from £75,000 to £140,000. Add £15,000 to £60,000 for a kitchen fit-out if the extension includes a new kitchen.
       </p>
 
       <h3 className={styles.h3}>
@@ -702,7 +702,7 @@ export default function HouseExtensionsLondonGuide() {
         Are you planning a house extension in London? We would love to hear about your project - whether you are at the early research stage or ready to get started. Drop us a message and let us know: what type of extension are you considering, and what is the one thing about the process that concerns you most? Your feedback helps us create even better resources for London homeowners.
       </p>
       <p className={styles.p}>
-        If you found this guide useful, please share it with friends or neighbours who might be considering their own extension project. And if you are ready to discuss your extension with a team that designs and builds under one roof, <Link href="/contact">get in touch with Better Homes</Link> for a free, no-obligation consultation.
+        If you found this guide useful, please share it with friends or neighbours who might be considering their own extension project. And if you are ready to discuss your extension with a construction team that coordinates closely with your architect, <Link href="/contact">get in touch with Better Homes</Link> for a free, no-obligation consultation.
       </p>
 
       {/* CONCLUSION */}

@@ -1,27 +1,13 @@
-import { Suspense } from "react";
 import Link from "next/link";
-
-import Approach from "@/components/Approach";
-import ContactForm from "@/components/ContactForm";
-import FAQ from "@/components/FAQ";
-import Features from "@/components/Features";
-import Testimonials11 from "@/components/Testimonials11";
-import Stats from "@/components/Stats";
-import Guarantee from "@/components/Guarantee";
-import PortfolioCardContainer from "@/components/PortfolioCardContainer";
-import Testimonials3 from "@/components/Testimonials3";
-import BlogHighlight from "@/components/blog/BlogHighlight";
-import Hero from "@/components/hero/Hero";
-import SectionTitle from "@/components/sectionTitle/SectionTitle";
-import SocialProof from "@/components/socialProof/SocialProof";
-import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
-import TextGrid from "@/components/textGrid/TextGrid";
-import CustomCTA from "@/components/CustomCTA";
+import Image from "next/image";
 import config from "@/config";
-import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
-import { getPageFaqs } from "@/libs/pageFaqs";
 import { getSEOTags } from "@/libs/seo";
-
+import { getPageFaqs } from "@/libs/pageFaqs";
+import Faq from "@/components/brand/Faq";
+import { FaqSchema } from "@/components/brand/Schema";
+import { ProjectCards, ProjectCTA } from "@/components/brand/ServicePage";
+import { getPortfolioProjects } from "@/libs/portfolio-projects";
+import EnquiryForm from "@/components/brand/EnquiryForm";
 export const metadata = getSEOTags({
   title: "Contact Better Homes | London Renovation Specialists",
   description:
@@ -39,204 +25,51 @@ export const metadata = getSEOTags({
     "home extension consultation London",
   ],
 });
-
 export default function Page() {
-  const contactPageCopy = config.copy.contactPage;
-  //   const whatWeDoCopy = aboutPageCopy.whatWeDoSection;
-  //   const whatWeDoArr = [
-  //     whatWeDoCopy.fullHome,
-  //     whatWeDoCopy.bathroomInstallation,
-  //     whatWeDoCopy.kitchenInstallation,
-  //     whatWeDoCopy.structuralWork,
-  //     whatWeDoCopy.heating,
-  //     whatWeDoCopy.flooringInstallation,
-  //   ];
-  const howWeDoItCopy = contactPageCopy.howWeDoItSection;
-  const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const knowledgeCenterArticles = getKnowledgeCenterArticles("contact");
-
   const faqs = getPageFaqs("contact");
-
   return (
-    <>
-      <main>
-        <Hero
-          title={contactPageCopy.title}
-          titleAccent={contactPageCopy.titleAccent}
-          subtitle={contactPageCopy.subtitle}
-          heroCTA={'Scroll Down for more info'}
-          heroImgUrl={contactPageCopy.heroImgUrl}
-        />
-        <SocialProof />
-
-        <Suspense fallback={null}>
-          <ContactForm />
-        </Suspense>
-
-        {/* Warranty/Ticket Section */}
-        <section className="mx-auto max-w-[85%] py-16">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <div className="rounded-3xl bg-gradient-to-r from-blue-50 to-indigo-50 p-8 md:p-12">
-              <div className="mb-8 text-center">
-                <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
-                  Need Warranty Support?
-                </h2>
-                <p className="mx-auto max-w-2xl text-lg text-gray-600">
-                  If you have a warranty claim or need support with your
-                  project, we have a dedicated ticketing system to help you get
-                  the assistance you need quickly and efficiently.
-                </p>
-              </div>
-
-              <div className="grid items-center gap-8 md:grid-cols-2">
-                <div>
-                  <h3 className="mb-4 text-xl font-semibold text-gray-900">
-                    Our Warranty Promise
-                  </h3>
-                  <ul className="space-y-3 text-gray-700">
-                    <li className="flex items-start">
-                      <svg
-                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      Industry-leading workmanship guarantee
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      Dedicated support team
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      Fast response times
-                    </li>
-                    <li className="flex items-start">
-                      <svg
-                        className="mr-2 mt-0.5 h-6 w-6 flex-shrink-0 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                      Track your ticket progress online
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="text-center">
-                  <div className="rounded-2xl bg-white p-6 shadow-lg">
-                    <div className="mb-4">
-                      <svg
-                        className="mx-auto h-12 w-12 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </div>
-                    <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                      Submit a Support Ticket
-                    </h4>
-                    <p className="mb-4 text-gray-600">
-                      Log in to your account to submit warranty claims and
-                      support requests through our ticketing system.
-                    </p>
-                    <Link
-                      href="/auth/signin?callbackUrl=/dashboard/tickets/new"
-                      className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                      <svg
-                        className="-ml-1 mr-2 h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                        />
-                      </svg>
-                      Create Support Ticket
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <main>
+      <section className="bh-wrap bh-section bh-grid-two">
+        <div>
+          <p className="bh-eyebrow">Discuss your project</p>
+          <h1 className="bh-title">
+            Tell us what a better home looks like to you.
+          </h1>
+          <p className="bh-lead">
+            Share the property, the changes you have in mind and your target
+            investment. We will discuss the fit, the likely construction route
+            and a sensible next step.
+          </p>
+          <div className="bh-actions">
+            <a href="https://cal.com/bhstudio/discovery" className="bh-button">
+              Book a discovery call
+            </a>
+            <a href="tel:+447922391591" className="bh-text-link">
+              07922 391591
+            </a>
           </div>
-        </section>
-
-        <SectionTitle
-          title="Why choose us"
-          subtitle="Our values are our promises to you"
-        />
-        <Features />
-        <Testimonials3 />
-        <Stats />
-        <SectionTitle />
-        <Approach />
-        <SectionTitle
-          title="Our build approach"
-          subtitle="Simple, fast and streamlined process"
-        />
-        <TextGrid content={howWeDoItCopy} />
-        <Testimonials11 />
-        <PortfolioCardContainer />
-        <Guarantee />
-        <CustomCTA />
-        <FAQ content={faqs} />
-        <TextBlockDark content={reviewsCtaCopy} />
-        <SectionTitle
-          title="The Knowledge Center"
-          subtitle="Where you actually learn new things"
-        />
-        <BlogHighlight articles={knowledgeCenterArticles} />
-      </main>
-    </>
+          <div style={{ marginTop: 40 }}>
+            <p className="bh-eyebrow">Where we work</p>
+            <p>
+              Central, North and East London, with selected projects in South
+              London. Include your postcode so we can confirm coverage.
+            </p>
+          </div>
+          <div style={{ marginTop: 32 }}>
+            <p className="bh-eyebrow">Existing clients</p>
+            <p>
+              For project questions and aftercare,{" "}
+              <Link className="bh-text-link" href="/dashboard/tickets">
+                open a support request in your portal
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+        <EnquiryForm />
+      </section>
+      <Faq items={faqs} />
+      <FaqSchema items={faqs} path="/contact" />
+    </main>
   );
 }

@@ -65,10 +65,10 @@ const HomepageTestimonialStrip = () => {
       <div className="overflow-hidden rounded-2xl border border-[#d8e4fb] bg-gradient-to-br from-[#f8fbff] via-white to-[#eef5ff] p-6 shadow-sm md:p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
           <div>
-            <p className="mb-3 text-sm font-extrabold uppercase tracking-[0.24em] text-[#266bf1]">
+            <p className="mb-3 text-sm font-medium uppercase tracking-[0.24em] text-[#4D5B4B]">
               Reviews
             </p>
-            <h2 className="max-w-2xl text-4xl font-black text-[#100b47] md:text-6xl md:leading-tight">
+            <h2 className="max-w-2xl text-4xl font-medium text-[#202925] md:text-6xl md:leading-tight">
               Real reviews with specifics, not vague praise
             </h2>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-gray-600 md:text-xl">
@@ -81,7 +81,7 @@ const HomepageTestimonialStrip = () => {
               {platformPills.map((pill) => (
                 <div
                   key={pill}
-                  className="inline-flex items-center gap-2 rounded-full border border-[#d8e4fb] bg-white px-4 py-2 text-sm font-semibold text-[#100b47] shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-[#d8e4fb] bg-white px-4 py-2 text-sm font-semibold text-[#202925] shadow-sm"
                 >
                   {pill.includes(" 5") ? (
                     <>
@@ -95,9 +95,9 @@ const HomepageTestimonialStrip = () => {
               ))}
             </div>
 
-            <article className="mt-8 rounded-2xl border border-[#d5e0f8] bg-white p-6 shadow-sm lg:p-8">
+            <article className="mt-8 rounded-2xl border border-[#D8D2C6] bg-white p-6 shadow-sm lg:p-8">
               <div className="mb-5 flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
+                <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[#4D5B4B]">
                   {featuredTestimonial.outcome}
                 </span>
                 <span className="rounded-full border border-[#d8e4fb] px-3 py-1 text-xs font-semibold text-gray-600">
@@ -105,7 +105,7 @@ const HomepageTestimonialStrip = () => {
                 </span>
               </div>
 
-              <div className="mb-4 text-6xl font-black leading-none text-[#dce8ff]">
+              <div className="mb-4 text-6xl font-medium leading-none text-[#dce8ff]">
                 &ldquo;
               </div>
               <blockquote className="-mt-7 text-xl leading-9 text-[#2f3c52] md:text-2xl">
@@ -114,7 +114,7 @@ const HomepageTestimonialStrip = () => {
 
               <div className="mt-8 flex items-center justify-between gap-4 border-t border-[#edf2fc] pt-5">
                 <div>
-                  <p className="font-bold text-[#100b47]">
+                  <p className="font-bold text-[#202925]">
                     {featuredTestimonial.name}
                   </p>
                   <p className="text-sm text-gray-500">
@@ -125,7 +125,7 @@ const HomepageTestimonialStrip = () => {
                   href={featuredTestimonial.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-[#4D5B4B] transition hover:text-[#3E4A3C]"
                 >
                   Read review
                   <svg
@@ -152,11 +152,11 @@ const HomepageTestimonialStrip = () => {
               return (
                 <article
                   key={testimonial.name}
-                  className="relative overflow-hidden rounded-2xl border border-[#d5e0f8] bg-white p-5 shadow-sm"
+                  className="relative overflow-hidden rounded-2xl border border-[#D8D2C6] bg-white p-5 shadow-sm"
                 >
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#266bf1] via-[#6da2ff] to-[#bfd7ff]" />
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-[#4D5B4B] via-[#6da2ff] to-[#bfd7ff]" />
                   <div className="mb-4 flex flex-wrap items-center gap-2 pt-2">
-                    <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#266bf1]">
+                    <span className="rounded-full bg-[#f5f9ff] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-[#4D5B4B]">
                       {testimonial.outcome}
                     </span>
                   </div>
@@ -167,14 +167,14 @@ const HomepageTestimonialStrip = () => {
 
                   <div className="mt-5 flex items-center justify-between gap-4 border-t border-[#edf2fc] pt-4">
                     <div>
-                      <p className="font-bold text-[#100b47]">{testimonial.name}</p>
+                      <p className="font-bold text-[#202925]">{testimonial.name}</p>
                       <p className="text-sm text-gray-500">{testimonial.sourceLabel}</p>
                     </div>
                     <Link
                       href={testimonial.sourceUrl}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="text-sm font-bold text-[#266bf1] transition hover:text-[#1449B0]"
+                      className="text-sm font-bold text-[#4D5B4B] transition hover:text-[#3E4A3C]"
                     >
                       Read
                     </Link>

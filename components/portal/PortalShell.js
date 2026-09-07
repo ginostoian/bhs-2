@@ -1,5 +1,8 @@
 "use client";
 
+import Breadcrumbs from "@/components/brand/Breadcrumbs";
+import PageHelp from "@/components/brand/PageHelp";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -86,12 +89,10 @@ function Brand({ compact = false, workspaceLabel }) {
       className="group flex min-w-0 items-center gap-3 text-white hover:text-white"
       aria-label="Better Homes home"
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-white/20 font-serif text-[15px] tracking-tight text-white transition-colors group-hover:border-white/40">
-        BH
-      </span>
+      <span aria-hidden="true" className="block h-3 w-3 shrink-0 bg-[#D8D2C6]" />
       {!compact && (
         <span className="min-w-0">
-          <span className="block truncate text-[13px] font-semibold uppercase tracking-[0.18em] text-white">
+          <span className="block truncate text-[18px] font-medium tracking-[-0.01em] text-white">
             Better Homes
           </span>
           <span className="mt-0.5 block truncate text-[11px] text-slate-400">
@@ -114,7 +115,7 @@ function NavItem({ item, collapsed, onNavigate }) {
       onClick={onNavigate}
       title={collapsed ? item.name : undefined}
       aria-current={active ? "page" : undefined}
-      className={`group relative flex h-10 items-center rounded-md text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#101b2b] ${
+      className={`group relative flex h-10 items-center rounded-md text-[13px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#202925] ${
         collapsed ? "justify-center px-2" : "gap-3 px-3"
       } ${
         active
@@ -225,7 +226,7 @@ function Sidebar({
 
   return (
     <aside
-      className={`flex h-full flex-col border-r border-white/[0.07] bg-[#101b2b] text-white ${
+      className={`flex h-full flex-col border-r border-white/[0.07] bg-[#202925] text-white ${
         mobile ? "w-[284px]" : collapsed ? "w-[76px]" : "w-[264px]"
       } transition-[width] duration-200`}
     >
@@ -323,7 +324,7 @@ export default function PortalShell({
   }, [navGroups, pathname]);
 
   return (
-    <div className="min-h-screen bg-[#f4f6f8] font-[Satoshi] text-slate-900">
+    <div className="min-h-screen bg-[#F4F1EA] font-[Satoshi] text-slate-900">
       <div className="fixed inset-y-0 left-0 z-30 hidden lg:block">
         <Sidebar
           navGroups={navGroups}
@@ -393,7 +394,9 @@ export default function PortalShell({
         </header>
 
         <main className="mx-auto w-full max-w-[1680px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+          <Breadcrumbs schema={false} contained={false} />
           {children}
+          <PageHelp />
         </main>
       </div>
     </div>

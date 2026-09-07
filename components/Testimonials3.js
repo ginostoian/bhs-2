@@ -10,7 +10,7 @@ const list = [
     name: "Jack Robertson",
     // REQUIRED
     text: "Better Homes did a fantastic job carrying out a complete renovation of our 1930s ‘chalet bungalow’ in Chingford. Many thanks to the project managers - Gino, Celli and Elena - and to their entire team of craft workers",
-    // Optional, a statically imported image (usually from your public folder—recommended) or a link to the person's avatar. Shows a fallback letter if not provided
+    // Optional, a statically imported image (usually from your public folder–recommended) or a link to the person's avatar. Shows a fallback letter if not provided
     img: "",
   },
   {
@@ -80,7 +80,7 @@ const Testimonials3 = () => {
       <div className="py-24 px-8 max-w-7xl mx-auto">
         <div className="flex flex-col text-center w-full mb-20">
           <div className="mb-8">
-            <h2 className="sm:text-5xl text-4xl font-extrabold text-base-content">
+            <h2 className="sm:text-5xl text-4xl font-medium text-base-content">
               500+ clients happy they chose us!
             </h2>
           </div>

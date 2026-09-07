@@ -95,7 +95,7 @@ export default async function PaymentsPage() {
 
       {payments.length ? (
         <div className="space-y-7">
-          <section className="grid border border-[#dedbd2] bg-[#fbfaf7] sm:grid-cols-3 sm:divide-x sm:divide-[#dedbd2]">
+          <section className="grid border border-[#D8D2C6] bg-[#F4F1EA] sm:grid-cols-3 sm:divide-x sm:divide-[#D8D2C6]">
             {[
               [
                 "Paid",
@@ -117,12 +117,12 @@ export default async function PaymentsPage() {
             ].map(([label, value, detail]) => (
               <div
                 key={label}
-                className="border-b border-[#dedbd2] px-5 py-5 last:border-b-0 sm:border-b-0 sm:px-6"
+                className="border-b border-[#D8D2C6] px-5 py-5 last:border-b-0 sm:border-b-0 sm:px-6"
               >
                 <p className="text-[10px] font-semibold uppercase tracking-[0.13em] text-[#89918e]">
                   {label}
                 </p>
-                <p className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#17231f]">
+                <p className="mt-2 text-xl font-semibold tracking-[-0.02em] text-[#202925]">
                   {value}
                 </p>
                 <p className="mt-1 text-[11px] text-[#7c8682]">{detail}</p>
@@ -130,20 +130,20 @@ export default async function PaymentsPage() {
             ))}
           </section>
 
-          <section className="border border-[#dedbd2] bg-[#fbfaf7]">
-            <div className="border-b border-[#dedbd2] px-5 py-5 sm:flex sm:items-end sm:justify-between sm:px-6">
+          <section className="border border-[#D8D2C6] bg-[#F4F1EA]">
+            <div className="border-b border-[#D8D2C6] px-5 py-5 sm:flex sm:items-end sm:justify-between sm:px-6">
               <div>
-                <h2 className="text-base font-semibold text-[#17231f]">
+                <h2 className="text-base font-semibold text-[#202925]">
                   Payment schedule
                 </h2>
-                <p className="mt-1 text-xs text-[#66716d]">
+                <p className="mt-1 text-xs text-[#4D5B4B]">
                   Every instalment in the order it is scheduled.
                 </p>
               </div>
               <div className="mt-4 w-full max-w-[280px] sm:mt-0">
-                <div className="mb-2 flex items-center justify-between text-[11px] text-[#66716d]">
+                <div className="mb-2 flex items-center justify-between text-[11px] text-[#4D5B4B]">
                   <span>Plan completed</span>
-                  <span className="font-semibold text-[#17231f]">
+                  <span className="font-semibold text-[#202925]">
                     {completion}%
                   </span>
                 </div>
@@ -167,10 +167,10 @@ export default async function PaymentsPage() {
                       {payment.order}
                     </span>
                     <div className="min-w-0">
-                      <h3 className="truncate text-sm font-semibold text-[#17231f]">
+                      <h3 className="truncate text-sm font-semibold text-[#202925]">
                         {payment.name}
                       </h3>
-                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-[#66716d]">
+                      <p className="mt-1 inline-flex items-center gap-1.5 text-xs text-[#4D5B4B]">
                         <CalendarDays
                           aria-hidden="true"
                           className="h-3.5 w-3.5"
@@ -179,7 +179,7 @@ export default async function PaymentsPage() {
                       </p>
                     </div>
                   </div>
-                  <p className="text-sm font-semibold text-[#17231f]">
+                  <p className="text-sm font-semibold text-[#202925]">
                     {formatCurrency(payment.amount)}
                   </p>
                   <span

@@ -44,7 +44,7 @@ const calendarStyles = `
   }
   
   .attendance-calendar .rbc-date-cell button:hover {
-    background-color: #f3f4f6;
+    background-color: #EDE9E0;
   }
   
   .attendance-calendar .rbc-today {
@@ -86,7 +86,7 @@ const calendarStyles = `
   .attendance-calendar .rbc-toolbar-label {
     font-size: 18px;
     font-weight: 600;
-    color: #111827;
+    color: #202925;
   }
   
   .attendance-calendar .rbc-btn-group {
@@ -1185,7 +1185,7 @@ export default function AttendanceAdminPage() {
                           >
                             {a.worker?.name || "Worker"}
                           </button>{" "}
-                          → {a.project?.name || a.projectName || "Project"} —{" "}
+                          → {a.project?.name || a.projectName || "Project"} –{" "}
                           {new Date(a.date).toDateString()}
                         </div>
                         <div className="flex gap-2 text-sm">
@@ -1788,11 +1788,11 @@ export default function AttendanceAdminPage() {
                             <ul className="divide-y">
                               {drawerItems.map((a) => (
                                 <li key={a._id} className="py-2 text-sm">
-                                  {new Date(a.date).toDateString()} —{" "}
+                                  {new Date(a.date).toDateString()} –{" "}
                                   {a.project?.name ||
                                     a.projectName ||
                                     "Project"}{" "}
-                                  — {a.status}
+                                  – {a.status}
                                   {a.hours ? ` (${a.hours}h)` : ""}
                                 </li>
                               ))}

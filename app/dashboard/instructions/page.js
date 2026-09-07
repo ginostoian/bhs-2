@@ -48,11 +48,11 @@ export default async function InstructionsPage() {
       </div>
 
       {instructions.length ? (
-        <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+        <div className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
           {instructions.map((instruction) => (
             <div key={instruction.id} className="px-5 py-5 sm:px-6">
               <div className="flex items-start gap-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#173129] text-xs font-semibold text-white">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#202925] text-xs font-semibold text-white">
                   {instruction.user?.name?.charAt(0) ||
                     instruction.user?.email?.charAt(0) ||
                     "U"}
@@ -70,7 +70,7 @@ export default async function InstructionsPage() {
                       },
                     )}
                   </div>
-                  <div className="text-sm leading-6 text-[#17231f]">
+                  <div className="text-sm leading-6 text-[#202925]">
                     {instruction.content}
                   </div>
                 </div>

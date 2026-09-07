@@ -23,14 +23,14 @@ function statusStyles(status) {
 
 export default function MoodboardsList({ moodboards }) {
   return (
-    <div className="divide-y divide-[#dedbd2] border-y border-[#dedbd2] bg-[#fbfaf7]">
+    <div className="divide-y divide-[#D8D2C6] border-y border-[#D8D2C6] bg-[#F4F1EA]">
       {moodboards.map((moodboard) => (
         <Link
           key={moodboard.id}
           href={`/dashboard/moodboards/${moodboard.id}`}
-          className="group flex flex-col gap-4 px-5 py-5 text-[#17231f] transition-colors hover:bg-[#f5f3ed] hover:text-[#17231f] sm:flex-row sm:items-center sm:px-6"
+          className="group flex flex-col gap-4 px-5 py-5 text-[#202925] transition-colors hover:bg-[#f5f3ed] hover:text-[#202925] sm:flex-row sm:items-center sm:px-6"
         >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#efede6] text-[#43504b]">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center bg-[#EDE9E0] text-[#43504b]">
             <Paintbrush
               aria-hidden="true"
               className="h-5 w-5"
@@ -39,7 +39,7 @@ export default function MoodboardsList({ moodboards }) {
           </span>
           <span className="min-w-0 flex-1">
             <span className="flex flex-wrap items-center gap-2.5">
-              <span className="truncate text-sm font-semibold text-[#17231f]">
+              <span className="truncate text-sm font-semibold text-[#202925]">
                 {moodboard.name}
               </span>
               <span
@@ -49,7 +49,7 @@ export default function MoodboardsList({ moodboards }) {
               </span>
             </span>
             {moodboard.description ? (
-              <span className="mt-1.5 line-clamp-1 block text-xs text-[#66716d]">
+              <span className="mt-1.5 line-clamp-1 block text-xs text-[#4D5B4B]">
                 {moodboard.description}
               </span>
             ) : null}
@@ -59,7 +59,7 @@ export default function MoodboardsList({ moodboards }) {
               {moodboard.projectType ? ` · ${moodboard.projectType}` : ""}
             </span>
           </span>
-          <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-[#1559d6]">
+          <span className="inline-flex shrink-0 items-center gap-2 text-xs font-semibold text-[#4D5B4B]">
             Open moodboard
             <ArrowRight
               aria-hidden="true"

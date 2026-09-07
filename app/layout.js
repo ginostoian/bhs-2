@@ -1,21 +1,20 @@
 import { Suspense } from "react";
-import { Inter } from "next/font/google";
+
 import PlausibleProvider from "next-plausible";
 
-import Header from "@/components/navigation/Navigation";
-import Footer from "@/components/footer/Footer";
-import WhereWeWork from "@/components/WhereWeWork";
+import Header from "@/components/brand/Navigation";
+import Footer from "@/components/brand/Footer";
 import ClientLayout from "@/components/LayoutClient";
 import CookieConsent from "@/components/CookieConsent";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 import { getRootSchema } from "@/libs/structuredData";
 import "./globals.css";
-import Announcement from "@/components/Announcement";
+import "./brand.css";
 import ReferralTracker from "@/components/ReferralTracker";
 import RouteChrome from "@/components/RouteChrome";
 
-const font = Inter({ subsets: ["latin"] });
+
 
 export const viewport = {
   // Will use the primary color of your theme to show a nice theme color in the URL bar of supported browsers
@@ -32,7 +31,7 @@ export default function RootLayout({ children }) {
   const rootSchema = getRootSchema();
 
   return (
-    <html lang="en" data-theme={config.colors.theme} className={font.className}>
+    <html lang="en" data-theme={config.colors.theme}>
       {config.domainName && (
         <head>
           <PlausibleProvider domain={config.domainName} />
@@ -50,9 +49,7 @@ export default function RootLayout({ children }) {
             <ReferralTracker />
           </Suspense>
           <RouteChrome
-            announcement={<Announcement />}
             header={<Header />}
-            whereWeWork={<WhereWeWork />}
             footer={<Footer />}
           >
             {children}

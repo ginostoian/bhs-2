@@ -43,7 +43,7 @@ const Problem = () => {
   return (
     <section className="container rounded-2xl bg-neutral text-neutral-content">
       <div className="max-w-7xl mx-auto px-8 py-16 md:py-32 text-center">
-        <h2 className="max-w-3xl mx-auto font-extrabold text-4xl md:text-5xl mb-6 md:mb-8">
+        <h2 className="max-w-3xl mx-auto font-medium text-4xl md:text-5xl mb-6 md:mb-8">
           Over 80% of renovations go off track and catch you off guard.
         </h2>
         <p className="max-w-xl mx-auto text-lg opacity-90 leading-relaxed mb-12 md:mb-20">

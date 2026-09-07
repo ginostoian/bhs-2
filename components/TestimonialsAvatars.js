@@ -26,7 +26,7 @@ const PillStar = () => (
 );
 
 const TrustPill = ({ children }) => (
-  <div className="inline-flex items-center rounded-full border border-[#d8e4fb] bg-white px-4 py-2 text-sm font-semibold text-[#100b47] shadow-sm">
+  <div className="inline-flex items-center rounded-full border border-[#d8e4fb] bg-white px-4 py-2 text-sm font-semibold text-[#202925] shadow-sm">
     {children}
   </div>
 );
@@ -38,7 +38,7 @@ const TestimonialsAvatars = () => {
         <div>
           <div className="flex flex-wrap items-center gap-3">
             <StarRow />
-            <p className="text-lg font-bold text-[#100b47]">
+            <p className="text-lg font-bold text-[#202925]">
               Trusted by London homeowners
             </p>
           </div>

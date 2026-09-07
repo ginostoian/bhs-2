@@ -39,14 +39,14 @@ function DetailRow({ icon: Icon, label, value }) {
     <div className="flex gap-3 border-b border-[#e5e2da] py-4 last:border-b-0">
       <Icon
         aria-hidden="true"
-        className="mt-0.5 h-4 w-4 shrink-0 text-[#66716d]"
+        className="mt-0.5 h-4 w-4 shrink-0 text-[#4D5B4B]"
         strokeWidth={1.65}
       />
       <div className="min-w-0">
         <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#89918e]">
           {label}
         </p>
-        <p className="mt-1 text-sm font-medium leading-5 text-[#17231f]">
+        <p className="mt-1 text-sm font-medium leading-5 text-[#202925]">
           {value}
         </p>
       </div>
@@ -101,12 +101,12 @@ export default async function ProjectDetailsPage() {
       />
 
       <div className="grid gap-7 lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,0.65fr)]">
-        <section className="border border-[#dedbd2] bg-[#fbfaf7] p-5 sm:p-7">
+        <section className="border border-[#D8D2C6] bg-[#F4F1EA] p-5 sm:p-7">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-base font-semibold text-[#17231f]">
+            <h2 className="text-base font-semibold text-[#202925]">
               Overall progress
             </h2>
-            <span className="text-3xl font-medium tracking-[-0.035em] text-[#17231f]">
+            <span className="text-3xl font-medium tracking-[-0.035em] text-[#202925]">
               {progress}%
             </span>
           </div>
@@ -119,7 +119,7 @@ export default async function ProjectDetailsPage() {
             aria-valuenow={progress}
           >
             <div
-              className="h-full rounded-full bg-[#1559d6]"
+              className="h-full rounded-full bg-[#4D5B4B]"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -160,11 +160,11 @@ export default async function ProjectDetailsPage() {
           </div>
         </section>
 
-        <aside className="border border-[#dedbd2] bg-[#f4f1e9] p-5 sm:p-7">
-          <h2 className="text-base font-semibold text-[#17231f]">
+        <aside className="border border-[#D8D2C6] bg-[#f4f1e9] p-5 sm:p-7">
+          <h2 className="text-base font-semibold text-[#202925]">
             Project records
           </h2>
-          <p className="mt-2 text-xs leading-5 text-[#66716d]">
+          <p className="mt-2 text-xs leading-5 text-[#4D5B4B]">
             Open the areas where your project documents and decisions are kept.
           </p>
           <div className="mt-6 space-y-2">
@@ -178,7 +178,7 @@ export default async function ProjectDetailsPage() {
               <a
                 key={href}
                 href={href}
-                className="flex min-h-11 items-center justify-between border-b border-[#dcd8ce] text-xs font-semibold text-[#17231f] transition-colors hover:text-[#1559d6]"
+                className="flex min-h-11 items-center justify-between border-b border-[#dcd8ce] text-xs font-semibold text-[#202925] transition-colors hover:text-[#4D5B4B]"
               >
                 {label}
                 <span aria-hidden="true">→</span>

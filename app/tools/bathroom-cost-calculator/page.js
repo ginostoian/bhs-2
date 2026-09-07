@@ -326,7 +326,7 @@ const BathroomCalculator = () => {
           <button
             type="submit"
             onClick={handleClick}
-            className="mb-6 mt-6 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#266bf1] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#1449B0] hover:text-gray-50 active:bg-[#0C5AC8] disabled:bg-[#A5D2FF] lg:px-[24px]"
+            className="mb-6 mt-6 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#4D5B4B] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#3E4A3C] hover:text-gray-50 active:bg-[#3E4A3C] disabled:bg-[#A5D2FF] lg:px-[24px]"
           >
             Calculate your price!
           </button>
@@ -334,20 +334,20 @@ const BathroomCalculator = () => {
             <div className="modal-box">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn-circle btn-ghost btn-sm absolute right-2 top-2 bg-[#266bf1] text-white">
+                <button className="btn-circle btn-ghost btn-sm absolute right-2 top-2 bg-[#4D5B4B] text-white">
                   ✕
                 </button>
               </form>
               <h3 className="mt-4 text-center text-3xl font-bold">
-                Your <span className="text-[#266bf1]">bathroom renovation</span>{" "}
+                Your <span className="text-[#4D5B4B]">bathroom renovation</span>{" "}
                 cost is between:
               </h3>
               <p className="py-4 text-center text-2xl md:text-4xl">
-                <span className="font-extrabold text-[#266bf1]">
+                <span className="font-medium text-[#4D5B4B]">
                   £{formatNumberWithCommas(renovationCost)}
                 </span>{" "}
                 and{" "}
-                <span className="font-extrabold text-[#266bf1]">
+                <span className="font-medium text-[#4D5B4B]">
                   £{formatNumberWithCommas(renovationCost + 2000)}
                 </span>
               </p>
@@ -359,7 +359,7 @@ const BathroomCalculator = () => {
               <div className="mt-6 flex justify-center gap-6">
                 <Link
                   href="/portfolio"
-                  className="cursor-pointer rounded-full border border-[#266bf1] bg-white px-4 py-2 text-center text-base text-black md:px-8 md:py-4"
+                  className="cursor-pointer rounded-full border border-[#4D5B4B] bg-white px-4 py-2 text-center text-base text-black md:px-8 md:py-4"
                 >
                   View our work
                 </Link>
@@ -367,7 +367,7 @@ const BathroomCalculator = () => {
                   href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="cursor-pointer rounded-full bg-[#266bf1] px-4 py-2 text-center text-base text-white transition-all duration-200 hover:border-2 hover:border-[#266bf1] hover:bg-white hover:text-black md:px-8 md:py-4"
+                  className="cursor-pointer rounded-full bg-[#4D5B4B] px-4 py-2 text-center text-base text-white transition-all duration-200 hover:border-2 hover:border-[#4D5B4B] hover:bg-white hover:text-black md:px-8 md:py-4"
                 >
                   Book a bathroom cost review
                 </Link>

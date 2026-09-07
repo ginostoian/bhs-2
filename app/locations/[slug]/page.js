@@ -376,9 +376,7 @@ export default function LocationPage({ params }) {
           </h1>
           <p className={classes.subtitle}>
             Better Homes supports homeowners in {location.name} with
-            high-quality design and build delivery. We focus on one thing:
-            creating beautiful, practical homes through well-managed projects
-            that protect both your time and your investment.
+            carefully managed construction. We can build from your existing drawings or manage your relationship with a trusted independent architect when design support is needed.
           </p>
           <p className={classes.subtitle}>
             {getAreaContext(location.area)}
@@ -386,7 +384,7 @@ export default function LocationPage({ params }) {
 
           <div className={classes.ctaRow}>
             <Link href={contactUrl} className={classes.primaryCta}>
-              Book a Consultation in {location.name}
+              Discuss your project in {location.name}
             </Link>
             <Link href="/portfolio" className={classes.secondaryCta}>
               View Recent London Projects
@@ -412,7 +410,7 @@ export default function LocationPage({ params }) {
       <section className={classes.section}>
         <div className="container">
           <h2 className={classes.sectionTitle}>
-            Social Proof for Homeowners in {location.name}
+            Reviews from London homeowners: {location.name}
           </h2>
           <p className={classes.sectionIntro}>
             Homeowners in {location.name} typically choose us for one reason:

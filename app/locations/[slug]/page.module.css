@@ -1,12 +1,12 @@
 .page {
   margin: 2rem auto;
-  max-width: 85%;
+  max-width: 1240px;
 }
 
 .hero {
-  background: linear-gradient(145deg, #ffffff, #f5faff);
-  border: 1px solid #d7e4fb;
-  border-radius: 20px;
+  background: #F4F1EA;
+  border: 1px solid #D8D2C6;
+  border-radius: 6px;
   padding: 2.75rem 0;
 }
 
@@ -46,34 +46,34 @@
 
 .primaryCta,
 .secondaryCta {
-  border-radius: 10px;
+  border-radius: 6px;
   display: inline-block;
-  font-weight: 700;
+  font-weight: 500;
   padding: 0.85rem 1.2rem;
   transition: all 180ms ease;
 }
 
 .primaryCta {
-  background-color: #266bf1;
-  border: 1px solid #266bf1;
+  background-color: #4D5B4B;
+  border: 1px solid #4D5B4B;
   color: #ffffff;
 }
 
 .primaryCta:hover {
-  background-color: #1f58c8;
-  border-color: #1f58c8;
+  background-color: #3E4A3C;
+  border-color: #3E4A3C;
   color: #ffffff;
 }
 
 .secondaryCta {
   background-color: #ffffff;
-  border: 1px solid #bfd3f9;
+  border: 1px solid #D8D2C6;
   color: var(--text-primary);
 }
 
 .secondaryCta:hover {
-  border-color: #266bf1;
-  color: #266bf1;
+  border-color: #4D5B4B;
+  color: #4D5B4B;
 }
 
 .section {
@@ -111,8 +111,8 @@
 .serviceCard,
 .stepCard {
   background: #ffffff;
-  border: 1px solid #d7e4fb;
-  border-radius: 14px;
+  border: 1px solid #D8D2C6;
+  border-radius: 6px;
   padding: 1.2rem;
 }
 
@@ -132,9 +132,9 @@
 }
 
 .proofCard {
-  background: #f7faff;
-  border: 1px solid #d7e4fb;
-  border-radius: 14px;
+  background: #EDE9E0;
+  border: 1px solid #D8D2C6;
+  border-radius: 6px;
   padding: 1rem 1.1rem;
 }
 
@@ -151,7 +151,7 @@
 
 .serviceCard a {
   display: inline-block;
-  font-weight: 700;
+  font-weight: 500;
   margin-top: 0.9rem;
 }
 
@@ -162,8 +162,8 @@
 
 .quoteCard {
   background: #ffffff;
-  border: 1px solid #d7e4fb;
-  border-radius: 14px;
+  border: 1px solid #D8D2C6;
+  border-radius: 6px;
   padding: 1rem 1.1rem;
 }
 
@@ -186,15 +186,15 @@
 }
 
 .quoteMeta a {
-  color: #266bf1;
+  color: #4D5B4B;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .stepNumber {
-  color: #266bf1;
+  color: #4D5B4B;
   font-size: 1.35rem;
-  font-weight: 800;
+  font-weight: 500;
   margin-bottom: 0.45rem;
 }
 
@@ -205,7 +205,7 @@
 
 .faqItem {
   background: #ffffff;
-  border: 1px solid #d7e4fb;
+  border: 1px solid #D8D2C6;
   border-radius: 12px;
   padding: 0.85rem 1rem;
 }
@@ -213,7 +213,7 @@
 .faqItem summary {
   color: var(--text-primary);
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.5;
 }
 
@@ -224,9 +224,9 @@
 }
 
 .bottomCta {
-  background: linear-gradient(140deg, #f4f8ff, #ebf3ff);
+  background: #F4F1EA;
   border: 1px solid #c9dcfb;
-  border-radius: 16px;
+  border-radius: 6px;
   padding: 1.6rem;
 }
 
@@ -250,8 +250,8 @@
 
 .nearbyLink {
   background-color: #ffffff;
-  border: 1px solid #d7e4fb;
-  border-radius: 10px;
+  border: 1px solid #D8D2C6;
+  border-radius: 6px;
   color: var(--text-primary);
   display: block;
   font-weight: 600;
@@ -261,8 +261,8 @@
 }
 
 .nearbyLink:hover {
-  border-color: #266bf1;
-  color: #266bf1;
+  border-color: #4D5B4B;
+  color: #4D5B4B;
 }
 
 @media (min-width: 900px) {
@@ -286,3 +286,15 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.page { width:100%; margin:0 auto; }
+.hero { border:0; border-radius:0; padding:clamp(56px,8vw,96px) 0; }
+.title { font-size:clamp(40px,5vw,64px); font-weight:500; letter-spacing:-.02em; text-align:left; max-width:1050px; }
+.subtitle { font-size:18px; line-height:1.6; text-align:left; margin-left:0; max-width:760px; }
+.section,.content { margin-top:0; padding:clamp(40px,6vw,80px) 0; border-top:1px solid #D8D2C6; }
+.sectionTitle { font-size:clamp(30px,3.4vw,40px); font-weight:500; margin-bottom:28px; }
+.infoCard,.stepCard,.proofCard,.card { background:#F4F1EA; border:0; border-top:1px solid #D8D2C6; border-radius:0; padding:24px 0; }
+.serviceCard,.quoteCard { background:#EDE9E0; border:0; padding:28px; }
+.primaryCta,.secondaryCta { min-height:48px; padding:14px 24px; font-weight:500; }
+.bottomCta { background:#202925; color:#F4F1EA; border:0; border-radius:0; padding:48px 32px; }
+.bottomCta h2,.bottomCta p { color:inherit; }

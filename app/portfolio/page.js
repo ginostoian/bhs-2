@@ -1,25 +1,12 @@
 import Link from "next/link";
-
-import Approach from "@/components/Approach";
-import FAQ from "@/components/FAQ";
-import Features from "@/components/Features";
-
-import Testimonials11 from "@/components/Testimonials11";
-import Testimonials3 from "@/components/Testimonials3";
-import WithWithout from "@/components/WithWithout";
-import BlogHighlight from "@/components/blog/BlogHighlight";
-import Hero from "@/components/hero/Hero";
-import SectionTitle from "@/components/sectionTitle/SectionTitle";
-import SocialProof from "@/components/socialProof/SocialProof";
-import TextBlockDark from "@/components/textBlockDark/TextBlockDark";
-import TextGrid from "@/components/textGrid/TextGrid";
+import Image from "next/image";
 import config from "@/config";
-import { getKnowledgeCenterArticles } from "@/libs/knowledgeCenter";
-import { getPageFaqs } from "@/libs/pageFaqs";
-import PortfolioPageContainer from "@/components/PortfolioPageContainer";
-import Stats from "@/components/Stats";
 import { getSEOTags } from "@/libs/seo";
-
+import { getPageFaqs } from "@/libs/pageFaqs";
+import Faq from "@/components/brand/Faq";
+import { FaqSchema } from "@/components/brand/Schema";
+import { ProjectCards, ProjectCTA } from "@/components/brand/ServicePage";
+import { getPortfolioProjects } from "@/libs/portfolio-projects";
 export const metadata = getSEOTags({
   title: "Renovation Case Studies London | Better Homes Portfolio",
   description:
@@ -38,57 +25,22 @@ export const metadata = getSEOTags({
     "bathroom renovation portfolio London",
   ],
 });
-
 export default function Page() {
-  const portfolioCopy = config.copy.portfolioPage;
-  //   const whatWeDoCopy = portfolioCopy.whatWeDoSection;
-  //   const whatWeDoArr = [
-  //     whatWeDoCopy.fullHome,
-  //     whatWeDoCopy.bathroomInstallation,
-  //     whatWeDoCopy.kitchenInstallation,
-  //     whatWeDoCopy.structuralWork,
-  //     whatWeDoCopy.heating,
-  //     whatWeDoCopy.flooringInstallation,
-  //   ];
-  const howWeDoItCopy = portfolioCopy.howWeDoItSection;
-  const reviewsCtaCopy = config.copy.homepage.reviewsSection;
-  const knowledgeCenterArticles = getKnowledgeCenterArticles("portfolio");
-
-  const faqs = getPageFaqs("portfolio");
-
   return (
-    <>
-      <main>
-        <Hero
-          title={portfolioCopy.title}
-          titleAccent={portfolioCopy.titleAccent}
-          subtitle={portfolioCopy.subtitle}
-          heroCTA={portfolioCopy.heroCTA}
-          heroImgUrl={portfolioCopy.heroImgUrl}
-          ctaTallyFormLink={portfolioCopy.ctaTallyFormLink}
-        />
-        <SocialProof />
-        <PortfolioPageContainer />
-        <Testimonials3 />
-        <Features />
-        <Stats />
-        <SectionTitle />
-        <Approach />
-        <WithWithout />
-        <SectionTitle
-          title="Our build approach"
-          subtitle="Simple, fast and streamlined process"
-        />
-        <TextGrid content={howWeDoItCopy} />
-        <Testimonials11 />
-        <TextBlockDark content={reviewsCtaCopy} />
-        <FAQ content={faqs} />
-        <SectionTitle
-          title="The Knowledge Center"
-          subtitle="Where you actually learn new things"
-        />
-        <BlogHighlight articles={knowledgeCenterArticles} />
-      </main>
-    </>
+    <main>
+      <section className="bh-wrap bh-section">
+        <p className="bh-eyebrow">Our work</p>
+        <h1 className="bh-title">Real homes. Considered transformations.</h1>
+        <p className="bh-lead">
+          Explore completed London extensions, renovations, kitchens and
+          bathrooms. Each case study sets out the brief, the work delivered and
+          the details that needed careful management.
+        </p>
+      </section>
+      <section className="bh-wrap" style={{ paddingBottom: 80 }}>
+        <ProjectCards projects={getPortfolioProjects()} />
+      </section>
+      <ProjectCTA />
+    </main>
   );
 }

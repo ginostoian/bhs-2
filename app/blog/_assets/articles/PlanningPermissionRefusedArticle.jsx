@@ -3,12 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const styles = {
-  h1: "mb-8 text-4xl font-black leading-tight tracking-tight text-[#100b47] md:text-5xl",
+  h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
   h2: "mb-4 mt-10 text-2xl font-bold tracking-tight text-black lg:text-4xl",
   h3: "mb-2 mt-7 text-xl font-bold tracking-tight text-black lg:text-2xl",
   p: "mb-6 leading-relaxed text-base-content/90",
   answerCapsule:
-    "mb-8 rounded-2xl border border-[#266bf1]/20 bg-[#f9fbff] p-6 shadow-sm md:p-7",
+    "mb-8 rounded-2xl border border-[#4D5B4B]/20 bg-[#F4F1EA] p-6 shadow-sm md:p-7",
   keyTakeaways:
     "mb-10 rounded-2xl border border-base-content/10 bg-white p-6 shadow-sm [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-5 [&_ul]:text-base-content/90",
   tableOfContents: "mb-10",
@@ -17,9 +17,9 @@ const styles = {
   takeawaysList:
     "mb-8 list-disc space-y-3 pl-5 leading-relaxed text-base-content/90",
   engagement:
-    "my-10 rounded-2xl border border-[#266bf1]/15 bg-[#f9fbff] p-6 shadow-sm",
+    "my-10 rounded-2xl border border-[#4D5B4B]/15 bg-[#F4F1EA] p-6 shadow-sm",
   referencesList:
-    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#266bf1] [&_a]:underline-offset-2 hover:[&_a]:underline",
+    "mb-8 list-decimal space-y-3 pl-5 leading-relaxed text-base-content/90 [&_a]:text-[#4D5B4B] [&_a]:underline-offset-2 hover:[&_a]:underline",
   figure:
     "my-8 overflow-hidden rounded-2xl border border-base-content/10 bg-white p-4 shadow-sm md:p-6",
   image: "h-auto w-full rounded-xl",
@@ -61,7 +61,7 @@ const PlanningPermissionRefused = () => {
             Pre-application advice from your local council costs £100–£600 in London and is the single most effective way to avoid a refusal before you spend money on a full application.
           </li>
           <li>
-            A design-and-build firm like Better Homes manages planning strategy, design, and construction under one roof - eliminating the communication gaps between separate architects and builders that often lead to refusals and costly redesigns.
+            Better Homes manages construction and coordinates your relationship with a trusted independent architect. The architect advises on planning and design; we contribute buildability and cost input. We can also work with your existing architect and drawings.
           </li>
         </ul>
       </div>
@@ -71,23 +71,23 @@ const PlanningPermissionRefused = () => {
         <h2 className={styles.h2}>What This Guide Covers</h2>
         <div className={styles.tocColumns}>
           <div className={styles.tocColumn}>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#why-refused">Why Planning Permission Gets Refused in London</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#top-refusal-reasons">The 8 Most Common Refusal Reasons for Extensions and Loft Conversions</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#extensions-specific">Extension-Specific Refusal Triggers</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#loft-specific">Loft Conversion Planning Pitfalls</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#conservation-areas">Conservation Areas and Article 4 Directions</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#neighbour-objections">Neighbour Objections: What Counts and What Doesn't</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#what-to-do-next">What to Do After a Planning Refusal</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#why-refused">Why Planning Permission Gets Refused in London</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#top-refusal-reasons">The 8 Most Common Refusal Reasons for Extensions and Loft Conversions</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#extensions-specific">Extension-Specific Refusal Triggers</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#loft-specific">Loft Conversion Planning Pitfalls</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#conservation-areas">Conservation Areas and Article 4 Directions</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#neighbour-objections">Neighbour Objections: What Counts and What Doesn't</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#what-to-do-next">What to Do After a Planning Refusal</Link>
           </div>
           <div className={styles.tocColumn}>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#appeal-process">The Planning Appeal Process Explained</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#revise-resubmit">Revise and Resubmit: The Fastest Route to Approval</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#permitted-development">The Permitted Development Fallback</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#avoid-refusal">How to Avoid a Refusal in the First Place</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#pre-application">Pre-Application Advice: Your Best Investment</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#design-build-advantage">Why Design-and-Build Firms Get More Approvals</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#quick-takeaways">Quick Takeaways</Link>
-            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#f9fbff] hover:text-[#266bf1] last:border-b-0 md:text-base" href="#faqs">Frequently Asked Questions</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#appeal-process">The Planning Appeal Process Explained</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#revise-resubmit">Revise and Resubmit: The Fastest Route to Approval</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#permitted-development">The Permitted Development Fallback</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#avoid-refusal">How to Avoid a Refusal in the First Place</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#pre-application">Pre-Application Advice: Your Best Investment</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#design-build-advantage">Why Design-and-Build Firms Get More Approvals</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#quick-takeaways">Quick Takeaways</Link>
+            <Link className="block border-b border-base-content/10 px-4 py-3 text-sm leading-relaxed text-base-content/90 transition hover:bg-[#F4F1EA] hover:text-[#4D5B4B] last:border-b-0 md:text-base" href="#faqs">Frequently Asked Questions</Link>
           </div>
         </div>
       </div>
@@ -104,19 +104,19 @@ const PlanningPermissionRefused = () => {
       </p>
       <p className={styles.p}>
         For the adjacent topics this article touches, see our{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/planning-permission-loft-conversion-london">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/planning-permission-loft-conversion-london">
           loft planning permission guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/loft-conversions-london-complete-guide-2026">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/loft-conversions-london-complete-guide-2026">
           complete loft conversion guide
         </Link>
         ,{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/loft-conversion-vs-house-extension-london">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/loft-conversion-vs-house-extension-london">
           loft conversion vs extension comparison
         </Link>
         , and{" "}
-        <Link className="text-[#266bf1] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
+        <Link className="text-[#4D5B4B] underline-offset-2 hover:underline" href="/blog/house-extension-value-london-guide">
           London house extension value guide
         </Link>
         .
