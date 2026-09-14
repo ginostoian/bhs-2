@@ -1,0 +1,14 @@
+[
+  {
+    "consent": "accepted",
+    "retrySameId": true,
+    "successEvents": 1,
+    "api": "intercepted; no server writes"
+  },
+  {
+    "consent": "rejected",
+    "retrySameId": true,
+    "successEvents": 0,
+    "api": "intercepted; no server writes"
+  }
+]

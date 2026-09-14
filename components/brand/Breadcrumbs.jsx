@@ -49,7 +49,7 @@ export function breadcrumbItems(pathname) {
               (_, area, n) => area.toUpperCase() + n,
             ));
     // These grouping segments have no page of their own.
-    const groupOnly = !hasPage(href);
+    const groupOnly = ["/blog/author", "/blog/category"].includes(href) || !hasPage(href);
     if (i === 0 && part.endsWith("calculator"))
       items.push({ label: "Cost planning", href: "/tools" });
     items.push({ label, href: groupOnly ? null : href });

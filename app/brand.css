@@ -144,10 +144,10 @@ textarea {
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
-.bh-wordmark > span {
-  width: 12px;
-  height: 12px;
-  background: var(--bh-olive);
+.bh-wordmark > .bh-brand-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
 }
 .bh-nav {
   display: contents;

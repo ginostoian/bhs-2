@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -67,7 +68,7 @@ export default function Navigation() {
       </a>
       <div className="bh-header-row">
         <Link href="/" className="bh-wordmark">
-          <span />
+          <Image src="/assets/brand/bh-icon-light.svg" alt="" width={30} height={30} className="bh-brand-icon" />
           Better Homes
         </Link>
         <button

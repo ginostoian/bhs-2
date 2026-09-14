@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 const groups = [
   [
     "Services",
@@ -43,7 +44,7 @@ export default function Footer() {
       <div className="bh-wrap bh-footer-grid">
         <div>
           <Link href="/" className="bh-wordmark">
-            <span />
+            <Image src="/assets/brand/bh-icon-light.svg" alt="" width={30} height={30} className="bh-brand-icon" />
             Better Homes
           </Link>
           <p>

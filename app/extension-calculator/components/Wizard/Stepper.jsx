@@ -17,7 +17,7 @@ const Stepper = ({ currentStep, totalSteps, steps, onStepClick }) => {
           <div key={index} className="flex items-center">
             {/* Step circle */}
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
                 index < currentStep
                   ? "cursor-pointer border-blue-600 bg-blue-600 text-white hover:bg-blue-700"
                   : index === currentStep
@@ -58,7 +58,7 @@ const Stepper = ({ currentStep, totalSteps, steps, onStepClick }) => {
             {/* Connector line */}
             {index < steps.length - 1 && (
               <div
-                className={`mx-4 h-0.5 flex-1 ${
+                className={`mx-1 h-0.5 flex-1 sm:mx-4 ${
                   index < currentStep ? "bg-blue-600" : "bg-gray-300"
                 }`}
               />
