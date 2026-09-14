@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unescaped-entities, @next/next/no-img-element */
 "use client";
+import { businessFacts } from "@/libs/businessFacts";
 import React from "react";
 import Image from "next/image";
 import { FaqSchema } from "./Schema";
@@ -85,7 +86,7 @@ export default class ReferenceHome extends React.Component {
       },
       {
         q: "What happens if something goes wrong after completion?",
-        a: "Every project is covered by a workmanship guarantee based on the scope delivered: ten years for extensions and lofts, two for kitchens and bathrooms, one for decorating. You receive a named aftercare contact at handover.",
+        a: businessFacts.workmanship,
       },
     ];
     const faqs = faqData.map((f, i) => ({

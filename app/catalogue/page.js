@@ -12,11 +12,15 @@ export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 12;
 
-export const metadata = {
-  title: "Product Catalogue | Better Homes",
-  description:
-    "Browse bathroom, lighting, tile, flooring, and home products curated for Better Homes projects.",
-};
+export function generateMetadata({ searchParams }) {
+  const filtered = ["category", "room", "search", "brand", "type", "colour", "availability", "sort", "page"].some(key => Boolean(searchParams?.[key]));
+  return {
+    title: "Product Catalogue | Better Homes",
+    description: "Browse bathroom, lighting, tile, flooring, and home products curated for Better Homes projects.",
+    alternates: { canonical: "https://bhstudio.co.uk/catalogue" },
+    ...(filtered ? { robots: { index: false, follow: true } } : {}),
+  };
+}
 
 export default async function CataloguePage({ searchParams }) {
   await connectMongoose();

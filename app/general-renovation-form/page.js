@@ -1,6 +1,7 @@
 import GeneralRenovationForm from "./components/GeneralRenovationForm";
 
 export const metadata = {
+  robots: { index: false, follow: true },
   title: "General Renovation Quote - Better Homes",
   description:
     "Get a free quote for your general renovation project. Fill out our form and we'll get back to you within 24 hours.",

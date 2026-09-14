@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -580,9 +581,7 @@ export default function HouseExtensionsLondonGuide() {
       <p className={styles.p}>
         The quality of your extension depends overwhelmingly on the company you choose to design and build it. London's construction market includes excellent firms and unreliable ones, and distinguishing between them requires asking the right questions before you commit. Here are the criteria that matter most.
       </p>
-      <p className={styles.p}>
-        <strong>Insurance and warranty:</strong> Any reputable extension company should carry a minimum of £2 million public liability insurance and £10 million employer's liability insurance. They should also offer a workmanship warranty - Better Homes provides a 10-year guarantee backed by £10 million insurance cover. Ask to see certificates, not just claims.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
       <p className={styles.p}>
         <strong>Fixed-price contracts:</strong> Avoid firms that quote on a cost-plus basis (charging actual costs plus a percentage margin). This incentivises the builder to spend more, not less. A fixed-price contract means you know the total cost before work begins, and the builder bears the risk of any cost overruns. Better Homes provides fixed-price contracts as standard.
       </p>
@@ -718,9 +717,7 @@ export default function HouseExtensionsLondonGuide() {
       <p className={styles.p}>
         If you are still deciding between a rear, side return, wraparound, double-storey or another format, our <Link href="/blog/house-extension-types">guide to the types of house extensions in London</Link> compares the space, planning route and cost implications of each.
       </p>
-      <p className={styles.p}>
-        Better Homes has delivered extensions, loft conversions, and full renovations across Central, East, and North London for years. Our full design-and-build model means you deal with one team from first sketch to final handover - no middleman, no finger-pointing, no surprises. Every project comes with a fixed-price contract, a 10-year workmanship guarantee backed by £10 million insurance, and the peace of mind that comes from working with a Houzz award-winning firm.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
       <ServiceCta
         title="Get a design-and-build extension quote"
         body="If you want one accountable team for design, planning and construction, start with the service page and tell us what you are trying to achieve."

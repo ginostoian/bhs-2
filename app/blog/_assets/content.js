@@ -485,6 +485,7 @@ export const articles = [
     ],
     author: authors.find((author) => author.slug === authorSlugs.gino),
     publishedAt: "2026-03-12",
+    dateModified: "2026-09-14",
     image: {
       src: homeRenovationCostGuideImg,
       urlRelative:
@@ -1892,6 +1893,7 @@ export const articles = [
           placeholder="blur"
         />
         <section>
+          <p className={styles.p}>Before comparing suppliers, use our <Link href="/kitchen-calculator">kitchen renovation calculator</Link> to allow for installation as well as cabinets. Our <Link href="/kitchen-renovation">kitchen renovation service</Link> explains the construction scope.</p>
           {/* Table of Contents */}
           <h3 className={styles.h3}>Table of Contents</h3>
           <ul className={styles.p}>
@@ -1940,9 +1942,6 @@ export const articles = [
             </li>
             <li>
               <Link href="#comparison">Comparative Analysis</Link>
-            </li>
-            <li>
-              <Link href="#case-studies">Case Studies</Link>
             </li>
             <li>
               <Link href="#trends">Trends in Luxury Kitchen Design</Link>
@@ -2068,6 +2067,10 @@ export const articles = [
           </p>
 
           {/* Suggested Image: Infographic comparing criteria side-by-side with icons for quality, design, service, etc. */}
+
+          <h2 className={styles.h2} id="providers">
+            Top Kitchen Providers in the UK
+          </h2>
 
           <h2 className={styles.h2} id="magnet">
             Magnet Kitchens
@@ -3542,7 +3545,10 @@ export const articles = [
             or clever storage solutions.
           </p>
 
-          <h2 className={styles.h2}>
+          <h2
+            className={styles.h2}
+            id="labour-costs-in-london-who-does-what--how-much-they-charge"
+          >
             Labour Costs in London: Who Does What & How Much They Charge
           </h2>
 
@@ -3613,7 +3619,10 @@ export const articles = [
             mind–especially in high-end projects where every detail counts.
           </p>
 
-          <h2 className={styles.h2}>
+          <h2
+            className={styles.h2}
+            id="material-costs-from-cabinets-to-countertops"
+          >
             Material Costs: From Cabinets to Countertops
           </h2>
 

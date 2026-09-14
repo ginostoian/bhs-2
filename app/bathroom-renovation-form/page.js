@@ -1,6 +1,7 @@
 import BathroomRenovationForm from "./components/BathroomRenovationForm";
 
 export const metadata = {
+  robots: { index: false, follow: true },
   title: "Bathroom Renovation Quote - Better Homes",
   description:
     "Get a free quote for your bathroom renovation project. Fill out our form and we'll get back to you within 24 hours.",

@@ -52,7 +52,7 @@ export default function Footer() {
             kitchens and bathrooms. Bring your architect or choose one we
             recommend, with optional coordination support either way.
           </p>
-          <p className="bh-small">
+          <p id="where-we-work" className="bh-small">
             Central, North and East London, with selected projects in South
             London.
           </p>

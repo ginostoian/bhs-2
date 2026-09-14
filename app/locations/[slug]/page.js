@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -81,22 +82,10 @@ const socialProofTestimonials = [
 ];
 
 const socialProofPoints = [
-  {
-    title: "500+ satisfied homeowners",
-    text: "A proven record of successful London renovation projects across kitchens, lofts, extensions, and full-home refurbishments.",
-  },
-  {
-    title: "Up to 10 years workmanship guarantee",
-    text: "Long-term protection and clear aftercare standards on qualifying works for added peace of mind.",
-  },
-  {
-    title: "Insurance cover up to £10M",
-    text: "Comprehensive project insurance and professional risk controls for high-value properties.",
-  },
-  {
-    title: "Best of Houzz service recognition",
-    text: "Consistent client feedback quality reflected in industry-recognised customer service awards.",
-  },
+  {title: businessFacts.expertise, text: "Explore the projects in our portfolio and discuss the scope relevant to your property."},
+  {title: businessFacts.guaranteeHeadline, text: businessFacts.workmanship},
+  {title: businessFacts.insuranceHeadline, text: businessFacts.insurance},
+  {title: `${businessFacts.reviews.rating}/5`, text: businessFacts.reviews.summary},
 ];
 
 const serviceCards = [

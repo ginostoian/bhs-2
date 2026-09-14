@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 // A useful component when your product is challenging the status quo.
 // Highlight the current pain points (left) and how your product is solving them (right)
 // Try to match the lines from left to right, so the user can easily compare the two columns
@@ -53,7 +54,7 @@ const WithWithout = () => {
                 "Clear project scope and a realistic timeline.",
                 "Precise and transparent cost from the start.",
                 "All scope changes are fairly priced and agreed upon.",
-                "Excellent workmanship backed by a up to 10 year guarantee.",
+                businessFacts.workmanship,
                 "Dedication and follow-through from start to finish.",
               ].map((item, index) => (
                 <li

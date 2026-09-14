@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: signed duplicate Cal deliveries create one booking; forged payload cannot create a booking
+ok 1 - signed duplicate Cal deliveries create one booking; forged payload cannot create a booking
+  ---
+  duration_ms: 24.10175
+  ...
+# Subtest: real API handler accepts one persisted enquiry and links its organic source to a CRM lead
+ok 2 - real API handler accepts one persisted enquiry and links its organic source to a CRM lead
+  ---
+  duration_ms: 54.664291
+  ...
+# Subtest: invalid and spam requests never persist or send an accepted success
+ok 3 - invalid and spam requests never persist or send an accepted success
+  ---
+  duration_ms: 3.172708
+  ...
+# Subtest: database failure returns 500 without a success event or notification
+ok 4 - database failure returns 500 without a success event or notification
+  ---
+  duration_ms: 0.669542
+  ...
+# Subtest: direct enquiry is Other, not Google, and declined analytics attribution is discarded
+ok 5 - direct enquiry is Other, not Google, and declined analytics attribution is discarded
+  ---
+  duration_ms: 0.633375
+  ...
+# Subtest: CRM failure can recover on retry without losing or duplicating enquiry notifications
+ok 6 - CRM failure can recover on retry without losing or duplicating enquiry notifications
+  ---
+  duration_ms: 0.969166
+  ...
+# Subtest: simultaneous retries persist one contact and share the accepted event ID
+ok 7 - simultaneous retries persist one contact and share the accepted event ID
+  ---
+  duration_ms: 1.426625
+  ...
+# Subtest: retry metadata changes do not duplicate a lead; changed content conflicts
+ok 8 - retry metadata changes do not duplicate a lead; changed content conflicts
+  ---
+  duration_ms: 0.425083
+  ...
+# Subtest: persistence failure cannot produce an accepted response
+ok 9 - persistence failure cannot produce an accepted response
+  ---
+  duration_ms: 0.159375
+  ...
+# Subtest: organic landing survives internal/direct visits without retaining queries or referrer
+ok 10 - organic landing survives internal/direct visits without retaining queries or referrer
+  ---
+  duration_ms: 4.20625
+  ...
+# Subtest: direct and unknown acquisition are never inferred to be organic
+ok 11 - direct and unknown acquisition are never inferred to be organic
+  ---
+  duration_ms: 0.628333
+  ...
+# Subtest: Cal accepts only a signed confirmed discovery booking, not clicks/requests/reschedules
+ok 12 - Cal accepts only a signed confirmed discovery booking, not clicks/requests/reschedules
+  ---
+  duration_ms: 0.399542
+  ...
+# Subtest: cohort report deduplicates outcomes and keeps sessions unavailable
+ok 13 - cohort report deduplicates outcomes and keeps sessions unavailable
+  ---
+  duration_ms: 0.260292
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 215.250583

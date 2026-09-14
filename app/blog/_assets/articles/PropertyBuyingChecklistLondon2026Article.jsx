@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -918,17 +919,7 @@ export default function PropertyBuyingChecklistLondon2026() {
         build a team of trusted professionals - mortgage broker, solicitor,
         surveyor - before they need them.
       </p>
-      <p className={styles.p}>
-        If you're buying a property with renovation potential - or if you've
-        already purchased and you're ready to transform it - Better Homes is a
-        full design-and-build firm specialising in loft conversions, house
-        extensions, and complete home renovations across East and North London.
-        Your architect prepares the drawings and agreed planning submissions;
-        we build. If you wish, we can coordinate discussions and speak on your
-        behalf with your agreement. You approve the design, budget and changes.
-        Our proposal sets out appointments, fees and workmanship cover by scope,
-        with £10M insurance separate from the guarantee.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
       <p className={styles.p}>
         <strong>
           Whether you're exploring what's possible before you buy, or you're

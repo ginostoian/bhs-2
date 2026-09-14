@@ -3,6 +3,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/blog/home-renovation-cost-in-london-the-complete-2026-price-guide",
+        destination: "/blog/home-renovation-cost-london-2026",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         has: [
           {

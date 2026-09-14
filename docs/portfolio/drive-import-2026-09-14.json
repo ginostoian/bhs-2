@@ -1,0 +1,756 @@
+[
+  {
+    "slug": "alexandra-w2",
+    "folderUrl": "https://drive.google.com/drive/folders/12hjoh-5J6AFsz0OACRefx10iX_z2cCw3",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 8,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-kitchen-living-space.webp",
+        "alt": "Kitchen and living space with dark cabinetry and herringbone flooring",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 135096,
+        "sha256": "e7e7736ce30e94c7a06df2f41de8319b7339aa89abfeabe588402136488021c2",
+        "sourceFileId": "1q9YP-O01G9YGYp1dMztROgYEp8ylTQnw",
+        "sourceFileName": "1.png"
+      },
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 1,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-kitchen-storage.webp",
+        "alt": "Dark base cabinets and pale wall cupboards in the kitchen",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 94598,
+        "sha256": "fdb2b02c2e6bcdedc3a6ff31bb6018bc2eea760b4a692aeddb3916fe3c4e1d23",
+        "sourceFileId": "1i2kg-wpjkOVJmx7VDxyanljKskfh_lGg",
+        "sourceFileName": "8.png"
+      },
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 6,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-cooker-and-worktop.webp",
+        "alt": "Kitchen worktop and cooker beneath a veined splashback",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 129338,
+        "sha256": "b082565ab84d5926727dbc209532746a06a868167fc941debcc51ca51cf3c5a3",
+        "sourceFileId": "1qRMo_LFf_w0C93LCIiIQa-GSehxM6Ih_",
+        "sourceFileName": "3.png"
+      },
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 5,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-living-room.webp",
+        "alt": "Living area with pendant lighting and glazed doors",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 98828,
+        "sha256": "178e68cab108427a34c3369bbff999fdb6c7198019302f904c01dd27ac68fbf5",
+        "sourceFileId": "1bAm2TCeXpWpbWfZ4ZMonvMhXpTZc8Tpa",
+        "sourceFileName": "4.png"
+      },
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 2,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-bathroom-vanity.webp",
+        "alt": "Bathroom vanity beneath an illuminated mirror",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 93424,
+        "sha256": "5ec042b2631931dfdc6a2f039577b34e9a4ebee734dccfc075c1998f3f0a4411",
+        "sourceFileId": "1HxQfJjKR3hglOtsCG-iiyrtujjWUNIur",
+        "sourceFileName": "7.png"
+      },
+      {
+        "slug": "alexandra-w2",
+        "sourceIndex": 3,
+        "path": "/assets/portfolio/alexandra-w2/alexandra-w2-bathroom-shower.webp",
+        "alt": "Dark tiled shower beside the bathroom basin",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 114572,
+        "sha256": "960262c6240efe021faea4a7f149fefec16c5e5923b36fb60e745c996f17b39d",
+        "sourceFileId": "1qf07sucl2yuFMlcK0qx654soADmUXKQ8",
+        "sourceFileName": "6.png"
+      }
+    ]
+  },
+  {
+    "slug": "georgia-n4",
+    "folderUrl": "https://drive.google.com/drive/folders/19SnxDusB8O4RtDGWIRRQCEwN-pofNAAK",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 43,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-kitchen-island.webp",
+        "alt": "Kitchen island and timber-fronted cabinetry beneath roof glazing",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 90556,
+        "sha256": "3d066685109bfdb40a0048f7304e6306b91a9e451189c6c40fb95278240b3bd1",
+        "sourceFileId": "1CmoUF7BrIbpijltRawZgoVVEoj9FNle-",
+        "sourceFileName": "4.png"
+      },
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 44,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-rear-extension.webp",
+        "alt": "Timber-clad rear extension opening to the garden",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 311274,
+        "sha256": "5c2fdb55fb302232251c6c14b6cdee9331c4c502e22a86cdd1a5a97035591bee",
+        "sourceFileId": "1L5AtRvjau23Axl_OQVIyICE9gEE80JIy",
+        "sourceFileName": "3.png"
+      },
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 40,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-roof-glazing.webp",
+        "alt": "Long roof glazing above the kitchen worktop",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 137528,
+        "sha256": "39d0758c16098586da4382a303b47cadbeac2ea169672435c7307ebe1609ecff",
+        "sourceFileId": "1rNMcNYz2JdIgBUlsLEnlZ9fd0UhgMJoS",
+        "sourceFileName": "7.png"
+      },
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 41,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-dining-space.webp",
+        "alt": "Dining table beside the glazed garden doors",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 116800,
+        "sha256": "6d110bd9765ee430b79f1d15ba151482c8e1bea38c5ae6a1b17058a095e3962a",
+        "sourceFileId": "1YYHX6MTdSzTBsUF1gkac2lK-vOu08wKN",
+        "sourceFileName": "6.png"
+      },
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 39,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-kitchen-detail.webp",
+        "alt": "Pale island worktop beside timber and pink kitchen cabinetry",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 72136,
+        "sha256": "1b67b3d9ff9a28647cd507ec126cb50f1e4fd0a23c1e6aee790a320489535412",
+        "sourceFileId": "1FESkNneGupeTivBtDJ2lqeU2jxnWXjfJ",
+        "sourceFileName": "8.png"
+      },
+      {
+        "slug": "georgia-n4",
+        "sourceIndex": 46,
+        "path": "/assets/portfolio/georgia-n4/georgia-n4-kitchen-worktop.webp",
+        "alt": "Kitchen preparation space beneath roof glazing",
+        "width": 1024,
+        "height": 1024,
+        "bytes": 77602,
+        "sha256": "704870020ec046e7d124a13d033c51374f7c6db19d00a2b2cc941bd290d7e43c",
+        "sourceFileId": "1mYLzC8C7hjncVIDYEANvtY9FpxjiIAAB",
+        "sourceFileName": "1.png"
+      }
+    ]
+  },
+  {
+    "slug": "anthony-e14",
+    "folderUrl": "https://drive.google.com/drive/folders/1glZEWwUuxNs3wOmcxKvGEyG9pw6BUDLE",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "anthony-e14",
+        "sourceIndex": 10,
+        "path": "/assets/portfolio/anthony-e14/anthony-e14-kitchen-island.webp",
+        "alt": "Blue kitchen cabinetry and island in an E14 flat",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 96808,
+        "sha256": "295d5214f135db4a343cea94e746eb4220c96ae84a710f69f6dd514d817a5467",
+        "sourceFileId": "1FqOTfgQwOBmFU7FjdFN_l3ndK6564i0i",
+        "sourceFileName": "6.png"
+      },
+      {
+        "slug": "anthony-e14",
+        "sourceIndex": 11,
+        "path": "/assets/portfolio/anthony-e14/anthony-e14-kitchen-worktop.webp",
+        "alt": "Blue cabinets with a patterned splashback and pale worktop",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 80808,
+        "sha256": "0cbb9ca42df3bbbfc879671ce46259c19ee91f4d5fe1fe165bc4bb99c77795b4",
+        "sourceFileId": "1bFMZCOuM9pEhoOeaE6wrEwvmnGrWEwMf",
+        "sourceFileName": "4.png"
+      },
+      {
+        "slug": "anthony-e14",
+        "sourceIndex": 12,
+        "path": "/assets/portfolio/anthony-e14/anthony-e14-island-view.webp",
+        "alt": "Kitchen island facing the window-side worktop",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 53454,
+        "sha256": "b4205472a00da6e77ff432fbbcd9c3d3272ec65f253c6dec934f1477af2f2e95",
+        "sourceFileId": "1yiR8Bc4J0SyZ3bWjggm-g6TtXWTL2Lle",
+        "sourceFileName": "3.png"
+      },
+      {
+        "slug": "anthony-e14",
+        "sourceIndex": 9,
+        "path": "/assets/portfolio/anthony-e14/anthony-e14-open-plan-kitchen.webp",
+        "alt": "Blue kitchen and adjacent living space",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 88362,
+        "sha256": "2a70aec6423da05320518450f835df6b78b9a965d29f87faa019fb2d55fc3b6a",
+        "sourceFileId": "1vgqA4uQkTYHiv4-sKb2e2y2SaOsh1WM-",
+        "sourceFileName": "5.png"
+      }
+    ]
+  },
+  {
+    "slug": "anika-e17",
+    "folderUrl": "https://drive.google.com/drive/folders/1Bnwtl45EcdGXXwMS3wUm0PB9Tsr1wLkl",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 42,
+        "path": "/assets/portfolio/anika-e17/anika-e17-kitchen-extension.webp",
+        "alt": "Kitchen island facing black-framed garden glazing",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 170052,
+        "sha256": "7e9d97e016c0f5ecd2ed5f954f2a189acaca5028e75b6de7e30b4a21a36d98d6",
+        "sourceFileId": "1x96Ioh65MmGlmqtNyfnSgDxMXI0BhJUA",
+        "sourceFileName": "pic 2"
+      },
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 40,
+        "path": "/assets/portfolio/anika-e17/anika-e17-rear-exterior.webp",
+        "alt": "Blue rear extension with black-framed glazed doors",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 270182,
+        "sha256": "d586a6f09d3e58f3b25f4b650a6ab98abdae6f1d1bd90a7f348401b349513490",
+        "sourceFileId": "1j5FJZTSlOV8ZT5f-k467wkLIrhF42xSn",
+        "sourceFileName": "pic 4"
+      },
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 39,
+        "path": "/assets/portfolio/anika-e17/anika-e17-kitchen-island.webp",
+        "alt": "Pale kitchen island, range cooker and pendant lighting",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 118110,
+        "sha256": "e07f8aaf323b779056df7670414c5c4413899ae6234008de84db675b3b040328",
+        "sourceFileId": "1Uj4stEun1cSSG69dvm1xBP2l3N7LwX9W",
+        "sourceFileName": "pic 1"
+      },
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 34,
+        "path": "/assets/portfolio/anika-e17/anika-e17-cooker-detail.webp",
+        "alt": "Range cooker beneath a tiled splashback and extractor",
+        "width": 900,
+        "height": 1600,
+        "bytes": 69764,
+        "sha256": "297f6e859a2a4a4d5ae323409f2469742ed39265ff639e59b340a5d9b8758771",
+        "sourceFileId": "1cMmfWf-KfLYP8U_MvsnW07vSFxoHTeRB",
+        "sourceFileName": "pic 9.JPG"
+      },
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 30,
+        "path": "/assets/portfolio/anika-e17/anika-e17-rooflights.webp",
+        "alt": "Two rooflights above the extension interior",
+        "width": 900,
+        "height": 1600,
+        "bytes": 103236,
+        "sha256": "8957a90c13020359f4bd398efdbebefff2bbffbff51ee0a166203edb1b99871a",
+        "sourceFileId": "1BV_gAiw2rhKIPtgiFBKuD_vwUVYsENFj",
+        "sourceFileName": "pic 13.JPG"
+      },
+      {
+        "slug": "anika-e17",
+        "sourceIndex": 41,
+        "path": "/assets/portfolio/anika-e17/anika-e17-garden-doors.webp",
+        "alt": "Garden doors and steps outside the blue extension",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 228186,
+        "sha256": "6fde2e9911ddb6d5a17a15902046010bfe8f117761f9d8effd9bf4d62d80c0ff",
+        "sourceFileId": "1Ec5V6mwDbeLG5vbemy5qLWUcJquCNIbk",
+        "sourceFileName": "pic 3"
+      }
+    ]
+  },
+  {
+    "slug": "mamta-e18",
+    "folderUrl": "https://drive.google.com/drive/folders/1f6KhzWJRDrsntEe66K6DJjijlSiGBbTy",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "mamta-e18",
+        "sourceIndex": 4,
+        "path": "/assets/portfolio/mamta-e18/mamta-e18-kitchen-extension.webp",
+        "alt": "Kitchen island beneath roof glazing in the rear extension",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 170258,
+        "sha256": "f692240c16ed2fb3138b672ec77a8417ab763aa22c5316cd875b03754de31fee",
+        "sourceFileId": "1L9G4Wqx2rJ7C9DJ9J-vSQrcyNJc3Zj5_",
+        "sourceFileName": "37007466-6FFC-40DF-A18A-1E36E0DCB323.PNG"
+      },
+      {
+        "slug": "mamta-e18",
+        "sourceIndex": 1,
+        "path": "/assets/portfolio/mamta-e18/mamta-e18-garden-exterior.webp",
+        "alt": "Rear extension with dark framed doors opening to the garden",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 466264,
+        "sha256": "75e14916588e80399be7abfdad6a0c2c3aa94748a66c925d7880150896d50985",
+        "sourceFileId": "19G9YoflxFGn1WletootJbgP1bRErIJp9",
+        "sourceFileName": "90412AA3-963D-45F2-BA28-CA719DAD3777.PNG"
+      },
+      {
+        "slug": "mamta-e18",
+        "sourceIndex": 2,
+        "path": "/assets/portfolio/mamta-e18/mamta-e18-bedroom.webp",
+        "alt": "Refurbished bedroom with fitted bedside lighting",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 179288,
+        "sha256": "f65426a6a52786e1bf8c052689d7d0ef73c4b3dc713f240787c2a6fbd48173b7",
+        "sourceFileId": "1cgpQXxuvmhU9foqwLuqqR6ssP2tvpEFP",
+        "sourceFileName": "86ED7EF7-870F-44A3-A784-B9FD97682983.PNG"
+      },
+      {
+        "slug": "mamta-e18",
+        "sourceIndex": 5,
+        "path": "/assets/portfolio/mamta-e18/mamta-e18-kitchen-view.webp",
+        "alt": "Kitchen cabinetry and island with pendant lighting",
+        "width": 1537,
+        "height": 1023,
+        "bytes": 157962,
+        "sha256": "b7458655418b23cd7939dbae9e7590439c5ce5f4321ca0ea9db230fa60bc8a12",
+        "sourceFileId": "1cugJWtnHJ05Zt_cYRH62AjdqEsKSHSfC",
+        "sourceFileName": "C4385400-ED08-4D58-9616-1CA4588E749F.PNG"
+      }
+    ]
+  },
+  {
+    "slug": "antonia-e16",
+    "folderUrl": "https://drive.google.com/drive/folders/1GcHqW3h40hFZZy9oR4Ows3AjI1AjysrE",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 10,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-kitchen-cabinetry.webp",
+        "alt": "Grey kitchen cabinetry and a pale veined splashback",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 107818,
+        "sha256": "b162050dbc1ccbd2cdff056800db4e5c948562719646557f77193cfa88dfa75e",
+        "sourceFileId": "1fXg1gxEfgsVVixOEiPcf5wQsIUQ0fCcw",
+        "sourceFileName": "pict7.png"
+      },
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 6,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-kitchen-worktop.webp",
+        "alt": "Kitchen preparation space with wall cabinets",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 84300,
+        "sha256": "b3895a979ef0251743179ca587e32c1873e1b6c834d41751f725075d05430f9f",
+        "sourceFileId": "1eVhlqP8xiKNAk5gmSKHM-xG4KJ5GZXT7",
+        "sourceFileName": "pict04.png"
+      },
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 8,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-corner-storage.webp",
+        "alt": "Open corner shelving beside a glazed kitchen cupboard",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 68218,
+        "sha256": "911b22977828f52aca238e222f2e69ca2df1d84f01b7fb6f8add98a517269d61",
+        "sourceFileId": "1vAnI2VrCCN_D-wAmpTqcnoKjLugSWfkM",
+        "sourceFileName": "pict02.png"
+      },
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 2,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-bathroom-vanity.webp",
+        "alt": "Bathroom vanity and mirror against pale wall tiles",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 87236,
+        "sha256": "e78a1219069beadcee297b228bea623b4f8c71634fedd91639cded5c87076cf5",
+        "sourceFileId": "1QUN-hn9Y5Sv94a-dPNAhUvQByGmFxMY4",
+        "sourceFileName": "pict09.png"
+      },
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 4,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-bath-and-shower.webp",
+        "alt": "Bath and shower with pale tiled walls",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 99836,
+        "sha256": "78c0fe11838d55a5d5b67bf768ef3c3bf751eebf6a3984227fe2fd8b83ac6e0a",
+        "sourceFileId": "1H35hWzXzVni5P6X7dMF47w1jvGk57yRf",
+        "sourceFileName": "pict07.png"
+      },
+      {
+        "slug": "antonia-e16",
+        "sourceIndex": 1,
+        "path": "/assets/portfolio/antonia-e16/antonia-e16-bedroom-storage.webp",
+        "alt": "Bedroom with fitted wardrobes",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 94320,
+        "sha256": "649edc875a29c738efa17c8b620366e798e139c1d3c8da0ff4b2f3c150a618a7",
+        "sourceFileId": "1FRT2hVuozQuBH5uqoyAeGA7qvJiwxlR2",
+        "sourceFileName": "pict061.png"
+      }
+    ]
+  },
+  {
+    "slug": "mannie-e17",
+    "folderUrl": "https://drive.google.com/drive/folders/10U6AtDqYbIjF9UU5yJdfQFFl0sdtRa3c",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 38,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-bathroom-and-bath.webp",
+        "alt": "Freestanding bath, timber vanity and dark tiled shower",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 148672,
+        "sha256": "aff9fc18e483ef3937a9e502a20a1377fbdbe3fdaa14615db22f07c13b7589ee",
+        "sourceFileId": "1hL3dgBB9s206-xf4zwFMDKX2SddtNy8N",
+        "sourceFileName": "IMG_0617.JPG"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 33,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-loft-bathroom-doorway.webp",
+        "alt": "Bathroom doorway opening towards a rooflit upper-floor room",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 77044,
+        "sha256": "e5efc50edd51f02a977026e85daef6f10f4cbb37c53e4555efe77682a407b74b",
+        "sourceFileId": "1SKmx92Gg1pj_w9GNGPLGGbEzd0t4jf2v",
+        "sourceFileName": "IMG_0656.JPG"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 3,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-staircase.webp",
+        "alt": "Timber staircase connecting the upper floor",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 106678,
+        "sha256": "6ee455d06b777772a0fb3c220310c0cd6181ec8dfd0a804c1e50535e34b2fef6",
+        "sourceFileId": "12Ruq99v-ok0FD50XoWNygRXAe5UOKfdk",
+        "sourceFileName": "IMG_0623.JPG"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 37,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-stairwell.webp",
+        "alt": "White balustrade around the upper stairwell",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 113184,
+        "sha256": "672c18c81c55d0f8204bbea487721e9a4456fb7efd8a028d74ceb8121351af98",
+        "sourceFileId": "1ddMP-iTxYFeQfSpnx142GhoDLUwUHmv9",
+        "sourceFileName": "IMG_0671.JPG"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 11,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-shower-and-vanity.webp",
+        "alt": "Dark herringbone shower tiles beside a timber vanity",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 214424,
+        "sha256": "7168881082d24a14ed72bf861b646d02d368110513202a6416832239257c1be3",
+        "sourceFileId": "11u2VhHPKosAcxmUiNOe9Z4CMsOO55I9D",
+        "sourceFileName": "IMG_0608.JPG"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 17,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-bathroom-tiles.webp",
+        "alt": "Checkerboard floor tiles and dark wall tiles in the bathroom",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 153974,
+        "sha256": "9bce2728e457c1c060b6cefd0083b116addfe0ecd8cac5f485b5ab8d364c13d9",
+        "sourceFileId": "1AloidNVupHHumvfe53zHpEsh0DNdglRi",
+        "sourceFileName": "IMG_1584.jpg"
+      },
+      {
+        "slug": "mannie-e17",
+        "sourceIndex": 40,
+        "path": "/assets/portfolio/mannie-e17/mannie-e17-freestanding-bath.webp",
+        "alt": "Freestanding bath with floor-mounted tap",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 95600,
+        "sha256": "02a8bd0b8b857db1ebae99d1b08741b3b920f7a1204fd1da903fa97db52eba00",
+        "sourceFileId": "1SIhd-TRNzKfJ_Kxq1kR8hILWg5wGqbNs",
+        "sourceFileName": "IMG_0576.JPG"
+      }
+    ]
+  },
+  {
+    "slug": "suzie-e10",
+    "folderUrl": "https://drive.google.com/drive/folders/16F_sV03cG5Qi-JUisELB0YBmnFmLnNKH",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 46,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-kitchen-extension.webp",
+        "alt": "Kitchen extension with an island, roof glazing and exposed ceiling beams",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 129178,
+        "sha256": "d13ba6157c1d5f322a6e6022ece3aeb195dc081e491243b1057ec5c0bf252c55",
+        "sourceFileId": "1DtEEoIs5vVRcQB-_IXu6sGbrxPoEm8a2",
+        "sourceFileName": "1"
+      },
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 45,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-kitchen-island.webp",
+        "alt": "Blue island beneath pendant lights and roof glazing",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 134718,
+        "sha256": "340de22ba660927f0a44b7ab067f32caef133d05be6ba88d0cc00c04b9a1bf93",
+        "sourceFileId": "1YkziLQNeMwJrngIeBPqdnIzStmmRoP8X",
+        "sourceFileName": "2"
+      },
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 43,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-bathroom.webp",
+        "alt": "Tiled bathroom with a bath and checkerboard floor",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 117104,
+        "sha256": "0440d9e028af46b5b2565e346af23c3ce867cdf56875571c5b730e949f4d99f8",
+        "sourceFileId": "1mLRyGAtcquZ9jAkweQmAOLHsmAkeosTw",
+        "sourceFileName": "4"
+      },
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 44,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-second-bathroom.webp",
+        "alt": "Freestanding bath beside striped wall tiles",
+        "width": 1024,
+        "height": 1536,
+        "bytes": 150492,
+        "sha256": "948fbcbe1d1d67b0c393be807ef94c3fe0fbc54af9ccfdb2e625af417f038f7a",
+        "sourceFileId": "1ou2Isf6TuNEjG2gV2VQ-bNcxkHnyMFu2",
+        "sourceFileName": "3"
+      },
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 41,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-rooflight.webp",
+        "alt": "Rooflight and pendant lighting in the kitchen extension",
+        "width": 1440,
+        "height": 1920,
+        "bytes": 419728,
+        "sha256": "a2a0c5511fe964b9aff6d9c4085fe3ed0e4c6a263342b4522ab2411a5119439f",
+        "sourceFileId": "1F5EYMVTctGFWWrYpgNi7oGUepnzj56CD",
+        "sourceFileName": "6.HEIC"
+      },
+      {
+        "slug": "suzie-e10",
+        "sourceIndex": 39,
+        "path": "/assets/portfolio/suzie-e10/suzie-e10-interior-detail.webp",
+        "alt": "Patterned upholstery and interior finishes",
+        "width": 1920,
+        "height": 1440,
+        "bytes": 690990,
+        "sha256": "5296fcb277f93872ca9909066f959f2da9140d603bf1753dd0b4e87b97b89f7b",
+        "sourceFileId": "1zpBhauEEdma_r0rVOzZPE78rr15zTn13",
+        "sourceFileName": "8.HEIC"
+      }
+    ]
+  },
+  {
+    "slug": "phil-e17",
+    "folderUrl": "https://drive.google.com/drive/folders/1JDlAybuST-h7BuhMNOPMa3Kn6wLNdD0m",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 3,
+        "path": "/assets/portfolio/phil-e17/phil-e17-kitchen-extension.webp",
+        "alt": "Kitchen island and roof glazing facing the garden",
+        "width": 1531,
+        "height": 1026,
+        "bytes": 141538,
+        "sha256": "5d68a964b938e3ced6e81ed1cce03e48fefd833bfe3f8d23cb0bbf4ceb0ad16a",
+        "sourceFileId": "1Z2HqHJQzpPsJlSiRd8IhQiOayZZILjAC",
+        "sourceFileName": "10.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 1,
+        "path": "/assets/portfolio/phil-e17/phil-e17-dining-room.webp",
+        "alt": "Dining space beside the staircase",
+        "width": 893,
+        "height": 597,
+        "bytes": 62916,
+        "sha256": "f01a692f3a6d8cdf3bb5a612c51da00cb3d96fb12b2d848d8660554f332465a8",
+        "sourceFileId": "1C3Ncu5woFqqsQAATDbe2HymiuarZeVSL",
+        "sourceFileName": "12.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 2,
+        "path": "/assets/portfolio/phil-e17/phil-e17-living-room.webp",
+        "alt": "Living room with a blue feature wall and window-side seating",
+        "width": 895,
+        "height": 598,
+        "bytes": 85046,
+        "sha256": "24eafbdac99a94d68bc00e803f57eb99c6d3d091412e53171ff4b33eec19a0ae",
+        "sourceFileId": "12zRcTvRwg8hdroF2gdfflgyRKdxbnt_o",
+        "sourceFileName": "11.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 7,
+        "path": "/assets/portfolio/phil-e17/phil-e17-garden-connection.webp",
+        "alt": "Kitchen sink and island beside garden doors",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 92870,
+        "sha256": "941900f48ff39e0586c78c5df15d78e68a8690a0c2824813b2355277e078c610",
+        "sourceFileId": "1O7O30RXKXMYRKxKxycuvGqlhc3TCbFvo",
+        "sourceFileName": "6.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 5,
+        "path": "/assets/portfolio/phil-e17/phil-e17-bathroom.webp",
+        "alt": "Bathroom vanity and window with pale wall finishes",
+        "width": 894,
+        "height": 595,
+        "bytes": 74116,
+        "sha256": "8b1408ab7436aee14388100633d3ef5795fb505bcc8eea9991c4f3e6a324eeed",
+        "sourceFileId": "1qtCd9PQ5K3ga_EcOEtBv1NJsGAyvxNYl",
+        "sourceFileName": "8.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 6,
+        "path": "/assets/portfolio/phil-e17/phil-e17-freestanding-bath.webp",
+        "alt": "Red freestanding bath beside exposed brickwork",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 179122,
+        "sha256": "0681895ab6a3ba94b56cfc5293c2a345a805a540d3bdac35fe6988b0aba1b33f",
+        "sourceFileId": "15wl2P2hyXMRNqkoKj-vHX2RXIbqGRpTg",
+        "sourceFileName": "7.png"
+      },
+      {
+        "slug": "phil-e17",
+        "sourceIndex": 8,
+        "path": "/assets/portfolio/phil-e17/phil-e17-kitchen-dining.webp",
+        "alt": "Dining table beside the kitchen and garden glazing",
+        "width": 1536,
+        "height": 1024,
+        "bytes": 131948,
+        "sha256": "2724b97ec9d59b736383948ef3ae7f2411f868ccf17962d8c99d087cd3e91b21",
+        "sourceFileId": "1A6-ITO4mtj0Iw1mz8RZiP1UpxAbvC7Iv",
+        "sourceFileName": "5.png"
+      }
+    ]
+  },
+  {
+    "slug": "james-n1",
+    "folderUrl": "https://drive.google.com/drive/folders/1joH9LoELBj73yphMxeFcwmCP1WyRvDAu",
+    "decision": "Existing project \u2014 not duplicated",
+    "photos": []
+  },
+  {
+    "slug": "daniel-n19",
+    "folderUrl": "https://drive.google.com/drive/folders/1Fdj1Qvm4oN6kgh68WEatmEkToA7imUPN",
+    "decision": "Existing project \u2014 not duplicated",
+    "photos": []
+  },
+  {
+    "slug": "charlie-e15",
+    "folderUrl": "https://drive.google.com/drive/folders/1IWF5ncKdvgX3ynnOQo8rjddQVdepHNGQ",
+    "decision": "Added",
+    "photos": [
+      {
+        "slug": "charlie-e15",
+        "sourceIndex": 5,
+        "path": "/assets/portfolio/charlie-e15/charlie-e15-kitchen-installation.webp",
+        "alt": "Dark kitchen cabinets with pale worktops and tiled splashback",
+        "width": 780,
+        "height": 1376,
+        "bytes": 34584,
+        "sha256": "f2fdd050cafd98701903ec126d4ad978e3d4b3d545945fcbbd11ae2705f9c0be",
+        "sourceFileId": "1Ky7rbFdKq8RLciEJVSkSRrdfOO8qYsF9",
+        "sourceFileName": "22.png"
+      },
+      {
+        "slug": "charlie-e15",
+        "sourceIndex": 6,
+        "path": "/assets/portfolio/charlie-e15/charlie-e15-cooker-wall.webp",
+        "alt": "Kitchen cooker wall with dark cupboards and a copper-coloured pendant",
+        "width": 782,
+        "height": 1368,
+        "bytes": 27288,
+        "sha256": "43b4950727cd544efa1ba90ab6784c161bcf216bab94e3006e517af970b18d12",
+        "sourceFileId": "1f_Rhc5uZ48ypkykg7JGb7Cwe-49J5EbI",
+        "sourceFileName": "16.png"
+      },
+      {
+        "slug": "charlie-e15",
+        "sourceIndex": 12,
+        "path": "/assets/portfolio/charlie-e15/charlie-e15-rooflight.webp",
+        "alt": "Roof glazing and an exposed ceiling beam above the kitchen",
+        "width": 779,
+        "height": 1367,
+        "bytes": 21512,
+        "sha256": "6f6a96d6ed1c4946d307ec78d836743ccf8bc205137a765aa9d6bc1a9334495b",
+        "sourceFileId": "16a8s8lwlcvYrHhVhGFAaHmBKOaMNeVYq",
+        "sourceFileName": "8.png"
+      },
+      {
+        "slug": "charlie-e15",
+        "sourceIndex": 9,
+        "path": "/assets/portfolio/charlie-e15/charlie-e15-cabinet-detail.webp",
+        "alt": "Kitchen cabinet and worktop detail",
+        "width": 779,
+        "height": 1365,
+        "bytes": 34004,
+        "sha256": "b36819390439ec721517ea270eed37e046790dab7d9215611877745d8be10ebb",
+        "sourceFileId": "1D0PBP-z7Chv1Jvq78EYeyGGRTzY_1RDX",
+        "sourceFileName": "21.png"
+      }
+    ]
+  }
+]

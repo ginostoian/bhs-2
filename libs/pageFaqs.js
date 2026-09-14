@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 const PAGE_FAQS = {
   home: [
     {
@@ -18,7 +19,7 @@ const PAGE_FAQS = {
     {
       question: "What happens if something goes wrong after completion?",
       answer:
-        "Your project is backed by workmanship cover based on the scope delivered, including up to a 10-year guarantee on qualifying works. We set out the aftercare expectation clearly at handover so you know exactly where you stand.",
+        businessFacts.workmanship,
     },
   ],
   bathroom: [
@@ -280,7 +281,7 @@ const PAGE_FAQS = {
     {
       question: "Are you insured for residential construction projects?",
       answer:
-        "Yes. Better Homes has £10 million insurance cover. This is separate from our workmanship guarantees, which cover extensions and lofts for ten years, kitchens and bathrooms for two, and decorating for one. Your written terms explain the cover for your project.",
+        businessFacts.insurance + " " + businessFacts.workmanship,
     },
   ],
   contact: [
@@ -385,7 +386,7 @@ const PAGE_FAQS = {
     {
       question: "Do you offer workmanship guarantees?",
       answer:
-        "Yes. Guarantee coverage depends on project type and agreed scope, with clear aftercare expectations documented.",
+        businessFacts.workmanship,
     },
     {
       question: "How much does a house extension cost in London?",

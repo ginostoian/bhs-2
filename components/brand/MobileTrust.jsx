@@ -1,8 +1,12 @@
+import { businessFacts } from "@/libs/businessFacts";
 export default function MobileTrust() {
+  const { reviews } = businessFacts;
   return (
     <p className="bh-mobile-trust">
-      <a href="https://www.houzz.co.uk/professionals/design-and-build/better-homes-pfvwgb-pf~60790866"><strong>5.0/5</strong> · 51 Houzz reviews</a>
-      <span>12+ years improving London homes</span>
+      <a href={reviews.url}>
+        <strong>{reviews.rating}/5</strong> · across all review platforms
+      </a>
+      <span>Extensions, lofts and renovations</span>
     </p>
   );
 }

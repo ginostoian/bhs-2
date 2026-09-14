@@ -20,7 +20,7 @@ const PortfolioPageContainer = () => {
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {[
-            "500+ homeowners served across London",
+            "Explore completed London homes",
             "Up to 10 years workmanship guarantee",
             "Fully insured with transparent project communication",
           ].map((item) => (

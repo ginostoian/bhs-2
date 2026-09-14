@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
@@ -88,7 +89,7 @@ export async function PUT(request, { params }) {
         currentQuote.warrantyInformation?.startsWith("Draft -")
       ) {
         body.warrantyInformation =
-          "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.";
+          businessFacts.workmanship;
       }
 
       // Replace draft leadTime if it's still the placeholder

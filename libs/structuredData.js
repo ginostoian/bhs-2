@@ -1,7 +1,8 @@
+import { businessFacts } from "@/libs/businessFacts";
 import config from "@/config";
 
 export const SITE_URL = `https://${config.domainName}`;
-export const BUSINESS_NAME = "Better Homes";
+export const BUSINESS_NAME = businessFacts.name;
 
 export const BUSINESS_IDS = {
   organization: `${SITE_URL}/#organization`,

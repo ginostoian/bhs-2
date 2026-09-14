@@ -1,0 +1,4 @@
+.filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.filters button { border: 1px solid var(--bh-stone); padding: 10px 18px; border-radius: 0; font: inherit; font-size: 14px; color: var(--bh-ink); background: transparent; cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--bh-olive); color: var(--bh-paper, #f4f1ea); border-color: var(--bh-olive); }
+.filters button:focus-visible { outline: 2px solid var(--bh-olive); outline-offset: 4px; }

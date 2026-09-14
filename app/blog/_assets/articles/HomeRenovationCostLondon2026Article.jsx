@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,21 +34,30 @@ export default function HomeRenovationCostLondon2026() {
           A full home renovation in London costs between £800 and £3,500 per
           square metre in 2026, depending on specification level and property
           condition. For a typical 3-bedroom house of 110 square metres, that
-          means a total budget of £80,000 to £250,000 or more. Mid-range
+          means an indicative budget of £88,000 to £385,000. Mid-range
           renovations - including new kitchen, bathrooms, full rewiring,
           replumbing, plastering, and redecorating throughout - typically fall
           between £1,200 and £1,800 per square metre, putting the realistic
           budget for most London homeowners at £132,000 to £198,000. London
           carries a 25 to 40 percent premium over national averages due to
           higher labour rates, restricted site access, parking and scaffold
-          permits, and stricter borough planning requirements. According to
-          Better Homes, who manage full design-and-build renovations across
-          North and East London, homeowners should budget a 10 to 15 percent contingency
+          permits, and stricter borough planning requirements. Better Homes
+          manages construction alongside independently appointed architects. As
+          an initial planning allowance, budget a 10 to 15 percent contingency
           on top of any quoted price to cover hidden costs such as party wall
           agreements, asbestos removal, and unforeseen structural issues common
           in Victorian and Edwardian properties.
         </p>
       </div>
+
+      <p className={styles.p}>
+        Use this guide to shape your initial renovation budget. The ranges and
+        worked examples are illustrative planning allowances; your itemised
+        quotation will reflect your home, measured floor area, agreed scope and
+        specification. Allow for exclusions and contingency, and check whether
+        VAT is included in each figure. Examples marked VAT-inclusive already
+        include it.
+      </p>
 
       {/* Key Takeaways */}
       <h2 className={styles.h2} id="key-takeaways">
@@ -80,9 +90,10 @@ export default function HomeRenovationCostLondon2026() {
         are frequently underbudgeted by first-time renovators.
       </p>
       <p className={styles.p}>
-        <strong>5. Renovating often beats moving house in London</strong> -
-        stamp duty, agent fees, and legal costs on a typical London move total
-        £55,000+ in dead money before you even pick up a paintbrush.
+        <strong>5. Compare the full costs of renovating and moving</strong> —
+        taxes, fees, finance and accommodation can change the decision. The
+        worked moving example below separates transaction costs from
+        redecoration.
       </p>
       <p className={styles.p}>
         <strong>
@@ -93,12 +104,9 @@ export default function HomeRenovationCostLondon2026() {
         drive costs above modern property equivalents.
       </p>
       <p className={styles.p}>
-        <strong>
-          7. A well-executed renovation adds 10 to 20 percent to London property
-          values
-        </strong>{" "}
-        - with average London house prices exceeding £500,000, that uplift
-        represents a significant return on investment.
+        <strong>7. Value uplift is not the same as profit</strong> — compare the
+        estimated uplift with the full project spend and other costs. No
+        percentage uplift is guaranteed.
       </p>
 
       {/* Table of Contents */}
@@ -131,7 +139,7 @@ export default function HomeRenovationCostLondon2026() {
         </div>
         <div className={styles.tocColumn}>
           <Link className={styles.tocLink} href="#real-project-costs">
-            Real Better Homes Project Costs
+            Illustrative Renovation Budgets
           </Link>
           <Link className={styles.tocLink} href="#renovate-or-move">
             Renovate or Move? The London Calculation
@@ -429,33 +437,32 @@ export default function HomeRenovationCostLondon2026() {
         underpinning (£10,000 to £50,000 in extreme cases), asbestos in artex
         ceilings, pipe lagging, or roof tiles (survey and removal £500 to
         £5,000+), outdated lead plumbing and aluminium wiring, and chimney
-        breast removal or stabilisation work. Our rule of thumb at Better Homes is
-        to add 15 to 20 percent to any initial budget estimate for a Victorian
-        property compared to an equivalent modern home. These older properties
-        always have surprises behind the walls - and budgeting for them upfront
-        is far less stressful than discovering them mid-project.
+        breast removal or stabilisation work. Our rule of thumb at Better Homes
+        is to add 15 to 20 percent to any initial budget estimate for a
+        Victorian property compared to an equivalent modern home. These older
+        properties always have surprises behind the walls - and budgeting for
+        them upfront is far less stressful than discovering them mid-project.
       </p>
 
       <h3 className={styles.h3}>
         Conservation Areas and Planning Restrictions
       </h3>
       <p className={styles.p}>
-        Many of London's most desirable residential areas are designated
-        conservation areas, which places additional restrictions and costs on
-        renovation work. Islington alone has 27 conservation areas - among the
-        most of any London borough. Hackney, Haringey, and Barnet all have
-        extensive conservation zone coverage as well.
+        Conservation-area status, listed-building status and Article 4
+        directions can affect what work is permitted. Check the specific address
+        and proposed work with your local planning authority before allowing for
+        fees and programme.
       </p>
       <p className={styles.p}>
-        Working within a conservation area typically means full planning
-        permission is required for external alterations (even those that would
-        normally fall under permitted development), more expensive materials
-        must be used to match the existing property character, design and access
-        statements must be submitted with any planning application, and the
-        process takes 8 to 13 weeks for a council decision. All of this adds
-        both cost and time. If your property is in a conservation area, budget
-        an additional £2,000 to £5,000 in professional fees and plan for an
-        extra two to three months before construction can begin.
+        Conservation-area designation does not make every alteration a full
+        planning application. Restrictions depend on the work and any local
+        directions; listed-building consent is a separate consideration. Your
+        architect should confirm the required approvals and suitable materials.
+        See{" "}
+        <a href="https://www.gov.uk/planning-permission-england-wales">
+          GOV.UK planning guidance
+        </a>{" "}
+        and your council’s property-specific requirements.
       </p>
 
       {/* SECTION: Hidden Costs */}
@@ -486,18 +493,24 @@ export default function HomeRenovationCostLondon2026() {
       </figure>
 
       <p className={styles.p}>
-        Party wall agreements are required under the Party Wall Act 1996 for any
-        work on a shared boundary - which applies to virtually every terraced
-        and semi-detached property in London. The cost covers surveyors for both
-        sides and typically runs £1,000 to £3,500, with the process taking six
-        to eight weeks. Building regulations fees of £1,200 to £2,500 cover the
-        council building control inspections required for structural work, new
-        electrics, heating, and plumbing changes. Structural engineer fees of
-        £800 to £2,000 are needed for any wall removals, steel beam
-        calculations, or foundation assessments. Skip hire and waste removal in
-        London costs £1,500 to £4,000 for a full renovation, with council skip
-        permits adding to the expense. Scaffolding and access costs £1,500 to
-        £5,000 depending on duration and borough licensing requirements.
+        The Party Wall etc. Act 1996 applies to specified work on party
+        structures, boundary walls and certain excavations. A notice does not
+        always require a surveyor’s award: the route depends on the work and the
+        neighbour’s response. Statutory notice periods are generally one or two
+        months; allow longer if a dispute needs resolving. See the{" "}
+        <a href="https://www.gov.uk/party-walls-building-works">
+          official party wall guidance
+        </a>
+        . The £1,000 to £3,500 figure here is a planning allowance for
+        professional costs, not a statutory charge. Building regulations fees of
+        £1,200 to £2,500 cover the council building control inspections required
+        for structural work, new electrics, heating, and plumbing changes.
+        Structural engineer fees of £800 to £2,000 are needed for any wall
+        removals, steel beam calculations, or foundation assessments. Skip hire
+        and waste removal in London costs £1,500 to £4,000 for a full
+        renovation, with council skip permits adding to the expense. Scaffolding
+        and access costs £1,500 to £5,000 depending on duration and borough
+        licensing requirements.
       </p>
       <p className={styles.p}>
         Asbestos is a significant risk in properties built before 1999. A survey
@@ -511,12 +524,18 @@ export default function HomeRenovationCostLondon2026() {
         applies to almost all renovation work (some qualifying conversions may
         attract a reduced 5 percent rate). Damp and timber treatment, often
         discovered only after strip-out, adds £2,500 to £15,000. Finally, design
-        and professional fees - covering architect, interior designer, CDM
-        coordinator, and project management - typically add 8 to 15 percent of
-        the build cost.
+        and professional fees - covering architect, interior designer, principal
+        designer where required, and project management - typically add 8 to 15
+        percent of the build cost.
       </p>
       <p className={styles.p}>
-        At Better Homes, the quotation makes construction costs, professional fees and your chosen coordination support clear. We build the project, while your own or a recommended architect provides drawings and agreed submissions. If you want us to manage the coordination, we can handle discussions and follow up questions on your behalf, with your agreement. Professional services are not automatically included in a construction price.
+        At Better Homes, the quotation makes construction costs, professional
+        fees and your chosen coordination support clear. We build the project,
+        while your own or a recommended architect provides drawings and agreed
+        submissions. If you want us to manage the coordination, we can handle
+        discussions and follow up questions on your behalf, with your agreement.
+        Professional services are not automatically included in a construction
+        price.
       </p>
 
       {/* SECTION: Cost by Property Type */}
@@ -607,77 +626,80 @@ export default function HomeRenovationCostLondon2026() {
         value-for-money renovation locations in the capital.
       </p>
       <p className={styles.p}>
-        An important nuance: the borough you are in does not just affect the
-        cost of the build - it affects the potential return on your investment.
-        A £150,000 renovation in Hackney, where property values have risen
-        consistently and buyer demand is strong, will almost certainly deliver a
-        better return than the same spend in an area with lower underlying
-        values and weaker demand.
+        Location affects both build costs and potential resale value. Compare
+        local sold prices and seek independent valuation advice; spending the
+        same amount in two different areas does not guarantee either a
+        particular uplift or recovery of the budget.
       </p>
 
       {/* SECTION: Real Project Costs */}
       <h2 className={styles.h2} id="real-project-costs">
-        Real Better Homes Project Costs: 3 London Case Studies
+        Illustrative London Renovation Budgets: 3 Worked Examples
       </h2>
       <p className={styles.p}>
-        Most renovation cost guides rely on industry averages. We believe the
-        most useful data comes from real projects. Here are three anonymised
-        Better Homes renovation projects completed across our core service
-        areas, with
-        actual cost breakdowns.
+        These illustrative budgets show how scope, floor area and specification
+        shape the cost of a renovation. They are planning examples rather than
+        completed-project costs or property valuations. Figures use 2026 planning assumptions including
+        VAT; professional fees, statutory charges, finance costs, temporary
+        accommodation and contingency should be budgeted separately unless
+        explicitly included. The stated floor area is the assumed total area
+        used in each calculation, including the loft in example 2. Obtain a
+        measured scope and an itemised quotation for your property.
       </p>
 
-      <h3 className={styles.h3}>Project 1: Victorian Terrace, Hackney (E8)</h3>
+      <h3 className={styles.h3}>Example 1: Victorian Terrace, Hackney (E8)</h3>
       <p className={styles.p}>
-        This was a full renovation of a 3-bedroom Victorian mid-terrace in
+        Assume a full renovation of a 3-bedroom Victorian mid-terrace in
         Hackney, approximately 105 square metres. The scope included full
         internal strip-out and structural alterations to open up the ground
         floor, new kitchen with quartz worktops and integrated appliances, two
         new bathrooms (family bathroom and en-suite), complete rewiring,
         replumbing, and new central heating with a combi boiler, full
         replastering throughout, engineered oak flooring on all levels, new
-        internal doors and joinery, and full redecoration. The total project
-        cost was £148,000 including VAT, completed over 10 weeks. That works out
-        to approximately £1,410 per square metre. The property was valued at
-        £560,000 before renovation and £680,000 after - a value uplift of
-        £120,000, representing an 81 percent return on the renovation
-        investment.
+        internal doors and joinery, and full redecoration. The assumed project
+        cost is £148,000 including VAT; the programme requires a separate
+        assessment. That works out to approximately £1,410 per square metre. If
+        the assumed property value rises from £560,000 to £680,000, the £120,000
+        uplift recovers 81.1% of the £148,000 spend. Net ROI on spend is −18.9%,
+        before other costs; this is an illustration, not a valuation or realised
+        sale return.
       </p>
 
       <h3 className={styles.h3}>
-        Project 2: Edwardian Semi, Muswell Hill (N10)
+        Example 2: Edwardian Semi, Muswell Hill (N10)
       </h3>
       <p className={styles.p}>
         A 4-bedroom Edwardian semi-detached property of approximately 135 square
-        metres, this project included a full renovation plus a hip-to-gable loft
-        conversion. The renovation scope covered a new high-specification
+        metres, this example allows for a full renovation plus a hip-to-gable
+        loft conversion. The renovation scope covered a new high-specification
         kitchen with bespoke cabinetry, three bathrooms (master en-suite, family
         bathroom, ground-floor WC), full rewiring and new heating system with
         smart controls, structural alterations to improve ground-floor flow,
         restoration of original Edwardian features including cornicing, ceiling
         roses, and picture rails, and a new hip-to-gable loft conversion
         creating a master suite with en-suite and walk-in wardrobe. The total
-        project cost was £245,000 including VAT, completed over 12 weeks. The
-        per-square-metre cost (including loft conversion) was approximately
-        £1,815. The property value increased from £780,000 to £975,000,
-        representing a £195,000 uplift and a 80 percent return.
+        assumed project cost is £245,000 including VAT; no delivery period is
+        promised. The per-square-metre cost (including loft conversion) was
+        approximately £1,815. An assumed value change from £780,000 to £975,000
+        gives £195,000 uplift, 79.6% cost recovery and −20.4% net ROI on spend
+        before other costs.
       </p>
 
       <h3 className={styles.h3}>
-        Project 3: Victorian Terrace, Walthamstow (E17)
+        Example 3: Victorian Terrace, Walthamstow (E17)
       </h3>
       <p className={styles.p}>
         A full renovation of a 3-bedroom Victorian terrace in Walthamstow,
-        approximately 95 square metres, this was a comprehensive but
+        approximately 95 square metres, this example assumes a comprehensive but
         budget-conscious project. The scope included a mid-range kitchen with
         quality standard units and quartz worktops, one new family bathroom with
         walk-in shower, full rewiring, replumbing, and new boiler, replastering
         and redecoration throughout, new flooring (engineered wood ground floor,
         carpet bedrooms), and structural alteration to open kitchen into rear
-        reception. The total project cost was £118,000 including VAT, completed
-        over 9 weeks, working out to approximately £1,242 per square metre. The
-        property was valued at £475,000 before and £570,000 after - a £95,000
-        uplift and an 80 percent return on investment.
+        reception. The assumed project cost is £118,000 including VAT, working
+        out to approximately £1,242 per square metre. An assumed property value
+        change from £475,000 to £570,000 gives £95,000 uplift, 80.5% cost
+        recovery and −19.5% net ROI on spend before other costs.
       </p>
 
       {/* SECTION: Renovate or Move */}
@@ -685,54 +707,40 @@ export default function HomeRenovationCostLondon2026() {
         Renovate or Move? The London Cost Calculation
       </h2>
       <p className={styles.p}>
-        One of the most important financial decisions London homeowners face is
-        whether to renovate their current property or sell and buy something
-        larger or better-finished. The numbers increasingly favour renovation -
-        and the gap has widened significantly since stamp duty changes in recent
-        years.
+        Compare the space each option delivers, its full cost and the disruption
+        involved. The example below separates transaction costs, improvements
+        and the purchase-price difference; it does not establish that renovation
+        is always the better financial choice.
       </p>
 
-      {/* IMAGE: Infographic 3 - Renovate vs Move */}
-      <figure className={styles.figure}>
-        <Image
-          src="/assets/blog/home-renovation-guide/renovate-or-move-cost-comparison-london.png"
-          alt="Renovate or move cost comparison for London homeowners showing moving costs of £55,500 in dead money plus extra mortgage versus renovation that adds property value with no stamp duty"
-          width={1600}
-          height={1200}
-          className={styles.image}
-        />
-        <figcaption className={styles.figcaption}>
-          Renovate-vs-move comparison model for a typical London family upgrade
-          scenario.
-        </figcaption>
-      </figure>
-
       <p className={styles.p}>
-        Consider a typical scenario: you own a 3-bedroom Victorian terrace
-        valued at £600,000 and want to upgrade to a 4-bedroom property worth
-        £750,000 in the same area. If you move, you face stamp duty of £27,500
-        on the purchase, estate agent fees of approximately £9,000, conveyancing
-        and legal costs of around £4,000, survey and mortgage arrangement fees
-        of £2,500, removal costs of £2,500, and at least £10,000 redecoration of
-        your new home. That is £55,500 in dead money - costs that produce no
-        asset value - plus £150,000 in additional mortgage debt, plus months of
-        stress, chain risk, and uncertainty.
+        Illustrative moving-cost comparison: replacing a £600,000 main home with
+        a £750,000 property has standard SDLT of £27,500 for a UK-resident buyer
+        subject to the normal single-property rates (checked 14 September 2026).
+        Add assumed agent fees of £9,000, legal costs of £4,000, survey/mortgage
+        fees of £2,500 and removals of £2,500: £45,500 in transaction costs. An
+        optional £10,000 redecoration allowance brings the initial outlay to
+        £55,500, separate from the £150,000 purchase-price difference.
+        Redecoration is not a transaction fee, and the price difference is not
+        automatically additional mortgage debt. Higher rates or reliefs can
+        change the tax. Check the{" "}
+        <a href="https://www.gov.uk/stamp-duty-land-tax/residential-property-rates">
+          official SDLT rates
+        </a>{" "}
+        for your circumstances.
       </p>
       <p className={styles.p}>
-        Alternatively, a comprehensive renovation of your existing home for
-        £140,000 to £165,000 (including professional fees and contingency) would
-        transform your property, add an estimated £120,000 to £150,000 in value,
-        and avoid stamp duty entirely. You keep your existing mortgage terms,
-        your children stay in the same schools, and you end up in a home that is
-        tailored exactly to your family's needs rather than compromising on
-        another property's layout.
+        For comparison, a £140,000 to £165,000 renovation budget is an
+        illustrative spending scenario, not an assured £120,000 to £150,000
+        value uplift. A renovation itself does not involve a property purchase
+        attracting SDLT, but you still need to assess finance, temporary
+        accommodation, fees and contingency. Existing mortgage terms and lender
+        consent also need checking.
       </p>
       <p className={styles.p}>
-        This calculation becomes even more compelling if you combine a
-        renovation with a loft conversion, which can add the extra bedroom you
-        need without moving. In our experience, the majority of London
-        homeowners who run these numbers with us reach the same conclusion:
-        renovating is the smarter financial decision.
+        A loft conversion may create the extra room you need, subject to design,
+        approvals and budget. Compare the total costs and practical outcomes of
+        both options before deciding whether to renovate or move.
       </p>
 
       {/* SECTION: How to Budget */}
@@ -823,7 +831,12 @@ export default function HomeRenovationCostLondon2026() {
         If you are renovating a property that has been empty for two or more
         years, you may qualify for a reduced VAT rate of 5 percent instead of
         the standard 20 percent - a significant saving on a major renovation.
-        Check HMRC's guidelines or ask your contractor about eligibility.
+        Check{" "}
+        <a href="https://www.gov.uk/guidance/buildings-and-construction-vat-notice-708">
+          HMRC VAT Notice 708, section 8
+        </a>{" "}
+        with your contractor: eligibility conditions and the type of work
+        matter. Most renovation work is standard-rated at 20%.
       </p>
 
       {/* SECTION: Choosing a Contractor */}
@@ -845,19 +858,15 @@ export default function HomeRenovationCostLondon2026() {
         </Link>
         .
       </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
       <p className={styles.p}>
-        When evaluating London renovation contractors, look for a minimum of £2
-        million public liability insurance (£10 million for larger projects), a
-        written workmanship guarantee of at least 5 years (Better Homes offers 10
-        years), membership of a recognised trade body such as the Federation of
-        Master Builders (FMB) or TrustMark, a fixed-price contract with a
-        clearly defined scope of works and payment schedule, verifiable
-        references and recent project examples in your specific area, and a
-        clear process for managing planning, building regulations, and party
-        wall agreements.
-      </p>
-      <p className={styles.p}>
-        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees.
+        At Better Homes, design and build is a managed service: your architect
+        prepares the drawings and agreed submissions, and we carry out the
+        construction. Bring your own architect or choose one we recommend. With
+        either route, you can ask us to coordinate discussions, follow up
+        questions and speak on your behalf with your agreement. You approve the
+        design, budget and changes; the proposal identifies the coordination
+        support, appointments and fees.
       </p>
 
       {/* SECTION: ROI Analysis */}
@@ -865,36 +874,68 @@ export default function HomeRenovationCostLondon2026() {
         Is a Full Home Renovation Worth It in London? ROI Analysis
       </h2>
       <p className={styles.p}>
-        The financial case for renovation in London is strong - stronger, in
-        fact, than in almost any other UK city. London's high property values
-        mean that even modest percentage uplifts translate into significant
-        absolute numbers. A well-executed full renovation typically adds 10 to
-        20 percent to a London property's value. On a property worth £600,000,
-        that is £60,000 to £120,000 in value creation. When the renovation cost
-        is £130,000 to £180,000, the net return after accounting for the full
-        spend is often 60 to 85 percent - meaning for every pound spent on
-        renovation, you get £1.60 to £1.85 back in property value.
+        Value uplift and profit are different. Cost recovery equals estimated
+        value uplift divided by project spend. Net ROI on spend equals
+        (estimated value uplift − project spend) divided by project spend.
+        Recovering 60–85% of spend would mean £0.60–£0.85 of uplift per £1 spent
+        and a net ROI of −40% to −15%, before other costs. These percentages
+        explain the arithmetic; they are not a forecast of London renovation
+        returns.
       </p>
       <p className={styles.p}>
-        The renovations that deliver the highest returns in London are loft
-        conversions (adding up to 20 percent to property value), kitchen and
-        bathroom upgrades (adding 5 to 10 percent), open-plan ground floor
-        reconfigurations (adding 3 to 5 percent), and energy efficiency
-        improvements that boost the EPC rating. The renovations with the lowest
-        return are over-personalised finishes that narrow buyer appeal, swimming
-        pools or hot tubs (almost never recouped in London), and extremely
-        high-end specifications in mid-range areas where the local ceiling price
-        limits your upside.
+        Value depends on the property, local comparables, the work undertaken
+        and the market when you sell. Ask an independent local valuer to assess
+        the proposed scope before relying on a resale uplift. An estimated
+        valuation is not realised sale proceeds, and finance, fees and selling
+        costs can reduce the eventual return.
       </p>
       <p className={styles.p}>
-        Beyond the financial return, there is the lifestyle value that is harder
-        to quantify but no less real. Surveys consistently show that over 70
-        percent of homeowners report feeling happier and less stressed in their
-        home after completing a renovation. In a city where the average commute
-        is already long and the cost of living is high, investing in a home that
-        genuinely works for your family's daily life is an investment in
-        wellbeing as much as in property value.
+        Comfort, useful space, durability and the ability to stay in your
+        neighbourhood can make renovation worthwhile even when the value uplift
+        is less than the spend. Weigh those benefits separately from financial
+        returns.
       </p>
+
+      <div className="bh-table-wrap">
+        <table className="bh-table">
+          <caption>
+            Understanding the investment — illustrative calculations, not
+            valuations
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Example</th>
+              <th scope="col">Spend incl. VAT</th>
+              <th scope="col">Assumed uplift</th>
+              <th scope="col">Cost recovery</th>
+              <th scope="col">Net ROI on spend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Hackney</th>
+              <td>£148,000</td>
+              <td>£120,000</td>
+              <td>81.1%</td>
+              <td>−18.9%</td>
+            </tr>
+            <tr>
+              <th scope="row">Muswell Hill</th>
+              <td>£245,000</td>
+              <td>£195,000</td>
+              <td>79.6%</td>
+              <td>−20.4%</td>
+            </tr>
+            <tr>
+              <th scope="row">Walthamstow</th>
+              <td>£118,000</td>
+              <td>£95,000</td>
+              <td>80.5%</td>
+              <td>−19.5%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       {/* Quick Takeaways */}
       <h2 className={styles.h2} id="quick-takeaways">
@@ -922,14 +963,15 @@ export default function HomeRenovationCostLondon2026() {
         properties always have surprises.
       </p>
       <p className={styles.p}>
-        <strong>Renovation usually beats moving:</strong> Stamp duty, agent
-        fees, and legal costs on a typical London move total £55,000+ in dead
-        money. A renovation transforms your home and adds value.
+        <strong>Compare moving and renovating:</strong> The illustrative move
+        above has £45,500 in transaction costs plus £10,000 of optional
+        redecoration. Compare this with the full renovation budget and your
+        housing needs.
       </p>
       <p className={styles.p}>
-        <strong>ROI is strong:</strong> A well-planned London renovation returns
-        60 to 85 percent on investment through increased property value - plus
-        immeasurable lifestyle benefits.
+        <strong>Separate recovery from profit:</strong> A £120,000 assumed
+        uplift on £148,000 of spend recovers 81.1% of that spend; net ROI is
+        −18.9% before other costs. Lifestyle benefits are separate.
       </p>
       <p className={styles.p}>
         <strong>Choose your level of support:</strong> Better Homes builds
@@ -951,24 +993,12 @@ export default function HomeRenovationCostLondon2026() {
         the team managing the project from start to finish.
       </p>
       <p className={styles.p}>
-        The London renovation market in 2026 continues to be shaped by high
-        property values, strong buyer demand for well-finished homes, and the
-        economic reality that moving costs in the capital make renovation the
-        financially superior option for most homeowners. With material costs
-        stabilising after several years of inflation and labour availability
-        gradually improving, now is a sensible time to plan and execute a
-        renovation project.
+        Use the guide to prepare a scope and compare quotations on the same
+        basis. Review the assumptions against your property and budget before
+        committing; market movements and a future sale price cannot be
+        guaranteed.
       </p>
-      <p className={styles.p}>
-        At Better Homes, we specialise in full design-and-build home renovations
-        across Central, East, and North London. Our model means you work with a
-        single team from initial design concept through to key handover - with a
-        fixed-price contract, a 10-year workmanship guarantee, and £10 million
-        insurance cover. If you are considering a renovation and want to
-        understand the realistic costs for your specific property, we offer
-        free, no-obligation consultations and detailed project estimates
-        tailored to your home.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
       <p className={styles.p}>
         <strong>
           <Link href="/contact">Get your free renovation consultation →</Link>
@@ -1048,15 +1078,11 @@ export default function HomeRenovationCostLondon2026() {
         Does a full renovation add value to a London property?
       </h3>
       <p className={styles.p}>
-        Yes. A well-executed full renovation typically adds 10 to 20 percent to
-        a London property's value. On a property worth £600,000, that represents
-        £60,000 to £120,000 in value creation. The renovations that deliver the
-        highest returns are loft conversions (up to 20 percent uplift), kitchen
-        and bathroom upgrades (5 to 10 percent), and open-plan ground floor
-        reconfigurations (3 to 5 percent). The key is ensuring your
-        specification is appropriate for the local market - overspending on
-        ultra-premium finishes in a mid-range area will not deliver a
-        proportional return.
+        A renovation can add value, but the uplift may be less than the cost. In
+        our illustrative £148,000-spend / £120,000-uplift example, cost recovery
+        is 81.1% and net ROI is −18.9% before other costs. Ask an independent
+        valuer about your property; comfort and better use of space are separate
+        benefits.
       </p>
 
       <h3 className={styles.h3}>

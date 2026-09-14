@@ -1,5 +1,6 @@
 "use client";
 
+import OrganicAttribution from "./OrganicAttribution";
 import dynamic from "next/dynamic";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
@@ -432,6 +433,7 @@ export default function CRMReportsPage() {
           </div>
         </section>
       </main>
+      <OrganicAttribution days={filters.dateRange} />
     </div>
   );
 }

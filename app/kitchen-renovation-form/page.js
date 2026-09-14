@@ -1,6 +1,7 @@
 import KitchenRenovationForm from "./components/KitchenRenovationForm";
 
 export const metadata = {
+  robots: { index: false, follow: true },
   title: "Kitchen Renovation Quote - Better Homes",
   description:
     "Get a free quote for your kitchen renovation project. Fill out our form and we'll get back to you within 24 hours.",

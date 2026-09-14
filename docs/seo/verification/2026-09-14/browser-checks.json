@@ -1,0 +1,70 @@
+[
+  {
+    "width": 1440,
+    "path": "/our-guarantee",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "path": "/general-renovation",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "path": "/kitchen-renovation",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "path": "/house-extension",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "path": "/blog/home-renovation-cost-london-2026",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "path": "/our-guarantee",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "path": "/general-renovation",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "path": "/kitchen-renovation",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "path": "/house-extension",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "width": 390,
+    "path": "/blog/home-renovation-cost-london-2026",
+    "status": 200,
+    "overflow": false
+  },
+  {
+    "consent": "accepted",
+    "retrySamePayload": true
+  },
+  {
+    "consent": "rejected",
+    "retrySamePayload": true
+  }
+]

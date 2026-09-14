@@ -185,12 +185,13 @@ export default function TermsAndConditions() {
               8. Warranties and Guarantees
             </h2>
             <p>
-              We provide warranties on our workmanship and materials as follows:
+              We provide the following workmanship guarantees:
             </p>
             <ul className="mt-4 list-disc pl-6">
-              <li>Workmanship warranty: 2 years from project completion</li>
-              <li>Materials warranty: As provided by manufacturers</li>
-              <li>Structural work: 10 years (where applicable)</li>
+              <li>Structural work, extensions and loft conversions: 10 years</li>
+              <li>Bathroom and kitchen installations: 2 years</li>
+              <li>Decoration: 1 year</li>
+              <li>Item breakages are excluded from our workmanship guarantee and fall under the manufacturers’ own guarantees.</li>
             </ul>
             <p className="mt-4">
               Warranties do not cover damage caused by misuse, neglect, or

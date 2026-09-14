@@ -1,3 +1,4 @@
+import PortfolioExplorer from "@/components/brand/PortfolioExplorer";
 import RelatedGuides from "@/components/brand/RelatedGuides";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,13 +34,17 @@ export default function Page() {
         <p className="bh-eyebrow">Our work</p>
         <h1 className="bh-title">Real homes. Considered transformations.</h1>
         <p className="bh-lead">
-          Explore completed London extensions, renovations, kitchens and
+          Explore London extensions, loft conversions, renovations, kitchens and
           bathrooms. Each case study sets out the brief, the work delivered and
           the details that needed careful management.
         </p>
       </section>
       <section className="bh-wrap" style={{ paddingBottom: 80 }}>
-        <ProjectCards projects={getPortfolioProjects()} />
+        <PortfolioExplorer projects={getPortfolioProjects().map(p => ({
+          slug:p.slug, title:p.title, teaser:p.teaser, location:p.location, category:p.category,
+          coverImage:p.coverImage, coverImageAlt:p.coverImageAlt,
+          tags:p.serviceTags || [p.category.includes("Extension") && "extension", p.category.includes("Renovation") && "renovation", p.category.includes("Kitchen") && "kitchen", p.category.includes("Bathroom") && "bathroom"].filter(Boolean),
+        }))} />
       </section>
       <ProjectCTA />
     <RelatedGuides context="portfolio" /></main>

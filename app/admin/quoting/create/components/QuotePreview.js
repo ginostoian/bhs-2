@@ -1,4 +1,5 @@
 "use client";
+import { businessFacts } from "@/libs/businessFacts";
 
 import { useState } from "react";
 import { Copy, ExternalLink, Download } from "lucide-react";
@@ -433,9 +434,7 @@ export default function QuotePreview({ formData, quoteId }) {
           <div>
             <h4 className="mb-2 font-medium text-gray-900">Warranty</h4>
             <p>
-              All our work comes with a comprehensive workmanship guarantee
-              covering our work from 1 year to 10 years depending on the project
-              type and materials used.
+              {businessFacts.workmanship}
             </p>
           </div>
 

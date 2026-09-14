@@ -23,6 +23,7 @@ const PrivacyPolicy = () => {
               policy details how we collect, use, and protect the personal data
               you provide on our website (https://bhstudio.co.uk).
             </p>
+            <p>With analytics consent, we record the first public page you visited and a limited acquisition source (such as organic search) for the current browser session. If you enquire, these details and your optional project type, stage and budget can be linked to your enquiry in our CRM. We exclude search queries, arbitrary URL parameters and your message or contact details from these analytics events. Rejecting analytics does not prevent you from sending an enquiry.</p>
             <h2 className="text-xl font-bold mb-2">Information We Collect</h2>
             <p className="mb-4">
               Personal Data: Name, email, phone number, address.

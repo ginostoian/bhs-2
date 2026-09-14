@@ -7,6 +7,24 @@ import toJSON from "./plugins/toJSON";
  */
 const contactSchema = mongoose.Schema(
   {
+    leadId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
+      default: null,
+    },
+    referralCode: { type: String, default: "" },
+    submissionEventId: { type: String },
+    submissionFingerprint: { type: String, select: false },
+    attribution: {
+      firstLandingPath: String,
+      landingPath: String,
+      source: String,
+      medium: String,
+      campaign: String,
+      capturedAt: Date,
+      consent: String,
+    },
+    qualification: { service: String, stage: String, budget: String },
     // Basic Information
     firstName: {
       type: String,

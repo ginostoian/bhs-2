@@ -1,3 +1,6 @@
+import { sanitizeAttribution } from "@/libs/marketingAttribution";
+import { sanitizeQualification } from "@/libs/enquiryFields";
+import { persistContact, acceptedSubmission } from "@/libs/contactSubmission";
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Contact from "@/models/Contact";
@@ -29,6 +32,26 @@ async function handleContactSubmission(request) {
       company,
       referralCode: referralCodeFromBody,
     } = body;
+
+    if (
+      [
+        firstName,
+        lastName,
+        email,
+        phone,
+        topic,
+        customTopic,
+        message,
+        website,
+        company,
+        referralCodeFromBody,
+      ].some((value) => value != null && typeof value !== "string")
+    ) {
+      return NextResponse.json(
+        { error: "Invalid field type" },
+        { status: 400 },
+      );
+    }
 
     // Honeypot validation - reject if honeypot fields are filled
     if (website?.trim() || company?.trim()) {
@@ -130,16 +153,27 @@ async function handleContactSubmission(request) {
       message: message.trim(),
       ipAddress,
       userAgent,
+      attribution: sanitizeAttribution(body.attribution),
+      qualification: sanitizeQualification(body.qualification),
+      referralCode: (
+        referralCodeFromBody ||
+        request.cookies.get("bhs_referral_code")?.value ||
+        ""
+      )
+        .trim()
+        .toLowerCase()
+        .slice(0, 100),
     };
 
-    const contact = await Contact.create(contactData);
-    const referralCode =
-      referralCodeFromBody?.trim().toLowerCase() ||
-      request.cookies.get("bhs_referral_code")?.value?.trim().toLowerCase() ||
-      "";
-
-    await createOrUpdateReferralLead({ contact, referralCode });
-
+    const { contact, duplicate } = await persistContact(
+      Contact,
+      contactData,
+      body.submissionEventId,
+    );
+    if (duplicate) {
+      await linkContactLead(contact);
+      return NextResponse.json(acceptedSubmission(contact));
+    }
     try {
       const topicLabel =
         topic === "Other" ? customTopic?.trim() || "Other" : topic;
@@ -218,63 +252,76 @@ async function handleContactSubmission(request) {
       // Don't fail the request if email fails
     }
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Contact form submitted successfully",
-        contactId: contact._id.toString(),
-      },
-      { status: 200 },
-    );
+    // Notify the team before CRM linking so a recoverable CRM failure cannot hide a saved enquiry.
+    await linkContactLead(contact);
+    return NextResponse.json(acceptedSubmission(contact));
   } catch (error) {
     console.error("Error submitting contact form:", error);
     return NextResponse.json(
-      { error: "Failed to submit contact form" },
-      { status: 500 },
+      { error: error.status ? error.message : "Failed to submit contact form" },
+      { status: error.status || 500 },
     );
   }
 }
 
-async function createOrUpdateReferralLead({ contact, referralCode }) {
-  if (!referralCode) {
-    return null;
-  }
-
-  const partner = await findPartnerByReferralCode(referralCode);
-  if (!partner) {
-    return null;
-  }
-
-  const leadName = `${contact.firstName} ${contact.lastName}`.trim();
-  const existingLead = await Lead.findOne({ email: contact.email }).select("_id");
-
-  if (existingLead) {
-    return existingLead;
-  }
-
-  const lead = new Lead({
-    name: leadName,
-    email: contact.email,
-    phone: contact.phone,
-    source: "Referral",
-    referredBy: partner._id,
-    referralSource: "share_link",
-    stage: "Lead",
-  });
-
-  await lead.save();
-  await syncPartnerReferralFromLead(lead);
-
-  try {
-    const { initializeEmailAutomation } = await import(
-      "@/libs/crmEmailAutomation"
+async function linkContactLead(contact) {
+  if (contact.leadId || contact.topic !== "New Project") return;
+  const partner = contact.referralCode
+    ? await findPartnerByReferralCode(contact.referralCode)
+    : null;
+  // Keep established CRM classification; marketing and partner attribution are separate.
+  let lead = await Lead.findOne({ email: contact.email }).select("_id");
+  if (!lead) {
+    const projectTypes = {
+      Extension: "Extension",
+      "Loft conversion": "Loft Conversion",
+      "Whole-home renovation": "Home renovation",
+      "Kitchen renovation": "Kitchen renovation",
+      "Bathroom renovation": "Bathroom renovation",
+    };
+    lead = await Lead.findOneAndUpdate(
+      { _id: contact._id },
+      {
+        $setOnInsert: {
+          name: `${contact.firstName} ${contact.lastName}`.trim(),
+          email: contact.email,
+          phone: contact.phone,
+          source: partner
+            ? "Referral"
+            : contact.attribution?.medium === "organic" &&
+                contact.attribution?.source === "google"
+              ? "Google"
+              : "Other",
+          ...(partner
+            ? { referredBy: partner._id, referralSource: "share_link" }
+            : {}),
+          attribution: contact.attribution,
+          qualification: contact.qualification,
+          projectTypes: projectTypes[contact.qualification?.service]
+            ? [projectTypes[contact.qualification.service]]
+            : [],
+          stage: "New Enquiry",
+        },
+      },
+      { upsert: true, new: true, runValidators: true },
     );
-    await initializeEmailAutomation(lead._id, lead.stage);
-  } catch (error) {
-    console.error("Failed to initialize email automation for referral lead:", error);
+    if (partner) {
+      await syncPartnerReferralFromLead(lead);
+      try {
+        const { initializeEmailAutomation } = await import(
+          "@/libs/crmEmailAutomation"
+        );
+        await initializeEmailAutomation(lead._id, lead.stage);
+      } catch (error) {
+        console.error(
+          "Failed to initialize existing referral automation",
+          error.name,
+        );
+      }
+    }
   }
-
-  return lead;
+  contact.leadId = lead._id;
+  await contact.save();
 }
 
 // Export the rate-limited handler

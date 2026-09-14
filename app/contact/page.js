@@ -27,6 +27,8 @@ export const metadata = getSEOTags({
 });
 export default function Page({ searchParams }) {
   const serviceNames = {
+    Extensions: "Extension",
+    Extension: "Extension",
     "Loft conversions": "Loft conversion",
     "Whole-home renovations": "Whole-home renovation",
     "Kitchen renovations": "Kitchen renovation",

@@ -106,6 +106,7 @@ export default function CookieConsent() {
   const handleAccept = () => {
     localStorage.setItem("cookie-consent", "accepted");
     setConsentGiven(true);
+    window.dispatchEvent(new Event("bhs-consent-change"));
     grantGoogleConsent();
     setShowBanner(false);
 
@@ -118,6 +119,7 @@ export default function CookieConsent() {
   const handleReject = () => {
     localStorage.setItem("cookie-consent", "rejected");
     setConsentGiven(false);
+    window.dispatchEvent(new Event("bhs-consent-change"));
     denyGoogleConsent();
     setShowBanner(false);
   };

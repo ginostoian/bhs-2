@@ -1,0 +1,74 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk"
+    ],
+    "noindex": false
+  },
+  {
+    "path": "/blog/home-renovation-cost-london-2026",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk/blog/home-renovation-cost-london-2026"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk/blog/home-renovation-cost-london-2026"
+    ],
+    "noindex": false
+  },
+  {
+    "path": "/blog/kitchen-providers-comparison-guide",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk/blog/kitchen-providers-comparison-guide"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk/blog/kitchen-providers-comparison-guide"
+    ],
+    "noindex": false
+  },
+  {
+    "path": "/blog/bespoke-vs-howdens-vs-ikea-kitchen-london",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk/blog/bespoke-vs-howdens-vs-ikea-kitchen-london"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk/blog/bespoke-vs-howdens-vs-ikea-kitchen-london"
+    ],
+    "noindex": false
+  },
+  {
+    "path": "/blog/house-extension-value-london-guide",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk/blog/house-extension-value-london-guide"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk/blog/house-extension-value-london-guide"
+    ],
+    "noindex": false
+  },
+  {
+    "path": "/blog/loft-conversions-london-complete-guide-2026",
+    "status": 200,
+    "canonical": [
+      "https://bhstudio.co.uk/blog/loft-conversions-london-complete-guide-2026"
+    ],
+    "expected": [
+      "https://bhstudio.co.uk/blog/loft-conversions-london-complete-guide-2026"
+    ],
+    "noindex": false
+  },
+  {
+    "utilityForms": "4 return 200 with noindex"
+  },
+  {
+    "sitemapUrls": 97
+  }
+]

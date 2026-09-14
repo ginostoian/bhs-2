@@ -6,7 +6,7 @@ import { ServiceSchema } from "@/components/brand/Schema";
 export const metadata = getSEOTags({
   title: "House Extension Company London | Design & Build | Better Homes",
   description:
-    "London house extension company for rear, side return and double-storey builds. Your architect or ours, optional coordination support and a 10-year workmanship guarantee.",
+    "London house extension company for rear, side return and double-storey builds. Your architect or an independent architect we recommend, with agreed construction coordination.",
   canonicalUrlRelative: "/house-extension",
   openGraph: {
     title: "House Extension Company London | Design & Build | Better Homes",

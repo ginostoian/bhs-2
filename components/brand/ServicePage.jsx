@@ -1,3 +1,5 @@
+import ServiceConfidence, { ServiceAftercare } from "./ServiceConfidence";
+import PlanningLinks from "./PlanningLinks";
 import RelatedGuides from "./RelatedGuides";
 import Image from "next/image";
 import Link from "next/link";
@@ -212,11 +214,13 @@ export default function ServicePage({
         <section id="projects" className="bh-band">
           <div className="bh-wrap bh-section">
             <p className="bh-eyebrow">Completed work</p>
-            <h2 className="bh-heading">The details that make a home work</h2>
+            <h2 className="bh-heading">{path === "/loft-conversion" ? "Explore our loft and renovation work" : "The details that make a home work"}</h2>
+            {path === "/loft-conversion" && <p className="bh-small">Explore loft and bathroom work in E17 and a combined extension, loft and refurbishment project in E10.</p>}
             <ProjectCards projects={projects} />
           </div>
         </section>
       ) : null}
+      <ServiceConfidence servicePath={path} />
       <section className="bh-wrap bh-section" id="scope">
         <div className="bh-grid-two">
           <div>
@@ -381,6 +385,7 @@ export default function ServicePage({
             </h2>
           </div>
           <div>
+            {["/general-renovation", "/loft-conversion"].includes(path) ? <ServiceAftercare /> : <>
             <p className="bh-lead">
               We want you to feel looked after while we work and once you are
               settled in. Your project lead keeps you informed, and you have a
@@ -401,9 +406,11 @@ export default function ServicePage({
               </a>
               .
             </p>
+            </>}
           </div>
         </div>
       </section>
+      <PlanningLinks servicePath={path} />
       <Faq id="faq" items={faqs} title="Questions you may be considering" />
       <ProjectCTA service={name} title={story?.cta} />
       <RelatedGuides context={{ "/loft-conversion": "loft", "/general-renovation": "renovation", "/kitchen-renovation": "kitchen", "/bathroom-renovation": "bathroom", "/basement-conversion": "basement" }[path]} />

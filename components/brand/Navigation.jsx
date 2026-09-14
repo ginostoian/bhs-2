@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { planningTools } from "@/libs/serviceResources";
 import { BOOKING_URL } from "@/libs/booking";
 export const services = [
   ["Extensions", "/house-extension"],
@@ -15,6 +16,9 @@ export const services = [
 export default function Navigation() {
   const [mobile, setMobile] = useState(false);
   const [open, setOpen] = useState(false);
+  const [costOpen, setCostOpen] = useState(false);
+  const costTrigger = useRef(null);
+  const servicesTrigger = useRef(null);
   const path = usePathname();
   const ref = useRef(null);
   const trigger = useRef(null);
@@ -29,10 +33,14 @@ export default function Navigation() {
   useEffect(() => {
     setMobile(false);
     setOpen(false);
+    setCostOpen(false);
   }, [path]);
   useEffect(() => {
     const close = (e) => {
-      if (!ref.current?.contains(e.target)) setOpen(false);
+      if (!ref.current?.contains(e.target)) {
+        setOpen(false);
+        setCostOpen(false);
+      }
     };
     document.addEventListener("pointerdown", close);
     return () => document.removeEventListener("pointerdown", close);
@@ -43,9 +51,14 @@ export default function Navigation() {
       className="bh-header"
       onKeyDown={(e) => {
         if (e.key === "Escape") {
+          if (costOpen) costTrigger.current?.focus();
+          else if (open) servicesTrigger.current?.focus();
+          else {
+            setMobile(false);
+            trigger.current?.focus();
+          }
           setOpen(false);
-          setMobile(false);
-          trigger.current?.focus();
+          setCostOpen(false);
         }
       }}
     >
@@ -71,6 +84,7 @@ export default function Navigation() {
             if (e.target.closest("a")) {
               setMobile(false);
               setOpen(false);
+              setCostOpen(false);
             }
           }}
           id="bh-main-nav"
@@ -81,9 +95,13 @@ export default function Navigation() {
             <Link href="/portfolio">Our work</Link>
             <div className="bh-services-menu">
               <button
+                ref={servicesTrigger}
                 aria-expanded={open}
                 aria-controls="bh-services"
-                onClick={() => setOpen(!open)}
+                onClick={() => {
+                  setOpen(!open);
+                  setCostOpen(false);
+                }}
               >
                 Services
                 <svg
@@ -118,9 +136,57 @@ export default function Navigation() {
               ) : null}
             </div>
             <Link href="/#how">How we work</Link>
-            <Link href="/tools">Cost planning</Link>
+            <div className="bh-services-menu bh-cost-menu">
+              <div className="bh-cost-trigger">
+                <Link href="/tools">Cost planning</Link>
+                <button
+                  ref={costTrigger}
+                  type="button"
+                  aria-label="Show cost calculators"
+                  aria-expanded={costOpen}
+                  aria-controls="bh-cost-tools"
+                  onClick={() => {
+                    setCostOpen(!costOpen);
+                    setOpen(false);
+                  }}
+                >
+                  <svg
+                    aria-hidden="true"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                  >
+                    <path
+                      d="m3 4.5 3 3 3-3"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div
+                id="bh-cost-tools"
+                className="bh-dropdown"
+                hidden={!costOpen}
+              >
+                {planningTools.map(([label, href]) => (
+                  <Link key={href} href={href}>
+                    {label}
+                    <span aria-hidden="true">↗</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
             <Link href="/about">About</Link>
-            <Link href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blog</Link>
+            <Link
+              href="/blog"
+              aria-current={path.startsWith("/blog") ? "page" : undefined}
+            >
+              Blog
+            </Link>
             <Link href="/contact">Contact</Link>
           </div>
           <div className="bh-nav-actions">

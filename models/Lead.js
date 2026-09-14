@@ -13,6 +13,16 @@ import {
  */
 const leadSchema = mongoose.Schema(
   {
+    attribution: {
+      firstLandingPath: String,
+      landingPath: String,
+      source: String,
+      medium: String,
+      campaign: String,
+      capturedAt: Date,
+      consent: String,
+    },
+    qualification: { service: String, stage: String, budget: String },
     // Basic Information
     name: {
       type: String,

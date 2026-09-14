@@ -1,3 +1,4 @@
+import { DRIVE_PORTFOLIO_PROJECTS } from "./portfolio-drive-projects";
 import { portfolioDetails } from "./portfolio-details";
 
 export const PORTFOLIO_PROJECTS = [
@@ -550,7 +551,7 @@ export const PORTFOLIO_PROJECTS = [
       outcomes: detail.outcomes,
     },
   };
-});
+}).concat(DRIVE_PORTFOLIO_PROJECTS);
 
 export const PORTFOLIO_PROJECTS_BY_SLUG = PORTFOLIO_PROJECTS.reduce(
   (acc, project) => {

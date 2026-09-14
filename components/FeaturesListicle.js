@@ -1,4 +1,5 @@
 "use client";
+import { businessFacts } from "@/libs/businessFacts";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -18,7 +19,7 @@ const features = [
             "Honest timelines",
             "Willingness to address client concerns",
             "Minimizing disruption to clients' lives, when possible",
-            "Excellent workmanship guarantees - up to 20 years",
+            businessFacts.workmanship,
           ].map((item) => (
             <li
               key={item}

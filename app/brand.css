@@ -924,3 +924,13 @@ textarea {
   .bh-mobile-hero[data-screen-label] a[href="#home-brief"],
   .bh-mobile-hero[data-screen-label] a[href="#work"] { padding-inline: 16px !important; }
 }
+
+/* Keep article contents targets clear of the sticky navigation. */
+.bh-article-layout .prose [id] { scroll-margin-top: 110px; }
+
+.bh-dropdown[hidden] { display: none !important; }
+.bh-cost-trigger { display: flex; align-items: center; gap: 4px; }
+.bh-cost-trigger button { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; min-height: 36px; }
+.bh-editorial-planning { margin-block: 32px; padding: 24px; border: 1px solid #D8D2C6; border-radius: 8px; }
+.bh-table-wrap { overflow-x: auto; max-width: 100%; }
+@media (max-width: 1100px) { .bh-cost-trigger { justify-content: space-between; } .bh-cost-trigger > a { padding: 12px 0; } }

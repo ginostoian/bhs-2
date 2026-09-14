@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   return {
+    robots: { index: false, follow: false },
     title: `Shared Catalogue Selection | Better Homes`,
     description: `Review a shared Better Homes catalogue selection.`,
   };

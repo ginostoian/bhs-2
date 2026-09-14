@@ -1,5 +1,8 @@
 /* eslint-disable react/no-unescaped-entities, @next/next/no-img-element */
 "use client";
+import ServiceConfidence, { ServiceAftercare } from "./ServiceConfidence";
+import PlanningLinks from "./PlanningLinks";
+import { businessFacts } from "@/libs/businessFacts";
 import React from "react";
 import ExtensionCosts from "./ExtensionCosts";
 import Image from "next/image";
@@ -29,6 +32,34 @@ export default class ReferenceExtension extends React.Component {
   componentWillUnmount() {
     window.removeEventListener("resize", this._onResize);
   }
+
+  handleTabKeyDown = (event, index, count, stateKey) => {
+    let next;
+    switch (event.key) {
+      case "ArrowDown":
+      case "ArrowRight":
+        next = (index + 1) % count;
+        break;
+      case "ArrowUp":
+      case "ArrowLeft":
+        next = (index - 1 + count) % count;
+        break;
+      case "Home":
+        next = 0;
+        break;
+      case "End":
+        next = count - 1;
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+    this.setState({ [stateKey]: next });
+    event.currentTarget
+      .closest('[role="tablist"]')
+      .querySelectorAll('[role="tab"]')
+      [next]?.focus();
+  };
 
   renderVals() {
     const { narrow, menuOpen, ddOpen, type, step, openFaq } = this.state;
@@ -121,7 +152,7 @@ export default class ReferenceExtension extends React.Component {
       "Plastering, flooring preparation and decoration",
       "Kitchen fitting and second-fix joinery where within scope",
       "Building control coordination and party wall access arrangements",
-      "Snagging, handover documents and the ten-year workmanship guarantee",
+      "Snagging, handover documents and the 10-year extension workmanship guarantee",
     ];
     const excluded = [
       "Architect, structural engineer and party wall surveyor fees",
@@ -175,7 +206,7 @@ export default class ReferenceExtension extends React.Component {
           "We walk the finished space with you, record snags and close them out, then hand over documents, certificates and warranties.",
         decide: "Sign-off, and how you want to be contacted for aftercare.",
         receive:
-          "A snagging record, building control completion, product warranties and a named aftercare contact under the ten-year guarantee.",
+          "A snagging record, building control completion, product warranties and a named aftercare contact under the 10-year extension workmanship guarantee.",
       },
     ];
     const steps = stepData.map((s, i) => ({
@@ -233,8 +264,8 @@ export default class ReferenceExtension extends React.Component {
         a: "Party wall matters are handled by an independent surveyor appointed for your project. We help you understand the notices, keep neighbours informed of noisy phases, and manage access agreements on site.",
       },
       {
-        q: "What does the ten-year guarantee cover?",
-        a: "Our workmanship on the extension for ten years from handover. It is separate from manufacturer warranties on products such as glazing and appliances, and from our insurance cover. The full terms are issued at handover.",
+        q: "What does the 10-year extension guarantee cover?",
+        a: businessFacts.workmanship,
       },
     ];
     const faqs = faqData.map((f, i) => ({
@@ -507,6 +538,8 @@ export default class ReferenceExtension extends React.Component {
           >
             <div
               role="tablist"
+              aria-label="Extension types"
+              aria-orientation="vertical"
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -519,23 +552,11 @@ export default class ReferenceExtension extends React.Component {
                     type="button"
                     role="tab"
                     tabIndex={t.selected ? 0 : -1}
-                    onKeyDown={(e) => {
-                      const delta =
-                        e.key === "ArrowDown" || e.key === "ArrowRight"
-                          ? 1
-                          : e.key === "ArrowUp" || e.key === "ArrowLeft"
-                            ? -1
-                            : 0;
-                      if (delta) {
-                        e.preventDefault();
-                        const next =
-                          (index + delta + types.length) % types.length;
-                        this.setState({ type: next });
-                        e.currentTarget.parentElement
-                          .querySelectorAll('[role="tab"]')
-                          [next]?.focus();
-                      }
-                    }}
+                    id={`extension-type-tab-${index}`}
+                    aria-controls={`extension-type-panel-${index}`}
+                    onKeyDown={(event) =>
+                      this.handleTabKeyDown(event, index, types.length, "type")
+                    }
                     aria-selected={t.selected}
                     onClick={t.select}
                     style={{
@@ -573,129 +594,130 @@ export default class ReferenceExtension extends React.Component {
             </div>
             {types.map((t, index) => (
               <React.Fragment key={index}>
-                {t.selected ? (
-                  <>
+                <div
+                  role="tabpanel"
+                  id={`extension-type-panel-${index}`}
+                  aria-labelledby={`extension-type-tab-${index}`}
+                  tabIndex={0}
+                  hidden={!t.selected}
+                  style={{
+                    display: t.selected ? "flex" : "none",
+                    flexDirection: "column",
+                    gap: "24px",
+                    animation: "bhFade .32s cubic-bezier(.2,.7,.2,1) both",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: "22px",
+                      lineHeight: "1.45",
+                      fontWeight: "400",
+                      textWrap: "pretty",
+                    }}
+                  >
+                    {t.summary}
+                  </p>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+                      gap: "20px 32px",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
                         flexDirection: "column",
-                        gap: "24px",
-                        animation: "bhFade .32s cubic-bezier(.2,.7,.2,1) both",
+                        gap: "6px",
+                        paddingTop: "14px",
+                        borderTop: "1px solid #D8D2C6",
                       }}
                     >
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          fontWeight: "500",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          color: "#4D5B4B",
+                        }}
+                      >
+                        {"Best for"}
+                      </span>
                       <p
                         style={{
                           margin: "0",
-                          fontSize: "22px",
-                          lineHeight: "1.45",
-                          fontWeight: "400",
-                          textWrap: "pretty",
+                          fontSize: "16px",
+                          lineHeight: "1.55",
                         }}
                       >
-                        {t.summary}
+                        {t.bestFor}
                       </p>
-                      <div
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "6px",
+                        paddingTop: "14px",
+                        borderTop: "1px solid #D8D2C6",
+                      }}
+                    >
+                      <span
                         style={{
-                          display: "grid",
-                          gridTemplateColumns:
-                            "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
-                          gap: "20px 32px",
+                          fontSize: "13px",
+                          fontWeight: "500",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          color: "#4D5B4B",
                         }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "6px",
-                            paddingTop: "14px",
-                            borderTop: "1px solid #D8D2C6",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "500",
-                              letterSpacing: "0.06em",
-                              textTransform: "uppercase",
-                              color: "#4D5B4B",
-                            }}
-                          >
-                            {"Best for"}
-                          </span>
-                          <p
-                            style={{
-                              margin: "0",
-                              fontSize: "16px",
-                              lineHeight: "1.55",
-                            }}
-                          >
-                            {t.bestFor}
-                          </p>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "6px",
-                            paddingTop: "14px",
-                            borderTop: "1px solid #D8D2C6",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "500",
-                              letterSpacing: "0.06em",
-                              textTransform: "uppercase",
-                              color: "#4D5B4B",
-                            }}
-                          >
-                            {"Planning"}
-                          </span>
-                          <p
-                            style={{
-                              margin: "0",
-                              fontSize: "16px",
-                              lineHeight: "1.55",
-                            }}
-                          >
-                            {t.planning}
-                          </p>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "6px",
-                            paddingTop: "14px",
-                            borderTop: "1px solid #D8D2C6",
-                          }}
-                        >
-                          <span
-                            style={{
-                              fontSize: "13px",
-                              fontWeight: "500",
-                              letterSpacing: "0.06em",
-                              textTransform: "uppercase",
-                              color: "#4D5B4B",
-                            }}
-                          >
-                            {"What we manage carefully"}
-                          </span>
-                          <p
-                            style={{
-                              margin: "0",
-                              fontSize: "16px",
-                              lineHeight: "1.55",
-                            }}
-                          >
-                            {t.care}
-                          </p>
-                        </div>
-                      </div>
+                        {"Planning"}
+                      </span>
+                      <p
+                        style={{
+                          margin: "0",
+                          fontSize: "16px",
+                          lineHeight: "1.55",
+                        }}
+                      >
+                        {t.planning}
+                      </p>
                     </div>
-                  </>
-                ) : null}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "6px",
+                        paddingTop: "14px",
+                        borderTop: "1px solid #D8D2C6",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "13px",
+                          fontWeight: "500",
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          color: "#4D5B4B",
+                        }}
+                      >
+                        {"What we manage carefully"}
+                      </span>
+                      <p
+                        style={{
+                          margin: "0",
+                          fontSize: "16px",
+                          lineHeight: "1.55",
+                        }}
+                      >
+                        {t.care}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </React.Fragment>
             ))}
           </div>
@@ -1186,6 +1208,8 @@ export default class ReferenceExtension extends React.Component {
             </h2>
           </div>
           <div
+            role="tablist"
+            aria-label="Extension process"
             style={{
               display: "grid",
               gridTemplateColumns:
@@ -1199,7 +1223,14 @@ export default class ReferenceExtension extends React.Component {
                 <button
                   type="button"
                   onClick={s.select}
-                  aria-pressed={s.selected}
+                  role="tab"
+                  id={`extension-step-tab-${index}`}
+                  aria-controls={`extension-step-panel-${index}`}
+                  aria-selected={s.selected}
+                  tabIndex={s.selected ? 0 : -1}
+                  onKeyDown={(event) =>
+                    this.handleTabKeyDown(event, index, steps.length, "step")
+                  }
                   style={{
                     display: "flex",
                     flexDirection: "column",
@@ -1239,109 +1270,111 @@ export default class ReferenceExtension extends React.Component {
           </div>
           {steps.map((s, index) => (
             <React.Fragment key={index}>
-              {s.selected ? (
-                <>
-                  <div
+              <div
+                role="tabpanel"
+                id={`extension-step-panel-${index}`}
+                aria-labelledby={`extension-step-tab-${index}`}
+                tabIndex={0}
+                hidden={!s.selected}
+                style={{
+                  display: s.selected ? "grid" : "none",
+                  gridTemplateColumns:
+                    "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
+                  gap: "24px 48px",
+                  padding: "32px 0 0",
+                  animation: "bhFade .32s cubic-bezier(.2,.7,.2,1) both",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <span
                     style={{
-                      display: "grid",
-                      gridTemplateColumns:
-                        "repeat(auto-fit, minmax(min(100%, 260px), 1fr))",
-                      gap: "24px 48px",
-                      padding: "32px 0 0",
-                      animation: "bhFade .32s cubic-bezier(.2,.7,.2,1) both",
+                      fontSize: "13px",
+                      fontWeight: "500",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "#4D5B4B",
                     }}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "13px",
-                          fontWeight: "500",
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: "#4D5B4B",
-                        }}
-                      >
-                        {"What happens"}
-                      </span>
-                      <p
-                        style={{
-                          margin: "0",
-                          fontSize: "17px",
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {s.happens}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "13px",
-                          fontWeight: "500",
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: "#4D5B4B",
-                        }}
-                      >
-                        {"What you decide"}
-                      </span>
-                      <p
-                        style={{
-                          margin: "0",
-                          fontSize: "17px",
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {s.decide}
-                      </p>
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "8px",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: "13px",
-                          fontWeight: "500",
-                          letterSpacing: "0.06em",
-                          textTransform: "uppercase",
-                          color: "#4D5B4B",
-                        }}
-                      >
-                        {"What you receive"}
-                      </span>
-                      <p
-                        style={{
-                          margin: "0",
-                          fontSize: "17px",
-                          lineHeight: "1.6",
-                        }}
-                      >
-                        {s.receive}
-                      </p>
-                    </div>
-                  </div>
-                </>
-              ) : null}
+                    {"What happens"}
+                  </span>
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: "17px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    {s.happens}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: "500",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "#4D5B4B",
+                    }}
+                  >
+                    {"What you decide"}
+                  </span>
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: "17px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    {s.decide}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "13px",
+                      fontWeight: "500",
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                      color: "#4D5B4B",
+                    }}
+                  >
+                    {"What you receive"}
+                  </span>
+                  <p
+                    style={{
+                      margin: "0",
+                      fontSize: "17px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    {s.receive}
+                  </p>
+                </div>
+              </div>
             </React.Fragment>
           ))}
         </section>
 
+        <PlanningLinks servicePath="/house-extension" />
         <ExtensionCosts />
         <section
           id="cost"
@@ -1499,6 +1532,8 @@ export default class ReferenceExtension extends React.Component {
           </div>
         </section>
 
+        <ServiceConfidence servicePath="/house-extension" />
+        <section className="bh-wrap bh-section" aria-label="Aftercare for your extension"><ServiceAftercare /></section>
         <span id="why-us" />
         <span id="guarantees" />
         <section
@@ -1871,7 +1906,9 @@ export default class ReferenceExtension extends React.Component {
                 </a>
               </div>
             </div>
-            <div id="extension-brief"><EnquiryForm defaultService="Extension" /></div>
+            <div id="extension-brief">
+              <EnquiryForm defaultService="Extension" />
+            </div>
           </div>
         </section>
         <FaqSchema

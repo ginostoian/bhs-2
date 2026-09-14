@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 export const SERVICE_AREA_GROUPS = [
   {
     regionTitle: "East and North East London",
@@ -38,18 +39,18 @@ export const SERVICE_AREA_GROUPS = [
   },
 ];
 
-export const trustBarItems = (guaranteeHeadline) => [
+export const trustBarItems = () => [
   {
-    headline: "£10M insured",
-    subtext: "Cover appropriate to major residential works",
+    headline: businessFacts.insuranceHeadline,
+    subtext: "Confirm current policy scope before committing",
   },
   {
-    headline: guaranteeHeadline,
-    subtext: "Workmanship cover confirmed for your agreed scope",
+    headline: businessFacts.guaranteeHeadline,
+    subtext: "10 years structural, extensions and lofts; 2 years kitchen and bathroom installation; 1 year decoration",
   },
   {
-    headline: "500+ projects delivered",
-    subtext: "Across London homes",
+    headline: businessFacts.expertise,
+    subtext: "Extensions, lofts and whole-home renovations",
   },
   {
     headline: "Weekly project updates",

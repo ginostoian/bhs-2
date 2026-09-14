@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 import extensionTypesEditorialMatrixImg from "/public/assets/blog/house-extension-types/extension-types-editorial-matrix.png";
@@ -461,17 +462,7 @@ export default function TypesOfHouseExtensionsLondon() {
         anyone draws anything. By the time they speak to a designer, three of the nine types of house extensions have been
         eliminated on evidence rather than opinion.
       </p>
-      <p className={styles.p}>
-        That front-loaded work separates a project that lands on budget from one that finds a shallow garage foundation in
-        week six. BH Studio has delivered more than 300 projects across Central, East and North London, carries £10M insurance
-        and a ten-year workmanship guarantee, and offers managed design and build with your own or a recommended architect.
-        The architect prepares the drawings; we build and can manage coordination
-        if you wish, with appointments and fees set out in your proposal. Bring your measurements and your title
-        plan to a feasibility conversation and we will tell you which formats are realistic, what they cost and what the
-        planning route looks like, including when the format you had in mind is the wrong one. See examples of each type in our{" "}
-        <Link href="/portfolio">project portfolio</Link>, or start with{" "}
-        <Link href="/blog/house-extension-guide-2025">our complete London house extension guide</Link>.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
 
       {/* ── ENGAGEMENT ──────────────────────────────────────────────────── */}
       <h2 className={styles.h2} id="join-the-conversation">Join the conversation</h2>

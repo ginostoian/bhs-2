@@ -23,7 +23,7 @@ const TestimonialRating = () => {
       </svg>
       <div>
         <p className="text-center text-sm text-base-content/80">
-          500+ happy clients
+          Reviews from homeowners
         </p>
         <div className="flex flex-row justify-center gap-0 pt-1">
           {[...Array(5)].map((e, i) => (

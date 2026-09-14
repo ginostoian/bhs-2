@@ -1,4 +1,5 @@
 import React from "react";
+import { businessFacts } from "@/libs/businessFacts";
 
 const Stats = () => {
   const features = [
@@ -29,7 +30,7 @@ const Stats = () => {
         </svg>
       ),
       title: "Workmanship guarantee",
-      desc: "From bathroom renovations to extensions, our workmanship is guaranteed for up to 10 years, giving you peace of mind and lasting value.",
+      desc: businessFacts.workmanship,
     },
     {
       icon: (
@@ -61,7 +62,7 @@ const Stats = () => {
         </svg>
       ),
       title: "Insurance protection",
-      desc: "We provide comprehensive insurance protection up to £10 million, safeguarding your investment and ensuring your project is in safe hands.",
+      desc: businessFacts.insurance,
     },
     {
       icon: (

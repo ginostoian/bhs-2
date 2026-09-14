@@ -51,6 +51,7 @@ export function generateMetadata({ params }) {
       title,
       description,
       url: `${siteUrl}/portfolio/${project.slug}`,
+      images: [{ url: project.coverImage, alt: project.coverImageAlt }],
     },
     keywords: [
       `${project.location} renovation case study`,
@@ -112,6 +113,10 @@ export default function ProjectPage({ params }) {
             : project.title}
         </h1>
         <p className="bh-lead">{project.teaser}</p>
+        {project.servicePath && <div className="bh-actions">
+          <Link className="bh-button" href={`/contact?service=${encodeURIComponent(project.serviceName)}#brief`}>Discuss a similar project</Link>
+          <Link className="bh-text-link" href={project.servicePath}>Explore {project.serviceName.toLowerCase()} →</Link>
+        </div>}
         <dl className="bh-facts" style={{ marginTop: 40 }}>
           <div>
             <dt>Location</dt>
@@ -121,10 +126,10 @@ export default function ProjectPage({ params }) {
             <dt>Project type</dt>
             <dd>{facts.projectType}</dd>
           </div>
-          <div>
+          {facts.completionPeriod && <div>
             <dt>Completion period</dt>
             <dd>{facts.completionPeriod}</dd>
-          </div>
+          </div>}
         </dl>
         <Image
           src={project.coverImage}
@@ -132,6 +137,7 @@ export default function ProjectPage({ params }) {
           width={1600}
           height={1000}
           priority
+          quality={90}
           sizes="100vw"
           style={{
             width: "100%",
@@ -176,6 +182,7 @@ export default function ProjectPage({ params }) {
                   src={detail.image}
                   alt={detail.caption}
                   width={1200}
+                  quality={90}
                   height={900}
                   sizes="(max-width: 800px) 100vw, 50vw"
                   style={{ width: "100%", height: "auto" }}
@@ -193,9 +200,9 @@ export default function ProjectPage({ params }) {
         </div>
       </section>
       <section className="bh-wrap bh-section">
-        <p className="bh-eyebrow">The finished home</p>
-        <h2 className="bh-heading">Photographs from the completed project</h2>
-        <ProjectGallery images={images} title={project.title} />
+        <p className="bh-eyebrow">Project gallery</p>
+        <h2 className="bh-heading">{project.slug === "anthony-e14" ? "The finished home and the work behind it" : "Photographs from the completed project"}</h2>
+        <ProjectGallery images={images} title={project.title} captions={project.imageCaptions} />
       </section>
       <section className="bh-wrap bh-section bh-grid-two">
         <div>
@@ -222,7 +229,7 @@ export default function ProjectPage({ params }) {
         </section>
       ) : null}
       <Faq items={faqs} />
-      <ProjectCTA title="Discuss a similar project for your home" />
+      <ProjectCTA title="Discuss a similar project for your home" service={project.serviceName} />
       {related.length ? (
         <section className="bh-wrap bh-section">
           <p className="bh-eyebrow">More of our work</p>
@@ -230,7 +237,7 @@ export default function ProjectPage({ params }) {
           <ProjectCards projects={related} />
         </section>
       ) : null}
-      <RelatedGuides context={project.category.includes("Extension") ? "extension" : project.category.includes("Kitchen") ? "kitchen" : project.category.includes("Bathroom") ? "bathroom" : "renovation"} />
+      <RelatedGuides context={project.serviceTags?.includes("loft") ? "loft" : project.category.includes("Extension") ? "extension" : project.category.includes("Kitchen") ? "kitchen" : project.category.includes("Bathroom") ? "bathroom" : "renovation"} />
     </main>
   );
 }

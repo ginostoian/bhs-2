@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-export default function ProjectGallery({ images, title }) {
+export default function ProjectGallery({ images, title, captions = {} }) {
   const [current, setCurrent] = useState(null);
   const dialog = useRef(null);
   const origin = useRef(null);
@@ -37,10 +37,11 @@ export default function ProjectGallery({ images, title }) {
           >
             <Image
               src={src}
-              alt={`${title}, completed project photograph ${i + 1}`}
+              alt={captions[src] || `${title}, completed project photograph ${i + 1}`}
               width={1400}
               height={1000}
-              sizes="(max-width:700px) 100vw, 60vw"
+              quality={90}
+              sizes={i % 5 === 0 ? "100vw" : "(max-width:700px) 100vw, 50vw"}
             />
             <span>View photograph ↗</span>
           </button>
@@ -78,10 +79,11 @@ export default function ProjectGallery({ images, title }) {
         {current !== null ? (
           <Image
             src={images[current]}
-            alt={`${title}, photograph ${current + 1}`}
+            alt={captions[images[current]] || `${title}, photograph ${current + 1}`}
             width={1800}
             height={1300}
             sizes="95vw"
+            quality={95}
           />
         ) : null}
         <div className="bh-lightbox-controls">

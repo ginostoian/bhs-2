@@ -1,4 +1,5 @@
 "use client";
+import { businessFacts } from "@/libs/businessFacts";
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -184,7 +185,7 @@ export default function QuotePreviewPage() {
             termsAndConditions:
               "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.",
             warrantyInformation:
-              "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used.",
+              businessFacts.workmanship,
             leadTime: "We typically require 2 weeks notice to start a project.",
             validUntil: "2024-02-14T10:30:00Z",
           });
@@ -817,7 +818,7 @@ export default function QuotePreviewPage() {
               <h4 className="mb-2 font-medium text-gray-900">Warranty</h4>
               <p>
                 {quote.warrantyInformation ||
-                  "All our work comes with a comprehensive workmanship guarantee covering our work from 1 year to 10 years depending on the project type and materials used."}
+                  businessFacts.workmanship}
               </p>
             </div>
           </div>

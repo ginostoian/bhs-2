@@ -1,3 +1,5 @@
+import PlanningLinks from "@/components/brand/PlanningLinks";
+import { articleServices } from "@/libs/serviceResources";
 import Image from "next/image";
 import Faq from "@/components/brand/Faq";
 import { JsonLd, FaqSchema } from "@/components/brand/Schema";
@@ -211,7 +213,7 @@ export default function ArticlePage({ params }) {
           />
         </header>
         <div className="bh-article-layout">
-          <div className="prose">{article.content}</div>
+          <div className="prose">{article.content}<PlanningLinks article servicePath={articleServices[article.slug]} /></div>
           <aside>
             <p className="bh-eyebrow">Your project</p>
             <h2 className="bh-heading" style={{ fontSize: 28 }}>

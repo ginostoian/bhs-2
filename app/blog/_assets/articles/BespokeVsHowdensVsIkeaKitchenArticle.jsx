@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -34,6 +35,7 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
       <p className={styles.capsule}>
         In London, a fully fitted IKEA kitchen runs roughly £12,000–£22,000, a Howdens kitchen £18,000–£38,000, and a bespoke kitchen £45,000–£90,000+ in 2026. The cabinets themselves are only 30–40% of the bill: worktops, appliances, fitting, and the London premium of 20–35% decide the real number. IKEA buys flexibility, Howdens buys speed and a 25-year carcass guarantee, bespoke buys a kitchen built to the exact millimetre of your room.
       </p>
+      <p className={styles.p}>Allow for fitting, services and finishes alongside the cabinets. Use our <Link href="/kitchen-calculator">kitchen renovation calculator</Link> to compare a planning budget, then explore our <Link href="/kitchen-renovation">kitchen installation and renovation scope</Link>.</p>
 
       {/* KEY TAKEAWAYS */}
       <h2 className={styles.h2} id="key-takeaways">Key takeaways</h2>
@@ -267,11 +269,9 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
         Every kitchen route above ends at the same cliff edge: someone has to run the job. IKEA gives you a planner and a flat-pack delivery. Howdens gives your builder a trade account. Neither owns the outcome. The measuring, the trade sequencing, the moment the plumber and the electrician need to be on site in the right order, the gap where the flat-pack cabinet does not quite meet the wall - that coordination is real work, and when it is split across a supplier and a separately hired fitter, the seams are where projects go wrong.
       </p>
       <p className={styles.p}>
-        This is the difference between buying a kitchen and commissioning one. Better Homes coordinates kitchen construction, installation and the agreed design input. Where architectural design is required, we manage your relationship with a trusted independent architect and identify their appointment separately. Across 500+ London projects, the pattern is consistent: the problems that blow budgets are almost never the cabinets themselves, but the uncoordinated space between trades. Our head of design, Gino, sizes cabinetry, worktop, and the trades around them as a single sequenced job rather than a shopping list you assemble yourself.
+        This is the difference between buying a kitchen and commissioning one. Better Homes coordinates kitchen construction, installation and the agreed design input. Where architectural design is required, we manage your relationship with a trusted independent architect and identify their appointment separately. Cabinetry, worktops and the installation trades need a coordinated sequence, with design responsibility and appointments agreed separately.
       </p>
-      <p className={styles.p}>
-        It is worth being clear about what this does and does not mean. If you have a trusted fitter and a straightforward room, a Howdens kitchen through that builder is hard to beat on value. The design-and-build case gets stronger as the job gets more complex - a period property, a knock-through, a bespoke run into an extension - because that is where a single point of responsibility, a two-year kitchen workmanship guarantee, and £10M insurance stop being paperwork and start being the reason the finish date holds. If the kitchen sits inside a larger structural rethink, our <Link className={styles.inlineLink} href="/blog/house-extension-guide-2025#planning-permission">house extension planning guide</Link> is the relevant next read.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
 
       {/* SECTION 11 - WHICH ROUTE */}
       <h2 className={styles.h2} id="which-route">Which route is right for your home?</h2>
@@ -317,9 +317,7 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
       <p className={styles.p}>
         The bespoke-versus-Howdens-versus-IKEA question is really three questions wearing one coat: how much cabinet precision does your room need, how much are you willing to spend within a fairly fixed London envelope, and who is going to run the job. Get those in order and the brand almost chooses itself. For a straight room and a trusted fitter, IKEA or Howdens delivers a kitchen that looks and lasts far beyond its price. For an awkward period property, a high-value home, or a kitchen that opens into new space, bespoke is the only route that fits the room rather than fighting it.
       </p>
-      <p className={styles.p}>
-        What none of the three brands sells you is the coordination - and in London, on period stock, that is where the money and the stress actually live. Better Homes manages the kitchen construction and installation scope, backed by a two-year kitchen workmanship guarantee and £10M insurance across 500+ completed London projects. If you want a clear, fixed-price picture of your kitchen - whichever cabinet route suits your home - <Link href="/contact/">book a free design consultation</Link> and we will scope it properly, from the worktop down.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
 
       {/* ENGAGEMENT */}
       <p className={styles.p}>

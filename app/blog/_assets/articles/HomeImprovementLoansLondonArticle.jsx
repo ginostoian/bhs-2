@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -510,16 +511,7 @@ export default function HomeImprovementLoansLondon() {
         monthly comfort. For anything above that line, a whole-of-market broker will save you more
         than their fee. Your lender or broker can explain the documents and affordability checks required for your chosen route.
       </p>
-      <p className={styles.p}>
-        Better Homes builds loft conversions, extensions and whole-home renovations across
-        Central, East and North London. We can work from your drawings or manage your relationship
-        with a trusted independent architect. Our itemised construction quotation identifies the
-        scope and allowances to include in your overall budget. Extensions and loft conversions
-        carry a 10-year workmanship guarantee, with the applicable terms set out in your project
-        documents. Our £10M insurance is separate from this guarantee.{" "}
-        <Link href="/contact">Book a free, no-obligation consultation</Link> to discuss your project.
-
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
 
       {/* ===================== ENGAGEMENT ===================== */}
       <h2 className={styles.h2} id="engagement">We'd love to hear from you</h2>

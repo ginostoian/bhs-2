@@ -1,0 +1,301 @@
+[
+  {
+    "path": "/",
+    "intent": "Find a London builder for extensions, loft conversions and whole-home renovations.",
+    "baseline_html": "html/cb26cace0e10d381d76c.html.gz",
+    "title": "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
+    "h1": [
+      "One team. One contract. A better London home",
+      "without the handoffs",
+      "Our values",
+      "are aligned with you!"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "SVGRepo_bgCarrier",
+      "SVGRepo_tracerCarrier",
+      "SVGRepo_iconCarrier",
+      "SVGRepo_bgCarrier",
+      "SVGRepo_tracerCarrier",
+      "SVGRepo_iconCarrier",
+      "SVGRepo_bgCarrier",
+      "SVGRepo_tracerCarrier",
+      "SVGRepo_iconCarrier",
+      "testimonials",
+      "faq",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  },
+  {
+    "path": "/blog/home-renovation-cost-london-2026",
+    "intent": "Understand London whole-home renovation costs before commissioning work.",
+    "baseline_html": "html/8129c3983c72aa26ade9.html.gz",
+    "title": "Home renovation cost in London: the complete 2026 price guide",
+    "h1": [
+      "Home renovation cost in London: the complete 2026 price guide",
+      "Home Renovation Cost London 2026: The Complete Price Guide"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk/blog/home-renovation-cost-london-2026"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "key-takeaways",
+      "contents",
+      "how-much-full-renovation",
+      "cost-per-square-metre",
+      "room-by-room-costs",
+      "what-drives-costs-up",
+      "hidden-costs",
+      "cost-by-property-type",
+      "borough-costs",
+      "real-project-costs",
+      "renovate-or-move",
+      "how-to-budget",
+      "energy-efficiency",
+      "choosing-contractor",
+      "roi-analysis",
+      "quick-takeaways",
+      "conclusion",
+      "faqs",
+      "share",
+      "references",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  },
+  {
+    "path": "/blog/kitchen-providers-comparison-guide",
+    "intent": "Compare kitchen providers before choosing a supplier and installation approach.",
+    "baseline_html": "html/2a2119b085053751ce2a.html.gz",
+    "title": "Top 10 Kitchen Providers Compared: Options for all London Homes",
+    "h1": [
+      "Top 10 Kitchen Providers Compared: Options for all London Homes"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk/blog/kitchen-providers-comparison-guide"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "introduction",
+      "criteria",
+      "magnet",
+      "wickes",
+      "ikea",
+      "bq",
+      "howdens",
+      "wren",
+      "homebase",
+      "johnlewis",
+      "diy",
+      "benchmarx",
+      "comparison",
+      "trends",
+      "tips",
+      "takeaways",
+      "conclusion",
+      "faqs",
+      "engagement",
+      "references",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  },
+  {
+    "path": "/blog/bespoke-vs-howdens-vs-ikea-kitchen-london",
+    "intent": "Compare bespoke, Howdens and IKEA kitchen options and fitted costs in London.",
+    "baseline_html": "html/d0c096abd7294b116642.html.gz",
+    "title": "Bespoke vs Howdens vs IKEA kitchen: London 2026 cost and quality guide",
+    "h1": [
+      "Bespoke vs Howdens vs IKEA kitchen: London 2026 cost and quality guide",
+      "Bespoke vs Howdens vs IKEA Kitchen: London 2026"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk/blog/bespoke-vs-howdens-vs-ikea-kitchen-london"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "key-takeaways",
+      "contents",
+      "the-real-number",
+      "ikea",
+      "howdens",
+      "bespoke",
+      "cost-table",
+      "quality",
+      "worktops",
+      "timelines",
+      "london",
+      "coordination",
+      "which-route",
+      "quick-takeaways",
+      "conclusion",
+      "faqs",
+      "faq-1",
+      "faq-2",
+      "faq-3",
+      "faq-4",
+      "faq-5",
+      "faq-6",
+      "faq-7",
+      "references",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  },
+  {
+    "path": "/blog/house-extension-value-london-guide",
+    "intent": "Understand extension value uplift, cost recovery and practical tradeoffs.",
+    "baseline_html": "html/4adcb5a604af6314f5ee.html.gz",
+    "title": "How much value does a house extension add in London? (2026 guide)",
+    "h1": [
+      "How much value does a house extension add in London? (2026 guide)"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk/blog/house-extension-value-london-guide"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "why-extending-beats-moving",
+      "how-much-value-does-extension-add",
+      "extension-types-compared",
+      "single-storey-rear-extensions",
+      "double-storey-extensions",
+      "side-return-extensions",
+      "loft-conversions",
+      "basement-conversions",
+      "kitchen-extensions-open-plan",
+      "cost-vs-value-london",
+      "planning-permission-permitted-development",
+      "maximising-roi",
+      "energy-efficiency-value",
+      "ceiling-price-warning",
+      "financing-your-extension",
+      "key-takeaways",
+      "conclusion",
+      "faqs",
+      "share-your-experience",
+      "references",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  },
+  {
+    "path": "/blog/loft-conversions-london-complete-guide-2026",
+    "intent": "Understand London loft conversion options, costs and the building process.",
+    "baseline_html": "html/4197fb3148f6910d59d6.html.gz",
+    "title": "Loft conversions in London: the complete 2026 guide",
+    "h1": [
+      "Loft conversions in London: the complete 2026 guide",
+      "Loft Conversions in London: The Complete 2026 Guide"
+    ],
+    "canonical": [
+      "https://bhstudio.co.uk/blog/loft-conversions-london-complete-guide-2026"
+    ],
+    "section_ids": [
+      "desktop-cost-guides-menu",
+      "desktop-services-menu",
+      "mobile-nav",
+      "mobile-cost-guides-menu",
+      "mobile-services-menu",
+      "key-takeaways",
+      "why-loft-conversions-2026",
+      "types-of-loft-conversions",
+      "velux-conversions",
+      "dormer-conversions",
+      "hip-to-gable-conversions",
+      "mansard-conversions",
+      "l-shaped-conversions",
+      "loft-conversion-costs-london",
+      "cost-breakdown",
+      "hidden-costs",
+      "planning-permission-london",
+      "permitted-development",
+      "conservation-areas",
+      "borough-considerations",
+      "building-regulations",
+      "structural-requirements",
+      "fire-safety",
+      "insulation-energy",
+      "party-wall-agreements",
+      "property-value-roi",
+      "roi-by-type",
+      "loft-vs-moving",
+      "loft-conversion-process",
+      "choosing-company",
+      "financing-options",
+      "design-ideas",
+      "common-mistakes",
+      "sustainability-energy",
+      "visual-guides",
+      "quick-takeaways",
+      "conclusion",
+      "faqs",
+      "related-guides",
+      "reader-feedback",
+      "references",
+      "where-we-work",
+      "_rht_toaster"
+    ],
+    "preserve": [
+      "Keep the URL returning 200 and its canonical on the production domain.",
+      "Retain the established title/search intent unless a separately recorded experiment or factual correction justifies a change.",
+      "Retain substantive advice, cost tables, original images and useful internal links; classify each removal individually.",
+      "Keep existing working fragments; correct unsupported facts rather than preserving inaccuracies."
+    ]
+  }
+]

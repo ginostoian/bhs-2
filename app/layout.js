@@ -11,6 +11,7 @@ import { getSEOTags } from "@/libs/seo";
 import { getRootSchema } from "@/libs/structuredData";
 import "./globals.css";
 import "./brand.css";
+import MarketingMeasurement from "@/components/MarketingMeasurement";
 import ReferralTracker from "@/components/ReferralTracker";
 import RouteChrome from "@/components/RouteChrome";
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }) {
         <ClientLayout>
           <Suspense fallback={null}>
             <ReferralTracker />
+            <MarketingMeasurement />
           </Suspense>
           <RouteChrome
             header={<Header />}

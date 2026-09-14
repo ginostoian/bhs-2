@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -537,9 +538,7 @@ export default function LoftConversionVsHouseExtension() {
       <p className={styles.p}>
         Whatever you choose, the single most important decision is who you work with. A design-and-build company with genuine London experience - one that understands your borough's planning quirks, your property type's structural opportunities, and the logistics of building in a dense urban environment - will deliver a fundamentally better outcome than trying to coordinate separate architects and builders yourself.
       </p>
-      <p className={styles.p}>
-        At Better Homes, design and build is a managed service: your architect prepares the drawings and agreed submissions, and we carry out the construction. Bring your own architect or choose one we recommend. With either route, you can ask us to coordinate discussions, follow up questions and speak on your behalf with your agreement. You approve the design, budget and changes; the proposal identifies the coordination support, appointments and fees. Our extension and loft workmanship is covered for ten years, with £10 million insurance separate from that guarantee. Contact us to discuss your property and the support you would like.
-      </p>
+      <p className={styles.p}>{businessFacts.architect} {businessFacts.workmanship} {businessFacts.insurance}</p>
 
       {/* References */}
       <h2 className={styles.h2} id="references">

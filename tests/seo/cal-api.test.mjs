@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
+import {createRequire} from 'node:module';
+import fs from 'node:fs/promises';
+import vm from 'node:vm';
+import * as webhook from '../../libs/calWebhook.js';
+const require=createRequire(import.meta.url);
+const {code}=await require('next/dist/build/swc').transform(await fs.readFile(new URL('../../app/api/webhook/cal/route.js',import.meta.url),'utf8'),{filename:'route.js',jsc:{parser:{syntax:'ecmascript'}},module:{type:'commonjs'}});
+test('signed duplicate Cal deliveries create one booking; forged payload cannot create a booking',async()=>{
+ const records=new Map();
+ const dependencies={'next/server':require('next/server'),'@/libs/mongoose':async()=>{},'@/models/Lead':{findOne:()=>({select:async()=>null})},'@/libs/calWebhook':webhook,'@/models/BookingConfirmation':{async updateOne(query,update){const inserted=!records.has(query._id);if(inserted)records.set(query._id,update.$setOnInsert);return {upsertedCount:inserted?1:0}}}};
+ const exports={};vm.runInNewContext(code,{exports,require:n=>dependencies[n],process:{env:{CAL_WEBHOOK_SECRET:'test-secret'}},console});
+ const body=JSON.stringify({triggerEvent:'BOOKING_CREATED',payload:{type:'discovery',uid:'isolated-test-booking',startTime:'2026-10-01T12:00:00Z'}});
+ const signature=createHmac('sha256','test-secret').update(body).digest('hex');
+ const request=(value,sig)=>({text:async()=>value,headers:new Headers({'x-cal-signature-256':sig})});
+ assert.equal((await exports.POST(request(body,signature))).status,200);
+ assert.equal((await (await exports.POST(request(body,signature))).json()).duplicate,true);
+ assert.equal(records.size,1);
+ assert.equal((await exports.POST(request(body+' ',signature))).status,401);
+ assert.equal(records.size,1);
+});

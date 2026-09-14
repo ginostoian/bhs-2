@@ -1,3 +1,4 @@
+import { businessFacts } from "@/libs/businessFacts";
 import RelatedGuides from "@/components/brand/RelatedGuides";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +13,7 @@ import styles from "./page.module.css";
 export const metadata = getSEOTags({
   title: "About Better Homes | People Who Care About Your Home",
   description:
-    "Get to know Gino, Celli and the Better Homes team. More than 12 years of London renovation experience, five-star Houzz reviews and clear workmanship guarantees.",
+    "Get to know Gino, Celli and the Better Homes team. London renovation expertise, five-star Houzz reviews and clear workmanship guarantees.",
   canonicalUrlRelative: "/about",
 });
 
@@ -66,7 +67,7 @@ export default function Page() {
           </p>
           <p className={styles.intro}>
             We are Better Homes. Gino, Celli and a team of skilled tradespeople,
-            bringing more than 12 years of renovation experience to homes across
+            bringing care and renovation expertise to homes across
             London.
           </p>
           <div className="bh-actions">
@@ -214,22 +215,20 @@ export default function Page() {
         <h2 className="bh-heading">Workmanship we stand behind.</h2>
         <dl className="bh-facts">
           <div>
-            <dt>Extensions and loft conversions</dt>
-            <dd>10 years</dd>
+            <dt>Structural work, extensions and loft conversions</dt>
+            <dd>{businessFacts.guaranteePeriods.structural}</dd>
           </div>
           <div>
             <dt>Kitchens and bathrooms</dt>
-            <dd>2 years</dd>
+            <dd>{businessFacts.guaranteePeriods.kitchen}</dd>
           </div>
           <div>
             <dt>Painting and decorating</dt>
-            <dd>1 year</dd>
+            <dd>{businessFacts.guaranteePeriods.decoration}</dd>
           </div>
         </dl>
         <p className={styles.intro}>
-          For whole-home and basement projects, cover is confirmed for the work
-          included in your quotation. Our £10 million insurance cover and
-          product warranties are separate from these workmanship guarantees.
+          {businessFacts.workmanship}
         </p>
         <p className={styles.intro}>
           <Link className="bh-text-link" href="/our-guarantee">
