@@ -4,7 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import mongoose from "mongoose";
 import MoodboardSection from "@/models/MoodboardSection";
-import Moodboard from "@/models/Moodboard";
+import MoodboardProduct from "@/models/MoodboardProduct";
 
 // Force dynamic rendering for this route
 export const dynamic = "force-dynamic";
@@ -175,7 +175,11 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "Section not found" }, { status: 404 });
     }
 
-    // Delete section and all its products
+    // Delete section and all products assigned to it
+    await MoodboardProduct.deleteMany({
+      moodboard: params.id,
+      section: params.sectionId,
+    });
     await MoodboardSection.findByIdAndDelete(params.sectionId);
 
     return NextResponse.json({ message: "Section deleted successfully" });

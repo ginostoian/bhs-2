@@ -88,6 +88,12 @@ export default function SectionManager({
             Edit
           </button>
           <button
+            onClick={onSectionDelete}
+            className="rounded-md bg-red-50 px-3 py-1 text-sm font-medium text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          >
+            Delete
+          </button>
+          <button
             onClick={onAddProduct}
             className="rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:bg-blue-700"
           >

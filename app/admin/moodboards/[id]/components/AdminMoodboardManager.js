@@ -107,6 +107,24 @@ export default function AdminMoodboardManager({
     }
   };
 
+  const confirmSectionDelete = (section) => {
+    const productCount = section.products?.length || 0;
+    const productWarning =
+      productCount > 0
+        ? ` and its ${productCount} product${productCount === 1 ? "" : "s"}`
+        : "";
+
+    setModalState({
+      isOpen: true,
+      title: "Delete Section",
+      message: `Are you sure you want to delete \"${section.name}\"${productWarning}? This action cannot be undone.`,
+      type: "confirm",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      onConfirm: () => handleSectionDelete(section.id),
+    });
+  };
+
   // Handle product addition
   const handleProductSubmit = async (productData) => {
     setIsSubmitting(true);
@@ -530,7 +548,7 @@ export default function AdminMoodboardManager({
             section={section}
             moodboardId={moodboard.id}
             onSectionUpdate={(sectionData) => handleSectionSubmit(sectionData)}
-            onSectionDelete={() => handleSectionDelete(section.id)}
+            onSectionDelete={() => confirmSectionDelete(section)}
             onProductDelete={(productId) =>
               handleProductDelete(section.id, productId)
             }
