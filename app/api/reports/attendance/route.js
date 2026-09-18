@@ -23,11 +23,40 @@ export async function GET(req) {
       { $match: match },
       {
         $group: {
-          _id: "$worker",
-          days: { $sum: { $cond: [{ $eq: ["$status", "Present"] }, 1, 0] } },
+          _id: { worker: "$worker", date: "$date" },
+          present: {
+            $max: { $cond: [{ $eq: ["$status", "Present"] }, 1, 0] },
+          },
           hours: { $sum: { $ifNull: ["$hours", 0] } },
           projectIds: { $addToSet: "$project" },
           customProjectNames: { $addToSet: "$projectName" },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.worker",
+          days: { $sum: "$present" },
+          hours: { $sum: "$hours" },
+          projectIdArrays: { $push: "$projectIds" },
+          customProjectNameArrays: { $push: "$customProjectNames" },
+        },
+      },
+      {
+        $addFields: {
+          projectIds: {
+            $reduce: {
+              input: "$projectIdArrays",
+              initialValue: [],
+              in: { $setUnion: ["$$value", "$$this"] },
+            },
+          },
+          customProjectNames: {
+            $reduce: {
+              input: "$customProjectNameArrays",
+              initialValue: [],
+              in: { $setUnion: ["$$value", "$$this"] },
+            },
+          },
         },
       },
       {
@@ -71,7 +100,12 @@ export async function GET(req) {
                 $filter: {
                   input: "$customProjectNames",
                   as: "customName",
-                  cond: { $ne: ["$$customName", null] },
+                  cond: {
+                    $and: [
+                      { $ne: ["$$customName", null] },
+                      { $ne: ["$$customName", ""] },
+                    ],
+                  },
                 },
               },
             ],

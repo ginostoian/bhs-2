@@ -2,10 +2,54 @@ import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import { requireAdmin } from "@/libs/requireAdmin";
 import Attendance from "@/models/Attendance";
-import Employee from "@/models/Employee";
-import Project from "@/models/Project";
 
 export const dynamic = "force-dynamic";
+
+const ATTENDANCE_STATUSES = new Set([
+  "Present",
+  "Sick",
+  "Holiday",
+  "Unavailable",
+]);
+
+function normalizeAttendanceDate(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  date.setUTCHours(0, 0, 0, 0);
+  return date;
+}
+
+function buildAttendanceDocument(entry, userId) {
+  const date = normalizeAttendanceDate(entry.date);
+  const hours = Number(entry.hours);
+  const projectName = entry.projectName?.trim();
+
+  if (!entry.worker || !date) {
+    throw new Error("Employee and a valid date are required");
+  }
+  if (!entry.project && !projectName) {
+    throw new Error("Choose an existing project or enter a one-off project");
+  }
+  if (!Number.isFinite(hours) || hours < 0 || hours > 24) {
+    throw new Error("Hours must be between 0 and 24");
+  }
+  if (entry.status && !ATTENDANCE_STATUSES.has(entry.status)) {
+    throw new Error("Invalid attendance status");
+  }
+
+  return {
+    worker: entry.worker,
+    project: entry.project || undefined,
+    projectName: entry.project ? undefined : projectName,
+    date,
+    status: entry.status || "Present",
+    shiftType: entry.shiftType || "custom",
+    hours,
+    notes: entry.notes?.trim() || undefined,
+    createdBy: userId,
+    updatedBy: userId,
+  };
+}
 
 // GET /api/attendance?start=&end=&projectId=&workerId=&status=&page=&limit=
 export async function GET(req) {
@@ -72,27 +116,9 @@ export async function POST(req) {
       );
     }
 
-    const docs = entries.map((e) => {
-      const doc = {
-        worker: e.worker,
-        date: e.date,
-        status: e.status || "Present",
-        shiftType: e.shiftType || "full",
-        hours: e.hours,
-        notes: e.notes,
-        createdBy: session?.user?.id,
-        updatedBy: session?.user?.id,
-      };
-
-      // Add either project reference or custom project name
-      if (e.project) {
-        doc.project = e.project;
-      } else if (e.projectName) {
-        doc.projectName = e.projectName;
-      }
-
-      return doc;
-    });
+    const docs = entries.map((entry) =>
+      buildAttendanceDocument(entry, session?.user?.id),
+    );
 
     // Use ordered: false to continue on duplicates
     const created = await Attendance.insertMany(docs, { ordered: false });
@@ -109,9 +135,16 @@ export async function POST(req) {
         { status: 207 },
       );
     }
+    const isValidationError = [
+      "required",
+      "valid date",
+      "Choose an existing",
+      "Hours must",
+      "Invalid attendance",
+    ].some((message) => error.message?.includes(message));
     return NextResponse.json(
       { error: error.message || "Failed to create attendance" },
-      { status: 500 },
+      { status: isValidationError ? 400 : 500 },
     );
   }
 }

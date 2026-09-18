@@ -34,6 +34,7 @@ export async function GET(req) {
           days: { $sum: { $cond: [{ $eq: ["$status", "Present"] }, 1, 0] } },
           hours: { $sum: { $ifNull: ["$hours", 0] } },
           projectIds: { $addToSet: "$project" },
+          customProjectNames: { $addToSet: "$projectName" },
         },
       },
       {
@@ -50,7 +51,21 @@ export async function GET(req) {
           days: 1,
           hours: 1,
           projects: {
-            $map: { input: "$projects", as: "p", in: "$$p.name" },
+            $concatArrays: [
+              { $map: { input: "$projects", as: "p", in: "$$p.name" } },
+              {
+                $filter: {
+                  input: "$customProjectNames",
+                  as: "name",
+                  cond: {
+                    $and: [
+                      { $ne: ["$$name", null] },
+                      { $ne: ["$$name", ""] },
+                    ],
+                  },
+                },
+              },
+            ],
           },
         },
       },

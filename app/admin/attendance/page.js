@@ -1,1897 +1,656 @@
 "use client";
 
-import { Fragment, useEffect, useMemo, useState, useCallback } from "react";
-import dynamic from "next/dynamic";
-import { useSession } from "next-auth/react";
-// Tailwind layout to match admin design
-import { Combobox, Dialog, Transition } from "@headlessui/react";
-import "react-big-calendar/lib/css/react-big-calendar.css";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Clock3,
+  FileBarChart2,
+  List,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+  Users,
+} from "lucide-react";
+import toast from "react-hot-toast";
+import Modal from "@/components/Modal";
+import AttendanceCalendar from "./components/AttendanceCalendar";
+import AttendanceReports from "./components/AttendanceReports";
+import EmployeeAttendanceDrawer from "./components/EmployeeAttendanceDrawer";
+import TimeEntryDialog from "./components/TimeEntryDialog";
 
-// Custom styles for the attendance calendar
-const calendarStyles = `
-  .attendance-calendar .rbc-calendar {
-    font-family: inherit;
-  }
-  
-  .attendance-calendar .rbc-header {
-    background-color: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 12px 8px;
-    font-weight: 600;
-    color: #374151;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-  }
-  
-  .attendance-calendar .rbc-month-view {
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .attendance-calendar .rbc-date-cell {
-    padding: 8px;
-    min-height: 120px;
-  }
-  
-  .attendance-calendar .rbc-date-cell button {
-    font-weight: 500;
-    color: #374151;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: all 0.2s;
-  }
-  
-  .attendance-calendar .rbc-date-cell button:hover {
-    background-color: #EDE9E0;
-  }
-  
-  .attendance-calendar .rbc-today {
-    background-color: #eff6ff !important;
-  }
-  
-  .attendance-calendar .rbc-off-range-bg {
-    background-color: #f9fafb;
-  }
-  
+const TABS = [
+  { id: "calendar", label: "Calendar", icon: CalendarDays },
+  { id: "entries", label: "Entries", icon: List },
+  { id: "reports", label: "Reports", icon: FileBarChart2 },
+];
 
-  
-  .attendance-calendar .rbc-toolbar {
-    margin-bottom: 20px;
-    padding: 0;
-  }
-  
-  .attendance-calendar .rbc-toolbar button {
-    background-color: white;
-    border: 1px solid #d1d5db;
-    color: #374151;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  
-  .attendance-calendar .rbc-toolbar button:hover {
-    background-color: #f9fafb;
-    border-color: #9ca3af;
-  }
-  
-  .attendance-calendar .rbc-toolbar button.rbc-active {
-    background-color: #3b82f6;
-    border-color: #2563eb;
-    color: white;
-  }
-  
-  .attendance-calendar .rbc-toolbar-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: #202925;
-  }
-  
-  .attendance-calendar .rbc-btn-group {
-    display: flex;
-    gap: 4px;
-  }
-  
-  .attendance-calendar .rbc-btn-group button:first-child {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .attendance-calendar .rbc-btn-group button:last-child {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  
-  .attendance-calendar .rbc-btn-group button:not(:first-child):not(:last-child) {
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-`;
+const STATUS_STYLES = {
+  Present: "bg-emerald-50 text-emerald-700 ring-emerald-600/20",
+  Sick: "bg-red-50 text-red-700 ring-red-600/20",
+  Holiday: "bg-amber-50 text-amber-700 ring-amber-600/20",
+  Unavailable: "bg-slate-100 text-slate-600 ring-slate-500/20",
+};
 
-const Calendar = dynamic(
-  () => import("react-big-calendar").then((m) => m.Calendar),
-  { ssr: false },
-);
-// Build localizer safely on client
-function useCalendarLocalizer() {
-  return useMemo(() => {
-    if (typeof window === "undefined") return undefined;
-    // eslint-disable-next-line global-require
-    const { momentLocalizer } = require("react-big-calendar");
-    // eslint-disable-next-line global-require
-    const moment = require("moment");
-    return momentLocalizer(moment);
-  }, []);
+function startOfMonth(date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
-// Utility function to merge items into a map-based collection
-const mergeItemsById = (existingItems, newItems, getId, mapItem) => {
-  const itemMap = new Map(existingItems.map((x) => [String(getId(x)), x]));
-  newItems.forEach((x) => {
-    if (!itemMap.has(String(getId(x)))) {
-      itemMap.set(String(getId(x)), mapItem(x));
-    }
-  });
-  return Array.from(itemMap.values());
-};
+function monthRange(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  return {
+    start: new Date(Date.UTC(year, month, 1)).toISOString(),
+    end: new Date(
+      Date.UTC(year, month + 1, 0, 23, 59, 59, 999),
+    ).toISOString(),
+  };
+}
 
-// Utility function to normalize worker/project ID
-const normalizeId = (item) => item._id || item.id;
+function monthInputValue(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+}
 
-// Utility function to create date range for current month
-const getCurrentMonthRange = (date) => {
-  const start = new Date(date.getFullYear(), date.getMonth(), 1);
-  const end = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  return { start, end };
-};
+function entryDateKey(value) {
+  return new Date(value).toISOString().slice(0, 10);
+}
 
-// Utility function to format date for input without timezone issues
-const formatDateForInput = (date) => {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
+function projectLabel(entry) {
+  return entry.project?.name || entry.projectName || "Unassigned project";
+}
+
+function employeeId(employee) {
+  return employee?._id || employee?.id || "";
+}
 
 export default function AttendanceAdminPage() {
-  const { data: session, status } = useSession();
+  const [activeTab, setActiveTab] = useState("calendar");
+  const [month, setMonth] = useState(() => startOfMonth(new Date()));
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [entries, setEntries] = useState([]);
   const [workers, setWorkers] = useState([]);
   const [projects, setProjects] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [view, setView] = useState("month");
-  const [date, setDate] = useState(new Date());
-  const [query, setQuery] = useState("");
-  const [selectedWorkerId, setSelectedWorkerId] = useState("");
-  const [selectedProjectId, setSelectedProjectId] = useState("");
-
-  // Pagination for list below calendar
-  const [listPage, setListPage] = useState(1);
-  const [listLimit, setListLimit] = useState(25);
-  const [listTotal, setListTotal] = useState(0);
-  const [listItems, setListItems] = useState([]);
-
-  // Loading states
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingCalendar, setIsLoadingCalendar] = useState(true);
-  const [isLoadingList, setIsLoadingList] = useState(true);
-
-  // Error states
-  const [error, setError] = useState(null);
-  const [lastError, setLastError] = useState(null);
-
-  // Prevent hydration mismatch by deferring dynamic UI until mounted
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-
-    // Remove any existing custom styles that might be cached
-    const existingStyle = document.getElementById("attendance-calendar-styles");
-    if (existingStyle) {
-      existingStyle.remove();
-    }
-
-    // Temporarily disable all custom styles to test
-    // const styleId = "attendance-calendar-styles";
-    // const style = document.createElement("style");
-    // style.id = styleId;
-    // style.textContent = calendarStyles;
-    // document.head.appendChild(style);
-  }, []);
-
-  // Add/edit modal state
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const [addDate, setAddDate] = useState(new Date());
-  const [addWorkerQuery, setAddWorkerQuery] = useState("");
-  const [addWorkerOptions, setAddWorkerOptions] = useState([]);
-  const [addSelectedWorker, setAddSelectedWorker] = useState(null);
-  const [addProjectQuery, setAddProjectQuery] = useState("");
-  const [addSelectedProject, setAddSelectedProject] = useState(null);
-  const [addStatus, setAddStatus] = useState("Present");
-  const [addShiftType, setAddShiftType] = useState("full");
-  const [addHours, setAddHours] = useState(8);
-  const [addNotes, setAddNotes] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-
-  // Inline custom worker creation
-  const [isCreateWorkerOpen, setIsCreateWorkerOpen] = useState(false);
-  const [newWorker, setNewWorker] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    position: "",
-    trade: "",
-    dayRate: "",
-    notes: "",
+  const [workerFilter, setWorkerFilter] = useState("");
+  const [projectFilter, setProjectFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [entryDialog, setEntryDialog] = useState({
+    open: false,
+    entry: null,
+    date: new Date(),
   });
+  const [employeeDrawer, setEmployeeDrawer] = useState(null);
+  const [deleteEntry, setDeleteEntry] = useState(null);
 
-  // Worker profile drawer
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [drawerWorker, setDrawerWorker] = useState(null); // { _id, name }
+  const range = useMemo(() => monthRange(month), [month]);
 
-  // Delete confirmation modal
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteAttendanceId, setDeleteAttendanceId] = useState(null);
-  const [drawerStart, setDrawerStart] = useState(() => {
-    const d = new Date();
-    d.setDate(1);
-    return d.toISOString().slice(0, 10);
-  });
-  const [drawerEnd, setDrawerEnd] = useState(() => {
-    const d = new Date();
-    d.setMonth(d.getMonth() + 1, 0);
-    return d.toISOString().slice(0, 10);
-  });
-  const [drawerPage, setDrawerPage] = useState(1);
-  const [drawerLimit, setDrawerLimit] = useState(25);
-  const [drawerTotal, setDrawerTotal] = useState(0);
-  const [drawerItems, setDrawerItems] = useState([]);
-  const [drawerTotals, setDrawerTotals] = useState({
-    days: 0,
-    hours: 0,
-    projects: [],
-  });
-
-  // Consolidated data fetching function
-  const fetchAttendanceData = useCallback(async () => {
-    if (!mounted || status !== "authenticated") {
-      return;
-    }
-
-    console.log("🔍 Fetching attendance data:", {
-      date: date.toISOString(),
-      selectedWorkerId,
-      selectedProjectId,
-      listPage,
-      listLimit,
-    });
-
-    const { start, end } = getCurrentMonthRange(date);
+  const loadEntries = useCallback(async () => {
+    setLoading(true);
+    setError("");
     const params = new URLSearchParams({
-      start: start.toISOString(),
-      end: end.toISOString(),
+      start: range.start,
+      end: range.end,
+      limit: "1000",
     });
-    if (selectedWorkerId) params.set("workerId", selectedWorkerId);
-    if (selectedProjectId) params.set("projectId", selectedProjectId);
+    if (workerFilter) params.set("workerId", workerFilter);
+    if (projectFilter) params.set("projectId", projectFilter);
 
     try {
-      // Fetch all data for the month (calendar view) - use higher limit
-      const calendarParams = new URLSearchParams(params);
-      calendarParams.set("limit", "1000"); // Get all records for the month for calendar
-
-      // Fetch paginated list data
-      const listParams = new URLSearchParams(params);
-      listParams.set("page", String(listPage));
-      listParams.set("limit", String(listLimit));
-
-      // Fetch both in parallel
-      const [calendarRes, listRes] = await Promise.all([
-        fetch(`/api/attendance?${calendarParams.toString()}`, {
-          credentials: "include",
-        }),
-        fetch(`/api/attendance?${listParams.toString()}`, {
-          credentials: "include",
-        }),
-      ]);
-
-      if (!calendarRes.ok || !listRes.ok) {
-        throw new Error(
-          `Failed to fetch attendance data: Calendar ${calendarRes.status}, List ${listRes.status}`,
-        );
+      const response = await fetch(`/api/attendance?${params}`);
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to load attendance");
       }
+      const nextEntries = data.items || [];
+      setEntries(nextEntries);
 
-      const [calendarData, listData] = await Promise.all([
-        calendarRes.json(),
-        listRes.json(),
-      ]);
-
-      console.log("📊 Calendar data received:", {
-        itemsCount: calendarData.items?.length || 0,
-        total: calendarData.total || 0,
+      setWorkers((current) => {
+        const map = new Map(
+          current.map((worker) => [employeeId(worker), worker]),
+        );
+        nextEntries.forEach((entry) => {
+          const id = employeeId(entry.worker);
+          if (id && !map.has(id)) map.set(id, entry.worker);
+        });
+        return Array.from(map.values()).sort((a, b) =>
+          a.name.localeCompare(b.name),
+        );
       });
-
-      console.log("📋 List data received:", {
-        itemsCount: listData.items?.length || 0,
-        total: listData.total || 0,
-      });
-
-      // Update calendar events
-      const evts = (calendarData.items || []).map((a, index) => ({
-        id: a._id || a.id || `event-${index}`,
-        title: `${a.worker?.name || a.worker?.position || "Worker"} → ${a.project?.name || a.projectName || "Project"}`,
-        start: new Date(a.date),
-        end: new Date(a.date),
-        resource: a,
-      }));
-      setEvents(evts);
-      setIsLoadingCalendar(false);
-
-      // Update list items
-      setListItems(listData.items || []);
-      setListTotal(listData.total || 0);
-      setIsLoadingList(false);
-
-      // Set overall loading to false
-      setIsLoading(false);
-
-      console.log("✅ Data updated successfully:", {
-        eventsCount: evts.length,
-        listItemsCount: listData.items?.length || 0,
-      });
-    } catch (error) {
-      console.error("❌ Failed to fetch attendance data:", error);
-      setIsLoading(false);
-      setIsLoadingCalendar(false);
-      setIsLoadingList(false);
-
-      // Capture error for UI display
-      setError(`Failed to load attendance data: ${error.message}`);
-      setLastError({
-        message: error.message,
-        stack: error.stack,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-      });
-
-      // Show error to user
-      alert(`Failed to load attendance data: ${error.message}`);
+    } catch (requestError) {
+      setError(requestError.message || "Unable to load attendance");
+    } finally {
+      setLoading(false);
     }
-  }, [
-    mounted,
-    date,
-    selectedWorkerId,
-    selectedProjectId,
-    listPage,
-    listLimit,
-    status,
-  ]);
+  }, [projectFilter, range.end, range.start, workerFilter]);
 
-  // Load employees/projects basic lists
   useEffect(() => {
-    const load = async () => {
-      if (status !== "authenticated") return;
+    const controller = new AbortController();
 
+    async function loadOptions() {
       try {
-        console.log("🔍 Loading workers and projects...");
-        const [wRes, pRes] = await Promise.all([
-          fetch("/api/workers?active=true", { credentials: "include" }),
-          fetch("/api/admin/projects?status=On Going", {
-            credentials: "include",
+        const [workersResponse, projectsResponse] = await Promise.all([
+          fetch("/api/workers?active=true", { signal: controller.signal }),
+          fetch("/api/admin/projects?status=On%20Going", {
+            signal: controller.signal,
           }),
         ]);
-
-        if (!wRes.ok || !pRes.ok) {
-          throw new Error(
-            `Failed to load data: Workers ${wRes.status}, Projects ${pRes.status}`,
-          );
-        }
-
-        const [wData, pData] = await Promise.all([wRes.json(), pRes.json()]);
-
-        console.log("📊 Workers loaded:", wData.workers?.length || 0);
-        console.log("📊 Projects loaded:", pData.projects?.length || 0);
-
-        setWorkers(wData.workers || []);
-        const mappedProjects = (pData.projects || []).map((p) => ({
-          id: normalizeId(p),
-          name: p.name,
-        }));
-        setProjects(mappedProjects);
-      } catch (error) {
-        console.error("❌ Failed to load workers and projects:", error);
-        setError(`Failed to load workers and projects: ${error.message}`);
-        setLastError({
-          message: error.message,
-          stack: error.stack,
-          timestamp: new Date().toISOString(),
-          url: window.location.href,
-          userAgent: navigator.userAgent,
-        });
-        alert(`Failed to load workers and projects: ${error.message}`);
-      }
-    };
-    load();
-  }, [status]);
-
-  const localizer = useCalendarLocalizer();
-
-  // Debounced filter changes to prevent excessive API calls
-  useEffect(() => {
-    if (!mounted || status !== "authenticated") return;
-
-    // Debounce filter changes by 300ms
-    const timeoutId = setTimeout(() => {
-      fetchAttendanceData();
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [
-    mounted,
-    status,
-    date,
-    selectedWorkerId,
-    selectedProjectId,
-    listPage,
-    listLimit,
-  ]);
-
-  // Load additional workers/projects that appear in attendance for current month
-  // Debounced to avoid excessive API calls
-  useEffect(() => {
-    if (!mounted || status !== "authenticated") return;
-
-    const timeoutId = setTimeout(async () => {
-      const { start, end } = getCurrentMonthRange(date);
-      const qs = `start=${start.toISOString()}&end=${end.toISOString()}`;
-
-      try {
-        const [w, p] = await Promise.all([
-          fetch(`/api/attendance/distinct/workers?${qs}`, {
-            credentials: "include",
-          })
-            .then((r) => {
-              if (!r.ok) throw new Error(`Workers API failed: ${r.status}`);
-              return r.json();
-            })
-            .catch(() => ({ workers: [] })),
-          fetch(`/api/attendance/distinct/projects?${qs}`, {
-            credentials: "include",
-          })
-            .then((r) => {
-              if (!r.ok) throw new Error(`Projects API failed: ${r.status}`);
-              return r.json();
-            })
-            .catch(() => ({ projects: [] })),
+        const [workersData, projectsData] = await Promise.all([
+          workersResponse.json(),
+          projectsResponse.json(),
         ]);
-
-        // Merge distinct workers with existing workers list
-        if (Array.isArray(w.workers) && w.workers.length) {
-          setWorkers((prevWorkers) =>
-            mergeItemsById(
-              prevWorkers,
-              w.workers,
-              (x) => x._id || x.id,
-              (x) => ({
-                _id: x.id,
-                name: x.name,
-                type: x.type || "employee",
-              }),
-            ),
-          );
+        if (!workersResponse.ok || !projectsResponse.ok) {
+          throw new Error("Unable to load employees and projects");
         }
-
-        // Merge distinct projects with existing projects list
-        if (Array.isArray(p.projects) && p.projects.length) {
-          setProjects((prevProjects) =>
-            mergeItemsById(
-              prevProjects,
-              p.projects,
-              (x) => x.id,
-              (x) => ({ id: x.id, name: x.name }),
-            ),
-          );
-        }
-      } catch (error) {
-        console.error("❌ Failed to load distinct workers/projects:", error);
-        // Don't show alert for this as it's not critical
-      }
-    }, 500); // Debounce by 500ms
-
-    return () => clearTimeout(timeoutId);
-  }, [mounted, date, status]);
-
-  function openAddModal(dayDate) {
-    setAddDate(dayDate || new Date());
-    setAddSelectedWorker(null);
-    setAddSelectedProject(null);
-    setAddStatus("Present");
-    setAddShiftType("full");
-    setAddHours(8);
-    setAddNotes("");
-    setIsAddOpen(true);
-    setIsEditing(false);
-    setEditingId(null);
-  }
-
-  function openEditModal(att) {
-    if (!att) return;
-    setEditingId(att._id);
-    setIsEditing(true);
-    setAddDate(new Date(att.date));
-    setAddSelectedWorker(
-      att.worker
-        ? { _id: att.worker._id, name: att.worker.name, type: "employee" }
-        : null,
-    );
-    setAddSelectedProject(
-      att.project ? { id: att.project._id, name: att.project.name } : null,
-    );
-    setAddStatus(att.status || "Present");
-    setAddShiftType(att.shiftType || "full");
-    setAddHours(att.hours || 8);
-    setAddNotes(att.notes || "");
-    setIsAddOpen(true);
-  }
-
-  async function saveAdd() {
-    const workerId = addSelectedWorker?._id;
-
-    if (!workerId || !addSelectedProject) {
-      alert("Please select a worker and a project");
-      return;
-    }
-
-    setIsSaving(true);
-
-    // Handle custom project entry
-    let projectId;
-    let projectName;
-
-    if (addSelectedProject.isCustom) {
-      // For custom entries, we'll send the custom name instead of an ID
-      projectId = null;
-      projectName = addSelectedProject.customName;
-    } else {
-      projectId = addSelectedProject.id || addSelectedProject._id;
-      projectName = null;
-    }
-
-    const payload = {
-      worker: workerId,
-      project: projectId,
-      projectName: projectName, // Add custom project name for custom entries
-      date: addDate,
-      status: addStatus,
-      shiftType: addShiftType,
-      hours: addHours,
-      notes: addNotes,
-    };
-    const res = await fetch(
-      isEditing ? `/api/attendance/${editingId}` : "/api/attendance",
-      {
-        method: isEditing ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      },
-    );
-    setIsSaving(false);
-    if (res.ok) {
-      setIsAddOpen(false);
-      // Refresh data
-      await fetchAttendanceData();
-      if (isDrawerOpen) setDrawerPage((p) => p);
-    } else {
-      const e = await res.json();
-      alert(
-        e.error ||
-          e.warning ||
-          (isEditing
-            ? "Failed to update attendance"
-            : "Failed to add attendance"),
-      );
-    }
-  }
-
-  function openDeleteModal(attId) {
-    if (!attId) return;
-    setDeleteAttendanceId(attId);
-    setIsDeleteModalOpen(true);
-  }
-
-  async function confirmDeleteAttendance() {
-    if (!deleteAttendanceId) return;
-
-    try {
-      const res = await fetch(`/api/attendance/${deleteAttendanceId}`, {
-        method: "DELETE",
-      });
-
-      if (res.ok) {
-        // Refresh data
-        await fetchAttendanceData();
-        // Refresh drawer data if open
-        if (isDrawerOpen) {
-          setDrawerPage((p) => p);
-        }
-        setIsDeleteModalOpen(false);
-        setDeleteAttendanceId(null);
-      } else {
-        const e = await res.json();
-        alert(e.error || "Failed to delete attendance");
-      }
-    } catch (error) {
-      alert("Network error occurred while deleting");
-    }
-  }
-
-  function onNavigate(nextDate) {
-    setDate(nextDate);
-    // Reset loading states when navigating
-    setIsLoading(true);
-    setIsLoadingCalendar(true);
-    setIsLoadingList(true);
-  }
-
-  // Worker search for modal combobox
-  useEffect(() => {
-    let ignore = false;
-    const run = async () => {
-      if (status !== "authenticated") return;
-
-      const qs = addWorkerQuery?.trim();
-      if (!qs) {
-        setAddWorkerOptions(workers.slice(0, 20));
-        return;
-      }
-      try {
-        const res = await fetch(
-          `/api/workers?query=${encodeURIComponent(qs)}`,
-          { credentials: "include" },
+        setWorkers(workersData.workers || []);
+        setProjects(
+          (projectsData.projects || []).map((project) => ({
+            id: project._id || project.id,
+            name: project.name,
+          })),
         );
-        if (res.ok) {
-          const data = await res.json();
-          if (!ignore) setAddWorkerOptions(data.workers || []);
-        } else {
-          console.error("❌ Worker search failed:", res.status);
+      } catch (requestError) {
+        if (requestError.name !== "AbortError") {
+          setError(requestError.message);
         }
-      } catch (error) {
-        console.error("❌ Worker search error:", error);
       }
-    };
-    run();
-    return () => {
-      ignore = true;
-    };
-  }, [addWorkerQuery, workers, status]);
-
-  // Project filtered options
-  const filteredProjects = useMemo(() => {
-    const q = (addProjectQuery || "").toLowerCase();
-    if (!q) return projects;
-
-    const filtered = projects.filter((p) => p.name.toLowerCase().includes(q));
-
-    // If there's a query but no matches, add option to create custom entry
-    if (q && filtered.length === 0) {
-      return [
-        {
-          id: "custom-entry",
-          name: `Create custom entry: "${addProjectQuery}"`,
-          isCustom: true,
-          customName: addProjectQuery,
-        },
-      ];
     }
 
-    return filtered;
-  }, [addProjectQuery, projects]);
-
-  function openWorkerDrawer(worker) {
-    if (!worker) return;
-    const drawerWorkerData = { _id: normalizeId(worker), name: worker.name };
-    setDrawerWorker(drawerWorkerData);
-    setDrawerPage(1);
-    setIsDrawerOpen(true);
-  }
+    loadOptions();
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
-    const fetchDrawer = async () => {
-      if (!isDrawerOpen || !drawerWorker?._id || status !== "authenticated")
-        return;
+    loadEntries();
+  }, [loadEntries]);
 
-      const base = {
-        workerId: drawerWorker._id,
-        start: new Date(drawerStart).toISOString(),
-        end: new Date(drawerEnd).toISOString(),
-      };
-      const params = new URLSearchParams({
-        ...base,
-        page: String(drawerPage),
-        limit: String(drawerLimit),
-      });
+  const visibleEntries = useMemo(() => {
+    const needle = search.trim().toLowerCase();
+    if (!needle) return entries;
+    return entries.filter((entry) =>
+      [
+        entry.worker?.name,
+        projectLabel(entry),
+        entry.status,
+        entry.notes,
+      ].some((value) => value?.toLowerCase().includes(needle)),
+    );
+  }, [entries, search]);
 
-      try {
-        const [listRes, sumRes] = await Promise.all([
-          fetch(`/api/attendance?${params.toString()}`, {
-            credentials: "include",
-          }).then((r) => r.json()),
-          fetch(
-            `/api/attendance/summary?${new URLSearchParams(base).toString()}`,
-            { credentials: "include" },
-          ).then((r) => r.json()),
-        ]);
+  const monthSummary = useMemo(() => {
+    const totalHours = entries.reduce(
+      (sum, entry) => sum + Number(entry.hours || 0),
+      0,
+    );
+    const activeEmployees = new Set(
+      entries.map((entry) => employeeId(entry.worker)).filter(Boolean),
+    ).size;
+    const statusCounts = entries.reduce((counts, entry) => {
+      counts[entry.status] = (counts[entry.status] || 0) + 1;
+      return counts;
+    }, {});
+    const presentRate = entries.length
+      ? Math.round(((statusCounts.Present || 0) / entries.length) * 100)
+      : 0;
 
-        setDrawerItems(listRes.items || []);
-        setDrawerTotal(listRes.total || 0);
-        setDrawerTotals(sumRes.summary || { days: 0, hours: 0, projects: [] });
-      } catch (error) {
-        console.error("❌ Failed to fetch drawer data:", error);
-      }
-    };
-    fetchDrawer();
-  }, [
-    isDrawerOpen,
-    drawerWorker,
-    drawerStart,
-    drawerEnd,
-    drawerPage,
-    drawerLimit,
-    status,
-  ]);
+    return { totalHours, activeEmployees, statusCounts, presentRate };
+  }, [entries]);
+
+  const selectedDayEntries = useMemo(() => {
+    const key = entryDateKey(selectedDate);
+    return entries.filter((entry) => entryDateKey(entry.date) === key);
+  }, [entries, selectedDate]);
+
+  function changeMonth(offset) {
+    setMonth(
+      (current) => new Date(current.getFullYear(), current.getMonth() + offset, 1),
+    );
+  }
+
+  function openCreate(date = selectedDate) {
+    setSelectedDate(date);
+    setEntryDialog({ open: true, entry: null, date });
+  }
+
+  function openEdit(entry) {
+    setEntryDialog({
+      open: true,
+      entry,
+      date: new Date(entry.date),
+    });
+  }
+
+  async function confirmDelete() {
+    if (!deleteEntry) return;
+    try {
+      const response = await fetch(
+        `/api/attendance/${deleteEntry._id || deleteEntry.id}`,
+        { method: "DELETE" },
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Unable to delete entry");
+      toast.success("Attendance entry deleted");
+      setDeleteEntry(null);
+      await loadEntries();
+    } catch (requestError) {
+      toast.error(requestError.message || "Unable to delete entry");
+    }
+  }
 
   return (
-    <div className="space-y-8">
-      {/* Show loading state while session is loading */}
-      {status === "loading" && (
-        <div className="flex items-center justify-center py-12">
-          <div className="text-center">
-            <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-            <div className="text-gray-500">Loading session...</div>
-          </div>
-        </div>
-      )}
-
-      {/* Show error if not authenticated */}
-      {status === "unauthenticated" && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4">
-          <h3 className="mb-2 text-lg font-semibold text-red-800">
-            Authentication Error
-          </h3>
-          <p className="text-red-600">
-            You are not authenticated. Please sign in again.
+    <div className="mx-auto max-w-[1600px] space-y-5 pb-10">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-950">
+            Attendance
+          </h1>
+          <p className="mt-1.5 max-w-2xl text-sm text-slate-600">
+            Record employee hours, manage project allocation and review
+            attendance across your team.
           </p>
         </div>
-      )}
+        <button
+          type="button"
+          onClick={() => openCreate(new Date())}
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-800 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-emerald-700 focus:ring-offset-2"
+        >
+          <Plus className="h-4 w-4" />
+          Log time
+        </button>
+      </header>
 
-      {/* Show any errors that occurred */}
-      {error && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4">
-          <h3 className="mb-2 text-lg font-semibold text-red-800">
-            Error Loading Data
-          </h3>
-          <p className="mb-2 text-red-600">{error}</p>
-          {lastError && (
-            <details className="text-sm">
-              <summary className="cursor-pointer text-red-700">
-                Technical Details
-              </summary>
-              <pre className="mt-2 whitespace-pre-wrap rounded bg-red-100 p-2 text-xs text-red-600">
-                {JSON.stringify(lastError, null, 2)}
-              </pre>
-            </details>
-          )}
+      <nav className="flex gap-6 border-b border-slate-200" aria-label="Attendance views">
+        {TABS.map(({ id, label, icon: Icon }) => (
           <button
-            onClick={() => {
-              setError(null);
-              setLastError(null);
-              fetchAttendanceData();
+            key={id}
+            type="button"
+            onClick={() => setActiveTab(id)}
+            className={`relative inline-flex items-center gap-2 px-1 pb-3 pt-1 text-sm font-semibold transition ${
+              activeTab === id
+                ? "text-emerald-800"
+                : "text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            <Icon className="h-4 w-4" />
+            {label}
+            {activeTab === id ? (
+              <span className="absolute inset-x-0 -bottom-px h-0.5 bg-emerald-800" />
+            ) : null}
+          </button>
+        ))}
+      </nav>
+
+      <section className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => changeMonth(-1)}
+            className="rounded-lg border border-slate-300 bg-white p-2.5 text-slate-600 hover:bg-slate-50"
+            aria-label="Previous month"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <input
+            type="month"
+            value={monthInputValue(month)}
+            onChange={(event) => {
+              const [year, monthIndex] = event.target.value
+                .split("-")
+                .map(Number);
+              setMonth(new Date(year, monthIndex - 1, 1));
             }}
-            className="mt-2 rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+            className="rounded-lg border-slate-300 bg-white text-sm font-semibold text-slate-800 focus:border-emerald-700 focus:ring-emerald-700"
+            aria-label="Attendance month"
+          />
+          <button
+            type="button"
+            onClick={() => changeMonth(1)}
+            className="rounded-lg border border-slate-300 bg-white p-2.5 text-slate-600 hover:bg-slate-50"
+            aria-label="Next month"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2 xl:flex">
+          <select
+            value={workerFilter}
+            onChange={(event) => setWorkerFilter(event.target.value)}
+            className="min-w-52 rounded-lg border-slate-300 bg-white text-sm text-slate-700 focus:border-emerald-700 focus:ring-emerald-700"
+            aria-label="Filter by employee"
+          >
+            <option value="">All employees</option>
+            {workers.map((worker) => (
+              <option
+                key={employeeId(worker)}
+                value={employeeId(worker)}
+              >
+                {worker.name}
+              </option>
+            ))}
+          </select>
+          <select
+            value={projectFilter}
+            onChange={(event) => setProjectFilter(event.target.value)}
+            className="min-w-52 rounded-lg border-slate-300 bg-white text-sm text-slate-700 focus:border-emerald-700 focus:ring-emerald-700"
+            aria-label="Filter by project"
+          >
+            <option value="">All projects</option>
+            {projects.map((project) => (
+              <option key={project.id} value={project.id}>
+                {project.name}
+              </option>
+            ))}
+          </select>
+          {workerFilter || projectFilter ? (
+            <button
+              type="button"
+              onClick={() => {
+                setWorkerFilter("");
+                setProjectFilter("");
+              }}
+              className="px-2 text-sm font-medium text-slate-500 underline-offset-4 hover:text-slate-800 hover:underline"
+            >
+              Clear filters
+            </button>
+          ) : null}
+        </div>
+      </section>
+
+      {error ? (
+        <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          <span>{error}</span>
+          <button
+            type="button"
+            onClick={loadEntries}
+            className="font-semibold underline"
           >
             Retry
           </button>
         </div>
-      )}
+      ) : null}
 
-      {/* Main content - only show when authenticated */}
-      {status === "authenticated" && (
-        <>
-          {/* Header */}
-          <div>
-            <h1 className="mb-2 text-3xl font-bold text-gray-900">
-              Attendance
-            </h1>
-            <p className="text-gray-600">
-              Assign workers to projects on specific days, review history, and
-              export data.
-            </p>
+      {activeTab === "calendar" ? (
+        <div className="grid gap-5 2xl:grid-cols-[minmax(0,1fr)_280px]">
+          <div className="relative min-w-0">
+            {loading ? (
+              <div className="absolute inset-0 z-10 flex items-center justify-center rounded-xl bg-white/75 text-sm font-medium text-slate-500 backdrop-blur-[1px]">
+                Loading attendance…
+              </div>
+            ) : null}
+            <AttendanceCalendar
+              month={month}
+              entries={entries}
+              selectedDate={selectedDate}
+              onSelectDate={setSelectedDate}
+              onAddEntry={openCreate}
+              onOpenEmployee={setEmployeeDrawer}
+            />
           </div>
 
-          {/* Debug Panel - Show in both dev and production for troubleshooting */}
-          <div className="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
-            <h3 className="mb-2 text-lg font-semibold text-yellow-800">
-              Debug Info
-            </h3>
-            <div className="grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
-              <div>
-                <span className="font-medium">Session Status:</span> {status}
+          <aside className="space-y-5">
+            <section className="rounded-xl border border-slate-200 bg-white p-5">
+              <div className="flex items-baseline justify-between">
+                <h2 className="font-semibold text-slate-950">This month</h2>
+                <span className="text-xs text-slate-500">
+                  {month.toLocaleDateString("en-GB", {
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </span>
               </div>
-              <div>
-                <span className="font-medium">User ID:</span>{" "}
-                {session?.user?.id || "None"}
-              </div>
-              <div>
-                <span className="font-medium">Mounted:</span>{" "}
-                {mounted ? "✅" : "❌"}
-              </div>
-              <div>
-                <span className="font-medium">Loading:</span>{" "}
-                {isLoading ? "🔄" : "✅"}
-              </div>
-              <div>
-                <span className="font-medium">Calendar:</span>{" "}
-                {isLoadingCalendar ? "🔄" : "✅"}
-              </div>
-              <div>
-                <span className="font-medium">List:</span>{" "}
-                {isLoadingList ? "🔄" : "✅"}
-              </div>
-              <div>
-                <span className="font-medium">Events:</span> {events.length}
-              </div>
-              <div>
-                <span className="font-medium">List Items:</span>{" "}
-                {listItems.length}
-              </div>
-              <div>
-                <span className="font-medium">Date:</span> {date.toDateString()}
-              </div>
-              <div>
-                <span className="font-medium">Worker Filter:</span>{" "}
-                {selectedWorkerId || "None"}
-              </div>
-            </div>
-            <div className="mt-2 text-xs text-yellow-600">
-              Check browser console for detailed logs
-            </div>
-
-            {/* Environment Debug Info */}
-            <details className="mt-3">
-              <summary className="cursor-pointer font-medium text-yellow-700">
-                Environment Info
-              </summary>
-              <div className="mt-2 rounded bg-yellow-100 p-2 text-xs text-yellow-600">
-                <div>Environment: {process.env.NODE_ENV || "unknown"}</div>
-                {mounted && (
-                  <>
-                    <div>Base URL: {window.location.origin}</div>
-                    <div>Path: {window.location.pathname}</div>
-                    <div>
-                      User Agent: {navigator.userAgent.substring(0, 50)}...
-                    </div>
-                    <div>Timestamp: {new Date().toISOString()}</div>
-                  </>
-                )}
-                {!mounted && <div>Loading environment info...</div>}
-              </div>
-            </details>
-          </div>
-
-          {/* Filters */}
-          <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-            <div className="border-b border-gray-200 px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
-              <p className="mt-1 text-sm text-gray-600">
-                Filter attendance records by worker or project
-              </p>
-            </div>
-            <div className="p-6">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Search workers
-                  </label>
-                  <div className="relative">
-                    <input
-                      value={query}
-                      onChange={(e) => setQuery(e.target.value)}
-                      placeholder="Type a name and press Enter"
-                      onKeyDown={async (e) => {
-                        if (e.key === "Enter" && status === "authenticated") {
-                          try {
-                            const res = await fetch(
-                              `/api/workers?query=${encodeURIComponent(query)}`,
-                              { credentials: "include" },
-                            );
-                            if (res.ok) {
-                              const data = await res.json();
-                              setWorkers(data.workers || []);
-                            } else {
-                              console.error(
-                                "❌ Worker search failed:",
-                                res.status,
-                              );
-                            }
-                          } catch (error) {
-                            console.error("❌ Worker search error:", error);
-                          }
-                        }
-                      }}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                      <svg
-                        className="h-4 w-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
+              <dl className="mt-5 space-y-4">
+                {[
+                  [Clock3, "Total hours", `${monthSummary.totalHours.toLocaleString("en-GB")}h`],
+                  [CalendarDays, "Present rate", `${monthSummary.presentRate}%`],
+                  [Users, "Active employees", monthSummary.activeEmployees],
+                ].map(([Icon, label, value]) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <Icon className="h-5 w-5 text-slate-500" />
+                    <dt className="flex-1 text-sm text-slate-600">{label}</dt>
+                    <dd className="text-lg font-semibold tabular-nums text-slate-950">
+                      {value}
+                    </dd>
                   </div>
-                </div>
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Filter by worker
-                  </label>
-                  <select
-                    value={selectedWorkerId}
-                    onChange={(e) => setSelectedWorkerId(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="">All workers</option>
-                    {workers.map((w) => (
-                      <option key={w._id} value={w._id}>
-                        {w.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Filter by project
-                  </label>
-                  <select
-                    value={selectedProjectId}
-                    onChange={(e) => setSelectedProjectId(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  >
-                    <option value="">All projects</option>
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
+                ))}
+              </dl>
 
-          {/* Calendar Section */}
-          <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-            {/* Calendar Header */}
-            <div className="border-b border-gray-200 px-6 py-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900">
-                  Attendance Calendar
-                </h2>
-                <div className="flex items-center gap-3">
-                  <div className="flex rounded-lg border border-gray-300 p-1">
-                    {["month", "week", "day"].map((viewType) => (
-                      <button
-                        key={viewType}
-                        onClick={() => setView(viewType)}
-                        className={`rounded-md px-3 py-1 text-sm font-medium capitalize transition-colors ${
-                          view === viewType
-                            ? "bg-blue-600 text-white"
-                            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+              <div className="mt-5 border-t border-slate-200 pt-4">
+                <h3 className="text-xs font-semibold uppercase tracking-[0.06em] text-slate-500">
+                  Status breakdown
+                </h3>
+                <div className="mt-3 space-y-2.5">
+                  {Object.keys(STATUS_STYLES).map((status) => (
+                    <div key={status} className="flex items-center gap-2 text-sm">
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          status === "Present"
+                            ? "bg-emerald-500"
+                            : status === "Sick"
+                              ? "bg-red-500"
+                              : status === "Holiday"
+                                ? "bg-amber-500"
+                                : "bg-slate-400"
                         }`}
-                      >
-                        {viewType}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    onClick={() => fetchAttendanceData()}
-                    disabled={isLoading}
-                    className="rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
-                  >
-                    {isLoading ? "Refreshing..." : "Refresh"}
-                  </button>
-                  <button
-                    onClick={() => openAddModal(new Date())}
-                    className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  >
-                    Add Attendance
-                  </button>
+                      />
+                      <span className="flex-1 text-slate-600">{status}</span>
+                      <span className="font-semibold tabular-nums text-slate-800">
+                        {monthSummary.statusCounts[status] || 0}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
+            </section>
 
-            {/* Calendar Body */}
-            <div className="calendar-container p-6">
-              {mounted && localizer ? (
-                <div className="overflow-x-auto">
-                  <div className="max-w-[1200px]">
-                    <div className="attendance-calendar">
-                      {isLoadingCalendar ? (
-                        <div className="flex items-center justify-center py-12">
-                          <div className="text-center">
-                            <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-                            <div className="text-gray-500">
-                              Loading calendar...
-                            </div>
-                          </div>
-                        </div>
-                      ) : events.length === 0 ? (
-                        <div className="flex items-center justify-center py-12">
-                          <div className="text-center">
-                            <div className="mb-2 text-gray-500">
-                              No attendance records found for this month
-                            </div>
-                            <div className="text-sm text-gray-400">
-                              Try changing the date or filters
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <Calendar
-                          localizer={localizer}
-                          events={events}
-                          views={["month", "week", "day"]}
-                          view={view}
-                          onView={setView}
-                          date={date}
-                          onNavigate={onNavigate}
-                          onSelectSlot={(slotInfo) =>
-                            openAddModal(slotInfo.start)
-                          }
-                          onSelectEvent={(evt) =>
-                            openWorkerDrawer(evt.resource?.worker)
-                          }
-                          selectable
-                          style={{ height: 600 }}
-                          eventPropGetter={(event) => ({
-                            style: {
-                              backgroundColor: "#3b82f6",
-                              borderColor: "#2563eb",
-                              color: "white",
-                              borderRadius: "4px",
-                              border: "1px solid #2563eb",
-                            },
-                          })}
-                          dayPropGetter={(date) => {
-                            const today = new Date();
-                            const isToday =
-                              date.getDate() === today.getDate() &&
-                              date.getMonth() === today.getMonth() &&
-                              date.getFullYear() === today.getFullYear();
-
-                            return {
-                              style: {
-                                backgroundColor: isToday
-                                  ? "#eff6ff"
-                                  : "transparent",
-                              },
-                            };
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center justify-center py-12">
-                  <div className="text-center">
-                    <div className="mx-auto mb-2 h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-                    <div className="text-gray-500">Loading calendar...</div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Assignments Section */}
-          <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
-            <div className="border-b border-gray-200 px-6 py-4">
-              <div className="flex items-center justify-between">
+            <section className="rounded-xl border border-slate-200 bg-white p-5">
+              <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Attendance Records
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-600">
-                    Recent attendance assignments and history
+                  <h2 className="font-semibold text-slate-950">
+                    {selectedDate.toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "long",
+                    })}
+                  </h2>
+                  <p className="mt-0.5 text-xs text-slate-500">
+                    {selectedDayEntries.length} time entr
+                    {selectedDayEntries.length === 1 ? "y" : "ies"}
                   </p>
                 </div>
-                <div className="text-sm text-gray-500">
-                  Total: {listTotal} records
-                </div>
+                <button
+                  type="button"
+                  onClick={() => openCreate(selectedDate)}
+                  className="rounded-lg p-2 text-emerald-800 hover:bg-emerald-50"
+                  aria-label="Log time on selected date"
+                >
+                  <Plus className="h-4 w-4" />
+                </button>
               </div>
-            </div>
-            <div className="p-6">
-              {isLoadingList ? (
-                <div className="flex items-center justify-center py-8">
-                  <div className="text-center">
-                    <div className="mx-auto mb-2 h-6 w-6 animate-spin rounded-full border-b-2 border-blue-600"></div>
-                    <div className="text-gray-500">
-                      Loading attendance records...
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="mb-4 flex items-center gap-4">
-                    <label>
-                      <span className="mr-2 text-sm text-gray-700">Page</span>
-                      <input
-                        type="number"
-                        min={1}
-                        value={listPage}
-                        onChange={(e) =>
-                          setListPage(
-                            Math.max(1, parseInt(e.target.value || "1", 10)),
-                          )
-                        }
-                        className="w-24 rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    </label>
-                    <label>
-                      <span className="mr-2 text-sm text-gray-700">
-                        Per page
+              <div className="mt-3 divide-y divide-slate-200">
+                {selectedDayEntries.length === 0 ? (
+                  <p className="py-5 text-sm text-slate-500">
+                    No hours recorded on this date.
+                  </p>
+                ) : (
+                  selectedDayEntries.map((entry) => (
+                    <button
+                      key={entry._id || entry.id}
+                      type="button"
+                      onClick={() => openEdit(entry)}
+                      className="flex w-full items-center gap-3 py-3 text-left hover:bg-slate-50"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold text-slate-800">
+                          {entry.worker?.name || "Unknown employee"}
+                        </span>
+                        <span className="block truncate text-xs text-slate-500">
+                          {projectLabel(entry)}
+                        </span>
                       </span>
-                      <select
-                        value={listLimit}
-                        onChange={(e) => {
-                          setListLimit(parseInt(e.target.value, 10));
-                          setListPage(1);
-                        }}
-                        className="w-28 rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      >
-                        {[10, 25, 50, 100].map((n) => (
-                          <option key={n} value={n}>
-                            {n}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <div className="text-sm text-gray-600">
-                      Total: {listTotal}
-                    </div>
-                  </div>
-                  <ul className="divide-y">
-                    {listItems.map((a) => (
-                      <li
-                        key={a._id || a.id}
-                        className="flex items-center justify-between py-3"
-                      >
-                        <div>
-                          <button
-                            className="font-medium text-blue-700 underline"
-                            onClick={() => openWorkerDrawer(a.worker)}
-                            title="Open worker drawer"
-                          >
-                            {a.worker?.name || "Worker"}
-                          </button>{" "}
-                          → {a.project?.name || a.projectName || "Project"} –{" "}
-                          {new Date(a.date).toDateString()}
-                        </div>
-                        <div className="flex gap-2 text-sm">
-                          <button
-                            className="rounded border px-3 py-1"
-                            onClick={() => openEditModal(a)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="rounded border px-3 py-1 text-red-600"
-                            onClick={() => openDeleteModal(a._id || a.id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
+                      <span className="text-sm font-semibold tabular-nums text-slate-700">
+                        {Number(entry.hours || 0)}h
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
+            </section>
+          </aside>
+        </div>
+      ) : null}
+
+      {activeTab === "entries" ? (
+        <section className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <div className="flex flex-col gap-3 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="font-semibold text-slate-950">Time entries</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                {entries.length} records in this period
+              </p>
             </div>
+            <label className="relative block sm:w-72">
+              <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-slate-400" />
+              <input
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
+                placeholder="Search employee or project"
+                className="w-full rounded-lg border-slate-300 pl-9 text-sm focus:border-emerald-700 focus:ring-emerald-700"
+              />
+            </label>
           </div>
 
-          {/* Add Attendance Modal */}
-          <Transition.Root show={isAddOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-50" onClose={setIsAddOpen}>
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black/30" />
-              </Transition.Child>
-
-              <div className="fixed inset-0 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center p-4">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  >
-                    <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg bg-white p-6 shadow-xl">
-                      <Dialog.Title className="mb-4 text-lg font-medium">
-                        {isEditing ? "Edit attendance" : "Add attendance"}
-                      </Dialog.Title>
-
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                          <label className="mb-1 block text-sm">Worker</label>
-                          <Combobox
-                            value={addSelectedWorker}
-                            onChange={(w) => {
-                              setAddSelectedWorker(w);
-                              setAddWorkerQuery("");
-                            }}
-                            by={(a, b) => a?._id === b?._id}
-                          >
-                            <div className="relative">
-                              <Combobox.Input
-                                className="w-full rounded border p-2"
-                                displayValue={(w) => w?.name || ""}
-                                onChange={(e) =>
-                                  setAddWorkerQuery(e.target.value)
-                                }
-                                placeholder="Search workers or create custom"
-                              />
-                              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded border bg-white py-1 shadow">
-                                {(addWorkerOptions || []).map((w) => (
-                                  <Combobox.Option
-                                    key={w._id}
-                                    value={{
-                                      _id: w._id,
-                                      name: w.name,
-                                      type: w.type || "employee",
-                                    }}
-                                    className={({ active }) =>
-                                      `cursor-pointer px-3 py-2 text-sm ${active ? "bg-blue-50" : ""}`
-                                    }
-                                  >
-                                    {w.name}{" "}
-                                    <span className="text-gray-500">
-                                      ({w.type})
-                                    </span>
-                                  </Combobox.Option>
-                                ))}
-                                {addWorkerQuery && (
-                                  <div className="border-t py-1 text-xs text-gray-500">
-                                    <button
-                                      type="button"
-                                      className="w-full px-3 py-2 text-left text-blue-700 hover:bg-blue-50"
-                                      onClick={() => {
-                                        setNewWorker({
-                                          name: addWorkerQuery,
-                                          email: "",
-                                          phone: "",
-                                          position: "",
-                                          trade: "",
-                                          dayRate: "",
-                                          notes: "",
-                                        });
-                                        setIsCreateWorkerOpen(true);
-                                      }}
-                                    >
-                                      Create custom worker &apos;
-                                      {addWorkerQuery}
-                                      &apos;
-                                    </button>
-                                  </div>
-                                )}
-                              </Combobox.Options>
-                            </div>
-                          </Combobox>
-                          <div className="mt-2 text-xs text-gray-500">
-                            Missing a person? Create one in Workers and try
-                            again.
-                          </div>
-                        </div>
-
-                        <div>
-                          <label className="mb-1 block text-sm">Project</label>
-                          <Combobox
-                            value={addSelectedProject}
-                            onChange={(p) => {
-                              setAddSelectedProject(p);
-                              setAddProjectQuery("");
-                            }}
-                            by={(a, b) => a?.id === b?.id}
-                          >
-                            <div className="relative">
-                              <Combobox.Input
-                                className="w-full rounded border p-2"
-                                displayValue={(p) => p?.name || ""}
-                                onChange={(e) =>
-                                  setAddProjectQuery(e.target.value)
-                                }
-                                placeholder="Search projects"
-                              />
-                              <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded border bg-white py-1 shadow">
-                                {filteredProjects.map((p) => (
-                                  <Combobox.Option
-                                    key={p.id}
-                                    value={
-                                      p.isCustom
-                                        ? p
-                                        : { id: p.id, name: p.name }
-                                    }
-                                    className={({ active }) =>
-                                      `cursor-pointer px-3 py-2 text-sm ${active ? "bg-blue-50" : ""} ${p.isCustom ? "border-t border-gray-200 italic text-blue-600" : ""}`
-                                    }
-                                  >
-                                    {p.isCustom && (
-                                      <span className="mr-1 text-blue-500">
-                                        ✨
-                                      </span>
-                                    )}
-                                    {p.name}
-                                  </Combobox.Option>
-                                ))}
-                              </Combobox.Options>
-                            </div>
-                          </Combobox>
-                        </div>
-
-                        <div>
-                          <label className="mb-1 block text-sm">Date</label>
-                          <input
-                            type="date"
-                            className="w-full rounded border p-2"
-                            value={formatDateForInput(addDate)}
-                            onChange={(e) =>
-                              setAddDate(new Date(e.target.value))
-                            }
-                          />
-                        </div>
-                        <div>
-                          <label className="mb-1 block text-sm">Status</label>
-                          <select
-                            className="w-full rounded border p-2"
-                            value={addStatus}
-                            onChange={(e) => setAddStatus(e.target.value)}
-                          >
-                            {["Present", "Sick", "Holiday", "Unavailable"].map(
-                              (s) => (
-                                <option key={s} value={s}>
-                                  {s}
-                                </option>
-                              ),
-                            )}
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="mb-1 block text-sm">Shift</label>
-                          <select
-                            className="w-full rounded border p-2"
-                            value={addShiftType}
-                            onChange={(e) => setAddShiftType(e.target.value)}
-                          >
-                            {["full", "half", "custom"].map((s) => (
-                              <option key={s} value={s}>
-                                {s}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <div>
-                          <label className="mb-1 block text-sm">Hours</label>
-                          <input
-                            type="number"
-                            className="w-full rounded border p-2"
-                            min={0}
-                            max={24}
-                            value={addHours}
-                            onChange={(e) =>
-                              setAddHours(parseFloat(e.target.value || "0"))
-                            }
-                          />
-                        </div>
-
-                        <div className="sm:col-span-2">
-                          <label className="mb-1 block text-sm">Notes</label>
-                          <textarea
-                            className="w-full rounded border p-2"
-                            rows={3}
-                            value={addNotes}
-                            onChange={(e) => setAddNotes(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-6 flex justify-end gap-2">
-                        <button
-                          className="rounded border px-3 py-1"
-                          onClick={() => setIsAddOpen(false)}
-                          disabled={isSaving}
+          {loading ? (
+            <div className="py-16 text-center text-sm text-slate-500">
+              Loading entries…
+            </div>
+          ) : visibleEntries.length === 0 ? (
+            <div className="py-16 text-center text-sm text-slate-500">
+              No attendance entries match this view.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-slate-200">
+                <thead className="bg-slate-50">
+                  <tr>
+                    {["Date", "Employee", "Project", "Status", "Hours", ""].map(
+                      (heading, index) => (
+                        <th
+                          key={`${heading}-${index}`}
+                          className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.06em] text-slate-500"
                         >
-                          Cancel
-                        </button>
-                        <button
-                          className={`rounded px-3 py-1 text-white ${
-                            isSaving ||
-                            !addSelectedWorker ||
-                            !addSelectedProject
-                              ? "cursor-not-allowed bg-blue-400 opacity-50"
-                              : "bg-blue-600 hover:bg-blue-700"
-                          }`}
-                          onClick={saveAdd}
-                          disabled={isSaving}
-                          type="button"
-                        >
-                          {isSaving ? "Saving…" : isEditing ? "Update" : "Save"}
-                        </button>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
-
-          {/* Create Custom Worker Modal */}
-          <Transition.Root show={isCreateWorkerOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="relative z-50"
-              onClose={setIsCreateWorkerOpen}
-            >
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black/30" />
-              </Transition.Child>
-              <div className="fixed inset-0 overflow-y-auto">
-                <div className="flex min-h-full items-center justify-center p-4">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  >
-                    <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-lg bg-white p-6 shadow-xl">
-                      <Dialog.Title className="mb-4 text-lg font-medium">
-                        Create custom worker
-                      </Dialog.Title>
-                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <label className="text-sm">
-                          Name
-                          <input
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.name}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                name: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm">
-                          Email
-                          <input
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.email}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                email: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm">
-                          Phone
-                          <input
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.phone}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                phone: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm">
-                          Position
-                          <input
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.position}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                position: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm">
-                          Trade
-                          <input
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.trade}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                trade: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm">
-                          Day rate
-                          <input
-                            type="number"
-                            className="mt-1 w-full rounded border p-2"
-                            value={newWorker.dayRate}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                dayRate: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                        <label className="text-sm sm:col-span-2">
-                          Notes
-                          <textarea
-                            className="mt-1 w-full rounded border p-2"
-                            rows={3}
-                            value={newWorker.notes}
-                            onChange={(e) =>
-                              setNewWorker({
-                                ...newWorker,
-                                notes: e.target.value,
-                              })
-                            }
-                          />
-                        </label>
-                      </div>
-                      <div className="mt-6 flex justify-end gap-2">
-                        <button
-                          className="rounded border px-3 py-1"
-                          onClick={() => setIsCreateWorkerOpen(false)}
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          className="rounded bg-blue-600 px-3 py-1 text-white"
-                          onClick={async () => {
-                            if (
-                              !newWorker.name?.trim() ||
-                              status !== "authenticated"
-                            ) {
-                              if (!newWorker.name?.trim()) {
-                                // eslint-disable-next-line no-alert
-                                alert("Name is required");
-                              }
-                              return;
-                            }
-                            try {
-                              const res = await fetch("/api/workers", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                credentials: "include",
-                                body: JSON.stringify({
-                                  name: newWorker.name,
-                                  email: newWorker.email || undefined,
-                                  phone: newWorker.phone || undefined,
-                                  position: newWorker.position || undefined,
-                                  trade: newWorker.trade || undefined,
-                                  dayRate: newWorker.dayRate
-                                    ? Number(newWorker.dayRate)
-                                    : undefined,
-                                  notes: newWorker.notes || undefined,
-                                  isActive: true,
-                                }),
-                              });
-                              if (res.ok) {
-                                const data = await res.json();
-                                const w = data.worker;
-                                setIsCreateWorkerOpen(false);
-                                setAddWorkerOptions((prev) => [w, ...prev]);
-                                setWorkers((prev) => [w, ...prev]);
-                                setAddSelectedWorker(w);
-                              } else {
-                                const e = await res.json();
-                                // eslint-disable-next-line no-alert
-                                alert(e.error || "Failed to create worker");
-                              }
-                            } catch (error) {
-                              console.error("❌ Worker creation error:", error);
-                              alert("Failed to create worker");
-                            }
-                          }}
-                        >
-                          Create
-                        </button>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
-
-          {/* Worker Drawer */}
-          <Transition.Root show={isDrawerOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="relative z-40"
-              onClose={setIsDrawerOpen}
-            >
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black/30" />
-              </Transition.Child>
-              <div className="fixed inset-0 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                    <Transition.Child
-                      as={Fragment}
-                      enter="transform transition ease-in-out duration-300"
-                      enterFrom="translate-x-full"
-                      enterTo="translate-x-0"
-                      leave="transform transition ease-in-out duration-300"
-                      leaveFrom="translate-x-0"
-                      leaveTo="translate-x-full"
-                    >
-                      <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl bg-white shadow-xl">
-                        <div className="flex h-full flex-col">
-                          <div className="flex items-center justify-between border-b p-4">
-                            <Dialog.Title className="text-lg font-medium">
-                              Worker profile
-                            </Dialog.Title>
-                            <button
-                              onClick={() => setIsDrawerOpen(false)}
-                              className="rounded border px-2 py-1"
-                            >
-                              Close
-                            </button>
-                          </div>
-                          <div className="flex-1 overflow-y-auto p-4">
-                            {drawerWorker && (
-                              <div className="mb-4">
-                                <div className="text-xl font-semibold">
-                                  {drawerWorker.name}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                  History and totals
-                                </div>
-                              </div>
-                            )}
-
-                            <div className="mb-4 flex flex-wrap items-end gap-3">
-                              <label className="text-sm">
-                                Start
-                                <input
-                                  type="date"
-                                  className="ml-2 border p-1"
-                                  value={drawerStart}
-                                  onChange={(e) => {
-                                    setDrawerStart(e.target.value);
-                                    setDrawerPage(1);
-                                  }}
-                                />
-                              </label>
-                              <label className="text-sm">
-                                End
-                                <input
-                                  type="date"
-                                  className="ml-2 border p-1"
-                                  value={drawerEnd}
-                                  onChange={(e) => {
-                                    setDrawerEnd(e.target.value);
-                                    setDrawerPage(1);
-                                  }}
-                                />
-                              </label>
-                              <label className="text-sm">
-                                Page
-                                <input
-                                  type="number"
-                                  min={1}
-                                  className="ml-2 w-20 border p-1"
-                                  value={drawerPage}
-                                  onChange={(e) =>
-                                    setDrawerPage(
-                                      Math.max(
-                                        1,
-                                        parseInt(e.target.value || "1", 10),
-                                      ),
-                                    )
-                                  }
-                                />
-                              </label>
-                              <label className="text-sm">
-                                Per page
-                                <select
-                                  className="ml-2 border p-1"
-                                  value={drawerLimit}
-                                  onChange={(e) => {
-                                    setDrawerLimit(
-                                      parseInt(e.target.value, 10),
-                                    );
-                                    setDrawerPage(1);
-                                  }}
-                                >
-                                  {[10, 25, 50, 100].map((n) => (
-                                    <option key={n} value={n}>
-                                      {n}
-                                    </option>
-                                  ))}
-                                </select>
-                              </label>
-                              <div className="text-sm text-gray-600">
-                                Total: {drawerTotal}
-                              </div>
-                            </div>
-
-                            <div className="mb-4 rounded border p-3">
-                              <div className="text-sm">
-                                Days: <strong>{drawerTotals.days}</strong>
-                              </div>
-                              <div className="text-sm">
-                                Hours: <strong>{drawerTotals.hours}</strong>
-                              </div>
-                              <div className="text-sm">
-                                Projects:{" "}
-                                <strong>
-                                  {(drawerTotals.projects || []).join(", ")}
-                                </strong>
-                              </div>
-                            </div>
-
-                            <ul className="divide-y">
-                              {drawerItems.map((a) => (
-                                <li key={a._id} className="py-2 text-sm">
-                                  {new Date(a.date).toDateString()} –{" "}
-                                  {a.project?.name ||
-                                    a.projectName ||
-                                    "Project"}{" "}
-                                  – {a.status}
-                                  {a.hours ? ` (${a.hours}h)` : ""}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </Dialog.Panel>
-                    </Transition.Child>
-                  </div>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
-
-          {/* Delete Confirmation Modal */}
-          <Transition.Root show={isDeleteModalOpen} as={Fragment}>
-            <Dialog
-              as="div"
-              className="relative z-50"
-              onClose={setIsDeleteModalOpen}
-            >
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <div className="fixed inset-0 bg-black/30" />
-              </Transition.Child>
-              <div className="fixed inset-0 z-10 overflow-y-auto">
-                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                  >
-                    <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                      <div className="sm:flex sm:items-start">
-                        <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                          <svg
-                            className="h-6 w-6 text-red-600"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                            />
-                          </svg>
-                        </div>
-                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                          <Dialog.Title
-                            as="h3"
-                            className="text-base font-semibold leading-6 text-gray-900"
-                          >
-                            Delete Attendance Record
-                          </Dialog.Title>
-                          <div className="mt-2">
-                            <p className="text-sm text-gray-500">
-                              Are you sure you want to delete this attendance
-                              record? This action cannot be undone.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                          {heading}
+                        </th>
+                      ),
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  {visibleEntries.map((entry) => (
+                    <tr key={entry._id || entry.id} className="hover:bg-slate-50/70">
+                      <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-600">
+                        {new Date(entry.date).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4">
                         <button
                           type="button"
-                          className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                          onClick={confirmDeleteAttendance}
+                          onClick={() => setEmployeeDrawer(entry.worker)}
+                          className="text-sm font-semibold text-slate-900 hover:text-emerald-800 hover:underline"
                         >
-                          Delete
+                          {entry.worker?.name || "Unknown employee"}
+                        </button>
+                      </td>
+                      <td className="min-w-56 px-5 py-4 text-sm text-slate-600">
+                        {projectLabel(entry)}
+                        {entry.projectName && !entry.project ? (
+                          <span className="ml-2 text-xs text-slate-400">
+                            One-off
+                          </span>
+                        ) : null}
+                      </td>
+                      <td className="px-5 py-4">
+                        <span
+                          className={`inline-flex rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${STATUS_STYLES[entry.status] || STATUS_STYLES.Unavailable}`}
+                        >
+                          {entry.status}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-sm font-semibold tabular-nums text-slate-800">
+                        {Number(entry.hours || 0)}h
+                      </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-right">
+                        <button
+                          type="button"
+                          onClick={() => openEdit(entry)}
+                          className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
+                          aria-label="Edit attendance entry"
+                        >
+                          <Pencil className="h-4 w-4" />
                         </button>
                         <button
                           type="button"
-                          className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                          onClick={() => setIsDeleteModalOpen(false)}
+                          onClick={() => setDeleteEntry(entry)}
+                          className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-700"
+                          aria-label="Delete attendance entry"
                         >
-                          Cancel
+                          <Trash2 className="h-4 w-4" />
                         </button>
-                      </div>
-                    </Dialog.Panel>
-                  </Transition.Child>
-                </div>
-              </div>
-            </Dialog>
-          </Transition.Root>
-        </>
-      )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      ) : null}
+
+      {activeTab === "reports" ? (
+        <AttendanceReports start={range.start} end={range.end} />
+      ) : null}
+
+      <TimeEntryDialog
+        open={entryDialog.open}
+        onClose={() =>
+          setEntryDialog({ open: false, entry: null, date: selectedDate })
+        }
+        onSaved={loadEntries}
+        entry={entryDialog.entry}
+        date={entryDialog.date}
+        workers={workers}
+        projects={projects}
+      />
+
+      <EmployeeAttendanceDrawer
+        employee={employeeDrawer}
+        month={month}
+        onClose={() => setEmployeeDrawer(null)}
+        onEdit={(entry) => {
+          setEmployeeDrawer(null);
+          openEdit(entry);
+        }}
+      />
+
+      <Modal
+        isOpen={Boolean(deleteEntry)}
+        onClose={() => setDeleteEntry(null)}
+        onConfirm={confirmDelete}
+        title="Delete attendance entry"
+        message={
+          deleteEntry
+            ? `Delete ${deleteEntry.worker?.name || "this employee"}'s ${Number(deleteEntry.hours || 0)} hour entry for ${projectLabel(deleteEntry)}? This cannot be undone.`
+            : ""
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        type="confirm"
+      />
     </div>
   );
 }
