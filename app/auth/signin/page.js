@@ -1,4 +1,5 @@
 "use client";
+import { getFormToken } from "@/libs/publicFormClient";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -48,6 +49,7 @@ function SignInForm() {
     email: "",
     password: "",
     name: "",
+    website: "",
   });
 
   const isSignUp = mode === "signup";
@@ -79,7 +81,10 @@ function SignInForm() {
     setIsLoading(true);
 
     try {
+      const formToken = await getFormToken("auth");
       const result = await signIn("credentials", {
+        formToken,
+        website: formData.website,
         email: formData.email,
         password: formData.password,
         name: formData.name,
@@ -121,7 +126,7 @@ function SignInForm() {
       ? "Create your referral account. An administrator will approve it before it goes live."
       : "Create an account to keep your project information in one place."
     : isSetPassword
-      ? "Enter your account email and choose a secure password."
+      ? "Sign in with your existing account provider first, then choose a secure password. Contact us if you need help accessing your account."
       : "Sign in to your Better Homes account.";
 
   return (
@@ -187,6 +192,7 @@ function SignInForm() {
             )}
 
             <form className="space-y-5" onSubmit={handleEmailAuth}>
+              <div hidden aria-hidden="true"><label>Website<input name="website" value={formData.website} onChange={handleInputChange} tabIndex={-1} autoComplete="off" /></label></div>
               {isSignUp && (
                 <label className="block">
                   <span className="mb-2 block text-[12px] font-medium text-slate-700">

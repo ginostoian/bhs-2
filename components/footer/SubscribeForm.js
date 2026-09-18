@@ -4,7 +4,7 @@ import classes from "./Footer.module.css";
 
 import { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
-import apiClient from "@/libs/api";
+import { publicFormFetch } from "@/libs/publicFormClient";
 import React from "react";
 
 const SubscribeForm = () => {
@@ -18,7 +18,8 @@ const SubscribeForm = () => {
 
     setIsLoading(true);
     try {
-      await apiClient.post("/lead", { email });
+      const response = await publicFormFetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+      if (!response.ok) throw new Error((await response.json()).error);
 
       toast.success("Thanks for joining our list!");
 
@@ -27,7 +28,7 @@ const SubscribeForm = () => {
       setEmail("");
       setIsDisabled(true);
     } catch (error) {
-      console.log(error);
+      toast.error(error.message || "Please try again shortly.");
     } finally {
       setIsLoading(false);
     }

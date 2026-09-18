@@ -3,7 +3,8 @@ import { getServerSession } from "next-auth/next";
 
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
-import { rateLimitMiddleware } from "@/libs/rateLimiter";
+import { formCollections, consumeCounter } from "@/libs/formStore";
+import { readFormJSON, validateForm, failure } from "@/libs/formSecurity";
 import Lead from "@/models/Lead";
 import Partner from "@/models/Partner";
 import User from "@/models/User";
@@ -110,7 +111,22 @@ async function handleCreateReferral(request) {
       );
     }
 
-    const body = await request.json();
+    const body = await readFormJSON(request);
+    validateForm(body, "referral");
+    const { counters } = await formCollections();
+    if (
+      !(await consumeCounter(
+        counters,
+        `referral-account:${session.user.id}`,
+        5,
+        3600000,
+      ))
+    )
+      throw failure(
+        "Please wait before submitting more referrals.",
+        429,
+        "FORM_RATE_LIMIT",
+      );
     const { name, email, postcode, phone, projectType, details } = body;
 
     if (
@@ -209,16 +225,10 @@ async function handleCreateReferral(request) {
   } catch (error) {
     console.error("Error creating referrer referral:", error);
     return NextResponse.json(
-      { error: "Failed to submit referral" },
-      { status: 500 },
+      { error: error.status ? error.message : "Failed to submit referral" },
+      { status: error.status || 500 },
     );
   }
 }
 
-export const POST = rateLimitMiddleware(handleCreateReferral, {
-  namespace: "referrer-referrals",
-  maxSubmissions: 5,
-  windowMs: 60 * 60 * 1000,
-  blockDurationMs: 6 * 60 * 60 * 1000,
-  minIntervalMs: 45 * 1000,
-});
+export const POST = handleCreateReferral;

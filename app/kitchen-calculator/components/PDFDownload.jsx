@@ -1,4 +1,5 @@
 "use client";
+import { publicFormFetch } from "@/libs/publicFormClient";
 
 import React, { useEffect, useState } from "react";
 import { downloadPDF } from "../lib/pdfGenerator";
@@ -43,7 +44,7 @@ export default function PDFDownload({ calculationResult, formData }) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/kitchen-calculator-leads", {
+      const response = await publicFormFetch("/api/kitchen-calculator-leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

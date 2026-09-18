@@ -1,3 +1,4 @@
+import { withPublicForm } from "@/libs/publicForm";
 import { sanitizeAttribution } from "@/libs/marketingAttribution";
 import { sanitizeQualification } from "@/libs/enquiryFields";
 import { persistContact, acceptedSubmission } from "@/libs/contactSubmission";
@@ -7,7 +8,6 @@ import Contact from "@/models/Contact";
 import Lead from "@/models/Lead";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminFormSubmission } from "@/libs/notificationService";
-import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import {
   findPartnerByReferralCode,
   syncPartnerReferralFromLead,
@@ -58,40 +58,6 @@ async function handleContactSubmission(request) {
       console.warn("Bot detected: Honeypot fields filled", {
         website,
         company,
-      });
-      return NextResponse.json(
-        { error: "Invalid submission" },
-        { status: 400 },
-      );
-    }
-
-    // Content validation - detect bot patterns
-    const isBotName = (name) => {
-      if (!name || typeof name !== "string") return false;
-      const trimmed = name.trim();
-
-      // Check for random character patterns (like the ones in your screenshot)
-      // Pattern: long strings with mixed case, numbers, and special chars
-      const randomPattern = /^[A-Za-z0-9]{20,}$/;
-      const hasRandomPattern = randomPattern.test(trimmed);
-
-      // Check for excessive length (normal names are shorter)
-      const isTooLong = trimmed.length > 50;
-
-      // Check for repeated characters
-      const hasRepeatedChars = /(.)\1{3,}/.test(trimmed);
-
-      // Check for no spaces in long names (real names usually have spaces)
-      const noSpaces = trimmed.length > 15 && !trimmed.includes(" ");
-
-      return hasRandomPattern || isTooLong || hasRepeatedChars || noSpaces;
-    };
-
-    // Validate names for bot patterns
-    if (isBotName(firstName) || isBotName(lastName)) {
-      console.warn("Bot detected: Suspicious name pattern", {
-        firstName,
-        lastName,
       });
       return NextResponse.json(
         { error: "Invalid submission" },
@@ -325,7 +291,7 @@ async function linkContactLead(contact) {
 }
 
 // Export the rate-limited handler
-export const POST = rateLimitMiddleware(handleContactSubmission);
+export const POST = withPublicForm(handleContactSubmission, "contact");
 
 /**
  * Generate confirmation email for customer

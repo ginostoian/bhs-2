@@ -1,4 +1,5 @@
 "use client";
+import { publicFormFetch } from "@/libs/publicFormClient";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -58,11 +59,13 @@ export default function EnquiryForm({ defaultService = "Not sure yet" }) {
         website: form.get("website"),
         company: "",
         referralCode,
+        brief: String(form.get("brief") || ""),
+        postcode: String(form.get("postcode") || ""),
         message: `Postcode: ${form.get("postcode")}\nProject: ${form.get("service")}\nStage: ${form.get("stage")}\nInvestment: ${form.get("budget")}\n\n${form.get("brief")}`,
       };
       // An uncertain network result retries the exact same payload and ID.
       submissionPayload.current = submissionPayload.current || payload;
-      const response = await fetch("/api/contact", {
+      const response = await publicFormFetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

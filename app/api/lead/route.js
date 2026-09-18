@@ -1,3 +1,4 @@
+import { withPublicForm } from "@/libs/publicForm";
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
@@ -6,7 +7,7 @@ import { notifyAdminFormSubmission } from "@/libs/notificationService";
 // This route is used to store the leads that are generated from the landing page.
 // The API call is initiated by <ButtonLead /> component
 // Duplicate emails just return 200 OK
-export async function POST(req) {
+async function handlePublicSubmission(req) {
   await connectMongo();
 
   const body = await req.json();
@@ -48,3 +49,5 @@ export async function POST(req) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+
+export const POST = withPublicForm(handlePublicSubmission, "lead");

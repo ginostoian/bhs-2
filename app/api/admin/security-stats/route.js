@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
-import { getRateLimitStats } from "@/libs/rateLimiter";
+import { formCollections } from "@/libs/formStore";
 
 /**
  * GET /api/admin/security-stats
@@ -16,7 +16,24 @@ export async function GET(request) {
     }
 
     // Get rate limiting statistics
-    const stats = getRateLimitStats();
+    const { receipts, reviews } = await formCollections();
+    const stats = {
+      storage: "MongoDB",
+      recentDecisions: await receipts
+        .aggregate([
+          { $match: { state: { $exists: true }, expiresAt: { $gt: new Date() } } },
+          {
+            $group: {
+              _id: { state: "$state", status: "$status" },
+              count: { $sum: 1 },
+            },
+          },
+        ])
+        .toArray(),
+      heldForReview: await reviews.countDocuments({
+        expiresAt: { $gt: new Date() },
+      }),
+    };
 
     return NextResponse.json({
       success: true,

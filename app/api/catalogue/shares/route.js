@@ -1,3 +1,4 @@
+import { withPublicForm } from "@/libs/publicForm";
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
@@ -28,7 +29,7 @@ function sanitizeItem(item = {}) {
   };
 }
 
-export async function POST(request) {
+async function handlePublicSubmission(request) {
   try {
     await connectMongoose();
 
@@ -79,3 +80,5 @@ export async function POST(request) {
     );
   }
 }
+
+export const POST = withPublicForm(handlePublicSubmission, "catalogue/shares");

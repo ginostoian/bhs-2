@@ -151,6 +151,11 @@ export default function AdminSidebar() {
       icon: "📧",
       items: [
         {
+          name: "Form Review",
+          href: "/admin/form-review",
+          icon: "🛡️",
+        },
+        {
           name: "Contact Submissions",
           href: "/admin/contact-submissions",
           icon: "📧",

@@ -1,7 +1,7 @@
+import { withPublicForm } from "@/libs/publicForm";
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Lead from "@/models/Lead";
-import { rateLimitMiddleware } from "@/libs/rateLimiter";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminCalculatorLead } from "@/libs/notificationService";
 import { costEngine } from "@/app/extension-calculator/lib/costEngine";
@@ -546,4 +546,4 @@ async function handleLeadPost(request) {
   }
 }
 
-export const POST = rateLimitMiddleware(handleLeadPost);
+export const POST = withPublicForm(handleLeadPost, "leads");

@@ -1,9 +1,12 @@
+import { authRequestWithCookies } from "./formSecurity.js";
+import { checkCredentialsSubmission } from "./publicForm.js";
+import { getToken } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import bcrypt from "bcryptjs";
 import config from "../config.js";
-import connectMongo from "./mongo.js";
+import connectMongo, { lazyMongoAdapter } from "./mongo.js";
 import connectMongoose from "./mongoose.js";
 import User from "../models/User.js";
 import { ensurePartnerForReferrerUser } from "./referrals.js";
@@ -37,27 +40,26 @@ export const authOptions = {
         isSignUp: { label: "Is Sign Up", type: "boolean" },
         isSetPassword: { label: "Is Set Password", type: "boolean" },
         signUpRole: { label: "Sign Up Role", type: "text" },
+        formToken: { label: "Form token", type: "text" },
+        website: { label: "Website", type: "text" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         try {
+          await checkCredentialsSubmission(credentials, req);
+          credentials = {
+            ...credentials,
+            email: credentials.email.trim().toLowerCase(),
+          };
           await connectMongoose();
 
-          const {
-            email,
-            password,
-            name,
-            isSignUp,
-            isSetPassword,
-            signUpRole,
-          } =
+          const { email, password, name, isSignUp, isSetPassword, signUpRole } =
             credentials;
 
           // Convert boolean flags if they're strings
           const isSignUpBool = isSignUp === true || isSignUp === "true";
           const isSetPasswordBool =
             isSetPassword === true || isSetPassword === "true";
-          const requestedRole =
-            signUpRole === "referrer" ? "referrer" : "user";
+          const requestedRole = signUpRole === "referrer" ? "referrer" : "user";
 
           if (!email || !password) {
             return null;
@@ -117,6 +119,16 @@ export const authOptions = {
               role: newUser.role,
             };
           } else if (isSetPasswordBool) {
+            // Password assignment requires proof of ownership, not just an email.
+            const session = await getToken({
+              req: authRequestWithCookies(req),
+              secret: process.env.NEXTAUTH_SECRET,
+            });
+            if (!session?.sub || !user || session.sub !== user._id.toString()) {
+              throw new Error(
+                "Please sign in with your existing account provider before setting a password, or contact us for help.",
+              );
+            }
             // Set password flow
             if (!user) {
               throw new Error("User not found");
@@ -188,7 +200,9 @@ export const authOptions = {
   // Requires a MongoDB database. Set MONOGODB_URI env variable.
   // Learn more about the model type: https://next-auth.js.org/v3/adapters/models
   // Re-enable adapter for production stability
-  ...(connectMongo && { adapter: MongoDBAdapter(connectMongo) }),
+  ...(connectMongo && {
+    adapter: lazyMongoAdapter(MongoDBAdapter, connectMongo),
+  }),
 
   callbacks: {
     // Sign in callback - runs when user signs in

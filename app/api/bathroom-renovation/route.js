@@ -1,9 +1,9 @@
+import { withPublicForm } from "@/libs/publicForm";
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import BathroomRenovation from "@/models/BathroomRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminFormSubmission } from "@/libs/notificationService";
-import { rateLimitMiddleware } from "@/libs/rateLimiter";
 
 /**
  * POST /api/bathroom-renovation
@@ -245,7 +245,7 @@ async function handleBathroomRenovationSubmission(request) {
 }
 
 // Export the rate-limited handler
-export const POST = rateLimitMiddleware(handleBathroomRenovationSubmission);
+export const POST = withPublicForm(handleBathroomRenovationSubmission, "bathroom-renovation");
 
 /**
  * Generate confirmation email for customer

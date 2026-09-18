@@ -1,4 +1,5 @@
 "use client";
+import { publicFormFetch } from "@/libs/publicFormClient";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -95,7 +96,7 @@ const GeneralRenovationForm = () => {
     const loadingToast = toast.loading("Submitting your enquiry...");
 
     try {
-      const response = await fetch("/api/general-renovation", {
+      const response = await publicFormFetch("/api/general-renovation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

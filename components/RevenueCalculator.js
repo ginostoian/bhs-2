@@ -145,9 +145,7 @@ const RevenueCalculator = () => {
             Ready to start earning? Join our referral program today!
           </p>
           <a
-            href="https://tally.so/r/nPvjxV"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/auth/signin?role=referrer"
             className="inline-flex items-center rounded-full border border-transparent bg-blue-600 px-8 py-3 text-base font-medium text-white transition-colors hover:bg-blue-700"
           >
             Start Your Application

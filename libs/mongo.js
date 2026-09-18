@@ -1,42 +1,46 @@
-import { MongoClient } from "mongodb";
+import connectMongo from "./mongoose.js";
 
-// This lib is use just to connect to the database in next-auth.
-// We don't use it anywhere else in the API routes—we use mongoose.js instead (to be able to use models)
-// See /libs/nextauth.js file.
+// Share Mongoose's native client instead of creating a second driver pool.
+const client = process.env.MONGODB_URI
+  ? {
+      then(resolve, reject) {
+        return connectMongo()
+          .then((mongoose) => mongoose.connection.getClient())
+          .then(resolve, reject);
+      },
+    }
+  : undefined;
 
-const uri = process.env.MONGODB_URI;
-// Keep each serverless instance's pool deliberately small. Vercel can run many
-// instances at once, and every MongoClient also opens topology-monitoring
-// sockets, so the driver default is unnecessarily large for this application.
-const options = {
-  maxPoolSize: 5,
-  minPoolSize: 0,
-  maxIdleTimeMS: 30000,
-  waitQueueTimeoutMS: 10000,
-  serverSelectionTimeoutMS: 10000,
-};
-
-let client;
-let clientPromise;
-
-if (!uri) {
-  console.group("⚠️ MONGODB_URI missing from .env");
-  console.error(
-    "It's not mandatory but a database is required for Magic Links."
+// The installed MongoDBAdapter starts its database promise in its constructor,
+// not on its first operation. Defer construction too: JWT session checks and
+// invalid credentials must not open a pool merely by importing authOptions.
+export function lazyMongoAdapter(factory, sharedClient) {
+  const methods = [
+    "createUser",
+    "getUser",
+    "getUserByEmail",
+    "getUserByAccount",
+    "updateUser",
+    "deleteUser",
+    "linkAccount",
+    "unlinkAccount",
+    "getSessionAndUser",
+    "createSession",
+    "updateSession",
+    "deleteSession",
+    "createVerificationToken",
+    "useVerificationToken",
+  ];
+  return Object.fromEntries(
+    methods.map((method) => [
+      method,
+      async (...args) => {
+        const connectedClient = await sharedClient;
+        // A fresh lightweight adapter avoids retaining a failed connection promise;
+        // its underlying sockets remain the one shared application pool.
+        return factory(Promise.resolve(connectedClient))[method](...args);
+      },
+    ]),
   );
-  console.error(
-    "If you don't need it, remove the code from /libs/next-auth.js (see connectMongo())"
-  );
-  console.groupEnd();
-} else {
-  // Reuse the client when a warm runtime evaluates this module again. This
-  // does not share connections across serverless instances, but it prevents
-  // duplicate pools inside the same instance.
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
-  }
-  clientPromise = global._mongoClientPromise;
 }
-
-export default clientPromise;
+export default client;

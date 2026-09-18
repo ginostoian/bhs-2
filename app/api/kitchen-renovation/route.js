@@ -1,10 +1,11 @@
+import { withPublicForm } from "@/libs/publicForm";
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import KitchenRenovation from "@/models/KitchenRenovation";
 import { sendEmailWithRetry } from "@/libs/emailService";
 import { notifyAdminFormSubmission } from "@/libs/notificationService";
 
-export async function POST(request) {
+async function handlePublicSubmission(request) {
   try {
     const body = await request.json();
     const {
@@ -485,3 +486,5 @@ IP Address: ${submission.ipAddress}
 
   return { subject, html, text };
 }
+
+export const POST = withPublicForm(handlePublicSubmission, "kitchen-renovation");

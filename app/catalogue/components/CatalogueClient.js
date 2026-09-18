@@ -1,4 +1,5 @@
 "use client";
+import { publicFormFetch } from "@/libs/publicFormClient";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -734,7 +735,7 @@ export default function CatalogueClient({
   const handleShare = async () => {
     setShareState({ loading: true, url: "", error: "" });
     try {
-      const response = await fetch("/api/catalogue/shares", {
+      const response = await publicFormFetch("/api/catalogue/shares", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
