@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Archive, BarChart3, CheckSquare2, Mail, Plus, X } from "lucide-react";
@@ -84,6 +84,15 @@ export default function CRMPage() {
   const [selectedIds, setSelectedIds] = useState(() => new Set());
   const [mobileStage, setMobileStage] = useState(CRM_STAGES[0]);
   const [selectedLead, setSelectedLead] = useState(null);
+  useEffect(() => {
+    const leadId = new URLSearchParams(window.location.search).get("lead");
+    if (!leadId || !/^[a-f\d]{24}$/i.test(leadId)) return;
+    let active = true;
+    apiClient.get(`/crm/leads/${leadId}`)
+      .then((response) => { if (active) setSelectedLead(response.lead); })
+      .catch(() => { if (active) toast.error("Could not open linked enquiry"); });
+    return () => { active = false; };
+  }, []);
   const [showCreate, setShowCreate] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [sendingBrief, setSendingBrief] = useState(false);

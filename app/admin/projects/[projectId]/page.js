@@ -8,6 +8,9 @@ import Payment from "@/models/Payment";
 import Expense from "@/models/Expense";
 import ProjectChange from "@/models/ProjectChange";
 import ItemPurchase from "@/models/ItemPurchase";
+import Quote from "@/models/Quote";
+import Invoice from "@/models/Invoice";
+import Attendance from "@/models/Attendance";
 import { notFound } from "next/navigation";
 import ProjectDetailClient from "./components/ProjectDetailClient";
 
@@ -35,23 +38,24 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   if (!project) {
     notFound();
   }
+  const singleProjectClient = await Project.countDocuments({ user: project.user._id }) === 1;
 
   // Fetch all related data in parallel after getting project to improve performance
-  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw] =
+  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw, sourceQuote, invoicesRaw, attendanceRaw] =
     await Promise.all([
       Document.find({
-        $or: [
+        ...(singleProjectClient ? { $or: [
           { project: projectId },
           { project: { $exists: false }, user: project.user._id },
-        ],
+        ] } : { project: projectId }),
       })
         .sort({ createdAt: -1 })
         .lean(),
       Payment.find({
-        $or: [
+        ...(singleProjectClient ? { $or: [
           { project: projectId },
           { project: { $exists: false }, user: project.user._id },
-        ],
+        ] } : { project: projectId }),
       })
         .sort({ order: 1 })
         .lean(),
@@ -62,6 +66,9 @@ export default async function ProjectDetailPage({ params, searchParams }) {
       .populate("user", "name email")
       .populate("decidedBy", "name")
       .lean(),
+    project.sourceQuote ? Quote.findById(project.sourceQuote).select("total status clientResponse quoteNumber").lean() : null,
+    Invoice.find({ project: projectId }).select("total status").lean(),
+    Attendance.find({ project: projectId, status: "Present" }).select("hours").lean(),
   ]);
 
   // Group documents by type
@@ -92,6 +99,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt,
     statusChangeEmailSent: doc.statusChangeEmailSent,
+    project: doc.project?.toString() || null,
   }));
 
   // Fetch project expenses
@@ -106,7 +114,13 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     customCategory: doc.customCategory,
     purchaseLink: doc.purchaseLink,
     notes: doc.notes,
-    files: doc.files,
+    files: (doc.files || []).map((file) => ({
+      _id: file._id?.toString(),
+      fileId: file.fileId,
+      fileName: file.fileName,
+      fileUrl: file.fileUrl,
+      filePath: file.filePath,
+    })),
     order: doc.order,
     status: doc.status,
     createdAt: doc.createdAt,
@@ -176,6 +190,10 @@ export default async function ProjectDetailPage({ params, searchParams }) {
     completionDate: project.completionDate,
     location: project.location,
     budget: project.budget,
+    sourceLead: project.sourceLead?.toString() || null,
+    sourceQuote: project.sourceQuote?.toString() || null,
+    handoverNotes: project.handoverNotes || "",
+    remainingCostEstimate: project.remainingCostEstimate ?? null,
     notes: project.notes,
     tags: project.tags,
     projectManager: project.projectManager
@@ -206,6 +224,9 @@ export default async function ProjectDetailPage({ params, searchParams }) {
         changes={changes}
         itemPurchases={itemPurchases}
         activeTab={activeTab}
+        sourceQuote={sourceQuote ? { total: sourceQuote.total, status: sourceQuote.status, clientResponse: sourceQuote.clientResponse, quoteNumber: sourceQuote.quoteNumber } : null}
+        invoices={invoicesRaw.map((invoice) => ({ total: invoice.total, status: invoice.status }))}
+        recordedLabourHours={attendanceRaw.reduce((sum, item) => sum + (Number(item.hours) || 0), 0)}
       />
     </div>
   );

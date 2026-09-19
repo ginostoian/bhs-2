@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  buildGanttLayout,
   formatGanttDate,
-  utcDay,
 } from "@/libs/ganttTimeline.mjs";
+import { calculateProjectFinancials } from "@/libs/projectFinancials.mjs";
+import { getProjectInsights } from "@/libs/projectInsights.mjs";
 
 const money = (value) =>
   new Intl.NumberFormat("en-GB", {
@@ -12,59 +12,6 @@ const money = (value) =>
     currency: "GBP",
     maximumFractionDigits: 0,
   }).format(value || 0);
-
-function getInsights({
-  tasks,
-  adminTasks,
-  milestones,
-  expenses,
-  payments,
-  changes,
-  itemPurchases,
-}) {
-  const today = utcDay(new Date());
-  const schedule = buildGanttLayout({ tasks, milestones });
-  const siteDone = tasks.filter((task) => task.status === "Done").length;
-  const siteBlocked = tasks.filter((task) => task.status === "Blocked");
-  const siteLate = schedule.scheduled.filter(
-    (task) => task.status !== "Done" && task.end < today,
-  );
-  const officeOpen = adminTasks.filter((task) => task.status !== "Done");
-  const officeLate = officeOpen.filter((task) => {
-    const dueDate = utcDay(task.dueDate);
-    return dueDate && dueDate < today;
-  });
-  const upcoming = schedule.milestones
-    .filter(
-      (milestone) =>
-        milestone.status !== "Completed" && milestone.date >= today,
-    )
-    .sort((a, b) => a.date - b.date)[0];
-  const pendingChanges = changes.filter((change) => change.status === "Review");
-  const recordedExpenses = expenses.reduce(
-    (sum, expense) => sum + (Number(expense.amount) || 0),
-    0,
-  );
-  const recordedPurchases = itemPurchases.reduce(
-    (sum, item) => sum + (Number(item.paidPrice) || 0),
-    0,
-  );
-  const unpaidPayments = payments.filter(
-    (payment) => payment.status !== "Paid",
-  );
-  return {
-    siteDone,
-    siteBlocked,
-    siteLate,
-    officeOpen,
-    officeLate,
-    upcoming,
-    pendingChanges,
-    recordedExpenses,
-    recordedPurchases,
-    unpaidPayments,
-  };
-}
 
 function StatusBar({ label, count, total, color }) {
   return (
@@ -92,15 +39,18 @@ export default function ProjectInsights({
   itemPurchases = [],
   compact = false,
   onNavigate,
+  sourceQuote = null,
+  invoices = [],
+  recordedLabourHours = 0,
 }) {
-  const insight = getInsights({
+  const insight = getProjectInsights({
     tasks,
     adminTasks,
     milestones,
-    expenses,
-    payments,
     changes,
-    itemPurchases,
+  });
+  const { agreedQuote, approvedChanges, recordedExpenses, recordedPurchases, unpaidPayments, invoiceTotal, paidInvoices, estimatedBalance } = calculateProjectFinancials({
+    expenses, itemPurchases, changes, payments, invoices, sourceQuote, remainingCostEstimate: project.remainingCostEstimate,
   });
   const siteRows = [
     ["Scheduled", "bg-slate-400"],
@@ -151,7 +101,7 @@ export default function ProjectInsights({
     },
     {
       label: "Recorded expenses",
-      value: money(insight.recordedExpenses),
+      value: money(recordedExpenses),
       tab: "expenses",
     },
   ];
@@ -167,9 +117,16 @@ export default function ProjectInsights({
       ["Overdue admin tasks", insight.officeLate.length],
       ["Pending changes", insight.pendingChanges.length],
       ["Project budget GBP", project.budget ?? ""],
-      ["Recorded expenses GBP", insight.recordedExpenses],
-      ["Recorded item purchases GBP", insight.recordedPurchases],
-      ["Unpaid payment plan items", insight.unpaidPayments.length],
+      ["Recorded expenses GBP", recordedExpenses],
+      ["Recorded item purchases GBP", recordedPurchases],
+      ["Agreed quote GBP", agreedQuote?.total ?? ""],
+      ["Accepted change value GBP", approvedChanges],
+      ["Project-linked invoices GBP", invoiceTotal],
+      ["Paid project-linked invoices GBP", paidInvoices],
+      ["Recorded labour hours", recordedLabourHours],
+      ["Estimated remaining cost GBP", project.remainingCostEstimate ?? ""],
+      ["Indicative balance before unrecorded costs GBP", estimatedBalance ?? ""],
+      ["Unpaid payment plan items", unpaidPayments.length],
     ];
     const csv = lines
       .map((row) =>
@@ -309,7 +266,7 @@ export default function ProjectInsights({
               </div>
               <div className="flex justify-between">
                 <dt>Unpaid payment plan items</dt>
-                <dd className="font-medium">{insight.unpaidPayments.length}</dd>
+                <dd className="font-medium">{unpaidPayments.length}</dd>
               </div>
             </dl>
           </section>
@@ -324,22 +281,28 @@ export default function ProjectInsights({
                   {project.budget == null ? "Not set" : money(project.budget)}
                 </dd>
               </div>
+              <div className="flex justify-between"><dt>Agreed quote</dt><dd className="font-medium">{agreedQuote ? money(agreedQuote.total) : "Not linked or accepted"}</dd></div>
+              <div className="flex justify-between"><dt>Accepted changes</dt><dd className="font-medium">{money(approvedChanges)}</dd></div>
               <div className="flex justify-between">
                 <dt>Expenses</dt>
                 <dd className="font-medium">
-                  {money(insight.recordedExpenses)}
+                  {money(recordedExpenses)}
                 </dd>
               </div>
               <div className="flex justify-between">
                 <dt>Item purchases paid price</dt>
                 <dd className="font-medium">
-                  {money(insight.recordedPurchases)}
+                  {money(recordedPurchases)}
                 </dd>
               </div>
+              <div className="flex justify-between"><dt>Recorded labour hours</dt><dd className="font-medium">{recordedLabourHours.toFixed(1)} h</dd></div>
+              <div className="flex justify-between"><dt>Project-linked invoices</dt><dd className="font-medium">{money(invoiceTotal)}</dd></div>
+              <div className="flex justify-between"><dt>Paid project-linked invoices</dt><dd className="font-medium">{money(paidInvoices)}</dd></div>
+              <div className="flex justify-between"><dt>Estimated cost remaining</dt><dd className="font-medium">{project.remainingCostEstimate == null ? "Not set" : money(project.remainingCostEstimate)}</dd></div>
+              <div className="flex justify-between border-t border-slate-200 pt-3"><dt>Indicative balance before unrecorded costs</dt><dd className="font-semibold">{estimatedBalance == null ? "Needs accepted quote and cost estimate" : money(estimatedBalance)}</dd></div>
             </dl>
             <p className="mt-4 text-xs text-slate-500">
-              Purchases may also appear in expenses. These amounts are shown
-              separately and are not added together.
+              This is not profit: purchases can overlap expenses; labour hours have no agreed cost rate; invoice values are not added to payment plan values. The indicative balance uses accepted quote plus accepted changes, less recorded expenses and the manually estimated remaining cost. Confirm VAT basis and all costs before relying on it.
             </p>
           </section>
         </div>

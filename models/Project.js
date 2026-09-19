@@ -68,6 +68,10 @@ const projectSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Employee",
     },
+    sourceLead: { type: mongoose.Schema.Types.ObjectId, ref: "Lead", index: true },
+    sourceQuote: { type: mongoose.Schema.Types.ObjectId, ref: "Quote", index: true },
+    handoverNotes: { type: String, trim: true },
+    remainingCostEstimate: { type: Number, min: 0 },
     // Project notes
     notes: {
       type: String,

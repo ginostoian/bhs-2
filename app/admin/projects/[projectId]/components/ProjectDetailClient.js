@@ -15,6 +15,8 @@ import ExpensesTab from "./ExpensesTab";
 import ChangesTab from "./ChangesTab";
 import ItemPurchasesTab from "./ItemPurchasesTab";
 import ProjectInsights from "./ProjectInsights";
+import CommercialHandover from "./CommercialHandover";
+import WeeklyUpdates from "./WeeklyUpdates";
 
 /**
  * Project Detail Client Component
@@ -28,6 +30,9 @@ export default function ProjectDetailClient({
   changes: initialChanges,
   itemPurchases: initialItemPurchases,
   activeTab: initialActiveTab,
+  sourceQuote,
+  invoices = [],
+  recordedLabourHours = 0,
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -358,6 +363,7 @@ export default function ProjectDetailClient({
     },
     { id: "gantt", name: "Schedule" },
     { id: "reports", name: "Reports" },
+    { id: "weekly-updates", name: "Weekly Updates" },
   ];
   const recordTabs = [
     { id: "milestones", name: "Milestones" },
@@ -367,6 +373,7 @@ export default function ProjectDetailClient({
     { id: "expenses", name: "Expenses" },
     { id: "item-purchases", name: "Item Purchases" },
     { id: "notes", name: "Notes" },
+    { id: "handover", name: "Handover" },
   ];
 
   // Calculate current progress
@@ -501,7 +508,13 @@ export default function ProjectDetailClient({
             <div className="p-4 sm:p-6">
               <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
                 milestones={milestones} expenses={expenses} payments={payments}
-                changes={changes} itemPurchases={itemPurchases} compact onNavigate={handleTabChange} />
+                changes={changes} itemPurchases={itemPurchases} sourceQuote={sourceQuote} invoices={invoices} recordedLabourHours={recordedLabourHours} compact onNavigate={handleTabChange} />
+              {!project.sourceQuote && (
+                <button type="button" onClick={() => handleTabChange("handover")}
+                  className="mb-6 w-full rounded-lg border border-amber-200 bg-amber-50 p-4 text-left text-sm text-amber-900 hover:bg-amber-100">
+                  <strong>Complete commercial handover</strong> · Link the agreed quote and original enquiry before relying on project value reports.
+                </button>
+              )}
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Project Overview
@@ -1554,9 +1567,18 @@ export default function ProjectDetailClient({
             <div className="p-4 sm:p-6">
               <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
                 milestones={milestones} expenses={expenses} payments={payments}
-                changes={changes} itemPurchases={itemPurchases} onNavigate={handleTabChange} />
+                changes={changes} itemPurchases={itemPurchases} sourceQuote={sourceQuote} invoices={invoices} recordedLabourHours={recordedLabourHours} onNavigate={handleTabChange} />
             </div>
           )}
+          {activeTab === "handover" && (
+            <div className="p-4 sm:p-6">
+              <CommercialHandover projectId={project.id} onSaved={(updated) => {
+                setProject((current) => ({ ...current, sourceLead: updated.sourceLead, sourceQuote: updated.sourceQuote, handoverNotes: updated.handoverNotes, remainingCostEstimate: updated.remainingCostEstimate }));
+                router.refresh();
+              }} />
+            </div>
+          )}
+          {activeTab === "weekly-updates" && <WeeklyUpdates projectId={project.id} />}
         </div>
       </div>
 

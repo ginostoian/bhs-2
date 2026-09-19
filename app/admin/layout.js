@@ -41,6 +41,7 @@ const adminNavigation = [
     items: [
       { name: "Employees", href: "/admin/employees", icon: "employees" },
       { name: "Workers", href: "/admin/workers", icon: "workers" },
+      { name: "Workforce", href: "/admin/workforce", icon: "calendar" },
     ],
   },
   {

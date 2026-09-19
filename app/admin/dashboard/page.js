@@ -2,13 +2,58 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import Lead from "@/models/Lead";
+import LeadActivity from "@/models/LeadActivity";
 import User from "@/models/User";
 import Project from "@/models/Project";
 import EmailAutomation from "@/models/EmailAutomation";
 import AdminTask from "@/models/AdminTask";
+import Task from "@/models/Task";
+import ProjectChange from "@/models/ProjectChange";
+import Payment from "@/models/Payment";
+import ProjectWeeklyUpdate from "@/models/ProjectWeeklyUpdate";
 import { Ticket } from "@/models/index.js";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+
+async function getProjectAttention(now) {
+  const projects = await Project.find({ status: "On Going" })
+    .select("name projectedFinishDate projectManager")
+    .populate("projectManager", "name")
+    .sort({ startDate: -1 }).lean();
+  const ids = projects.map((project) => project._id);
+  if (!ids.length) return [];
+  const [tasks, changes, payments, updates] = await Promise.all([
+    Task.find({ project: { $in: ids }, status: { $ne: "Done" } }).select("project status plannedStartDate estimatedDuration").lean(),
+    ProjectChange.find({ project: { $in: ids }, status: "Review" }).select("project").lean(),
+    Payment.find({ project: { $in: ids }, status: { $ne: "Paid" }, dueDate: { $lt: now } }).select("project").lean(),
+    ProjectWeeklyUpdate.find({ project: { $in: ids } }).select("project weekStart scheduleImpact costImpact").sort({ weekStart: -1 }).lean(),
+  ]);
+  const rows = new Map(projects.map((project) => [String(project._id), { project, blocked: 0, late: 0, changes: 0, payments: 0, update: null }]));
+  for (const task of tasks) {
+    const row = rows.get(String(task.project));
+    if (!row) continue;
+    if (task.status === "Blocked") row.blocked++;
+    if (task.plannedStartDate && new Date(task.plannedStartDate).getTime() + Math.max(1, Number(task.estimatedDuration) || 1) * 86400000 < now.getTime()) row.late++;
+  }
+  for (const change of changes) { const row = rows.get(String(change.project)); if (row) row.changes++; }
+  for (const payment of payments) { const row = rows.get(String(payment.project)); if (row) row.payments++; }
+  for (const update of updates) { const row = rows.get(String(update.project)); if (row && !row.update) row.update = update; }
+  return [...rows.values()].map((row) => ({ ...row,
+    updateDue: !row.update || new Date(row.update.weekStart).getTime() < now.getTime() - 8 * 86400000,
+    finishLate: row.project.projectedFinishDate && new Date(row.project.projectedFinishDate) < now,
+  })).sort((a, b) => (Number(b.finishLate) + b.late + b.blocked + b.changes + b.payments + Number(b.updateDue)) - (Number(a.finishLate) + a.late + a.blocked + a.changes + a.payments + Number(a.updateDue)));
+}
+
+async function countOverdueLeadActivities(now) {
+  const rows = await LeadActivity.aggregate([
+    { $match: { dueDate: { $lt: now }, status: { $ne: "done" } } },
+    { $lookup: { from: "leads", localField: "leadId", foreignField: "_id", as: "lead" } },
+    { $unwind: "$lead" },
+    { $match: { "lead.isActive": true, "lead.isArchived": false } },
+    { $count: "count" },
+  ]);
+  return rows[0]?.count || 0;
+}
 
 /**
  * Admin Dashboard Page
@@ -26,7 +71,8 @@ export default async function AdminDashboardPage() {
     urgentItems,
     recentActivities,
     ongoingProjects,
-    adminTasks
+    adminTasks,
+    projectAttention,
   ] = await Promise.all([
     
     // 1. High-Level Stats (Counts only)
@@ -34,27 +80,7 @@ export default async function AdminDashboardPage() {
        Lead.countDocuments({ isActive: true, isArchived: false }),
        Project.countDocuments({ status: "On Going" }),
        Ticket.countDocuments({ status: { $nin: ["Resolved", "Closed"] } }),
-       // Overdue Activities Count (Aggregation)
-       Lead.aggregate([
-         { $match: { isActive: true, isArchived: false, "activities.dueDate": { $lt: now } } },
-         { $project: {
-             overdueCount: {
-               $size: {
-                 $filter: {
-                   input: "$activities",
-                   as: "activity",
-                   cond: { 
-                     $and: [
-                       { $lt: ["$$activity.dueDate", now] }, 
-                       { $ne: ["$$activity.status", "done"] } 
-                     ] 
-                   }
-                 }
-               }
-             }
-         }},
-         { $group: { _id: null, total: { $sum: "$overdueCount" } } }
-       ]).then(res => res[0]?.total || 0),
+       countOverdueLeadActivities(now),
        // Aging Leads Count
        Lead.countDocuments({ 
           isActive: true, 
@@ -94,20 +120,20 @@ export default async function AdminDashboardPage() {
     ]),
 
     // 3. Recent Activities (Optimized Aggregation)
-    Lead.aggregate([
-      { $match: { isActive: true, isArchived: false } },
-      { $unwind: "$activities" },
-      { $match: { "activities.date": { $gte: new Date(now - 7 * 24 * 60 * 60 * 1000) } } },
-      { $sort: { "activities.date": -1 } },
-      { $limit: 10 },
-      { $lookup: { from: "users", localField: "activities.createdBy", foreignField: "_id", as: "creator" } },
-      { $project: {
-          leadName: "$name",
-          leadId: "$_id",
-          activity: "$activities",
-          creator: { $arrayElemAt: ["$creator.name", 0] }
-      }}
-    ]),
+    LeadActivity.find({ occurredAt: { $gte: new Date(now - 7 * 24 * 60 * 60 * 1000) } })
+      .sort({ occurredAt: -1 })
+      .limit(10)
+      .populate("leadId", "name isActive isArchived")
+      .populate("createdBy", "name")
+      .lean()
+      .then((activities) => activities
+        .filter((activity) => activity.leadId?.isActive && !activity.leadId?.isArchived)
+        .map((activity) => ({
+          leadName: activity.leadId.name,
+          leadId: activity.leadId._id,
+          activity: { ...activity, date: activity.occurredAt },
+          creator: activity.createdBy?.name,
+        }))),
 
     // 4. Ongoing Projects List
     Project.find({ status: "On Going" })
@@ -123,7 +149,8 @@ export default async function AdminDashboardPage() {
       .populate("project", "name")
       .sort({ dueDate: 1, priority: -1 }) // Soonest due first
       .limit(5)
-      .lean()
+      .lean(),
+    getProjectAttention(now),
   ]);
 
   const [totalLeads, totalProjects, activeTickets, overdueActivitiesCount, agingLeadsCount] = stats;
@@ -148,6 +175,11 @@ export default async function AdminDashboardPage() {
           {now.toLocaleDateString("en-GB", { weekday: 'long', day: 'numeric', month: 'long' })}
         </div>
       </div>
+
+      <section className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 px-6 py-5"><div><h2 className="text-lg font-semibold text-slate-900">Projects needing attention</h2><p className="text-sm text-slate-500">Live task, change, payment and weekly update signals for active projects.</p></div><Link href="/admin/workforce" className="text-sm font-medium text-blue-700 hover:underline">Plan workforce</Link></div>
+        <div className="divide-y divide-slate-100">{projectAttention.slice(0, 8).map((row) => <Link key={row.project._id} href={`/admin/projects/${row.project._id}`} className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 hover:bg-slate-50"><div><span className="font-medium text-slate-900">{row.project.name}</span><span className="ml-2 text-xs text-slate-500">{row.project.projectManager?.name || "No PM"}</span></div><div className="flex flex-wrap gap-2 text-xs">{row.finishLate && <span className="rounded bg-red-50 px-2 py-1 text-red-700">Finish date passed</span>}{row.late > 0 && <span className="rounded bg-red-50 px-2 py-1 text-red-700">{row.late} late site tasks</span>}{row.blocked > 0 && <span className="rounded bg-amber-50 px-2 py-1 text-amber-700">{row.blocked} blocked</span>}{row.changes > 0 && <span className="rounded bg-amber-50 px-2 py-1 text-amber-700">{row.changes} changes to review</span>}{row.payments > 0 && <span className="rounded bg-amber-50 px-2 py-1 text-amber-700">{row.payments} overdue payment plan items</span>}{row.updateDue && <span className="rounded bg-slate-100 px-2 py-1 text-slate-700">Weekly update due</span>}{!row.finishLate && !row.late && !row.blocked && !row.changes && !row.payments && !row.updateDue && <span className="text-emerald-700">No flags</span>}</div></Link>)}{projectAttention.length === 0 && <p className="px-6 py-8 text-sm text-slate-500">No active projects.</p>}</div>
+      </section>
 
       {/* Hero Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
