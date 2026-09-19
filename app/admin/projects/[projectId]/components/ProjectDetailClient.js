@@ -14,6 +14,7 @@ import GanttChart from "./GanttChart";
 import ExpensesTab from "./ExpensesTab";
 import ChangesTab from "./ChangesTab";
 import ItemPurchasesTab from "./ItemPurchasesTab";
+import ProjectInsights from "./ProjectInsights";
 
 /**
  * Project Detail Client Component
@@ -348,28 +349,28 @@ export default function ProjectDetailClient({
     loadAdminTasks();
   }, [project.id]);
 
-  // Define tabs
-  const tabs = [
-    { id: "overview", name: "Overview", icon: "📊" },
-    { id: "tasks", name: "Tasks", icon: "📋" },
+  const primaryTabs = [
+    { id: "overview", name: "Overview" },
+    { id: "tasks", name: "Site Tasks" },
     {
       id: "admin-tasks",
       name: `Admin Tasks${incompleteAdminTasksCount > 0 ? ` (${incompleteAdminTasksCount})` : ""}`,
-      icon: "👥",
     },
-    { id: "milestones", name: "Milestones", icon: "🎯" },
-    { id: "documents", name: "Documents", icon: "📄" },
-    { id: "payments", name: "Payment Plan", icon: "💰" },
-    { id: "changes", name: "Changes", icon: "🔄" },
-    { id: "expenses", name: "Expenses", icon: "💳" },
-    { id: "item-purchases", name: "Item Purchases", icon: "🛒" },
-    { id: "notes", name: "Notes", icon: "📝" },
-    { id: "gantt", name: "Gantt Chart", icon: "📈" },
+    { id: "gantt", name: "Schedule" },
+    { id: "reports", name: "Reports" },
+  ];
+  const recordTabs = [
+    { id: "milestones", name: "Milestones" },
+    { id: "documents", name: "Documents" },
+    { id: "payments", name: "Payment Plan" },
+    { id: "changes", name: "Changes" },
+    { id: "expenses", name: "Expenses" },
+    { id: "item-purchases", name: "Item Purchases" },
+    { id: "notes", name: "Notes" },
   ];
 
   // Calculate current progress
   const currentProgress = calculateProgress();
-  console.log("Current progress:", currentProgress);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -401,10 +402,8 @@ export default function ProjectDetailClient({
           </div>
 
           <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-xl font-bold text-white shadow-lg sm:h-20 sm:w-20 sm:text-2xl">
-              🏗️
-            </div>
             <div className="min-w-0 flex-1">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{project.type}</p>
               <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl">
                 {project.name}
               </h1>
@@ -423,7 +422,7 @@ export default function ProjectDetailClient({
                 {getStatusBadge(project.status)}
                 {getPriorityBadge(project.priority)}
                 <span className="text-xs text-gray-500 sm:text-sm">
-                  Progress: {currentProgress}%
+                  Site tasks: {currentProgress}% done
                 </span>
                 {project.startDate &&
                   new Date(project.startDate) > new Date() && (
@@ -474,60 +473,35 @@ export default function ProjectDetailClient({
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 lg:px-8">
-        {/* Progress Overview */}
-        <div className="mb-6 rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-200 sm:mb-8 sm:p-6">
-          <div className="mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Project Progress
-            </h3>
-            <p className="text-sm text-gray-600">Overall completion status</p>
-          </div>
-          <div className="mb-2 flex justify-between text-sm">
-            <span className="font-medium text-gray-700">Overall Progress</span>
-            <span className="font-semibold text-gray-900">
-              {currentProgress}%
-            </span>
-          </div>
-          <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
-            <div
-              className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500"
-              style={{ width: `${currentProgress}%` }}
-            ></div>
-          </div>
-        </div>
-
         {/* Tabs */}
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="hide-scrollbar flex flex-nowrap gap-1 overflow-x-auto sm:gap-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => handleTabChange(tab.id)}
-                  className={`group relative min-w-[100px] flex-shrink-0 rounded-t-lg px-2 py-2 text-xs font-medium transition-all duration-200 sm:min-w-[120px] sm:px-3 sm:py-3 sm:text-sm md:min-w-[140px] md:px-4 ${
-                    activeTab === tab.id
-                      ? "bg-white text-blue-600 shadow-sm ring-1 ring-blue-500 ring-opacity-50"
-                      : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                  }`}
-                >
-                  <div className="flex items-center justify-center space-x-1 sm:space-x-2">
-                    <span className="text-sm sm:text-base">{tab.icon}</span>
-                    <span className="hidden xs:inline">{tab.name}</span>
-                    <span className="xs:hidden">{tab.name.split(" ")[0]}</span>
-                  </div>
-                  {activeTab === tab.id && (
-                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600"></div>
-                  )}
-                </button>
-              ))}
-            </nav>
-          </div>
+        <div className="mb-6 rounded-lg border border-slate-200 bg-white px-2 sm:px-4">
+          <nav aria-label="Project views" className="flex gap-1 overflow-x-auto border-b border-slate-200 py-2">
+            {primaryTabs.map((tab) => (
+              <button key={tab.id} type="button" onClick={() => handleTabChange(tab.id)}
+                aria-current={activeTab === tab.id ? "page" : undefined}
+                className={`shrink-0 rounded-md px-3 py-2 text-sm font-medium ${activeTab === tab.id ? "bg-blue-700 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                {tab.name}
+              </button>
+            ))}
+          </nav>
+          <nav aria-label="Project records" className="flex gap-1 overflow-x-auto py-2">
+            {recordTabs.map((tab) => (
+              <button key={tab.id} type="button" onClick={() => handleTabChange(tab.id)}
+                aria-current={activeTab === tab.id ? "page" : undefined}
+                className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-medium ${activeTab === tab.id ? "bg-slate-800 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                {tab.name}
+              </button>
+            ))}
+          </nav>
         </div>
 
         {/* Tab Content */}
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
           {activeTab === "overview" && (
             <div className="p-4 sm:p-6">
+              <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
+                milestones={milestones} expenses={expenses} payments={payments}
+                changes={changes} itemPurchases={itemPurchases} compact onNavigate={handleTabChange} />
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Project Overview
@@ -656,10 +630,10 @@ export default function ProjectDetailClient({
             <div className="p-4 sm:p-6">
               <div className="mb-6 flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
-                  Project Tasks
+                  Site Tasks
                 </h2>
               </div>
-              <TasksTable projectId={project.id} />
+              <TasksTable projectId={project.id} onTasksChange={setTasks} />
             </div>
           )}
 
@@ -1572,7 +1546,15 @@ export default function ProjectDetailClient({
                 projectName={project.name}
                 tasks={tasks}
                 sections={sections}
+                milestones={milestones}
               />
+            </div>
+          )}
+          {activeTab === "reports" && (
+            <div className="p-4 sm:p-6">
+              <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
+                milestones={milestones} expenses={expenses} payments={payments}
+                changes={changes} itemPurchases={itemPurchases} onNavigate={handleTabChange} />
             </div>
           )}
         </div>

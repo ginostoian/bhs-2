@@ -42,8 +42,8 @@ export async function POST(req, { params }) {
 
     // Check if task is assigned to this employee
     if (
-      !task.assignedTo ||
-      task.assignedTo.toString() !== employee._id.toString()
+      task.assignedTo?.toString() !== employee._id.toString() &&
+      !task.assignedWorkers?.some((id) => id.toString() === employee._id.toString())
     ) {
       return NextResponse.json(
         { error: "You can only update tasks assigned to you" },

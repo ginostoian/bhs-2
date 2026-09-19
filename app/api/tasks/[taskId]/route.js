@@ -29,9 +29,14 @@ export async function PATCH(req, { params }) {
     if (!task) {
       return NextResponse.json({ error: "Task not found" }, { status: 404 });
     }
-    // If not admin, only allow assigned employee to update
+    // If not admin, only allow an assigned employee to update status.
     if (session.user.role !== "admin") {
-      if (!task.assignedTo || task.assignedTo.toString() !== session.user.id) {
+      const employee = await Employee.findOne({ email: session.user.email });
+      const isAssigned = employee && (
+        task.assignedTo?.toString() === employee.id ||
+        task.assignedWorkers?.some((id) => id.toString() === employee.id)
+      );
+      if (!isAssigned || Object.keys(body).some((key) => key !== "status")) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
     }
@@ -40,7 +45,21 @@ export async function PATCH(req, { params }) {
 
     // Update allowed fields
     if (body.status) task.status = body.status;
-    if (body.assignedTo !== undefined) task.assignedTo = body.assignedTo;
+    if (body.assignedWorkers !== undefined || body.assignedTo !== undefined) {
+      if (body.assignedWorkers !== undefined && !Array.isArray(body.assignedWorkers)) {
+        return NextResponse.json({ error: "Workers must be a list" }, { status: 400 });
+      }
+      const workerIds = [...new Set(body.assignedWorkers ??
+        (body.assignedTo ? [body.assignedTo] : []))];
+      const count = await Employee.countDocuments({
+        _id: { $in: workerIds },
+      });
+      if (count !== workerIds.length) {
+        return NextResponse.json({ error: "Choose valid workers" }, { status: 400 });
+      }
+      task.assignedWorkers = workerIds;
+      task.assignedTo = workerIds[0] || null;
+    }
     if (body.attachments) task.attachments = body.attachments;
     if (body.name) task.name = body.name;
     if (body.description) task.description = body.description;
@@ -60,6 +79,7 @@ export async function PATCH(req, { params }) {
 
     // Populate the task before returning
     await task.populate("assignedTo", "name position");
+    await task.populate("assignedWorkers", "name position");
     await task.populate("section", "name color icon");
 
     // Send notification if task was assigned to a new employee
@@ -143,6 +163,22 @@ export async function PUT(req, { params }) {
     // Store the previous assignment to check if it changed
     const previousAssignedTo = task.assignedTo;
 
+    if (body.assignedWorkers !== undefined || body.assignedTo !== undefined) {
+      if (body.assignedWorkers !== undefined && !Array.isArray(body.assignedWorkers)) {
+        return NextResponse.json({ error: "Workers must be a list" }, { status: 400 });
+      }
+      const workerIds = [...new Set(body.assignedWorkers ??
+        (body.assignedTo ? [body.assignedTo] : []))];
+      const count = await Employee.countDocuments({
+        _id: { $in: workerIds },
+      });
+      if (count !== workerIds.length) {
+        return NextResponse.json({ error: "Choose valid workers" }, { status: 400 });
+      }
+      body.assignedWorkers = workerIds;
+      body.assignedTo = workerIds[0] || null;
+    }
+
     // Handle date conversion for plannedStartDate before Object.assign
     if (body.plannedStartDate !== undefined) {
       body.plannedStartDate = body.plannedStartDate
@@ -150,17 +186,21 @@ export async function PUT(req, { params }) {
         : null;
     }
 
-    // Update all fields, handling null values for ObjectId fields
-    Object.assign(task, body);
-
-    // Handle null values for ObjectId fields
-    if (body.assignedTo === null) task.assignedTo = null;
-    if (body.section === null) task.section = null;
+    // Only editable fields may change; keep the task's project and history intact.
+    const editableFields = [
+      "name", "description", "section", "status", "assignedTo",
+      "assignedWorkers", "estimatedDuration", "plannedStartDate",
+      "priority", "notes", "tags", "attachments", "relatedDocuments", "order",
+    ];
+    editableFields.forEach((field) => {
+      if (body[field] !== undefined) task[field] = body[field];
+    });
 
     await task.save();
 
     // Populate the task before returning
     await task.populate("assignedTo", "name position");
+    await task.populate("assignedWorkers", "name position");
     await task.populate("section", "name color icon");
 
     // Send notification if task was assigned to a new employee

@@ -33,7 +33,9 @@ export default async function EmployeeTasksPage() {
   }
 
   // Get employee's tasks
-  const tasks = await Task.find({ assignedTo: employee._id })
+  const tasks = await Task.find({ $or: [
+    { assignedTo: employee._id }, { assignedWorkers: employee._id },
+  ] })
     .populate("project", "name type status location")
     .populate("section", "name color icon")
     .sort({ dueDate: 1, priority: -1 })

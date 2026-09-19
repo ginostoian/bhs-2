@@ -44,6 +44,11 @@ const taskSchema = mongoose.Schema(
       ref: "Employee",
       index: true,
     },
+    // All workers on the task. assignedTo remains the primary worker for
+    // existing records and integrations.
+    assignedWorkers: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
+    ],
     // Estimated duration in days
     estimatedDuration: {
       type: Number,
@@ -218,7 +223,9 @@ taskSchema.statics.getProjectTasks = function (projectId) {
 
 // Static method to get tasks for an employee
 taskSchema.statics.getEmployeeTasks = function (employeeId) {
-  return this.find({ assignedTo: employeeId })
+  return this.find({ $or: [
+    { assignedTo: employeeId }, { assignedWorkers: employeeId },
+  ] })
     .populate("project", "name type status")
     .populate("section", "name color icon")
     .sort({ startDate: 1, priority: -1 });

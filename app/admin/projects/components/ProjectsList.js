@@ -1,634 +1,166 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
 
-/**
- * Projects List Component
- * Displays all ongoing projects in a card layout with progress tracking
- */
-/**
- * Projects List Component
- * Displays all ongoing projects in a card layout with progress tracking
- */
-export default function ProjectsList({
-  projects: initialProjects,
-  pagination,
-}) {
-  const { data: session, status } = useSession();
-  const projects = initialProjects;
-  const [isCreatingProjects, setIsCreatingProjects] = useState(false);
-  const [isCheckingUsers, setIsCheckingUsers] = useState(false);
-  const [userStatus, setUserStatus] = useState(null);
+const dateLabel = (value) =>
+  value
+    ? new Date(value).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "Not set";
 
-  const createProjectsForUsers = async () => {
-    setIsCreatingProjects(true);
-    try {
-      const response = await fetch("/api/admin/create-projects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // Ensure cookies are sent
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        // Refresh the page to show new projects
-        window.location.reload();
-        toast.success(
-          `Created ${result.summary.projectsCreated} new projects!`,
-        );
-      } else {
-        toast.error(result.error || "Failed to create projects");
-      }
-    } catch (error) {
-      console.error("Error creating projects:", error);
-      toast.error("Failed to create projects");
-    } finally {
-      setIsCreatingProjects(false);
-    }
-  };
-
-  const checkUsersStatus = async () => {
-    setIsCheckingUsers(true);
-    try {
-      console.log("Session status:", status);
-      console.log("Session data:", session);
-      console.log("Making request to check users...");
-
-      const response = await fetch("/api/admin/check-users", {
-        credentials: "include", // Ensure cookies are sent
-      });
-      console.log("Response status:", response.status);
-      const result = await response.json();
-      console.log("Response data:", result);
-
-      if (response.ok) {
-        setUserStatus(result);
-        toast.success(
-          `Found ${result.summary.ongoingUsers} users with "On Going" status`,
-        );
-      } else {
-        toast.error(result.error || "Failed to check users");
-      }
-    } catch (error) {
-      console.error("Error checking users:", error);
-      toast.error("Failed to check users");
-    } finally {
-      setIsCheckingUsers(false);
-    }
-  };
-
-  // Helper function to format date
-  const formatDate = (date) => {
-    if (!date) return "Not set";
-    return new Date(date).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  // Helper function to calculate progress percentage
-  const calculateProgress = (project) => {
-    if (!project.tasksCount || project.tasksCount === 0) return 0;
-    return Math.round((project.completedTasksCount / project.tasksCount) * 100);
-  };
-
-  // Helper function to get priority badge
-  const getPriorityBadge = (priority) => {
-    const badges = {
-      low: "bg-gray-100 text-gray-800 ring-1 ring-gray-200",
-      medium: "bg-blue-100 text-blue-800 ring-1 ring-blue-200",
-      high: "bg-orange-100 text-orange-800 ring-1 ring-orange-200",
-      urgent: "bg-red-100 text-red-800 ring-1 ring-red-200",
-    };
-    return badges[priority] || badges.medium;
-  };
-
-  // Helper function to get type badge
-  const getTypeBadge = (type) => {
-    const badges = {
-      "Kitchen Renovation": "bg-green-100 text-green-800 ring-1 ring-green-200",
-      "Bathroom Renovation": "bg-blue-100 text-blue-800 ring-1 ring-blue-200",
-      "House Extension": "bg-purple-100 text-purple-800 ring-1 ring-purple-200",
-      "Loft Conversion": "bg-indigo-100 text-indigo-800 ring-1 ring-indigo-200",
-      "General Renovation": "bg-gray-100 text-gray-800 ring-1 ring-gray-200",
-    };
-    return badges[type] || badges["General Renovation"];
-  };
-
-  // Helper function to format budget
-  const formatBudget = (budget) => {
-    if (!budget) return "Not set";
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency: "GBP",
-    }).format(budget);
-  };
-
-  // Calculate summary statistics
-  const totalProjects = projects.length;
-  const activeProjects = projects.filter((p) => p.status === "On Going").length;
-  const totalCompletedTasks = projects.reduce(
-    (sum, p) => sum + (p.completedTasksCount || 0),
+export default function ProjectsList({ projects = [], pagination }) {
+  const total = pagination?.total ?? projects.length;
+  const blockedOnPage = projects.reduce(
+    (sum, project) => sum + (project.blockedTasks || 0),
     0,
   );
-  const totalInProgressTasks = projects.reduce(
-    (sum, p) => sum + (p.inProgressTasks || 0),
-    0,
-  );
-  const totalBudget = projects.reduce((sum, p) => sum + (p.budget || 0), 0);
+  const missingFinishOnPage = projects.filter(
+    (project) => !project.projectedFinishDate,
+  ).length;
 
   return (
-    <div className="space-y-8">
-      {/* Summary Statistics Cards */}
-      {projects.length > 0 && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-100 p-6 shadow-sm ring-1 ring-blue-200">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                  />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-blue-600">
-                  Total Projects
-                </p>
-                <p className="text-2xl font-bold text-blue-900">
-                  {totalProjects}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl bg-gradient-to-br from-green-50 to-green-100 p-6 shadow-sm ring-1 ring-green-200">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-green-600">
-                  Active Projects
-                </p>
-                <p className="text-2xl font-bold text-green-900">
-                  {activeProjects}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl bg-gradient-to-br from-purple-50 to-purple-100 p-6 shadow-sm ring-1 ring-purple-200">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-purple-500">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-                  />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-purple-600">
-                  Completed Tasks
-                </p>
-                <p className="text-2xl font-bold text-purple-900">
-                  {totalCompletedTasks}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 p-6 shadow-sm ring-1 ring-orange-200">
-            <div className="flex items-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                  />
-                </svg>
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-orange-600">
-                  Total Budget
-                </p>
-                <p className="text-lg font-bold text-orange-900">
-                  {formatBudget(totalBudget)}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Projects Grid */}
-      {projects.length > 0 ? (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
-          {projects.map((project) => {
-            const progress = calculateProgress(project);
-            return (
-              <div
-                key={project.id}
-                className="group relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-200 transition-all duration-200 hover:shadow-lg hover:ring-gray-300"
-              >
-                {/* Project Header */}
-                <div className="border-b border-gray-100 p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="min-w-0 flex-1">
-                      <h3 className="truncate text-lg font-semibold text-gray-900">
-                        {project.name}
-                      </h3>
-                      <div className="mt-2 flex items-center space-x-2">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getTypeBadge(project.type)}`}
-                        >
-                          {project.type}
-                        </span>
-                        <span
-                          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                            project.status === "On Going"
-                              ? "bg-blue-100 text-blue-800 ring-1 ring-blue-200"
-                              : "bg-green-100 text-green-800 ring-1 ring-green-200"
-                          }`}
-                        >
-                          {project.status}
-                        </span>
-                      </div>
-                      {project.location && (
-                        <p className="mt-2 flex items-center text-sm text-gray-500">
-                          <svg
-                            className="mr-1.5 h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                          </svg>
-                          {project.location}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Progress Section */}
-                <div className="p-6">
-                  {/* Progress Bar */}
-                  <div className="mb-4">
-                    <div className="mb-2 flex items-center justify-between text-sm">
-                      <span className="font-medium text-gray-700">
-                        Progress
-                      </span>
-                      <span className="font-semibold text-gray-900">
-                        {progress}%
-                      </span>
-                    </div>
-                    <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
-                      <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600 transition-all duration-500"
-                        style={{ width: `${progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-
-                  {/* Task Statistics */}
-                  <div className="mb-6 grid grid-cols-2 gap-4">
-                    <div className="rounded-lg bg-gray-50 p-3 text-center">
-                      <div className="text-lg font-bold text-gray-900">
-                        {project.tasksCount}
-                      </div>
-                      <div className="text-xs text-gray-600">Total Tasks</div>
-                    </div>
-                    <div className="rounded-lg bg-green-50 p-3 text-center">
-                      <div className="text-lg font-bold text-green-600">
-                        {project.completedTasksCount}
-                      </div>
-                      <div className="text-xs text-gray-600">Completed</div>
-                    </div>
-                    <div className="rounded-lg bg-blue-50 p-3 text-center">
-                      <div className="text-lg font-bold text-blue-600">
-                        {project.inProgressTasks || 0}
-                      </div>
-                      <div className="text-xs text-gray-600">In Progress</div>
-                    </div>
-                    <div className="rounded-lg bg-orange-50 p-3 text-center">
-                      <div className="text-lg font-bold text-orange-600">
-                        {project.scheduledTasks || 0}
-                      </div>
-                      <div className="text-xs text-gray-600">Scheduled</div>
-                    </div>
-                  </div>
-
-                  {/* Project Details */}
-                  <div className="mb-6 space-y-3 text-sm text-gray-600">
-                    <div className="flex items-center justify-between">
-                      <span className="flex items-center">
-                        <svg
-                          className="mr-2 h-4 w-4 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          />
-                        </svg>
-                        {project.user?.name || "Unknown"}
-                      </span>
-                      <Link
-                        href={`/admin/users/${project.user?.id}`}
-                        className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
-                        View User
-                      </Link>
-                    </div>
-                    <div className="flex items-center">
-                      <svg
-                        className="mr-2 h-4 w-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                        />
-                      </svg>
-                      Started: {formatDate(project.startDate)}
-                    </div>
-                    {project.budget && (
-                      <div className="flex items-center">
-                        <svg
-                          className="mr-2 h-4 w-4 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                          />
-                        </svg>
-                        Budget: {formatBudget(project.budget)}
-                      </div>
-                    )}
-                    {project.projectManager && (
-                      <div className="flex items-center">
-                        <svg
-                          className="mr-2 h-4 w-4 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                          />
-                        </svg>
-                        {project.projectManager.name} (
-                        {project.projectManager.position})
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="flex space-x-3">
-                    <Link
-                      href={`/admin/projects/${project.id}`}
-                      className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                      View Details
-                    </Link>
-                    <Link
-                      href={`/admin/projects/${project.id}?tab=tasks`}
-                      className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-center text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
-                      Manage Tasks
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        /* Empty State */
-        <div className="rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-gray-200">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
-            <svg
-              className="h-10 w-10 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              />
-            </svg>
-          </div>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">
-            No Active Projects
-          </h3>
-          <p className="mb-6 text-gray-600">
-            There are currently no ongoing projects. Projects are created when
-            users are moved from &ldquo;Lead&rdquo; to &ldquo;On Going&rdquo;
-            status.
+    <div className="space-y-5">
+      <div className="grid gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 sm:grid-cols-3">
+        <div className="bg-white p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Ongoing projects
           </p>
-          <Link
-            href="/admin"
-            className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            Manage Users
-          </Link>
+          <p className="mt-1 text-2xl font-semibold text-slate-900">{total}</p>
         </div>
-      )}
-      {/* Pagination Controls */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-          <div className="flex flex-1 justify-between sm:hidden">
-            <Link
-              href={
-                pagination.page > 1
-                  ? `?page=${pagination.page - 1}`
-                  : `?page=${pagination.page}`
-              }
-              className={`relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
-                pagination.page <= 1 ? "pointer-events-none opacity-50" : ""
-              }`}
-            >
-              Previous
-            </Link>
-            <Link
-              href={
-                pagination.page < pagination.totalPages
-                  ? `?page=${pagination.page + 1}`
-                  : `?page=${pagination.page}`
-              }
-              className={`relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 ${
-                pagination.page >= pagination.totalPages
-                  ? "pointer-events-none opacity-50"
-                  : ""
-              }`}
-            >
-              Next
-            </Link>
-          </div>
-          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm text-gray-700">
-                Showing{" "}
-                <span className="font-medium">
-                  {(pagination.page - 1) * pagination.limit + 1}
-                </span>{" "}
-                to{" "}
-                <span className="font-medium">
-                  {Math.min(
-                    pagination.page * pagination.limit,
-                    pagination.total,
-                  )}
-                </span>{" "}
-                of <span className="font-medium">{pagination.total}</span>{" "}
-                results
-              </p>
-            </div>
-            <div>
-              <nav
-                className="isolate inline-flex -space-x-px rounded-md shadow-sm"
-                aria-label="Pagination"
+        <div className="bg-white p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Blocked site tasks on this page
+          </p>
+          <p className="mt-1 text-2xl font-semibold text-slate-900">
+            {blockedOnPage}
+          </p>
+        </div>
+        <div className="bg-white p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            Finish date missing on this page
+          </p>
+          <p className="mt-1 text-2xl font-semibold text-slate-900">
+            {missingFinishOnPage}
+          </p>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+        <table className="w-full min-w-[850px] divide-y divide-slate-200 text-sm">
+          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+            <tr>
+              <th className="px-4 py-3">Project</th>
+              <th className="px-4 py-3">Client</th>
+              <th className="px-4 py-3">Project manager</th>
+              <th className="px-4 py-3">Projected finish</th>
+              <th className="px-4 py-3">Site tasks</th>
+              <th className="px-4 py-3">Blocked</th>
+              <th className="px-4 py-3">Go to</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {projects.map((project) => (
+              <tr key={project.id} className="hover:bg-slate-50">
+                <td className="px-4 py-4">
+                  <Link
+                    href={`/admin/projects/${project.id}`}
+                    className="font-semibold text-slate-900 hover:text-blue-700 hover:underline"
+                  >
+                    {project.name}
+                  </Link>
+                  <span className="mt-0.5 block text-xs text-slate-500">
+                    {project.type} · {project.location || "Location not set"}
+                  </span>
+                </td>
+                <td className="px-4 py-4 text-slate-700">
+                  {project.user?.name || project.user?.email || "Unknown"}
+                </td>
+                <td className="px-4 py-4 text-slate-700">
+                  {project.projectManager?.name || "Unassigned"}
+                </td>
+                <td className="px-4 py-4 text-slate-700">
+                  {dateLabel(project.projectedFinishDate)}
+                </td>
+                <td className="px-4 py-4 text-slate-700">
+                  {project.completedTasksCount || 0}/{project.tasksCount || 0}{" "}
+                  done
+                </td>
+                <td className="px-4 py-4">
+                  <span
+                    className={
+                      project.blockedTasks
+                        ? "font-semibold text-red-700"
+                        : "text-slate-500"
+                    }
+                  >
+                    {project.blockedTasks || 0}
+                  </span>
+                </td>
+                <td className="whitespace-nowrap px-4 py-4 text-xs font-medium">
+                  <Link
+                    href={`/admin/projects/${project.id}?tab=tasks`}
+                    className="mr-3 text-blue-700 hover:underline"
+                  >
+                    Site
+                  </Link>
+                  <Link
+                    href={`/admin/projects/${project.id}?tab=admin-tasks`}
+                    className="mr-3 text-blue-700 hover:underline"
+                  >
+                    Admin
+                  </Link>
+                  <Link
+                    href={`/admin/projects/${project.id}?tab=gantt`}
+                    className="text-blue-700 hover:underline"
+                  >
+                    Schedule
+                  </Link>
+                </td>
+              </tr>
+            ))}
+            {!projects.length && (
+              <tr>
+                <td
+                  colSpan={7}
+                  className="px-4 py-12 text-center text-slate-500"
+                >
+                  No ongoing projects found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {pagination?.totalPages > 1 && (
+        <div className="flex items-center justify-between gap-3 text-sm text-slate-600">
+          <span>
+            Showing {(pagination.page - 1) * pagination.limit + 1}–
+            {Math.min(pagination.page * pagination.limit, total)} of {total}
+          </span>
+          <div className="flex items-center gap-2">
+            {pagination.page > 1 && (
+              <Link
+                href={`?page=${pagination.page - 1}`}
+                className="rounded-md border border-slate-300 bg-white px-3 py-2 hover:bg-slate-50"
               >
-                <Link
-                  href={
-                    pagination.page > 1
-                      ? `?page=${pagination.page - 1}`
-                      : `?page=${pagination.page}`
-                  }
-                  className={`relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                    pagination.page <= 1 ? "pointer-events-none opacity-50" : ""
-                  }`}
-                >
-                  <span className="sr-only">Previous</span>
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Link>
-                {/* Current Page Indicator */}
-                <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
-                  Page {pagination.page} of {pagination.totalPages}
-                </span>
-                <Link
-                  href={
-                    pagination.page < pagination.totalPages
-                      ? `?page=${pagination.page + 1}`
-                      : `?page=${pagination.page}`
-                  }
-                  className={`relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
-                    pagination.page >= pagination.totalPages
-                      ? "pointer-events-none opacity-50"
-                      : ""
-                  }`}
-                >
-                  <span className="sr-only">Next</span>
-                  <svg
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </Link>
-              </nav>
-            </div>
+                Previous
+              </Link>
+            )}
+            <span>
+              Page {pagination.page} of {pagination.totalPages}
+            </span>
+            {pagination.page < pagination.totalPages && (
+              <Link
+                href={`?page=${pagination.page + 1}`}
+                className="rounded-md border border-slate-300 bg-white px-3 py-2 hover:bg-slate-50"
+              >
+                Next
+              </Link>
+            )}
           </div>
         </div>
       )}

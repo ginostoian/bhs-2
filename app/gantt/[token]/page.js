@@ -3,6 +3,7 @@ import GanttShare from "@/models/GanttShare";
 import Project from "@/models/Project";
 import Task from "@/models/Task";
 import TaskSection from "@/models/TaskSection";
+import Milestone from "@/models/Milestone";
 import { notFound } from "next/navigation";
 import PublicGanttChart from "./components/PublicGanttChart";
 
@@ -56,6 +57,7 @@ export default async function PublicGanttPage({ params }) {
 
   // Fetch project tasks
   const tasks = await Task.getProjectTasks(project._id)
+    .populate("assignedWorkers", "name position")
     .lean()
     .then((docs) =>
       docs.map((doc) => ({
@@ -76,6 +78,9 @@ export default async function PublicGanttPage({ params }) {
               position: doc.assignedTo.position,
             }
           : null,
+        assignedWorkers: (doc.assignedWorkers || []).filter(Boolean).map((worker) => ({
+          id: worker._id.toString(), name: worker.name, position: worker.position,
+        })),
         section: doc.section
           ? {
               id: doc.section._id.toString(),
@@ -86,6 +91,11 @@ export default async function PublicGanttPage({ params }) {
           : null,
       })),
     );
+
+  const milestones = await Milestone.find({ project: project._id })
+    .sort({ date: 1 }).lean().then((docs) => docs.map((doc) => ({
+      id: doc._id.toString(), name: doc.name, date: doc.date, status: doc.status,
+    })));
 
   // Convert project to plain object
   const projectData = {
@@ -120,6 +130,7 @@ export default async function PublicGanttPage({ params }) {
       project={projectData}
       tasks={tasks}
       sections={sections}
+      milestones={milestones}
       shareToken={token}
     />
   );

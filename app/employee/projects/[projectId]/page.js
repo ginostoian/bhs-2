@@ -48,7 +48,7 @@ export default async function EmployeeProjectPage({ params }) {
   // Check if employee has tasks in this project
   const employeeTasks = await Task.find({
     project: projectId,
-    assignedTo: employee._id,
+    $or: [{ assignedTo: employee._id }, { assignedWorkers: employee._id }],
   }).lean();
 
   if (employeeTasks.length === 0) {
@@ -63,6 +63,7 @@ export default async function EmployeeProjectPage({ params }) {
   // Get all tasks for this project (employee can see all tasks but only update their own)
   const allTasks = await Task.find({ project: projectId })
     .populate("assignedTo", "name position")
+    .populate("assignedWorkers", "name position")
     .populate("section", "name color icon")
     .sort({ "section.order": 1, order: 1 })
     .lean();
@@ -128,6 +129,9 @@ export default async function EmployeeProjectPage({ params }) {
           _id: undefined,
         }
       : null,
+    assignedWorkers: (task.assignedWorkers || []).filter(Boolean).map((worker) => ({
+      id: worker._id.toString(), name: worker.name, position: worker.position,
+    })),
   }));
 
   const documentsData = filteredDocuments.map((doc) => ({

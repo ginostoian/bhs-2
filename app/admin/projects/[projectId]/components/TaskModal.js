@@ -21,7 +21,7 @@ export default function TaskModal({
     description: "",
     section: "",
     status: "Scheduled",
-    assignedTo: "",
+    assignedWorkers: [],
     estimatedDuration: 1,
     plannedStartDate: "",
     priority: "medium",
@@ -56,7 +56,9 @@ export default function TaskModal({
         description: task.description || "",
         section: task.section?.id || "",
         status: task.status || "Scheduled",
-        assignedTo: task.assignedTo?.id || "",
+        assignedWorkers: task.assignedWorkers?.filter(Boolean).length
+          ? task.assignedWorkers.filter(Boolean).map((worker) => worker.id || worker._id || worker)
+          : task.assignedTo?.id ? [task.assignedTo.id] : [],
         estimatedDuration: task.estimatedDuration || 1,
         plannedStartDate: task.plannedStartDate
           ? new Date(task.plannedStartDate).toISOString().split("T")[0]
@@ -73,7 +75,7 @@ export default function TaskModal({
         section:
           defaultSection?.id || (sections.length > 0 ? sections[0].id : ""),
         status: "Scheduled",
-        assignedTo: "",
+        assignedWorkers: [],
         estimatedDuration: 1,
         plannedStartDate: "",
         priority: "medium",
@@ -153,8 +155,8 @@ export default function TaskModal({
     if (formData.description && formData.description.length > 500) {
       newErrors.description = "Description must be less than 500 characters";
     }
-    if (formData.estimatedDuration < 0) {
-      newErrors.estimatedDuration = "Duration must be positive";
+    if (formData.estimatedDuration < 1) {
+      newErrors.estimatedDuration = "Duration must be at least one day";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -177,7 +179,8 @@ export default function TaskModal({
       const submitData = {
         ...formData,
         // Convert empty strings to null for ObjectId fields
-        assignedTo: formData.assignedTo || null,
+        assignedTo: formData.assignedWorkers[0] || null,
+        assignedWorkers: formData.assignedWorkers,
         section: formData.section || null,
         // Convert empty date strings to null
         plannedStartDate: formData.plannedStartDate || null,
@@ -346,30 +349,36 @@ export default function TaskModal({
                 </select>
               </div>
 
-              {/* Assigned To */}
-              <div>
-                <label
-                  htmlFor="assignedTo"
-                  className="mb-1 block text-sm font-medium text-gray-700"
-                >
-                  Assigned To
-                </label>
-                <select
-                  id="assignedTo"
-                  name="assignedTo"
-                  value={formData.assignedTo}
-                  onChange={handleChange}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={loading}
-                >
-                  <option value="">Unassigned</option>
+              <fieldset>
+                <legend className="mb-1 text-sm font-medium text-gray-700">
+                  Assign workers
+                </legend>
+                <p className="mb-2 text-xs text-gray-500">
+                  Select one or more workers. The first selected worker is the primary assignee.
+                </p>
+                <div className="max-h-36 space-y-1 overflow-y-auto rounded-md border border-gray-300 p-2">
+                  {employees.length === 0 && (
+                    <p className="text-sm text-gray-500">No active workers found.</p>
+                  )}
                   {employees.map((employee) => (
-                    <option key={employee.id} value={employee.id}>
-                      {employee.name} ({employee.position})
-                    </option>
+                    <label key={employee.id} className="flex items-center gap-2 rounded px-2 py-1 text-sm hover:bg-gray-50">
+                      <input
+                        type="checkbox"
+                        checked={formData.assignedWorkers.includes(employee.id)}
+                        onChange={() => setFormData((previous) => ({
+                          ...previous,
+                          assignedWorkers: previous.assignedWorkers.includes(employee.id)
+                            ? previous.assignedWorkers.filter((id) => id !== employee.id)
+                            : [...previous.assignedWorkers, employee.id],
+                        }))}
+                        disabled={loading}
+                      />
+                      <span>{employee.name}</span>
+                      <span className="text-gray-500">{employee.position}</span>
+                    </label>
                   ))}
-                </select>
-              </div>
+                </div>
+              </fieldset>
 
               {/* Estimated Duration */}
               <div>
@@ -385,7 +394,7 @@ export default function TaskModal({
                   name="estimatedDuration"
                   value={formData.estimatedDuration}
                   onChange={handleChange}
-                  min="0"
+                  min="1"
                   className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     errors.estimatedDuration
                       ? "border-red-300"

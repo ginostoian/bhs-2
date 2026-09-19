@@ -11,7 +11,7 @@ import Modal from "@/components/Modal";
  * Tasks Table Component
  * Main task management interface with sections, status changes, and employee assignments
  */
-export default function TasksTable({ projectId }) {
+export default function TasksTable({ projectId, onTasksChange }) {
   const [tasks, setTasks] = useState([]);
   const [sections, setSections] = useState([]);
   const [employees, setEmployees] = useState([]);
@@ -43,6 +43,10 @@ export default function TasksTable({ projectId }) {
   useEffect(() => {
     loadData();
   }, [projectId]);
+
+  useEffect(() => {
+    if (!loading) onTasksChange?.(tasks);
+  }, [tasks, loading, onTasksChange]);
 
   const loadData = async () => {
     try {
@@ -138,38 +142,14 @@ export default function TasksTable({ projectId }) {
 
       if (response.ok) {
         // Update local state
-        setTasks((prev) =>
-          prev.map((task) =>
-            task.id === taskId ? { ...task, status: newStatus } : task,
-          ),
-        );
+        const { task: updatedTask } = await response.json();
+        setTasks((prev) => {
+          const next = prev.map((task) => task.id === taskId ? updatedTask : task);
+          return next;
+        });
       }
     } catch (error) {
       console.error("Error updating task status:", error);
-    }
-  };
-
-  // Handle employee assignment
-  const handleEmployeeChange = async (taskId, employeeId) => {
-    try {
-      const response = await fetch(`/api/tasks/${taskId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assignedTo: employeeId || null }),
-      });
-
-      if (response.ok) {
-        // Update local state
-        setTasks((prev) =>
-          prev.map((task) =>
-            task.id === taskId
-              ? { ...task, assignedTo: employeeId || null }
-              : task,
-          ),
-        );
-      }
-    } catch (error) {
-      console.error("Error updating task assignment:", error);
     }
   };
 
@@ -255,15 +235,12 @@ export default function TasksTable({ projectId }) {
 
   // Handle task save
   const handleTaskSave = (savedTask) => {
-    if (editingTask) {
-      // Update existing task
-      setTasks((prev) =>
-        prev.map((task) => (task.id === savedTask.id ? savedTask : task)),
-      );
-    } else {
-      // Add new task
-      setTasks((prev) => [...prev, savedTask]);
-    }
+    setTasks((prev) => {
+      const next = editingTask
+        ? prev.map((task) => task.id === savedTask.id ? savedTask : task)
+        : [...prev, savedTask];
+      return next;
+    });
   };
 
   // Handle task edit
@@ -317,9 +294,10 @@ export default function TasksTable({ projectId }) {
 
       if (response.ok) {
         // Remove task from local state
-        setTasks((prev) =>
-          prev.filter((task) => task.id !== deleteModal.taskId),
-        );
+        setTasks((prev) => {
+          const next = prev.filter((task) => task.id !== deleteModal.taskId);
+          return next;
+        });
         setDeleteModal({ isOpen: false, taskId: null, taskName: "" });
       } else {
         const error = await response.json();
@@ -446,7 +424,7 @@ export default function TasksTable({ projectId }) {
       {/* Header */}
       <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div>
-          <h2 className="text-xl font-semibold text-gray-900">Project Tasks</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Site Tasks</h2>
           <p className="mt-1 text-sm text-gray-600">
             Drag and drop tasks to reorder them within each section
           </p>
@@ -624,7 +602,7 @@ export default function TasksTable({ projectId }) {
                                       Task
                                     </th>
                                     <th className="hidden w-32 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4 md:table-cell">
-                                      Assigned
+                                      Workers
                                     </th>
                                     <th className="hidden w-20 px-2 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-4 lg:table-cell">
                                       Duration
@@ -745,32 +723,14 @@ export default function TasksTable({ projectId }) {
                                             </div>
                                           </td>
                                           <td className="hidden px-2 py-3 sm:px-4 md:table-cell">
-                                            <select
-                                              value={task.assignedTo?.id || ""}
-                                              onChange={(e) =>
-                                                handleEmployeeChange(
-                                                  task.id,
-                                                  e.target.value || null,
-                                                )
-                                              }
-                                              onClick={(e) =>
-                                                e.stopPropagation()
-                                              }
-                                              className="w-full rounded-md border-gray-300 text-xs focus:border-blue-500 focus:ring-blue-500"
-                                            >
-                                              <option value="">
-                                                Unassigned
-                                              </option>
-                                              {employees.map((employee) => (
-                                                <option
-                                                  key={employee.id}
-                                                  value={employee.id}
-                                                >
-                                                  {employee.name} (
-                                                  {employee.position})
-                                                </option>
-                                              ))}
-                                            </select>
+                                            <button type="button" onClick={(event) => {
+                                              event.stopPropagation();
+                                              handleTaskEdit(task);
+                                            }} className="text-left text-xs text-blue-700 hover:underline">
+                                              {task.assignedWorkers?.filter(Boolean).length
+                                                ? task.assignedWorkers.filter(Boolean).map((worker) => worker.name).join(", ")
+                                                : task.assignedTo?.name || "Assign workers"}
+                                            </button>
                                           </td>
                                           <td className="hidden px-2 py-3 text-sm text-gray-900 sm:px-4 lg:table-cell">
                                             <div>
@@ -906,8 +866,9 @@ export default function TasksTable({ projectId }) {
                                             Assigned:
                                           </span>
                                           <div className="font-medium">
-                                            {task.assignedTo?.name ||
-                                              "Unassigned"}
+                                            {task.assignedWorkers?.filter(Boolean).length
+                                              ? task.assignedWorkers.filter(Boolean).map((worker) => worker.name).join(", ")
+                                              : task.assignedTo?.name || "Unassigned"}
                                           </div>
                                         </div>
                                         <div>

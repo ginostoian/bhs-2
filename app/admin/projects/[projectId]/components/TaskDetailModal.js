@@ -163,10 +163,12 @@ export default function TaskDetailModal({
 
                   <div>
                     <label className="mb-1 block text-sm font-medium text-gray-700">
-                      Assigned To
+                      Assigned Workers
                     </label>
                     <div className="text-sm text-gray-900">
-                      {getEmployeeName(task.assignedTo?.id)}
+                      {task.assignedWorkers?.filter(Boolean).length
+                        ? task.assignedWorkers.filter(Boolean).map((worker) => worker.name).join(", ")
+                        : getEmployeeName(task.assignedTo?.id)}
                     </div>
                   </div>
 

@@ -75,7 +75,8 @@ export default function EmployeeProjectClient({
 
   // Check if task is assigned to current employee
   const isMyTask = (task) => {
-    return task.assignedTo?.id === employee.id;
+    return task.assignedTo?.id === employee.id ||
+      task.assignedWorkers?.some((worker) => worker.id === employee.id);
   };
 
   // Handle status update request
@@ -285,9 +286,11 @@ export default function EmployeeProjectClient({
                         <div className="mt-2 flex items-center space-x-2">
                           {getStatusBadge(task.status)}
                           {getPriorityBadge(task.priority)}
-                          {task.assignedTo && (
+                          {(task.assignedWorkers?.length > 0 || task.assignedTo) && (
                             <span className="text-xs text-gray-500">
-                              Assigned to: {task.assignedTo.name}
+                              Workers: {task.assignedWorkers?.length > 0
+                                ? task.assignedWorkers.map((worker) => worker.name).join(", ")
+                                : task.assignedTo.name}
                             </span>
                           )}
                         </div>

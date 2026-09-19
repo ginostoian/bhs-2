@@ -17,6 +17,7 @@ export async function GET(req, { params }) {
     const { projectId } = params;
     const tasks = await Task.find({ project: projectId })
       .populate("assignedTo", "name position")
+      .populate("assignedWorkers", "name position")
       .populate("section", "name color icon")
       .sort({ "section.order": 1, order: 1 });
 
@@ -60,17 +61,21 @@ export async function POST(req, { params }) {
     }
     // Get next order
     const order = await Task.getNextOrder(body.section);
-    // Optionally validate assigned employee
-    let assignedTo = null;
-    if (body.assignedTo) {
-      const employee = await Employee.findById(body.assignedTo);
-      if (!employee) {
+    if (body.assignedWorkers !== undefined && !Array.isArray(body.assignedWorkers)) {
+      return NextResponse.json({ error: "Workers must be a list" }, { status: 400 });
+    }
+    const assignedWorkers = [...new Set(body.assignedWorkers ||
+      (body.assignedTo ? [body.assignedTo] : []))];
+    if (assignedWorkers.length) {
+      const workerCount = await Employee.countDocuments({
+        _id: { $in: assignedWorkers },
+      });
+      if (workerCount !== assignedWorkers.length) {
         return NextResponse.json(
-          { error: "Assigned employee not found" },
-          { status: 404 },
+          { error: "Choose valid workers for this task" },
+          { status: 400 },
         );
       }
-      assignedTo = employee._id;
     }
     // Create task
     const task = await Task.create({
@@ -79,7 +84,8 @@ export async function POST(req, { params }) {
       name: body.name,
       description: body.description,
       status: body.status || "Scheduled",
-      assignedTo,
+      assignedTo: assignedWorkers[0] || null,
+      assignedWorkers,
       estimatedDuration: body.estimatedDuration,
       plannedStartDate: body.plannedStartDate
         ? new Date(body.plannedStartDate)
@@ -92,6 +98,7 @@ export async function POST(req, { params }) {
 
     // Populate the task before returning
     await task.populate("assignedTo", "name position");
+    await task.populate("assignedWorkers", "name position");
     await task.populate("section", "name color icon");
 
     // Convert to JSON to ensure proper serialization
