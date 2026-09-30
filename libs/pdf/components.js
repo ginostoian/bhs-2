@@ -1,6 +1,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { Fixed, Svg, Text, View } from "@formepdf/react";
+import { company } from "@/libs/documentFormat";
+
+export {
+  company,
+  formatCurrency,
+  formatDate,
+  formatProjectType,
+} from "@/libs/documentFormat";
 
 // Brand tokens (mirrors tailwind.config.js `brand` palette)
 export const colors = {
@@ -20,14 +28,6 @@ export const colors = {
   redBg: "#FDF0EE",
   green: "#2F6B3F",
   greenBg: "#EEF5EF",
-};
-
-export const company = {
-  name: "Better Homes",
-  tagline: "Extensions · Loft Conversions · Renovations",
-  location: "London, United Kingdom",
-  website: "bhstudio.co.uk",
-  phone: "07922 391591",
 };
 
 const FONT_DIR = path.join(process.cwd(), "libs", "pdf", "fonts");
@@ -63,23 +63,6 @@ export const baseTextStyle = {
 };
 
 export const PAGE_MARGIN = { top: 44, right: 48, bottom: 64, left: 48 };
-
-export const formatCurrency = (amount) =>
-  new Intl.NumberFormat("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  }).format(Number(amount) || 0);
-
-export const formatDate = (date) => {
-  if (!date) return "";
-  const d = new Date(date);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-};
 
 // Forme <Text> only accepts string children
 export const str = (value) =>

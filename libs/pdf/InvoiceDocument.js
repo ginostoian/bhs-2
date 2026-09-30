@@ -1,4 +1,5 @@
 import { Cell, Document, Page, Row, Table, Text, View } from "@formepdf/react";
+import { invoiceStatusLabel } from "@/libs/documentFormat";
 import {
   DocumentHeader,
   Eyebrow,
@@ -37,16 +38,12 @@ const headText = {
 };
 
 const statusFor = (invoice) => {
-  if (invoice.status === "paid")
-    return { label: "Paid", color: colors.green, background: colors.greenBg };
-  if (invoice.isOverdue)
-    return { label: "Overdue", color: colors.red, background: colors.redBg };
-  const label = str(invoice.status);
-  return {
-    label: label.charAt(0).toUpperCase() + label.slice(1),
-    color: colors.olive,
-    background: colors.chalkDeep,
-  };
+  const label = invoiceStatusLabel(invoice);
+  if (label === "Paid")
+    return { label, color: colors.green, background: colors.greenBg };
+  if (label === "Overdue")
+    return { label, color: colors.red, background: colors.redBg };
+  return { label, color: colors.olive, background: colors.chalkDeep };
 };
 
 export const InvoiceDocument = ({ invoice }) => {

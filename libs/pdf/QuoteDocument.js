@@ -21,12 +21,10 @@ import {
   company,
   formatCurrency,
   formatDate,
+  formatProjectType,
   getFonts,
   str,
 } from "./components";
-
-const formatProjectType = (type) =>
-  type ? type.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()) : "";
 
 const COLUMNS = [
   { width: { fraction: 0.55 } },
