@@ -5,19 +5,14 @@ import { useState, useEffect } from "react";
 import { Copy, Download, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-// Dynamic import to avoid build-time serialization issues
-const loadPDFGenerator = async () => {
-  const {
-    generatePrintOptimizedPDF,
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  } = await import("@/libs/htmlQuotePdfGenerator");
-  return {
-    generatePrintOptimizedPDF,
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
+import {
+  DEFAULT_LEAD_TIME,
+  DEFAULT_PAYMENT_TERMS,
+  calculateQuoteTotals,
+  quoteCategoryTotal,
+  quoteTermsSections,
+} from "@/libs/quoteTerms";
 
 export default function PublicQuotePage({ params }) {
   const { id: quoteId } = params;
@@ -309,8 +304,7 @@ export default function PublicQuotePage({ params }) {
             },
             termsAndConditions:
               "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.",
-            warrantyInformation:
-              businessFacts.workmanship,
+            warrantyInformation: businessFacts.workmanship,
             leadTime: "We typically require 2 weeks notice to start a project.",
             validUntil: "2024-02-14T10:30:00Z",
           });
@@ -343,13 +337,9 @@ export default function PublicQuotePage({ params }) {
 
     setDownloadingPDF(true);
     try {
-      // Load PDF generator dynamically
-      const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-
-      // Use the page capture approach with enhanced settings
-      await generatePDFFromCurrentPage(
-        "quote-content",
-        `quote-${quote.quoteNumber || quote.id}.pdf`,
+      await downloadPdf(
+        `/api/quotes/${quoteId}/pdf`,
+        `quote-${quote.quoteNumber || quoteId}.pdf`,
       );
       toast.success("PDF downloaded successfully!");
     } catch (error) {
@@ -400,6 +390,8 @@ export default function PublicQuotePage({ params }) {
       </div>
     );
   }
+
+  const totals = calculateQuoteTotals(quote);
 
   return (
     <div className="mt-10 min-h-screen bg-gray-50">
@@ -616,13 +608,7 @@ export default function PublicQuotePage({ params }) {
                           {service.categoryName}
                         </h4>
                         <span className="rounded-lg bg-white px-4 py-2 text-xl font-bold text-blue-600 shadow-sm">
-                          {formatCurrency(
-                            service.items?.reduce(
-                              (total, item) =>
-                                total + (item.customerTotal || item.total || 0),
-                              0,
-                            ) || 0,
-                          )}
+                          {formatCurrency(quoteCategoryTotal(service))}
                         </span>
                       </div>
 
@@ -730,45 +716,16 @@ export default function PublicQuotePage({ params }) {
                     Services Subtotal:
                   </span>
                   <span className="font-semibold text-gray-900">
-                    {formatCurrency(
-                      quote.services?.reduce(
-                        (total, service) =>
-                          total +
-                          (service.type === "category" || !service.type
-                            ? service.items?.reduce(
-                                (catTotal, item) =>
-                                  catTotal +
-                                  (item.customerTotal || item.total || 0),
-                                0,
-                              ) || 0
-                            : 0),
-                        0,
-                      ) || 0,
-                    )}
+                    {formatCurrency(totals.subtotal)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between border-b border-gray-100 py-2">
                   <span className="font-medium text-gray-600">
-                    VAT ({quote.pricing?.vatRate || 20}%):
+                    VAT ({totals.vatRate}%):
                   </span>
                   <span className="font-semibold text-gray-900">
-                    {formatCurrency(
-                      (quote.services?.reduce(
-                        (total, service) =>
-                          total +
-                          (service.type === "category" || !service.type
-                            ? service.items?.reduce(
-                                (catTotal, item) =>
-                                  catTotal +
-                                  (item.customerTotal || item.total || 0),
-                                0,
-                              ) || 0
-                            : 0),
-                        0,
-                      ) || 0) *
-                        ((quote.pricing?.vatRate || 20) / 100),
-                    )}
+                    {formatCurrency(totals.vat)}
                   </span>
                 </div>
               </div>
@@ -777,22 +734,7 @@ export default function PublicQuotePage({ params }) {
               <div className="mt-6 flex items-center justify-between rounded-lg border-t-2 border-gray-300 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4">
                 <span className="text-xl font-bold text-gray-900">Total:</span>
                 <span className="text-2xl font-bold text-blue-600">
-                  {formatCurrency(
-                    (quote.services?.reduce(
-                      (total, service) =>
-                        total +
-                        (service.type === "category" || !service.type
-                          ? service.items?.reduce(
-                              (catTotal, item) =>
-                                catTotal +
-                                (item.customerTotal || item.total || 0),
-                              0,
-                            ) || 0
-                          : 0),
-                      0,
-                    ) || 0) *
-                      (1 + (quote.pricing?.vatRate || 20) / 100),
-                  )}
+                  {formatCurrency(totals.total)}
                 </span>
               </div>
 
@@ -837,8 +779,7 @@ export default function PublicQuotePage({ params }) {
                     Payment Terms
                   </h4>
                   <p className="leading-relaxed text-gray-700">
-                    {quote.termsAndConditions ||
-                      "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion."}
+                    {quote.termsAndConditions || DEFAULT_PAYMENT_TERMS}
                   </p>
                 </div>
 
@@ -848,10 +789,8 @@ export default function PublicQuotePage({ params }) {
                     Project Timeline
                   </h4>
                   <p className="leading-relaxed text-gray-700">
-                    {quote.leadTime ||
-                      "We typically require 2 weeks notice to start a project."}{" "}
-                    The estimated duration for this project is{" "}
-                    {quote.estimatedDuration}.
+                    {quote.leadTime || DEFAULT_LEAD_TIME} The estimated duration
+                    for this project is {quote.estimatedDuration}.
                   </p>
                 </div>
 
@@ -861,8 +800,7 @@ export default function PublicQuotePage({ params }) {
                     Warranty
                   </h4>
                   <p className="leading-relaxed text-gray-700">
-                    {quote.warrantyInformation ||
-                      businessFacts.workmanship}
+                    {quote.warrantyInformation || businessFacts.workmanship}
                   </p>
                 </div>
               </div>
@@ -881,177 +819,28 @@ export default function PublicQuotePage({ params }) {
             </div>
             <div className="p-8">
               <div className="space-y-6 text-sm text-gray-700">
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    General Terms
-                  </h4>
-                  <div className="space-y-2">
-                    <p>
-                      Any new services Building control might require are not
-                      included and will be subject to a new quote.
-                    </p>
-                    <p>
-                      Any extra services not mentioned in this quote will be
-                      subject to a new quote. Please read the quote carefully to
-                      see what is included.
-                    </p>
-                    <p>
-                      Any unexpected work or additional tasks as well as any
-                      damage to materials/items will be the responsibility of
-                      the client. We do not open packages upon delivery. We will
-                      open packages only during installation. We do not take any
-                      responsibility for any damaged items.
-                    </p>
-                    <p>
-                      This quote is for labour and building materials only. All
-                      items on the Client to Supply list are to be purchased by
-                      the client. In the situation that we take care of ordering
-                      materials on your behalf, the price of the materials will
-                      be invoiced before we purchase them.
-                    </p>
-                    <p>
-                      Parking permits if needed, to be supplied by the client.
-                    </p>
-                    <p>
-                      We also offer a design and supply service. If you are
-                      interested please ask us more about it and we will walk
-                      through what that entails.
-                    </p>
+                {quoteTermsSections.map((section) => (
+                  <div key={section.title}>
+                    <h4 className="mb-3 text-lg font-semibold text-gray-900">
+                      {section.title}
+                    </h4>
+                    {section.intro && <p className="mb-2">{section.intro}</p>}
+                    {section.paragraphs && (
+                      <div className="space-y-2">
+                        {section.paragraphs.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
+                      </div>
+                    )}
+                    {section.bullets && (
+                      <ul className="ml-6 list-disc space-y-1">
+                        {section.bullets.map((bullet) => (
+                          <li key={bullet}>{bullet}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Bathroom Installation Standards
-                  </h4>
-                  <p className="mb-2">
-                    The quote includes standard installation of (unless
-                    otherwise specified):
-                  </p>
-                  <ul className="ml-6 list-disc space-y-1">
-                    <li>
-                      Standard pattern tiling with standard ceramic tiles. The
-                      quote does not cover for complete mosaic tiling, complete
-                      herringbone style pattern or border patterns, cement tiles
-                      on walls and/or floor or any other tiles which require
-                      special installation or sealing as these are more time
-                      consuming and would influence the cost. If this is
-                      something you would like, please let us know.
-                    </li>
-                    <li>Same layout for plumbing</li>
-                    <li>Shower tray (not wetroom kit)</li>
-                    <li>Floor standing toilet</li>
-                    <li>4 spotlights installation as standard</li>
-                    <li>Taps on sink</li>
-                    <li>Visible shower pipes</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Kitchen Fitting Standards
-                  </h4>
-                  <p className="mb-2">
-                    The quote includes standard installation of (unless
-                    otherwise specified):
-                  </p>
-                  <ul className="ml-6 list-disc space-y-1">
-                    <li>
-                      Hob/oven installation: install new hob/oven in same
-                      location and like for like as existing
-                    </li>
-                    <li>
-                      Sink installation: install new sink in same location
-                      overmounted on worktop
-                    </li>
-                    <li>
-                      Worktop installation: install 2 runs of worktop - laminate
-                      or wooden worktop (not composite, not stone)
-                    </li>
-                    <li>Taps on sink</li>
-                    <li>
-                      Tile splashback with standard tiles up to wall units
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Miscellaneous Standards
-                  </h4>
-                  <ul className="ml-6 list-disc space-y-1">
-                    <li>
-                      Floor levelling or repairs to subfloor if required to be
-                      assessed and calculated accordingly
-                    </li>
-                    <li>
-                      Painting refers to minor repairs and standard paint unless
-                      otherwise specified
-                    </li>
-                    <li>
-                      Installation of wooden doors - same size as existing,
-                      original frames unless quoted differently
-                    </li>
-                    <li>
-                      Installation of radiators - same position and
-                      approximately the same size unless quoted differently
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Project Scheduling & Deposits
-                  </h4>
-                  <div className="space-y-2">
-                    <p>
-                      Start date is subject to availability. We will work with
-                      you to find a suitable start date but usually we need 10
-                      days from the agreement to be able to start.
-                    </p>
-                    <p>
-                      To book the start date agreed upon we require a small
-                      deposit. Depending on the size of the project this ranges
-                      between £300 - £1,000.
-                    </p>
-                    <p>
-                      All start dates are flexible (1 - 3 days) for both ends
-                      (the company or the client). This is so that if something
-                      unexpected happens and you need to postpone the start date
-                      for a couple of days you wouldn&apos;t lose your deposit.
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Quality Assurance
-                  </h4>
-                  <p className="mb-2">
-                    The above quote guarantees quality property care:
-                  </p>
-                  <ul className="ml-6 list-disc space-y-1">
-                    <li>Isolating floors and furniture</li>
-                    <li>Clean and tidy job site</li>
-                    <li>Cleaning at the end of the project</li>
-                    <li>Project completed to a very high standard</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="mb-3 text-lg font-semibold text-gray-900">
-                    Radiator Work Disclaimer
-                  </h4>
-                  <p>
-                    Upon radiators removal and reinstallation (in order to paint
-                    behind them) we will bleed the radiators. We do not take any
-                    responsibility for any fault your boiler might show as
-                    removal and reinstallation of radiators should not break a
-                    boiler system. In the rare cases when boilers do show
-                    errors, remedial works are not included in the price shown
-                    above.
-                  </p>
-                </div>
+                ))}
               </div>
             </div>
           </div>

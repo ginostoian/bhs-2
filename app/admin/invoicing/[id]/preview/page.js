@@ -19,17 +19,8 @@ import {
   X,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { downloadPdf } from "@/libs/downloadPdf";
 import apiClient from "@/libs/api";
-
-const loadPDFGenerator = async () => {
-  const { generatePDFFromCurrentPage, generateVectorPDF } = await import(
-    "@/libs/htmlQuotePdfGenerator"
-  );
-  return {
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  };
-};
 
 export default function InvoicePreviewPage() {
   const params = useParams();
@@ -146,9 +137,8 @@ export default function InvoicePreviewPage() {
 
     setDownloadingPDF(true);
     try {
-      const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-      await generatePDFFromCurrentPage(
-        "invoice-content",
+      await downloadPdf(
+        `/api/admin/invoicing/${invoiceId}/pdf`,
         `invoice-${invoice.invoiceNumber}.pdf`,
       );
       toast.success("PDF downloaded successfully!");

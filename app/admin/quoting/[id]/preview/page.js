@@ -16,19 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
-// Dynamic import to avoid build-time serialization issues
-const loadPDFGenerator = async () => {
-  const {
-    generatePrintOptimizedPDF,
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  } = await import("@/libs/htmlQuotePdfGenerator");
-  return {
-    generatePrintOptimizedPDF,
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
 
 export default function QuotePreviewPage() {
   const params = useParams();
@@ -217,13 +205,9 @@ export default function QuotePreviewPage() {
 
     setDownloadingPDF(true);
     try {
-      // Load PDF generator dynamically
-      const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-
-      // Use the page capture approach with enhanced settings
-      await generatePDFFromCurrentPage(
-        "quote-content",
-        `quote-${quote.quoteNumber || quote.id}.pdf`,
+      await downloadPdf(
+        `/api/quotes/${quote.publicToken || quoteId}/pdf`,
+        `quote-${quote.quoteNumber || quoteId}.pdf`,
       );
       toast.success("PDF downloaded successfully!");
     } catch (error) {

@@ -10,18 +10,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import toast from "react-hot-toast";
-
-// Dynamic PDF generator loading (similar to quotes)
-const loadPDFGenerator = async () => {
-  const { generatePDFFromCurrentPage, generateVectorPDF } = await import(
-    "@/libs/htmlQuotePdfGenerator"
-  );
-
-  return {
-    generatePDFFromCurrentPage,
-    generateVectorPDF,
-  };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
 
 export default function PublicInvoicePage({ params }) {
   const { token } = params;
@@ -73,12 +62,8 @@ export default function PublicInvoicePage({ params }) {
 
     setDownloadingPDF(true);
     try {
-      // Load PDF generator dynamically
-      const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-
-      // Use the page capture approach with enhanced settings
-      await generatePDFFromCurrentPage(
-        "invoice-content",
+      await downloadPdf(
+        `/api/invoices/${token}/pdf`,
         `invoice-${invoice.invoiceNumber || token}.pdf`,
       );
       toast.success("PDF downloaded successfully!");

@@ -11,14 +11,7 @@ import {
   FileText,
 } from "lucide-react";
 import toast from "react-hot-toast";
-
-// Dynamic PDF generator loading
-const loadPDFGenerator = async () => {
-  const { generatePDFFromCurrentPage } = await import(
-    "@/libs/htmlQuotePdfGenerator"
-  );
-  return { generatePDFFromCurrentPage };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
 
 export default function UserInvoicesList({ invoices }) {
   const [downloadingPDF, setDownloadingPDF] = useState(null);
@@ -28,40 +21,15 @@ export default function UserInvoicesList({ invoices }) {
 
     setDownloadingPDF(invoice.id);
     try {
-      // Open the public invoice page in a new window temporarily for PDF generation
-      const publicUrl = `/invoices/${invoice.publicToken}`;
-      const newWindow = window.open(
-        publicUrl,
-        "_blank",
-        "width=1200,height=800",
+      await downloadPdf(
+        `/api/invoices/${invoice.publicToken}/pdf`,
+        `invoice-${invoice.invoiceNumber}.pdf`,
       );
-
-      // Wait a moment for the page to load
-      setTimeout(async () => {
-        try {
-          const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-
-          // Focus on the new window and generate PDF from it
-          newWindow.focus();
-          await generatePDFFromCurrentPage(
-            "invoice-content",
-            `invoice-${invoice.invoiceNumber}.pdf`,
-            newWindow,
-          );
-
-          newWindow.close();
-          toast.success("PDF downloaded successfully!");
-        } catch (error) {
-          console.error("Error downloading PDF:", error);
-          toast.error("Failed to download PDF. Please try again.");
-          newWindow.close();
-        } finally {
-          setDownloadingPDF(null);
-        }
-      }, 2000);
+      toast.success("PDF downloaded successfully!");
     } catch (error) {
       console.error("Error downloading PDF:", error);
       toast.error("Failed to download PDF. Please try again.");
+    } finally {
       setDownloadingPDF(null);
     }
   };

@@ -4,13 +4,7 @@ import { businessFacts } from "@/libs/businessFacts";
 import { useState } from "react";
 import { Copy, ExternalLink, Download } from "lucide-react";
 import toast from "react-hot-toast";
-// Dynamic import to avoid build-time serialization issues
-const loadPDFGenerator = async () => {
-  const { generatePrintOptimizedPDF, generateVectorPDF } = await import(
-    "@/libs/htmlQuotePdfGenerator"
-  );
-  return { generatePrintOptimizedPDF, generateVectorPDF };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
 
 export default function QuotePreview({ formData, quoteId }) {
   const [copied, setCopied] = useState(false);
@@ -46,13 +40,9 @@ export default function QuotePreview({ formData, quoteId }) {
 
     setDownloadingPDF(true);
     try {
-      // Load PDF generator dynamically
-      const { generatePrintOptimizedPDF } = await loadPDFGenerator();
-
-      // Create a quote object from formData
+      // Render the unsaved form data with the same template as saved quotes
       const quote = {
-        id: quoteId || "temp-id",
-        quoteNumber: quoteId || "temp-id",
+        quoteNumber: formData.quoteNumber || quoteId || "DRAFT",
         title: formData.projectName,
         projectType: formData.projectType,
         client: formData.client,
@@ -61,13 +51,19 @@ export default function QuotePreview({ formData, quoteId }) {
         startDate: formData.startDate,
         estimatedDuration: formData.estimatedDuration,
         services: formData.services,
-        total: total,
+        pricing: formData.pricing,
         validUntil: formData.validUntil,
         termsAndConditions: formData.termsAndConditions,
         warrantyInformation: formData.warrantyInformation,
+        leadTime: formData.leadTime,
+        createdAt: new Date(),
       };
 
-      await generatePrintOptimizedPDF(quote, `quote-${quoteId || "temp"}.pdf`);
+      await downloadPdf(
+        "/api/admin/quoting/pdf",
+        `quote-${quoteId || "draft"}.pdf`,
+        { quote },
+      );
       toast.success("PDF downloaded successfully!");
     } catch (error) {
       console.error("Error downloading PDF:", error);
@@ -433,9 +429,7 @@ export default function QuotePreview({ formData, quoteId }) {
 
           <div>
             <h4 className="mb-2 font-medium text-gray-900">Warranty</h4>
-            <p>
-              {businessFacts.workmanship}
-            </p>
+            <p>{businessFacts.workmanship}</p>
           </div>
 
           <div>
