@@ -37,7 +37,7 @@ export default function QuotePreviewPage() {
     // Load quote from database API
     const fetchQuote = async () => {
       try {
-        const response = await fetch(`/api/quotes/${quoteId}`);
+        const response = await fetch(`/api/admin/quoting/${quoteId}`);
 
         if (response.ok) {
           const result = await response.json();

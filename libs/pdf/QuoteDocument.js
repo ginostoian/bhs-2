@@ -6,6 +6,7 @@ import {
   calculateQuoteTotals,
   quoteCategoryTotal,
   quoteTermsSections,
+  usableText,
 } from "@/libs/quoteTerms";
 import {
   Eyebrow,
@@ -105,6 +106,23 @@ const CategoryTable = ({ service, first }) => (
         <Text style={{ ...headText, textAlign: "right" }}>Total</Text>
       </Cell>
     </Row>
+    {service.description ? (
+      <Row>
+        <Cell
+          colSpan={4}
+          style={{
+            paddingVertical: 7,
+            paddingHorizontal: 8,
+            borderBottomWidth: 0.75,
+            borderBottomColor: colors.line,
+          }}
+        >
+          <Text style={{ fontSize: 8.5, color: colors.inkSoft }}>
+            {str(service.description)}
+          </Text>
+        </Cell>
+      </Row>
+    ) : null}
     {(service.items || []).map((item, i) => {
       const rowStyle = {
         ...cellPad,
@@ -343,11 +361,18 @@ export const QuoteDocument = ({ quote }) => {
                   justifyContent: "space-between",
                 }}
               >
-                <Text style={{ fontWeight: 700, color: colors.clay }}>
+                <Text style={{ flex: 1, fontWeight: 700, color: colors.clay }}>
                   Deposit to book
                 </Text>
-                <Text style={{ fontWeight: 700, color: colors.clay }}>
-                  {formatCurrency(quote.pricing.depositAmount || 0)}
+                <Text
+                  style={{
+                    flexShrink: 0,
+                    fontWeight: 700,
+                    color: colors.clay,
+                    textAlign: "right",
+                  }}
+                >
+                  {formatCurrency(totals.deposit)}
                 </Text>
               </View>
               <Text
@@ -359,6 +384,13 @@ export const QuoteDocument = ({ quote }) => {
           ) : null}
         </TotalsBox>
 
+        {quote.specialInstructions ? (
+          <View>
+            <SectionTitle eyebrow="From us" title="Notes" />
+            <Paragraphs text={quote.specialInstructions} />
+          </View>
+        ) : null}
+
         <SectionTitle
           eyebrow="Good to know"
           title="Key terms"
@@ -366,11 +398,13 @@ export const QuoteDocument = ({ quote }) => {
             <View style={{ flexDirection: "row", gap: 10 }}>
               <KeyTerm
                 title="Payment"
-                text={quote.termsAndConditions || DEFAULT_PAYMENT_TERMS}
+                text={
+                  usableText(quote.termsAndConditions) || DEFAULT_PAYMENT_TERMS
+                }
               />
               <KeyTerm
                 title="Timeline"
-                text={`${quote.leadTime || DEFAULT_LEAD_TIME}${
+                text={`${usableText(quote.leadTime) || DEFAULT_LEAD_TIME}${
                   quote.estimatedDuration
                     ? ` The estimated duration for this project is ${quote.estimatedDuration}.`
                     : ""
@@ -378,7 +412,10 @@ export const QuoteDocument = ({ quote }) => {
               />
               <KeyTerm
                 title="Warranty"
-                text={quote.warrantyInformation || businessFacts.workmanship}
+                text={
+                  usableText(quote.warrantyInformation) ||
+                  businessFacts.workmanship
+                }
               />
             </View>
           }

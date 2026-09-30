@@ -1,23 +1,39 @@
-import { businessFacts } from "@/libs/businessFacts";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
+import mongoose from "mongoose";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Quote from "@/models/Quote";
+import {
+  QUOTE_STATUSES,
+  applyDefaultTerms,
+  normalizeServices,
+  pickEditableFields,
+  validateForSending,
+} from "@/libs/quoteService";
+
+const requireAdmin = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user?.role === "admin" ? session : null;
+};
+
+const invalidId = (id) => !mongoose.Types.ObjectId.isValid(id);
+
+// Statuses that mean the client has (or had) the quote in hand
+const CLIENT_FACING = new Set(["sent", "pending", "won", "lost", "expired"]);
 
 export async function GET(request, { params }) {
   try {
-    // Check authentication and admin role
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const session = await requireAdmin();
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (invalidId(params.id)) {
+      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
 
     await connectMongo();
-    const { id } = params;
-
-    // Find the quote
-    const quote = await Quote.findById(id)
+    const quote = await Quote.findById(params.id)
       .populate("createdBy", "name email")
       .populate("lastModifiedBy", "name email")
       .lean();
@@ -27,19 +43,15 @@ export async function GET(request, { params }) {
     }
 
     // Ensure pricing object exists for older quotes
-    if (!quote.pricing) {
-      quote.pricing = {
-        depositRequired: false,
-        depositAmount: 0,
-        depositPercentage: 0,
-        vatRate: 20,
-      };
-    }
+    quote.pricing = {
+      depositRequired: false,
+      depositAmount: 0,
+      depositPercentage: 0,
+      vatRate: 20,
+      ...quote.pricing,
+    };
 
-    return NextResponse.json({
-      success: true,
-      quote,
-    });
+    return NextResponse.json({ success: true, quote });
   } catch (error) {
     console.error("Error fetching quote:", error);
     return NextResponse.json(
@@ -51,129 +63,66 @@ export async function GET(request, { params }) {
 
 export async function PUT(request, { params }) {
   try {
-    // Check authentication and admin role
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const session = await requireAdmin();
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-
-    await connectMongo();
-    const { id } = params;
-    const body = await request.json();
-
-    // First, fetch the current quote to check if we need to replace draft placeholders
-    const currentQuote = await Quote.findById(id);
-    if (!currentQuote) {
+    if (invalidId(params.id)) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
 
-    // Check if status is being changed from draft to a non-draft status
-    const isFinalizingDraft =
-      currentQuote.status === "draft" && body.status && body.status !== "draft";
-
-    // If finalizing a draft, replace placeholder text with actual terms
-    if (isFinalizingDraft) {
-      // Replace draft termsAndConditions if it's still the placeholder
-      if (
-        currentQuote.termsAndConditions === "Draft - terms to be finalized" ||
-        currentQuote.termsAndConditions?.startsWith("Draft -")
-      ) {
-        body.termsAndConditions =
-          "Standard Better Homes terms and conditions apply. All work is guaranteed and insured. Payment terms: deposit required, then weekly payments until completion.";
-      }
-
-      // Replace draft warrantyInformation if it's still the placeholder
-      if (
-        currentQuote.warrantyInformation ===
-          "Draft - warranty information to be finalized" ||
-        currentQuote.warrantyInformation?.startsWith("Draft -")
-      ) {
-        body.warrantyInformation =
-          businessFacts.workmanship;
-      }
-
-      // Replace draft leadTime if it's still the placeholder
-      if (
-        currentQuote.leadTime === "Draft - lead time to be finalized" ||
-        currentQuote.leadTime?.startsWith("Draft -")
-      ) {
-        body.leadTime =
-          "We typically require 2 weeks notice to start a project.";
-      }
-
-      // Set sentAt timestamp when quote is sent for the first time
-      if (body.status === "sent" && !currentQuote.sentAt) {
-        body.sentAt = new Date();
-      }
+    await connectMongo();
+    const quote = await Quote.findById(params.id);
+    if (!quote) {
+      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
 
-    // Recalculate total and clean services data if being updated
+    const body = pickEditableFields(await request.json());
+
+    if (body.status && !QUOTE_STATUSES.includes(body.status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
     if (body.services) {
-      let total = 0;
-
-      // Clean and validate services data
-      body.services = body.services.map((service) => {
-        if (service.type === "category" && service.items) {
-          // Clean items data
-          const cleanedItems = service.items.map((item) => {
-            const quantity = parseFloat(item.quantity) || 0;
-            const unitPrice = parseFloat(item.unitPrice) || 0;
-            const itemTotal = Math.round(quantity * unitPrice * 100) / 100;
-
-            total += itemTotal;
-
-            return {
-              name: item.name || "",
-              description: item.description || "",
-              quantity: quantity,
-              unit: item.unit || "",
-              unitPrice: unitPrice,
-              total: itemTotal,
-              notes: item.notes || "",
-              // Include optional fields if they exist
-              ...(item.customerUnitPrice !== undefined && {
-                customerUnitPrice: parseFloat(item.customerUnitPrice) || 0,
-              }),
-              ...(item.customerTotal !== undefined && {
-                customerTotal: parseFloat(item.customerTotal) || 0,
-              }),
-            };
-          });
-
-          const categoryTotal = cleanedItems.reduce(
-            (sum, item) => sum + item.total,
-            0,
-          );
-
-          return {
-            ...service,
-            items: cleanedItems,
-            categoryTotal: Math.round(categoryTotal * 100) / 100,
-          };
-        }
-        return service;
-      });
-
-      body.total = Math.round(total * 100) / 100;
+      const { services, total } = normalizeServices(body.services);
+      body.services = services;
+      body.total = total;
+    }
+    if (body.client) {
+      // Drafts autosave before the client is known; keep the schema happy
+      body.client = {
+        ...body.client,
+        name: body.client.name?.trim() || "New client",
+      };
+    }
+    if (body.title !== undefined && !String(body.title).trim()) {
+      body.title = "Untitled quote";
     }
 
-    const immutableFields = new Set([
-      "_id",
-      "quoteNumber",
-      "createdBy",
-      "createdAt",
-    ]);
+    const wasClientFacing = CLIENT_FACING.has(quote.status);
+    Object.assign(quote, body);
 
-    Object.keys(body).forEach((key) => {
-      if (!immutableFields.has(key)) {
-        currentQuote[key] = body[key];
+    // Moving a quote in front of the client: validate and stamp it
+    if (CLIENT_FACING.has(quote.status) && !wasClientFacing) {
+      const errors = validateForSending(quote);
+      if (errors.length > 0) {
+        return NextResponse.json(
+          { error: "Quote isn't ready to send", errors },
+          { status: 422 },
+        );
       }
-    });
+      applyDefaultTerms(quote);
+      if (!quote.sentAt) quote.sentAt = new Date();
+      quote.revisionHistory.push({
+        version: quote.version,
+        changes: `Marked as ${quote.status}`,
+        modifiedBy: session.user.id,
+      });
+    }
 
-    currentQuote.lastModifiedBy = session.user.id;
-
-    await currentQuote.save();
-    await currentQuote.populate([
+    quote.lastModifiedBy = session.user.id;
+    await quote.save();
+    await quote.populate([
       { path: "createdBy", select: "name email" },
       { path: "lastModifiedBy", select: "name email" },
     ]);
@@ -181,30 +130,30 @@ export async function PUT(request, { params }) {
     return NextResponse.json({
       success: true,
       message: "Quote updated successfully",
-      quote: currentQuote,
+      quote,
     });
   } catch (error) {
     console.error("Error updating quote:", error);
+    const status = error.name === "ValidationError" ? 400 : 500;
     return NextResponse.json(
       { error: "Failed to update quote", details: error.message },
-      { status: 500 },
+      { status },
     );
   }
 }
 
 export async function DELETE(request, { params }) {
   try {
-    // Check authentication and admin role
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const session = await requireAdmin();
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    if (invalidId(params.id)) {
+      return NextResponse.json({ error: "Quote not found" }, { status: 404 });
     }
 
     await connectMongo();
-    const { id } = params;
-
-    // Find and delete the quote
-    const deletedQuote = await Quote.findByIdAndDelete(id);
+    const deletedQuote = await Quote.findByIdAndDelete(params.id);
 
     if (!deletedQuote) {
       return NextResponse.json({ error: "Quote not found" }, { status: 404 });

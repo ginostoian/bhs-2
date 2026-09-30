@@ -13,6 +13,7 @@ import {
   calculateQuoteTotals,
   quoteCategoryTotal,
   quoteTermsSections,
+  usableText,
 } from "@/libs/quoteTerms";
 import {
   DocumentHeader,
@@ -62,6 +63,11 @@ const CategoryTable = ({ service }) => (
         {formatCurrency(quoteCategoryTotal(service))}
       </p>
     </div>
+    {service.description && (
+      <p className="whitespace-pre-line border-b border-[#E6E1D7] bg-[#FBFAF7] px-3 py-2 text-[13px] leading-snug text-[#4A524D] sm:px-3.5">
+        {service.description}
+      </p>
+    )}
 
     {/* Column labels — desktop only */}
     <div className="hidden grid-cols-[1fr_80px_100px_100px] gap-3 bg-[#F4F1EA] px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[#7A807B] sm:grid">
@@ -113,7 +119,7 @@ const KeyTerm = ({ title, text }) => (
   </div>
 );
 
-export default function QuoteView({ quote, toolbarProps }) {
+export default function QuoteView({ quote, toolbarProps, hideToolbar }) {
   const totals = calculateQuoteTotals(quote);
   const reference = quote.quoteNumber || quote._id || quote.id;
   const client = quote.client || {};
@@ -123,7 +129,9 @@ export default function QuoteView({ quote, toolbarProps }) {
   return (
     <DocumentShell
       toolbar={
-        <DocumentToolbar title={`Quote ${reference}`} {...toolbarProps} />
+        hideToolbar ? null : (
+          <DocumentToolbar title={`Quote ${reference}`} {...toolbarProps} />
+        )
       }
       footerText={`${company.name} · Quote ${reference}`}
     >
@@ -211,7 +219,7 @@ export default function QuoteView({ quote, toolbarProps }) {
           <div className="mt-3 rounded border border-[#C48A6A] px-4 py-2.5">
             <div className="flex justify-between font-bold text-[#A65B43]">
               <span>Deposit to book</span>
-              <span>{formatCurrency(quote.pricing.depositAmount || 0)}</span>
+              <span>{formatCurrency(totals.deposit)}</span>
             </div>
             <p className="mt-0.5 text-xs text-[#4A524D]">
               Secures your project slot and covers initial materials.
@@ -220,15 +228,22 @@ export default function QuoteView({ quote, toolbarProps }) {
         )}
       </TotalsBox>
 
+      {quote.specialInstructions && (
+        <>
+          <SectionTitle eyebrow="From us" title="Notes" />
+          <Paragraphs text={quote.specialInstructions} />
+        </>
+      )}
+
       <SectionTitle eyebrow="Good to know" title="Key terms" />
       <div className="grid gap-3 sm:grid-cols-3">
         <KeyTerm
           title="Payment"
-          text={quote.termsAndConditions || DEFAULT_PAYMENT_TERMS}
+          text={usableText(quote.termsAndConditions) || DEFAULT_PAYMENT_TERMS}
         />
         <KeyTerm
           title="Timeline"
-          text={`${quote.leadTime || DEFAULT_LEAD_TIME}${
+          text={`${usableText(quote.leadTime) || DEFAULT_LEAD_TIME}${
             quote.estimatedDuration
               ? ` The estimated duration for this project is ${quote.estimatedDuration}.`
               : ""
@@ -236,7 +251,9 @@ export default function QuoteView({ quote, toolbarProps }) {
         />
         <KeyTerm
           title="Warranty"
-          text={quote.warrantyInformation || businessFacts.workmanship}
+          text={
+            usableText(quote.warrantyInformation) || businessFacts.workmanship
+          }
         />
       </div>
 

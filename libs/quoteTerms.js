@@ -78,23 +78,69 @@ export const quoteTermsSections = [
   },
 ];
 
+const round2 = (n) => Math.round((Number(n) || 0) * 100) / 100;
+
 const itemTotal = (item) => item.customerTotal || item.total || 0;
+
+// Old drafts stored "Draft - …" placeholders in client-facing fields
+export const usableText = (value) =>
+  value && !String(value).startsWith("Draft -") ? value : "";
 
 export const quoteCategoryTotal = (service) =>
   service.items?.reduce((sum, item) => sum + itemTotal(item), 0) || 0;
 
-// Customer-facing totals: sum of category items (headings excluded) plus VAT.
+const lineItems = (quote) =>
+  (quote.services || []).flatMap((service) =>
+    service.type === "category" || !service.type ? service.items || [] : [],
+  );
+
+/**
+ * Customer-facing totals: sum of category items (headings excluded) plus VAT,
+ * the deposit (fixed amount, or a percentage of the total inc. VAT), and
+ * internal cost/margin figures for lines that have a cost price.
+ */
 export const calculateQuoteTotals = (quote) => {
-  const vatRate = quote.pricing?.vatRate || 20;
-  const subtotal =
-    quote.services?.reduce(
-      (sum, service) =>
-        sum +
-        (service.type === "category" || !service.type
-          ? quoteCategoryTotal(service)
-          : 0),
+  const vatRate = quote.pricing?.vatRate ?? 20;
+  const items = lineItems(quote);
+  const subtotal = round2(
+    items.reduce((sum, item) => sum + itemTotal(item), 0),
+  );
+  const vat = round2(subtotal * (vatRate / 100));
+  const total = round2(subtotal + vat);
+
+  const depositPercentage = Number(quote.pricing?.depositPercentage) || 0;
+  const deposit = quote.pricing?.depositRequired
+    ? depositPercentage > 0
+      ? round2(total * (depositPercentage / 100))
+      : round2(quote.pricing?.depositAmount)
+    : 0;
+
+  const costed = items.filter(
+    (item) => item.costPrice !== undefined && item.costPrice !== null,
+  );
+  const cost = round2(
+    costed.reduce(
+      (sum, item) =>
+        sum + (Number(item.costPrice) || 0) * (Number(item.quantity) || 0),
       0,
-    ) || 0;
-  const vat = subtotal * (vatRate / 100);
-  return { vatRate, subtotal, vat, total: subtotal + vat };
+    ),
+  );
+  const costedRevenue = round2(
+    costed.reduce((sum, item) => sum + itemTotal(item), 0),
+  );
+  const profit = round2(costedRevenue - cost);
+  const margin = costedRevenue > 0 ? (profit / costedRevenue) * 100 : null;
+
+  return {
+    vatRate,
+    subtotal,
+    vat,
+    total,
+    deposit,
+    cost,
+    profit,
+    margin,
+    costedLines: costed.length,
+    lines: items.length,
+  };
 };

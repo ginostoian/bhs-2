@@ -3,93 +3,50 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Quote from "@/models/Quote";
+import {
+  applyDefaultTerms,
+  generateQuoteNumber,
+  normalizeServices,
+  pickEditableFields,
+} from "@/libs/quoteService";
 
+const requireAdmin = async () => {
+  const session = await getServerSession(authOptions);
+  return session?.user?.role === "admin" ? session : null;
+};
+
+// POST - Create a new draft quote
 export async function POST(request) {
   try {
-    // Check authentication and admin role
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const session = await requireAdmin();
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectMongo();
-    const body = await request.json();
+    const body = pickEditableFields(await request.json());
+    const { services, total } = normalizeServices(body.services || []);
 
-    // Generate unique quote number
-    const year = new Date().getFullYear();
-    const existingQuotes = await Quote.find({
-      quoteNumber: { $regex: `^${year}` },
-    })
-      .sort({ quoteNumber: -1 })
-      .limit(1);
-
-    let quoteNumber;
-    if (existingQuotes.length > 0) {
-      const lastNumber = parseInt(existingQuotes[0].quoteNumber);
-      quoteNumber = (lastNumber + 1).toString();
-    } else {
-      quoteNumber = `${year}0001`;
-    }
-
-    // Clean and validate services data if provided
-    if (body.services) {
-      let total = 0;
-
-      body.services = body.services.map((service) => {
-        if (service.type === "category" && service.items) {
-          // Clean items data
-          const cleanedItems = service.items.map((item) => {
-            const quantity = parseFloat(item.quantity) || 0;
-            const unitPrice = parseFloat(item.unitPrice) || 0;
-            const itemTotal = Math.round(quantity * unitPrice * 100) / 100;
-
-            total += itemTotal;
-
-            return {
-              name: item.name || "",
-              description: item.description || "",
-              quantity: quantity,
-              unit: item.unit || "",
-              unitPrice: unitPrice,
-              total: itemTotal,
-              notes: item.notes || "",
-              // Include optional fields if they exist
-              ...(item.customerUnitPrice !== undefined && {
-                customerUnitPrice: parseFloat(item.customerUnitPrice) || 0,
-              }),
-              ...(item.customerTotal !== undefined && {
-                customerTotal: parseFloat(item.customerTotal) || 0,
-              }),
-            };
-          });
-
-          const categoryTotal = cleanedItems.reduce(
-            (sum, item) => sum + item.total,
-            0,
-          );
-
-          return {
-            ...service,
-            items: cleanedItems,
-            categoryTotal: Math.round(categoryTotal * 100) / 100,
-          };
-        }
-        return service;
-      });
-
-      body.total = Math.round(total * 100) / 100;
-    }
-
-    // Create new quote
-    const quoteData = {
+    const quote = new Quote({
       ...body,
-      quoteNumber,
+      title: body.title?.trim() || "Untitled quote",
+      projectType: body.projectType || "custom",
+      client: {
+        ...body.client,
+        name: body.client?.name?.trim() || "New client",
+      },
+      services,
+      total,
+      validUntil:
+        body.validUntil || new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      quoteNumber: await generateQuoteNumber(Quote),
       createdBy: session.user.id,
       lastModifiedBy: session.user.id,
+      // New quotes always start as drafts; sending is a separate action
       status: "draft",
-    };
-
-    const quote = await Quote.create(quoteData);
+    });
+    applyDefaultTerms(quote);
+    await quote.save();
 
     return NextResponse.json({
       success: true,
@@ -105,44 +62,52 @@ export async function POST(request) {
   }
 }
 
+// GET - List quotes (paginated, filterable, searchable)
 export async function GET(request) {
   try {
-    // Check authentication and admin role
-    const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "admin") {
+    const session = await requireAdmin();
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await connectMongo();
 
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page")) || 1;
-    const limit = parseInt(searchParams.get("limit")) || 10;
+    const page = Math.max(parseInt(searchParams.get("page")) || 1, 1);
+    const limit = Math.min(parseInt(searchParams.get("limit")) || 10, 100);
     const status = searchParams.get("status");
     const projectType = searchParams.get("projectType");
+    const q = searchParams.get("q")?.trim();
+    const sort =
+      searchParams.get("sort") === "updated"
+        ? { updatedAt: -1 }
+        : { createdAt: -1 };
 
-    // Build query
     const query = {};
     if (status && status !== "all") query.status = status;
     if (projectType && projectType !== "all") query.projectType = projectType;
+    if (q) {
+      const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = { $regex: escaped, $options: "i" };
+      query.$or = [
+        { title: regex },
+        { quoteNumber: regex },
+        { "client.name": regex },
+        { "client.email": regex },
+        { projectAddress: regex },
+      ];
+    }
 
-    // Get quotes with pagination
     const skip = (page - 1) * limit;
-    const quotes = await Quote.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate("createdBy", "name email")
-      .lean();
-
-    // Debug: Log the quotes being returned
-    console.log(
-      "API: Returning quotes with statuses:",
-      quotes.map((q) => ({ id: q._id, status: q.status, title: q.title })),
-    );
-
-    // Get total count
-    const total = await Quote.countDocuments(query);
+    const [quotes, total] = await Promise.all([
+      Quote.find(query)
+        .sort(sort)
+        .skip(skip)
+        .limit(limit)
+        .populate("createdBy", "name email")
+        .lean(),
+      Quote.countDocuments(query),
+    ]);
 
     return NextResponse.json({
       success: true,
