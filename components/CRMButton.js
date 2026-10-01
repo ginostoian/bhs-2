@@ -14,11 +14,11 @@ const CRMButton = ({
     "flex items-center gap-2 px-4 py-2 rounded-md font-medium text-sm transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variantClasses = {
-    primary:
-      "bg-[rgb(38,107,241)] text-white hover:bg-[rgb(30,85,200)] active:bg-[rgb(25,70,180)]",
-    secondary: "bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300",
+    primary: "bg-[#4D5B4B] text-white hover:bg-[#3E4A3C] active:bg-[#303B30]",
+    secondary:
+      "bg-[#EDE9E0] text-[#202925] hover:bg-[#D8D2C6] active:bg-[#D8D2C6]",
     outline:
-      "border border-[rgb(38,107,241)] text-[rgb(38,107,241)] hover:bg-[rgb(38,107,241)] hover:text-white",
+      "border border-[#D8D2C6] bg-white text-[#202925] hover:border-[#4D5B4B] hover:bg-[#F4F1EA]",
   };
 
   const buttonClasses = `${baseClasses} ${variantClasses[variant]} ${className}`;

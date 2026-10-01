@@ -4,6 +4,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -13,8 +14,8 @@ import {
 } from "recharts";
 
 const tooltipStyle = {
-  borderRadius: 10,
-  border: "1px solid #e2e8f0",
+  borderRadius: 6,
+  border: "1px solid #D8D2C6",
   boxShadow: "0 8px 24px rgba(15,23,42,.08)",
   fontSize: 12,
 };
@@ -33,24 +34,26 @@ export function TrendChart({ data }) {
         data={formatted}
         margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-        <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#64748b" }} />
-        <YAxis tick={{ fontSize: 11, fill: "#64748b" }} allowDecimals={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E0" />
+        <XAxis dataKey="label" tick={{ fontSize: 11, fill: "#7A807B" }} />
+        <YAxis tick={{ fontSize: 11, fill: "#7A807B" }} allowDecimals={false} />
         <Tooltip contentStyle={tooltipStyle} />
+        <Legend iconType="plainline" wrapperStyle={{ fontSize: 12 }} />
         <Line
           type="monotone"
           dataKey="newLeads"
           name="New leads"
-          stroke="#2563eb"
-          strokeWidth={2.5}
+          stroke="#4D5B4B"
+          strokeWidth={2}
           dot={false}
         />
         <Line
           type="monotone"
           dataKey="wins"
           name="Wins"
-          stroke="#059669"
-          strokeWidth={2.5}
+          stroke="#A65B43"
+          strokeWidth={2}
+          strokeDasharray="6 3"
           dot={false}
         />
       </LineChart>
@@ -66,24 +69,25 @@ export function LossChart({ data }) {
         layout="vertical"
         margin={{ top: 10, right: 10, left: 15, bottom: 0 }}
       >
-        <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+        <CartesianGrid strokeDasharray="3 3" stroke="#EDE9E0" />
         <XAxis
           type="number"
           allowDecimals={false}
-          tick={{ fontSize: 11, fill: "#64748b" }}
+          tick={{ fontSize: 11, fill: "#7A807B" }}
         />
         <YAxis
           type="category"
           dataKey="reason"
           width={105}
-          tick={{ fontSize: 11, fill: "#64748b" }}
+          tick={{ fontSize: 11, fill: "#7A807B" }}
         />
         <Tooltip contentStyle={tooltipStyle} />
         <Bar
           dataKey="count"
           name="Lost deals"
-          fill="#e11d48"
-          radius={[0, 5, 5, 0]}
+          fill="#4D5B4B"
+          radius={[0, 4, 4, 0]}
+          maxBarSize={22}
         />
       </BarChart>
     </ResponsiveContainer>

@@ -93,7 +93,7 @@ export default async function AdminNotificationManagementPage() {
               {
                 $gte: [
                   "$lastLoginAt",
-                  new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+                  new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
                 ],
               },
               1,
@@ -104,10 +104,17 @@ export default async function AdminNotificationManagementPage() {
         inactiveUsers: {
           $sum: {
             $cond: [
+              // Never-logged-in users have no lastLoginAt; null sorts below
+              // every date in MongoDB, so require the field to be a date.
               {
-                $lt: [
-                  "$lastLoginAt",
-                  new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+                $and: [
+                  { $eq: [{ $type: "$lastLoginAt" }, "date"] },
+                  {
+                    $lt: [
+                      "$lastLoginAt",
+                      new Date(Date.now() - 10 * 24 * 60 * 60 * 1000), // 10 days ago
+                    ],
+                  },
                 ],
               },
               1,

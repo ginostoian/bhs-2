@@ -172,7 +172,7 @@ export default function NotificationManagementClient({
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">
-                    Active Users
+                    Active (last 10 days)
                   </p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {userActivityStats.activeUsers}
@@ -188,7 +188,7 @@ export default function NotificationManagementClient({
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">
-                    Inactive Users
+                    Inactive 10+ days
                   </p>
                   <p className="text-2xl font-semibold text-gray-900">
                     {userActivityStats.inactiveUsers}
