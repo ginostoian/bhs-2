@@ -30,11 +30,18 @@ export default async function AdminFinishedProjectsPage() {
     completionDate: project.completionDate,
     location: project.location,
     budget: project.budget,
-    projectManager: project.projectManager,
+    // Plain values only: a populated Mongoose document can't be passed to a
+    // client component (it crashed this page with "Maximum call stack")
+    projectManager: project.projectManager
+      ? {
+          name: project.projectManager.name || "",
+          position: project.projectManager.position || "",
+        }
+      : null,
     user: {
-      id: project.user._id.toString(),
-      name: project.user.name,
-      email: project.user.email,
+      id: project.user?._id?.toString() || "",
+      name: project.user?.name || "Deleted client",
+      email: project.user?.email || "",
     },
     tasksCount: project.tasksCount || 0,
     completedTasksCount: project.completedTasksCount || 0,

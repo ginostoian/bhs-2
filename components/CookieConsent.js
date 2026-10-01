@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 
 /**
@@ -66,7 +67,15 @@ const grantClarityConsent = () => {
   }
 };
 
+// Staff-only areas: the banner would cover working screens. Consent mode
+// defaults (denied until accepted) still apply there.
+const STAFF_PREFIXES = ["/admin", "/employee", "/designer"];
+
 export default function CookieConsent() {
+  const pathname = usePathname() || "";
+  const isStaffArea = STAFF_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
   const [showBanner, setShowBanner] = useState(false);
   const [consentGiven, setConsentGiven] = useState(null);
 
@@ -155,7 +164,7 @@ export default function CookieConsent() {
       />
 
       {/* Cookie Consent Banner */}
-      {showBanner && (
+      {showBanner && !isStaffArea && (
         <div className="fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6">
           <div className="mx-auto max-w-4xl">
             <div className="rounded-2xl bg-white shadow-2xl ring-1 ring-gray-900/10">

@@ -493,7 +493,7 @@ export default function AdminTicketDetailPage() {
                         >
                           <option value="">Unassigned</option>
                           {employees.map((employee) => (
-                            <option key={employee._id} value={employee._id}>
+                            <option key={employee.id || employee._id} value={employee.id || employee._id}>
                               {employee.name} - {employee.position}
                             </option>
                           ))}
