@@ -16,7 +16,9 @@ export default async function AdminPaymentsPage() {
 
   // Connect to MongoDB
   await connectMongoose();
-  console.log("Payment Schema Paths:", Object.keys(Payment.schema.paths));
+  // Roll unpaid stages over to "Due" once their date passes (saves only rows
+  // whose status actually changes) before reading them.
+  await Payment.updateAllStatuses();
 
   // Fetch all payments and convert to plain objects
   const payments = await Payment.find({})
@@ -57,18 +59,6 @@ export default async function AdminPaymentsPage() {
         _id: undefined,
       })),
     );
-
-  // Update statuses based on due dates
-  for (const payment of payments) {
-    const paymentDoc = await Payment.findById(payment.id);
-    if (paymentDoc) {
-      paymentDoc.updateStatus();
-      if (paymentDoc.isModified()) {
-        await paymentDoc.save();
-        payment.status = paymentDoc.status;
-      }
-    }
-  }
 
   return (
     <div>
