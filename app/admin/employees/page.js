@@ -66,9 +66,10 @@ export default async function AdminEmployeesPage() {
   const daysOnSite = countBy(attendance, ["worker"]);
 
   const employees = employeeDocs.map((doc) => {
-    const e = doc.toJSON();
+    // toObject (not toJSON) keeps email and createdAt, which toJSON strips
+    const e = doc.toObject();
     return {
-      id: String(e.id || doc._id),
+      id: String(doc._id),
       name: e.name || "",
       email: e.email || "",
       phone: e.phone || "",
