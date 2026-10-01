@@ -1,43 +1,118 @@
-"use client";
+import connectMongoose from "@/libs/mongoose";
+import Invoice from "@/models/Invoice";
+import "@/models/User";
+import "@/models/Project";
+import {
+  LinkButton,
+  PageHeader,
+  Stat,
+  StatGrid,
+  formatMoney,
+} from "@/components/admin/ui";
+import InvoicesTable from "./components/InvoicesTable";
 
-import { useState } from "react";
-import Link from "next/link";
-import { Plus, FileText } from "lucide-react";
-import InvoicingDashboard from "./components/InvoicingDashboard";
+export const dynamic = "force-dynamic";
 
-export default function InvoicingPage() {
+const id = (v) => (v ? String(v._id || v) : null);
+const iso = (d) => (d ? new Date(d).toISOString() : null);
+
+/**
+ * Invoicing: money position across every invoice (the previous screen counted
+ * only the 20 invoices on the current page) and a searchable list linked to the
+ * client account, project and lead each invoice belongs to.
+ */
+export default async function InvoicingPage() {
+  await connectMongoose();
+  const now = new Date();
+  const invoices = await Invoice.find({})
+    .select(
+      "invoiceNumber title status total client.name client.email issueDate dueDate paymentDate createdAt updatedAt publicToken linkedUser linkedLead project sourcePayment",
+    )
+    .populate("linkedUser", "name email")
+    .populate("project", "name")
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const rows = invoices.map((inv) => ({
+    id: String(inv._id),
+    invoiceNumber: inv.invoiceNumber,
+    title: inv.title,
+    status: inv.status,
+    total: inv.total || 0,
+    clientName: inv.client?.name || inv.linkedUser?.name || "",
+    clientEmail: inv.client?.email || inv.linkedUser?.email || "",
+    userId: id(inv.linkedUser),
+    leadId: id(inv.linkedLead),
+    project: inv.project
+      ? { id: id(inv.project), name: inv.project.name }
+      : null,
+    fromPaymentPlan: !!inv.sourcePayment,
+    issueDate: iso(inv.issueDate || inv.createdAt),
+    dueDate: iso(inv.dueDate),
+    paymentDate: iso(inv.paymentDate),
+    createdAt: iso(inv.createdAt),
+    publicToken: inv.publicToken || null,
+    overdue:
+      inv.status !== "paid" && inv.dueDate && new Date(inv.dueDate) < now,
+  }));
+
+  const sum = (list) => list.reduce((s, r) => s + r.total, 0);
+  const unpaid = rows.filter((r) => r.status === "sent");
+  const overdue = rows.filter((r) => r.overdue);
+  const drafts = rows.filter((r) => r.status === "draft");
+  const since = new Date(now.getFullYear(), now.getMonth(), 1);
+  const paidThisMonth = rows.filter(
+    (r) =>
+      r.status === "paid" && new Date(r.paymentDate || r.createdAt) >= since,
+  );
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 justify-between">
-            <div className="flex items-center">
-              <FileText className="h-8 w-8 text-blue-600" />
-              <div className="ml-4">
-                <h1 className="text-2xl font-bold text-gray-900">Invoicing</h1>
-                <p className="text-sm text-gray-500">
-                  Manage and track your invoices
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/admin/invoicing/create"
-                className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-              >
-                <Plus className="mr-2 h-4 w-4" />
-                Create Invoice
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <InvoicingDashboard />
-      </div>
+    <div className="pb-12">
+      <PageHeader
+        eyebrow="Finance"
+        title="Invoicing"
+        description="Every invoice with what's outstanding, what's late and what's been collected."
+        actions={
+          <>
+            <LinkButton href="/admin/payments">Payment plans</LinkButton>
+            <LinkButton href="/admin/invoicing/create" variant="primary">
+              New invoice
+            </LinkButton>
+          </>
+        }
+      />
+      <StatGrid>
+        <Stat
+          label="Outstanding"
+          value={formatMoney(sum(unpaid))}
+          hint={`${unpaid.length} sent, not yet paid`}
+          tone="info"
+        />
+        <Stat
+          label="Overdue"
+          value={formatMoney(sum(overdue))}
+          hint={
+            overdue.length
+              ? `${overdue.length} past their due date`
+              : "Nothing overdue"
+          }
+          tone={overdue.length ? "bad" : "good"}
+        />
+        <Stat
+          label="Collected this month"
+          value={formatMoney(sum(paidThisMonth))}
+          hint={`${paidThisMonth.length} paid since the 1st`}
+          tone="good"
+          href="/admin/reports"
+        />
+        <Stat
+          label="Drafts"
+          value={drafts.length}
+          hint={drafts.length ? formatMoney(sum(drafts)) : "None waiting"}
+          tone="neutral"
+        />
+      </StatGrid>
+      <InvoicesTable invoices={rows} />
     </div>
   );
 }
