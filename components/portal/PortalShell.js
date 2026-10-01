@@ -89,7 +89,10 @@ function Brand({ compact = false, workspaceLabel }) {
       className="group flex min-w-0 items-center gap-3 text-white hover:text-white"
       aria-label="Better Homes home"
     >
-      <span aria-hidden="true" className="block h-3 w-3 shrink-0 bg-[#D8D2C6]" />
+      <span
+        aria-hidden="true"
+        className="block h-3 w-3 shrink-0 bg-[#D8D2C6]"
+      />
       {!compact && (
         <span className="min-w-0">
           <span className="block truncate text-[18px] font-medium tracking-[-0.01em] text-white">
@@ -304,6 +307,8 @@ export default function PortalShell({
   user,
   workspaceLabel,
   headerActions,
+  // Client-facing FAQ under each page; staff workspaces turn it off
+  showPageHelp = true,
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -396,7 +401,7 @@ export default function PortalShell({
         <main className="mx-auto w-full max-w-[1680px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
           <Breadcrumbs schema={false} contained={false} />
           {children}
-          <PageHelp />
+          {showPageHelp && <PageHelp />}
         </main>
       </div>
     </div>

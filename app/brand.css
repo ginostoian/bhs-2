@@ -533,6 +533,113 @@ textarea {
 .bh-app textarea {
   border-radius: 6px;
 }
+
+/* ── Admin legacy normalisation ─────────────────────────────────────────
+   Older admin screens use generic Tailwind colours, shadows and loud
+   buttons. Map them onto the admin design system (components/admin) so
+   every screen reads as one product. New components use explicit brand
+   values and are unaffected. */
+.bh-app .bg-white:is(.shadow, .shadow-sm, .shadow-md) {
+  box-shadow: 0 0 0 1px var(--bh-stone);
+}
+.bh-app :is(.ring-gray-200, .ring-slate-200, .ring-gray-900\/5, .ring-black) {
+  --tw-ring-color: var(--bh-stone);
+}
+/* Decorative tints → calm chalk surfaces */
+.bh-app
+  :is(
+    .bg-purple-50,
+    .bg-pink-50,
+    .bg-teal-50,
+    .bg-cyan-50,
+    .bg-violet-50,
+    .bg-fuchsia-50,
+    .bg-sky-50,
+    .bg-purple-100,
+    .bg-pink-100,
+    .bg-teal-100,
+    .bg-cyan-100
+  ) {
+  background-color: #f4f1ea;
+}
+.bh-app
+  :is(
+    .text-purple-600,
+    .text-purple-700,
+    .text-purple-800,
+    .text-purple-900,
+    .text-pink-600,
+    .text-pink-700,
+    .text-pink-900,
+    .text-teal-600,
+    .text-teal-700,
+    .text-teal-900,
+    .text-cyan-600,
+    .text-cyan-700,
+    .text-violet-600,
+    .text-sky-600
+  ) {
+  color: var(--bh-olive);
+}
+.bh-app :is(.border-purple-200, .border-pink-200, .border-teal-200, .border-cyan-200) {
+  border-color: var(--bh-stone);
+}
+/* Solid accent buttons → brand primary */
+.bh-app
+  :is(
+    .bg-purple-600,
+    .bg-pink-600,
+    .bg-teal-600,
+    .bg-cyan-600,
+    .bg-green-600,
+    .bg-emerald-600,
+    .bg-violet-600,
+    .bg-sky-600,
+    .bg-gray-800,
+    .bg-slate-800
+  ) {
+  background-color: var(--bh-olive);
+}
+.bh-app
+  :is(
+    .hover\:bg-purple-700,
+    .hover\:bg-pink-700,
+    .hover\:bg-teal-700,
+    .hover\:bg-cyan-700,
+    .hover\:bg-green-700,
+    .hover\:bg-emerald-700,
+    .hover\:bg-gray-900,
+    .hover\:bg-slate-900
+  ):hover {
+  background-color: #3e4a3c;
+}
+/* Destructive buttons: outlined instead of a solid red block on every card */
+.bh-app :is(button, a).bg-red-600,
+.bh-app :is(button, a).bg-red-500 {
+  background-color: #fff;
+  color: #b42318;
+  border: 1px solid #f1c9c2;
+}
+.bh-app :is(button, a).bg-red-600:hover,
+.bh-app :is(button, a).bg-red-500:hover {
+  background-color: #fdf0ee;
+}
+/* Page titles on legacy screens */
+.bh-app h1:is(.text-2xl, .text-3xl) {
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.bh-app :is(.text-gray-500, .text-slate-500) {
+  color: #7a807b;
+}
+.bh-app :is(.text-gray-600, .text-slate-600, .text-gray-700, .text-slate-700) {
+  color: #4a524d;
+}
+/* Legacy tables: quieter header row */
+.bh-app thead :is(th) {
+  letter-spacing: 0.06em;
+}
 .bh-public .prose :is(h2, h3) {
   margin-top: 2em;
   margin-bottom: 0.8em;

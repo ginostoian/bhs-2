@@ -1,162 +1,191 @@
 "use client";
 
 import Link from "next/link";
+import { Building2 } from "lucide-react";
+import {
+  Badge,
+  EmptyState,
+  buttonClass,
+  formatMoney,
+  formatShortDate,
+  relativeDays,
+} from "@/components/admin/ui";
+import { DataTable } from "@/components/admin/interactive";
 
-const dateLabel = (value) =>
-  value
-    ? new Date(value).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })
-    : "Not set";
+const isLate = (p) =>
+  p.projectedFinishDate && new Date(p.projectedFinishDate) < new Date();
 
 export default function ProjectsList({ projects = [], pagination }) {
   const total = pagination?.total ?? projects.length;
-  const blockedOnPage = projects.reduce(
-    (sum, project) => sum + (project.blockedTasks || 0),
-    0,
-  );
-  const missingFinishOnPage = projects.filter(
-    (project) => !project.projectedFinishDate,
-  ).length;
 
   return (
-    <div className="space-y-5">
-      <div className="grid gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 sm:grid-cols-3">
-        <div className="bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Ongoing projects
-          </p>
-          <p className="mt-1 text-2xl font-semibold text-slate-900">{total}</p>
-        </div>
-        <div className="bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Blocked site tasks on this page
-          </p>
-          <p className="mt-1 text-2xl font-semibold text-slate-900">
-            {blockedOnPage}
-          </p>
-        </div>
-        <div className="bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-            Finish date missing on this page
-          </p>
-          <p className="mt-1 text-2xl font-semibold text-slate-900">
-            {missingFinishOnPage}
-          </p>
-        </div>
-      </div>
-
-      <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white">
-        <table className="w-full min-w-[850px] divide-y divide-slate-200 text-sm">
-          <thead className="bg-slate-50 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
-            <tr>
-              <th className="px-4 py-3">Project</th>
-              <th className="px-4 py-3">Client</th>
-              <th className="px-4 py-3">Project manager</th>
-              <th className="px-4 py-3">Projected finish</th>
-              <th className="px-4 py-3">Site tasks</th>
-              <th className="px-4 py-3">Blocked</th>
-              <th className="px-4 py-3">Go to</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {projects.map((project) => (
-              <tr key={project.id} className="hover:bg-slate-50">
-                <td className="px-4 py-4">
-                  <Link
-                    href={`/admin/projects/${project.id}`}
-                    className="font-semibold text-slate-900 hover:text-blue-700 hover:underline"
-                  >
-                    {project.name}
-                  </Link>
-                  <span className="mt-0.5 block text-xs text-slate-500">
-                    {project.type} · {project.location || "Location not set"}
-                  </span>
-                </td>
-                <td className="px-4 py-4 text-slate-700">
-                  {project.user?.name || project.user?.email || "Unknown"}
-                </td>
-                <td className="px-4 py-4 text-slate-700">
-                  {project.projectManager?.name || "Unassigned"}
-                </td>
-                <td className="px-4 py-4 text-slate-700">
-                  {dateLabel(project.projectedFinishDate)}
-                </td>
-                <td className="px-4 py-4 text-slate-700">
-                  {project.completedTasksCount || 0}/{project.tasksCount || 0}{" "}
-                  done
-                </td>
-                <td className="px-4 py-4">
-                  <span
-                    className={
-                      project.blockedTasks
-                        ? "font-semibold text-red-700"
-                        : "text-slate-500"
-                    }
-                  >
-                    {project.blockedTasks || 0}
-                  </span>
-                </td>
-                <td className="whitespace-nowrap px-4 py-4 text-xs font-medium">
-                  <Link
-                    href={`/admin/projects/${project.id}?tab=tasks`}
-                    className="mr-3 text-blue-700 hover:underline"
-                  >
-                    Site
-                  </Link>
-                  <Link
-                    href={`/admin/projects/${project.id}?tab=admin-tasks`}
-                    className="mr-3 text-blue-700 hover:underline"
-                  >
-                    Admin
-                  </Link>
-                  <Link
-                    href={`/admin/projects/${project.id}?tab=gantt`}
-                    className="text-blue-700 hover:underline"
-                  >
-                    Schedule
-                  </Link>
-                </td>
-              </tr>
-            ))}
-            {!projects.length && (
-              <tr>
-                <td
-                  colSpan={7}
-                  className="px-4 py-12 text-center text-slate-500"
+    <section className="rounded-lg border border-[#D8D2C6] bg-white">
+      <DataTable
+        rows={projects}
+        getRowKey={(p) => p.id}
+        rowHref={(p) => `/admin/projects/${p.id}`}
+        empty={
+          <EmptyState
+            icon={Building2}
+            title="No projects on site"
+            description="Projects appear here once they're created for a client."
+          />
+        }
+        columns={[
+          {
+            header: "Project",
+            key: "name",
+            primary: true,
+            render: (p) => (
+              <div className="min-w-0">
+                <div className="truncate font-medium">{p.name}</div>
+                <div className="truncate text-xs text-[#7A807B]">
+                  {[p.type, p.location].filter(Boolean).join(" · ") ||
+                    "Location not set"}
+                </div>
+              </div>
+            ),
+          },
+          {
+            header: "Client",
+            sortValue: (p) => p.user?.name || "",
+            render: (p) =>
+              p.user?.id ? (
+                <Link
+                  href={`/admin/users/${p.user.id}`}
+                  className="hover:underline"
                 >
-                  No ongoing projects found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-
+                  {p.user.name || p.user.email}
+                </Link>
+              ) : (
+                <span className="text-[#B42318]">
+                  {p.user?.name || "Unknown"}
+                </span>
+              ),
+          },
+          {
+            header: "Manager",
+            sortValue: (p) => p.projectManager?.name || "",
+            hideOnMobile: true,
+            render: (p) =>
+              p.projectManager?.name || (
+                <span className="text-[#A3A8A4]">Unassigned</span>
+              ),
+          },
+          {
+            header: "Finish",
+            key: "projectedFinishDate",
+            render: (p) =>
+              p.projectedFinishDate ? (
+                <span className="whitespace-nowrap">
+                  {formatShortDate(p.projectedFinishDate)}
+                  {isLate(p) ? (
+                    <Badge tone="warn" className="ml-1.5">
+                      {relativeDays(p.projectedFinishDate)}
+                    </Badge>
+                  ) : null}
+                </span>
+              ) : (
+                <Badge tone="neutral">Not set</Badge>
+              ),
+          },
+          {
+            header: "Site tasks",
+            sortValue: (p) =>
+              p.tasksCount ? (p.completedTasksCount || 0) / p.tasksCount : 0,
+            render: (p) => {
+              const pct = p.tasksCount
+                ? Math.round(
+                    ((p.completedTasksCount || 0) / p.tasksCount) * 100,
+                  )
+                : 0;
+              return (
+                <div className="w-32">
+                  <div className="flex justify-between text-xs">
+                    <span>
+                      {p.completedTasksCount || 0}/{p.tasksCount || 0} done
+                    </span>
+                    {p.blockedTasks ? (
+                      <span className="font-semibold text-[#B42318]">
+                        {p.blockedTasks} blocked
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-[#EDE9E0]">
+                    <div
+                      className="h-full rounded-full bg-[#4D5B4B]"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            },
+          },
+          {
+            header: "Collected",
+            align: "right",
+            sortValue: (p) => p.money?.collected || 0,
+            render: (p) =>
+              p.money?.contract ? (
+                <div className="whitespace-nowrap text-right">
+                  <div className="tabular-nums">
+                    {formatMoney(p.money.collected)}
+                  </div>
+                  <div className="text-xs text-[#7A807B]">
+                    of {formatMoney(p.money.contract)}
+                  </div>
+                  {p.money.overdue > 0 && (
+                    <div className="text-xs font-semibold text-[#B42318]">
+                      {formatMoney(p.money.overdue)} overdue
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <span className="text-xs text-[#A3A8A4]">No schedule</span>
+              ),
+          },
+          {
+            header: "Open",
+            sortable: false,
+            hideOnMobile: true,
+            render: (p) => (
+              <div className="flex justify-end gap-1 text-xs">
+                <Link
+                  href={`/admin/projects/${p.id}?tab=tasks`}
+                  className={buttonClass("ghost", "sm")}
+                >
+                  Tasks
+                </Link>
+                <Link
+                  href={`/admin/projects/${p.id}?tab=gantt`}
+                  className={buttonClass("ghost", "sm")}
+                >
+                  Schedule
+                </Link>
+              </div>
+            ),
+          },
+        ]}
+      />
       {pagination?.totalPages > 1 && (
-        <div className="flex items-center justify-between gap-3 text-sm text-slate-600">
-          <span>
-            Showing {(pagination.page - 1) * pagination.limit + 1}–
+        <div className="flex items-center justify-between gap-3 border-t border-[#EDE9E0] px-4 py-3 text-sm">
+          <span className="text-[#7A807B]">
+            {(pagination.page - 1) * pagination.limit + 1}–
             {Math.min(pagination.page * pagination.limit, total)} of {total}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2">
             {pagination.page > 1 && (
               <Link
                 href={`?page=${pagination.page - 1}`}
-                className="rounded-md border border-slate-300 bg-white px-3 py-2 hover:bg-slate-50"
+                className={buttonClass("secondary", "sm")}
               >
                 Previous
               </Link>
             )}
-            <span>
-              Page {pagination.page} of {pagination.totalPages}
-            </span>
             {pagination.page < pagination.totalPages && (
               <Link
                 href={`?page=${pagination.page + 1}`}
-                className="rounded-md border border-slate-300 bg-white px-3 py-2 hover:bg-slate-50"
+                className={buttonClass("secondary", "sm")}
               >
                 Next
               </Link>
@@ -164,6 +193,6 @@ export default function ProjectsList({ projects = [], pagination }) {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -1,40 +1,117 @@
-import Link from "next/link";
 import connectMongoose from "@/libs/mongoose";
 import Project from "@/models/Project";
+import Payment from "@/models/Payment";
+import { Task } from "@/models/index.js";
+import {
+  LinkButton,
+  PageHeader,
+  Stat,
+  StatGrid,
+  formatMoney,
+} from "@/components/admin/ui";
 import ProjectsList from "./components/ProjectsList";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminProjectsPage({ searchParams }) {
   await connectMongoose();
+  const now = new Date();
   const page = Math.max(1, Number.parseInt(searchParams?.page, 10) || 1);
   const { projects, pagination } = await Project.getOngoingProjectsPaginated({
     page,
-    limit: 10,
+    limit: 20,
   });
 
+  // Portfolio-wide numbers (not just this page)
+  const ongoing = await Project.find({ status: "On Going" })
+    .select("_id projectedFinishDate")
+    .lean();
+  const ongoingIds = ongoing.map((p) => p._id);
+  const [payments, blockedTasks] = await Promise.all([
+    Payment.find({ project: { $in: ongoingIds } })
+      .select("project amount status dueDate")
+      .lean(),
+    Task.countDocuments({ project: { $in: ongoingIds }, status: "Blocked" }),
+  ]);
+
+  const money = new Map();
+  payments.forEach((p) => {
+    const key = String(p.project);
+    const row = money.get(key) || { contract: 0, collected: 0, overdue: 0 };
+    row.contract += p.amount || 0;
+    if (p.status === "Paid") row.collected += p.amount || 0;
+    else if (p.dueDate && new Date(p.dueDate) < now)
+      row.overdue += p.amount || 0;
+    money.set(key, row);
+  });
+  const totals = [...money.values()].reduce(
+    (t, r) => ({
+      contract: t.contract + r.contract,
+      collected: t.collected + r.collected,
+      overdue: t.overdue + r.overdue,
+    }),
+    { contract: 0, collected: 0, overdue: 0 },
+  );
+  const late = ongoing.filter(
+    (p) => p.projectedFinishDate && new Date(p.projectedFinishDate) < now,
+  ).length;
+  const noFinish = ongoing.filter((p) => !p.projectedFinishDate).length;
+
+  const rows = JSON.parse(
+    JSON.stringify(
+      projects.map((p) => ({
+        ...p,
+        money: money.get(String(p._id)) || {
+          contract: 0,
+          collected: 0,
+          overdue: 0,
+        },
+      })),
+    ),
+  );
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
-          <h1 className="text-2xl font-semibold text-slate-900">Projects</h1>
-          <p className="mt-1 text-sm text-slate-600">
-            Track ongoing builds, responsibilities and schedules.
-          </p>
-        </div>
-      </div>
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="mb-5 flex justify-end">
-          <Link
-            href="/admin/finished-projects"
-            className="text-sm font-medium text-blue-700 hover:underline"
-          >
-            View finished projects →
-          </Link>
-        </div>
-        <ProjectsList
-          projects={JSON.parse(JSON.stringify(projects))}
-          pagination={pagination}
+    <div className="pb-12">
+      <PageHeader
+        eyebrow="Delivery"
+        title="Projects on site"
+        description="Live builds with programme, site-task progress and payment position. Open a project for tasks, schedule, changes, costs and notes."
+        actions={
+          <LinkButton href="/admin/finished-projects">
+            Finished projects
+          </LinkButton>
+        }
+      />
+      <StatGrid>
+        <Stat
+          label="On site"
+          value={pagination.total}
+          hint={
+            noFinish
+              ? `${noFinish} without a finish date`
+              : "All have finish dates"
+          }
+          tone="olive"
         />
-      </div>
+        <Stat
+          label="Past projected finish"
+          value={late}
+          tone={late ? "warn" : "good"}
+        />
+        <Stat
+          label="Blocked site tasks"
+          value={blockedTasks}
+          tone={blockedTasks ? "bad" : "good"}
+        />
+        <Stat
+          label="Collected / contract"
+          value={formatMoney(totals.collected)}
+          hint={`of ${formatMoney(totals.contract)}${totals.overdue ? ` · ${formatMoney(totals.overdue)} overdue` : ""}`}
+          tone={totals.overdue ? "bad" : "good"}
+          href="/admin/payments"
+        />
+      </StatGrid>
+      <ProjectsList projects={rows} pagination={pagination} />
     </div>
   );
 }

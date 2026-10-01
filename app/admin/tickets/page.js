@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import Modal from "@/components/Modal";
+import { LinkButton, PageHeader, Stat, StatGrid } from "@/components/admin/ui";
 
 export default function AdminTicketsPage() {
   const { data: session, status } = useSession();
@@ -86,7 +87,7 @@ export default function AdminTicketsPage() {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch("/api/tickets/stats");
+      const response = await fetch("/api/tickets/stats?period=36500");
       if (response.ok) {
         const data = await response.json();
         setStats(data.overview || {});
@@ -248,213 +249,54 @@ export default function AdminTicketsPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="py-8">
-            {/* Header */}
-            <div className="mb-8">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900">
-                    Ticket Management
-                  </h1>
-                  <p className="mt-2 text-gray-600">
-                    Manage support tickets and warranty claims from customers.
-                  </p>
-                </div>
-                <div className="mt-4 flex space-x-3 sm:mt-0">
-                  <Link
-                    href="/admin/calendar"
-                    className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  >
-                    <svg
-                      className="-ml-1 mr-2 h-5 w-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                    Calendar
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Stats Overview */}
-            <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6">
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
-                      <svg
-                        className="h-5 w-5 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Total</p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.total || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
-                      <svg
-                        className="h-5 w-5 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">New</p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.new || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-100">
-                      <svg
-                        className="h-5 w-5 text-yellow-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 10V3L4 14h7v7l9-11h-7z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">
-                      In Progress
-                    </p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.inProgress || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
-                      <svg
-                        className="h-5 w-5 text-green-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">
-                      Resolved
-                    </p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.resolved || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
-                      <svg
-                        className="h-5 w-5 text-gray-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Closed</p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.closed || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-center">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
-                      <svg
-                        className="h-5 w-5 text-red-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="ml-4">
-                    <p className="text-sm font-medium text-gray-500">Overdue</p>
-                    <p className="text-2xl font-semibold text-gray-900">
-                      {stats.overdue || 0}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div>
+        <div>
+          <div className="pb-12">
+            <PageHeader
+              eyebrow="Aftercare"
+              title="Tickets"
+              description="Support requests and warranty claims from clients. Assign them to the team and book visits from the calendar."
+              actions={<LinkButton href="/admin/calendar">Calendar</LinkButton>}
+            />
+            <StatGrid columns={5}>
+              <Stat
+                label="Open"
+                value={
+                  (stats.total || 0) -
+                  (stats.resolved || 0) -
+                  (stats.closed || 0)
+                }
+                hint={`${stats.total || 0} tickets in total`}
+                tone="info"
+              />
+              <Stat
+                label="New"
+                value={stats.new || 0}
+                hint="Not picked up yet"
+                tone={stats.new ? "warn" : "good"}
+              />
+              <Stat
+                label="Waiting over 7 days"
+                value={stats.overdue || 0}
+                hint="Still new after a week"
+                tone={stats.overdue ? "bad" : "good"}
+              />
+              <Stat
+                label="In progress / scheduled"
+                value={
+                  (stats.total || 0) -
+                  (stats.new || 0) -
+                  (stats.resolved || 0) -
+                  (stats.closed || 0)
+                }
+                tone="olive"
+              />
+              <Stat
+                label="Resolved / closed"
+                value={(stats.resolved || 0) + (stats.closed || 0)}
+                tone="neutral"
+              />
+            </StatGrid>
 
             {/* Filters */}
             <div className="mb-6 rounded-lg bg-white p-6 shadow">
@@ -542,7 +384,10 @@ export default function AdminTicketsPage() {
                   >
                     <option value="">All Employees</option>
                     {employees.map((employee) => (
-                      <option key={employee._id} value={employee._id}>
+                      <option
+                        key={employee.id || employee._id}
+                        value={employee.id || employee._id}
+                      >
                         {employee.name}
                       </option>
                     ))}

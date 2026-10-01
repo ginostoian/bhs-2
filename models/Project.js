@@ -68,8 +68,16 @@ const projectSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Employee",
     },
-    sourceLead: { type: mongoose.Schema.Types.ObjectId, ref: "Lead", index: true },
-    sourceQuote: { type: mongoose.Schema.Types.ObjectId, ref: "Quote", index: true },
+    sourceLead: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Lead",
+      index: true,
+    },
+    sourceQuote: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Quote",
+      index: true,
+    },
     handoverNotes: { type: String, trim: true },
     remainingCostEstimate: { type: Number, min: 0 },
     // Project notes
@@ -164,7 +172,9 @@ projectSchema.statics.getOngoingProjectsPaginated = async function ({
         as: "userData",
       },
     },
-    { $unwind: "$userData" },
+    // Keep projects whose client account no longer exists (they used to
+    // vanish from the list while still counting towards the total)
+    { $unwind: { path: "$userData", preserveNullAndEmptyArrays: true } },
     // Lookup project manager info (Employee model)
     {
       $lookup: {
@@ -241,12 +251,14 @@ projectSchema.statics.getOngoingProjectsPaginated = async function ({
   const projects = projectsAggregation.map((p) => ({
     ...p,
     id: p._id.toString(),
-    user: {
-      _id: p.userData._id,
-      id: p.userData._id.toString(),
-      name: p.userData.name,
-      email: p.userData.email,
-    },
+    user: p.userData
+      ? {
+          _id: p.userData._id,
+          id: p.userData._id.toString(),
+          name: p.userData.name,
+          email: p.userData.email,
+        }
+      : { _id: null, id: "", name: "Client account missing", email: "" },
     projectManager: p.pmData
       ? {
           _id: p.pmData._id,

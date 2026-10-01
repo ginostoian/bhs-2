@@ -1,344 +1,257 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { HardHat } from "lucide-react";
+import toast from "react-hot-toast";
+import { Badge, EmptyState, buttonClass } from "@/components/admin/ui";
+import {
+  DataTable,
+  FilterBar,
+  FilterSelect,
+  Tabs,
+  selectClass,
+} from "@/components/admin/interactive";
+
+const AVAILABILITY = [
+  ["available", "Available"],
+  ["busy", "Busy"],
+  ["unavailable", "Unavailable"],
+];
 
 /**
- * Employees List Component
- * Displays all employees with filtering and management options
+ * Employees list with workload. Deactivated employees move to the
+ * "Inactive" tab (they were previously hidden until the next reload and then
+ * reappeared without any marker) and can be reactivated from there.
  */
-export default function EmployeesList({ employees: initialEmployees }) {
-  const [employees, setEmployees] = useState(initialEmployees);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterAvailability, setFilterAvailability] = useState("all");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+export default function EmployeesList({ employees: initial = [] }) {
+  const router = useRouter();
+  const [employees, setEmployees] = useState(initial);
+  const [tab, setTab] = useState("active");
+  const [search, setSearch] = useState("");
+  const [availability, setAvailability] = useState("all");
+  const [busy, setBusy] = useState(null);
 
-  // Filter and search logic
-  const filteredEmployees = employees.filter((employee) => {
-    // Filter by availability
-    if (
-      filterAvailability !== "all" &&
-      employee.availability !== filterAvailability
-    ) {
-      return false;
+  const patch = async (employee, body, message) => {
+    setBusy(employee.id);
+    try {
+      const res = await fetch(`/api/employees/${employee.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Update failed");
+      }
+      setEmployees((list) =>
+        list.map((e) => (e.id === employee.id ? { ...e, ...body } : e)),
+      );
+      if (message) toast.success(message);
+      router.refresh();
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setBusy(null);
     }
-
-    // Filter by search term
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      const nameMatch = employee.name.toLowerCase().includes(searchLower);
-      const emailMatch = employee.email.toLowerCase().includes(searchLower);
-      const positionMatch = employee.position
-        .toLowerCase()
-        .includes(searchLower);
-      if (!nameMatch && !emailMatch && !positionMatch) return false;
-    }
-
-    return true;
-  });
-
-  // Pagination logic
-  const totalPages = Math.ceil(filteredEmployees.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedEmployees = filteredEmployees.slice(startIndex, endIndex);
-
-  // Helper function to get availability badge
-  const getAvailabilityBadge = (availability) => {
-    const badges = {
-      available: "bg-green-100 text-green-800",
-      busy: "bg-yellow-100 text-yellow-800",
-      unavailable: "bg-red-100 text-red-800",
-    };
-
-    return (
-      <span
-        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-          badges[availability] || badges.available
-        }`}
-      >
-        {availability.charAt(0).toUpperCase() + availability.slice(1)}
-      </span>
-    );
   };
 
-  // Helper function to format date
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
+  const counts = {
+    active: employees.filter((e) => e.isActive).length,
+    inactive: employees.filter((e) => !e.isActive).length,
+  };
+
+  const rows = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return employees.filter((e) => {
+      if (tab === "active" ? !e.isActive : e.isActive) return false;
+      if (availability !== "all" && e.availability !== availability)
+        return false;
+      if (!q) return true;
+      return [e.name, e.email, e.position, e.phone, ...(e.skills || [])]
+        .filter(Boolean)
+        .some((v) => v.toLowerCase().includes(q));
     });
-  };
-
-  // Handle availability change
-  const handleAvailabilityChange = async (employeeId, newAvailability) => {
-    try {
-      const response = await fetch(`/api/employees/${employeeId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ availability: newAvailability }),
-      });
-
-      if (response.ok) {
-        // Update local state
-        setEmployees((prev) =>
-          prev.map((employee) =>
-            employee.id === employeeId
-              ? { ...employee, availability: newAvailability }
-              : employee,
-          ),
-        );
-      }
-    } catch (error) {
-      console.error("Error updating employee availability:", error);
-    }
-  };
-
-  // Handle employee deactivation
-  const handleDeactivateEmployee = async (employeeId) => {
-    if (!confirm("Are you sure you want to deactivate this employee?")) {
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/employees/${employeeId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isActive: false }),
-      });
-
-      if (response.ok) {
-        // Remove from local state
-        setEmployees((prev) =>
-          prev.filter((employee) => employee.id !== employeeId),
-        );
-      }
-    } catch (error) {
-      console.error("Error deactivating employee:", error);
-    }
-  };
+  }, [employees, tab, search, availability]);
 
   return (
-    <div>
-      {/* Filter Controls */}
-      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6">
-        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Filter by Availability
-              </label>
-              <select
-                value={filterAvailability}
-                onChange={(e) => setFilterAvailability(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-48"
-              >
-                <option value="all">All Availability</option>
-                <option value="available">Available</option>
-                <option value="busy">Busy</option>
-                <option value="unavailable">Unavailable</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Search
-              </label>
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search by name, email, or position..."
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-64"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Employees Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
-        {paginatedEmployees.map((employee) => (
-          <div
-            key={employee.id}
-            className="rounded-lg border border-gray-200 bg-white p-6 shadow"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="mb-4 flex items-center space-x-3">
-                  <div className="flex-shrink-0">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500 text-sm font-medium text-white">
-                      {employee.name?.charAt(0) ||
-                        employee.email?.charAt(0) ||
-                        "E"}
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {employee.name}
-                    </h3>
-                    <div className="text-sm text-gray-500">
-                      {employee.email}
-                    </div>
+    <section className="rounded-lg border border-[#D8D2C6] bg-white">
+      <Tabs
+        className="px-3"
+        value={tab}
+        onChange={setTab}
+        items={[
+          { value: "active", label: "Active", count: counts.active },
+          { value: "inactive", label: "Inactive", count: counts.inactive },
+        ]}
+      />
+      <FilterBar
+        search={search}
+        onSearch={setSearch}
+        placeholder="Search name, role, skill"
+        right={
+          <span className="text-xs text-[#7A807B]">{rows.length} people</span>
+        }
+      >
+        <FilterSelect
+          label="Availability"
+          value={availability}
+          onChange={setAvailability}
+          options={[["all", "Any availability"], ...AVAILABILITY]}
+        />
+      </FilterBar>
+      <DataTable
+        rows={rows}
+        getRowKey={(e) => e.id}
+        rowHref={(e) => `/admin/employees/${e.id}`}
+        initialSort={{ key: "name", dir: "asc" }}
+        empty={
+          <EmptyState
+            icon={HardHat}
+            title={
+              tab === "inactive" ? "No inactive employees" : "No employees"
+            }
+            description={
+              search || availability !== "all"
+                ? "Try clearing the filters."
+                : undefined
+            }
+          />
+        }
+        columns={[
+          {
+            header: "Name",
+            key: "name",
+            primary: true,
+            render: (e) => (
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EDE9E0] text-xs font-semibold text-[#4D5B4B]">
+                  {(e.name || e.email || "?").charAt(0).toUpperCase()}
+                </span>
+                <div className="min-w-0">
+                  <div className="truncate font-medium">{e.name}</div>
+                  <div className="truncate text-xs text-[#7A807B]">
+                    {e.position || "No role set"}
                   </div>
                 </div>
-
-                <div className="mb-3 space-y-2 text-sm text-gray-600">
-                  <div>
-                    Position:{" "}
-                    <span className="font-medium">{employee.position}</span>
-                  </div>
-                  <div>Joined: {formatDate(employee.createdAt)}</div>
-                  <div className="flex items-center space-x-2">
-                    <span>Availability:</span>
-                    <select
-                      value={employee.availability}
-                      onChange={(e) =>
-                        handleAvailabilityChange(employee.id, e.target.value)
-                      }
-                      className="rounded border border-gray-300 px-2 py-1 text-xs focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-                    >
-                      <option value="available">Available</option>
-                      <option value="busy">Busy</option>
-                      <option value="unavailable">Unavailable</option>
-                    </select>
-                  </div>
-                  {employee.skills && employee.skills.length > 0 && (
-                    <div>
-                      Skills:{" "}
-                      <span className="font-medium">
-                        {employee.skills.join(", ")}
-                      </span>
-                    </div>
-                  )}
-                  {employee.dayRate && (
-                    <div>
-                      Rate:{" "}
-                      <span className="font-medium">
-                        £{employee.dayRate}/day
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex space-x-2">
-                  <Link
-                    href={`/admin/employees/${employee.id}`}
-                    className="flex-1 rounded-md bg-blue-600 px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-blue-700"
+              </div>
+            ),
+          },
+          {
+            header: "Contact",
+            sortValue: (e) => e.email,
+            hideOnMobile: true,
+            render: (e) => (
+              <div className="min-w-0 text-xs">
+                <a
+                  href={`mailto:${e.email}`}
+                  className="block truncate hover:underline"
+                >
+                  {e.email}
+                </a>
+                {e.phone && (
+                  <a
+                    href={`tel:${e.phone}`}
+                    className="block whitespace-nowrap text-[#7A807B] hover:underline"
                   >
-                    View Details
-                  </Link>
-                  <Link
-                    href={`/admin/employees/${employee.id}?edit=true`}
-                    className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-                  >
-                    Edit
-                  </Link>
+                    {e.phone}
+                  </a>
+                )}
+              </div>
+            ),
+          },
+          {
+            header: "Availability",
+            key: "availability",
+            render: (e) =>
+              e.isActive ? (
+                <select
+                  value={e.availability}
+                  disabled={busy === e.id}
+                  aria-label={`Availability for ${e.name}`}
+                  onChange={(ev) => patch(e, { availability: ev.target.value })}
+                  className={`${selectClass} h-8 text-xs`}
+                >
+                  {AVAILABILITY.map(([v, l]) => (
+                    <option key={v} value={v}>
+                      {l}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <Badge tone="neutral">Inactive</Badge>
+              ),
+          },
+          {
+            header: "Open tasks",
+            key: "openTasks",
+            align: "right",
+            render: (e) => e.openTasks || "—",
+          },
+          {
+            header: "Tickets",
+            key: "openTickets",
+            align: "right",
+            hideOnMobile: true,
+            render: (e) => e.openTickets || "—",
+          },
+          {
+            header: "Days (month)",
+            key: "daysThisMonth",
+            align: "right",
+            render: (e) => e.daysThisMonth || "—",
+          },
+          {
+            header: "Day rate",
+            key: "dayRate",
+            align: "right",
+            hideOnMobile: true,
+            render: (e) => (e.dayRate ? `£${e.dayRate}` : "—"),
+          },
+          {
+            header: "",
+            sortable: false,
+            hideOnMobile: true,
+            render: (e) => (
+              <div className="flex justify-end gap-1">
+                <Link
+                  href={`/admin/employees/${e.id}?edit=true`}
+                  className={buttonClass("ghost", "sm")}
+                >
+                  Edit
+                </Link>
+                {e.isActive ? (
                   <button
-                    onClick={() => handleDeactivateEmployee(employee.id)}
-                    className="rounded-md border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
+                    type="button"
+                    disabled={busy === e.id}
+                    className={buttonClass("ghost", "sm")}
+                    onClick={() =>
+                      window.confirm(
+                        `Deactivate ${e.name}? They keep their history and can be reactivated from the Inactive tab.`,
+                      ) &&
+                      patch(e, { isActive: false }, `${e.name} deactivated`)
+                    }
                   >
                     Deactivate
                   </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Empty State */}
-      {paginatedEmployees.length === 0 && (
-        <div className="py-12 text-center">
-          <div className="mb-4 text-6xl">👷</div>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">
-            No Employees Found
-          </h3>
-          <p className="mb-6 text-gray-600">
-            {filteredEmployees.length === 0 && employees.length > 0
-              ? "No employees match your current filters."
-              : "There are currently no employees. Create your first employee above."}
-          </p>
-        </div>
-      )}
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-between">
-          <div className="text-sm text-gray-700">
-            Showing {startIndex + 1} to{" "}
-            {Math.min(endIndex, filteredEmployees.length)} of{" "}
-            {filteredEmployees.length} employees
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <div className="flex space-x-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (page) => (
+                ) : (
                   <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`rounded-md px-3 py-2 text-sm font-medium ${
-                      currentPage === page
-                        ? "bg-blue-600 text-white"
-                        : "border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                    }`}
+                    type="button"
+                    disabled={busy === e.id}
+                    className={buttonClass("secondary", "sm")}
+                    onClick={() =>
+                      patch(e, { isActive: true }, `${e.name} reactivated`)
+                    }
                   >
-                    {page}
+                    Reactivate
                   </button>
-                ),
-              )}
-            </div>
-            <button
-              onClick={() =>
-                setCurrentPage(Math.min(totalPages, currentPage + 1))
-              }
-              disabled={currentPage === totalPages}
-              className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Statistics */}
-      <div className="mt-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h3 className="mb-4 text-lg font-medium text-gray-900">Statistics</h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg bg-green-50 p-4">
-            <div className="text-2xl font-bold text-green-600">
-              {employees.filter((e) => e.isActive).length}
-            </div>
-            <div className="text-sm text-green-600">Active Employees</div>
-          </div>
-          <div className="rounded-lg bg-blue-50 p-4">
-            <div className="text-2xl font-bold text-blue-600">
-              {employees.filter((e) => e.availability === "available").length}
-            </div>
-            <div className="text-sm text-blue-600">Available</div>
-          </div>
-          <div className="rounded-lg bg-yellow-50 p-4">
-            <div className="text-2xl font-bold text-yellow-600">
-              {employees.filter((e) => e.availability === "busy").length}
-            </div>
-            <div className="text-sm text-yellow-600">Busy</div>
-          </div>
-          <div className="rounded-lg bg-red-50 p-4">
-            <div className="text-2xl font-bold text-red-600">
-              {employees.filter((e) => e.availability === "unavailable").length}
-            </div>
-            <div className="text-sm text-red-600">Unavailable</div>
-          </div>
-        </div>
-      </div>
-    </div>
+                )}
+              </div>
+            ),
+          },
+        ]}
+      />
+    </section>
   );
 }

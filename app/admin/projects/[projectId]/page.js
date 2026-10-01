@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
+import mongoose from "mongoose";
 import connectMongoose from "@/libs/mongoose";
 import Project from "@/models/Project";
 import User from "@/models/User";
@@ -30,6 +31,7 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   const activeTab = searchParams.tab || "overview";
 
   // Fetch project with populated data
+  if (!mongoose.isValidObjectId(projectId)) notFound();
   const project = await Project.findById(projectId)
     .populate("user", "name email projectStatus")
     .populate("projectManager", "name position email")
@@ -38,27 +40,47 @@ export default async function ProjectDetailPage({ params, searchParams }) {
   if (!project) {
     notFound();
   }
-  const singleProjectClient = await Project.countDocuments({ user: project.user._id }) === 1;
+  // The client account may have been deleted; keep the project viewable
+  const clientId = project.user?._id || null;
+  const singleProjectClient = clientId
+    ? (await Project.countDocuments({ user: clientId })) === 1
+    : false;
 
   // Fetch all related data in parallel after getting project to improve performance
-  const [documents, paymentsRaw, expensesRaw, itemPurchasesRaw, changesRaw, sourceQuote, invoicesRaw, attendanceRaw] =
-    await Promise.all([
-      Document.find({
-        ...(singleProjectClient ? { $or: [
-          { project: projectId },
-          { project: { $exists: false }, user: project.user._id },
-        ] } : { project: projectId }),
-      })
-        .sort({ createdAt: -1 })
-        .lean(),
-      Payment.find({
-        ...(singleProjectClient ? { $or: [
-          { project: projectId },
-          { project: { $exists: false }, user: project.user._id },
-        ] } : { project: projectId }),
-      })
-        .sort({ order: 1 })
-        .lean(),
+  const [
+    documents,
+    paymentsRaw,
+    expensesRaw,
+    itemPurchasesRaw,
+    changesRaw,
+    sourceQuote,
+    invoicesRaw,
+    attendanceRaw,
+  ] = await Promise.all([
+    Document.find({
+      ...(singleProjectClient
+        ? {
+            $or: [
+              { project: projectId },
+              { project: { $exists: false }, user: clientId },
+            ],
+          }
+        : { project: projectId }),
+    })
+      .sort({ createdAt: -1 })
+      .lean(),
+    Payment.find({
+      ...(singleProjectClient
+        ? {
+            $or: [
+              { project: projectId },
+              { project: { $exists: false }, user: clientId },
+            ],
+          }
+        : { project: projectId }),
+    })
+      .sort({ order: 1 })
+      .lean(),
     Expense.find({ project: projectId }).sort({ order: 1 }).lean(),
     ItemPurchase.find({ project: projectId }).sort({ order: 1 }).lean(),
     ProjectChange.find({ project: projectId })
@@ -66,9 +88,15 @@ export default async function ProjectDetailPage({ params, searchParams }) {
       .populate("user", "name email")
       .populate("decidedBy", "name")
       .lean(),
-    project.sourceQuote ? Quote.findById(project.sourceQuote).select("total status clientResponse quoteNumber").lean() : null,
+    project.sourceQuote
+      ? Quote.findById(project.sourceQuote)
+          .select("total status clientResponse quoteNumber")
+          .lean()
+      : null,
     Invoice.find({ project: projectId }).select("total status").lean(),
-    Attendance.find({ project: projectId, status: "Present" }).select("hours").lean(),
+    Attendance.find({ project: projectId, status: "Present" })
+      .select("hours")
+      .lean(),
   ]);
 
   // Group documents by type
@@ -204,18 +232,25 @@ export default async function ProjectDetailPage({ params, searchParams }) {
           email: project.projectManager.email,
         }
       : null,
-    user: {
-      id: project.user._id.toString(),
-      name: project.user.name,
-      email: project.user.email,
-      projectStatus: project.user.projectStatus,
-    },
+    user: project.user
+      ? {
+          id: project.user._id.toString(),
+          name: project.user.name,
+          email: project.user.email,
+          projectStatus: project.user.projectStatus,
+        }
+      : {
+          id: "",
+          name: "Client account missing",
+          email: "",
+          projectStatus: null,
+        },
     tasksCount: project.tasksCount || 0,
     completedTasksCount: project.completedTasksCount || 0,
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       <ProjectDetailClient
         project={projectData}
         documentsByType={documentsByType}
@@ -224,9 +259,24 @@ export default async function ProjectDetailPage({ params, searchParams }) {
         changes={changes}
         itemPurchases={itemPurchases}
         activeTab={activeTab}
-        sourceQuote={sourceQuote ? { total: sourceQuote.total, status: sourceQuote.status, clientResponse: sourceQuote.clientResponse, quoteNumber: sourceQuote.quoteNumber } : null}
-        invoices={invoicesRaw.map((invoice) => ({ total: invoice.total, status: invoice.status }))}
-        recordedLabourHours={attendanceRaw.reduce((sum, item) => sum + (Number(item.hours) || 0), 0)}
+        sourceQuote={
+          sourceQuote
+            ? {
+                total: sourceQuote.total,
+                status: sourceQuote.status,
+                clientResponse: sourceQuote.clientResponse,
+                quoteNumber: sourceQuote.quoteNumber,
+              }
+            : null
+        }
+        invoices={invoicesRaw.map((invoice) => ({
+          total: invoice.total,
+          status: invoice.status,
+        }))}
+        recordedLabourHours={attendanceRaw.reduce(
+          (sum, item) => sum + (Number(item.hours) || 0),
+          0,
+        )}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
+import mongoose from "mongoose";
 import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
 import Document from "@/models/Document";
@@ -7,6 +8,8 @@ import Payment from "@/models/Payment";
 import Project from "@/models/Project";
 import Moodboard from "@/models/Moodboard";
 import UserDetailClient from "./components/UserDetailClient";
+import ClientOverview from "./components/ClientOverview";
+import { getClientRecords } from "@/libs/records/clientRecords";
 
 /**
  * User Detail Page
@@ -15,8 +18,22 @@ import UserDetailClient from "./components/UserDetailClient";
 export default async function AdminUserDetailPage({ params }) {
   const session = await getServerSession(authOptions);
   await connectMongoose();
-  const user = await User.findById(params.userId).lean();
-  if (!user) return <div className="p-8">User not found.</div>;
+  const user = mongoose.isValidObjectId(params.userId)
+    ? await User.findById(params.userId).lean()
+    : null;
+  if (!user) {
+    return (
+      <div className="py-20 text-center">
+        <p className="text-lg font-semibold">User not found</p>
+        <a
+          href="/admin/users"
+          className="mt-2 inline-block text-sm text-[#4D5B4B] underline"
+        >
+          Back to users
+        </a>
+      </div>
+    );
+  }
 
   // Convert user to plain object
   const userData = {
@@ -179,8 +196,15 @@ export default async function AdminUserDetailPage({ params }) {
     invoice: documents.filter((doc) => doc.type === "invoice") || [],
   };
 
+  // Quotes, invoices, leads and tickets linked to this client
+  const records = await getClientRecords(params.userId).catch((error) => {
+    console.error("Error loading linked records:", error);
+    return null;
+  });
+
   return (
     <UserDetailClient
+      overview={<ClientOverview userId={params.userId} records={records} />}
       user={userData}
       documentsByType={documentsByType}
       payments={payments}

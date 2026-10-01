@@ -277,25 +277,14 @@ export default function EmployeeDetailClient({
         )}
       </div>
 
-      {/* Back to Employees */}
-      <div className="text-center">
-        <Link
-          href="/admin/employees"
-          className="inline-flex items-center rounded-md bg-gray-600 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
-        >
-          ← Back to Employees
-        </Link>
-      </div>
-
       {/* Edit Employee Modal */}
       <EditEmployeeModal
         employee={employee}
         isOpen={showEditModal}
         onClose={() => setShowEditModal(false)}
         onSave={(updatedEmployee) => {
-          console.log("onSave called with updated employee:", updatedEmployee);
-          console.log("Updated employee dayRate:", updatedEmployee.dayRate);
-          setEmployee(updatedEmployee);
+          // Merge: the API response omits private fields such as email
+          setEmployee((prev) => ({ ...prev, ...updatedEmployee }));
           setShowEditModal(false);
         }}
       />

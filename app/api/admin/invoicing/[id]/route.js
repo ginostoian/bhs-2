@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Invoice from "@/models/Invoice";
+import Payment from "@/models/Payment";
+import "@/models/Project";
 import mongoose from "mongoose";
 
 // GET - Fetch a specific invoice
@@ -26,6 +28,7 @@ export async function GET(request, { params }) {
     const invoice = await Invoice.findById(params.id)
       .populate("linkedUser", "name email phone address")
       .populate("linkedLead", "name email phone address")
+      .populate("project", "name")
       .populate("createdBy", "name email")
       .populate("lastModifiedBy", "name email");
 
@@ -82,7 +85,20 @@ export async function PUT(request, { params }) {
     // Update modification tracking
     invoice.lastModifiedBy = session.user.id;
 
+    const becamePaid =
+      invoice.isModified("status") && invoice.status === "paid";
+    if (becamePaid && !invoice.paymentDate) invoice.paymentDate = new Date();
+
     await invoice.save();
+
+    // Keep the payment-plan row this invoice was generated from in step, so
+    // it no longer shows as due once the invoice is paid.
+    if (becamePaid && invoice.sourcePayment) {
+      await Payment.updateOne(
+        { _id: invoice.sourcePayment, status: { $ne: "Paid" } },
+        { $set: { status: "Paid" } },
+      );
+    }
 
     // Populate before returning
     await invoice.populate([

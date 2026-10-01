@@ -4,6 +4,15 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import Modal from "@/components/Modal";
+import {
+  Badge,
+  LinkButton,
+  PageHeader,
+  Stat,
+  StatGrid,
+  buttonClass,
+  formatMoney,
+} from "@/components/admin/ui";
 
 /**
  * Admin Payments Client Component
@@ -45,9 +54,7 @@ export default function AdminPaymentsClient({
 
   // Filter users to show all potential clients for payment creation
   const availableUsers = users.filter((user) =>
-    ["Lead", "Planning", "On Going", "Finished"].includes(
-      user.projectStatus,
-    ),
+    ["Lead", "Planning", "On Going", "Finished"].includes(user.projectStatus),
   );
 
   // Format date for display
@@ -122,7 +129,8 @@ export default function AdminPaymentsClient({
     .filter(([groupKey, userGroup]) => {
       // Filter by user status
       if (filterStatus !== "all") {
-        const userStatus = userGroup.user?.projectStatus || "Lead";
+        const userStatus =
+          userGroup.project?.status || userGroup.user?.projectStatus || "Lead";
         if (filterStatus === "lead" && userStatus !== "Lead") return false;
         if (filterStatus === "onGoing" && userStatus !== "On Going")
           return false;
@@ -398,9 +406,12 @@ export default function AdminPaymentsClient({
     setGeneratingInvoiceId(payment.id);
 
     try {
-      const response = await fetch(`/api/payments/${payment.id}/generate-invoice`, {
-        method: "POST",
-      });
+      const response = await fetch(
+        `/api/payments/${payment.id}/generate-invoice`,
+        {
+          method: "POST",
+        },
+      );
 
       const data = await response.json();
 
@@ -431,94 +442,89 @@ export default function AdminPaymentsClient({
     }
   };
 
+  const totals = payments.reduce(
+    (t, p) => {
+      const amount = Number(p.amount) || 0;
+      const days = (new Date(p.dueDate) - Date.now()) / 86400000;
+      if (p.status === "Paid") {
+        t.paid += amount;
+        t.paidCount += 1;
+      } else if (p.status === "Due" || days < 0) {
+        t.due += amount;
+        t.dueCount += 1;
+      } else if (days <= 30) {
+        t.next30 += amount;
+        t.next30Count += 1;
+      } else t.later += amount;
+      return t;
+    },
+    {
+      paid: 0,
+      paidCount: 0,
+      due: 0,
+      dueCount: 0,
+      next30: 0,
+      next30Count: 0,
+      later: 0,
+    },
+  );
+
   return (
     <div>
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="mb-2 text-2xl font-bold text-gray-900">
-              Payment Management
-            </h2>
-            <p className="text-gray-600">
-              Manage payment schedules for all users
-            </p>
-          </div>
-          <div className="flex space-x-2">
+      <PageHeader
+        eyebrow="Finance"
+        title="Payment plans"
+        description="Stage payments agreed with each client. Generate an invoice from any stage; paying that invoice marks the stage paid."
+        actions={
+          <>
+            <LinkButton href="/admin/invoicing">Invoices</LinkButton>
             <button
-              onClick={() => setCreateModal({ isOpen: true })}
-              className="inline-flex items-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
-            >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              Add Payment
-            </button>
-            <button
+              type="button"
               onClick={() => setBulkCreateModal({ isOpen: true })}
-              className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              className={buttonClass("secondary")}
             >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Bulk Add
+              Bulk add
             </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Statistics */}
-      <div className="mb-8 rounded-lg border border-gray-200 bg-white p-6">
-        <h3 className="mb-4 text-lg font-medium text-gray-900">
-          Payment Statistics
-        </h3>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg bg-blue-50 p-4">
-            <div className="text-2xl font-bold text-blue-600">
-              {payments.length}
-            </div>
-            <div className="text-sm text-blue-600">Total Payments</div>
-          </div>
-          <div className="rounded-lg bg-green-50 p-4">
-            <div className="text-2xl font-bold text-green-600">
-              {payments.filter((p) => p.status === "Paid").length}
-            </div>
-            <div className="text-sm text-green-600">Paid</div>
-          </div>
-          <div className="rounded-lg bg-yellow-50 p-4">
-            <div className="text-2xl font-bold text-yellow-600">
-              {payments.filter((p) => p.status === "Due").length}
-            </div>
-            <div className="text-sm text-yellow-600">Due</div>
-          </div>
-          <div className="rounded-lg bg-purple-50 p-4">
-            <div className="text-2xl font-bold text-purple-600">
-              {payments.filter((p) => p.status === "Scheduled").length}
-            </div>
-            <div className="text-sm text-purple-600">Scheduled</div>
-          </div>
-        </div>
-      </div>
+            <button
+              type="button"
+              onClick={() => setCreateModal({ isOpen: true })}
+              className={buttonClass("primary")}
+            >
+              Add payment
+            </button>
+          </>
+        }
+      />
+      <StatGrid>
+        <Stat
+          label="Collected"
+          value={formatMoney(totals.paid)}
+          hint={`${totals.paidCount} of ${payments.length} stages paid`}
+          tone="good"
+        />
+        <Stat
+          label="Due now"
+          value={formatMoney(totals.due)}
+          hint={
+            totals.dueCount
+              ? `${totals.dueCount} stage${totals.dueCount === 1 ? "" : "s"} past their date`
+              : "Nothing due"
+          }
+          tone={totals.dueCount ? "bad" : "good"}
+        />
+        <Stat
+          label="Next 30 days"
+          value={formatMoney(totals.next30)}
+          hint={`${totals.next30Count} scheduled`}
+          tone="info"
+        />
+        <Stat
+          label="Scheduled later"
+          value={formatMoney(totals.later)}
+          hint="Beyond 30 days"
+          tone="neutral"
+        />
+      </StatGrid>
 
       {/* Filters and Search */}
       <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6">
@@ -526,15 +532,15 @@ export default function AdminPaymentsClient({
           <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Filter by Status
+                Project status
               </label>
               <select
                 value={filterStatus}
                 onChange={(e) => handleFilterChange(e.target.value)}
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:w-auto"
               >
-                <option value="all">All Users</option>
-                <option value="lead">Lead</option>
+                <option value="all">All projects</option>
+                <option value="lead">Not started (lead)</option>
                 <option value="onGoing">On Going</option>
                 <option value="finished">Finished</option>
               </select>
@@ -594,7 +600,16 @@ export default function AdminPaymentsClient({
             <div className="space-y-6">
               {paginatedGroupedPayments.map(([groupKey, userGroup]) => {
                 const isCollapsed = collapsedUsers.has(groupKey);
-                const userStatus = userGroup.user?.projectStatus || "Lead";
+                const groupPaid = userGroup.payments
+                  .filter((p) => p.status === "Paid")
+                  .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+                const groupTotal = userGroup.payments.reduce(
+                  (sum, p) => sum + (Number(p.amount) || 0),
+                  0,
+                );
+                const groupDue = userGroup.payments
+                  .filter((p) => p.status === "Due")
+                  .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
 
                 return (
                   <div
@@ -627,27 +642,58 @@ export default function AdminPaymentsClient({
                           </button>
                           <div>
                             <h3 className="text-lg font-semibold text-gray-900">
-                              {userGroup.userName}
+                              {userGroup.userId !== "unknown" ? (
+                                <a
+                                  href={`/admin/users/${userGroup.userId}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="hover:underline"
+                                >
+                                  {userGroup.userName}
+                                </a>
+                              ) : (
+                                userGroup.userName
+                              )}
                             </h3>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-sm font-medium text-blue-600">
-                                {userGroup.projectName}
-                              </span>
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                              {userGroup.project?.id ||
+                              userGroup.project?._id ? (
+                                <a
+                                  href={`/admin/projects/${userGroup.project.id || userGroup.project._id}`}
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="text-sm font-medium text-[#4D5B4B] hover:underline"
+                                >
+                                  {userGroup.projectName}
+                                </a>
+                              ) : (
+                                <span className="text-sm font-medium text-[#4D5B4B]">
+                                  {userGroup.projectName}
+                                </span>
+                              )}
                               <span className="text-sm text-gray-400">•</span>
                               <span className="text-sm text-gray-600">
                                 {userGroup.payments.length} payment
                                 {userGroup.payments.length !== 1 ? "s" : ""}
                               </span>
-                              <span className="inline-flex items-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-800">
-                                {userStatus}
-                              </span>
+                              {userGroup.project?.status && (
+                                <Badge status={userGroup.project.status}>
+                                  {userGroup.project.status}
+                                </Badge>
+                              )}
                             </div>
                           </div>
                         </div>
-                        <div className="text-sm text-gray-500">
-                          {isCollapsed
-                            ? "Click to expand"
-                            : "Click to collapse"}
+                        <div className="text-right text-sm">
+                          <div className="tabular-nums">
+                            {formatMoney(groupPaid)}{" "}
+                            <span className="text-[#7A807B]">
+                              of {formatMoney(groupTotal)}
+                            </span>
+                          </div>
+                          {groupDue > 0 && (
+                            <div className="text-xs font-semibold text-[#B42318]">
+                              {formatMoney(groupDue)} due
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -871,18 +917,18 @@ export default function AdminPaymentsClient({
                                                             stroke="currentColor"
                                                             viewBox="0 0 24 24"
                                                           >
-                                                          <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth={2}
-                                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                          />
+                                                            <path
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              strokeWidth={2}
+                                                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                                            />
                                                           </svg>
                                                           Paid
                                                         </span>
                                                       )}
                                                       {payment.project && (
-                                                        <span className="flex items-center text-blue-600 font-medium">
+                                                        <span className="flex items-center font-medium text-blue-600">
                                                           <svg
                                                             className="mr-1 h-3 w-3"
                                                             fill="none"
@@ -896,7 +942,8 @@ export default function AdminPaymentsClient({
                                                               d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                                                             />
                                                           </svg>
-                                                          Project: {payment.project.name}
+                                                          Project:{" "}
+                                                          {payment.project.name}
                                                         </span>
                                                       )}
                                                     </div>
@@ -1312,7 +1359,7 @@ function CreatePaymentModal({ users, onClose, onSubmit, isSubmitting }) {
                   ))}
                 </select>
               ) : (
-                <p className="text-sm text-amber-600 italic">
+                <p className="text-sm italic text-amber-600">
                   No projects found for this user.
                 </p>
               )}
@@ -1598,7 +1645,7 @@ function BulkCreatePaymentModal({
                     ))}
                   </select>
                 ) : (
-                  <p className="text-sm text-amber-600 italic">
+                  <p className="text-sm italic text-amber-600">
                     No projects found for this user.
                   </p>
                 )}
@@ -1807,7 +1854,7 @@ function EditPaymentModal({ payment, onClose, onSubmit, isSubmitting }) {
                 ))}
               </select>
             ) : (
-              <p className="text-sm text-amber-600 italic">
+              <p className="text-sm italic text-amber-600">
                 No projects found for this user.
               </p>
             )}

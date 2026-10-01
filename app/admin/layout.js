@@ -5,13 +5,17 @@ import { redirect } from "next/navigation";
 import SignOutButton from "../dashboard/components/SignOutButton";
 import NotificationBell from "./components/NotificationBell";
 import AdminUtilitiesDropdown from "./components/AdminUtilitiesDropdown";
+import CommandPalette from "./components/CommandPalette";
 import SessionProvider from "./components/SessionProvider";
 import PortalShell from "@/components/portal/PortalShell";
 
 const adminNavigation = [
   {
     name: "",
-    items: [{ name: "Overview", href: "/admin/dashboard", icon: "dashboard" }],
+    items: [
+      { name: "Overview", href: "/admin/dashboard", icon: "dashboard" },
+      { name: "Reports", href: "/admin/reports", icon: "crm", exact: true },
+    ],
   },
   {
     name: "Management",
@@ -215,8 +219,10 @@ export default async function AdminLayout({ children }) {
         navGroups={adminNavigation}
         user={session.user}
         workspaceLabel="Admin workspace"
+        showPageHelp={false}
         headerActions={
           <>
+            <CommandPalette />
             <AdminUtilitiesDropdown />
             <NotificationBell />
             <SignOutButton compact />
