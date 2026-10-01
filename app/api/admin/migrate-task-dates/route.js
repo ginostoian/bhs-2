@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/libs/requireAdmin";
 import connectMongoose from "@/libs/mongoose";
 import Task from "@/models/Task";
 
 export async function POST(req) {
+  // Admin only: this route exposes/changes data and isn't covered by middleware
+  try {
+    await requireAdmin(req);
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     // Connect to MongoDB
     await connectMongoose();

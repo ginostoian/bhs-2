@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/libs/requireAdmin";
 import connectMongo from "@/libs/mongoose";
 import User from "@/models/User";
 
 export async function GET(request) {
+  // Admin only: this route exposes/changes data and isn't covered by middleware
+  try {
+    await requireAdmin(request);
+  } catch {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     await connectMongo();
 
