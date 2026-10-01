@@ -31,7 +31,7 @@ export default function ProductCard({
   // Get product display data
   const displayTitle =
     product.customTitle || product.product?.name || "Unknown Product";
-  const displayPrice = product.customPrice || product.product?.price || 0;
+  const displayPrice = product.customPrice ?? product.product?.price ?? 0;
   const displayImage = product.customImageUrl || product.product?.imageUrl;
   const displayUrl = product.customProductUrl || product.product?.productUrl;
   const displaySupplier = product.customSupplier || product.product?.supplier;

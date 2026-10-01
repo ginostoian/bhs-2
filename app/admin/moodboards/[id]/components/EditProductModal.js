@@ -30,8 +30,8 @@ export default function EditProductModal({
       setFormData({
         customTitle: product.customTitle || product.product?.name || "",
         customPrice: (
-          product.customPrice ||
-          product.product?.price ||
+          product.customPrice ??
+          product.product?.price ??
           0
         ).toString(),
         quantity: product.quantity || 1,

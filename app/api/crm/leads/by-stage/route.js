@@ -41,10 +41,13 @@ export async function GET(request) {
       isArchived: false,
     };
 
-    const search = searchParams.get("search")?.trim();
+    const search = searchParams.get("search")?.trim().slice(0, 100);
     if (search)
       query.$or = ["name", "email", "phone", "address"].map((field) => ({
-        [field]: { $regex: search, $options: "i" },
+        [field]: {
+          $regex: search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+          $options: "i",
+        },
       }));
     if (searchParams.get("assignedTo"))
       query.assignedTo = searchParams.get("assignedTo");

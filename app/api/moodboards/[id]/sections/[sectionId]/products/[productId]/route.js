@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import connectMongoose from "@/libs/mongoose";
 import MoodboardProduct from "@/models/MoodboardProduct";
-import MoodboardSection from "@/models/MoodboardSection";
+import Product from "@/models/Product";
 
 // Force dynamic rendering for this route
 export const dynamic = "force-dynamic";
@@ -24,7 +24,10 @@ export async function PUT(request, { params }) {
     await connectMongoose();
 
     const body = await request.json();
-    const { quantity, customPrice, notes, order, isActive } = body;
+    const {
+      quantity, customPrice, customTitle, customSupplier, customCategory,
+      customImageUrl, customProductUrl, notes, order, isActive,
+    } = body;
 
     const moodboardProduct = await MoodboardProduct.findById(params.productId);
     if (!moodboardProduct) {
@@ -42,12 +45,17 @@ export async function PUT(request, { params }) {
     // Update fields
     if (quantity !== undefined) moodboardProduct.quantity = quantity;
     if (customPrice !== undefined) moodboardProduct.customPrice = customPrice;
+    if (customTitle !== undefined) moodboardProduct.customTitle = customTitle;
+    if (customSupplier !== undefined) moodboardProduct.customSupplier = customSupplier;
+    if (customCategory !== undefined) moodboardProduct.customCategory = customCategory;
+    if (customImageUrl !== undefined) moodboardProduct.customImageUrl = customImageUrl;
+    if (customProductUrl !== undefined) moodboardProduct.customProductUrl = customProductUrl;
     if (notes !== undefined) moodboardProduct.notes = notes;
     if (order !== undefined) moodboardProduct.order = order;
     if (isActive !== undefined) moodboardProduct.isActive = isActive;
 
     await moodboardProduct.save();
-    await moodboardProduct.populate("product");
+    await moodboardProduct.populate({ path: "product", model: Product });
 
     return NextResponse.json({ product: moodboardProduct });
   } catch (error) {

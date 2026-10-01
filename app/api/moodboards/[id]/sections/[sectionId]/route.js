@@ -119,7 +119,12 @@ export async function PUT(request, { params }) {
           userComment: product.userComment || "",
           adminComment: product.adminComment || "",
           order: product.order || 0,
-          customPrice: product.customPrice || null,
+          customPrice: product.customPrice ?? null,
+          customTitle: product.customTitle || "",
+          customSupplier: product.customSupplier || "",
+          customCategory: product.customCategory || "",
+          customImageUrl: product.customImageUrl || "",
+          customProductUrl: product.customProductUrl || "",
           notes: product.notes || "",
           product: product.productData?.[0]
             ? {

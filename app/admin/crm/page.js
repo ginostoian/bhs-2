@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useDeferredValue, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { Archive, BarChart3, CheckSquare2, Mail, Plus, X } from "lucide-react";
@@ -96,10 +96,26 @@ export default function CRMPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [sendingBrief, setSendingBrief] = useState(false);
-  const deferredSearch = useDeferredValue(filters.search);
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearch(filters.search), 300);
+    return () => clearTimeout(timeout);
+  }, [filters.search]);
   const effectiveFilters = useMemo(
-    () => ({ ...filters, search: deferredSearch }),
-    [filters, deferredSearch],
+    () => ({
+      search: debouncedSearch,
+      assignedTo: filters.assignedTo,
+      source: filters.source,
+      projectType: filters.projectType,
+      view: filters.view,
+    }),
+    [
+      debouncedSearch,
+      filters.assignedTo,
+      filters.source,
+      filters.projectType,
+      filters.view,
+    ],
   );
   const boardKey = useMemo(
     () => [
@@ -117,9 +133,12 @@ export default function CRMPage() {
         CRM_STAGES.map(async (stage) => {
           const responses = await Promise.all(
             Array.from({ length: pages[stage] }, (_, index) =>
-              apiClient.get(
-                `/crm/leads/by-stage?${buildParams(stage, index + 1, effectiveFilters)}`,
-              ),
+              fetch(
+                `/api/crm/leads/by-stage?${buildParams(stage, index + 1, effectiveFilters)}`,
+              ).then(async (response) => {
+                if (!response.ok) throw new Error("Could not load CRM leads");
+                return response.json();
+              }),
             ),
           );
           return [
@@ -134,7 +153,11 @@ export default function CRMPage() {
       );
       return { stages: Object.fromEntries(stageEntries) };
     },
-    { keepPreviousData: true, revalidateOnFocus: false },
+    {
+      keepPreviousData: true,
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    },
   );
   const { data: archivedData, mutate: mutateArchived } = useSWR(
     "/crm/leads/archived",

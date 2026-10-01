@@ -67,6 +67,11 @@ const moodboardProductSchema = mongoose.Schema(
       type: Number,
       min: 0,
     },
+    customTitle: { type: String, trim: true },
+    customSupplier: { type: String, trim: true },
+    customCategory: { type: String, trim: true },
+    customImageUrl: { type: String, trim: true },
+    customProductUrl: { type: String, trim: true },
     // Additional notes
     notes: {
       type: String,
@@ -89,13 +94,13 @@ moodboardProductSchema.index({ section: 1, order: 1 });
 
 // Virtual for total price (quantity * price)
 moodboardProductSchema.virtual("totalPrice").get(function () {
-  const price = this.customPrice || this.product?.price || 0;
+  const price = this.customPrice ?? this.product?.price ?? 0;
   return price * this.quantity;
 });
 
 // Virtual for price per unit
 moodboardProductSchema.virtual("unitPrice").get(function () {
-  return this.customPrice || this.product?.price || 0;
+  return this.customPrice ?? this.product?.price ?? 0;
 });
 
 // Static method to get products for a moodboard

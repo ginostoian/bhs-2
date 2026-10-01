@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import Payment from "@/models/Payment";
+import Project from "@/models/Project";
 import { requireAuth } from "@/libs/requireAdmin";
 
 /**
@@ -99,14 +100,15 @@ export async function PUT(req, { params }) {
     // Populate user and project info for response
     await payment.populate([
       { path: "user", select: "name email" },
-      { path: "project", select: "name status", strictPopulate: false },
+      { path: "project", model: Project, select: "name status" },
     ]);
 
     return NextResponse.json({
       payment: {
         id: payment.id,
-        paymentNumber: payment.order,
+        paymentNumber: payment.paymentNumber,
         name: payment.name,
+        amount: payment.amount,
         dueDate: payment.dueDate,
         status: payment.status,
         order: payment.order,
