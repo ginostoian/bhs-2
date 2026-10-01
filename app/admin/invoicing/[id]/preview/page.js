@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { RecordLink } from "@/components/admin/ui";
 import {
   ArrowLeft,
   Edit,
@@ -298,6 +299,35 @@ export default function InvoicePreviewPage() {
           </div>
         </div>
       </div>
+
+      {(invoice.linkedUser || invoice.project || invoice.linkedLead) && (
+        <div className="border-b border-[#EDE9E0] bg-white">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-2 text-xs text-[#7A807B] sm:px-6 lg:px-8">
+            <span>Linked to</span>
+            {(invoice.linkedUser?._id || invoice.linkedUser?.id) && (
+              <RecordLink
+                type="client"
+                id={invoice.linkedUser._id || invoice.linkedUser.id}
+                label={invoice.linkedUser.name || invoice.linkedUser.email}
+              />
+            )}
+            {(invoice.project?._id || invoice.project?.id) && (
+              <RecordLink
+                type="project"
+                id={invoice.project._id || invoice.project.id}
+                label={invoice.project.name}
+              />
+            )}
+            {(invoice.linkedLead?._id || invoice.linkedLead?.id) && (
+              <RecordLink
+                type="lead"
+                id={invoice.linkedLead._id || invoice.linkedLead.id}
+                label={invoice.linkedLead.name || "CRM lead"}
+              />
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Actions Bar */}
       <div className="border-b border-gray-200 bg-white">

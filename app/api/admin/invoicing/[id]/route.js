@@ -4,6 +4,7 @@ import { authOptions } from "@/libs/next-auth";
 import connectMongo from "@/libs/mongoose";
 import Invoice from "@/models/Invoice";
 import Payment from "@/models/Payment";
+import "@/models/Project";
 import mongoose from "mongoose";
 
 // GET - Fetch a specific invoice
@@ -27,6 +28,7 @@ export async function GET(request, { params }) {
     const invoice = await Invoice.findById(params.id)
       .populate("linkedUser", "name email phone address")
       .populate("linkedLead", "name email phone address")
+      .populate("project", "name")
       .populate("createdBy", "name email")
       .populate("lastModifiedBy", "name email");
 
