@@ -11,7 +11,10 @@ import PortalShell from "@/components/portal/PortalShell";
 const adminNavigation = [
   {
     name: "",
-    items: [{ name: "Overview", href: "/admin/dashboard", icon: "dashboard" }],
+    items: [
+      { name: "Overview", href: "/admin/dashboard", icon: "dashboard" },
+      { name: "Reports", href: "/admin/reports", icon: "crm", exact: true },
+    ],
   },
   {
     name: "Management",
@@ -215,6 +218,7 @@ export default async function AdminLayout({ children }) {
         navGroups={adminNavigation}
         user={session.user}
         workspaceLabel="Admin workspace"
+        showPageHelp={false}
         headerActions={
           <>
             <AdminUtilitiesDropdown />
