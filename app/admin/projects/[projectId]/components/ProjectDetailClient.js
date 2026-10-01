@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import {
+  Badge,
+  PageHeader,
+  RecordLink,
+  buttonClass,
+  formatShortDate,
+} from "@/components/admin/ui";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -380,122 +387,118 @@ export default function ProjectDetailClient({
   const currentProgress = calculateProgress();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link
-                href="/admin/projects"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline"
-              >
-                <svg
-                  className="mr-2 h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-                Back to Projects
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0">
-            <div className="min-w-0 flex-1">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-500">{project.type}</p>
-              <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl">
-                {project.name}
-              </h1>
-              <div className="mt-2 flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-x-3 sm:space-y-0">
-                <p className="text-sm text-gray-600 sm:text-base md:text-lg">
-                  {project.user.name || project.user.email}
-                </p>
-                <Link
-                  href={`/admin/users/${project.user.id}`}
-                  className="inline-flex w-fit items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  View User
-                </Link>
-              </div>
-              <div className="mt-3 flex flex-wrap items-center gap-2 sm:space-x-3">
-                {getStatusBadge(project.status)}
-                {getPriorityBadge(project.priority)}
-                <span className="text-xs text-gray-500 sm:text-sm">
-                  Site tasks: {currentProgress}% done
-                </span>
-                {project.startDate &&
-                  new Date(project.startDate) > new Date() && (
-                    <span className="inline-flex items-center rounded-md bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 ring-1 ring-inset ring-orange-600/20">
-                      <svg
-                        className="mr-1 h-3 w-3"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <span className="hidden sm:inline">Future Start</span>
-                      <span className="sm:hidden">Future</span>
-                    </span>
-                  )}
-                {project.status === "On Going" && (
-                  <button
-                    onClick={() => setMarkAsFinishedModal({ isOpen: true })}
-                    className="inline-flex items-center rounded-md bg-green-600 px-3 py-1 text-xs font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  >
-                    <svg
-                      className="mr-1 h-3 w-3"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Mark as Finished
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+    <div>
+      <PageHeader
+        back={{
+          href:
+            project.status === "Finished"
+              ? "/admin/finished-projects"
+              : "/admin/projects",
+          label:
+            project.status === "Finished"
+              ? "Finished projects"
+              : "Projects on site",
+        }}
+        eyebrow={project.type}
+        title={project.name}
+        meta={
+          <>
+            <Badge status={project.status}>{project.status}</Badge>
+            {project.priority && (
+              <Badge status={project.priority} className="capitalize">
+                {project.priority} priority
+              </Badge>
+            )}
+            {project.startDate && new Date(project.startDate) > new Date() && (
+              <Badge tone="warn">
+                Starts {formatShortDate(project.startDate)}
+              </Badge>
+            )}
+            <span className="text-sm text-[#4A524D]">
+              {formatShortDate(project.startDate)} →{" "}
+              {formatShortDate(
+                project.completionDate || project.projectedFinishDate,
+              )}
+            </span>
+            <span className="text-sm text-[#7A807B]">
+              · Site tasks {currentProgress}% done
+            </span>
+          </>
+        }
+        actions={
+          project.status === "On Going" ? (
+            <button
+              type="button"
+              onClick={() => setMarkAsFinishedModal({ isOpen: true })}
+              className={buttonClass("primary")}
+            >
+              Mark as finished
+            </button>
+          ) : null
+        }
+      />
+      {/* Everything this project is connected to */}
+      <div className="-mt-3 mb-6 flex flex-wrap items-center gap-2">
+        <RecordLink
+          type="client"
+          id={project.user.id}
+          label={project.user.name || project.user.email}
+        />
+        {project.sourceLead && (
+          <RecordLink
+            type="lead"
+            id={project.sourceLead}
+            label="Original enquiry"
+          />
+        )}
+        {project.sourceQuote && (
+          <RecordLink
+            type="quote"
+            id={project.sourceQuote}
+            label={
+              sourceQuote?.quoteNumber
+                ? `#${sourceQuote.quoteNumber}`
+                : "Agreed quote"
+            }
+          />
+        )}
+        {project.location && (
+          <span className="text-xs text-[#7A807B]">{project.location}</span>
+        )}
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 lg:px-8">
+      <div>
         {/* Tabs */}
         <div className="mb-6 rounded-lg border border-slate-200 bg-white px-2 sm:px-4">
-          <nav aria-label="Project views" className="flex gap-1 overflow-x-auto border-b border-slate-200 py-2">
+          <nav
+            aria-label="Project views"
+            className="flex gap-1 overflow-x-auto border-b border-slate-200 py-2"
+          >
             {primaryTabs.map((tab) => (
-              <button key={tab.id} type="button" onClick={() => handleTabChange(tab.id)}
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => handleTabChange(tab.id)}
                 aria-current={activeTab === tab.id ? "page" : undefined}
-                className={`shrink-0 rounded-md px-3 py-2 text-sm font-medium ${activeTab === tab.id ? "bg-blue-700 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                className={`shrink-0 rounded-md px-3 py-2 text-sm font-medium ${activeTab === tab.id ? "bg-blue-700 text-white" : "text-slate-600 hover:bg-slate-100"}`}
+              >
                 {tab.name}
               </button>
             ))}
           </nav>
-          <nav aria-label="Project records" className="flex gap-1 overflow-x-auto py-2">
+          <nav
+            aria-label="Project records"
+            className="flex gap-1 overflow-x-auto py-2"
+          >
             {recordTabs.map((tab) => (
-              <button key={tab.id} type="button" onClick={() => handleTabChange(tab.id)}
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => handleTabChange(tab.id)}
                 aria-current={activeTab === tab.id ? "page" : undefined}
-                className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-medium ${activeTab === tab.id ? "bg-slate-800 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                className={`shrink-0 rounded-md px-3 py-1.5 text-xs font-medium ${activeTab === tab.id ? "bg-slate-800 text-white" : "text-slate-600 hover:bg-slate-100"}`}
+              >
                 {tab.name}
               </button>
             ))}
@@ -506,13 +509,30 @@ export default function ProjectDetailClient({
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-200">
           {activeTab === "overview" && (
             <div className="p-4 sm:p-6">
-              <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
-                milestones={milestones} expenses={expenses} payments={payments}
-                changes={changes} itemPurchases={itemPurchases} sourceQuote={sourceQuote} invoices={invoices} recordedLabourHours={recordedLabourHours} compact onNavigate={handleTabChange} />
+              <ProjectInsights
+                project={project}
+                tasks={tasks}
+                adminTasks={adminTasks}
+                milestones={milestones}
+                expenses={expenses}
+                payments={payments}
+                changes={changes}
+                itemPurchases={itemPurchases}
+                sourceQuote={sourceQuote}
+                invoices={invoices}
+                recordedLabourHours={recordedLabourHours}
+                compact
+                onNavigate={handleTabChange}
+              />
               {!project.sourceQuote && (
-                <button type="button" onClick={() => handleTabChange("handover")}
-                  className="mb-6 w-full rounded-lg border border-amber-200 bg-amber-50 p-4 text-left text-sm text-amber-900 hover:bg-amber-100">
-                  <strong>Complete commercial handover</strong> · Link the agreed quote and original enquiry before relying on project value reports.
+                <button
+                  type="button"
+                  onClick={() => handleTabChange("handover")}
+                  className="mb-6 w-full rounded-lg border border-amber-200 bg-amber-50 p-4 text-left text-sm text-amber-900 hover:bg-amber-100"
+                >
+                  <strong>Complete commercial handover</strong> · Link the
+                  agreed quote and original enquiry before relying on project
+                  value reports.
                 </button>
               )}
               <div className="mb-6 flex items-center justify-between">
@@ -1565,20 +1585,42 @@ export default function ProjectDetailClient({
           )}
           {activeTab === "reports" && (
             <div className="p-4 sm:p-6">
-              <ProjectInsights project={project} tasks={tasks} adminTasks={adminTasks}
-                milestones={milestones} expenses={expenses} payments={payments}
-                changes={changes} itemPurchases={itemPurchases} sourceQuote={sourceQuote} invoices={invoices} recordedLabourHours={recordedLabourHours} onNavigate={handleTabChange} />
+              <ProjectInsights
+                project={project}
+                tasks={tasks}
+                adminTasks={adminTasks}
+                milestones={milestones}
+                expenses={expenses}
+                payments={payments}
+                changes={changes}
+                itemPurchases={itemPurchases}
+                sourceQuote={sourceQuote}
+                invoices={invoices}
+                recordedLabourHours={recordedLabourHours}
+                onNavigate={handleTabChange}
+              />
             </div>
           )}
           {activeTab === "handover" && (
             <div className="p-4 sm:p-6">
-              <CommercialHandover projectId={project.id} onSaved={(updated) => {
-                setProject((current) => ({ ...current, sourceLead: updated.sourceLead, sourceQuote: updated.sourceQuote, handoverNotes: updated.handoverNotes, remainingCostEstimate: updated.remainingCostEstimate }));
-                router.refresh();
-              }} />
+              <CommercialHandover
+                projectId={project.id}
+                onSaved={(updated) => {
+                  setProject((current) => ({
+                    ...current,
+                    sourceLead: updated.sourceLead,
+                    sourceQuote: updated.sourceQuote,
+                    handoverNotes: updated.handoverNotes,
+                    remainingCostEstimate: updated.remainingCostEstimate,
+                  }));
+                  router.refresh();
+                }}
+              />
             </div>
           )}
-          {activeTab === "weekly-updates" && <WeeklyUpdates projectId={project.id} />}
+          {activeTab === "weekly-updates" && (
+            <WeeklyUpdates projectId={project.id} />
+          )}
         </div>
       </div>
 

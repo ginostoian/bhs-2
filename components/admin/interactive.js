@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search, X } from "lucide-react";
 import { EmptyState, cx } from "./ui";
@@ -219,21 +218,33 @@ export function DataTable({
           );
           return (
             <li key={getRowKey(row)}>
-              {href ? (
-                <Link
-                  href={href}
-                  className="block px-4 py-3 active:bg-[#F4F1EA]"
-                >
-                  {content}
-                </Link>
-              ) : (
-                <div
-                  className="px-4 py-3"
-                  onClick={onRowClick ? (e) => onRowClick(row, e) : undefined}
-                >
-                  {content}
-                </div>
-              )}
+              {/* Not an <a>: cells may contain their own links, and nested
+                  links are invalid HTML (they break hydration) */}
+              <div
+                role={href || onRowClick ? "link" : undefined}
+                tabIndex={href || onRowClick ? 0 : undefined}
+                onClick={
+                  href || onRowClick
+                    ? (e) =>
+                        !e.target.closest("a,button,input,select,label") &&
+                        open(row, e)
+                    : undefined
+                }
+                onKeyDown={
+                  href || onRowClick
+                    ? (e) =>
+                        e.key === "Enter" &&
+                        e.target === e.currentTarget &&
+                        open(row, e)
+                    : undefined
+                }
+                className={cx(
+                  "px-4 py-3",
+                  (href || onRowClick) && "cursor-pointer active:bg-[#F4F1EA]",
+                )}
+              >
+                {content}
+              </div>
             </li>
           );
         })}
