@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { Badge, PageHeader, RecordLink } from "@/components/admin/ui";
 import toast from "react-hot-toast";
 
 export default function AdminTicketDetailPage() {
@@ -345,43 +346,35 @@ export default function AdminTicketDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-8">
-          {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <Link
-                  href="/admin/tickets"
-                  className="mb-4 inline-flex items-center text-blue-600 hover:text-blue-800"
-                >
-                  ← Back to Tickets
-                </Link>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Ticket #{ticket.ticketNumber}
-                </h1>
-                <p className="mt-2 text-gray-600">{ticket.title}</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <span
-                  className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${getStatusColor(ticket.status)}`}
-                >
-                  {ticket.status}
-                </span>
-                <span
-                  className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${getPriorityColor(ticket.priority)}`}
-                >
-                  {ticket.priority}
-                </span>
-                <span
-                  className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ${getCategoryColor(ticket.category)}`}
-                >
-                  {ticket.category}
-                </span>
-              </div>
-            </div>
-          </div>
+    <div>
+      <div>
+        <div className="pb-12">
+          <PageHeader
+            back={{ href: "/admin/tickets", label: "Tickets" }}
+            eyebrow={`Ticket #${ticket.ticketNumber}`}
+            title={ticket.title}
+            meta={
+              <>
+                <Badge status={ticket.status}>{ticket.status}</Badge>
+                <Badge status={ticket.priority}>{ticket.priority}</Badge>
+                <Badge tone="neutral">{ticket.category}</Badge>
+                {(ticket.user?.id || ticket.user?._id) && (
+                  <RecordLink
+                    type="client"
+                    id={ticket.user.id || ticket.user._id}
+                    label={ticket.user.name || ticket.user.email}
+                  />
+                )}
+                {(ticket.project?.id || ticket.project?._id) && (
+                  <RecordLink
+                    type="project"
+                    id={ticket.project.id || ticket.project._id}
+                    label={ticket.project.name}
+                  />
+                )}
+              </>
+            }
+          />
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {/* Main Content */}
@@ -493,7 +486,10 @@ export default function AdminTicketDetailPage() {
                         >
                           <option value="">Unassigned</option>
                           {employees.map((employee) => (
-                            <option key={employee.id || employee._id} value={employee.id || employee._id}>
+                            <option
+                              key={employee.id || employee._id}
+                              value={employee.id || employee._id}
+                            >
                               {employee.name} - {employee.position}
                             </option>
                           ))}
@@ -852,7 +848,16 @@ export default function AdminTicketDetailPage() {
                   <div>
                     <h3 className="text-sm font-medium text-gray-500">Name</h3>
                     <p className="text-sm text-gray-900">
-                      {ticket.user?.name || "Unknown"}
+                      {ticket.user?.id || ticket.user?._id ? (
+                        <Link
+                          href={`/admin/users/${ticket.user.id || ticket.user._id}`}
+                          className="font-medium hover:underline"
+                        >
+                          {ticket.user.name || ticket.user.email}
+                        </Link>
+                      ) : (
+                        ticket.user?.name || "Unknown"
+                      )}
                     </p>
                   </div>
                   <div>
