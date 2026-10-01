@@ -21,6 +21,16 @@ const labels = {
   btu: "BTU",
   pdf: "PDF",
 };
+// Inside /admin some segments mean something else (e.g. /admin/dashboard is
+// the admin overview, not the client portal)
+const adminLabels = {
+  dashboard: "Overview",
+  quoting: "Quoting",
+  invoicing: "Invoicing",
+  reports: "Reports",
+  "template-services": "Template services",
+  "task-status-updates": "Task updates",
+};
 const noIndexSegments = new Set([
   "quotes",
   "invoices",
@@ -38,6 +48,7 @@ export function breadcrumbItems(pathname) {
   segments.forEach((part, i) => {
     const href = "/" + segments.slice(0, i + 1).join("/");
     let label =
+      (segments[0] === "admin" && i > 0 && adminLabels[part]) ||
       labels[part] ||
       (/[a-f0-9]{20,}/i.test(part)
         ? "Details"
@@ -49,7 +60,8 @@ export function breadcrumbItems(pathname) {
               (_, area, n) => area.toUpperCase() + n,
             ));
     // These grouping segments have no page of their own.
-    const groupOnly = ["/blog/author", "/blog/category"].includes(href) || !hasPage(href);
+    const groupOnly =
+      ["/blog/author", "/blog/category"].includes(href) || !hasPage(href);
     if (i === 0 && part.endsWith("calculator"))
       items.push({ label: "Cost planning", href: "/tools" });
     items.push({ label, href: groupOnly ? null : href });

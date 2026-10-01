@@ -8,6 +8,7 @@ import Modal from "@/components/Modal";
 import UserInfoModal from "./UserInfoModal";
 import CreateProjectModal from "./CreateProjectModal";
 import toast from "react-hot-toast";
+import { Badge, PageHeader, buttonClass } from "@/components/admin/ui";
 
 /**
  * User Detail Client Component
@@ -19,6 +20,7 @@ export default function UserDetailClient({
   payments: initialPayments = [],
   projects: initialProjects = [],
   moodboards: initialMoodboards = [],
+  overview = null,
 }) {
   const [documentsByType, setDocumentsByType] = useState(
     initialDocumentsByType || {
@@ -436,400 +438,56 @@ export default function UserDetailClient({
   return (
     <div>
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center space-x-4">
-          <Link
-            href="/admin"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 hover:underline"
-          >
-            <svg
-              className="mr-2 h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            Back to Admin
-          </Link>
-        </div>
-
-        <div className="mt-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-          <div className="flex items-center space-x-4 sm:space-x-6">
-            <div className="hidden h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-lg sm:flex">
-              {currentUser.name?.charAt(0) ||
-                currentUser.email?.charAt(0) ||
-                "U"}
-            </div>
-            <div className="min-w-0 flex-1">
-              <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                {currentUser.name || "Unknown User"}
-              </h1>
-              <p className="text-base text-gray-600 sm:text-lg">
+      <PageHeader
+        back={{ href: "/admin/users", label: "All users" }}
+        eyebrow={currentUser.role === "user" || !currentUser.role ? "Client" : currentUser.role}
+        title={currentUser.name || currentUser.email || "Unknown user"}
+        meta={
+          <>
+            {currentUser.email && (
+              <a href={`mailto:${currentUser.email}`} className="text-sm text-[#4A524D] hover:underline">
                 {currentUser.email}
-              </p>
-              <div className="mt-3 grid grid-cols-1 gap-2 text-sm text-gray-500 sm:grid-cols-2 lg:grid-cols-3">
-                {currentUser.phone && (
-                  <div className="flex items-start">
-                    <svg
-                      className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
-                    <span className="break-words">{currentUser.phone}</span>
-                  </div>
-                )}
-                {currentUser.address && (
-                  <div className="flex items-start">
-                    <svg
-                      className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    <span className="break-words">{currentUser.address}</span>
-                  </div>
-                )}
-                {currentUser.source && (
-                  <div className="flex items-start">
-                    <svg
-                      className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                      />
-                    </svg>
-                    <span className="break-words">
-                      Source: {currentUser.source}
-                    </span>
-                  </div>
-                )}
-                <div className="flex items-start">
-                  <svg
-                    className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                    />
-                  </svg>
-                  <span className="break-words">
-                    Review: {currentUser.leftReview ? "Yes" : "No"}
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <svg
-                    className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                  <span className="break-words">
-                    Role:{" "}
-                    <span className="ml-1 font-medium">
-                      {currentUser.role || "user"}
-                    </span>
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  <svg
-                    className="mr-2 mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="break-words">
-                    Joined: {formatDate(currentUser.createdAt)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 sm:flex-row">
+              </a>
+            )}
+            {currentUser.phone && (
+              <a href={`tel:${currentUser.phone.replace(/\s/g, "")}`} className="text-sm text-[#4A524D] hover:underline">
+                · {currentUser.phone}
+              </a>
+            )}
+            {currentUser.address && (
+              <span className="text-sm text-[#7A807B]">· {currentUser.address}</span>
+            )}
+            {currentUser.source && <Badge tone="neutral">Source: {currentUser.source}</Badge>}
+            <Badge tone={currentUser.leftReview ? "good" : "neutral"}>
+              {currentUser.leftReview ? "Left a review" : "No review yet"}
+            </Badge>
+            <span className="text-xs text-[#7A807B]">
+              Joined {formatDate(currentUser.createdAt)}
+            </span>
+          </>
+        }
+        actions={
+          <>
             <button
+              type="button"
               onClick={() => setResetPasswordModal({ isOpen: true })}
-              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className={buttonClass("secondary")}
             >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-                />
-              </svg>
-              Set Password
+              Set password
             </button>
             <button
+              type="button"
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className={buttonClass("primary")}
             >
-              <svg
-                className="mr-2 h-4 w-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                />
-              </svg>
-              Edit User Info
+              Edit details
             </button>
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
-      {/* Statistics Cards */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-blue-600">
-                Total Documents
-              </p>
-              <p className="text-2xl font-bold text-blue-900">
-                {getAllDocuments().length}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg bg-gradient-to-br from-green-50 to-green-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-green-600">Photos</p>
-              <p className="text-2xl font-bold text-green-900">
-                {documentsByType.photo.length}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-yellow-600">Comments</p>
-              <p className="text-2xl font-bold text-yellow-900">
-                {documentsByType.comment.length}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-purple-600">
-                Quotes & Invoices
-              </p>
-              <p className="text-2xl font-bold text-purple-900">
-                {documentsByType.quote.length + documentsByType.invoice.length}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Additional Statistics */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-orange-600">Payments</p>
-              <p className="text-2xl font-bold text-orange-900">
-                {payments?.length || 0}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg bg-gradient-to-br from-indigo-50 to-indigo-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-indigo-600">Projects</p>
-              <p className="text-2xl font-bold text-indigo-900">
-                {projects?.length || 0}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-lg bg-gradient-to-br from-pink-50 to-pink-100 p-4">
-          <div className="flex items-center">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-pink-500">
-              <svg
-                className="h-5 w-5 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm font-medium text-pink-600">Moodboards</p>
-              <p className="text-2xl font-bold text-pink-900">
-                {moodboards?.length || 0}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Linked records across CRM, quoting, invoicing and support */}
+      {overview}
 
       {/* Tabs */}
       <div className="mb-8">

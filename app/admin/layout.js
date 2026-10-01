@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import SignOutButton from "../dashboard/components/SignOutButton";
 import NotificationBell from "./components/NotificationBell";
 import AdminUtilitiesDropdown from "./components/AdminUtilitiesDropdown";
+import CommandPalette from "./components/CommandPalette";
 import SessionProvider from "./components/SessionProvider";
 import PortalShell from "@/components/portal/PortalShell";
 
@@ -221,6 +222,7 @@ export default async function AdminLayout({ children }) {
         showPageHelp={false}
         headerActions={
           <>
+            <CommandPalette />
             <AdminUtilitiesDropdown />
             <NotificationBell />
             <SignOutButton compact />
