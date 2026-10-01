@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 /**
  * Create Employee Form Component
  * Allows admins to create new employees or convert existing users
  */
 export default function CreateEmployeeForm({ users }) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -123,6 +125,7 @@ export default function CreateEmployeeForm({ users }) {
 
       if (response.ok) {
         setSuccess(true);
+        router.refresh();
         setFormData({
           name: "",
           email: "",
@@ -152,10 +155,8 @@ export default function CreateEmployeeForm({ users }) {
   };
 
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-6">
-      <h3 className="mb-4 text-lg font-medium text-gray-900">
-        Create New Employee
-      </h3>
+    <div className="rounded-lg border border-[#D8D2C6] bg-white p-6">
+      <h3 className="mb-4 text-lg font-medium text-gray-900">New employee</h3>
 
       {success && (
         <div className="mb-4 rounded-md bg-green-50 p-4">
