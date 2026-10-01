@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
+import Project from "@/models/Project";
 import EmailPreference from "@/models/EmailPreference";
 import { requireAdmin } from "@/libs/requireAdmin";
 import {
@@ -27,15 +28,26 @@ export async function GET(req) {
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "12", 10);
     const search = searchParams.get("search")?.trim() || "";
+    // Optional filters (server-side so pagination and counts stay correct)
+    const status = searchParams.get("status");
+    const group = searchParams.get("group");
 
     // Build query
     const query = {};
     if (search) {
-      query.$or = [
-        { name: { $regex: search, $options: "i" } },
-        { email: { $regex: search, $options: "i" } },
-      ];
+      const rx = {
+        $regex: search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+        $options: "i",
+      };
+      query.$or = [{ name: rx }, { email: rx }, { phone: rx }, { address: rx }];
     }
+    if (status && status !== "All") {
+      // Users created before statuses existed count as "Lead"
+      query.projectStatus =
+        status === "Lead" ? { $in: ["Lead", null] } : status;
+    }
+    if (group === "clients") query.role = { $in: ["user", null] };
+    if (group === "staff") query.role = { $nin: ["user", null] };
 
     // Get total count for pagination
     const totalCount = await User.countDocuments(query);
@@ -55,7 +67,25 @@ export async function GET(req) {
       .skip((page - 1) * limit)
       .limit(limit);
 
-    return NextResponse.json({ users, totalCount });
+    // Live project counts so the list reflects what's actually on site
+    const counts = await Project.aggregate([
+      { $match: { user: { $in: users.map((u) => u._id) } } },
+      { $group: { _id: { user: "$user", status: "$status" }, n: { $sum: 1 } } },
+    ]);
+    const byUser = new Map();
+    counts.forEach(({ _id, n }) => {
+      const key = String(_id.user);
+      const row = byUser.get(key) || { ongoing: 0, finished: 0 };
+      if (_id.status === "On Going") row.ongoing += n;
+      else if (_id.status === "Finished") row.finished += n;
+      byUser.set(key, row);
+    });
+    const withProjects = users.map((u) => ({
+      ...u.toJSON(),
+      projects: byUser.get(String(u._id)) || { ongoing: 0, finished: 0 },
+    }));
+
+    return NextResponse.json({ users: withProjects, totalCount });
   } catch (error) {
     console.error("GET /api/users error:", error);
     return NextResponse.json(

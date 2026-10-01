@@ -293,6 +293,36 @@ export async function DELETE(req, { params }) {
       }
     }
 
+    // Don't orphan business records: projects, money and quotes reference
+    // the user and would lose their client. Archive/rename instead.
+    const [Project, Payment, Invoice, Quote] = await Promise.all([
+      import("@/models/Project").then((m) => m.default),
+      import("@/models/Payment").then((m) => m.default),
+      import("@/models/Invoice").then((m) => m.default),
+      import("@/models/Quote").then((m) => m.default),
+    ]);
+    const [projects, payments, invoices, quotes] = await Promise.all([
+      Project.countDocuments({ user: id }),
+      Payment.countDocuments({ user: id }),
+      Invoice.countDocuments({ linkedUser: id }),
+      Quote.countDocuments({ linkedUser: id }),
+    ]);
+    const linked = [
+      projects && `${projects} project${projects === 1 ? "" : "s"}`,
+      payments && `${payments} payment${payments === 1 ? "" : "s"}`,
+      invoices && `${invoices} invoice${invoices === 1 ? "" : "s"}`,
+      quotes && `${quotes} quote${quotes === 1 ? "" : "s"}`,
+    ].filter(Boolean);
+    if (linked.length) {
+      return NextResponse.json(
+        {
+          error: `This user has ${linked.join(", ")} linked to them. Deleting would orphan those records, so it's blocked.`,
+          linked: { projects, payments, invoices, quotes },
+        },
+        { status: 409 },
+      );
+    }
+
     // Delete user
     await User.findByIdAndDelete(id);
 

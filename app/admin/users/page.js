@@ -4,6 +4,7 @@ import connectMongoose from "@/libs/mongoose";
 import User from "@/models/User";
 import UsersList from "../components/UsersList";
 import CreateUserForm from "../components/CreateUserForm";
+import { PageHeader } from "@/components/admin/ui";
 
 /**
  * Admin Users Page
@@ -33,7 +34,7 @@ export default async function AdminUsersPage() {
       },
     )
       .sort({ createdAt: -1 })
-      .limit(12) // Optimize initial load
+      .limit(25) // First page (matches the list page size)
       .lean()
       .then((users) => {
         const mappedUsers = users.map((user) => ({
@@ -42,27 +43,21 @@ export default async function AdminUsersPage() {
           _id: undefined,
         }));
         return mappedUsers;
-      })
+      }),
   ]);
 
+  const clients = await User.countDocuments({ role: { $in: ["user", null] } });
+
   return (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between sticky top-0 z-10 bg-white/80 backdrop-blur-md py-4 rounded-xl border border-gray-100/50 shadow-sm transition-all px-1">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-            User Management
-          </h1>
-          <p className="text-gray-500">Manage user accounts and permissions</p>
-        </div>
-        <div className="text-sm font-medium text-gray-400">
-             {totalCount} Total Users
-        </div>
+    <div className="pb-12">
+      <PageHeader
+        eyebrow="People"
+        title="Users & clients"
+        description={`${totalCount} accounts · ${clients} clients. Open a client to see their projects, quotes, invoices, leads and tickets in one place.`}
+      />
+      <div className="mb-4">
+        <CreateUserForm />
       </div>
-
-      {/* Create User Form Section */}
-      <CreateUserForm />
-
-      {/* Users List */}
       <UsersList users={users} totalUsers={totalCount} />
     </div>
   );
