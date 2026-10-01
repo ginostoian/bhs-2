@@ -27,42 +27,32 @@ const QuoteSchema = new mongoose.Schema(
         "custom",
       ],
     },
+    // Only the name is required so drafts can be saved early; the send
+    // endpoint validates what a client-facing quote needs (libs/quoteService).
     client: {
       name: {
         type: String,
         required: true,
       },
-      email: {
-        type: String,
-        required: true,
-      },
-      phone: {
-        type: String,
-        required: true,
-      },
-      address: {
-        type: String,
-        required: true,
-      },
-      postcode: {
-        type: String,
-        required: true,
-      },
+      email: { type: String, default: "" },
+      phone: { type: String, default: "" },
+      address: { type: String, default: "" },
+      postcode: { type: String, default: "" },
     },
     projectAddress: {
       type: String,
-      required: true,
+      default: "",
     },
     projectDescription: {
       type: String,
-      required: true,
+      default: "",
     },
     startDate: {
       type: Date,
     },
     estimatedDuration: {
       type: String,
-      required: true,
+      default: "",
     },
     template: {
       type: mongoose.Schema.Types.ObjectId,
@@ -99,6 +89,10 @@ const QuoteSchema = new mongoose.Schema(
         headingDescription: {
           type: String,
         },
+        // Client-facing intro shown under a category's header
+        description: {
+          type: String,
+        },
         // Order for drag and drop
         order: {
           type: Number,
@@ -112,7 +106,7 @@ const QuoteSchema = new mongoose.Schema(
             },
             description: {
               type: String,
-              required: true,
+              default: "",
             },
             quantity: {
               type: Number,
@@ -120,7 +114,7 @@ const QuoteSchema = new mongoose.Schema(
             },
             unit: {
               type: String,
-              required: true,
+              default: "",
             },
             unitPrice: {
               type: Number,
@@ -139,7 +133,15 @@ const QuoteSchema = new mongoose.Schema(
               type: Number,
               required: false,
             },
+            // Client-facing note shown under the item
             notes: {
+              type: String,
+            },
+            // Internal only — never sent to the client (see sanitizePublicQuote)
+            costPrice: {
+              type: Number,
+            },
+            internalNote: {
               type: String,
             },
           },
@@ -171,7 +173,7 @@ const QuoteSchema = new mongoose.Schema(
     paymentTerms: {
       deposit: {
         type: Number,
-        required: true,
+        default: 0,
       },
       milestones: [
         {
@@ -183,11 +185,11 @@ const QuoteSchema = new mongoose.Schema(
     },
     termsAndConditions: {
       type: String,
-      required: true,
+      default: "",
     },
     warrantyInformation: {
       type: String,
-      required: true,
+      default: "",
     },
     leadTime: {
       type: String,

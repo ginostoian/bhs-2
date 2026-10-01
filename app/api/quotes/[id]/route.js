@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectMongo from "@/libs/mongoose";
 import Quote from "@/models/Quote";
+import { sanitizePublicQuote } from "@/libs/quoteService";
 
 export async function GET(request, { params }) {
   try {
@@ -27,9 +28,10 @@ export async function GET(request, { params }) {
     }
 
     // Return the quote data
+    // Never expose internal notes, costs or margins to the client
     return NextResponse.json({
       success: true,
-      quote,
+      quote: sanitizePublicQuote(quote),
     });
   } catch (error) {
     console.error("Error fetching quote:", error);

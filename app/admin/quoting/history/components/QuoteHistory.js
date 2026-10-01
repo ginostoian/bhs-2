@@ -20,14 +20,24 @@ export default function QuoteHistory() {
   const [quotes, setQuotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [projectTypeFilter, setProjectTypeFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Search runs server-side across all quotes, not just the loaded page
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchTerm.trim());
+      setCurrentPage(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
   useEffect(() => {
     loadQuotes();
-  }, [currentPage, statusFilter, projectTypeFilter]);
+  }, [currentPage, statusFilter, projectTypeFilter, debouncedSearch]);
 
   // Listen for quote updates from other components
   useEffect(() => {
@@ -56,6 +66,7 @@ export default function QuoteHistory() {
       // Build query parameters
       const params = new URLSearchParams();
       if (statusFilter !== "all") params.append("status", statusFilter);
+      if (debouncedSearch) params.append("q", debouncedSearch);
       if (projectTypeFilter !== "all")
         params.append("projectType", projectTypeFilter);
       params.append("page", currentPage.toString());
@@ -133,12 +144,16 @@ export default function QuoteHistory() {
         body: JSON.stringify({ status: newStatus }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to update quote status");
-      }
+      const result = await response.json().catch(() => ({}));
 
-      const result = await response.json();
-      console.log("Status update response:", result);
+      if (!response.ok) {
+        // e.g. 422 when a draft isn't ready to send: say what's missing
+        throw new Error(
+          result.errors?.length
+            ? `${result.error}: ${result.errors.join(", ")}`
+            : result.error || "Failed to update quote status",
+        );
+      }
 
       if (!result.success) {
         throw new Error(result.error || "Failed to update quote status");
@@ -158,7 +173,7 @@ export default function QuoteHistory() {
       }, 500);
     } catch (error) {
       console.error("Error updating quote status:", error);
-      toast.error("Failed to update quote status");
+      toast.error(error.message || "Failed to update quote status");
     }
   };
 
@@ -481,13 +496,13 @@ export default function QuoteHistory() {
                         >
                           <Edit className="h-4 w-4" />
                         </Link>
-                        <Link
-                          href={`/admin/quoting/${quote._id}/pdf`}
+                        <a
+                          href={`/api/quotes/${quote._id}/pdf`}
                           className="text-orange-600 hover:text-orange-900"
                           title="Download PDF"
                         >
                           <Download className="h-4 w-4" />
-                        </Link>
+                        </a>
                         <button
                           onClick={() => copyShareLink(quote._id)}
                           className="text-gray-600 hover:text-gray-900"

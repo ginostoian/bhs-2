@@ -11,11 +11,7 @@ import {
   Clock,
 } from "lucide-react";
 import toast from "react-hot-toast";
-
-const loadPDFGenerator = async () => {
-  const pdfModule = await import("@/libs/quotePdfGenerator");
-  return { generatePDFFromCurrentPage: pdfModule.generatePDFFromCurrentPage };
-};
+import { downloadPdf } from "@/libs/downloadPdf";
 
 export default function UserQuotesList({ quotes }) {
   const [downloadingPDF, setDownloadingPDF] = useState(null);
@@ -25,40 +21,15 @@ export default function UserQuotesList({ quotes }) {
 
     setDownloadingPDF(quote.id);
     try {
-      // Open the public quote page in a new window temporarily for PDF generation
-      const publicUrl = `/quotes/${quote.publicToken}`;
-      const newWindow = window.open(
-        publicUrl,
-        "_blank",
-        "width=1200,height=800",
+      await downloadPdf(
+        `/api/quotes/${quote.publicToken}/pdf`,
+        `quote-${quote.quoteNumber}.pdf`,
       );
-
-      // Wait a moment for the page to load
-      setTimeout(async () => {
-        try {
-          const { generatePDFFromCurrentPage } = await loadPDFGenerator();
-
-          // Focus on the new window and generate PDF from it
-          newWindow.focus();
-          await generatePDFFromCurrentPage(
-            "quote-content",
-            `quote-${quote.quoteNumber}.pdf`,
-            newWindow,
-          );
-
-          newWindow.close();
-          toast.success("PDF downloaded successfully!");
-        } catch (error) {
-          console.error("Error downloading PDF:", error);
-          toast.error("Failed to download PDF. Please try again.");
-          newWindow.close();
-        } finally {
-          setDownloadingPDF(null);
-        }
-      }, 2000);
+      toast.success("PDF downloaded successfully!");
     } catch (error) {
       console.error("Error downloading PDF:", error);
       toast.error("Failed to download PDF. Please try again.");
+    } finally {
       setDownloadingPDF(null);
     }
   };

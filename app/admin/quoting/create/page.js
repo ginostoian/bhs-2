@@ -1,7 +1,5 @@
-"use client";
-
-import QuoteBuilder from "./components/QuoteBuilder";
+import QuoteEditorPage from "../components/editor/QuoteEditorPage";
 
 export default function CreateQuotePage() {
-  return <QuoteBuilder />;
+  return <QuoteEditorPage />;
 }
