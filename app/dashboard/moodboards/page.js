@@ -16,7 +16,11 @@ export default async function MoodboardsPage() {
 
   const selectedProjectId = cookies().get("selectedProjectId")?.value;
   const query = { user: session.user.id, isActive: true };
-  if (selectedProjectId) query.project = selectedProjectId;
+  if (selectedProjectId) {
+    // Unassigned moodboards belong to the customer across project selections.
+    // MongoDB's null match also includes older records without a project field.
+    query.$or = [{ project: selectedProjectId }, { project: null }];
+  }
 
   const moodboards = await Moodboard.find(query)
     .sort({ updatedAt: -1 })
