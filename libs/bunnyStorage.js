@@ -68,10 +68,11 @@ class BunnyStorage {
 
     // Check file type if allowedTypes is specified
     if (allowedTypes.length > 0) {
-      const fileExtension = fileName
-        .toLowerCase()
-        .substring(fileName.lastIndexOf("."));
-      if (!allowedTypes.includes(fileExtension)) {
+      const dotIndex = fileName.lastIndexOf(".");
+      const fileExtension =
+        dotIndex >= 0 ? fileName.toLowerCase().substring(dotIndex) : "";
+      const normalizedTypes = allowedTypes.map((t) => t.toLowerCase());
+      if (!normalizedTypes.includes(fileExtension)) {
         errors.push(
           `File type ${fileExtension} is not allowed. Allowed types: ${allowedTypes.join(", ")}`,
         );
@@ -108,8 +109,20 @@ class BunnyStorage {
       // Generate unique filename to prevent conflicts
       const timestamp = Date.now();
       const randomString = Math.random().toString(36).substring(2, 15);
-      const fileExtension = fileName.substring(fileName.lastIndexOf("."));
-      const baseName = fileName.substring(0, fileName.lastIndexOf("."));
+      // Sanitize the name: characters like "#", "?", "%", "&" or non-ASCII
+      // (e.g. the narrow no-break space in macOS screenshot names) break the
+      // storage URL and make the upload fail.
+      const dotIndex = fileName.lastIndexOf(".");
+      const rawExtension = dotIndex > 0 ? fileName.substring(dotIndex) : "";
+      const rawBaseName = dotIndex > 0 ? fileName.substring(0, dotIndex) : fileName;
+      const fileExtension = rawExtension.replace(/[^a-zA-Z0-9.]/g, "").toLowerCase();
+      const baseName =
+        rawBaseName
+          .normalize("NFKD")
+          .replace(/[^a-zA-Z0-9._-]+/g, "_")
+          .replace(/_+/g, "_")
+          .replace(/^_|_$/g, "")
+          .slice(0, 100) || "file";
       const uniqueFileName = `${baseName}_${timestamp}_${randomString}${fileExtension}`;
 
       // Create user-specific file path

@@ -1177,8 +1177,16 @@ function ExpenseModal({
                 onUploadComplete={handleFileUpload}
                 multiple={true}
                 maxSize={10 * 1024 * 1024} // 10MB
-                allowedTypes={[".pdf", ".jpg", ".jpeg", ".png", ".webp"]}
-                folder={`Project/${userName}-${userAddress?.replace(/[^a-zA-Z0-9]/g, "")}/expenses`}
+                allowedTypes={[
+                  ".pdf",
+                  ".jpg",
+                  ".jpeg",
+                  ".png",
+                  ".webp",
+                  ".heic",
+                  ".heif",
+                ]}
+                folder={`Project/${(userName || "client").replace(/[^a-zA-Z0-9]/g, "")}-${(userAddress || "").replace(/[^a-zA-Z0-9]/g, "")}/expenses`}
                 className="mt-1"
               />
 
