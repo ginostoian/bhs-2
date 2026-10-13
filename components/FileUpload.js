@@ -102,7 +102,15 @@ export default function FileUpload({
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Upload failed");
+        // Surface the per-file reasons from the API instead of only the generic error
+        const details = Array.isArray(result.details)
+          ? result.details.join("; ")
+          : result.details;
+        throw new Error(
+          details
+            ? `${result.error || "Upload failed"}: ${details}`
+            : result.error || "Upload failed",
+        );
       }
 
       // Update uploaded files
