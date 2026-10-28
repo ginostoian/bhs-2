@@ -25,6 +25,7 @@ const adminNavigation = [
       { name: "CRM", href: "/admin/crm", icon: "crm" },
       { name: "Calendar", href: "/admin/calendar", icon: "calendar" },
       { name: "Tickets", href: "/admin/tickets", icon: "tickets" },
+      { name: "AI agents", href: "/admin/ai-agents", icon: "ai" },
     ],
   },
   {
