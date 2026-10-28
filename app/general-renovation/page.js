@@ -3,14 +3,12 @@ import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import ServicePage from "@/components/brand/ServicePage";
 export const metadata = getSEOTags({
-  title:
-    "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes",
+  title: "Full House Renovation & Refurbishment London | Better Homes",
   description:
-    "Full home renovation and refurbishment in London with one team managing structural work, rewiring, plumbing, kitchens, bathrooms, finishes and handover.",
+    "Full house renovations in London: layout changes, rewiring, plumbing, kitchens, bathrooms and finishes delivered by one accountable team. 12+ years, 5-star reviews.",
   canonicalUrlRelative: "/general-renovation",
   openGraph: {
-    title:
-      "Home Renovation London | Full Refurbishment & Fit-Out | Better Homes",
+    title: "Full House Renovation & Refurbishment London | Better Homes",
     description:
       "Whole-home renovation in London with one accountable team managing the full scope from structural work and M&E through kitchens, bathrooms and finishes.",
     url: `https://${config.domainName}/general-renovation`,
@@ -92,4 +90,4 @@ const costRows = [
     high: "£196,000 to £350,000+",
   },
 ];
-export default function Page(){return <ServicePage name="Whole-home renovations" path="/general-renovation" title="A home that works beautifully, room to room." intro="Bring layout, services, kitchens, bathrooms and finishes together in one carefully managed renovation. Bring your own architect or choose one we recommend. We build and, if you wish, manage coordination and discussions on your behalf, keeping design and budget decisions with you." image="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp" range="£80,000 to £250,000+ for a substantial whole-home project" timeline="Agreed against scope and structural works" guarantee="10 years structural; 2 years kitchen and bathroom installation; 1 year decoration" costs={[]} scope={inclusionItems} faqs={getPageFaqs("renovation")} projects={["daniel-n19", "james-n8", "ava-e7"]} costRows={costRows} />;}
+export default function Page(){return <ServicePage heading="Full house renovations in London" name="Whole-home renovations" path="/general-renovation" title="A home that works beautifully, room to room." intro="Bring layout, services, kitchens, bathrooms and finishes together in one carefully managed renovation. Bring your own architect or choose one we recommend. We build and, if you wish, manage coordination and discussions on your behalf, keeping design and budget decisions with you." image="/assets/portfolio/extension-daniel-n19/daniel-home-extension-living-and-kitchen.webp" range="£80,000 to £250,000+ for a substantial whole-home project" timeline="Agreed against scope and structural works" guarantee="10 years structural; 2 years kitchen and bathroom installation; 1 year decoration" costs={[]} scope={inclusionItems} faqs={getPageFaqs("renovation")} projects={["daniel-n19", "james-n8", "ava-e7"]} costRows={costRows} />;}

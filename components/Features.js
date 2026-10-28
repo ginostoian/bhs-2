@@ -10,21 +10,21 @@ const Features = () => {
           <Image
             className="w-full object-cover bg-contain rounded-xl max-h-[400px] bg-center"
             src="/assets/img/happy-couple-high-five.jpg"
-            alt="Features Image"
+            alt="Homeowners celebrating their finished London renovation"
             width={500}
             height={500}
           />
-          <h1 className="absolute bottom-8 left-12 font-bold text-white text-3xl md:text-6xl lg:text-8xl bg-opacity-20 drop-shadow-md">
-            Our values <br />
-            are aligned with you!
-          </h1>
+          <h2 className="absolute bottom-8 left-12 font-bold text-white text-3xl md:text-6xl lg:text-8xl bg-opacity-20 drop-shadow-md">
+            One team, <br />
+            start to finish.
+          </h2>
         </div>
 
         {/* <!-- Grid --> */}
         <div className=" grid mt-2 lg:grid-cols-3 gap-8 lg:gap-12 bg-white px-7 py-14 rounded-xl">
           <div className="lg:col-span-1">
             <h2 className="font-bold text-2xl md:text-4xl text-gray-800">
-              Do not fret. We got you covered!
+              Fewer surprises, from first visit to handover
             </h2>
             <p className="mt-2 md:mt-4 text-gray-500 leading-relaxed tracking-wide">
               Construction and renovation projects are inherently complex and

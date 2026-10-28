@@ -172,19 +172,6 @@ export default class ReferenceHome extends React.Component {
                 maxWidth: "600px",
               }}
             >
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "#4D5B4B",
-                  lineHeight: "1.45",
-                }}
-              >
-                {"Extensions, loft conversions and renovations in London"}
-              </p>
               <h1
                 style={{
                   margin: "0",
@@ -195,6 +182,19 @@ export default class ReferenceHome extends React.Component {
                   textWrap: "pretty",
                 }}
               >
+                <span
+                  style={{
+                    display: "block",
+                    marginBottom: "28px",
+                    fontSize: "14px",
+                    lineHeight: "1.45",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "#4D5B4B",
+                  }}
+                >
+                  {"London builders for extensions, loft conversions and renovations"}
+                </span>
                 {"A home that works beautifully for the life you live."}
               </h1>
               <p

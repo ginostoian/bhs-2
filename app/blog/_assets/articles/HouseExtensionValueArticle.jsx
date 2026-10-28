@@ -143,6 +143,13 @@ export default function HouseExtensionValueArticle() {
         If you own a home in London, you have almost certainly asked yourself: is it worth extending, or should I simply move? With the average cost of moving in the capital now exceeding £25,000 once you factor in stamp duty, legal fees, and estate agent commissions, more homeowners than ever are choosing to invest in a house extension instead. The numbers make a compelling case. A well-designed home extension can add between 10% and 25% to the value of your property, and in certain London boroughs that translates to a six-figure uplift.
       </p>
       <p className={styles.p}>
+        To test the numbers on your own property, use our{" "}
+        <Link href="/extension-calculator">house extension cost calculator</Link>, then compare
+        it with the value uplift ranges below. When you are ready to build, our{" "}
+        <Link href="/house-extension">London house extension team</Link> can turn the budget into
+        a costed plan.
+      </p>
+      <p className={styles.p}>
         But not all extensions are created equal. The type of project you choose, the quality of the design, and even the borough you live in will dramatically affect your return. This guide breaks down exactly how much value a house extension, loft conversion, or basement conversion can add to a London property in 2026. We will walk you through real cost-versus-value data, explain which extension types deliver the strongest ROI, and share the design strategies that separate a profitable extension from an expensive mistake. Whether you are weighing up a modest side return or a full double-storey build, this is everything you need to make a confident, informed decision.
       </p>
 

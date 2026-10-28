@@ -33,7 +33,6 @@ const styles = {
 export default function TypesOfHouseExtensionsLondon() {
   return (
     <article>
-      <h1 className={styles.h1}>Types of House Extensions in London: 2026 Guide</h1>
 
       {/* ── AI ANSWER CAPSULE ───────────────────────────────────────────── */}
       <p className={styles.p}>
@@ -42,6 +41,11 @@ export default function TypesOfHouseExtensionsLondon() {
         extensions. In 2026, London build costs run from £1,400 per m² for a garage conversion to
         £6,500 per m² for a new basement. Your plot geometry, not your budget, usually decides
         which is possible.
+      </p>
+      <p className={styles.p}>
+        Already know which type suits your home? See how we plan and build them on our{" "}
+        <Link href="/house-extension">house extensions in London</Link> page, or price your own
+        layout with the <Link href="/extension-calculator">extension cost calculator</Link>.
       </p>
 
       {/* ── KEY TAKEAWAYS ───────────────────────────────────────────────── */}

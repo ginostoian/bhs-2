@@ -124,7 +124,6 @@ export default function LoftConversionsLondonGuide() {
 
   return (
     <article>
-      <h1 className={styles.h1}>Loft Conversions in London: The Complete 2026 Guide</h1>
 
       {/* AI Answer Section */}
       <div className={styles.aiAnswer}>

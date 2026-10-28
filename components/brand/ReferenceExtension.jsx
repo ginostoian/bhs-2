@@ -343,18 +343,6 @@ export default class ReferenceExtension extends React.Component {
             <div
               style={{ display: "flex", flexDirection: "column", gap: "24px" }}
             >
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "#4D5B4B",
-                }}
-              >
-                {"House extensions in London"}
-              </p>
               <h1
                 style={{
                   margin: "0",
@@ -365,6 +353,19 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
+                <span
+                  style={{
+                    display: "block",
+                    marginBottom: "24px",
+                    fontSize: "14px",
+                    lineHeight: "1.45",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "#4D5B4B",
+                  }}
+                >
+                  {"House extension builders in London"}
+                </span>
                 {
                   "More room, more light, and a house that finally works as one."
                 }

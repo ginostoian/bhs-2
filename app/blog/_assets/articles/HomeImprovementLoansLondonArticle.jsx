@@ -29,7 +29,6 @@ export default function HomeImprovementLoansLondon() {
   return (
     <article className={styles.article}>
       {/* ===================== H1 ===================== */}
-      <h1 className={styles.h1}>Home Improvement Loans London: The 2026 Guide</h1>
 
       {/* ===================== AI ANSWER CAPSULE ===================== */}
       <p className={styles.answerCapsule}>

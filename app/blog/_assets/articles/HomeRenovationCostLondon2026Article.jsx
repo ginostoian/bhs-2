@@ -24,9 +24,6 @@ const styles = {
 export default function HomeRenovationCostLondon2026() {
   return (
     <article>
-      <h1 className={styles.h1}>
-        Home Renovation Cost London 2026: The Complete Price Guide
-      </h1>
 
       {/* AI Answer Capsule */}
       <div className={styles.answerCapsule}>

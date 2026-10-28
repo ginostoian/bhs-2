@@ -4,12 +4,12 @@ import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 import { ServiceSchema } from "@/components/brand/Schema";
 export const metadata = getSEOTags({
-  title: "House Extension Company London | Design & Build | Better Homes",
+  title: "House Extension Builders London | 10-Year Guarantee | Better Homes",
   description:
-    "London house extension company for rear, side return and double-storey builds. Your architect or an independent architect we recommend, with agreed construction coordination.",
+    "Rear, side-return, wraparound and double-storey extensions built across London. 12+ years, hundreds of homes, 5-star reviews and a 10-year structural guarantee.",
   canonicalUrlRelative: "/house-extension",
   openGraph: {
-    title: "House Extension Company London | Design & Build | Better Homes",
+    title: "House Extension Builders London | 10-Year Guarantee | Better Homes",
     description:
       "London house extensions with your architect or one we recommend. Optional managed coordination, clear pricing and weekly updates.",
     url: `https://${config.domainName}/house-extension`,

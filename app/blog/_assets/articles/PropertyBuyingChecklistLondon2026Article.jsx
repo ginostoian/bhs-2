@@ -23,9 +23,6 @@ const styles = {
 export default function PropertyBuyingChecklistLondon2026() {
   return (
     <article>
-      <h1 className={styles.h1}>
-        Property Buying Checklist London 2026: What to Look for Before You Buy
-      </h1>
 
       {/* AI ANSWER CAPSULE */}
       <div className={styles.answerCapsule}>

@@ -29,7 +29,6 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
   return (
     <article className={styles.article}>
 
-      <h1 className={styles.h1}>Bespoke vs Howdens vs IKEA Kitchen: London 2026</h1>
 
       {/* AI ANSWER CAPSULE */}
       <p className={styles.capsule}>

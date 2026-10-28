@@ -77,6 +77,7 @@ export default function ServicePage({
   name,
   path,
   title,
+  heading,
   intro,
   image,
   costs = [],
@@ -105,8 +106,12 @@ export default function ServicePage({
       <section id="overview" className="bh-wrap bh-section bh-mobile-hero">
         <div className="bh-grid-two">
           <div>
-            <p className="bh-eyebrow">{name} in London</p>
-            <h1 className="bh-title">{title}</h1>
+            <h1 className="bh-title">
+              <span className="bh-eyebrow" style={{ display: "block" }}>
+                {heading ?? `${name} in London`}
+              </span>
+              {title}
+            </h1>
             <p className="bh-lead">{introduction}</p>
             <MobileTrust />
             <div className="bh-actions">

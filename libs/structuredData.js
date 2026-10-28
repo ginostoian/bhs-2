@@ -13,9 +13,20 @@ export const BUSINESS_IDS = {
 export const BUSINESS_SAME_AS = [
   "https://www.instagram.com/better.homes.studio",
   "https://www.facebook.com/bhomes.studio",
-  "https://www.houzz.co.uk/pro/betterhomeslondon/better-homes",
+  businessFacts.reviews.url,
   "https://g.page/r/CaGIVAg_unOVEBM/",
   "https://www.mybuilder.com/profile/view/celli/feedback",
+];
+
+export const BUSINESS_EXPERTISE = [
+  "House extensions",
+  "Side return extensions",
+  "Wraparound extensions",
+  "Loft conversions",
+  "Basement conversions",
+  "Whole-home renovations",
+  "Kitchen renovations",
+  "Bathroom renovations",
 ];
 
 export const getOrganizationReference = () => ({
@@ -35,8 +46,13 @@ export const getOrganizationSchema = () => ({
   "@id": BUSINESS_IDS.organization,
   name: BUSINESS_NAME,
   url: SITE_URL,
+  logo: `${SITE_URL}/icon.png`,
+  description:
+    "London builders delivering house extensions, loft conversions and whole-home renovations, with workmanship guarantees of up to 10 years.",
   sameAs: BUSINESS_SAME_AS,
   telephone: "+447922391591",
+  award: "Best of Houzz 2023",
+  knowsAbout: BUSINESS_EXPERTISE,
 });
 
 export const getWebsiteSchema = () => ({
@@ -54,7 +70,9 @@ export const getLocalBusinessSchema = (overrides = {}) => ({
   url: SITE_URL,
   telephone: "+447922391591",
   priceRange: "£££",
+  image: `${SITE_URL}/opengraph-image.png`,
   sameAs: BUSINESS_SAME_AS,
+  knowsAbout: BUSINESS_EXPERTISE,
   address: {
     "@type": "PostalAddress",
     addressLocality: "London",

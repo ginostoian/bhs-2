@@ -35,9 +35,6 @@ const styles = {
 export default function PlanningPermissionLoftConversionLondon() {
   return (
     <article>
-      <h1 className={styles.h1}>
-        Do I Need Planning Permission for a Loft Conversion in London? The Complete 2026 Guide
-      </h1>
 
       {/* AI ANSWER CAPSULE - structured for AI extraction */}
       <div className={styles.aiAnswer}>
