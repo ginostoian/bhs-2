@@ -7,6 +7,8 @@ export const businessFacts = Object.freeze({
   workmanship: "Our workmanship guarantee covers structural work, extensions and loft conversions for 10 years, bathroom and kitchen installations for 2 years, and decoration for 1 year. Item breakages are excluded from our workmanship guarantee and fall under the manufacturers’ own guarantees.",
   guaranteePeriods: Object.freeze({ structural: "10 years", extension: "10 years", loft: "10 years", kitchen: "2 years", bathroom: "2 years", decoration: "1 year" }),
   expertise: "Specialist builders",
+  experience: "12+ years",
+  projectsSummary: "Hundreds of London homes",
   insuranceHeadline: "Up to £10 million",
   guaranteeHeadline: "Up to 10 years",
   insurance:

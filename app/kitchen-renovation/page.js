@@ -3,14 +3,12 @@ import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import ServicePage from "@/components/brand/ServicePage";
 export const metadata = getSEOTags({
-  title:
-    "Kitchen Renovation London | Design, Supply & Install | Better Homes",
+  title: "Kitchen Renovation & Fitting London | Better Homes",
   description:
-    "Kitchen renovation in London with one team managing design, supply, installation and finishing. Clear cost guidance, realistic timelines and kitchen-specific project proof.",
+    "Kitchen renovations in London from strip-out to final fit-off: layout, plumbing, electrics, units, worktops and tiling by one team. 5-star reviews, 2-year guarantee.",
   canonicalUrlRelative: "/kitchen-renovation",
   openGraph: {
-    title:
-      "Kitchen Renovation London | Design, Supply & Install | Better Homes",
+    title: "Kitchen Renovation & Fitting London | Better Homes",
     description:
       "Design-led kitchen renovations across London with clear scope, realistic budgets and one accountable team from first plan through final fit-off.",
     url: `https://${config.domainName}/kitchen-renovation`,
@@ -77,4 +75,4 @@ const costTiers = [
       "Used when the project includes structural openings, premium cabinetry, higher-spec appliances, bespoke detailing or a more ambitious design brief.",
   },
 ];
-export default function Page(){return <ServicePage name="Kitchen renovations" path="/kitchen-renovation" title="A kitchen made for the way you live." intro="Better Homes delivers standalone kitchen renovations across London, as well as kitchens within larger projects. From services and storage to careful installation, we coordinate the details that make the room a pleasure to use." image="/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp" range="From around £20,000 for a full redesign" timeline="Typically 3 to 6 weeks on site" guarantee="2 years for kitchen installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("kitchen")} projects={["lawrence-e3", "alice-e4", "daniel-n19"]}  />;}
+export default function Page(){return <ServicePage heading="Kitchen renovation and fitting in London" name="Kitchen renovations" path="/kitchen-renovation" title="A kitchen made for the way you live." intro="Better Homes delivers standalone kitchen renovations across London, as well as kitchens within larger projects. From services and storage to careful installation, we coordinate the details that make the room a pleasure to use." image="/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp" range="From around £20,000 for a full redesign" timeline="Typically 3 to 6 weeks on site" guarantee="2 years for kitchen installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("kitchen")} projects={["lawrence-e3", "alice-e4", "daniel-n19"]}  />;}

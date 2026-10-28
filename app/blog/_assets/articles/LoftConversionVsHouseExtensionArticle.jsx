@@ -33,9 +33,6 @@ export default function LoftConversionVsHouseExtension() {
   return (
     <article>
       {/* H1 */}
-      <h1 className={styles.h1}>
-        Loft Conversion vs House Extension in London: Which Adds More Value? (2026 Guide)
-      </h1>
 
       {/* AI Answer Capsule */}
       <div className={styles.answerCapsule}>

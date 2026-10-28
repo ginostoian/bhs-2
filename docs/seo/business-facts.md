@@ -34,3 +34,7 @@ this business-facts pass. No reviews or project evidence have been invented.
 ## Owner-confirmed update — 14 September 2026
 
 The owner confirmed a 5.0/5 rating across all review platforms and requested insurance wording of “Up to £10 million”. These replace the earlier pending insurance-limit wording above. No insurance type or insurance-backed guarantee is inferred. Public trust strips use “Up to 10 years”, with the 10/2/1-year work-specific terms retained. “Specialist builders” replaces “London homes”; no project total is asserted from the owner's illustrative “500 or something”. The Houzz count remains specific to Houzz and is not a combined review count.
+
+## Owner-confirmed update — 29 October 2026
+
+The owner confirmed more than 12 years in business, hundreds of completed projects and a 5-star rating on every review platform. Public wording: "12+ years" and "Hundreds of London homes" (`libs/businessFacts.js`). No exact project total is published. Organization schema now cites the Best of Houzz 2023 award, which is documented in the existing announcement article.

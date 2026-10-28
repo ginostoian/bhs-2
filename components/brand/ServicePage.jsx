@@ -10,6 +10,20 @@ import { serviceStories } from "./serviceStories";
 import { FaqSchema, ServiceSchema } from "./Schema";
 import { BOOKING_URL } from "@/libs/booking";
 import { getPortfolioProjects } from "@/libs/portfolio-projects";
+const serviceNouns = {
+  "/loft-conversion": "loft conversion",
+  "/general-renovation": "full house renovation",
+  "/kitchen-renovation": "kitchen renovation",
+  "/bathroom-renovation": "bathroom renovation",
+  "/basement-conversion": "basement conversion",
+};
+const serviceCalculators = {
+  "/kitchen-renovation": { href: "/kitchen-calculator", label: "Estimate your kitchen cost" },
+  "/bathroom-renovation": { href: "/tools/bathroom-cost-calculator", label: "Estimate your bathroom cost" },
+  "/basement-conversion": { href: "/extension-calculator", label: "Estimate your basement cost" },
+  "/loft-conversion": { href: "/extension-calculator", label: "Estimate your loft cost" },
+  default: { href: "/renovation-calculator", label: "Estimate your renovation cost" },
+};
 export function ProjectCards({ projects }) {
   return (
     <div className="bh-project-grid">
@@ -77,6 +91,7 @@ export default function ServicePage({
   name,
   path,
   title,
+  heading,
   intro,
   image,
   costs = [],
@@ -90,6 +105,10 @@ export default function ServicePage({
   notes = [],
 }) {
   const story = serviceStories[path];
+  // Search-matching wording for headings; the expressive lines stay as supporting copy.
+  const noun = serviceNouns[path] ?? name.toLowerCase();
+  const Noun = noun.charAt(0).toUpperCase() + noun.slice(1);
+  const calculator = serviceCalculators[path] ?? serviceCalculators.default;
   const introduction = story?.intro ?? intro;
   const projects = getPortfolioProjects()
     .filter((p) => slugs.includes(p.slug))
@@ -105,8 +124,12 @@ export default function ServicePage({
       <section id="overview" className="bh-wrap bh-section bh-mobile-hero">
         <div className="bh-grid-two">
           <div>
-            <p className="bh-eyebrow">{name} in London</p>
-            <h1 className="bh-title">{title}</h1>
+            <h1 className="bh-title">
+              <span className="bh-eyebrow" style={{ display: "block" }}>
+                {heading ?? `${name} in London`}
+              </span>{" "}
+              {title}
+            </h1>
             <p className="bh-lead">{introduction}</p>
             <MobileTrust />
             <div className="bh-actions">
@@ -161,11 +184,10 @@ export default function ServicePage({
         <div className="bh-grid-two">
           <div>
             <p className="bh-eyebrow">Life in your finished home</p>
-            <h2 className="bh-heading">
-              {story?.heading ?? "Make more of the home you love"}
-            </h2>
+            <h2 className="bh-heading">{Noun} options for London homes</h2>
           </div>
           <p className="bh-lead">
+            {story?.heading ? <strong>{story.heading} </strong> : null}
             Start with the moments you would like to make easier. We will help
             you think through the possibilities, the space you have and what
             feels right for your budget.
@@ -214,7 +236,7 @@ export default function ServicePage({
         <section id="projects" className="bh-band">
           <div className="bh-wrap bh-section">
             <p className="bh-eyebrow">Completed work</p>
-            <h2 className="bh-heading">{path === "/loft-conversion" ? "Explore our loft and renovation work" : "The details that make a home work"}</h2>
+            <h2 className="bh-heading">{path === "/loft-conversion" ? "Loft and renovation projects we have completed" : `${Noun} projects we have completed`}</h2>
             {path === "/loft-conversion" && <p className="bh-small">Explore loft and bathroom work in E17 and a combined extension, loft and refurbishment project in E10.</p>}
             <ProjectCards projects={projects} />
           </div>
@@ -225,9 +247,7 @@ export default function ServicePage({
         <div className="bh-grid-two">
           <div>
             <p className="bh-eyebrow">Your quotation</p>
-            <h2 className="bh-heading">
-              Know what is included before we begin
-            </h2>
+            <h2 className="bh-heading">What your {noun} quote includes</h2>
             <p className="bh-lead">
               Your quote explains the work, what it costs and the choices still
               to make. We talk it through with you, so you feel comfortable with
@@ -254,7 +274,7 @@ export default function ServicePage({
         <div className="bh-wrap bh-section">
           <p className="bh-eyebrow">Design and construction</p>
           <h2 className="bh-heading">
-            Your choice of architect. Support either way.
+            Do you need an architect? How we work with yours
           </h2>
           <div className="bh-grid-two">
             <article>
@@ -292,7 +312,7 @@ export default function ServicePage({
       </section>
       <section className="bh-wrap bh-section" id="process">
         <p className="bh-eyebrow">How we work</p>
-        <h2 className="bh-heading">From your first ideas to feeling at home</h2>
+        <h2 className="bh-heading">How your {noun} works, step by step</h2>
         <ol className="bh-list">
           {[
             [
@@ -324,7 +344,7 @@ export default function ServicePage({
         <div className="bh-wrap bh-section">
           <p className="bh-eyebrow">Cost planning</p>
           <h2 className="bh-heading">
-            A clearer picture of what it could cost
+            How much does a {noun} cost in London?
           </h2>
           <p className="bh-lead">
             {range}. Scope and specification determine the final price. Check
@@ -369,8 +389,11 @@ export default function ServicePage({
             </div>
           ) : null}
           <div className="bh-actions">
-            <Link href="/tools" className="bh-button">
-              Explore cost planning tools
+            <Link href={calculator.href} className="bh-button">
+              {calculator.label}
+            </Link>
+            <Link href="/tools" className="bh-text-link">
+              All cost planning tools
             </Link>
           </div>
         </div>
@@ -381,7 +404,7 @@ export default function ServicePage({
           <div>
             <p className="bh-eyebrow">Built on trust</p>
             <h2 className="bh-heading">
-              Care during the build. Support afterwards.
+              {Noun} guarantee and aftercare
             </h2>
           </div>
           <div>
@@ -411,7 +434,7 @@ export default function ServicePage({
         </div>
       </section>
       <PlanningLinks servicePath={path} />
-      <Faq id="faq" items={faqs} title="Questions you may be considering" />
+      <Faq id="faq" items={faqs} title={`${Noun} FAQs`} />
       <ProjectCTA service={name} title={story?.cta} />
       <RelatedGuides context={{ "/loft-conversion": "loft", "/general-renovation": "renovation", "/kitchen-renovation": "kitchen", "/bathroom-renovation": "bathroom", "/basement-conversion": "basement" }[path]} />
     </main>

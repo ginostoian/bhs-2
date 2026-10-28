@@ -46,9 +46,6 @@ function ServiceCta({ title, body, linkText }) {
 export default function HouseExtensionsLondonGuide() {
   return (
     <article>
-      <h1 className={styles.h1}>
-        House Extensions London 2026: The Complete Guide to Costs, Planning &amp; Design
-      </h1>
 
       {/* AI ANSWER CAPSULE */}
       <div className={styles.answerCapsule}>

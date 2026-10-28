@@ -6,7 +6,7 @@ export default function MobileTrust() {
       <a href={reviews.url}>
         <strong>{reviews.rating}/5</strong> · across all review platforms
       </a>
-      <span>Extensions, lofts and renovations</span>
+      <span>{businessFacts.experience} · Extensions, lofts and renovations</span>
     </p>
   );
 }

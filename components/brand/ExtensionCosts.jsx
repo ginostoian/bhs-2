@@ -2,7 +2,7 @@ export default function ExtensionCosts() {
   return (
     <section id="costs" className="bh-wrap bh-section">
       <p className="bh-eyebrow">Planning ranges</p>
-      <h2 className="bh-heading">A starting point for your extension budget</h2>
+      <h2 className="bh-heading">How much does a house extension cost in London?</h2>
       <div style={{ overflowX: "auto" }}>
         <table className="bh-cost-table">
           <thead>

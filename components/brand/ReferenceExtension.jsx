@@ -343,18 +343,6 @@ export default class ReferenceExtension extends React.Component {
             <div
               style={{ display: "flex", flexDirection: "column", gap: "24px" }}
             >
-              <p
-                style={{
-                  margin: "0",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "#4D5B4B",
-                }}
-              >
-                {"House extensions in London"}
-              </p>
               <h1
                 style={{
                   margin: "0",
@@ -365,6 +353,19 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
+                <span
+                  style={{
+                    display: "block",
+                    marginBottom: "24px",
+                    fontSize: "14px",
+                    lineHeight: "1.45",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "#4D5B4B",
+                  }}
+                >
+                  {"House extension builders in London"}
+                </span>{" "}
                 {
                   "More room, more light, and a house that finally works as one."
                 }
@@ -525,7 +526,7 @@ export default class ReferenceExtension extends React.Component {
                 textWrap: "pretty",
               }}
             >
-              {"Find the extra space your home is missing"}
+              {"Types of house extension we build in London"}
             </h2>
           </div>
           <div
@@ -776,7 +777,7 @@ export default class ReferenceExtension extends React.Component {
                     textWrap: "pretty",
                   }}
                 >
-                  {"See how other homes opened up"}
+                  {"House extensions we have built in London"}
                 </h2>
               </div>
               <a
@@ -920,7 +921,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Know what your extension price includes"}
+                {"What your house extension quote includes"}
               </h2>
               <p
                 style={{
@@ -1061,7 +1062,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Your choice of architect. Support either way."}
+                {"Do you need an architect? How we work with yours"}
               </h2>
               <p
                 style={{
@@ -1204,7 +1205,7 @@ export default class ReferenceExtension extends React.Component {
                 textWrap: "pretty",
               }}
             >
-              {"Feel clear about what happens next"}
+              {"Our extension process, from drawings to handover"}
             </h2>
           </div>
           <div
@@ -1733,7 +1734,7 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                {"Asked on most first calls"}
+                {"House extension FAQs"}
               </h2>
             </div>
             <div

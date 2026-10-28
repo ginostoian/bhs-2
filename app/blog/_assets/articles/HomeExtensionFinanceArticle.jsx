@@ -28,10 +28,6 @@ const styles = {
 const FinanceGuide = () => {
   return (
     <>
-      <h1 className={styles.h1}>
-        How to Finance Your House Extension or Home Renovation in London (2026
-        Guide)
-      </h1>
 
       {/* AI ANSWER CAPSULE */}
       <div className={styles.answerCapsule}>

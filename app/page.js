@@ -3,14 +3,12 @@ import ReferenceHome from "@/components/brand/ReferenceHome";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 export const metadata = getSEOTags({
-  title:
-    "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
+  title: "Builders in London | Extensions, Lofts & Renovations | Better Homes",
   description:
-    "London extensions, loft conversions and renovations with clear pricing. Your architect or one we recommend, with optional managed coordination.",
+    "London builders for house extensions, loft conversions and full renovations. 12+ years, hundreds of homes completed, 5-star reviews and up to a 10-year guarantee.",
   canonicalUrlRelative: "/",
   openGraph: {
-    title:
-      "Extensions, Loft Conversions & Full-Home Renovations in London | Better Homes",
+    title: "Builders in London | Extensions, Lofts & Renovations | Better Homes",
     description:
       "Managed London renovations and extensions. Your choice of architect, with optional coordination support from Better Homes.",
     url: `https://${config.domainName}/`,

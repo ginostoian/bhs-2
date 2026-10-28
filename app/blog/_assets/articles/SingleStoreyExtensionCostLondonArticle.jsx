@@ -27,9 +27,6 @@ export default function SingleStoreyExtensionCostLondon() {
   return (
     <article>
       {/* ============================== H1 ============================== */}
-      <h1 className={styles.h1}>
-        Single Storey Extension Cost London: 2026 Price Guide
-      </h1>
 
       {/* ======================= AI ANSWER CAPSULE ====================== */}
       <p className={styles.p}>

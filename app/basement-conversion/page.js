@@ -3,12 +3,12 @@ import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import ServicePage from "@/components/brand/ServicePage";
 export const metadata = getSEOTags({
-  title: "Basement Conversions London | Design & Build | Better Homes",
+  title: "Basement Conversion London | Cellar & Excavation | Better Homes",
   description:
-    "London basement conversions with feasibility, planning, structural works, waterproofing and fit-out managed by one team. Book a consultation.",
+    "Cellar conversions, basement excavations and basement extensions in London, with structural design, waterproofing and fit-out managed by one experienced team.",
   canonicalUrlRelative: "/basement-conversion",
   openGraph: {
-    title: "Basement Conversions London | Design & Build | Better Homes",
+    title: "Basement Conversion London | Cellar & Excavation | Better Homes",
     description:
       "Create a dry, bright and properly engineered basement with managed construction and optional architect coordination in London.",
     url: `https://${config.domainName}/basement-conversion`,
@@ -152,4 +152,4 @@ const faqs = [
       "We discuss your property, the space you want to create, any existing surveys or drawings, your budget, timing and likely constraints. From there we can recommend the right next step, which may be a site feasibility review, measured survey, planning advice or an outline scope and cost exercise.",
   },
 ];
-export default function Page(){return <ServicePage name="Basement conversions" path="/basement-conversion" title="Make more of the space beneath your home." intro="A basement project starts with careful feasibility: structure, groundwater, access and daylight. Better Homes builds alongside your own or a recommended architect and appointed specialists. If you wish, we can manage discussions and follow up design questions, from an existing cellar upgrade to a more substantial below-ground scheme." image="/assets/extension-calculator/basement-extension.jpg" range="Existing cellars £2,000 to £4,000+ per m²; new basements £4,000 to £7,000+ per m²" timeline="A new basement journey can take 6 to 12 months or more" guarantee="10 years structural; 2 years kitchen and bathroom installation; 1 year decoration" costs={conversionRoutes} scope={includedItems} faqs={faqs} projects={[]}  />;}
+export default function Page(){return <ServicePage heading="Basement conversions in London" name="Basement conversions" path="/basement-conversion" title="Make more of the space beneath your home." intro="A basement project starts with careful feasibility: structure, groundwater, access and daylight. Better Homes builds alongside your own or a recommended architect and appointed specialists. If you wish, we can manage discussions and follow up design questions, from an existing cellar upgrade to a more substantial below-ground scheme." image="/assets/extension-calculator/basement-extension.jpg" range="Existing cellars £2,000 to £4,000+ per m²; new basements £4,000 to £7,000+ per m²" timeline="A new basement journey can take 6 to 12 months or more" guarantee="10 years structural; 2 years kitchen and bathroom installation; 1 year decoration" costs={conversionRoutes} scope={includedItems} faqs={faqs} projects={[]}  />;}

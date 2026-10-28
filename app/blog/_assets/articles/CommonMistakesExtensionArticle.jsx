@@ -127,9 +127,6 @@ export default function CommonMistakesExtensionArticle() {
 
   return (
     <article>
-      <h1 className={styles.h1}>
-        15 House Extension Mistakes London Homeowners Make
-      </h1>
 
       {/* ===== TABLE OF CONTENTS ===== */}
       <nav aria-label="Table of contents">

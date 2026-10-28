@@ -22,10 +22,10 @@ export default function ProofStrip() {
           </dd>
         </div>
         <div className={styles.fact}>
-          <dt>Completed work</dt>
+          <dt>Building London homes</dt>
           <dd>
-            <span className={styles.value}>{businessFacts.expertise}</span>
-            <a href="/portfolio">Explore our projects →</a>
+            <span className={styles.value}>{businessFacts.experience}</span>
+            <a href="/portfolio">{businessFacts.projectsSummary} →</a>
           </dd>
         </div>
         <div className={styles.fact}>

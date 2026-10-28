@@ -67,17 +67,16 @@ const FaqsCard = (props) => {
 
 const ToolsFAQ = (props) => {
   const faqsList = props.faqs;
-  console.log(props.faqs);
 
   return (
     <section className="mx-auto mt-12 max-w-screen-xl px-4 leading-relaxed md:px-8">
       <div className="space-y-3 text-center">
-        <h1 className="text-3xl font-semibold text-gray-800">
-          Frequently Asked Questions
-        </h1>
+        <h2 className="text-3xl font-semibold text-gray-800">
+          Frequently asked questions
+        </h2>
         <p className="mx-auto max-w-lg text-lg text-gray-600">
-          Answered all frequently asked questions, Still confused? feel free to
-          contact us.
+          The questions homeowners ask us most. Still unsure? Get in touch and
+          we will talk it through.
         </p>
       </div>
       <div className="mx-auto mt-14 max-w-2xl">

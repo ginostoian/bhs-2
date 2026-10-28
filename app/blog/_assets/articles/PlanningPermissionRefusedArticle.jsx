@@ -31,9 +31,6 @@ const PlanningPermissionRefused = () => {
   return (
     <article>
       {/* ============ H1 ============ */}
-      <h1 className={styles.h1}>
-        Planning Permission Refused in London? Why It Happens and What to Do Next
-      </h1>
 
       {/* ============ AI ANSWER CAPSULE ============ */}
       <div className={styles.answerCapsule}>

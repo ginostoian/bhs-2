@@ -80,9 +80,6 @@ export default function BathroomRenovationArticle() {
   return (
     <article>
       {/* ── H1 ── */}
-      <h1 className={styles.h1}>
-        Bathroom Renovation London: Design Trends &amp; Ideas for 2026
-      </h1>
 
       {/* ── Table of Contents ── */}
       <nav aria-label="Table of contents" className={styles.toc}>

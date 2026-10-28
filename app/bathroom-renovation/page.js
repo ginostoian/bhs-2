@@ -3,14 +3,12 @@ import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
 import ServicePage from "@/components/brand/ServicePage";
 export const metadata = getSEOTags({
-  title:
-    "Bathroom Renovation London | Design, Supply & Install | Better Homes",
+  title: "Bathroom Renovation & Fitters London | Better Homes",
   description:
-    "Bathroom renovation in London with one team managing design, supply, waterproofing, installation and finishing. Clear cost guidance, realistic timelines and bathroom-specific project proof.",
+    "Bathroom, en-suite and wet room renovations in London, fully waterproofed, tiled and installed by one team. Clear costs, 5-star reviews and a 2-year guarantee.",
   canonicalUrlRelative: "/bathroom-renovation",
   openGraph: {
-    title:
-      "Bathroom Renovation London | Design, Supply & Install | Better Homes",
+    title: "Bathroom Renovation & Fitters London | Better Homes",
     description:
       "Design, supply and installation for high-quality bathroom renovations across London with real project proof and practical cost guidance.",
     url: `https://${config.domainName}/bathroom-renovation`,
@@ -77,4 +75,4 @@ const costTiers = [
       "Used when the brief includes premium finishes, specialist waterproofing, bespoke joinery, underfloor heating or a more ambitious wet-room style design.",
   },
 ];
-export default function Page(){return <ServicePage name="Bathroom renovations" path="/bathroom-renovation" title="A quieter start. A better finish to every day." intro="Standalone bathrooms, en-suites and wet rooms, carefully renovated by Better Homes in London. We coordinate preparation, waterproofing, services, fitting and finishing so the quality runs deeper than the tiles." image="/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp" range="From around £12,000 for a full redesign" timeline="Usually 2 to 4 weeks on site" guarantee="2 years for bathroom installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("bathroom")} projects={["melina-e7", "daniel-n19"]}  />;}
+export default function Page(){return <ServicePage heading="Bathroom renovation and fitting in London" name="Bathroom renovations" path="/bathroom-renovation" title="A quieter start. A better finish to every day." intro="Standalone bathrooms, en-suites and wet rooms, carefully renovated by Better Homes in London. We coordinate preparation, waterproofing, services, fitting and finishing so the quality runs deeper than the tiles." image="/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp" range="From around £12,000 for a full redesign" timeline="Usually 2 to 4 weeks on site" guarantee="2 years for bathroom installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("bathroom")} projects={["melina-e7", "daniel-n19"]}  />;}
