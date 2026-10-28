@@ -2,6 +2,7 @@
 import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
+import ArticleCta from "../components/ArticleCta";
 
 const styles = {
   article: "",
@@ -35,6 +36,13 @@ export default function BespokeVsHowdensVsIkeaKitchen() {
         In London, a fully fitted IKEA kitchen runs roughly £12,000–£22,000, a Howdens kitchen £18,000–£38,000, and a bespoke kitchen £45,000–£90,000+ in 2026. The cabinets themselves are only 30–40% of the bill: worktops, appliances, fitting, and the London premium of 20–35% decide the real number. IKEA buys flexibility, Howdens buys speed and a 25-year carcass guarantee, bespoke buys a kitchen built to the exact millimetre of your room.
       </p>
       <p className={styles.p}>Allow for fitting, services and finishes alongside the cabinets. Use our <Link href="/kitchen-calculator">kitchen renovation calculator</Link> to compare a planning budget, then explore our <Link href="/kitchen-renovation">kitchen installation and renovation scope</Link>.</p>
+
+      <ArticleCta
+        title="Pricing a new kitchen?"
+        text="See what your kitchen would cost fitted, not just the cabinets: units, worktops, appliances, plumbing, electrics and installation."
+        primary={{ href: "/kitchen-calculator", label: "Estimate your kitchen" }}
+        secondary={{ href: "/kitchen-renovation", label: "See how we renovate kitchens" }}
+      />
 
       {/* KEY TAKEAWAYS */}
       <h2 className={styles.h2} id="key-takeaways">Key takeaways</h2>

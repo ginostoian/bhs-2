@@ -1,8 +1,8 @@
 import { getSEOTags } from "@/libs/seo";
 
-const pageTitle = "Home Renovation Cost Calculator UK | London Pricing | Better Homes";
+const pageTitle = "Renovation & Refurbishment Cost Calculator UK 2026 | Better Homes";
 const pageDescription =
-  "Free home renovation cost calculator. Get a low/expected/high budget for a full or partial refurbishment – fees, contingency and VAT included. London-first pricing.";
+  "Free 2026 house renovation and refurbishment cost calculator. Enter size, scope and finish to get a low, expected and high budget with VAT, fees and contingency.";
 
 export const metadata = getSEOTags({
   title: pageTitle,

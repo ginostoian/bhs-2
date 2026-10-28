@@ -4,12 +4,12 @@ import Image from "next/image";
 import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
 export const metadata = getSEOTags({
-  title: "Renovation Cost Calculators | Better Homes",
+  title: "Renovation Cost Calculators UK 2026 | Free Tools | Better Homes",
   description:
     "Use our free London-focused renovation calculators for kitchens, bathrooms, home refurbishments, extensions and BTU heating estimates.",
   canonicalUrlRelative: "/tools",
   openGraph: {
-    title: "Renovation Cost Calculators | Better Homes",
+    title: "Renovation Cost Calculators UK 2026 | Free Tools | Better Homes",
     description:
       "Free calculators to estimate London renovation, extension, kitchen, bathroom and heating project costs.",
     url: `https://${config.domainName}/tools`,

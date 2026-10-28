@@ -1,9 +1,9 @@
 import { getSEOTags } from "@/libs/seo";
 import { getPageFaqs } from "@/libs/pageFaqs";
 
-const pageTitle = "Bathroom Renovation Cost Calculator UK | London | Better Homes";
+const pageTitle = "Bathroom Cost Calculator UK 2026 | Renovation Estimator | Better Homes";
 const pageDescription =
-  "Estimate bathroom renovation costs in London and across the UK with our free calculator including layout changes, tiling levels, fixtures and underfloor heating.";
+  "Free 2026 bathroom renovation cost estimator. Choose size, layout, tiling, concealed fixtures and underfloor heating to see your installation cost in seconds.";
 const siteUrl = "https://bhstudio.co.uk";
 const pageUrl = `${siteUrl}/tools/bathroom-cost-calculator`;
 const bathroomFaqs = getPageFaqs("bathroomCalculator");

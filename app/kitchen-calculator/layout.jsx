@@ -1,8 +1,8 @@
 import { getSEOTags } from "@/libs/seo";
 
-const pageTitle = "Kitchen Renovation Cost Calculator UK | London | Better Homes";
+const pageTitle = "Kitchen Renovation Cost Calculator UK 2026 | Free | Better Homes";
 const pageDescription =
-  "Estimate kitchen renovation costs in London and across the UK with our free calculator covering size, materials, electrical and plumbing requirements.";
+  "Estimate your fitted kitchen cost for 2026: units, worktops, appliances, plumbing, electrics and installation. Free London and UK calculator with a price range.";
 const siteUrl = "https://bhstudio.co.uk";
 const pageUrl = `${siteUrl}/kitchen-calculator`;
 const kitchenFaqs = [

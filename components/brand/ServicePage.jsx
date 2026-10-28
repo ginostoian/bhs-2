@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Faq from "./Faq";
 import ProofStrip from "./ProofStrip";
+import HeroProof from "./HeroProof";
 import MobileTrust from "./MobileTrust";
 import { serviceStories } from "./serviceStories";
 import { FaqSchema, ServiceSchema } from "./Schema";
@@ -143,6 +144,7 @@ export default function ServicePage({
                 Explore costs
               </a>
             </div>
+            <HeroProof path={path} />
           </div>
           <figure>
             <Image
