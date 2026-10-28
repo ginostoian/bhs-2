@@ -1,0 +1,2311 @@
+[
+  {
+    "path": "/api/admin-tasks/{taskId}",
+    "method": "PATCH",
+    "description": "Update an admin task (admin only)",
+    "bodyFields": [
+      "assignedTo",
+      "name",
+      "description",
+      "priority",
+      "dueDate",
+      "status",
+      "notes",
+      "tags"
+    ]
+  },
+  {
+    "path": "/api/admin-tasks/{taskId}",
+    "method": "DELETE",
+    "description": "Delete an admin task (admin only)"
+  },
+  {
+    "path": "/api/admin/bathroom-renovations/{submissionId}",
+    "method": "GET",
+    "description": "Get single bathroom renovation submission (admin only)"
+  },
+  {
+    "path": "/api/admin/bathroom-renovations/{submissionId}",
+    "method": "PATCH",
+    "description": "Update bathroom renovation submission status (admin only)",
+    "bodyFields": [
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/bathroom-renovations/{submissionId}",
+    "method": "DELETE",
+    "description": "Delete bathroom renovation submission (admin only)"
+  },
+  {
+    "path": "/api/admin/bathroom-renovations",
+    "method": "GET",
+    "description": "Fetch all bathroom renovation form submissions (admin only)",
+    "queryParams": [
+      "status",
+      "search",
+      "sortBy",
+      "sortOrder",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/calculator-rates",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/calculator-rates",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "overrides"
+    ]
+  },
+  {
+    "path": "/api/admin/contact-submissions/{submissionId}",
+    "method": "GET",
+    "description": "Get single contact submission (admin only)"
+  },
+  {
+    "path": "/api/admin/contact-submissions/{submissionId}",
+    "method": "PATCH",
+    "description": "Update contact submission status (admin only)",
+    "bodyFields": [
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/contact-submissions/{submissionId}",
+    "method": "DELETE",
+    "description": "Delete contact submission (admin only)"
+  },
+  {
+    "path": "/api/admin/contact-submissions",
+    "method": "GET",
+    "description": "Fetch all contact form submissions (admin only)",
+    "queryParams": [
+      "status",
+      "search",
+      "sortBy",
+      "sortOrder",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/create-projects",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/email-stats",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/email-stats",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/employees",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/general-renovations",
+    "method": "GET",
+    "description": "Fetch all general renovation submissions (admin only)",
+    "queryParams": [
+      "status",
+      "search",
+      "sortBy",
+      "sortOrder",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/general-renovations",
+    "method": "PATCH",
+    "description": "Update general renovation submission status (admin only)",
+    "bodyFields": [
+      "submissionId",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing/{id}/pdf",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/invoicing/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/invoicing/{id}",
+    "method": "PUT",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/invoicing/{id}",
+    "method": "PATCH",
+    "description": "",
+    "bodyFields": [
+      "linkToUser",
+      "linkToLead",
+      "clearLinks"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/invoicing/clients/search",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "q",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "status",
+      "search",
+      "page",
+      "limit",
+      "sortBy",
+      "sortOrder"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing/templates",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "category",
+      "search",
+      "popular",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/invoicing/templates",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/kitchen-renovations/{id}",
+    "method": "PATCH",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/kitchen-renovations/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/kitchen-renovations",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "status",
+      "search",
+      "sortBy",
+      "sortOrder",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/kitchen-renovations",
+    "method": "PATCH",
+    "description": "Update kitchen renovation submission status (admin only)",
+    "bodyFields": [
+      "submissionId",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/link-leads-to-users",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/milestones/{id}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "description",
+      "date",
+      "status",
+      "type",
+      "color",
+      "icon",
+      "notes",
+      "order"
+    ]
+  },
+  {
+    "path": "/api/admin/milestones/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/milestones",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "projectId"
+    ]
+  },
+  {
+    "path": "/api/admin/milestones",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "projectId",
+      "name",
+      "description",
+      "date",
+      "type",
+      "color",
+      "icon",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/admin/process-due-emails",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/projects",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "userId",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting/{id}/duplicate",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/{id}",
+    "method": "PUT",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/pdf",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "quote"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting/rates/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/rates/{id}",
+    "method": "PUT",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/rates/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/rates",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "type",
+      "category",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting/rates",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "page",
+      "limit",
+      "status",
+      "projectType",
+      "q",
+      "sort"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/template-services/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/template-services/{id}",
+    "method": "PUT",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/template-services/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/template-services",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "category",
+      "pricingType",
+      "isActive",
+      "search"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting/template-services",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/templates/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/templates/{id}",
+    "method": "PUT",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/templates/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/quoting/templates",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "projectType"
+    ]
+  },
+  {
+    "path": "/api/admin/quoting/templates",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/search/clients",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "q",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/admin/search",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "q"
+    ]
+  },
+  {
+    "path": "/api/admin/security-stats",
+    "method": "GET",
+    "description": "Get security statistics for admin monitoring"
+  },
+  {
+    "path": "/api/admin/system-announcement",
+    "method": "POST",
+    "description": "Send system announcement to all users (admin only)",
+    "bodyFields": [
+      "title",
+      "message",
+      "priority"
+    ]
+  },
+  {
+    "path": "/api/admin/task-status-updates",
+    "method": "GET",
+    "description": "Get all pending task status update requests (admin only)"
+  },
+  {
+    "path": "/api/admin/task-status-updates",
+    "method": "POST",
+    "description": "Approve or reject a task status update request (admin only)",
+    "bodyFields": [
+      "requestId",
+      "action",
+      "adminNotes"
+    ]
+  },
+  {
+    "path": "/api/admin/template-messages/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/template-messages/{id}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "title",
+      "content",
+      "category",
+      "tags",
+      "description",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/admin/template-messages/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/template-messages/{id}/use",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/admin/template-messages",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "page",
+      "limit",
+      "category",
+      "search",
+      "sortBy",
+      "sortOrder"
+    ]
+  },
+  {
+    "path": "/api/admin/template-messages",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "title",
+      "content",
+      "category",
+      "tags",
+      "description"
+    ]
+  },
+  {
+    "path": "/api/admin/user-activity",
+    "method": "GET",
+    "description": "Get user activity statistics (admin only)",
+    "queryParams": [
+      "days"
+    ]
+  },
+  {
+    "path": "/api/admin/user-activity",
+    "method": "POST",
+    "description": "Check for inactive users and send notifications (admin only)",
+    "bodyFields": [
+      "daysThreshold",
+      "sendNotifications"
+    ]
+  },
+  {
+    "path": "/api/admin/users/{userId}/create-project",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "description",
+      "type",
+      "location",
+      "budget",
+      "priority",
+      "startDate",
+      "projectedFinishDate"
+    ]
+  },
+  {
+    "path": "/api/admin/users/{userId}/password",
+    "method": "PUT",
+    "description": "Set a new password for a user account (admin only).",
+    "bodyFields": [
+      "newPassword",
+      "confirmPassword"
+    ]
+  },
+  {
+    "path": "/api/admin/users",
+    "method": "GET",
+    "description": "Get all admin users (admin only)"
+  },
+  {
+    "path": "/api/attendance/{id}",
+    "method": "PATCH",
+    "description": ""
+  },
+  {
+    "path": "/api/attendance/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/attendance/distinct/projects",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "start",
+      "end"
+    ]
+  },
+  {
+    "path": "/api/attendance/distinct/workers",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "start",
+      "end"
+    ]
+  },
+  {
+    "path": "/api/attendance",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "start",
+      "end",
+      "projectId",
+      "workerId",
+      "status",
+      "page",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/attendance",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "entries"
+    ]
+  },
+  {
+    "path": "/api/attendance/summary",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "workerId",
+      "start",
+      "end"
+    ]
+  },
+  {
+    "path": "/api/calendar",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "startDate",
+      "endDate",
+      "type"
+    ]
+  },
+  {
+    "path": "/api/catalogue/shares",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/contractors/{id}",
+    "method": "GET",
+    "description": "Get a specific contractor"
+  },
+  {
+    "path": "/api/contractors/{id}",
+    "method": "PUT",
+    "description": "Update a contractor (admin only)",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "trades",
+      "priceTier",
+      "experience",
+      "isActive",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/contractors/{id}",
+    "method": "DELETE",
+    "description": "Delete a contractor (admin only)"
+  },
+  {
+    "path": "/api/contractors",
+    "method": "GET",
+    "description": "List contractors with optional filtering, search, and pagination",
+    "queryParams": [
+      "search",
+      "trade",
+      "priceTier",
+      "experience",
+      "active",
+      "page",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/contractors",
+    "method": "POST",
+    "description": "Create a new contractor (admin only)",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "trades",
+      "priceTier",
+      "experience",
+      "isActive",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/crm/email-automation/{leadId}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/email-automation/{leadId}",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "action",
+      "stage",
+      "reason"
+    ]
+  },
+  {
+    "path": "/api/crm/email-automation",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/email-automation",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "action"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/activities/{activityId}",
+    "method": "PATCH",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/activities/{activityId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/activities",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/activities",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "type",
+      "title",
+      "description",
+      "contactMade",
+      "dueDate",
+      "occurredAt",
+      "attachments",
+      "metadata"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/aging-pause",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "reason"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/archive",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/archive",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/notes/{noteId}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "body"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/notes/{noteId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/notes",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/notes",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "body",
+      "content",
+      "title",
+      "tags",
+      "customTag",
+      "pinned",
+      "isImportant",
+      "attachments",
+      "mentionedUsers"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/reply",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "replySubject",
+      "replyContent",
+      "replyDate"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/resume-automation",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "reason"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "email",
+      "tags",
+      "changeComment"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/stage",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "stage",
+      "comment"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/tasks/{taskId}",
+    "method": "PATCH",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/tasks/{taskId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/tasks",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/{id}/tasks",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "title",
+      "assignedTo",
+      "dueDate",
+      "remindAt",
+      "reminderOffsetHours",
+      "description",
+      "priority",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/{id}/timeline",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/leads/archived",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "assignedTo",
+      "source",
+      "projectType",
+      "page",
+      "limit",
+      "search"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/bulk",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "leadIds",
+      "action",
+      "value"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/by-stage",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "stage",
+      "page",
+      "limit",
+      "search",
+      "assignedTo",
+      "source",
+      "projectType",
+      "lifecycleStatus",
+      "view"
+    ]
+  },
+  {
+    "path": "/api/crm/leads/merge",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "primaryLeadId",
+      "duplicateLeadIds"
+    ]
+  },
+  {
+    "path": "/api/crm/leads",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "stage",
+      "assignedTo",
+      "source",
+      "projectType",
+      "page",
+      "limit",
+      "search",
+      "dateRange"
+    ]
+  },
+  {
+    "path": "/api/crm/leads",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "stage",
+      "value",
+      "budget",
+      "clientHealth",
+      "source",
+      "customSource",
+      "projectTypes",
+      "customProjectType",
+      "assignedTo",
+      "tags",
+      "referredBy",
+      "referralSource",
+      "estimatedValue",
+      "expectedCloseDate",
+      "marketingConsent",
+      "attribution"
+    ]
+  },
+  {
+    "path": "/api/crm/morning-brief",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/morning-brief",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/notifications/aging-leads",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/notifications/aging-leads",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/organic-attribution",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "dateRange"
+    ]
+  },
+  {
+    "path": "/api/crm/reports",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "dateRange",
+      "agent",
+      "source",
+      "format"
+    ]
+  },
+  {
+    "path": "/api/crm/stats",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/tasks",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "scope",
+      "assignedTo",
+      "status",
+      "priority",
+      "window"
+    ]
+  },
+  {
+    "path": "/api/crm/views/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/views",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/crm/views",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "isDefault",
+      "filters"
+    ]
+  },
+  {
+    "path": "/api/documents/{id}",
+    "method": "DELETE",
+    "description": "Delete a document (admin only)"
+  },
+  {
+    "path": "/api/documents",
+    "method": "POST",
+    "description": "Create a new document (admin only)",
+    "bodyFields": [
+      "userId",
+      "type",
+      "content",
+      "status",
+      "project"
+    ]
+  },
+  {
+    "path": "/api/documents/user",
+    "method": "GET",
+    "description": "Get documents for the authenticated user",
+    "queryParams": [
+      "type",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/documents/user",
+    "method": "POST",
+    "description": "Create a document for the authenticated user (for quotes and comments)",
+    "bodyFields": [
+      "type",
+      "content"
+    ]
+  },
+  {
+    "path": "/api/email-preferences",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/email-preferences",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "enabled",
+      "preferences"
+    ]
+  },
+  {
+    "path": "/api/employee/check",
+    "method": "GET",
+    "description": "Check if current user has a corresponding Employee record"
+  },
+  {
+    "path": "/api/employee/pending-requests",
+    "method": "GET",
+    "description": "Get pending status update requests for the current employee"
+  },
+  {
+    "path": "/api/employee/tasks/{taskId}/status-update",
+    "method": "POST",
+    "description": "Submit task status update request for admin approval (employee only)",
+    "bodyFields": [
+      "status",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/employees/{id}",
+    "method": "GET",
+    "description": "Get employee details (admin only)"
+  },
+  {
+    "path": "/api/employees/{id}",
+    "method": "PATCH",
+    "description": "Update employee details (admin only)",
+    "bodyFields": [
+      "dayRate",
+      "name",
+      "position",
+      "phone",
+      "skills",
+      "availability",
+      "notes",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/employees/{id}",
+    "method": "DELETE",
+    "description": "Delete employee (admin only)"
+  },
+  {
+    "path": "/api/employees",
+    "method": "GET",
+    "description": "List all employees (admin only)"
+  },
+  {
+    "path": "/api/employees",
+    "method": "POST",
+    "description": "Create a new employee (admin only)",
+    "bodyFields": [
+      "name",
+      "email",
+      "position",
+      "convertUser",
+      "userId",
+      "image",
+      "phone",
+      "skills",
+      "isActive",
+      "dayRate",
+      "availability",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/extension-calculator/rates",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/files",
+    "method": "GET",
+    "description": "Get files with optional filtering",
+    "queryParams": [
+      "entityType",
+      "entityId",
+      "fileType",
+      "tags",
+      "page",
+      "limit",
+      "sortBy",
+      "sortOrder"
+    ]
+  },
+  {
+    "path": "/api/files",
+    "method": "PUT",
+    "description": "Update file metadata",
+    "bodyFields": [
+      "fileId",
+      "tags",
+      "description",
+      "isPublic"
+    ]
+  },
+  {
+    "path": "/api/files",
+    "method": "DELETE",
+    "description": "Delete files (both from storage and database)",
+    "bodyFields": [
+      "fileIds"
+    ]
+  },
+  {
+    "path": "/api/invoices/{token}/pdf",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/invoices/{token}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/moodboards/{id}",
+    "method": "GET",
+    "description": "Get a specific moodboard with sections and products"
+  },
+  {
+    "path": "/api/moodboards/{id}",
+    "method": "PUT",
+    "description": "Update a moodboard (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "projectType",
+      "notes",
+      "status",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/moodboards/{id}",
+    "method": "DELETE",
+    "description": "Delete a moodboard (admin only)"
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}/products/{productId}/approval",
+    "method": "PUT",
+    "description": "Update product approval status and comments",
+    "bodyFields": [
+      "approvalStatus",
+      "userComment",
+      "adminComment"
+    ]
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}/products/{productId}",
+    "method": "PUT",
+    "description": "Update a moodboard product",
+    "bodyFields": [
+      "quantity",
+      "customPrice",
+      "customTitle",
+      "customSupplier",
+      "customCategory",
+      "customImageUrl",
+      "customProductUrl",
+      "notes",
+      "order",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}/products/{productId}",
+    "method": "DELETE",
+    "description": "Delete a moodboard product (admin only)"
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}/products",
+    "method": "GET",
+    "description": "Get all products in a section"
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}/products",
+    "method": "POST",
+    "description": "Add a product to a section (admin only)",
+    "bodyFields": [
+      "productId",
+      "quantity",
+      "customPrice",
+      "notes",
+      "// Custom product fields\n      customTitle",
+      "customSupplier",
+      "customCategory",
+      "customImageUrl",
+      "customProductUrl"
+    ]
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}",
+    "method": "PUT",
+    "description": "Update a section (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "color",
+      "icon",
+      "isCollapsed",
+      "notes",
+      "order",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/moodboards/{id}/sections/{sectionId}",
+    "method": "DELETE",
+    "description": "Delete a section (admin only)"
+  },
+  {
+    "path": "/api/moodboards/{id}/sections",
+    "method": "GET",
+    "description": "Get all sections for a moodboard"
+  },
+  {
+    "path": "/api/moodboards/{id}/sections",
+    "method": "POST",
+    "description": "Create a new section (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "color",
+      "icon",
+      "isCollapsed",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/moodboards",
+    "method": "GET",
+    "description": "Get moodboards - users see their own, admins see all",
+    "queryParams": [
+      "userId"
+    ]
+  },
+  {
+    "path": "/api/moodboards",
+    "method": "POST",
+    "description": "Create a new moodboard (admin only)",
+    "bodyFields": [
+      "userId",
+      "name",
+      "description",
+      "projectType",
+      "notes",
+      "project"
+    ]
+  },
+  {
+    "path": "/api/notifications/mark-read",
+    "method": "POST",
+    "description": "Mark notifications as read",
+    "bodyFields": [
+      "notificationIds",
+      "markAll"
+    ]
+  },
+  {
+    "path": "/api/notifications",
+    "method": "GET",
+    "description": "Get user's notifications",
+    "queryParams": [
+      "limit",
+      "offset",
+      "unread"
+    ]
+  },
+  {
+    "path": "/api/notifications",
+    "method": "POST",
+    "description": "Create a new notification (admin only)",
+    "bodyFields": [
+      "recipientId",
+      "recipientType",
+      "type",
+      "title",
+      "message",
+      "relatedId",
+      "relatedModel",
+      "priority",
+      "metadata"
+    ]
+  },
+  {
+    "path": "/api/partners/{id}/referrals/{referralId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/partners/{id}/referrals",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "customerName",
+      "email",
+      "phone",
+      "address",
+      "projectValue",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/partners/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/partners/{id}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "occupation",
+      "experience",
+      "isActive",
+      "accountStatus",
+      "notes",
+      "referrals"
+    ]
+  },
+  {
+    "path": "/api/partners/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/partners",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "search",
+      "occupation",
+      "experience",
+      "active",
+      "page",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/partners",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "address",
+      "occupation",
+      "experience",
+      "isActive",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/payments/{id}/generate-invoice",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/payments/{id}",
+    "method": "GET",
+    "description": "Get a specific payment"
+  },
+  {
+    "path": "/api/payments/{id}",
+    "method": "PUT",
+    "description": "Update a payment (admin only)",
+    "bodyFields": [
+      "name",
+      "project",
+      "dueDate",
+      "amount",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/payments/{id}",
+    "method": "PATCH",
+    "description": "Reorder payments (admin only)",
+    "bodyFields": [
+      "newOrder"
+    ]
+  },
+  {
+    "path": "/api/payments/{id}",
+    "method": "DELETE",
+    "description": "Delete a payment (admin only)"
+  },
+  {
+    "path": "/api/payments/reorder",
+    "method": "POST",
+    "description": "Reorder payments and update payment numbers (admin only)",
+    "bodyFields": [
+      "payments"
+    ]
+  },
+  {
+    "path": "/api/payments",
+    "method": "GET",
+    "description": "Get payments for the authenticated user",
+    "queryParams": [
+      "status"
+    ]
+  },
+  {
+    "path": "/api/payments",
+    "method": "POST",
+    "description": "Create a new payment (admin only)",
+    "bodyFields": [
+      "userId",
+      "user",
+      "project",
+      "name",
+      "dueDate",
+      "amount",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/payments/update-statuses",
+    "method": "GET",
+    "description": "Updates all payment statuses and returns summary"
+  },
+  {
+    "path": "/api/payments/update-statuses",
+    "method": "POST",
+    "description": "Updates all payment statuses based on due dates This endpoint can be called by a cron job"
+  },
+  {
+    "path": "/api/products/{id}",
+    "method": "GET",
+    "description": "Get a specific product"
+  },
+  {
+    "path": "/api/products/{id}",
+    "method": "PUT",
+    "description": "Update a product (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "imageUrl",
+      "productUrl",
+      "price",
+      "supplier",
+      "category",
+      "sku",
+      "tags",
+      "specifications",
+      "slug",
+      "brand",
+      "catalogueCategory",
+      "catalogueEnabled",
+      "stockStatus",
+      "gallery",
+      "finish",
+      "material",
+      "leadTimeDays",
+      "variants",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/products/{id}",
+    "method": "DELETE",
+    "description": "Delete a product (admin only)"
+  },
+  {
+    "path": "/api/products/categories",
+    "method": "GET",
+    "description": "Get all product categories"
+  },
+  {
+    "path": "/api/products",
+    "method": "GET",
+    "description": "Get all products with optional filtering",
+    "queryParams": [
+      "category",
+      "supplier",
+      "brand",
+      "catalogueCategory",
+      "search",
+      "active",
+      "sort",
+      "page",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/products",
+    "method": "POST",
+    "description": "Create a new product (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "imageUrl",
+      "productUrl",
+      "price",
+      "supplier",
+      "category",
+      "sku",
+      "tags",
+      "specifications",
+      "slug",
+      "brand",
+      "catalogueCategory",
+      "catalogueEnabled",
+      "stockStatus",
+      "gallery",
+      "finish",
+      "material",
+      "leadTimeDays",
+      "variants",
+      "isActive"
+    ]
+  },
+  {
+    "path": "/api/products/suppliers",
+    "method": "GET",
+    "description": "Get all product suppliers"
+  },
+  {
+    "path": "/api/projects/{projectId}/admin-tasks/reorder",
+    "method": "POST",
+    "description": "Reorder admin tasks for a project (admin only)",
+    "bodyFields": [
+      "tasks"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/admin-tasks",
+    "method": "GET",
+    "description": "List all admin tasks for a project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/admin-tasks",
+    "method": "POST",
+    "description": "Create a new admin task for a project (admin only)",
+    "bodyFields": [
+      "name",
+      "assignedTo",
+      "dueDate",
+      "description",
+      "priority",
+      "status",
+      "notes",
+      "tags"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/changes/{changeId}",
+    "method": "GET",
+    "description": "Individual Project Change API Route Handles GET, PUT, DELETE operations for specific project changes"
+  },
+  {
+    "path": "/api/projects/{projectId}/changes/{changeId}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "description",
+      "cost",
+      "type",
+      "includedInPaymentPlan",
+      "adminNotes",
+      "status"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/changes/{changeId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/projects/{projectId}/changes",
+    "method": "GET",
+    "description": "Project Changes API Route Handles CRUD operations for project changes/extra costs"
+  },
+  {
+    "path": "/api/projects/{projectId}/changes",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "description",
+      "cost",
+      "type",
+      "includedInPaymentPlan",
+      "adminNotes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses/{expenseId}",
+    "method": "GET",
+    "description": "Get a specific expense"
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses/{expenseId}",
+    "method": "PUT",
+    "description": "Update a specific expense",
+    "bodyFields": [
+      "name",
+      "amount",
+      "purchaseDate",
+      "type",
+      "category",
+      "customCategory",
+      "purchaseLink",
+      "notes",
+      "files"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses/{expenseId}",
+    "method": "DELETE",
+    "description": "Delete a specific expense"
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses",
+    "method": "GET",
+    "description": "Get all expenses for a specific project"
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses",
+    "method": "POST",
+    "description": "Create a new expense for a project",
+    "bodyFields": [
+      "name",
+      "amount",
+      "purchaseDate",
+      "type",
+      "category",
+      "customCategory",
+      "purchaseLink",
+      "notes",
+      "files"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/expenses",
+    "method": "PATCH",
+    "description": "Reorder expenses (drag and drop)",
+    "bodyFields": [
+      "expenses"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/gantt-share",
+    "method": "GET",
+    "description": "Get all share links for a project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/gantt-share",
+    "method": "POST",
+    "description": "Generate a new share link for a project's Gantt chart (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/handover",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/projects/{projectId}/handover",
+    "method": "PATCH",
+    "description": "",
+    "bodyFields": [
+      "sourceLead",
+      "sourceQuote",
+      "remainingCostEstimate",
+      "handoverNotes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/item-purchases/{itemId}",
+    "method": "PUT",
+    "description": "Update an item purchase",
+    "bodyFields": [
+      "itemName",
+      "store",
+      "quotedPrice",
+      "paidPrice",
+      "purchaseDate",
+      "deliveryDate",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/item-purchases/{itemId}",
+    "method": "DELETE",
+    "description": "Delete an item purchase"
+  },
+  {
+    "path": "/api/projects/{projectId}/item-purchases",
+    "method": "GET",
+    "description": "Get all item purchases for a project"
+  },
+  {
+    "path": "/api/projects/{projectId}/item-purchases",
+    "method": "POST",
+    "description": "Create a new item purchase for a project",
+    "bodyFields": [
+      "itemName",
+      "store",
+      "quotedPrice",
+      "paidPrice",
+      "purchaseDate",
+      "deliveryDate",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/item-purchases",
+    "method": "PATCH",
+    "description": "Update item purchases order (for drag and drop)",
+    "bodyFields": [
+      "itemPurchases"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/notes/{noteId}",
+    "method": "PUT",
+    "description": "Update a specific note",
+    "bodyFields": [
+      "title",
+      "content",
+      "tags",
+      "customTag",
+      "isImportant",
+      "attachments"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/notes/{noteId}",
+    "method": "DELETE",
+    "description": "Delete a specific note"
+  },
+  {
+    "path": "/api/projects/{projectId}/notes",
+    "method": "GET",
+    "description": "Get all notes for a project with optional filtering",
+    "queryParams": [
+      "tag",
+      "important",
+      "search"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/notes",
+    "method": "POST",
+    "description": "Create a new note for a project",
+    "bodyFields": [
+      "title",
+      "content",
+      "tags",
+      "customTag",
+      "isImportant",
+      "attachments"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}",
+    "method": "GET",
+    "description": "Get a specific project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}",
+    "method": "PUT",
+    "description": "Update a specific project (admin only)",
+    "bodyFields": [
+      "status",
+      "name",
+      "description",
+      "type",
+      "location",
+      "budget",
+      "priority",
+      "projectManager",
+      "notes",
+      "tags",
+      "startDate",
+      "projectedFinishDate"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}",
+    "method": "PATCH",
+    "description": "Update a specific project (admin only) - simplified for status updates",
+    "bodyFields": [
+      "status"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}",
+    "method": "DELETE",
+    "description": "Delete a specific project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/sections/{sectionId}",
+    "method": "PUT",
+    "description": "Update a section (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "color",
+      "icon",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/sections/{sectionId}",
+    "method": "DELETE",
+    "description": "Delete a section (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/sections",
+    "method": "GET",
+    "description": "List all sections for a project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/sections",
+    "method": "POST",
+    "description": "Create a new section for a project (admin only)",
+    "bodyFields": [
+      "name",
+      "description",
+      "color",
+      "icon",
+      "notes"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/tasks/reorder",
+    "method": "POST",
+    "description": "Reorder tasks within a project (admin only)",
+    "bodyFields": [
+      "tasks"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/tasks",
+    "method": "GET",
+    "description": "List all tasks for a project (admin only)"
+  },
+  {
+    "path": "/api/projects/{projectId}/tasks",
+    "method": "POST",
+    "description": "Create a new task for a project (admin only)",
+    "bodyFields": [
+      "section",
+      "name",
+      "assignedWorkers",
+      "assignedTo",
+      "description",
+      "status",
+      "estimatedDuration",
+      "plannedStartDate",
+      "priority",
+      "notes",
+      "tags"
+    ]
+  },
+  {
+    "path": "/api/projects/{projectId}/weekly-updates",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/projects/{projectId}/weekly-updates",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "weekStart",
+      "completed",
+      "nextWeek",
+      "scheduleImpact",
+      "costImpact",
+      "blockers",
+      "decisionsNeeded"
+    ]
+  },
+  {
+    "path": "/api/projects",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/quotes/{id}/analytics",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "timeRange"
+    ]
+  },
+  {
+    "path": "/api/quotes/{id}/pdf",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/quotes/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/referrer/referrals",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/referrer/referrals",
+    "method": "POST",
+    "description": ""
+  },
+  {
+    "path": "/api/renovation-calculator/rates",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/reports/attendance",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "start",
+      "end"
+    ]
+  },
+  {
+    "path": "/api/stores",
+    "method": "GET",
+    "description": "Get all active stores"
+  },
+  {
+    "path": "/api/stores",
+    "method": "POST",
+    "description": "Create a new store",
+    "bodyFields": [
+      "name",
+      "color"
+    ]
+  },
+  {
+    "path": "/api/tasks/{taskId}",
+    "method": "PUT",
+    "description": "Full task update (admin only)",
+    "bodyFields": [
+      "assignedWorkers",
+      "assignedTo",
+      "plannedStartDate"
+    ]
+  },
+  {
+    "path": "/api/tasks/{taskId}",
+    "method": "PATCH",
+    "description": "Update task status, assignment, or attachments (admin or assigned employee)",
+    "bodyFields": [
+      "status",
+      "assignedWorkers",
+      "assignedTo",
+      "attachments",
+      "name",
+      "description",
+      "section",
+      "estimatedDuration",
+      "plannedStartDate",
+      "priority",
+      "notes",
+      "tags",
+      "order"
+    ]
+  },
+  {
+    "path": "/api/tasks/{taskId}",
+    "method": "DELETE",
+    "description": "Delete a task (admin only)"
+  },
+  {
+    "path": "/api/tickets/{ticketId}/notes",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "note"
+    ]
+  },
+  {
+    "path": "/api/tickets/{ticketId}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/tickets/{ticketId}",
+    "method": "PUT",
+    "description": "",
+    "bodyFields": [
+      "title",
+      "description",
+      "category",
+      "priority",
+      "status",
+      "scheduledDate",
+      "scheduledTime",
+      "estimatedDuration",
+      "resolution",
+      "tags",
+      "assignedTo",
+      "projectId"
+    ]
+  },
+  {
+    "path": "/api/tickets/{ticketId}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/tickets/{ticketId}/updates",
+    "method": "POST",
+    "description": "",
+    "multipart": true
+  },
+  {
+    "path": "/api/tickets",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "status",
+      "category",
+      "priority",
+      "assignedTo",
+      "project",
+      "page",
+      "limit"
+    ]
+  },
+  {
+    "path": "/api/tickets",
+    "method": "POST",
+    "description": "",
+    "multipart": true
+  },
+  {
+    "path": "/api/tickets/stats",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "period",
+      "startDate",
+      "endDate"
+    ]
+  },
+  {
+    "path": "/api/upload",
+    "method": "POST",
+    "description": "Upload files to bunny.net storage",
+    "multipart": true
+  },
+  {
+    "path": "/api/upload",
+    "method": "DELETE",
+    "description": "Delete files from bunny.net storage",
+    "bodyFields": [
+      "filePaths",
+      "fileIds"
+    ]
+  },
+  {
+    "path": "/api/user/invoices",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/users/{id}/email-preferences",
+    "method": "GET",
+    "description": "Get email preferences for a specific user (admin only)"
+  },
+  {
+    "path": "/api/users/{id}/email-preferences",
+    "method": "PUT",
+    "description": "Update email preferences for a specific user (admin only)",
+    "bodyFields": [
+      "welcomeMessages",
+      "welcome",
+      "documentAdditions",
+      "documents",
+      "paymentReminders",
+      "payments",
+      "projectUpdates",
+      "projectStatus",
+      "systemAnnouncements",
+      "announcements"
+    ]
+  },
+  {
+    "path": "/api/users/{id}",
+    "method": "PUT",
+    "description": "Update a user (admin only)",
+    "bodyFields": [
+      "email",
+      "name",
+      "role",
+      "projectStatus",
+      "phone",
+      "address",
+      "source",
+      "leftReview",
+      "image"
+    ]
+  },
+  {
+    "path": "/api/users/{id}",
+    "method": "DELETE",
+    "description": "Delete a user (admin only)"
+  },
+  {
+    "path": "/api/users/changes",
+    "method": "GET",
+    "description": "User Changes API Route Gets all project changes for the current user"
+  },
+  {
+    "path": "/api/users",
+    "method": "GET",
+    "description": "List all users (admin only)",
+    "queryParams": [
+      "page",
+      "limit",
+      "search",
+      "status",
+      "group"
+    ]
+  },
+  {
+    "path": "/api/users",
+    "method": "POST",
+    "description": "Create a new user (admin only)",
+    "bodyFields": [
+      "email",
+      "name",
+      "role",
+      "projectStatus",
+      "password"
+    ]
+  },
+  {
+    "path": "/api/workers/{id}",
+    "method": "GET",
+    "description": ""
+  },
+  {
+    "path": "/api/workers/{id}",
+    "method": "PATCH",
+    "description": ""
+  },
+  {
+    "path": "/api/workers/{id}",
+    "method": "DELETE",
+    "description": ""
+  },
+  {
+    "path": "/api/workers",
+    "method": "GET",
+    "description": "",
+    "queryParams": [
+      "query",
+      "type",
+      "active"
+    ]
+  },
+  {
+    "path": "/api/workers",
+    "method": "POST",
+    "description": "",
+    "bodyFields": [
+      "name",
+      "email",
+      "phone",
+      "position",
+      "trade",
+      "dayRate",
+      "notes"
+    ]
+  }
+]

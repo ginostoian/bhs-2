@@ -10,6 +10,7 @@ import {
   Archive,
   BarChart3,
   Bell,
+  Bot,
   BriefcaseBusiness,
   Building2,
   CalendarDays,
@@ -42,6 +43,7 @@ import {
 } from "lucide-react";
 
 const ICONS = {
+  ai: Bot,
   archive: Archive,
   attendance: Clock3,
   calendar: CalendarDays,

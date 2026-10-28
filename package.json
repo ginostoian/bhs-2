@@ -22,7 +22,8 @@
     "morning-brief": "node scripts/send-morning-brief.js",
     "update-aging": "node scripts/update-lead-aging.js",
     "migrate-templates": "node scripts/migrate-quote-templates.js",
-    "migrate-crm": "node scripts/migrate-crm-architecture.js"
+    "migrate-crm": "node scripts/migrate-crm-architecture.js",
+    "mcp-catalog": "node scripts/generate-mcp-api-catalog.js"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^1.0.0",
@@ -30,6 +31,7 @@
     "@formepdf/react": "^0.25.0",
     "@headlessui/react": "^1.7.17",
     "@hello-pangea/dnd": "^18.0.1",
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@next/third-parties": "^14.2.3",
     "@types/react-beautiful-dnd": "^13.1.8",
     "axios": "^1.4.0",
@@ -65,7 +67,8 @@
     "remark-gfm": "^4.0.1",
     "resend": "^4.6.0",
     "stripe": "^13.2.0",
-    "swr": "^2.4.2"
+    "swr": "^2.4.2",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.15",

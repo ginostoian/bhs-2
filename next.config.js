@@ -11,6 +11,23 @@ const nextConfig = {
       "/api/admin/quoting/pdf": ["./libs/pdf/fonts/**/*"],
     },
   },
+  // OAuth discovery documents for AI connectors using the admin MCP server
+  async rewrites() {
+    return [
+      {
+        source: "/.well-known/oauth-authorization-server/:path*",
+        destination: "/api/oauth/metadata",
+      },
+      {
+        source: "/.well-known/openid-configuration/:path*",
+        destination: "/api/oauth/metadata",
+      },
+      {
+        source: "/.well-known/oauth-protected-resource/:path*",
+        destination: "/api/oauth/protected-resource",
+      },
+    ];
+  },
   async redirects() {
     return [
       {
