@@ -17,6 +17,13 @@ const serviceNouns = {
   "/bathroom-renovation": "bathroom renovation",
   "/basement-conversion": "basement conversion",
 };
+const serviceCalculators = {
+  "/kitchen-renovation": { href: "/kitchen-calculator", label: "Estimate your kitchen cost" },
+  "/bathroom-renovation": { href: "/tools/bathroom-cost-calculator", label: "Estimate your bathroom cost" },
+  "/basement-conversion": { href: "/extension-calculator", label: "Estimate your basement cost" },
+  "/loft-conversion": { href: "/extension-calculator", label: "Estimate your loft cost" },
+  default: { href: "/renovation-calculator", label: "Estimate your renovation cost" },
+};
 export function ProjectCards({ projects }) {
   return (
     <div className="bh-project-grid">
@@ -101,6 +108,7 @@ export default function ServicePage({
   // Search-matching wording for headings; the expressive lines stay as supporting copy.
   const noun = serviceNouns[path] ?? name.toLowerCase();
   const Noun = noun.charAt(0).toUpperCase() + noun.slice(1);
+  const calculator = serviceCalculators[path] ?? serviceCalculators.default;
   const introduction = story?.intro ?? intro;
   const projects = getPortfolioProjects()
     .filter((p) => slugs.includes(p.slug))
@@ -381,8 +389,11 @@ export default function ServicePage({
             </div>
           ) : null}
           <div className="bh-actions">
-            <Link href="/tools" className="bh-button">
-              Explore cost planning tools
+            <Link href={calculator.href} className="bh-button">
+              {calculator.label}
+            </Link>
+            <Link href="/tools" className="bh-text-link">
+              All cost planning tools
             </Link>
           </div>
         </div>

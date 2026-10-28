@@ -19,6 +19,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/blog/extension-guide-2025",
+        destination: "/blog/house-extension-guide-2025",
+        permanent: true,
+      },
+      {
+        source: "/blog/loft-conversions-complete-guide-2026",
+        destination: "/blog/loft-conversions-london-complete-guide-2026",
+        permanent: true,
+      },
+      {
         source: "/:path*",
         has: [
           {
