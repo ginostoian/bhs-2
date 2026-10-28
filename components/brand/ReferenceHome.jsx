@@ -194,7 +194,7 @@ export default class ReferenceHome extends React.Component {
                   }}
                 >
                   {"London builders for extensions, loft conversions and renovations"}
-                </span>
+                </span>{" "}
                 {"A home that works beautifully for the life you live."}
               </h1>
               <p
