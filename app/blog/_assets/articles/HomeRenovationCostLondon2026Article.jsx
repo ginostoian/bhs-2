@@ -2,6 +2,7 @@
 import { businessFacts } from "@/libs/businessFacts";
 import Image from "next/image";
 import Link from "next/link";
+import ArticleCta from "../components/ArticleCta";
 
 const styles = {
   h1: "mb-8 text-4xl font-medium leading-tight tracking-tight text-[#202925] md:text-5xl",
@@ -46,6 +47,12 @@ export default function HomeRenovationCostLondon2026() {
           in Victorian and Edwardian properties.
         </p>
       </div>
+
+      <ArticleCta
+        title="Planning your own renovation?"
+        text="Apply these figures to your home. Our calculator gives a low, expected and high budget for your size, scope and finish."
+        primary={{ href: "/renovation-calculator", label: "Estimate your renovation" }}
+      />
 
       <p className={styles.p}>
         Use this guide to shape your initial renovation budget. The ranges and

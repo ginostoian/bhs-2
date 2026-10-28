@@ -9,6 +9,7 @@ import Image from "next/image";
 import { FaqSchema } from "./Schema";
 import EnquiryForm from "./EnquiryForm";
 import ProofStrip from "./ProofStrip";
+import HeroProof from "./HeroProof";
 import MobileTrust from "./MobileTrust";
 export default class ReferenceExtension extends React.Component {
   state = {
@@ -428,6 +429,7 @@ export default class ReferenceExtension extends React.Component {
                   {"Estimate the cost"}
                 </a>
               </div>
+              <HeroProof path="/house-extension" />
             </div>
           </div>
           <figure

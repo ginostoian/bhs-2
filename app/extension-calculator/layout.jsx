@@ -1,8 +1,8 @@
 import { getSEOTags } from "@/libs/seo";
 
-const pageTitle = "House Extension Cost Calculator UK | London | Better Homes";
+const pageTitle = "House Extension Cost Calculator UK 2026 | Free | Better Homes";
 const pageDescription =
-  "Free house extension cost calculator. Get a low/expected/high budget for rear, side-return, wraparound, kitchen, double-storey, basement and loft projects with VAT, fees and contingency included.";
+  "Free 2026 extension cost calculator for rear, side-return, wraparound, double-storey, loft and basement projects. Low, expected and high budget with VAT and fees.";
 
 export const metadata = getSEOTags({
   title: pageTitle,

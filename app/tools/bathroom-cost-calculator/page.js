@@ -83,7 +83,7 @@ const BathroomCalculator = () => {
   };
 
   const formatNumberWithCommas = (number) => {
-    return number.toLocaleString("en-US"); // Or your preferred locale
+    return number.toLocaleString("en-GB");
   };
 
   const handleClick = () => {
@@ -339,7 +339,7 @@ const BathroomCalculator = () => {
                 </button>
               </form>
               <h3 className="mt-4 text-center text-3xl font-bold">
-                Your <span className="text-[#4D5B4B]">bathroom renovation</span>{" "}
+                Your <span className="text-[#4D5B4B]">bathroom installation</span>{" "}
                 cost is between:
               </h3>
               <p className="py-4 text-center text-2xl md:text-4xl">
@@ -352,9 +352,15 @@ const BathroomCalculator = () => {
                 </span>
               </p>
               <p className="text-sm">
-                *The above cost is an estimate that includes labour, waste
-                removal and building materials (plasterboard, pipes, white
-                paint, etc) and excludes bathroom fittings and tiles.
+                This estimate covers labour, waste removal and building
+                materials (plasterboard, pipework, waterproofing, paint). Your
+                sanitaryware, brassware and tiles are added on top, so the total
+                depends on the products you choose. See typical all-in prices on
+                our{" "}
+                <Link href="/bathroom-renovation#costs" className="underline">
+                  bathroom renovation page
+                </Link>
+                .
               </p>
               <div className="mt-6 flex justify-center gap-6">
                 <Link

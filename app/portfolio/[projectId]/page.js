@@ -40,8 +40,8 @@ export function generateMetadata({ params }) {
     });
   }
 
-  const title = `${project.title} | Case Study | Better Homes`;
-  const description = `${project.teaser} Explore the work delivered, room details and photographs for this ${project.location} renovation project.`;
+  const title = `${project.title} | Better Homes Case Study`;
+  const description = `${project.category} in ${project.location} by Better Homes. ${project.teaser} See the scope, photos and finished result.`;
 
   return getSEOTags({
     title,

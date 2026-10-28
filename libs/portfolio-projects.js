@@ -7,7 +7,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Daniel",
     location: "N19, North London",
     category: "Extension + Full Renovation",
-    title: "Whole-Home Renovation and Rear Extension in N19",
+    title: "Whole-Home Renovation and Rear Extension in Archway, N19",
     teaser:
       "A full design-and-build transformation that created a brighter, more functional family home with a premium kitchen-living space.",
     coverImage:
@@ -77,7 +77,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Lawrence",
     location: "E3, East London",
     category: "Kitchen Renovation",
-    title: "High-Spec Kitchen Renovation and Installation in E3",
+    title: "High-Spec Kitchen Renovation in Bow, E3",
     teaser:
       "A practical, design-led kitchen transformation that improved storage, workflow and finish quality for daily use and hosting.",
     coverImage:
@@ -143,7 +143,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Ava",
     location: "E7, East London",
     category: "Side Return Extension",
-    title: "Side Return Kitchen Extension in E7",
+    title: "Side Return Kitchen Extension in Forest Gate, E7",
     teaser:
       "A side-return extension that unlocked a larger open-plan kitchen-dining zone with stronger natural light and everyday usability.",
     coverImage:
@@ -198,7 +198,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Alice",
     location: "E4, East London",
     category: "Kitchen Renovation",
-    title: "Modern Kitchen Renovation and Installation in E4",
+    title: "Modern Kitchen Renovation in Chingford, E4",
     teaser:
       "A full kitchen redesign focused on elegant detailing, robust practicality and a finish suitable for long-term family use.",
     coverImage:
@@ -253,7 +253,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "George",
     location: "N16, North East London",
     category: "Kitchen Renovation",
-    title: "Kitchen Renovation and Installation in N16",
+    title: "Kitchen Renovation in Stoke Newington, N16",
     teaser:
       "A clean, contemporary kitchen rework that maximised function and delivered a crisp, high-spec finish in an urban layout.",
     coverImage:
@@ -306,7 +306,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Phil",
     location: "E10, East London",
     category: "Kitchen Renovation",
-    title: "Kitchen Renovation in E10",
+    title: "Kitchen Renovation in Leyton, E10",
     teaser:
       "A complete kitchen overhaul replacing an older layout with a cleaner, higher-performing space focused on longevity and finish quality.",
     coverImage: "/assets/portfolio/kitchen-phil-e10/phil-kitchen-e10-3.webp",
@@ -362,7 +362,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Melina",
     location: "E7, East London",
     category: "Bathroom Renovation",
-    title: "Bathroom Design and Renovation in E7",
+    title: "Bathroom Design and Renovation in Forest Gate, E7",
     teaser:
       "A luxury bathroom reconfiguration combining material quality, layout practicality and calm, spa-like design intent.",
     coverImage:
@@ -417,7 +417,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "James",
     location: "N8, North London",
     category: "Extension + Renovation",
-    title: "Kitchen Extension and Renovation in N8",
+    title: "Kitchen Extension and Renovation in Hornsey, N8",
     teaser:
       "A structural kitchen extension project that opened the rear of the home and delivered a brighter, better-connected living environment.",
     coverImage: "/assets/portfolio/extension-james-n8/extension-james-1.webp",
@@ -475,7 +475,7 @@ export const PORTFOLIO_PROJECTS = [
     clientName: "Karim",
     location: "E9, East London",
     category: "Two Bathroom Renovations",
-    title: "Two Bathroom Renovations in E9",
+    title: "Two Bathroom Renovations in Hackney, E9",
     teaser:
       "Two bathrooms renovated within one property, each with a distinct design identity while maintaining consistent technical quality.",
     coverImage:

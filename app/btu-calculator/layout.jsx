@@ -1,6 +1,6 @@
 import { getSEOTags } from "@/libs/seo";
 
-const pageTitle = "BTU Calculator UK | Radiator & Heating Size | Better Homes";
+const pageTitle = "BTU Calculator UK | Free Radiator Size Calculator | Better Homes";
 const pageDescription =
   "Calculate radiator BTU requirements for rooms in the UK using dimensions, insulation level, and heating type with our free BTU calculator.";
 const siteUrl = "https://bhstudio.co.uk";

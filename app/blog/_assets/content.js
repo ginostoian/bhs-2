@@ -34,6 +34,7 @@ import BespokeVsHowdensVsIkeaKitchenArticle from "./articles/BespokeVsHowdensVsI
 import HomeImprovementLoansLondonArticle from "./articles/HomeImprovementLoansLondonArticle";
 import SingleStoreyExtensionCostLondonArticle from "./articles/SingleStoreyExtensionCostLondonArticle";
 import HouseExtensionTypesArticle from "./articles/HouseExtensionTypesArticle";
+import ArticleCta from "./components/ArticleCta";
 import betterHomesExtensionHeroImg from "/public/assets/blog/house-extension-types/better-homes-extension-hero.png";
 import singleStoreyExtensionCostImg from "/public/assets/blog/single-storey-extension-cost-london/extension-cost-by-size-london-2026.png";
 
@@ -382,10 +383,11 @@ export const articles = [
   },
   {
     slug: "bespoke-vs-howdens-vs-ikea-kitchen-london",
+    seoTitle: "IKEA vs Howdens vs Bespoke Kitchen Cost London 2026 (Fitted Prices)",
     title:
       "Bespoke vs Howdens vs IKEA kitchen: London 2026 cost and quality guide",
     description:
-      "London 2026 guide comparing bespoke, Howdens, and IKEA kitchens on real fitted cost, quality, worktops, timelines, London premiums, and which route suits your property.",
+      "Fitted kitchen prices in London for 2026: IKEA £12k–£22k, Howdens £18k–£38k, bespoke £45k–£90k+. Compare quality, worktops, timelines and which suits your home.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.kitchen),
     ],
@@ -401,10 +403,11 @@ export const articles = [
   },
   {
     slug: "planning-permission-refused-london",
+    seoTitle: "Planning Permission Refused in London? Reasons, Appeals & Next Steps",
     title:
       "Planning permission refused in London? Why it happens and what to do next",
     description:
-      "Had your extension or loft conversion planning permission refused in London? Learn the top refusal reasons, appeal options, resubmission strategy and how to improve approval chances next time.",
+      "Extension or loft planning refused in London? The most common refusal reasons, how to appeal or resubmit, typical timescales and costs, and how to win approval next time.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
     ],
@@ -420,10 +423,11 @@ export const articles = [
   },
   {
     slug: "how-to-finance-house-extension-renovation-london-2026",
+    seoTitle: "How to Finance an Extension or Renovation in London (2026 Options)",
     title:
       "How to finance a house extension or renovation in London (2026 guide)",
     description:
-      "Complete 2026 guide to financing your London house extension, loft conversion or renovation. Compare remortgaging, further advances, loans, grants and move-vs-improve economics with London-specific costs.",
+      "Remortgage, further advance, renovation mortgage, personal loan or grant? Compare every way to fund a London extension, loft or renovation in 2026, with real costs.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
       categories.find((category) => category.slug === categorySlugs.fullHome),
@@ -477,9 +481,10 @@ export const articles = [
   },
   {
     slug: "home-renovation-cost-london-2026",
+    seoTitle: "Home Renovation Cost London 2026: £800–£3,500 per m² | Better Homes",
     title: "Home renovation cost in London: the complete 2026 price guide",
     description:
-      "London-focused 2026 guide to full home renovation costs, hidden fees, room-by-room budgets, realistic timelines and renovate-vs-move economics.",
+      "What a full home renovation costs in London in 2026: £800–£3,500 per m², room-by-room budgets, hidden costs, borough differences and renovate-vs-move maths.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.fullHome),
     ],
@@ -516,9 +521,10 @@ export const articles = [
   },
   {
     slug: "loft-conversions-london-complete-guide-2026",
+    seoTitle: "Loft Conversions London 2026: Costs £45k–£130k, Types & Planning",
     title: "Loft conversions in London: the complete 2026 guide",
     description:
-      "Comprehensive 2026 guide for London homeowners on loft conversion types, costs, planning rules, timelines and ROI, with borough-specific considerations.",
+      "London loft conversions in 2026 cost £45k–£130k, from Velux to mansard. Compare types, planning and permitted development, building regs, timelines and value added.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
       categories.find((category) => category.slug === categorySlugs.fullHome),
@@ -571,9 +577,10 @@ export const articles = [
   },
   {
     slug: "house-extension-value-london-guide",
+    seoTitle: "How Much Value Does an Extension Add in London? (Up to 25%, 2026)",
     title: "How much value does a house extension add in London? (2026 guide)",
     description:
-      "Data-backed London guide on extension value uplift, real cost ranges, ROI, planning routes and design decisions for homeowners in 2026.",
+      "An extension or loft can add up to 25% to a London home's value. See cost vs value by extension type, ROI by borough, and when extending beats moving in 2026.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.extension),
       categories.find((category) => category.slug === categorySlugs.fullHome),
@@ -1860,10 +1867,11 @@ export const articles = [
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "kitchen-providers-comparison-guide",
     // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
+    seoTitle: "10 Kitchen Companies Compared: UK Prices, Quality & Fitting | Better Homes",
     title: "Top 10 Kitchen Providers Compared: Options for all London Homes",
     // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
-      "Compare the top 10 UK kitchen providers for luxury London homes. Discover expert insights, trends, and which brand is right for your renovation.",
+      "Ten UK kitchen providers compared side by side on price, build quality, design service and fitting, with advice on which suits your London home and budget.",
     // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.kitchen),
@@ -1894,6 +1902,12 @@ export const articles = [
         />
         <section>
           <p className={styles.p}>Before comparing suppliers, use our <Link href="/kitchen-calculator">kitchen renovation calculator</Link> to allow for installation as well as cabinets. Our <Link href="/kitchen-renovation">kitchen renovation service</Link> explains the construction scope.</p>
+          <ArticleCta
+            title="Comparing kitchen providers?"
+            text="Whichever supplier you choose, installation, worktops and services decide the final price. Get a fitted-kitchen estimate for your room."
+            primary={{ href: "/kitchen-calculator", label: "Estimate your kitchen" }}
+            secondary={{ href: "/kitchen-renovation", label: "See how we renovate kitchens" }}
+          />
           {/* Table of Contents */}
           <h3 className={styles.h3}>Table of Contents</h3>
           <ul className={styles.p}>
