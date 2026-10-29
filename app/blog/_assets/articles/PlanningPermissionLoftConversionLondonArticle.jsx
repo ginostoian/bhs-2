@@ -555,7 +555,7 @@ export default function PlanningPermissionLoftConversionLondon() {
       </p>
 
       <p className={styles.p}>
-        If your loft qualifies for permitted development, your planning-related costs will be minimal: a Lawful Development Certificate (£131), structural engineer calculations (£600–£1,200), building control fees (£450–£850), party wall surveyor fees (£1,000–£3,000 for terraced homes), fire door upgrades throughout the house (£1,200–£2,000), and mains-powered interlinked smoke alarms (£350–£500). Total: approximately £3,700–£7,700.
+        If your loft qualifies for permitted development, your planning-related costs will be minimal: a Lawful Development Certificate (£274 council fee in 2026), structural engineer calculations (£1,000–£2,000), building control fees (£1,000–£1,600), party wall surveyor fees (£1,000–£3,000 for terraced homes), fire door upgrades throughout the house (£1,200–£2,000), and mains-powered interlinked smoke alarms (£350–£500). Total: approximately £4,800–£9,400. For the full build cost by loft type, see our <Link href="/blog/loft-conversion-cost-london">loft conversion cost in London guide</Link>.
       </p>
 
       <p className={styles.p}>

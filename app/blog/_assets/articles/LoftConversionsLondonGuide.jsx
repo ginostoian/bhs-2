@@ -288,6 +288,11 @@ export default function LoftConversionsLondonGuide() {
         Let's cut through the vague estimates and get specific. Loft conversion costs in London carry a 15–25% premium over the rest of the UK, driven by higher labour rates, material transport costs, access constraints (scaffolding on narrow Victorian streets isn't cheap), and the generally higher specification that London buyers expect.
       </p>
 
+      <p className={styles.p}>
+        For an all-in figure with every fee, VAT and London zone priced, see our{" "}
+        <Link href="/blog/loft-conversion-cost-london">loft conversion cost in London guide</Link>.
+      </p>
+
       <h3 className={styles.h3} id="cost-breakdown">Cost Breakdown by Conversion Type</h3>
 
       <p className={styles.p}>

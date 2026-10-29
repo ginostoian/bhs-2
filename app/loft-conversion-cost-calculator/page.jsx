@@ -58,7 +58,8 @@ export default async function Page() {
           body: (
             <p>
               Most dormer, hip-to-gable and Velux lofts on houses are permitted development, within 40 m³ of extra volume on terraces and 50 m³ on semis and detached houses. Flats, conservation areas and mansards need planning. Either way, you need building regulations approval and, if you share a wall, a party wall agreement. Read more in our{" "}
-              <Link href="/blog/planning-permission-loft-conversion-london">loft planning guide</Link>.
+              <Link href="/blog/planning-permission-loft-conversion-london">loft planning guide</Link>. For worked examples by loft type, zone and house type, see our{" "}
+              <Link href="/blog/loft-conversion-cost-london">loft conversion cost in London guide</Link>.
             </p>
           ),
         },
