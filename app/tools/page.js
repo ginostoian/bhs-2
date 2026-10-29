@@ -35,7 +35,7 @@ export default function Page() {
         "Electrics & plumbing",
         "PDF download",
       ],
-      estimatedTime: "5-10 minutes",
+      estimatedTime: "About 2 minutes",
       accuracy: "Planning estimate",
     },
     {
@@ -50,7 +50,7 @@ export default function Page() {
         "Tiling levels",
         "Fixture selection",
       ],
-      estimatedTime: "3-5 minutes",
+      estimatedTime: "About 1 minute",
       accuracy: "Planning estimate",
     },
     {
@@ -65,8 +65,16 @@ export default function Page() {
         "Finishing options",
         "PDF download",
       ],
-      estimatedTime: "8-12 minutes",
+      estimatedTime: "About 2 minutes",
       accuracy: "Planning estimate",
+    },
+    {
+      title: "Loft Conversion Calculator",
+      description:
+        "Price a Velux, dormer, L-shaped, hip-to-gable or mansard loft with every fee, a contingency and VAT, plus how long the build takes.",
+      image: "/assets/img/extension/extension-1.webp",
+      link: "/loft-conversion-cost-calculator",
+      estimatedTime: "About 1 minute",
     },
     {
       title: "General Renovation Calculator",
@@ -80,7 +88,7 @@ export default function Page() {
         "Labour costs",
         "PDF download",
       ],
-      estimatedTime: "10-15 minutes",
+      estimatedTime: "About 2 minutes",
       accuracy: "Planning estimate",
     },
     {
@@ -95,7 +103,7 @@ export default function Page() {
         "Heating type selection",
         "Cost estimates",
       ],
-      estimatedTime: "3-5 minutes",
+      estimatedTime: "About 1 minute",
       accuracy: "Planning estimate",
     },
   ];

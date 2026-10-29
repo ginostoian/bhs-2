@@ -42,6 +42,7 @@ export const publicMarketingPaths = new Set([
   "/general-renovation-form",
   "/house-extension",
   "/kitchen-calculator",
+  "/loft-conversion-cost-calculator",
   "/kitchen-renovation",
   "/kitchen-renovation-form",
   "/locations",

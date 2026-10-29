@@ -44,6 +44,21 @@ const LABELS = {
   plumbing: "Plumbing",
   base: "Base rate",
   occupancyAdd: "Occupancy uplift",
+  // Loft calculator
+  loftTypes: "Loft types (fixed £ + £/m², ex VAT, outer London)",
+  finishMultipliers: "Finish-level multipliers",
+  extras: "Optional extras (£)",
+  fees: "Professional & statutory fees (£)",
+  contingencyRate: "Contingency rate",
+  // Bathroom calculator
+  roomTypes: "Room types (fixed £ + £/m² install, product allowance £)",
+  layoutChanges: "Layout changes (£)",
+  tilingPerFloorM2: "Extra wall tiling (£ per m² of floor)",
+  productTiers: "Product tier multipliers (× room allowance)",
+  // Kitchen calculator
+  cabinetrySupplyRatesPerLm: "Cabinetry supply (£ per linear metre)",
+  appliancePackages: "Appliance packages (£)",
+  labourPackages: "Fitting labour (£ fixed + £/m²)",
 };
 
 const prettify = (key) =>

@@ -1,47 +1,9 @@
+import config from "@/config";
 import { getSEOTags } from "@/libs/seo";
-import { getPageFaqs } from "@/libs/pageFaqs";
 
 const pageTitle = "Bathroom Cost Calculator UK 2026 | Renovation Estimator | Better Homes";
 const pageDescription =
-  "Free 2026 bathroom renovation cost estimator. Choose size, layout, tiling, concealed fixtures and underfloor heating to see your installation cost in seconds.";
-const siteUrl = "https://bhstudio.co.uk";
-const pageUrl = `${siteUrl}/tools/bathroom-cost-calculator`;
-const bathroomFaqs = getPageFaqs("bathroomCalculator");
-const calculatorSchema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": `${pageUrl}#webapplication`,
-      name: "Bathroom Renovation Cost Calculator UK",
-      url: pageUrl,
-      applicationCategory: "FinanceApplication",
-      operatingSystem: "Web",
-      provider: {
-        "@type": "Organization",
-        name: "Better Homes",
-        url: siteUrl,
-      },
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "GBP",
-      },
-    },
-    {
-      "@type": "FAQPage",
-      "@id": `${pageUrl}#faq`,
-      mainEntity: bathroomFaqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
-      })),
-    },
-  ],
-};
+  "Free 2026 bathroom renovation cost estimator. Choose room, size, layout, tiling and products to see a realistic all-in price range for London and the UK.";
 
 export const metadata = getSEOTags({
   title: pageTitle,
@@ -50,23 +12,11 @@ export const metadata = getSEOTags({
   openGraph: {
     title: pageTitle,
     description: pageDescription,
-    url: "https://bhstudio.co.uk/tools/bathroom-cost-calculator",
+    url: `https://${config.domainName}/tools/bathroom-cost-calculator`,
   },
-  keywords: [
-    "bathroom renovation calculator",
-    "bathroom cost calculator London",
-    "bathroom refurbishment estimate",
-  ],
+  keywords: ["bathroom cost calculator", "bathroom renovation cost estimator", "bathroom renovation calculator", "bathroom cost calculator London"],
 });
 
-export default function BathroomCostCalculatorLayout({ children }) {
-  return (
-    <>
-      {children}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(calculatorSchema) }}
-      />
-    </>
-  );
+export default function CalculatorLayout({ children }) {
+  return children;
 }

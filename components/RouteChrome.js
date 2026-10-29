@@ -19,6 +19,11 @@ export default function RouteChrome({ children, header, footer }) {
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 
+  // Embedded calculators render bare inside other websites' iframes.
+  if (pathname.startsWith("/embed/")) {
+    return <div id="page-content">{children}</div>;
+  }
+
   if (isAppRoute) {
     return (
       <div className="bh-app" id="page-content">

@@ -1,415 +1,63 @@
-"use client";
-
-import React from "react";
-import { useState } from "react";
 import Link from "next/link";
+import CalculatorPage from "@/components/calculators/CalculatorPage";
+import { CALCULATORS, runEstimate } from "@/libs/calculators/registry";
+import { loadCalculatorConfig } from "@/libs/calculators/rates";
+import { formatGBP } from "@/libs/calculators/common";
+import { BATHROOM_TYPES } from "@/libs/calculators/bathroom";
 
-import { BOOKING_URL } from "@/libs/booking";
-import { getPageFaqs } from "@/libs/pageFaqs";
+export const revalidate = 3600;
 
-import Hero from "../components/Hero";
-import ToolsFAQ from "../components/ToolsFAQ";
-import Features from "@/components/Features";
-import Testimonials3 from "@/components/Testimonials3";
-import Stats from "@/components/Stats";
-import Guarantee from "@/components/Guarantee";
-import CustomCTA from "@/components/CustomCTA";
-import PortfolioCardContainer from "@/components/PortfolioCardContainer";
-
-const BathroomCalculator = () => {
-  const [renovationCost, setRenovationCost] = useState(0);
-  const [formData, setFormData] = useState({
-    bathroomSize: "",
-    layoutChanges: "",
-    bathroomTiling: "",
-    fixtures: "",
-    ufh: "",
-  });
-
-  const handleChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [e.target.name]: e.target.value,
-    }));
+export default async function Page() {
+  const calc = CALCULATORS.bathroom;
+  const config = await loadCalculatorConfig("bathroom");
+  const price = (roomType, products) => {
+    const area = config.roomTypes[roomType].defaultArea;
+    const r = runEstimate(calc, { ...calc.defaults, roomType, area, products, extras: {} }, config);
+    return `${formatGBP(r.low)} – ${formatGBP(r.high)}`;
   };
-  const faqs = getPageFaqs("bathroomCalculator");
+  const rows = BATHROOM_TYPES.map((t) => [t.label, `${config.roomTypes[t.id].defaultArea} m²`, price(t.id, "essential"), price(t.id, "midRange"), price(t.id, "premium")]);
 
-  const prices = {
-    baseCost: 5000,
-    smallSize: 1.1,
-    mediumSize: 1.3,
-    largeSize: 1.4,
-    noLayoutChange: 0,
-    layoutChange: 500,
-    tileLevelOne: 0,
-    tileLevelTwo: 700,
-    tileLevelThree: 1200,
-    exposedFixtures: 0,
-    concealedFixtures: 400,
-    UFH: 1300,
-    noUFH: 0,
-  };
-
-  const calculateTotalCost = () => {
-    let totalCost = prices.baseCost;
-
-    if (formData.bathroomSize === "Small") {
-      totalCost = totalCost * prices.smallSize;
-    } else if (formData.bathroomSize === "Medium") {
-      totalCost = totalCost * prices.mediumSize;
-    } else if (formData.bathroomSize === "Large") {
-      totalCost = totalCost * prices.largeSize;
-    }
-
-    formData.layoutChanges === "No layout changes"
-      ? (totalCost += prices.noLayoutChange)
-      : (totalCost += prices.layoutChange);
-
-    formData.bathroomTiling === "Splashback tiling"
-      ? (totalCost += prices.tileLevelOne)
-      : formData.bathroomTiling === "Halfway tiling"
-        ? (totalCost += prices.tileLevelTwo)
-        : (totalCost += prices.tileLevelThree);
-
-    formData.fixtures === "Exposed Fixtures"
-      ? (totalCost += prices.exposedFixtures)
-      : (totalCost += prices.concealedFixtures);
-
-    formData.ufh === "Underfloor heating"
-      ? (totalCost += prices.UFH)
-      : (totalCost += prices.noUFH);
-
-    return totalCost;
-  };
-
-  const formatNumberWithCommas = (number) => {
-    return number.toLocaleString("en-GB");
-  };
-
-  const handleClick = () => {
-    document.getElementById("my_modal_3").showModal();
-    setRenovationCost(calculateTotalCost());
-  };
-
-  const sizeRadios = [
-    {
-      name: "Small",
-      description:
-        "Toilet room or bathroom with a size of between 3sqm and 5sqm ",
-    },
-    {
-      name: "Medium",
-      description: "Average sized bathroom, between 5sqm and 9sqm",
-    },
-    {
-      name: "Large",
-      description: "Large, luxurious bathrooms with a size of more than 9sqm",
-    },
-  ];
-  const layoutRadios = [
-    {
-      name: "No layout changes",
-      description: "All the fixtures remain in their current position",
-    },
-    {
-      name: "Layout changes",
-      description:
-        "Some fixtures will change positions, like the toilet or basin",
-    },
-  ];
-
-  const tilingRadios = [
-    {
-      name: "Splashback tiling",
-      description:
-        "Tiles will be installed on the floor, all the way up in the bath or shower enclosure and splashback behind the basin",
-    },
-    {
-      name: "Halfway tiling",
-      description:
-        "Tiles will be installed on the floor, all the way up in the bath or shower enclosure and halfway all around the other walls",
-    },
-    {
-      name: "Full height tiling",
-      description:
-        "Tiles will be installed on the floor and full height on all walls",
-    },
-  ];
-
-  const fixturesRadios = [
-    {
-      name: "Exposed Fixtures",
-      description: "Your basin tap, bath tap and shower mixers will be visible",
-    },
-    {
-      name: "Concealed Fixtures",
-      description: "Your basin tap, bath tap and shower mixers will be hidden",
-    },
-  ];
-
-  const ufhRadios = [
-    {
-      name: "Underfloor heating",
-      description: "Electric underfloor heating with wireless thermostat",
-    },
-    {
-      name: "No underfloor heating",
-      description: "Traditional heating with a heated towel rail",
-    },
-  ];
   return (
-    <div>
-      <Hero />
-      <div className="mx-auto mb-8 max-w-[85%] rounded-xl bg-white px-6 py-6 text-black md:max-w-[70%]">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">What size is your bathroom?</h2>
-          <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
-            {sizeRadios.map((item, idx) => (
-              <li key={idx}>
-                <label htmlFor={item.name} className="relative block">
-                  <input
-                    value={item.name}
-                    id={item.name}
-                    type="radio"
-                    checked={formData.bathroomSize === item.name}
-                    onChange={handleChange}
-                    name="bathroomSize"
-                    class="peer sr-only"
-                  />
-                  <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2">
-                    <div className="pl-7">
-                      <h3 className="font-medium leading-none text-gray-800">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="absolute left-5 top-5 block h-4 w-4 rounded-full border peer-checked:border-[5px] peer-checked:border-indigo-600"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">Are there any layout changes?</h2>
-          <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
-            {layoutRadios.map((item, idx) => (
-              <li key={idx}>
-                <label htmlFor={item.name} className="relative block">
-                  <input
-                    value={item.name}
-                    id={item.name}
-                    type="radio"
-                    checked={formData.layoutChanges === item.name}
-                    onChange={handleChange}
-                    name="layoutChanges"
-                    class="peer sr-only"
-                  />
-                  <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2">
-                    <div className="pl-7">
-                      <h3 className="font-medium leading-none text-gray-800">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="absolute left-5 top-5 block h-4 w-4 rounded-full border peer-checked:border-[5px] peer-checked:border-indigo-600"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">
-            How much wall tiling do you need?
-          </h2>
-          <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
-            {tilingRadios.map((item, idx) => (
-              <li key={idx}>
-                <label htmlFor={item.name} className="relative block">
-                  <input
-                    value={item.name}
-                    id={item.name}
-                    type="radio"
-                    checked={formData.bathroomTiling === item.name}
-                    onChange={handleChange}
-                    name="bathroomTiling"
-                    class="peer sr-only"
-                  />
-                  <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2 md:max-w-[350px]">
-                    <div className="pl-7">
-                      <h3 className="font-medium leading-none text-gray-800">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="absolute left-5 top-5 block h-4 w-4 rounded-full border peer-checked:border-[5px] peer-checked:border-indigo-600"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">
-            How would you like the fixtures to be installed?
-          </h2>
-          <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
-            {fixturesRadios.map((item, idx) => (
-              <li key={idx}>
-                <label htmlFor={item.name} className="relative block">
-                  <input
-                    value={item.name}
-                    id={item.name}
-                    type="radio"
-                    checked={formData.fixtures === item.name}
-                    onChange={handleChange}
-                    name="fixtures"
-                    class="peer sr-only"
-                  />
-                  <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2 md:max-w-[350px]">
-                    <div className="pl-7">
-                      <h3 className="font-medium leading-none text-gray-800">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="absolute left-5 top-5 block h-4 w-4 rounded-full border peer-checked:border-[5px] peer-checked:border-indigo-600"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold">
-            Would you like underfloor heating?
-          </h2>
-          <ul className="mt-6 flex flex-wrap items-center gap-6 space-y-3">
-            {ufhRadios.map((item, idx) => (
-              <li key={idx}>
-                <label htmlFor={item.name} className="relative block">
-                  <input
-                    value={item.name}
-                    id={item.name}
-                    type="radio"
-                    checked={formData.ufh === item.name}
-                    onChange={handleChange}
-                    name="ufh"
-                    class="peer sr-only"
-                  />
-                  <div className="max-w-[100%] cursor-pointer rounded-lg border bg-white p-5 shadow-sm ring-indigo-600 duration-200 peer-checked:ring-2 md:max-w-[350px]">
-                    <div className="pl-7">
-                      <h3 className="font-medium leading-none text-gray-800">
-                        {item.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-600">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="absolute left-5 top-5 block h-4 w-4 rounded-full border peer-checked:border-[5px] peer-checked:border-indigo-600"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <button
-            type="submit"
-            onClick={handleClick}
-            className="mb-6 mt-6 flex min-h-[64px] w-max cursor-pointer items-center justify-center rounded-full border-2 border-transparent bg-[#4D5B4B] px-[20px] text-[18px] font-bold capitalize text-white transition duration-200 hover:bg-[#3E4A3C] hover:text-gray-50 active:bg-[#3E4A3C] disabled:bg-[#A5D2FF] lg:px-[24px]"
-          >
-            Calculate your price!
-          </button>
-          <dialog id="my_modal_3" className="modal">
-            <div className="modal-box">
-              <form method="dialog">
-                {/* if there is a button in form, it will close the modal */}
-                <button className="btn-circle btn-ghost btn-sm absolute right-2 top-2 bg-[#4D5B4B] text-white">
-                  ✕
-                </button>
-              </form>
-              <h3 className="mt-4 text-center text-3xl font-bold">
-                Your <span className="text-[#4D5B4B]">bathroom installation</span>{" "}
-                cost is between:
-              </h3>
-              <p className="py-4 text-center text-2xl md:text-4xl">
-                <span className="font-medium text-[#4D5B4B]">
-                  £{formatNumberWithCommas(renovationCost)}
-                </span>{" "}
-                and{" "}
-                <span className="font-medium text-[#4D5B4B]">
-                  £{formatNumberWithCommas(renovationCost + 2000)}
-                </span>
-              </p>
-              <p className="text-sm">
-                This estimate covers labour, waste removal and building
-                materials (plasterboard, pipework, waterproofing, paint). Your
-                sanitaryware, brassware and tiles are added on top, so the total
-                depends on the products you choose. See typical all-in prices on
-                our{" "}
-                <Link href="/bathroom-renovation#costs" className="underline">
-                  bathroom renovation page
-                </Link>
-                .
-              </p>
-              <div className="mt-6 flex justify-center gap-6">
-                <Link
-                  href="/portfolio"
-                  className="cursor-pointer rounded-full border border-[#4D5B4B] bg-white px-4 py-2 text-center text-base text-black md:px-8 md:py-4"
-                >
-                  View our work
-                </Link>
-                <Link
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cursor-pointer rounded-full bg-[#4D5B4B] px-4 py-2 text-center text-base text-white transition-all duration-200 hover:border-2 hover:border-[#4D5B4B] hover:bg-white hover:text-black md:px-8 md:py-4"
-                >
-                  Book a bathroom cost review
-                </Link>
-              </div>
-              <ToolsFAQ faqs={faqs} />
-            </div>
-          </dialog>
-        </div>
-      </div>
-      <section className="mx-auto mb-12 max-w-[85%] rounded-2xl border border-stone-200 bg-white px-8 py-8 shadow-sm md:max-w-[70%]">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Bathroom renovation cost calculator for London homeowners
-        </h2>
-        <p className="mt-4 leading-7 text-gray-700">
-          Our bathroom renovation cost calculator gives you a practical early
-          estimate based on bathroom size, layout changes, tiling, fixtures,
-          and underfloor heating. It is designed for homeowners who want a
-          clearer idea of bathroom renovation cost in London before requesting
-          a full quote.
-        </p>
-        <p className="mt-4 leading-7 text-gray-700">
-          If you are comparing quotes from a bathroom fitter or planning a full
-          bathroom refurbishment, this tool helps you sense-check the likely
-          range and see which choices move the budget fastest. It is a
-          budgeting guide rather than a final price, but it makes early
-          decision-making much easier.
-        </p>
-      </section>
-      <PortfolioCardContainer />
-      <Features />
-      <Testimonials3 />
-      <Stats />
-      <Guarantee />
-      <CustomCTA />
-    </div>
+    <CalculatorPage
+      id="bathroom"
+      service="Bathroom renovation"
+      eyebrow="Free calculator · Updated for 2026"
+      title="Bathroom renovation cost calculator"
+      intro="Get a realistic, all-in price for your bathroom, en-suite, cloakroom or wet room: strip-out, plumbing, waterproofing, tiling, sanitaryware, fitting and VAT, priced for where you live."
+      points={["Labour and products shown separately", "Layout and tiling options", "Free PDF and shareable link"]}
+      benchmark={{
+        title: "What a bathroom costs in London, 2026",
+        intro: "All-in prices in outer London, keeping the layout, with half-height tiling, including a contingency and VAT.",
+        columns: ["Room", "Typical size", "Essential products", "Mid-range products", "Premium products"],
+        rows,
+        note: "Moving the toilet or creating a wet room adds £1,000–£3,000 of plumbing and waterproofing. Add it in the calculator.",
+      }}
+      sections={[
+        {
+          title: "Labour versus products",
+          body: (
+            <p>
+              In London, labour is usually the biggest part of a bathroom: strip-out, plumbing, electrics, waterproofing, boarding, tiling and fitting take a team 2–3 weeks. Products are where the range comes from. The same room can cost twice as much with designer brassware and natural stone. The calculator shows both so you can see where your money goes.
+            </p>
+          ),
+        },
+        {
+          title: "Want the detail?",
+          body: (
+            <p>
+              See typical prices and project examples on our <Link href="/bathroom-renovation">bathroom renovation page</Link>, and the year&apos;s ideas in our <Link href="/blog/bathroom-renovation-london-trends-2026">2026 bathroom trends guide</Link>.
+            </p>
+          ),
+        },
+      ]}
+      faqs={[
+        { q: "How much does a bathroom renovation cost in London in 2026?", a: "Most London bathrooms cost £8,000–£16,000 all-in. A cloakroom can be £4,000–£7,000, while premium family bathrooms and wet rooms often reach £20,000–£30,000." },
+        { q: "Is £10k enough for a new bathroom?", a: "In London, £10,000 usually covers a family bathroom with essential or entry mid-range products, keeping the existing layout. Moving things around or choosing premium products will take it higher." },
+        { q: "What is the most expensive part of a bathroom renovation?", a: "Labour, especially plumbing and tiling. Moving the toilet is the biggest single jump because the soil pipe has to move too." },
+        { q: "How long does a bathroom renovation take?", a: "Typically 1–2 weeks for a cloakroom, 2–3 weeks for a family bathroom and 3–4 weeks for a wet room, once products are on site." },
+        { q: "Does the price include VAT?", a: "Yes, by default. Switch VAT off if you're comparing with a fitter who isn't VAT registered." },
+      ]}
+      related={[{ href: "/bathroom-renovation", label: "Our bathroom service" }]}
+    />
   );
-};
-
-export default BathroomCalculator;
+}

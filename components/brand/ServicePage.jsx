@@ -22,7 +22,7 @@ const serviceCalculators = {
   "/kitchen-renovation": { href: "/kitchen-calculator", label: "Estimate your kitchen cost" },
   "/bathroom-renovation": { href: "/tools/bathroom-cost-calculator", label: "Estimate your bathroom cost" },
   "/basement-conversion": { href: "/extension-calculator", label: "Estimate your basement cost" },
-  "/loft-conversion": { href: "/extension-calculator", label: "Estimate your loft cost" },
+  "/loft-conversion": { href: "/loft-conversion-cost-calculator", label: "Estimate your loft cost" },
   default: { href: "/renovation-calculator", label: "Estimate your renovation cost" },
 };
 export function ProjectCards({ projects }) {

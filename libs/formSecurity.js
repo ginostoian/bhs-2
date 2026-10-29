@@ -12,6 +12,7 @@ export const FORM_PURPOSES = new Set([
   "leads",
   "kitchen-calculator-leads",
   "renovation-calculator-leads",
+  "calculator-leads",
   "bathroom-renovation",
   "kitchen-renovation",
   "general-renovation",

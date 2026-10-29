@@ -27,8 +27,8 @@ function round(value) {
 }
 
 export class KitchenCostEngine {
-  constructor() {
-    this.config = KITCHEN_CONFIG;
+  constructor(config = KITCHEN_CONFIG) {
+    this.config = config || KITCHEN_CONFIG;
   }
 
   normalizeProjectData(projectData = {}) {
@@ -470,6 +470,10 @@ export class KitchenCostEngine {
 }
 
 export const costEngine = new KitchenCostEngine();
+
+export function createCostEngine(config) {
+  return new KitchenCostEngine(config);
+}
 
 export function calculateTotalCost(formData) {
   return costEngine.calculateTotalCost(formData);
