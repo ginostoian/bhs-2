@@ -45,8 +45,8 @@ export const serviceResources = {
     name: "loft conversion",
     tool: planningTools[1],
     guide: [
-      "London loft conversion guide",
-      "/blog/loft-conversions-london-complete-guide-2026",
+      "Loft conversion cost in London, 2026",
+      "/blog/loft-conversion-cost-london",
     ],
   },
 };
@@ -56,4 +56,5 @@ export const articleServices = {
   "bespoke-vs-howdens-vs-ikea-kitchen-london": "/kitchen-renovation",
   "house-extension-value-london-guide": "/house-extension",
   "loft-conversions-london-complete-guide-2026": "/loft-conversion",
+  "loft-conversion-cost-london": "/loft-conversion",
 };

@@ -27,6 +27,7 @@ export const publicMarketingPaths = new Set([
   "/blog/how-to-finance-house-extension-renovation-london-2026",
   "/blog/kitchen-providers-comparison-guide",
   "/blog/kitchen-renovation-full-guide-2025",
+  "/blog/loft-conversion-cost-london",
   "/blog/loft-conversion-vs-house-extension-london",
   "/blog/loft-conversions-london-complete-guide-2026",
   "/blog/permitted-development-guide",

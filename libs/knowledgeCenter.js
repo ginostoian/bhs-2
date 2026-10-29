@@ -33,6 +33,7 @@ const CONTEXT_PROFILES = {
   },
   loft: {
     preferredSlugs: [
+      "loft-conversion-cost-london",
       "planning-permission-loft-conversion-london",
       "loft-conversions-london-complete-guide-2026",
       "house-extension-mistakes-london",

@@ -10,6 +10,8 @@ import kitchenComparisonImg from "/public/assets/portfolio/kitchen-alice-e4/kitc
 import PermittedDevelopmentImg from "/public/assets/illustrations/Permitted-development-in-london.jpg";
 import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/infographic-01-colour-palette-mood-board.png";
 import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
+import loftCostByTypeImg from "/public/assets/blog/loft-conversion-cost-london/loft-conversion-cost-london-by-type-2026.png";
+import LoftConversionCostLondonArticle from "./articles/LoftConversionCostLondonArticle";
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
@@ -276,6 +278,63 @@ const houseExtensionGuideFaqs = [
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "loft-conversion-cost-london",
+    seoTitle: "Loft Conversion Cost London 2026: £50k–£116k by Type | Better Homes",
+    title: "Loft conversion cost in London (2026): prices by type, from Velux to mansard",
+    description:
+      "What a loft conversion costs in London in 2026: Velux £50k, rear dormer £80k, hip-to-gable £88k, mansard £116k all-in. Fees, VAT, postcode and house type explained.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.fullHome),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-10-30",
+    image: {
+      src: loftCostByTypeImg,
+      urlRelative:
+        "/assets/blog/loft-conversion-cost-london/loft-conversion-cost-london-by-type-2026.png",
+      alt: "Loft conversion cost in London by type in 2026, from a £50,000 Velux loft to a £116,000 mansard, all-in including VAT",
+    },
+    content: <LoftConversionCostLondonArticle />,
+    faqs: [
+      {
+        question: "What is the average cost of a loft conversion in London in 2026?",
+        answer:
+          "About £80,000 all-in for a typical 25 m² rear dormer in outer London, including fees, party wall, a 10% contingency and VAT. Velux lofts start around £50,000 and mansards average £116,000.",
+      },
+      {
+        question: "How much does a dormer loft conversion cost?",
+        answer:
+          "A rear dormer costs about £80,000 all-in in London, or £92,500 with an en-suite. An L-shaped dormer on a Victorian terrace is about £95,000.",
+      },
+      {
+        question: "How much does a mansard loft conversion cost in London?",
+        answer:
+          "Around £116,000 all-in for 32 m² in outer London, rising to £150,000 or more in central London or with a premium finish and en-suite. It needs full planning permission.",
+      },
+      {
+        question: "How much does a hip-to-gable loft conversion cost?",
+        answer:
+          "About £88,000 all-in for a 30 m² hip-to-gable with rear dormer on a semi-detached house in outer London, or £100,000 with an en-suite.",
+      },
+      {
+        question: "What is the most expensive part of a loft conversion?",
+        answer:
+          "The structure: steels, new floor joists, the dormer or rebuilt roof and the staircase. Together they make up around 45% of the all-in cost.",
+      },
+      {
+        question: "Do I need planning permission for a loft conversion in London?",
+        answer:
+          "Usually not for Velux, dormer or hip-to-gable lofts on houses within permitted development limits. You do for mansards, flats, conservation areas and Article 4 areas.",
+      },
+      {
+        question: "What is the 10-year rule for loft conversions?",
+        answer:
+          "Since April 2024, councils in England can enforce against unauthorised building work for 10 years after completion, up from four. Getting the right approval or a lawful development certificate avoids the risk.",
+      },
+    ],
+  },
   {
     slug: "home-improvement-loans-london",
     title: "Home improvement loans London: the complete 2026 guide",
