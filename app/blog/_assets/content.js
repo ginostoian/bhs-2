@@ -12,6 +12,8 @@ import bathroomTrends2026Img from "/public/assets/blog/bathroom-renovation-2026/
 import loftPlanningGuideImg from "/public/assets/blog/loft-planning/permitted-development-rules-loft-conversion.png";
 import loftCostByTypeImg from "/public/assets/blog/loft-conversion-cost-london/loft-conversion-cost-london-by-type-2026.png";
 import LoftConversionCostLondonArticle from "./articles/LoftConversionCostLondonArticle";
+import sideReturnCostImg from "/public/assets/blog/side-return-extension-cost-london/side-return-extension-cost-london-2026.png";
+import SideReturnExtensionCostLondonArticle from "./articles/SideReturnExtensionCostLondonArticle";
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
@@ -278,6 +280,62 @@ const houseExtensionGuideFaqs = [
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "side-return-extension-cost-london",
+    seoTitle: "Side Return Extension Cost London 2026: £52k–£92k | Better Homes",
+    title: "Side return extension cost in London (2026): what you'll really pay",
+    description:
+      "A 10 m² side return costs about £64,500 all-in in London in 2026, or £85,500 with a kitchen. Line-by-line costs, cost per m², planning, party wall and drains.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-10-30",
+    image: {
+      src: sideReturnCostImg,
+      urlRelative:
+        "/assets/blog/side-return-extension-cost-london/side-return-extension-cost-london-2026.png",
+      alt: "Side return extension cost in London in 2026 by finish level, from a £52,000 shell to £91,500 premium with a new kitchen, all-in including VAT",
+    },
+    content: <SideReturnExtensionCostLondonArticle />,
+    faqs: [
+      {
+        question: "How much does a side return extension cost in London in 2026?",
+        answer:
+          "About £64,500 all-in for a finished 10 m² side return in outer London, including fees, party wall, a 10% contingency and VAT. Shell only is about £52,000, and with a new kitchen about £85,500.",
+      },
+      {
+        question: "How much does a side return cost per m²?",
+        answer:
+          "About £6,450 per m² all-in for a finished 10 m² side return in London. That's higher than a rear extension at about £5,370 per m², because the fixed costs are spread over less floor.",
+      },
+      {
+        question: "Is a side return cheaper than a rear extension?",
+        answer:
+          "In total, yes: about £64,500 against £72,500 for a 3 m deep rear extension. Per square metre gained, no. A side return keeps your garden, which is often why people choose it.",
+      },
+      {
+        question: "Do I need planning permission for a side return extension?",
+        answer:
+          "Not always. Single-storey side returns up to 4 m high, no wider than half the original house and with eaves under 3 m near the boundary are usually permitted development, unless you're in a conservation area or Article 4 area.",
+      },
+      {
+        question: "What is the most expensive part of a side return extension?",
+        answer:
+          "The structure: foundations, the new boundary wall, the roof and the steel that opens up the house. Together they make up about 61% of the all-in cost.",
+      },
+      {
+        question: "Is a 3 metre extension worth it?",
+        answer:
+          "Usually, if it gives you a better layout. A 3 m rear extension on a terrace adds about 13.5 m² and is often permitted development. It costs about £72,500 finished in outer London.",
+      },
+      {
+        question: "How long does a side return extension take?",
+        answer:
+          "Eight to 14 weeks on site, plus six to 16 weeks for design and approvals beforehand. You'll usually be without a kitchen for six to eight weeks of that.",
+      },
+    ],
+  },
   {
     slug: "loft-conversion-cost-london",
     seoTitle: "Loft Conversion Cost London 2026: £50k–£116k by Type | Better Homes",

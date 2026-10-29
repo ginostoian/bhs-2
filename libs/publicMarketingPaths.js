@@ -34,6 +34,7 @@ export const publicMarketingPaths = new Set([
   "/blog/planning-permission-loft-conversion-london",
   "/blog/planning-permission-refused-london",
   "/blog/property-buying-checklist-london-2026",
+  "/blog/side-return-extension-cost-london",
   "/blog/single-storey-extension-cost-london",
   "/btu-calculator",
   "/contact",
