@@ -37,7 +37,7 @@ export default async function Page() {
           title: "Which loft is right for your house?",
           body: (
             <ul>
-              <li><strong>Velux</strong> works when you already have good head height. It's the cheapest option and rarely needs planning.</li>
+              <li><strong>Velux</strong> works when you already have good head height. It’s the cheapest option and rarely needs planning.</li>
               <li><strong>Rear dormer</strong> is the London standard on terraces and semis: a full-height room across the back of the roof.</li>
               <li><strong>L-shaped dormer</strong> adds a second dormer over the back addition of a Victorian terrace, often making space for two bedrooms or a bedroom and en-suite.</li>
               <li><strong>Hip-to-gable</strong> squares off a sloping side roof on semis and end-of-terraces, usually with a rear dormer.</li>
