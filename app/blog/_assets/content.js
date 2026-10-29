@@ -190,7 +190,12 @@ export const authors = [
     job: "Founder",
     // The description of the author to display in the author&apos;s bio. Up to 160 characters.
     description:
-      "Gino is a developer and an entrepreneur. He is the co founder of Better Homes and is commited to change the way people renovate by creating the thing that the industry lacks most - trust.",
+      "Founder of Better Homes. 12 years running a London renovation company, from a one-man painting business to extensions, lofts and basements.",
+    // A longer bio shown on the author page.
+    bio: [
+      "Gino started Better Homes 12 years ago as a one-man operation, doing painting and decorating only. Job by job, it grew into a full-service home renovation company that now specialises in house extensions, loft conversions and basements across London.",
+      "That background shapes everything he writes here. The prices, timelines and advice in these guides come from running real projects day to day: pricing jobs, managing trades and handing finished homes back to the people who live in them.",
+    ],
     // The avatar of the author to display in the author&apos;s bio and avatar badge. It&apos;s better to use a local image, but you can also use an external image (https://...)
     avatar: ginoImg,
     // A list of social links to display in the author&apos;s bio.
@@ -3215,10 +3220,10 @@ export const articles = [
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "kitchen-renovation-full-guide-2025",
     // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
-    title: "Kitchen Renovation Cost in London: The Full 2025 Guide",
+    title: "Kitchen Renovation Cost in London (2026): Full Price Guide",
     // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
-      "A comprehensive guide covering everything you need to know about kitchen renovation, including different types of kitchens, planning permission, building regulations, costs, and finding the right builder.",
+      "What a kitchen renovation costs in London in 2026: £12k–£20k budget, £20k–£38k mid-range, £45k+ bespoke. Labour rates, worktops, appliances and hidden costs.",
     // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.kitchen),
@@ -3227,6 +3232,7 @@ export const articles = [
     author: authors.find((author) => author.slug === authorSlugs.gino),
     // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-04-07",
+    dateModified: "2026-10-29",
     image: {
       // The image to display in <CardArticle /> components.
       src: kitchenCostGuide2025Img,
@@ -3258,9 +3264,9 @@ export const articles = [
           </p>
 
           <p className={styles.p}>
-            In 2025, the cost of a kitchen renovation in London ranges widely
+            In 2026, the cost of a kitchen renovation in London ranges widely
             depending on the size, materials, labour, and level of finish you
-            choose. From chic £15,000 remodels to bespoke £60,000+
+            choose. From £12,000 refits to bespoke £60,000+
             transformations, understanding the full picture–
             <strong>including labour, materials, and hidden extras</strong>–is
             essential if you want to stay in control and avoid unexpected
@@ -3308,15 +3314,14 @@ export const articles = [
             renovation.
           </p>
 
-          <h3 className={styles.h3}>Average Renovation Costs in 2025</h3>
+          <h3 className={styles.h3}>Average Renovation Costs in 2026</h3>
 
           <p className={styles.p}>
-            As of 2025, the average cost for a mid-range kitchen renovation in
-            the UK is approximately £20,000 to £30,000. However, in London, due
-            to higher labour and material costs, this figure tends to be higher.
-            For instance, a standard kitchen renovation in London can cost
-            around £25,000 to £35,000, reflecting the city&apos;s premium
-            pricing.
+            In 2026, a mid-range kitchen renovation in the UK typically costs
+            £15,000 to £28,000. In London, higher labour and material costs push
+            this up: a full mid-range kitchen renovation, with a trade kitchen
+            such as Howdens, stone or quartz worktops, new appliances and
+            fitting, usually costs £20,000 to £38,000 including VAT.
           </p>
 
           <h3 className={styles.h3}>Why London is More Expensive</h3>
@@ -3332,11 +3337,10 @@ export const articles = [
 
           <p className={styles.p}>
             Breaking down costs per square metre provides further clarity. For a
-            standard-spec renovation in London, the average cost is
-            approximately £739 per square metre. This means that for a
-            15-square-metre kitchen, homeowners might anticipate spending around
-            £11,000 just on the renovation work, excluding high-end materials or
-            bespoke features.
+            full mid-range replacement in London, expect roughly £1,500 to
+            £2,500 per square metre of kitchen floor, all-in. A
+            15-square-metre kitchen would therefore cost around £22,500 to
+            £37,500, before bespoke cabinetry or premium appliances.
           </p>
 
           <p className={styles.p}>
@@ -3356,7 +3360,7 @@ export const articles = [
           </p>
 
           <h3 className={styles.h3}>
-            Budget-Friendly Renovations (£5,000 – £16,800)
+            Budget-Friendly Renovations (£6,000 – £20,000)
           </h3>
 
           <p className={styles.p}>
@@ -3382,7 +3386,7 @@ export const articles = [
           </p>
 
           <h3 className={styles.h3}>
-            Mid-Range Renovations (£15,000 – £30,000)
+            Mid-Range Renovations (£20,000 – £38,000)
           </h3>
 
           <p className={styles.p}>
@@ -3408,7 +3412,7 @@ export const articles = [
           </p>
 
           <h3 className={styles.h3}>
-            High-End Renovations (£30,000 and above)
+            High-End Renovations (£40,000 and above)
           </h3>
 
           <p className={styles.p}>
@@ -3580,7 +3584,7 @@ export const articles = [
             A qualified kitchen fitter is responsible for installing cabinetry,
             worktops, integrated appliances, and ensuring all elements align
             perfectly. In London, day rates range from{" "}
-            <strong>£200 to £300</strong>, or £1,200–£2,000 for a full 5–7 day
+            <strong>£220 to £320</strong>, or £1,500–£2,500 for a full 5–7 day
             standard install. Bespoke kitchens or complex designs may increase
             this.
           </p>
@@ -3590,8 +3594,8 @@ export const articles = [
           <p className={styles.p}>
             Electrical work includes installing new sockets, lighting, extractor
             fans, and ensuring compliance with Part P of building regulations.
-            Expect to pay <strong>£250–£450 per day</strong>. A typical kitchen
-            electrical package may cost <strong>£1,200–£2,000</strong>,
+            Expect to pay <strong>£280–£450 per day</strong>. A typical kitchen
+            electrical package may cost <strong>£1,500–£2,500</strong>,
             especially with under-cabinet lighting and appliance circuits.
           </p>
 
@@ -3600,19 +3604,19 @@ export const articles = [
           <p className={styles.p}>
             Plumbers handle all water-related elements–installing sinks,
             dishwashers, taps, and potentially relocating water or gas lines.
-            Day rates in London run from <strong>£250–£350</strong>. A standard
+            Day rates in London run from <strong>£280–£380</strong>. A standard
             plumbing job for a kitchen will generally cost between{" "}
-            <strong>£800 and £1,500</strong>.
+            <strong>£900 and £1,800</strong>.
           </p>
 
           <h3 className={styles.h3}>Tiler and Decorator</h3>
 
           <p className={styles.p}>
             Tilers handle splashbacks and flooring, charging roughly{" "}
-            <strong>£40–£60 per square metre</strong>. Decorators will complete
+            <strong>£45–£70 per square metre</strong>. Decorators will complete
             the finishing touches, such as painting or wallpapering, often
-            priced at <strong>£180–£250 per day</strong>. Expect to budget
-            around <strong>£1,000–£1,800 combined</strong> for these services,
+            priced at <strong>£200–£280 per day</strong>. Expect to budget
+            around <strong>£1,200–£2,200 combined</strong> for these services,
             depending on kitchen size and finish levels.
           </p>
 
@@ -3621,7 +3625,7 @@ export const articles = [
           <p className={styles.p}>
             While day rates offer flexibility, most reputable tradespeople will
             quote a fixed fee for the entire job. This can range from{" "}
-            <strong>£5,000–£12,000+</strong> for a full-service kitchen
+            <strong>£6,000–£14,000+</strong> for a full-service kitchen
             renovation in London. Fixed pricing helps with budget certainty,
             though you should always build in a 10–15% contingency for
             unexpected issues.
@@ -3657,11 +3661,11 @@ export const articles = [
 
           <ul className={styles.p}>
             <li>
-              <strong>Flat-pack cabinets (budget):</strong> £1,000–£3,000 for a
+              <strong>Flat-pack cabinets (budget):</strong> £1,500–£3,500 for a
               small to medium kitchen.
             </li>
             <li>
-              <strong>Pre-assembled units (mid-range):</strong> £4,000–£7,000.
+              <strong>Pre-assembled units (mid-range):</strong> £4,500–£9,000.
             </li>
             <li>
               <strong>Bespoke cabinetry (luxury):</strong> Starts at £10,000 and
@@ -3679,7 +3683,7 @@ export const articles = [
 
           <p className={styles.p}>
             Countertops do a lot of heavy lifting–literally and visually.
-            Here&apos;s a breakdown of average prices in 2025:
+            Here&apos;s a breakdown of average prices in 2026:
           </p>
 
           <ul className={styles.p}>
@@ -3948,7 +3952,7 @@ export const articles = [
           <p className={styles.p}>
             A smaller kitchen might seem like a bargain, but it often requires
             clever solutions to maximise space–pushing costs into the mid-range
-            despite its size. Expect to spend <strong>£12,000–£20,000</strong>{" "}
+            despite its size. Expect to spend <strong>£12,000–£22,000</strong>{" "}
             for a high-quality small kitchen renovation in London.
           </p>
 
@@ -3973,7 +3977,7 @@ export const articles = [
           <p className={styles.p}>
             This is the most common category for semi-detached or terraced homes
             in London. Renovation costs typically range from{" "}
-            <strong>£20,000 to £35,000</strong>, depending on materials and
+            <strong>£20,000 to £38,000</strong>, depending on materials and
             layout changes.
           </p>
 
@@ -3994,7 +3998,7 @@ export const articles = [
           <p className={styles.p}>
             For high-end London homes with open-plan layouts or kitchen
             extensions, costs start at{" "}
-            <strong>£35,000 and easily exceed £60,000+</strong>. These kitchens
+            <strong>£40,000 and easily exceed £70,000+</strong>. These kitchens
             often include:
           </p>
 
@@ -4050,7 +4054,7 @@ export const articles = [
           <p className={styles.p}>
             An L-shaped layout offers more flexibility and is great for
             medium-sized kitchens. Costs range from{" "}
-            <strong>£18,000–£30,000</strong>, influenced by the materials,
+            <strong>£18,000–£32,000</strong>, influenced by the materials,
             cabinetry runs, and worktop lengths.
           </p>
 
@@ -4064,7 +4068,7 @@ export const articles = [
 
           <p className={styles.p}>
             More cabinetry equals more cost. U-shaped kitchens, with cabinetry
-            on three sides, can run from <strong>£25,000–£40,000+</strong>.
+            on three sides, can run from <strong>£25,000–£42,000+</strong>.
             They&apos;re excellent for cooking enthusiasts who want distinct
             prep, cook, and cleaning zones.
           </p>
@@ -4097,7 +4101,7 @@ export const articles = [
             Open-plan kitchens often require structural changes–knocking down
             walls, steel beam installation, or reconfiguring lighting and
             ventilation–pushing total renovation budgets into the{" "}
-            <strong>£35,000–£60,000+ range</strong>.
+            <strong>£40,000–£70,000+ range</strong>.
           </p>
 
           <h3 className={styles.h3}>Custom Layouts and Design Costs</h3>
@@ -4273,8 +4277,8 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            <strong>Typical cost (excluding labour):</strong> £1,500–£4,000
-            <strong>Installed cost:</strong> £6,000–£12,000
+            <strong>Typical cost (excluding labour):</strong> £1,500–£4,000.{" "}
+            <strong>Installed cost:</strong> £7,000–£14,000.
           </p>
 
           <p className={styles.p}>
@@ -4300,8 +4304,8 @@ export const articles = [
           </ul>
 
           <p className={styles.p}>
-            <strong>Typical cost (excluding labour):</strong> £6,000–£15,000
-            <strong>Installed cost:</strong> £12,000–£25,000
+            <strong>Typical cost (excluding labour):</strong> £6,000–£15,000.{" "}
+            <strong>Installed cost:</strong> £14,000–£28,000.
           </p>
 
           <p className={styles.p}>
@@ -4328,11 +4332,11 @@ export const articles = [
 
           <p className={styles.p}>
             <strong>Typical cost (excluding appliances):</strong>{" "}
-            £20,000–£50,000+
+            £20,000–£50,000+.{" "}
             <strong>
               Fully fitted cost (including high-end appliances):
             </strong>{" "}
-            £40,000–£100,000+
+            £45,000–£100,000+.
           </p>
 
           <p className={styles.p}>
@@ -4750,7 +4754,7 @@ export const articles = [
           <ul className={styles.p}>
             <li>
               <strong>Average cost:</strong> London kitchen renovations
-              typically range from <strong>£15,000 to £60,000+</strong>,
+              typically range from <strong>£12,000 to £60,000+</strong>,
               depending on size, materials, and complexity.
             </li>
             <li>
@@ -4806,7 +4810,7 @@ export const articles = [
             From understanding labour rates and material costs to choosing the
             right layout, finishes, and team, every decision shapes not only
             your daily experience but also your property&apos;s future value.
-            With the average London renovation ranging from £15,000 to £60,000+,
+            With the average London renovation ranging from £12,000 to £60,000+,
             clarity and planning are your most powerful tools.
           </p>
 
@@ -4838,8 +4842,8 @@ export const articles = [
             1. How much does a kitchen renovation cost in London on average?
           </h3>
           <p className={styles.p}>
-            In 2025, the average kitchen renovation in London costs between{" "}
-            <strong>£20,000 and £40,000</strong>, depending on size, layout
+            In 2026, the average kitchen renovation in London costs between{" "}
+            <strong>£20,000 and £38,000</strong>, depending on size, layout
             changes, materials, and appliance choices. High-end or bespoke
             renovations can exceed <strong>£60,000+</strong>, especially in
             central boroughs.
@@ -4864,9 +4868,9 @@ export const articles = [
           <p className={styles.p}>
             Labour costs in London vary but generally account for 40–50% of the
             total renovation budget. Expect to pay{" "}
-            <strong>£200–£350 per day</strong> for trades like kitchen fitters,
+            <strong>£220–£380 per day</strong> for trades like kitchen fitters,
             electricians, and plumbers. Full labour for a mid-sized kitchen
-            usually totals <strong>£8,000–£15,000</strong>.
+            usually totals <strong>£8,000–£16,000</strong>.
           </p>
 
           <h3 className={styles.h3}>
@@ -5048,10 +5052,10 @@ export const articles = [
     // The unique slug to use in the URL. It&apos;s also used to generate the canonical URL.
     slug: "bathroom-renovation-cost-2025",
     // The title to display in the article page (h1). Less than 60 characters. It&apos;s also used to generate the meta title.
-    title: "How Much Does a Bathroom Renovation Cost in London in 2025?",
+    title: "How Much Does a Bathroom Renovation Cost in London in 2026?",
     // The description of the article to display in the article page. Up to 160 characters. It&apos;s also used to generate the meta description.
     description:
-      "This comprehensive guide will break down the costs you can expect in 2025, providing realistic estimates and helping you budget effectively for your dream bathroom.",
+      "London bathroom renovation costs in 2026: £5k–£8k refresh, £8k–£12k mid-range, £12k–£20k full, £20k+ luxury. What drives the price and how to save.",
     // An array of categories of the article. It&apos;s used to generate the category badges, the category filter, and more.
     categories: [
       categories.find((category) => category.slug === categorySlugs.bathroom),
@@ -5060,6 +5064,7 @@ export const articles = [
     author: authors.find((author) => author.slug === authorSlugs.gino),
     // The date of the article. It&apos;s used to generate the meta date.
     publishedAt: "2025-02-23",
+    dateModified: "2026-10-29",
     image: {
       // The image to display in <CardArticle /> components.
       src: bathroomCost2025Img,
@@ -5088,8 +5093,17 @@ export const articles = [
             the materials you choose, and the{" "}
             <b className={styles.accent}>bathroom fitter</b> you hire. This
             comprehensive guide will break down the costs you can expect in
-            2025, providing realistic estimates and helping you budget
-            effectively for your dream bathroom.
+            2026, providing realistic estimates and helping you budget
+            effectively for your dream bathroom. All prices include labour,
+            materials and VAT.
+          </p>
+
+          <p className={styles.p}>
+            For a price based on your own room, layout and products, try our{" "}
+            <Link href="/tools/bathroom-cost-calculator">
+              bathroom renovation cost calculator
+            </Link>
+            .
           </p>
 
           <h2 className={styles.h3}>Table of Contents</h2>
@@ -5101,7 +5115,7 @@ export const articles = [
             </li>
             <li>
               <Link href="#average-cost-breakdown">
-                Average Cost Breakdown (2025 Estimates)
+                Average Cost Breakdown (2026 Estimates)
               </Link>
             </li>
             <li>
@@ -5309,21 +5323,21 @@ export const articles = [
           </p>
 
           <h2 className={styles.h2} id="average-cost-breakdown">
-            Average Cost Breakdown (2025 Estimates)
+            Average Cost Breakdown (2026 Estimates)
           </h2>
 
           <p className={styles.p}>
             Based on industry data and current trends, here&apos;s a breakdown
             of average{" "}
             <b className={styles.accent}>
-              bathroom renovation costs in London in 2025
+              bathroom renovation costs in London in 2026
             </b>
             . Keep in mind that these are estimates, and your actual costs may
             vary depending on the factors mentioned above.
           </p>
 
           <h3 className={styles.h3}>
-            Basic Bathroom Refresh (Starting from £4,500)
+            Basic Bathroom Refresh (Starting from £5,000)
           </h3>
 
           <ul>
@@ -5343,13 +5357,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b className={styles.accent}>Typical Cost: £5,000 - £6,000</b>
+                <b className={styles.accent}>Typical Cost: £5,000 - £8,000</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Mid-Range Bathroom Renovation (Starting from £6,000)
+            Mid-Range Bathroom Renovation (Starting from £8,000)
           </h3>
 
           <ul>
@@ -5372,13 +5386,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b className={styles.accent}>Typical Cost: £6,000 - £8,000</b>
+                <b className={styles.accent}>Typical Cost: £8,000 - £12,000</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Full Bathroom Renovation (Starting from £8,000)
+            Full Bathroom Renovation (Starting from £12,000)
           </h3>
 
           <ul>
@@ -5411,13 +5425,13 @@ export const articles = [
             </li>
             <li>
               <p className={styles.p}>
-                <b className={styles.accent}>Typical Cost: £8,000 - £15,000+</b>
+                <b className={styles.accent}>Typical Cost: £12,000 - £20,000</b>
               </p>
             </li>
           </ul>
 
           <h3 className={styles.h3}>
-            Luxury Bathroom Renovation (Starting from £15,000)
+            Luxury Bathroom Renovation (Starting from £20,000)
           </h3>
 
           <ul>
@@ -5450,7 +5464,7 @@ export const articles = [
             <li>
               <p className={styles.p}>
                 <b className={styles.accent}>
-                  Typical Cost: £15,000 - £25,000+
+                  Typical Cost: £20,000 - £35,000+
                 </b>
               </p>
             </li>

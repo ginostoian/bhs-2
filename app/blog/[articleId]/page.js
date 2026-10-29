@@ -67,6 +67,7 @@ const buildArticleSchema = (article) => {
       author: {
         "@type": "Person",
         name: article.author.name,
+        jobTitle: article.author.job,
         url: `${siteUrl}/blog/author/${article.author.slug}`,
       },
       publisher: {
