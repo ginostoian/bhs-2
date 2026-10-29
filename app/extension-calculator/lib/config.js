@@ -16,14 +16,17 @@ export const DEFAULT_EXTENSION_CONFIG = {
   // added when the client opts in (includeFittings). Default is OFF.
   baseBuildRates: {
     // Recalibrated November 2026 against published London 2026 ranges
-    // (single storey £2.5k–£4k/m² ex VAT, basement £6k–£8k/m²).
+    // (single storey £2.5k–£4k/m² ex VAT). Basement recalibrated October 2026 against
+    // Homebuilding & Renovating (£2,250–£4,250/m² new basement, UK) and Checkatrade
+    // (£1,920–£3,680/m²) plus a 25–35% London premium: about £4,200/m² build ex VAT
+    // in zone 3 once multipliers apply, roughly £6,900/m² all-in.
     singleStorey: { labour: 1160, materials: 1030, fittings: 380 },
     rearExtension: { labour: 1160, materials: 1030, fittings: 380 },
     sideReturn: { labour: 1250, materials: 1110, fittings: 410 },
     wraparound: { labour: 1200, materials: 1070, fittings: 400 },
     kitchenExtension: { labour: 1180, materials: 1050, fittings: 395 },
     doubleStorey: { labour: 985, materials: 880, fittings: 280 },
-    basement: { labour: 2630, materials: 2570, fittings: 380 },
+    basement: { labour: 1600, materials: 1550, fittings: 380 },
     loft: { labour: 990, materials: 860, fittings: 350 },
   },
 

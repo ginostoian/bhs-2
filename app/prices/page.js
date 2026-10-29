@@ -159,6 +159,10 @@ const faqs = [
     a: "Homebuilding & Renovating puts the London and South East premium at 25 to 35% for extensions. Within London, the same loft costs about 19% more in zone 1 than in zones 5 to 6.",
   },
   {
+    q: "How much does a basement cost in London?",
+    a: "About £207,000 all-in for a new 30 m² basement dug under an outer London terrace, or £6,900 per m², including fees, contingency and VAT. Converting an existing cellar costs much less.",
+  },
+  {
     q: "Are building costs still rising in 2026?",
     a: "Yes, slowly. BCIS recorded tender prices up 3.2% in the year to the second quarter of 2026 and building costs up 3.8%. It forecasts tender prices up 15.5% over the five years to 2031.",
   },
@@ -492,11 +496,20 @@ export default function PricesPage() {
         <h2>Basement and cellar prices</h2>
         <p className={styles.answer}>
           <strong>
-            Converting an existing cellar costs about £1,000 to £2,200 per m²
-            nationally. Digging a new basement with underpinning costs £2,250 to
-            £4,250 per m², before VAT, fees and the London premium.
+            A new basement under a London terrace costs about £207,000 all-in
+            for 30 m², or £6,900 per m². Converting a cellar you already have
+            costs far less: £1,000 to £2,200 per m² nationally, before VAT.
           </strong>
         </p>
+        <Table
+          caption="London new basement prices 2026: dug under an outer London terrace, finished, all-in including VAT"
+          head={["New floor", "Typical all-in", "Likely range", "Per m²"]}
+          rows={[
+            ["20 m²", "£154,000", "£140,000–£180,000", "£7,680"],
+            ["30 m²", "£207,000", "£188,000–£242,000", "£6,900"],
+            ["40 m²", "£270,000", "£246,000–£316,000", "£6,760"],
+          ]}
+        />
         <Table
           caption="What national publishers say (UK, before VAT unless stated)"
           head={["Work", "Homebuilding & Renovating", "Checkatrade"]}
@@ -511,10 +524,12 @@ export default function PricesPage() {
         />
         <p className={styles.note}>
           Sources: <Src id="hrBasement" />, <Src id="checkatradeCellar" />, <Src id="checkatradeExt" />.
-          A London basement under an existing terrace also needs party wall
-          awards with both neighbours, structural design and often a
-          construction management plan. We price every basement individually
-          after a survey; <Link href="/basement-conversion">see how we work</Link>.
+          Our build cost works out at about £4,200 per m² before VAT and fees,
+          inside the national new-basement range once you add 25 to 35% for
+          London. Basements also need party wall awards with both neighbours,
+          structural design and often a construction management plan, so we
+          fix every basement price after a survey;{" "}
+          <Link href="/basement-conversion">see how we work</Link>.
         </p>
       </section>
 
