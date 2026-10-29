@@ -55,21 +55,21 @@ const inclusionItems = [
 const costTiers = [
   {
     title: "Basic refresh",
-    price: "£12,000 to £18,000",
+    price: "£12,000 to £20,000",
     timeline: "Around 3 to 4 weeks",
     description:
       "Best when the layout broadly works and the goal is to replace tired cabinetry, surfaces and finishes without major reconfiguration.",
   },
   {
     title: "Mid-range redesign",
-    price: "£20,000 to £35,000",
+    price: "£20,000 to £38,000",
     timeline: "Around 4 to 6 weeks",
     description:
       "The strongest fit for most London kitchens where you want a better layout, stronger storage, upgraded finishes and a more resolved design.",
   },
   {
     title: "High-end or structural kitchen project",
-    price: "£35,000 to £60,000+",
+    price: "£40,000 to £90,000+",
     timeline: "Often 5 to 8+ weeks",
     description:
       "Used when the project includes structural openings, premium cabinetry, higher-spec appliances, bespoke detailing or a more ambitious design brief.",
