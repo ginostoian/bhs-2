@@ -170,7 +170,8 @@ export default function SingleStoreyExtensionCostLondon() {
       </p>
       <p className={styles.p}>
         15 m² – a modest side return or shallow rear: £62,000 to £82,000, or
-        £4,130 to £5,470 per m².
+        £4,130 to £5,470 per m². For a narrower infill, see our{" "}
+        <Link href="/blog/side-return-extension-cost-london">side return extension cost guide</Link>.
       </p>
       <p className={styles.p}>
         20 m² – three metres deep on a typical terrace: £80,000 to £104,000, or

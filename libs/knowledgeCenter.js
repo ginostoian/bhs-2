@@ -22,6 +22,7 @@ const CONTEXT_PROFILES = {
   extension: {
     preferredSlugs: [
       "single-storey-extension-cost-london",
+      "side-return-extension-cost-london",
       "house-extension-mistakes-london",
       "house-extension-value-london-guide",
       "permitted-development-guide",
