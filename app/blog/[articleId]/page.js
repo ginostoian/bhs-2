@@ -245,7 +245,12 @@ export default function ArticlePage({ params }) {
             </div>
             <p className="bh-small" style={{ marginTop: 32 }}>
               Published figures are planning guidance. Your written quotation
-              confirms the scope, allowances, VAT and agreed price.
+              confirms the scope, allowances, VAT and agreed price. See every
+              current figure on our{" "}
+              <Link className="bh-text-link" href="/prices">
+                London prices page
+              </Link>
+              .
             </p>
           </aside>
         </div>

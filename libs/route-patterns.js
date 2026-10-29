@@ -126,6 +126,7 @@ export const PAGE_PATTERNS = [
   "/partner-with-us",
   "/portfolio",
   "/portfolio/[projectId]",
+  "/prices",
   "/privacy-policy",
   "/quotes/[id]",
   "/referrer",

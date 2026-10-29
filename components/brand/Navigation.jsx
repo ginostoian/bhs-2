@@ -179,6 +179,10 @@ export default function Navigation() {
                     <span aria-hidden="true">↗</span>
                   </Link>
                 ))}
+                <Link href="/prices">
+                  London price list
+                  <span aria-hidden="true">↗</span>
+                </Link>
               </div>
             </div>
             <Link href="/about">About</Link>

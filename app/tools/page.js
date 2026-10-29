@@ -120,6 +120,13 @@ export default function Page() {
           review and itemised quotation turn a planning range into an agreed
           construction price.
         </p>
+        <p className="bh-lead" style={{ marginTop: 16 }}>
+          Want the going rate first? See our{" "}
+          <Link className="bh-text-link" href="/prices">
+            London renovation prices for 2026
+          </Link>
+          , with every figure checked against the national price guides.
+        </p>
       </section>
       <section className="bh-wrap bh-section">
         <div className="bh-project-grid">
