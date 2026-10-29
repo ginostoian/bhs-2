@@ -19,6 +19,7 @@ const groups = [
       ["About", "/about"],
       ["Blog", "/blog"],
       ["Cost planning", "/tools"],
+      ["London prices", "/prices"],
       ["Where we work", "/locations"],
       ["Guarantee", "/our-guarantee"],
       ["Partners", "/our-partners"],

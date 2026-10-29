@@ -7,6 +7,7 @@ export const publicMarketingPaths = new Set([
   "/bathroom-renovation-form",
   "/bathroom-renovation-form/detailed",
   "/blog",
+  "/prices",
   "/blog/author/gino",
   "/blog/bathroom-renovation-cost-2025",
   "/blog/bathroom-renovation-london-trends-2026",

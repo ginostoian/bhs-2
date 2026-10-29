@@ -19,6 +19,7 @@ module.exports = {
     priority: config.priority,
     // Known material update; do not publish build-time dates as content updates.
     ...(path === "/blog/home-renovation-cost-london-2026" ? { lastmod: "2026-09-14" } : {}),
+    ...(path === "/prices" ? { lastmod: "2026-10-30", priority: 0.9 } : {}),
   }),
   // use this to exclude routes from the sitemap (i.e. a user dashboard). By default, NextJS app router metadata files are excluded (https://nextjs.org/docs/app/api-reference/file-conventions/metadata)
   exclude: [
