@@ -58,4 +58,5 @@ export const articleServices = {
   "loft-conversions-london-complete-guide-2026": "/loft-conversion",
   "loft-conversion-cost-london": "/loft-conversion",
   "side-return-extension-cost-london": "/house-extension",
+  "kitchen-extension-cost-london": "/house-extension",
 };

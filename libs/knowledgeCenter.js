@@ -23,6 +23,7 @@ const CONTEXT_PROFILES = {
     preferredSlugs: [
       "single-storey-extension-cost-london",
       "side-return-extension-cost-london",
+      "kitchen-extension-cost-london",
       "house-extension-mistakes-london",
       "house-extension-value-london-guide",
       "permitted-development-guide",
