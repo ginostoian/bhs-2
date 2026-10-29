@@ -5,12 +5,18 @@ import connectMongo from "@/libs/mongoose";
 import CalculatorRates from "@/models/CalculatorRates";
 import { DEFAULT_RENOVATION_CONFIG } from "@/app/renovation-calculator/lib/config";
 import { DEFAULT_EXTENSION_CONFIG } from "@/app/extension-calculator/lib/config";
+import { KITCHEN_CONFIG } from "@/app/kitchen-calculator/lib/config";
+import { DEFAULT_BATHROOM_CONFIG } from "@/libs/calculators/bathroom";
+import { DEFAULT_LOFT_CONFIG } from "@/libs/calculators/loft";
 import { deepMerge } from "@/app/renovation-calculator/lib/rates";
 
 // Registry of editable calculator price books, keyed by calculatorType.
 const DEFAULTS_BY_TYPE = {
   renovation: DEFAULT_RENOVATION_CONFIG,
   extension: DEFAULT_EXTENSION_CONFIG,
+  kitchen: KITCHEN_CONFIG,
+  bathroom: DEFAULT_BATHROOM_CONFIG,
+  loft: DEFAULT_LOFT_CONFIG,
 };
 
 function resolveType(request) {

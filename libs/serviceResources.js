@@ -1,5 +1,6 @@
 export const planningTools = [
   ["Extension calculator", "/extension-calculator"],
+  ["Loft calculator", "/loft-conversion-cost-calculator"],
   ["Renovation calculator", "/renovation-calculator"],
   ["Kitchen calculator", "/kitchen-calculator"],
   ["Bathroom calculator", "/tools/bathroom-cost-calculator"],
@@ -16,7 +17,7 @@ export const serviceResources = {
   },
   "/general-renovation": {
     name: "renovation",
-    tool: planningTools[1],
+    tool: planningTools[2],
     guide: [
       "London renovation cost guide",
       "/blog/home-renovation-cost-london-2026",
@@ -25,7 +26,7 @@ export const serviceResources = {
   },
   "/kitchen-renovation": {
     name: "kitchen",
-    tool: planningTools[2],
+    tool: planningTools[3],
     guide: [
       "Compare bespoke, Howdens and IKEA kitchens",
       "/blog/bespoke-vs-howdens-vs-ikea-kitchen-london",
@@ -34,7 +35,7 @@ export const serviceResources = {
   },
   "/bathroom-renovation": {
     name: "bathroom",
-    tool: planningTools[3],
+    tool: planningTools[4],
     guide: [
       "Bathroom renovation guide",
       "/blog/bathroom-renovation-london-trends-2026",
@@ -42,6 +43,7 @@ export const serviceResources = {
   },
   "/loft-conversion": {
     name: "loft conversion",
+    tool: planningTools[1],
     guide: [
       "London loft conversion guide",
       "/blog/loft-conversions-london-complete-guide-2026",

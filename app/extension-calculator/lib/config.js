@@ -3,8 +3,8 @@
 // "low / expected / high" ranges rather than a false sense of precision.
 
 export const DEFAULT_EXTENSION_CONFIG = {
-  version: "2026.07",
-  priceBookDate: "2026-07",
+  version: "2026.11",
+  priceBookDate: "2026-11",
 
   // Expected build rates (ex VAT) for a standard specification before modifiers,
   // per m² of extension area. Each rate is split into components:
@@ -15,13 +15,15 @@ export const DEFAULT_EXTENSION_CONFIG = {
   // labour + materials is the construction cost (always included); fittings is only
   // added when the client opts in (includeFittings). Default is OFF.
   baseBuildRates: {
-    singleStorey: { labour: 1080, materials: 960, fittings: 360 },
-    rearExtension: { labour: 1080, materials: 960, fittings: 360 },
-    sideReturn: { labour: 1170, materials: 1040, fittings: 390 },
-    wraparound: { labour: 1125, materials: 1000, fittings: 375 },
-    kitchenExtension: { labour: 1100, materials: 980, fittings: 370 },
-    doubleStorey: { labour: 920, materials: 820, fittings: 260 },
-    basement: { labour: 1950, materials: 1900, fittings: 350 },
+    // Recalibrated November 2026 against published London 2026 ranges
+    // (single storey £2.5k–£4k/m² ex VAT, basement £6k–£8k/m²).
+    singleStorey: { labour: 1160, materials: 1030, fittings: 380 },
+    rearExtension: { labour: 1160, materials: 1030, fittings: 380 },
+    sideReturn: { labour: 1250, materials: 1110, fittings: 410 },
+    wraparound: { labour: 1200, materials: 1070, fittings: 400 },
+    kitchenExtension: { labour: 1180, materials: 1050, fittings: 395 },
+    doubleStorey: { labour: 985, materials: 880, fittings: 280 },
+    basement: { labour: 2630, materials: 2570, fittings: 380 },
     loft: { labour: 990, materials: 860, fittings: 350 },
   },
 
@@ -189,7 +191,7 @@ export const DEFAULT_EXTENSION_CONFIG = {
       defaultQuantity: 1,
       minQuantity: 1,
       maxQuantity: 3,
-      category: "fittings",
+      category: "build",
       description: "Supply and install typical aluminium set",
     },
     roofLights: {

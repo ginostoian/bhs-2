@@ -69,7 +69,8 @@ const grantClarityConsent = () => {
 
 // Staff-only areas: the banner would cover working screens. Consent mode
 // defaults (denied until accepted) still apply there.
-const STAFF_PREFIXES = ["/admin", "/employee", "/designer"];
+// Staff areas and embedded calculators (shown inside other sites) never show the banner.
+const STAFF_PREFIXES = ["/admin", "/employee", "/designer", "/embed"];
 
 export default function CookieConsent() {
   const pathname = usePathname() || "";

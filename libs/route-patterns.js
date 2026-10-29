@@ -114,6 +114,7 @@ export const PAGE_PATTERNS = [
   "/house-extension",
   "/invoices/[token]",
   "/kitchen-calculator",
+  "/loft-conversion-cost-calculator",
   "/kitchen-form-submitted",
   "/kitchen-renovation",
   "/kitchen-renovation-form",

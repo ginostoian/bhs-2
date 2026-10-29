@@ -12,6 +12,7 @@ export default function PublicHelp() {
       "/renovation-calculator",
       "/kitchen-calculator",
       "/btu-calculator",
+      "/loft-conversion-cost-calculator",
       "/tools/bathroom-cost-calculator",
     ].includes(path)
   )

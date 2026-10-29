@@ -47,11 +47,13 @@ export const KITCHEN_CONFIG = {
     uShape: 5.8,
   },
 
+  // Recalibrated November 2026: fitted London kitchens land at roughly IKEA £12k–£22k,
+  // Howdens £18k–£38k and bespoke £45k–£90k+.
   cabinetrySupplyRatesPerLm: {
-    flatPack: 380,
-    tradeFitted: 620,
-    premium: 980,
-    bespoke: 1650,
+    flatPack: 420,
+    tradeFitted: 850,
+    premium: 1600,
+    bespoke: 3400,
   },
 
   appliancePackages: {
