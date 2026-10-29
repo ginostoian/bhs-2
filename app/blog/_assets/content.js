@@ -14,6 +14,8 @@ import loftCostByTypeImg from "/public/assets/blog/loft-conversion-cost-london/l
 import LoftConversionCostLondonArticle from "./articles/LoftConversionCostLondonArticle";
 import sideReturnCostImg from "/public/assets/blog/side-return-extension-cost-london/side-return-extension-cost-london-2026.png";
 import SideReturnExtensionCostLondonArticle from "./articles/SideReturnExtensionCostLondonArticle";
+import kitchenExtensionLadderImg from "/public/assets/blog/kitchen-extension-cost-london/kitchen-extension-cost-london-budget-ladder.png";
+import KitchenExtensionCostLondonArticle from "./articles/KitchenExtensionCostLondonArticle";
 import homeRenovationCostGuideImg from "/public/assets/blog/home-renovation-guide/home-renovation-cost-london-specification-levels.png";
 import propertyBuyingChecklistGuideImg from "/public/assets/blog/property-buying-checklist-london-2026/red-flags.png";
 import loftVsExtensionGuideImg from "/public/assets/blog/loft-conversion-vs-house-extension/02-value-added.png";
@@ -280,6 +282,58 @@ const houseExtensionGuideFaqs = [
 
 // All the blog articles data display in the /blog/[articleId].js pages.
 export const articles = [
+  {
+    slug: "kitchen-extension-cost-london",
+    seoTitle: "Kitchen Extension Cost London 2026: Is £50k Enough? | Better Homes",
+    title: "Kitchen extension cost in London (2026): is £50k enough?",
+    description:
+      "A 3 m kitchen extension costs about £93,500 all-in in London in 2026 with a new kitchen. What £50k really buys, costs by depth, planning and the glazing rule.",
+    categories: [
+      categories.find((category) => category.slug === categorySlugs.extension),
+      categories.find((category) => category.slug === categorySlugs.kitchen),
+    ],
+    author: authors.find((author) => author.slug === authorSlugs.gino),
+    publishedAt: "2026-10-30",
+    image: {
+      src: kitchenExtensionLadderImg,
+      urlRelative:
+        "/assets/blog/kitchen-extension-cost-london/kitchen-extension-cost-london-budget-ladder.png",
+      alt: "Kitchen extension cost in London 2026: what each budget buys, from £52,500 for a 2 m extension to £145,000 for 6 m with a new kitchen",
+    },
+    content: <KitchenExtensionCostLondonArticle />,
+    faqs: [
+      {
+        question: "How much does a kitchen extension cost in London in 2026?",
+        answer:
+          "About £93,500 all-in for a 3 m deep rear extension on a terrace with a new mid-range kitchen, including fees, contingency and VAT. A 2 m extension with a kitchen is about £73,500.",
+      },
+      {
+        question: "Can you do a kitchen extension for £50k?",
+        answer:
+          "Not with a new kitchen in London. £50,000 covers a small finished 2 m extension where you keep your kitchen, or the build of a 3 m extension before fees and VAT.",
+      },
+      {
+        question: "How much does a 2m kitchen extension cost?",
+        answer:
+          "About £52,500 all-in finished, or £73,500 with a new mid-range kitchen, for a 9 m² rear extension on a London terrace.",
+      },
+      {
+        question: "Is a 3 metre extension worth it?",
+        answer:
+          "Usually. It's the largest rear extension most terraces and semis can build without planning permission, and 13.5 m² fits a kitchen, island and table.",
+      },
+      {
+        question: "What is the most expensive part of a kitchen extension?",
+        answer:
+          "The structure: foundations, walls, roof, steel and glazing, at about £38,800 on a 3 m extension. The kitchen comes next, and it's the line that varies most.",
+      },
+      {
+        question: "Do I need planning permission for a kitchen extension?",
+        answer:
+          "Not for a single-storey rear extension up to 3 m deep on a terrace or semi (4 m detached) outside a conservation area. Up to 6 m needs prior approval.",
+      },
+    ],
+  },
   {
     slug: "side-return-extension-cost-london",
     seoTitle: "Side Return Extension Cost London 2026: £52k–£92k | Better Homes",
@@ -4115,8 +4169,12 @@ export const articles = [
           <p className={styles.p}>
             For high-end London homes with open-plan layouts or kitchen
             extensions, costs start at{" "}
-            <strong>£40,000 and easily exceed £70,000+</strong>. These kitchens
-            often include:
+            <strong>£40,000 and easily exceed £70,000+</strong> for the kitchen
+            alone. If you&apos;re building the room as well, see our{" "}
+            <Link href="/blog/kitchen-extension-cost-london">
+              kitchen extension cost guide
+            </Link>
+            . These kitchens often include:
           </p>
 
           <ul className={styles.p}>

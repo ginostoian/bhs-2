@@ -42,7 +42,8 @@ export default async function Page() {
           body: (
             <p>
               Cabinets are often less than a third of the final bill. Worktops, appliances, fitting labour, electrics, plumbing, flooring and making good make up the rest. That is why a £6,000 kitchen from a showroom regularly becomes £20,000+ once it’s in. For a side-by-side comparison see{" "}
-              <Link href="/blog/bespoke-vs-howdens-vs-ikea-kitchen-london">IKEA vs Howdens vs bespoke kitchen costs</Link>.
+              <Link href="/blog/bespoke-vs-howdens-vs-ikea-kitchen-london">IKEA vs Howdens vs bespoke kitchen costs</Link>. Extending as well? Read our{" "}
+              <Link href="/blog/kitchen-extension-cost-london">kitchen extension cost guide</Link>.
             </p>
           ),
         },
