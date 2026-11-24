@@ -115,7 +115,7 @@ export default function SingleStoreyExtensionCostLondon() {
         specification – logistics, not labour snobbery. Scaffold licences,
         parking bay suspensions, restricted hours, and terraces where every
         brick travels through the hallway. Our{" "}
-        <Link href="/blog/house-extension-guide-2025">
+        <Link href="/blog/house-extension-types">
           complete London house extension guide
         </Link>{" "}
         covers all five extension types; this page goes deep on one.

@@ -1,14 +1,14 @@
 export default function ExtensionCosts() {
   return (
     <section id="costs" className="bh-wrap bh-section">
-      <p className="bh-eyebrow">Planning ranges</p>
+      <p className="bh-eyebrow">2026 London prices</p>
       <h2 className="bh-heading">How much does a house extension cost in London?</h2>
       <div style={{ overflowX: "auto" }}>
         <table className="bh-cost-table">
           <thead>
             <tr>
               <th>Extension type</th>
-              <th>Indicative construction investment</th>
+              <th>Construction cost (our 2026 London prices)</th>
             </tr>
           </thead>
           <tbody>
@@ -28,10 +28,9 @@ export default function ExtensionCosts() {
         </table>
       </div>
       <p className="bh-small" style={{ marginTop: 24 }}>
-        These existing planning bands describe different scopes. A published
-        all-in example may include VAT, fees and finishes that a
-        construction-only range excludes. Your itemised quotation confirms the
-        basis, inclusions and allowances.
+        These are build costs before VAT, design fees and your kitchen. For
+        example, our rear extension with a new WC and storage room in
+        Walthamstow came to £88,900 + VAT, or £106,700 with VAT.
       </p>
       <p style={{ marginTop: 16 }}>
         The build phase is often 12 to 24 weeks. Allow around 6 to 10 months for

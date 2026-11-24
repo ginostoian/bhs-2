@@ -140,6 +140,8 @@ export function generateMetadata({ params }) {
     title: `${category.title} Guides | ${config.appName} Knowledge Center`,
     description: category.description,
     canonicalUrlRelative: `/blog/category/${category.slug}`,
+    // Thin listing pages: keep them crawlable for links, out of the index.
+    extraTags: { robots: { index: false, follow: true } },
     openGraph: {
       title: `${category.title} Guides | ${config.appName} Knowledge Center`,
       description: category.description,

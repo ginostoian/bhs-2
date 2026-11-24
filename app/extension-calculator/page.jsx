@@ -68,7 +68,7 @@ export default async function Page() {
           body: (
             <p>
               Use your range to set a realistic budget, then get drawings and a structural design so builders can price the same thing. Compare quotes line by line against the breakdown in your PDF. For more detail read our{" "}
-              <Link href="/blog/house-extension-guide-2025">London extension cost guide</Link> and{" "}
+              <Link href="/blog/house-extension-types">London extension cost guide</Link> and{" "}
               <Link href="/blog/house-extension-types">types of house extension</Link>. Planning a side return? Read our{" "}
               <Link href="/blog/side-return-extension-cost-london">side return extension cost guide</Link>.
             </p>

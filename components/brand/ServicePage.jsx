@@ -11,6 +11,14 @@ import { serviceStories } from "./serviceStories";
 import { FaqSchema, ServiceSchema } from "./Schema";
 import { BOOKING_URL } from "@/libs/booking";
 import { getPortfolioProjects } from "@/libs/portfolio-projects";
+import { ClientVoices, RecentJobs } from "./RealProof";
+const serviceKeys = {
+  "/loft-conversion": "loft",
+  "/general-renovation": "renovation",
+  "/kitchen-renovation": "kitchen",
+  "/bathroom-renovation": "bathroom",
+  "/basement-conversion": "basement",
+};
 const serviceNouns = {
   "/loft-conversion": "loft conversion",
   "/general-renovation": "full house renovation",
@@ -125,12 +133,8 @@ export default function ServicePage({
       <section id="overview" className="bh-wrap bh-section bh-mobile-hero">
         <div className="bh-grid-two">
           <div>
-            <h1 className="bh-title">
-              <span className="bh-eyebrow" style={{ display: "block" }}>
-                {heading ?? `${name} in London`}
-              </span>{" "}
-              {title}
-            </h1>
+            <h1 className="bh-title">{heading ?? `${name} in London`}</h1>
+            <p className="bh-lead" style={{ fontStyle: "italic" }}>{title}</p>
             <p className="bh-lead">{introduction}</p>
             <MobileTrust />
             <div className="bh-actions">
@@ -182,6 +186,11 @@ export default function ServicePage({
           </div>
         </dl>
       </div>
+      <RecentJobs
+        service={serviceKeys[path]}
+        title={`Recent ${noun} jobs and real prices`}
+      />
+      <ClientVoices service={serviceKeys[path]} />
       <section className="bh-wrap bh-section" id="types">
         <div className="bh-grid-two">
           <div>
@@ -349,9 +358,8 @@ export default function ServicePage({
             How much does a {noun} cost in London?
           </h2>
           <p className="bh-lead">
-            {range}. Scope and specification determine the final price. Check
-            the written quotation for VAT, professional fees, product allowances
-            and contingency. Planning ranges are not a fixed offer.
+            {range}. Our written quote lists every item, says what is included
+            and shows VAT separately, so you can compare it line by line.
           </p>
           {notes.length ? (
             <ul className="bh-list">

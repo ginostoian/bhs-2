@@ -164,9 +164,10 @@ export default function TypesOfHouseExtensionsLondon() {
       </p>
       <p className={styles.p}>
         Width transforms a galley kitchen in a way depth never does, and roof glazing over the new strip pushes
-        daylight into the middle of the plan, which is exactly where deep London terraces go dark. A side return
-        we completed in Walthamstow, E17, gained 11m² for £52,000 and left the garden untouched. For full
+        daylight into the middle of the plan, which is exactly where deep London terraces go dark. For full
         2026 prices, see our <Link href="/blog/side-return-extension-cost-london">side return extension cost guide</Link>.
+        Our most recent ground-floor extension, for Christina in Walthamstow, E17, added a new WC and a storage
+        room and came to £88,900 + VAT, with 12 weeks on site.
       </p>
 
       <h3 className={styles.h3}>Wraparound extension</h3>
@@ -394,7 +395,7 @@ export default function TypesOfHouseExtensionsLondon() {
         Fees moved on 1 April 2026: £548 for a householder application, £274 for a lawful development certificate for
         proposed works, and eight weeks statutory determination from validation. Buy the certificate even where no
         application is needed – it is the document your buyer&apos;s solicitor will ask for. Our{" "}
-        <Link href="/blog/permitted-development-guide">permitted development guide</Link> works through the conditions in
+        <Link href="/blog/planning-permission-loft-conversion-london">permitted development guide</Link> works through the conditions in
         full, and <Link href="/blog/planning-permission-refused-london">why London extensions get refused</Link> covers
         the recovery route if a decision goes against you.
       </p>

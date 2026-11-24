@@ -1,8 +1,6 @@
 export const serviceStories = {
   "/loft-conversion": {
     heading: "The room you need could already be above you.",
-    intro:
-      "An extra bedroom as your family grows. A quiet place to work. Somewhere guests can feel at home. We turn the space above you into a comfortable part of the house, with thoughtful planning and a team that keeps you informed.",
     moments: [
       [
         "Space to grow",
@@ -21,8 +19,6 @@ export const serviceStories = {
   },
   "/general-renovation": {
     heading: "Keep what you love. Change what gets in the way.",
-    intro:
-      "You may love the street, the garden or the character of the house, but wish it worked better inside. We bring rooms, storage and everyday comforts together, so your home feels right for the way you live now.",
     moments: [
       [
         "Rooms that work together",
@@ -41,8 +37,6 @@ export const serviceStories = {
   },
   "/kitchen-renovation": {
     heading: "For the rushed mornings and the long dinners.",
-    intro:
-      "A kitchen should make the everyday easier and leave room for the good bits. Preparing dinner together. A coffee before everyone wakes. Friends who stay a little longer. We bring the layout, storage and fitting together around how you like to live.",
     moments: [
       [
         "Cooking feels easier",
@@ -61,8 +55,6 @@ export const serviceStories = {
   },
   "/bathroom-renovation": {
     heading: "A small room that can change your whole day.",
-    intro:
-      "A shower you look forward to. Light that feels right. Somewhere to put everything you reach for each morning. We renovate bathrooms, en-suites and wet rooms with care for both the finish you see and the work behind it.",
     moments: [
       [
         "An easier morning",
@@ -81,8 +73,6 @@ export const serviceStories = {
   },
   "/basement-conversion": {
     heading: "More room for life, without giving up the garden.",
-    intro:
-      "A place to watch a film together, work in peace or give guests their own space. A basement can open up new possibilities at home. We help you explore what is practical, with careful attention to daylight, comfort and the ground beneath your house.",
     moments: [
       [
         "Space with a purpose",

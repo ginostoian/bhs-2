@@ -107,7 +107,7 @@ export default function LoftConversionsLondonGuide() {
         "Common scope, contractor, and budgeting mistakes that derail projects and trust.",
     },
     {
-      href: "/blog/permitted-development-guide",
+      href: "/blog/planning-permission-loft-conversion-london",
       title: "Permitted Development in London",
       description:
         "How PD, prior approval and local policy affect timelines and planning certainty.",

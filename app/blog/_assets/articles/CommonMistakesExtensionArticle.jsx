@@ -106,13 +106,13 @@ export default function CommonMistakesExtensionArticle() {
         "Value uplift, ROI ranges and cost-vs-value benchmarks for 2026 projects.",
     },
     {
-      href: "/blog/permitted-development-guide",
+      href: "/blog/planning-permission-loft-conversion-london",
       title: "Permitted Development Guide for London Homeowners",
       description:
         "Clear rules on what can be built without full planning permission.",
     },
     {
-      href: "/blog/house-extension-guide-2025",
+      href: "/blog/house-extension-types",
       title: "Complete House Extension Planning Guide",
       description:
         "Step-by-step overview from feasibility to approvals, procurement and delivery.",

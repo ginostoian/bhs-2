@@ -54,25 +54,25 @@ const inclusionItems = [
 ];
 const costTiers = [
   {
-    title: "Basic refresh",
-    price: "£6,000 to £10,000",
-    timeline: "Around 2 to 3 weeks",
+    title: "Same layout, your suite and tiles",
+    price: "£7,500 to £9,000 + VAT",
+    timeline: "About 2 weeks",
     description:
-      "Best when the layout stays broadly similar and the goal is to improve dated finishes, fittings and overall presentation without a bigger redesign.",
+      "Strip-out, new pipework, waterproofing, full-height tiling round the bath or shower, fitting and decoration. Finsbury Park: £7,700 + VAT in 2 weeks.",
   },
   {
-    title: "Mid-range redesign",
-    price: "£12,000 to £20,000",
-    timeline: "Around 2 to 4 weeks",
+    title: "New layout, or two bathrooms at once",
+    price: "£8,000 to £21,000 + VAT",
+    timeline: "3 to 4 weeks",
     description:
-      "The strongest fit for most London bathrooms where you want better layout use, stronger material choices and a room that feels noticeably calmer and more premium.",
+      "Moving the toilet, shower or bath means new waste runs and more plumbing. A new layout in Walthamstow came to about £8,000; two bathrooms in Limehouse £21,100 in 3 weeks.",
   },
   {
-    title: "High-end bathroom or wet room",
-    price: "£20,000 to £35,000+",
-    timeline: "Around 3 to 5+ weeks",
+    title: "Premium bathroom or wet room, products included",
+    price: "£15,000 to £30,000+ including VAT",
+    timeline: "3 to 5 weeks",
     description:
-      "Used when the brief includes premium finishes, specialist waterproofing, bespoke joinery, underfloor heating or a more ambitious wet-room style design.",
+      "We source the suite, brassware and tiles with you. Wet rooms need a fully tanked floor, so allow more time.",
   },
 ];
-export default function Page(){return <ServicePage heading="Bathroom renovation and fitting in London" name="Bathroom renovations" path="/bathroom-renovation" title="A quieter start. A better finish to every day." intro="Standalone bathrooms, en-suites and wet rooms, carefully renovated by Better Homes in London. We coordinate preparation, waterproofing, services, fitting and finishing so the quality runs deeper than the tiles." image="/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp" range="From around £12,000 for a full redesign" timeline="Usually 2 to 4 weeks on site" guarantee="2 years for bathroom installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("bathroom")} projects={["melina-e7", "daniel-n19"]}  />;}
+export default function Page(){return <ServicePage heading="Bathroom renovation and fitting in London" name="Bathroom renovations" path="/bathroom-renovation" title="Strip-out to grout, in about two weeks." intro="Most bathrooms we renovate in London take 2 to 3 weeks. In Finsbury Park, keeping the layout with the client's own suite and tiles, the work came to £7,700 + VAT. Moving things around costs more: a new layout in Walthamstow was about £8,000 for the bathroom alone. We do the waterproofing, plumbing, electrics, tiling and the last coat of paint." image="/assets/portfolio/bathroom-melina-e7/melina-bathroom-e7-1.webp" range="About £7,500 to £12,000 + VAT for the work; you choose the suite and tiles" timeline="2 to 3 weeks; 4 for larger rooms" guarantee="2 years for bathroom installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("bathroom")} projects={["melina-e7", "daniel-n19"]}  />;}

@@ -10,6 +10,7 @@ import { FaqSchema } from "./Schema";
 import EnquiryForm from "./EnquiryForm";
 import ProofStrip from "./ProofStrip";
 import HeroProof from "./HeroProof";
+import { ClientVoices, RecentJobs } from "./RealProof";
 import MobileTrust from "./MobileTrust";
 export default class ReferenceExtension extends React.Component {
   state = {
@@ -354,23 +355,11 @@ export default class ReferenceExtension extends React.Component {
                   textWrap: "pretty",
                 }}
               >
-                <span
-                  style={{
-                    display: "block",
-                    marginBottom: "24px",
-                    fontSize: "14px",
-                    lineHeight: "1.45",
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                    color: "#4D5B4B",
-                  }}
-                >
-                  {"House extension builders in London"}
-                </span>{" "}
-                {
-                  "More room, more light, and a house that finally works as one."
-                }
+                {"House extension builders in London"}
               </h1>
+              <p style={{ margin: 0, fontSize: "20px", lineHeight: 1.4, fontStyle: "italic" }}>
+                {"More room, more light, and a house that finally works as one."}
+              </p>
             </div>
             <div
               style={{
@@ -389,7 +378,7 @@ export default class ReferenceExtension extends React.Component {
                 }}
               >
                 {
-                  "Room to cook together, gather around the table and open the doors to the garden. We build London extensions around the way you want to live, with clear pricing and a project lead who keeps you informed."
+                  "Rear, side return and wraparound extensions across North and East London. Our latest, a rear extension with a new WC in Walthamstow, was £88,900 + VAT and took 12 weeks on site. Bring your architect's drawings or use one we recommend, and you get a written, line-by-line price and a project lead who updates you every week."
                 }
               </p>
               <MobileTrust />
@@ -486,6 +475,8 @@ export default class ReferenceExtension extends React.Component {
             </figcaption>
           </figure>
         </section>
+      <RecentJobs service="extension" title="Recent extension jobs and real prices" />
+      <ClientVoices service="extension" />
         <ProofStrip servicePath="/house-extension" />
 
         <section
