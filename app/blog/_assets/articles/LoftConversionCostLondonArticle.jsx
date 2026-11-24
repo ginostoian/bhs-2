@@ -56,7 +56,7 @@ export default function LoftConversionCostLondonArticle() {
       </div>
 
       <h2 className={styles.h2} id="key-takeaways">
-        Key takeaways
+        The short version
       </h2>
       <ul className={styles.ul}>
         <li>
@@ -817,29 +817,23 @@ export default function LoftConversionCostLondonArticle() {
         <Link href="/loft-conversion">loft conversions in London</Link> page.
       </p>
 
-      <h2 className={styles.h2} id="quick-takeaways">
-        Quick takeaways
+            <h2 className={styles.h2} id="our-jobs">
+        What our own loft jobs cost
       </h2>
-      <ul className={styles.ul}>
-        <li>
-          London lofts cost £50,000 (Velux) to £116,000 (mansard) all-in, with
-          a rear dormer at about £80,000.
-        </li>
-        <li>An en-suite adds about £12,500 all-in.</li>
-        <li>
-          Fees, contingency and VAT add around £29,000 to a £51,000 build
-          quote.
-        </li>
-        <li>Central London costs about 19% more than the outer zones.</li>
-        <li>
-          Permitted development covers most lofts on houses; mansards, flats
-          and conservation areas need planning.
-        </li>
-        <li>
-          Allow six to 16 weeks on site, after six to 12 weeks of design and
-          approvals.
-        </li>
-      </ul>
+      <p className={styles.p}>
+        In Walthamstow, E17, we priced a rear dormer loft with an en-suite for
+        Christina at about £48,900 + VAT, with the scaffolding included. On a
+        house in Chingford, E4, Richard's loft conversion and the renovation
+        below it come to about £137,500, and the site visit priced the
+        structural choices one by one: £10,000 to remove every chimney
+        including the stack, £5,500 to keep them with a new beam and
+        strapping, £3,000 to take one stack down and make good the roof.
+      </p>
+      <p className={styles.p}>
+        George's hip-to-gable loft in North East London was, in his words on
+        Houzz, "all done and dusted in just 9 weeks, just like they promised
+        from the get-go."
+      </p>
 
       <h2 className={styles.h2} id="setting-your-budget">
         Setting your loft budget
@@ -868,11 +862,7 @@ export default function LoftConversionCostLondonArticle() {
         or <Link href="/contact?service=Loft%20conversion#brief">send us your brief</Link>{" "}
         and we'll tell you honestly what your loft will take.
       </p>
-      <p className={styles.p}>
-        <strong>Over to you:</strong> what's the one thing you'd want to know
-        about your loft before you commit? Send us your question with your
-        postcode and we'll answer it.
-      </p>
+      
 
       <h2 className={styles.h2} id="faqs">
         Loft conversion cost FAQs

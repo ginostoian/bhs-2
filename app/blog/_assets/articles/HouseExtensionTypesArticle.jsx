@@ -164,9 +164,10 @@ export default function TypesOfHouseExtensionsLondon() {
       </p>
       <p className={styles.p}>
         Width transforms a galley kitchen in a way depth never does, and roof glazing over the new strip pushes
-        daylight into the middle of the plan, which is exactly where deep London terraces go dark. A side return
-        we completed in Walthamstow, E17, gained 11m² for £52,000 and left the garden untouched. For full
+        daylight into the middle of the plan, which is exactly where deep London terraces go dark. For full
         2026 prices, see our <Link href="/blog/side-return-extension-cost-london">side return extension cost guide</Link>.
+        Our most recent ground-floor extension, for Christina in Walthamstow, E17, added a new WC and a storage
+        room and came to £88,900 + VAT, with 12 weeks on site.
       </p>
 
       <h3 className={styles.h3}>Wraparound extension</h3>

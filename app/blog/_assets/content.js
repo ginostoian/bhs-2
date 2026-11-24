@@ -655,16 +655,16 @@ export const articles = [
   },
   {
     slug: "home-renovation-cost-london-2026",
-    seoTitle: "Home Renovation Cost London 2026: £800–£3,500 per m² | Better Homes",
-    title: "Home renovation cost in London: the complete 2026 price guide",
+    seoTitle: "House Renovation Cost London 2026: Real Prices From Our Jobs | Better Homes",
+    title: "House renovation cost in London: real 2026 prices from our jobs",
     description:
-      "What a full home renovation costs in London in 2026: £800–£3,500 per m², room-by-room budgets, hidden costs, borough differences and renovate-vs-move maths.",
+      "What renovating a London flat or house really costs, from our own 2025 and 2026 jobs: flats £29k to £71k + VAT, houses £60k to £200k, bathrooms, kitchens and structural prices.",
     categories: [
       categories.find((category) => category.slug === categorySlugs.fullHome),
     ],
     author: authors.find((author) => author.slug === authorSlugs.gino),
     publishedAt: "2026-03-12",
-    dateModified: "2026-09-14",
+    dateModified: "2026-11-25",
     image: {
       src: homeRenovationCostGuideImg,
       urlRelative:

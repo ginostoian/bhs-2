@@ -51,7 +51,7 @@ export default function KitchenExtensionCostLondonArticle() {
       </div>
 
       <h2 className={styles.h2} id="key-takeaways">
-        Key takeaways
+        The short version
       </h2>
       <ul className={styles.ul}>
         <li>
@@ -453,6 +453,26 @@ export default function KitchenExtensionCostLondonArticle() {
         flooring and electrician all wait, and so do you.
       </p>
 
+            <h2 className={styles.h2} id="our-jobs">
+        From our own jobs
+      </h2>
+      <p className={styles.p}>
+        Christina's rear extension in Walthamstow, E17, with a new ground-floor
+        WC and a storage room with a pocket door, came to £88,900 + VAT
+        (£106,700 with VAT) and took 12 weeks on site. She chose her own
+        kitchen, comparing Magnet and Wren, so that cost sat outside our price.
+        We split the payments weekly over the build, with the last one due
+        after snagging.
+      </p>
+      <p className={styles.p}>
+        On a house in Chingford this November, we priced a steel box frame
+        across the back wall at £14,500 + VAT. It carries the whole rear wall
+        today and comes off the extension price if the owner builds later.
+        Two steel posts on pad footings would have been £9,000. Amanda, whose
+        kitchen needed a picture-frame steel, wrote on Google that she
+        "needn't have worried because the whole process went very smoothly."
+      </p>
+
       <h2 className={styles.h2} id="setting-your-budget">
         Setting your kitchen extension budget
       </h2>
@@ -481,10 +501,7 @@ export default function KitchenExtensionCostLondonArticle() {
         </Link>{" "}
         for an itemised price.
       </p>
-      <p className={styles.p}>
-        <strong>Over to you:</strong> what's your budget, and how deep is your
-        garden? Send us both and we'll tell you which rung you're on.
-      </p>
+      
 
       <h2 className={styles.h2} id="faqs">
         Kitchen extension cost FAQs

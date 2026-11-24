@@ -1,4 +1,7 @@
 import { businessFacts } from "@/libs/businessFacts";
+import { areaDetails } from "@/libs/areaDetails";
+import { reviews } from "@/libs/reviews";
+import { RecentJobs } from "@/components/brand/RealProof";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -43,43 +46,8 @@ const trustHighlights = [
   },
 ];
 
-const socialProofTestimonials = [
-  {
-    name: "Louise Thorogood",
-    quote:
-      "I could not recommend them more highly. The whole process was streamlined and efficient, with a detailed quote and a very high standard of work.",
-    sourceLabel: "Houzz Review",
-    sourceUrl: "https://www.houzz.co.uk/viewReview/1802745/better-homes-studio-review",
-  },
-  {
-    name: "George G",
-    quote:
-      "After comparing loft conversion companies in North East London, we chose Better Homes. The team delivered our hip-to-gable loft in 9 weeks exactly as promised.",
-    sourceLabel: "Houzz Review",
-    sourceUrl: "https://www.houzz.co.uk/viewReview/2013769/better-homes-studio-review",
-  },
-  {
-    name: "Shyra Muthusamy",
-    quote:
-      "The quality of workmanship is extremely high and they translated loose ideas into reality with excellent attention to detail.",
-    sourceLabel: "Houzz Review",
-    sourceUrl: "https://www.houzz.co.uk/viewReview/1863607/better-homes-studio-review",
-  },
-  {
-    name: "Jack Robertson",
-    quote:
-      "Better Homes did a fantastic job with our full renovation in Chingford. Project management and craftsmanship were excellent throughout.",
-    sourceLabel: "Client Testimonial",
-    sourceUrl: "/#testimonials",
-  },
-  {
-    name: "Alice Buchanan",
-    quote:
-      "We had our kitchen redone and could not be happier. The team delivered on time and to a high standard from start to finish.",
-    sourceLabel: "Client Testimonial",
-    sourceUrl: "/#testimonials",
-  },
-];
+// Verbatim review excerpts, chosen per area in libs/areaDetails.js.
+const toTestimonial = (r) => ({ name: r.name, quote: r.quote, sourceLabel: `${r.source} review`, sourceUrl: r.url });
 
 const socialProofPoints = [
   {title: businessFacts.expertise, text: "Explore the projects in our portfolio and discuss the scope relevant to your property."},
@@ -134,41 +102,33 @@ const buildSteps = [
   },
 ];
 
-const stableHash = (value) =>
-  [...value].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+const pickTestimonialsForLocation = (slug) =>
+  (areaDetails[slug]?.reviews ?? ["mia", "chris", "george"]).map((k) => toTestimonial(reviews[k]));
 
-const pickTestimonialsForLocation = (slug, count = 3) => {
-  if (socialProofTestimonials.length === 0) return [];
-  const start = stableHash(slug) % socialProofTestimonials.length;
-
-  return Array.from({ length: count }, (_, index) => {
-    const pointer = (start + index) % socialProofTestimonials.length;
-    return socialProofTestimonials[pointer];
-  });
+const createFaqs = (location) => {
+  const borough = areaDetails[location.slug]?.borough ?? "your borough";
+  return [
+    {
+      question: `Do I need planning permission for an extension or loft in ${location.name}?`,
+      answer: `Many rear extensions and dormer lofts on houses are permitted development, but not in conservation areas, on flats or where ${borough} has an Article 4 direction. We check your address before you spend anything on drawings.`,
+    },
+    {
+      question: `How much does a renovation cost in ${location.name}?`,
+      answer:
+        "On our recent London jobs, flats cost £29,000 to £71,000 + VAT, a ground floor about £34,000 + VAT and whole houses about £60,000 to £100,000. Extensions and lofts add to that. Our London prices page has the full list.",
+    },
+    {
+      question: `Do you work with my architect in ${location.name}?`,
+      answer:
+        "Yes. Bring your own architect's drawings or use one we recommend. We build from them, price every item in writing and keep the design team in the loop.",
+    },
+    {
+      question: "How quickly can you start?",
+      answer:
+        "Usually within a few weeks of agreeing the quote for smaller jobs. Extensions and lofts wait for drawings, building control and any party wall awards, which we help organise.",
+    },
+  ];
 };
-
-const createFaqs = (location) => [
-  {
-    question: `Do you handle premium house extensions in ${location.name}?`,
-    answer:
-      "Yes. We deliver design-led extensions with clear cost control, robust programme management, and high-end finishes tailored to each property.",
-  },
-  {
-    question: `Can you manage loft conversions in ${location.name} from start to finish?`,
-    answer:
-      "Yes. We coordinate the full journey, including planning support, structural works, build execution, and final handover.",
-  },
-  {
-    question: `Are your projects suitable for high-value homes in ${location.name}?`,
-    answer:
-      "Absolutely. Our process is built for homeowners who require strong communication, discreet site management, and premium quality outcomes.",
-  },
-  {
-    question: `How do you protect quality during a full home renovation in ${location.name}?`,
-    answer:
-      "Quality is protected through front-loaded planning, staged inspections, and a rigorous snagging protocol before sign-off.",
-  },
-];
 
 export function generateStaticParams() {
   return LONDON_LOCATIONS.map((location) => ({
@@ -314,8 +274,8 @@ export function generateMetadata({ params }) {
     });
   }
 
-  const pageTitle = `House Extensions, Loft Conversions & Renovations in ${location.name} | Better Homes`;
-  const pageDescription = `Professional house extensions, loft conversions, and full home renovations in ${location.name}. Trusted by London homeowners for premium delivery, transparent project management, and high-quality finishes.`;
+  const pageTitle = `Builders in ${location.name} | Extensions, Lofts & Renovations | Better Homes`;
+  const pageDescription = `Extensions, loft conversions and renovations in ${location.name}, with real local jobs and prices. 12+ years in London, 5.0 on Houzz, MyBuilder and Google.`;
   const pageUrl = `${siteUrl}/locations/${location.slug}`;
 
   return getSEOTags({
@@ -360,15 +320,15 @@ export default function LocationPage({ params }) {
           </nav>
 
           <h1 className={classes.title}>
-            House Extensions, Loft Conversions and Full Renovations in{" "}
-            {location.name}
+            Builders in {location.name}: extensions, lofts and renovations
           </h1>
           <p className={classes.subtitle}>
-            Better Homes supports homeowners in {location.name} with
-            carefully managed construction. Bring your own architect or choose one we recommend. Either way, we can manage the coordination, follow up questions and handle discussions on your behalf with your agreement. You approve the design, budget and changes.
+            {areaDetails[location.slug]?.intro ?? getAreaContext(location.area)}
           </p>
           <p className={classes.subtitle}>
-            {getAreaContext(location.area)}
+            Bring your own architect or use one we recommend. You get a
+            written, line-by-line price and a project lead who updates you
+            every week.
           </p>
 
           <div className={classes.ctaRow}>
@@ -382,6 +342,10 @@ export default function LocationPage({ params }) {
         </div>
       </section>
 
+      <RecentJobs
+        postcodes={areaDetails[location.slug]?.postcodes ?? []}
+        title={`Our jobs in and around ${location.name}`}
+      />
       <section className={classes.section}>
         <div className="container">
           <h2 className={classes.sectionTitle}>Why Homeowners Choose Us</h2>
@@ -399,12 +363,11 @@ export default function LocationPage({ params }) {
       <section className={classes.section}>
         <div className="container">
           <h2 className={classes.sectionTitle}>
-            Reviews from London homeowners: {location.name}
+            What our clients say
           </h2>
           <p className={classes.sectionIntro}>
-            Homeowners in {location.name} typically choose us for one reason:
-            predictable delivery with a high-quality finish. These proof points
-            and client comments reflect how we operate in practice.
+            In our clients&apos; own words, from Houzz, MyBuilder and Google, where
+            we hold a 5.0 rating.
           </p>
           <div className={classes.proofGrid}>
             {socialProofPoints.map((point) => (

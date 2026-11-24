@@ -54,25 +54,25 @@ const inclusionItems = [
 ];
 const costTiers = [
   {
-    title: "Basic refresh",
-    price: "£12,000 to £20,000",
-    timeline: "Around 3 to 4 weeks",
+    title: "Fitting the kitchen you have chosen",
+    price: "£6,500 to £10,000 + VAT",
+    timeline: "1 to 2 weeks",
     description:
-      "Best when the layout broadly works and the goal is to replace tired cabinetry, surfaces and finishes without major reconfiguration.",
+      "You buy the units, worktops and appliances, and we help with the order. We strip out, re-plumb, rewire, fit, tile and lay the floor. Recent jobs: Woodford Green £6,500, Clapton £8,300, Bankside £9,800.",
   },
   {
-    title: "Mid-range redesign",
-    price: "£20,000 to £38,000",
-    timeline: "Around 4 to 6 weeks",
+    title: "A bigger kitchen: walls moved, rooms joined",
+    price: "£13,000 to £32,000 + VAT",
+    timeline: "3 to 5 weeks",
     description:
-      "The strongest fit for most London kitchens where you want a better layout, stronger storage, upgraded finishes and a more resolved design.",
+      "Steel beams, doorways blocked or opened, sometimes a bathroom moved to make room. In Stratford we enlarged the kitchen and moved the bathroom for £31,750 + VAT.",
   },
   {
-    title: "High-end or structural kitchen project",
-    price: "£40,000 to £90,000+",
-    timeline: "Often 5 to 8+ weeks",
+    title: "Full supply and fit, mid-range to bespoke",
+    price: "£20,000 to £60,000+ including units and VAT",
+    timeline: "4 to 8 weeks, plus maker's lead time",
     description:
-      "Used when the project includes structural openings, premium cabinetry, higher-spec appliances, bespoke detailing or a more ambitious design brief.",
+      "We source and fit the whole kitchen with you. Bespoke kitchens take 8 to 12 weeks to make before we start.",
   },
 ];
-export default function Page(){return <ServicePage heading="Kitchen renovation and fitting in London" name="Kitchen renovations" path="/kitchen-renovation" title="A kitchen made for the way you live." intro="Better Homes delivers standalone kitchen renovations across London, as well as kitchens within larger projects. From services and storage to careful installation, we coordinate the details that make the room a pleasure to use." image="/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp" range="From around £20,000 for a full redesign" timeline="Typically 3 to 6 weeks on site" guarantee="2 years for kitchen installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("kitchen")} projects={["lawrence-e3", "alice-e4", "daniel-n19"]}  />;}
+export default function Page(){return <ServicePage heading="Kitchen renovation and fitting in London" name="Kitchen renovations" path="/kitchen-renovation" title="From fitting the kitchen you chose to rebuilding the room around it." intro="Bought your kitchen from Howdens, Wren, Magnet or IKEA? We fit it, with the plumbing, electrics, tiling and flooring done properly. On recent London jobs that work came to £6,500 to £9,800 + VAT. If a wall needs to come down or the room needs to grow, we do the steels and the building work too." image="/assets/portfolio/kitchen-lawrence-e3/kitchen-renovation-e3-1.webp" range="Fitting your kitchen: about £6,500 to £10,000 + VAT. With structural work: £13,000 to £32,000 + VAT" timeline="1 to 2 weeks to fit; 3 to 5 weeks with building work" guarantee="2 years for kitchen installation" costs={costTiers} scope={inclusionItems} faqs={getPageFaqs("kitchen")} projects={["lawrence-e3", "alice-e4", "daniel-n19"]}  />;}
