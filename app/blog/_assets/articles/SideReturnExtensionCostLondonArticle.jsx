@@ -161,28 +161,28 @@ export default function SideReturnExtensionCostLondonArticle() {
           <tbody>
             <tr>
               <th scope="row">Shell only (weathertight, your own trades finish it)</th>
-              <td>£52,000</td>
-              <td>£47,500–£60,000</td>
+              <td className="bh-num">£52,000</td>
+              <td className="bh-num">£47,500–£60,000</td>
             </tr>
             <tr>
               <th scope="row">Finished room, ready to live in</th>
-              <td>£64,500</td>
-              <td>£59,000–£74,500</td>
+              <td className="bh-num">£64,500</td>
+              <td className="bh-num">£59,000–£74,500</td>
             </tr>
             <tr>
               <th scope="row">Premium finish and glazing</th>
-              <td>£70,500</td>
-              <td>£64,000–£81,500</td>
+              <td className="bh-num">£70,500</td>
+              <td className="bh-num">£64,000–£81,500</td>
             </tr>
             <tr>
               <th scope="row">Finished, with a new mid-range kitchen</th>
-              <td>£85,500</td>
-              <td>£78,000–£99,000</td>
+              <td className="bh-num">£85,500</td>
+              <td className="bh-num">£78,000–£99,000</td>
             </tr>
             <tr>
               <th scope="row">Premium, with a new kitchen</th>
-              <td>£91,500</td>
-              <td>£83,500–£106,000</td>
+              <td className="bh-num">£91,500</td>
+              <td className="bh-num">£83,500–£106,000</td>
             </tr>
           </tbody>
         </table>
@@ -222,18 +222,18 @@ export default function SideReturnExtensionCostLondonArticle() {
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Construction: foundations, walls, roof, drainage, glazing</th><td>£30,956</td></tr>
-            <tr><th scope="row">Floors, plastering, decoration and lighting</th><td>£5,378</td></tr>
-            <tr><th scope="row">Opening up the house: steels and making good</th><td>£3,200</td></tr>
-            <tr><th scope="row">Measured survey</th><td>£900</td></tr>
-            <tr><th scope="row">Architect design</th><td>£2,500</td></tr>
-            <tr><th scope="row">Structural engineer</th><td>£1,800</td></tr>
-            <tr><th scope="row">Planning application and council fee</th><td>£1,748</td></tr>
-            <tr><th scope="row">Building control</th><td>£1,200</td></tr>
-            <tr><th scope="row">Party wall surveyor</th><td>£2,500</td></tr>
-            <tr><th scope="row">Contingency (10% of the build)</th><td>£3,953</td></tr>
-            <tr><th scope="row">VAT (20%)</th><td>£10,477</td></tr>
-            <tr><th scope="row">All-in total</th><td><strong>£64,612</strong></td></tr>
+            <tr><th scope="row">Construction: foundations, walls, roof, drainage, glazing</th><td className="bh-num">£30,956</td></tr>
+            <tr><th scope="row">Floors, plastering, decoration and lighting</th><td className="bh-num">£5,378</td></tr>
+            <tr><th scope="row">Opening up the house: steels and making good</th><td className="bh-num">£3,200</td></tr>
+            <tr><th scope="row">Measured survey</th><td className="bh-num">£900</td></tr>
+            <tr><th scope="row">Architect design</th><td className="bh-num">£2,500</td></tr>
+            <tr><th scope="row">Structural engineer</th><td className="bh-num">£1,800</td></tr>
+            <tr><th scope="row">Planning application and council fee</th><td className="bh-num">£1,748</td></tr>
+            <tr><th scope="row">Building control</th><td className="bh-num">£1,200</td></tr>
+            <tr><th scope="row">Party wall surveyor</th><td className="bh-num">£2,500</td></tr>
+            <tr><th scope="row">Contingency (10% of the build)</th><td className="bh-num">£3,953</td></tr>
+            <tr><th scope="row">VAT (20%)</th><td className="bh-num">£10,477</td></tr>
+            <tr><th scope="row">All-in total</th><td className="bh-num"><strong>£64,612</strong></td></tr>
           </tbody>
         </table>
       </div>
@@ -327,23 +327,23 @@ export default function SideReturnExtensionCostLondonArticle() {
             <tr>
               <th scope="row">Side return</th>
               <td>10 m²</td>
-              <td>£64,500</td>
-              <td>£6,450</td>
-              <td>£85,500</td>
+              <td className="bh-num">£64,500</td>
+              <td className="bh-num">£6,450</td>
+              <td className="bh-num">£85,500</td>
             </tr>
             <tr>
               <th scope="row">Rear extension (3 m deep)</th>
               <td>13.5 m²</td>
-              <td>£72,500</td>
-              <td>£5,370</td>
-              <td>£93,500</td>
+              <td className="bh-num">£72,500</td>
+              <td className="bh-num">£5,370</td>
+              <td className="bh-num">£93,500</td>
             </tr>
             <tr>
               <th scope="row">Wraparound (side and rear)</th>
               <td>23.5 m²</td>
-              <td>£125,000</td>
-              <td>£5,300</td>
-              <td>£146,000</td>
+              <td className="bh-num">£125,000</td>
+              <td className="bh-num">£5,300</td>
+              <td className="bh-num">£146,000</td>
             </tr>
           </tbody>
         </table>
@@ -431,13 +431,13 @@ export default function SideReturnExtensionCostLondonArticle() {
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Zone 1 (e.g. Islington)</th><td>£68,000</td></tr>
-            <tr><th scope="row">Zone 2 (e.g. Hackney E8, Stoke Newington N16)</th><td>£66,000</td></tr>
-            <tr><th scope="row">Zone 3 (e.g. Walthamstow E17, Forest Gate E7)</th><td>£64,500</td></tr>
-            <tr><th scope="row">Zone 4 (e.g. Woodford, Chingford E4)</th><td>£63,000</td></tr>
-            <tr><th scope="row">Zone 5–6 (e.g. Loughton, Barnet)</th><td>£62,500</td></tr>
-            <tr><th scope="row">For comparison: the Midlands</th><td>£56,500</td></tr>
-            <tr><th scope="row">Zone 3 with difficult access</th><td>£68,500</td></tr>
+            <tr><th scope="row">Zone 1 (e.g. Islington)</th><td className="bh-num">£68,000</td></tr>
+            <tr><th scope="row">Zone 2 (e.g. Hackney E8, Stoke Newington N16)</th><td className="bh-num">£66,000</td></tr>
+            <tr><th scope="row">Zone 3 (e.g. Walthamstow E17, Forest Gate E7)</th><td className="bh-num">£64,500</td></tr>
+            <tr><th scope="row">Zone 4 (e.g. Woodford, Chingford E4)</th><td className="bh-num">£63,000</td></tr>
+            <tr><th scope="row">Zone 5–6 (e.g. Loughton, Barnet)</th><td className="bh-num">£62,500</td></tr>
+            <tr><th scope="row">For comparison: the Midlands</th><td className="bh-num">£56,500</td></tr>
+            <tr><th scope="row">Zone 3 with difficult access</th><td className="bh-num">£68,500</td></tr>
           </tbody>
         </table>
       </div>

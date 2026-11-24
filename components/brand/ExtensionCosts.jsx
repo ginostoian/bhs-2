@@ -4,7 +4,7 @@ export default function ExtensionCosts() {
       <p className="bh-eyebrow">2026 London prices</p>
       <h2 className="bh-heading">How much does a house extension cost in London?</h2>
       <div style={{ overflowX: "auto" }}>
-        <table className="bh-cost-table">
+        <table className="bh-table">
           <thead>
             <tr>
               <th>Extension type</th>

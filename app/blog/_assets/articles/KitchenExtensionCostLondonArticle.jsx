@@ -192,17 +192,17 @@ export default function KitchenExtensionCostLondonArticle() {
             <tr><th scope="col">Item</th><th scope="col">Cost</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Construction: foundations, walls, roof, steel, glazing</th><td>£38,780</td></tr>
-            <tr><th scope="row">Floors, plastering, decoration and lighting</th><td>£6,729</td></tr>
-            <tr><th scope="row">Kitchen: units, worktops and appliances</th><td>£16,000</td></tr>
-            <tr><th scope="row">Survey and architect</th><td>£3,400</td></tr>
-            <tr><th scope="row">Structural engineer</th><td>£1,800</td></tr>
-            <tr><th scope="row">Planning application and council fee</th><td>£1,748</td></tr>
-            <tr><th scope="row">Building control</th><td>£1,200</td></tr>
-            <tr><th scope="row">Party wall surveyor</th><td>£2,500</td></tr>
-            <tr><th scope="row">Contingency (10%)</th><td>£6,151</td></tr>
-            <tr><th scope="row">VAT (20%)</th><td>£15,312</td></tr>
-            <tr><th scope="row">All-in total</th><td><strong>£93,620</strong></td></tr>
+            <tr><th scope="row">Construction: foundations, walls, roof, steel, glazing</th><td className="bh-num">£38,780</td></tr>
+            <tr><th scope="row">Floors, plastering, decoration and lighting</th><td className="bh-num">£6,729</td></tr>
+            <tr><th scope="row">Kitchen: units, worktops and appliances</th><td className="bh-num">£16,000</td></tr>
+            <tr><th scope="row">Survey and architect</th><td className="bh-num">£3,400</td></tr>
+            <tr><th scope="row">Structural engineer</th><td className="bh-num">£1,800</td></tr>
+            <tr><th scope="row">Planning application and council fee</th><td className="bh-num">£1,748</td></tr>
+            <tr><th scope="row">Building control</th><td className="bh-num">£1,200</td></tr>
+            <tr><th scope="row">Party wall surveyor</th><td className="bh-num">£2,500</td></tr>
+            <tr><th scope="row">Contingency (10%)</th><td className="bh-num">£6,151</td></tr>
+            <tr><th scope="row">VAT (20%)</th><td className="bh-num">£15,312</td></tr>
+            <tr><th scope="row">All-in total</th><td className="bh-num"><strong>£93,620</strong></td></tr>
           </tbody>
         </table>
       </div>
@@ -275,10 +275,10 @@ export default function KitchenExtensionCostLondonArticle() {
             </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">2 m</th><td>9 m²</td><td>£73,500</td><td>Permitted development</td></tr>
-            <tr><th scope="row">3 m</th><td>13.5 m²</td><td>£93,500</td><td>Permitted development</td></tr>
-            <tr><th scope="row">4 m</th><td>18 m²</td><td>£114,000</td><td>Prior approval (permitted development on a detached house)</td></tr>
-            <tr><th scope="row">6 m</th><td>27 m²</td><td>£145,000</td><td>Prior approval</td></tr>
+            <tr><th scope="row">2 m</th><td>9 m²</td><td className="bh-num">£73,500</td><td>Permitted development</td></tr>
+            <tr><th scope="row">3 m</th><td>13.5 m²</td><td className="bh-num">£93,500</td><td>Permitted development</td></tr>
+            <tr><th scope="row">4 m</th><td>18 m²</td><td className="bh-num">£114,000</td><td>Prior approval (permitted development on a detached house)</td></tr>
+            <tr><th scope="row">6 m</th><td>27 m²</td><td className="bh-num">£145,000</td><td>Prior approval</td></tr>
           </tbody>
         </table>
       </div>

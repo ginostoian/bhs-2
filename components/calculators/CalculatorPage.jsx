@@ -63,7 +63,7 @@ export default function CalculatorPage({ id, eyebrow, title, intro, points = [],
             <h2 className="bh-heading">{benchmark.title}</h2>
             {benchmark.intro ? <p className="bh-lead" style={{ maxWidth: 760 }}>{benchmark.intro}</p> : null}
             <div style={{ overflowX: "auto", marginTop: 28 }}>
-              <table className="bh-cost-table">
+              <table className="bh-table">
                 <thead>
                   <tr>
                     {benchmark.columns.map((c) => (

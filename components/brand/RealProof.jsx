@@ -14,8 +14,8 @@ export function RecentJobs({ service, postcodes, title, intro, limit = 6 }) {
         {intro ??
           "These are our own quotes for real London homes, before VAT and rounded. Where a client bought their own kitchen units, suite or tiles, the price is for the work."}
       </p>
-      <div style={{ overflowX: "auto", marginTop: 28 }}>
-        <table className="bh-cost-table" style={{ minWidth: 640 }}>
+      <div className="bh-table-scroll">
+        <table className="bh-table" style={{ minWidth: 680 }}>
           <thead>
             <tr>
               <th>Client and area</th>
@@ -30,12 +30,12 @@ export function RecentJobs({ service, postcodes, title, intro, limit = 6 }) {
                 <th style={{ whiteSpace: "nowrap" }}>
                   {j.client}, {j.area} {j.postcode}
                 </th>
-                <td>
-                  <strong style={{ fontWeight: 500 }}>{j.title}.</strong> {j.scope}
+                <td style={{ minWidth: 280 }}>
+                  <strong style={{ fontWeight: 500, color: "#202925" }}>{j.title}.</strong> {j.scope}
                   {j.priceNote ? <span style={{ display: "block", opacity: 0.8, marginTop: 4 }}>{j.priceNote}</span> : null}
                 </td>
-                <td style={{ whiteSpace: "nowrap" }}>About {formatPrice(j.price)}</td>
-                <td>{j.duration ?? j.when}</td>
+                <td style={{ whiteSpace: "nowrap", fontWeight: 500, color: "#202925" }}>About {formatPrice(j.price)}</td>
+                <td style={{ whiteSpace: "normal", fontWeight: 400 }}>{j.duration ?? j.when}</td>
               </tr>
             ))}
           </tbody>

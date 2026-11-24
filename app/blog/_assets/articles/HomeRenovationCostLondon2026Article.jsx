@@ -36,7 +36,7 @@ function Table({ caption, head, rows }) {
                     {c}
                   </th>
                 ) : (
-                  <td key={j}>{c}</td>
+                  <td key={j} className={/^(About |Saves |\+)?£[\d,]+( \+ VAT)?$/.test(String(c)) ? "bh-num" : undefined}>{c}</td>
                 ),
               )}
             </tr>

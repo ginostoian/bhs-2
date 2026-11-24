@@ -149,40 +149,40 @@ export default function LoftConversionCostLondonArticle() {
             <tr>
               <th scope="row">Velux (rooflight)</th>
               <td>22 m²</td>
-              <td>£50,000</td>
-              <td>£42,500–£79,500</td>
+              <td className="bh-num">£50,000</td>
+              <td className="bh-num">£42,500–£79,500</td>
               <td>6–8</td>
               <td>Usually permitted development</td>
             </tr>
             <tr>
               <th scope="row">Rear dormer</th>
               <td>25 m²</td>
-              <td>£80,000</td>
-              <td>£67,000–£120,000</td>
+              <td className="bh-num">£80,000</td>
+              <td className="bh-num">£67,000–£120,000</td>
               <td>8–10</td>
               <td>Usually permitted development</td>
             </tr>
             <tr>
               <th scope="row">Hip-to-gable</th>
               <td>30 m²</td>
-              <td>£88,000</td>
-              <td>£73,500–£131,000</td>
+              <td className="bh-num">£88,000</td>
+              <td className="bh-num">£73,500–£131,000</td>
               <td>9–11</td>
               <td>Usually permitted development</td>
             </tr>
             <tr>
               <th scope="row">L-shaped dormer</th>
               <td>32 m²</td>
-              <td>£95,000</td>
-              <td>£79,500–£140,000</td>
+              <td className="bh-num">£95,000</td>
+              <td className="bh-num">£79,500–£140,000</td>
               <td>10–12</td>
               <td>Usually permitted development</td>
             </tr>
             <tr>
               <th scope="row">Mansard</th>
               <td>32 m²</td>
-              <td>£116,000</td>
-              <td>£96,500–£168,000</td>
+              <td className="bh-num">£116,000</td>
+              <td className="bh-num">£96,500–£168,000</td>
               <td>12–16</td>
               <td>Planning permission</td>
             </tr>
@@ -301,39 +301,39 @@ export default function LoftConversionCostLondonArticle() {
           <tbody>
             <tr>
               <th scope="row">Build: structure, roof and shell</th>
-              <td>£35,600</td>
+              <td className="bh-num">£35,600</td>
             </tr>
             <tr>
               <th scope="row">Build: insulation, plastering, electrics and finishes</th>
-              <td>£15,643</td>
+              <td className="bh-num">£15,643</td>
             </tr>
             <tr>
               <th scope="row">Measured survey and architectural drawings</th>
-              <td>£4,450</td>
+              <td className="bh-num">£4,450</td>
             </tr>
             <tr>
               <th scope="row">Structural engineer</th>
-              <td>£1,300</td>
+              <td className="bh-num">£1,300</td>
             </tr>
             <tr>
               <th scope="row">Building control</th>
-              <td>£1,300</td>
+              <td className="bh-num">£1,300</td>
             </tr>
             <tr>
               <th scope="row">Lawful development certificate</th>
-              <td>£300</td>
+              <td className="bh-num">£300</td>
             </tr>
             <tr>
               <th scope="row">Party wall surveyors (2 neighbours)</th>
-              <td>£3,000</td>
+              <td className="bh-num">£3,000</td>
             </tr>
             <tr>
               <th scope="row">Contingency (10% of the build)</th>
-              <td>£5,124</td>
+              <td className="bh-num">£5,124</td>
             </tr>
             <tr>
               <th scope="row">VAT (20%)</th>
-              <td>£13,343</td>
+              <td className="bh-num">£13,343</td>
             </tr>
             <tr>
               <th scope="row">All-in total</th>
@@ -385,17 +385,17 @@ export default function LoftConversionCostLondonArticle() {
           <tbody>
             <tr>
               <th scope="row">Measured survey and drawings</th>
-              <td>£3,500–£5,500</td>
+              <td className="bh-num">£3,500–£5,500</td>
               <td>Always</td>
             </tr>
             <tr>
               <th scope="row">Structural engineer</th>
-              <td>£1,000–£2,000</td>
+              <td className="bh-num">£1,000–£2,000</td>
               <td>Always (steels and new floor)</td>
             </tr>
             <tr>
               <th scope="row">Building control</th>
-              <td>£1,000–£1,600</td>
+              <td className="bh-num">£1,000–£1,600</td>
               <td>Always</td>
             </tr>
             <tr>
@@ -449,27 +449,27 @@ export default function LoftConversionCostLondonArticle() {
           <tbody>
             <tr>
               <th scope="row">Zone 1 (e.g. Islington, Kensington)</th>
-              <td>£105,000</td>
+              <td className="bh-num">£105,000</td>
             </tr>
             <tr>
               <th scope="row">Zone 2 (e.g. Hackney, Stoke Newington)</th>
-              <td>£98,000</td>
+              <td className="bh-num">£98,000</td>
             </tr>
             <tr>
               <th scope="row">Zone 3 (e.g. Walthamstow, Leytonstone)</th>
-              <td>£92,500</td>
+              <td className="bh-num">£92,500</td>
             </tr>
             <tr>
               <th scope="row">Zone 4 (e.g. Woodford, Chingford)</th>
-              <td>£90,000</td>
+              <td className="bh-num">£90,000</td>
             </tr>
             <tr>
               <th scope="row">Zone 5–6 (e.g. Loughton, Barnet)</th>
-              <td>£88,500</td>
+              <td className="bh-num">£88,500</td>
             </tr>
             <tr>
               <th scope="row">For comparison: the Midlands</th>
-              <td>£75,000</td>
+              <td className="bh-num">£75,000</td>
             </tr>
           </tbody>
         </table>
@@ -523,31 +523,31 @@ export default function LoftConversionCostLondonArticle() {
             <tr>
               <th scope="row">Victorian terrace with back addition</th>
               <td>L-shaped dormer</td>
-              <td>£95,000–£107,000</td>
+              <td className="bh-num">£95,000–£107,000</td>
               <td>Two party walls; chimney breasts</td>
             </tr>
             <tr>
               <th scope="row">Edwardian or Victorian terrace, no back addition</th>
               <td>Rear dormer</td>
-              <td>£80,000–£92,500</td>
+              <td className="bh-num">£80,000–£92,500</td>
               <td>Two party walls</td>
             </tr>
             <tr>
               <th scope="row">1930s semi or end of terrace (hipped roof)</th>
               <td>Hip-to-gable with rear dormer</td>
-              <td>£88,000–£100,000</td>
+              <td className="bh-num">£88,000–£100,000</td>
               <td>Gable must match the neighbour's roof</td>
             </tr>
             <tr>
               <th scope="row">Terrace in a conservation area</th>
               <td>Mansard or Velux</td>
-              <td>£50,000–£128,000</td>
+              <td className="bh-num">£50,000–£128,000</td>
               <td>Full planning; front rooflights may be refused</td>
             </tr>
             <tr>
               <th scope="row">Bungalow</th>
               <td>Velux or rear dormer</td>
-              <td>£47,500–£91,000</td>
+              <td className="bh-num">£47,500–£91,000</td>
               <td>Stair position; low head height</td>
             </tr>
             <tr>
