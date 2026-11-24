@@ -25,6 +25,10 @@ module.exports = {
   exclude: [
     "/twitter-image.*",
     "/opengraph-image.*",
+    "/*/twitter-image.*",
+    "/*/opengraph-image.*",
+    "/blog/category/*",
+    "/blog/best-of-houzz-2023",
     "/icon.*",
     "/apple-icon.*",
     "/api/*",

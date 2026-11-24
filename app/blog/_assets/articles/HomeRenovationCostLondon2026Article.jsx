@@ -1104,7 +1104,7 @@ export default function HomeRenovationCostLondon2026() {
       <p className={styles.p}>
         If your renovation scope includes adding new floor area, compare these
         figures with our detailed guide to{" "}
-        <Link href="/blog/house-extension-guide-2025#extension-costs">
+        <Link href="/blog/single-storey-extension-cost-london">
           house extension costs in London
         </Link>{" "}
         or use our{" "}

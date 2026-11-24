@@ -394,7 +394,7 @@ export default function TypesOfHouseExtensionsLondon() {
         Fees moved on 1 April 2026: £548 for a householder application, £274 for a lawful development certificate for
         proposed works, and eight weeks statutory determination from validation. Buy the certificate even where no
         application is needed – it is the document your buyer&apos;s solicitor will ask for. Our{" "}
-        <Link href="/blog/permitted-development-guide">permitted development guide</Link> works through the conditions in
+        <Link href="/blog/planning-permission-loft-conversion-london">permitted development guide</Link> works through the conditions in
         full, and <Link href="/blog/planning-permission-refused-london">why London extensions get refused</Link> covers
         the recovery route if a decision goes against you.
       </p>

@@ -121,6 +121,7 @@ export function generateMetadata({ params }) {
     title: article.seoTitle || article.title,
     description: article.description,
     canonicalUrlRelative: `/blog/${article.slug}`,
+    ...(article.noindex ? { extraTags: { robots: { index: false, follow: true } } } : {}),
     openGraph: {
       title: article.seoTitle || article.title,
       description: article.description,
